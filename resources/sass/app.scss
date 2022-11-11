@@ -1,0 +1,32 @@
+@import "normalize";
+@import "bootstrap";
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    background-color: #F4F6F9;
+    width: 100%;
+    height: 100%;
+}
+
+$sidebar-width: 280px;
+
+.admin-sidebar {
+    width: $sidebar-width;
+    height: calc(100vh - 56px);
+    z-index: 1;
+    overflow-x: hidden;
+}
+
+.admin-content {
+    //margin-left: $sidebar-width;
+    //margin-top: 56px;
+}
+
+.logo_home {
+    border-bottom: 1px solid #dee2e6;
+    height: 57px;
+}
