@@ -15,6 +15,13 @@ use App\Http\Controllers\User\VideoController;
 Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/trend', 'trend')->name('trend');
+    Route::get('/subscriptions', 'subscriptions')->name('subscriptions');
+    Route::get('/library', 'library')->name('library');
+    Route::get('/history', 'history')->name('history');
+    Route::get('/playlist', 'playlist')->name('playlist');
+    Route::get('/playlist2', 'playlist2')->name('playlist2');
+
+
     Route::get('/video/{video}', 'video')->name('video');
     Route::get('/user/{user}', 'user')->name('user');
 });
@@ -23,7 +30,7 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'show')->name('login');
     Route::post('/login', 'login')->name('login.perform');
-    Route::get('/logout',)->name('logout');
+    Route::get('/logout','logout')->name('logout');
 });
 
 // Register

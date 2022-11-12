@@ -59,11 +59,11 @@ export default function Comment ({comment, auth, canReply}) {
     }
 
     return (
-        <div className="row mb-3">
-            <a className={"col-1"} href={comment.user.route}>
+        <div className="d-flex mb-3 gap-2">
+            <a href={comment.user.route}>
                 <img className="rounded-circle img-fluid" src={comment.user.avatar} alt={comment.user.username + ' avatar'} style="width: 50px;"/>
             </a>
-            <div className={'col-11'}>
+            <div>
                 <div className={'border p-3 bg-white'}>
                     <div className="d-flex justify-content-between align-items-center mb-1">
                         <div className={'d-flex align-items-center gap-2'}>

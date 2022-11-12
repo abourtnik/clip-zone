@@ -32,6 +32,12 @@
                         My account
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{route('logout')}}" class="nav-link rounded-0 bg-danger text-white border-top border-danger" aria-current="page">
+                        <i class="fa-solid fa-right-from-bracket"></i>&nbsp;
+                       Logout
+                    </a>
+                </li>
             </ul>
         </nav>
         <div class="container-fluid mt-3" style="margin-left: 280px">

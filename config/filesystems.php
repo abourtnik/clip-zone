@@ -68,9 +68,9 @@ return [
             'throw' => false,
         ],
 
-        'posters' => [
+        'thumbnails' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/posters'),
+            'root' => storage_path('app/public/thumbnails'),
             'throw' => false,
         ],
 

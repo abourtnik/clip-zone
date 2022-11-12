@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\VideoStatus;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
 use App\Models\Video;
@@ -18,7 +19,10 @@ class VideoController
     }
 
     public function create(): View {
-        return view('users.videos.create');
+
+        return view('users.videos.create', [
+            'status' => VideoStatus::get()
+        ]);
     }
 
     public function store(StoreVideoRequest $request): RedirectResponse {
@@ -42,7 +46,8 @@ class VideoController
 
     public function edit(Video $video): View {
         return view('users.videos.edit', [
-            'video' => $video
+            'video' => $video,
+            'status' => VideoStatus::get()
         ]);
     }
 
@@ -52,18 +57,13 @@ class VideoController
             $poster = $request->file('poster')->store('/', 'posters');
         }
 
-        $video->update([
-            'title' => $request->get('title'),
-            'description' => $request->get('description'),
-            'poster' => $poster ?? null,
-        ]);
+        $video->update($request->validated());
 
         return redirect()->route('user.videos.index');
     }
 
-    public function destroy(Video $video): View {
-        return view('users.videos', [
-            'videos' => Auth::user()->videos()->paginate(15)
-        ]);
+    public function destroy(Video $video): RedirectResponse {
+
+        return redirect()->route('user.videos.index')->with();
     }
 }

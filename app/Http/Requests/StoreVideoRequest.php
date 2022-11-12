@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\VideoStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreVideoRequest extends FormRequest
 {
@@ -28,6 +30,8 @@ class StoreVideoRequest extends FormRequest
             'description' => 'nullable',
             'file' => 'required',
             'poster' => 'required',
+            'status' => ['required', new Enum(VideoStatus::class)],
+            'publication_date' => 'nullable',
         ];
     }
 }

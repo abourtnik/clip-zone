@@ -6,24 +6,28 @@ use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PageController
 {
     public function home(): View {
         return view('pages.home', [
-            'videos' => Video::paginate()
+            'videos' => Video::active()->latest('publication_date')->paginate(12)
         ]);
     }
 
     public function trend(): View {
-        return view('pages.trend');
+        return view('pages.trend', [
+            'videos' => Video::active()->latest('publication_date')->paginate(12)
+        ]);
     }
 
     public function video(Video $video): View {
+
+        //$video->increment('views');
+
         return view('pages.video', [
             'video' => $video,
-            'videos' => Video::all()
+            'videos' => Video::active()->latest('publication_date')->paginate(12)
         ]);
     }
 

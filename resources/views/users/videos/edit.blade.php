@@ -1,6 +1,7 @@
 @extends('layouts.user')
 
 @section('content')
+    {{ Breadcrumbs::render('edit_video', $video) }}
     @if ($errors->any())
         <div class="alert alert-danger mt-5">
             Merci de corriger les erreurs suivantes:
@@ -12,7 +13,7 @@
         </div>
     @endif
     <div class="d-flex justify-content-between align-items-center my-3">
-        <h2>Edit video {{$video->title}}</h2>
+        <h2>Détails de la vidéo</h2>
     </div>
     <div class="card shadow-soft">
         <div class="card-body">
@@ -25,18 +26,43 @@
                 </div>
                 <div class="row">
                     <div class="col-6 mb-3">
-                        <label for="poster" class="form-label">Video Poster</label>
-                        <input class="form-control" type="file" id="poster" name="poster">
+                        <div class="input-file">
+                            <label for="poster" class="rounded">
+                                <i class="fas fa-upload"></i>
+                                <div class="mt-2">Update Video Poster</div>
+                            </label>
+                            <input type="file" name="poster" id="poster">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <img src="{{$video->poster_url}}" class="w-100 img-fluid" style="height: 150px" alt="Video {{$video->id}} Thumbnail">
                     </div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
                     <textarea class="form-control" id="description" rows="6" name="description">{{$video->description}}</textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">
-                    <i class="fa-solid fa-pen"></i>
-                    Update
-                </button>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-control" name="status_id" id="status" required>
+                            @foreach($status as $s)
+                                <option @if($s['id'] === $video->status) selected @endif value="{{$s['id']}}">{{$s['name']}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="publication_date" class="form-label">Publication date</label>
+                        <input class="form-control" type="datetime-local" id="publication_date" required name="publication_date" value="{{old('publication_date', $video->publication_date)}}">
+                        <div class="form-text">The video remains private until it is published.</div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa-solid fa-pen"></i>
+                        Update
+                    </button>
+                </div>
             </form>
         </div>
     </div>

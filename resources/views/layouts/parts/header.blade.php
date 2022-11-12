@@ -4,11 +4,16 @@
     </a>
     <form class="d-flex w-25" role="search">
         @csrf
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+        <div class="input-group">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search">
+            <button class="btn btn-outline-secondary" type="button">
+                <i class="fa-solid fa-search"></i>&nbsp;
+            </button>
+        </div>
     </form>
     <ul class="navbar-nav">
         <li class="nav-item ml-4">
-            @if(auth()->check())
+            @auth
             <a class="nav-link d-flex align-items-center" href="{{route('user.index')}}">
                 <strong>{{auth()->user()->username}}</strong>
                 <img style="width: 42px" class="ml-4 rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">

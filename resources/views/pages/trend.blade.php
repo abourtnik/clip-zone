@@ -1,7 +1,9 @@
 @extends('layouts.default')
 
 @section('content')
-    <h1>Trend</h1>
+    <div class="row gx-4">
+        @each('videos.card', $videos, 'video')
+    </div>
 @endsection
 
 

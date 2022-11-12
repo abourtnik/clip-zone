@@ -20,10 +20,12 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('file');
-            $table->string('poster')->nullable();
+            $table->string('thumbnail');
             $table->unsignedMediumInteger('duration');
             $table->foreignIdFor(User::class);
             $table->unsignedInteger('views')->default(0);
+            $table->unsignedTinyInteger('status')->default(0);
+            $table->timestamp('publication_date')->useCurrent();
             $table->timestamps();
         });
     }

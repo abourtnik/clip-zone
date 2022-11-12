@@ -30,3 +30,33 @@ $sidebar-width: 280px;
     border-bottom: 1px solid #dee2e6;
     height: 57px;
 }
+
+// Input FIle
+
+.input-file label {
+    background-color: rgba(0,0,0,.05);
+    border: 1px dashed rgba(0,0,0,.4);
+    color: #000;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1em;
+    font-weight: 700;
+    padding: 30px;
+    text-align: center;
+    transition: all .2s;
+    width: 100%;
+}
+
+.input-file input {
+    height: 1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    z-index: -1;
+}
+
+.bg-light-dark {
+    background-color: #E5E5E5 !important;
+}
+

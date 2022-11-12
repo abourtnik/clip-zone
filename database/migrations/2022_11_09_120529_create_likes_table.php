@@ -19,6 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class);
             $table->morphs('likeable');
+            $table->boolean('status');
             $table->timestamps();
         });
     }
