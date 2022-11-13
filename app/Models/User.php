@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Interfaces\Likeable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
@@ -118,7 +119,8 @@ class User extends Authenticatable
         else {
             Auth::user()->likes()->create([
                 'likeable_type' => get_class($likeable),
-                'likeable_id' => $likeable->id
+                'likeable_id' => $likeable->id,
+                'status' => true,
             ]);
         }
     }
@@ -128,5 +130,15 @@ class User extends Authenticatable
         return $likeable->likes()
             ->whereHas('user', fn($q) =>  $q->whereId($this->id))
             ->exists();
+    }
+
+    public function videos_comments () : HasManyThrough
+    {
+        return $this->hasManyThrough(Comment::class, Video::class);
+    }
+
+    public function videos_interactions (): HasManyThrough
+    {
+        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id');
     }
 }

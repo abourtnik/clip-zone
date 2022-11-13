@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Jobs\Export;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
-class UserController
+class VideoController
 {
     public function index () : View {
-        return view('admin.users.index', [
-            'users' => User::paginate(15)
+        return view('admin.videos.index', [
+            'videos' => Video::query()->latest()->paginate(15)
         ]);
     }
 

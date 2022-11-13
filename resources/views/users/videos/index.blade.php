@@ -57,7 +57,19 @@
                     <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm">
                         <i class="fa-solid fa-pen"></i>
                     </a>
-                    <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete_video">
+                    <button
+                        type="button"
+                        class="btn btn-danger btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#delete_video"
+                        data-title="{{$video->title}}"
+                        data-views="{{$video->views}} views"
+                        data-publication="Publish at {{$video->publication_date->format('d F Y')}}"
+                        data-poster="{{$video->poster_url}}"
+                        data-route="{{route('user.videos.destroy', $video)}}"
+                        data-alt="{{$video->title}} Thumbnail"
+                        data-elements='{{json_encode(['title' => '', 'views' => '', 'publication' => '', 'poster' => 'src', 'route' => 'href', 'alt' => 'alt'])}}'
+                    >
                         <i class="fa-solid fa-trash"></i>
                     </button>
                 </td>

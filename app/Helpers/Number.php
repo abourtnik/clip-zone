@@ -15,5 +15,7 @@ class Number
                 return number_format($display_num,$decimals, '.') . ' ' . $abbrev;
             }
         }
+
+        return '0';
     }
 }

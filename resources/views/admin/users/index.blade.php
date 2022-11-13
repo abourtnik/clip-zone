@@ -16,7 +16,7 @@
     </div>
 
     <hr>
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
         <thead>
             <tr style="border-top: 3px solid #0D6EFD;">
                 <th scope="col">#</th>
@@ -25,6 +25,7 @@
                 <th scope="col">Admin</th>
                 <th scope="col">Created</th>
                 <th scope="col">Updated</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -46,8 +47,14 @@
                 </td>
                 <td>{{$user->created_at->format('d F Y - H:i:s')}}</td>
                 <td>{{$user->updated_at->format('d F Y - H:i:s')}}</td>
+                <td>
+                    <a href="#" class="btn btn-warning btn-sm">
+                        <i class="fa-solid fa-user-slash"></i>
+                    </a>
+                </td>
             </tr>
         @endforeach
         </tbody>
     </table>
+    {{ $users->links() }}
 @endsection

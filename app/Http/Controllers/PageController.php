@@ -27,7 +27,11 @@ class PageController
 
         return view('pages.video', [
             'video' => $video,
-            'videos' => Video::active()->latest('publication_date')->paginate(12)
+            'videos' => Video::where('id', '!=', $video->id)
+                ->active()
+                ->inRandomOrder()
+                ->limit(12)
+                ->get()
         ]);
     }
 

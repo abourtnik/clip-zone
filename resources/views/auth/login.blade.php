@@ -20,7 +20,7 @@
                     <label for="password">Password</label>
                 </div>
                 <div class="form-group mb-3">
-                    <a href="#" class="text-muted text-decoration-none">Forgot password ?</a>
+                    <a href="{{route('password.forgot')}}" class="text-muted text-decoration-none">Forgot password ?</a>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
                 <div class="mt-4 mb-3 text-muted text-center d-flex justify-content-center">

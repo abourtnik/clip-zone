@@ -4,11 +4,13 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\UserController as UserAdminController;
+use App\Http\Controllers\Admin\VideoController as VideoAdminController;
 use App\Http\Controllers\User\VideoController;
 
 // Pages
@@ -39,6 +41,14 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register', 'register')->name('register.perform');
 });
 
+// Password Reset
+Route::controller(PasswordController::class)->group(function () {
+    Route::get('/forgot-password', 'forgot')->name('password.forgot');
+    Route::post('/forgot-password', 'email')->name('password.email');
+    Route::get('/reset-password/{token}', 'reset')->name('password.reset');
+    Route::post('/reset-password', 'update')->name('password.update');
+});
+
 // User
 Route::name('user.')->middleware('auth')->group(function () {
     Route::get('/account', [UserController::class, 'index'])->name('index');
@@ -56,6 +66,10 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
         Route::get('/export', 'export')->name('export');
     });
     Route::controller(UserAdminController::class)->prefix('users')->name('users.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/export', 'export')->name('export');
+    });
+    Route::controller(VideoAdminController::class)->prefix('videos')->name('videos.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/export', 'export')->name('export');
     });

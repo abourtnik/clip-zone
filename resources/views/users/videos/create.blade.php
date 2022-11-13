@@ -62,11 +62,20 @@
                         <div class="form-text">The video remains private until it is published.</div>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn btn-success">
-                        <i class="fa-solid fa-plus"></i>
-                        Create
-                    </button>
+                <div class="d-flex justify-content-between">
+                    <a href="{{route('user.videos.index')}}" class="btn btn-secondary">
+                        Cancel
+                    </a>
+                    <div class="d-flex gap-2">
+                        <button value="create" type="submit" name="action" class="btn btn-success">
+                            <i class="fa-solid fa-plus"></i>
+                            Create & Add Another
+                        </button>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fa-solid fa-plus"></i>
+                            Create Video
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

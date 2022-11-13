@@ -30,7 +30,7 @@ class StoreVideoRequest extends FormRequest
             'description' => 'nullable',
             'file' => 'required',
             'poster' => 'required',
-            'status' => ['required', new Enum(VideoStatus::class)],
+            'status' => [new Enum(VideoStatus::class)],
             'publication_date' => 'nullable',
         ];
     }

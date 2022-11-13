@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use App\Enums\VideoStatus;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
 use App\Models\Video;
@@ -10,8 +11,13 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 
-class VideoController
+class VideoController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Video::class, 'video');
+    }
+
     public function index(): View {
         return view('users.videos.index', [
             'videos' => Auth::user()->videos()->paginate(15)
@@ -31,15 +37,19 @@ class VideoController
         $video = $request->file('file')->store('/', 'videos');
 
         // Upload Poster
-        $poster = $request->file('poster')->store('/', 'posters');
+        $poster = $request->file('poster')->store('/', 'thumbnails');
 
         Auth::user()->videos()->create([
             'title' => $request->get('title'),
             'description' => $request->get('description'),
             'duration' => 0,
             'file' => $video,
-            'poster' => $poster,
+            'thumbnail' => $poster,
         ]);
+
+        if ($request->get('action') === 'create') {
+            return redirect(route('user.videos.create'));
+        }
 
         return redirect()->route('user.videos.index');
     }
@@ -58,6 +68,10 @@ class VideoController
         }
 
         $video->update($request->validated());
+
+        if ($request->get('action') === 'save') {
+            return redirect(route('user.videos.edit', $video));
+        }
 
         return redirect()->route('user.videos.index');
     }
