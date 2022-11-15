@@ -1,16 +1,21 @@
 # TODO
 
+## Primary
+
 - Menu
-- Pin video on account home
-- Signal comment (video ?)
 - Delete video (constrained ?)
-- Time Docker different from host
 - Makefile
-- Set duration on upload
 - Search component React + Page Result
 - Optimize (eadger loading)
+- on edit video hide publication date and set to null if private
 
-## Admin
+## Secondary
 
-- Remove video
-- Block user
+- Pin video on account home
+- Video protected (uuid)
+- Signal comment (video ?)
+- Admin Block video 
+- Admin Block user (and all of this video) 
+- Admin Block comments
+- Authorize comment and like on video
+

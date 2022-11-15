@@ -22,6 +22,7 @@ class VideoFactory extends Factory
             'file' => '1.webm',
             'thumbnail' => fake()->numberBetween(1, 12) .'.png',
             'duration' => fake()->numberBetween(10, 1000),
+            'mimetype' => 'video/mp4',
             'views' => fake()->numberBetween(10, 100000),
             'status' => fake()->numberBetween(0, 1),
             'publication_date' => fake()->dateTimeInInterval('now', '+3 days')

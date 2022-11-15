@@ -38,6 +38,7 @@ services:
             - "3306:3306"
         environment:
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+            TZ: 'Europe/Paris'
         volumes:
             - ./mariadb_data:/var/lib/mysql
         networks:

@@ -8,6 +8,7 @@
         "php": "^8.0.2|^8.1",
         "diglactic/laravel-breadcrumbs": "^8.0",
         "guzzlehttp/guzzle": "^7.2",
+        "james-heinrich/getid3": "^1.9",
         "laravel/framework": "^9.19",
         "laravel/horizon": "^5.10",
         "laravel/sanctum": "^3.0",

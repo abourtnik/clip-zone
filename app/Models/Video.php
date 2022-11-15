@@ -24,6 +24,9 @@ class Video extends Model implements Likeable
         'publication_date'
     ];
 
+    public const MAX_VIDEO_SIZE = '15mo';
+    public const MAX_VIDEO_THUMBNAIL = '5mo';
+
     public function user (): BelongsTo {
         return $this->belongsTo(User::class);
     }
@@ -86,5 +89,13 @@ class Video extends Model implements Likeable
     {
         $query->where('status', VideoStatus::PUBLIC)
             ->where('publication_date', '<=', now());
+    }
+
+    public function isActive () : bool {
+        return $this->status === VideoStatus::PUBLIC->value && $this->publication_date->lte(now());
+    }
+
+    public function isPlanned () : bool {
+        return $this->status === VideoStatus::PUBLIC->value && $this->publication_date->gt(now());
     }
 }

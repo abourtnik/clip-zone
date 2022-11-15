@@ -27,12 +27,13 @@
                 <div class="row">
                     <div class="col-6 mb-3">
                         <div class="input-file">
-                            <label for="poster" class="rounded">
+                            <label for="thumbnail" class="rounded">
                                 <i class="fas fa-upload"></i>
                                 <div class="mt-2">Update Video Poster</div>
                             </label>
-                            <input type="file" name="poster" id="poster">
+                            <input type="file" name="thumbnail" id="thumbnail">
                         </div>
+                        <div class="form-text">Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> - Max file size :  <strong>5 Mo</strong></div>
                     </div>
                     <div class="col-6">
                         <img src="{{$video->poster_url}}" class="w-100 img-fluid" style="height: 150px" alt="Video {{$video->id}} Thumbnail">
@@ -45,7 +46,7 @@
                 <div class="row">
                     <div class="col-6 mb-3">
                         <label for="status" class="form-label">Status</label>
-                        <select class="form-control" name="status_id" id="status" required>
+                        <select class="form-control" name="status" id="status" required>
                             @foreach($status as $s)
                                 <option @if($s['id'] === $video->status) selected @endif value="{{$s['id']}}">{{$s['name']}}</option>
                             @endforeach
@@ -53,7 +54,7 @@
                     </div>
                     <div class="col-6 mb-3">
                         <label for="publication_date" class="form-label">Publication date</label>
-                        <input class="form-control" type="datetime-local" id="publication_date" required name="publication_date" value="{{old('publication_date', $video->publication_date)}}">
+                        <input class="form-control" type="datetime-local" id="publication_date" required name="publication_date" value="{{old('publication_date', $video->publication_date->format('Y-m-d H:i'))}}" min="{{now()->format('Y-m-d H:i')}}">
                         <div class="form-text">The video remains private until it is published.</div>
                     </div>
                 </div>

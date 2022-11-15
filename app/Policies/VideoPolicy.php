@@ -35,6 +35,20 @@ class VideoPolicy
     }
 
     /**
+     * Determine whether the user can view video.
+     *
+     * @param User|null $user
+     * @param Video $video
+     * @return Response|bool
+     */
+    public function show(?User $user, Video $video): Response|bool
+    {
+        return $video->isActive() || $video->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(404, 'This video is private');
+    }
+
+    /**
      * Determine whether the user can create the model.
      *
      * @param  User $user

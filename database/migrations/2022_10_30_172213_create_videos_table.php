@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('file');
+            $table->string('mimetype');
             $table->string('thumbnail');
             $table->unsignedMediumInteger('duration');
             $table->foreignIdFor(User::class);

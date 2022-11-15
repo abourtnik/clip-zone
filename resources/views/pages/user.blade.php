@@ -38,7 +38,7 @@
     <div class="row mt-4">
         <div class="col-10 offset-1">
             <div class="row">
-                @each('videos.card', $user->videos, 'video')
+                @each('videos.card', $user->videos()->active()->latest('publication_date')->paginate(12), 'video')
             </div>
         </div>
     </div>

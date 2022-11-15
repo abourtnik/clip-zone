@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\ThumbnailType;
 use App\Enums\VideoStatus;
+use App\Enums\VideoType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreVideoRequest;
 use App\Http\Requests\UpdateVideoRequest;
@@ -25,9 +27,11 @@ class VideoController extends Controller
     }
 
     public function create(): View {
-
         return view('users.videos.create', [
-            'status' => VideoStatus::get()
+            'status' => VideoStatus::get(),
+            'accepted_video_mimes_types' => implode(', ', VideoType::acceptedMimeTypes()),
+            'accepted_video_formats' => implode(', ', VideoType::acceptedFormats()),
+            'accepted_thumbnail_mimes_types' => implode(', ', ThumbnailType::acceptedFormats())
         ]);
     }
 
@@ -36,15 +40,18 @@ class VideoController extends Controller
         // Upload video
         $video = $request->file('file')->store('/', 'videos');
 
-        // Upload Poster
-        $poster = $request->file('poster')->store('/', 'thumbnails');
+        // Upload Thumbnail
+        $thumbnail = $request->file('thumbnail')->store('/', 'thumbnails');
 
         Auth::user()->videos()->create([
             'title' => $request->get('title'),
             'description' => $request->get('description'),
-            'duration' => 0,
+            'duration' => $request->get('duration'),
+            'mimetype' => $request->get('mimetype'),
             'file' => $video,
-            'thumbnail' => $poster,
+            'thumbnail' => $thumbnail,
+            'status' => $request->get('status'),
+            'publication_date' => $request->get('publication_date')
         ]);
 
         if ($request->get('action') === 'create') {
@@ -57,17 +64,24 @@ class VideoController extends Controller
     public function edit(Video $video): View {
         return view('users.videos.edit', [
             'video' => $video,
-            'status' => VideoStatus::get()
+            'status' => VideoStatus::get(),
+            'accepted_thumbnail_mimes_types' => implode(', ', ThumbnailType::acceptedFormats())
         ]);
     }
 
     public function update(UpdateVideoRequest $request, Video $video): RedirectResponse {
 
-        if ($request->file('poster')) {
-            $poster = $request->file('poster')->store('/', 'posters');
+        if ($request->file('thumbnail')) {
+            $thumbnail = $request->file('thumbnail')->store('/', 'thumbnails');
         }
 
-        $video->update($request->validated());
+        $video->update([
+            'title' => $request->get('title'),
+            'description' => $request->get('description'),
+            'thumbnail' => $thumbnail ?? $video->thumbnail,
+            'status' => $request->get('status'),
+            'publication_date' => $request->get('publication_date')
+        ]);
 
         if ($request->get('action') === 'save') {
             return redirect(route('user.videos.edit', $video));
@@ -78,6 +92,8 @@ class VideoController extends Controller
 
     public function destroy(Video $video): RedirectResponse {
 
-        return redirect()->route('user.videos.index')->with();
+        $video->delete();
+
+        return redirect()->route('user.videos.index');
     }
 }

@@ -24,7 +24,7 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/playlist2', 'playlist2')->name('playlist2');
 
 
-    Route::get('/video/{video}', 'video')->name('video');
+    Route::get('/video/{video}', 'video')->name('video')->can('show', 'video');
     Route::get('/user/{user}', 'user')->name('user');
 });
 

@@ -37,10 +37,15 @@
                     </div>
                 </td>
                 <td>
-                    @if($video->status === \App\Enums\VideoStatus::PUBLIC->value)
+                    @if($video->isActive())
                         <span class="badge bg-success">
                             <i class="fa-solid fa-eye"></i>&nbsp;
                             Public
+                        </span>
+                    @elseif($video->isPlanned())
+                        <span class="badge bg-warning">
+                            <i class="fa-solid fa-clock"></i>&nbsp;
+                            Planned
                         </span>
                     @else
                         <span class="badge bg-danger">
@@ -68,7 +73,7 @@
                         data-poster="{{$video->poster_url}}"
                         data-route="{{route('user.videos.destroy', $video)}}"
                         data-alt="{{$video->title}} Thumbnail"
-                        data-elements='{{json_encode(['title' => '', 'views' => '', 'publication' => '', 'poster' => 'src', 'route' => 'href', 'alt' => 'alt'])}}'
+                        data-elements='{{json_encode(['title' => '', 'views' => '', 'publication' => '', 'poster' => 'src', 'route' => 'action', 'alt' => 'alt'])}}'
                     >
                         <i class="fa-solid fa-trash"></i>
                     </button>

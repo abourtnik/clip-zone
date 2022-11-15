@@ -5,7 +5,7 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min';
 
-
+import Alpine from 'alpinejs'
 
 import { Toast } from 'bootstrap'
 
@@ -13,6 +13,10 @@ import './components/index.js'
 
 window.Pusher = Pusher;
 window.bootstrap = bootstrap;
+
+window.Alpine = Alpine
+
+Alpine.start()
 
 const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
 const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))

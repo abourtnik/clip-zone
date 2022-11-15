@@ -4,11 +4,21 @@
     <div class="row">
         <div class="col-9">
             <video controls class="w-100 border">
-                <source src="{{$video->url}}" type="video/mp4">
+                <source src="{{$video->url}}" type="{{$video->mimetype}}">
             </video>
-            <div class="mt-3">
-                <h4>{{$video->title}}</h4>
-
+            <div class="mt-3 d-flex align-items-center gap-2">
+                @if($video->isPlanned())
+                    <div class="d-flex bg-light-dark p-2 align-items-center gap-2">
+                        <i class="fa-solid fa-clock"></i>
+                        <strong>Planned - {{$video->publication_date->format('d M Y H:i:s')}}</strong>
+                    </div>
+                @elseif(!$video->isActive())
+                    <div class="d-flex bg-light-dark p-2 align-items-center gap-2">
+                        <i class="fa-solid fa-lock"></i>
+                        <strong>Private</strong>
+                    </div>
+                @endif
+                <h4 class="mb-0">{{$video->title}}</h4>
             </div>
             <div class="mt-3 d-flex justify-content-between align-items-center">
                 <div class="text-muted">{{$video->views}} views • {{$video->created_at->format('d F Y')}}</div>
@@ -82,7 +92,7 @@
                             </button>
                         @endif
                     </div>
-                    <div class="mt-3">
+                    <div class="mt-3 bg-light p-3">
                         {!! nl2br($video->description) !!}
                     </div>
                 </div>
