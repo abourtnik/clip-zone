@@ -2,10 +2,9 @@
     <a style="width: 280px" class="navbar-brand text-center" href="{{route('pages.home')}}">
         Youtube Clone
     </a>
-    <form class="d-flex w-25" role="search">
-        @csrf
+    <form method="GET" class="d-flex w-25" role="search" action="{{route('pages.search')}}">
         <div class="input-group">
-            <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search">
+            <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="q" value="{{$search ?? ''}}">
             <button class="btn btn-outline-secondary" type="button">
                 <i class="fa-solid fa-search"></i>&nbsp;
             </button>

@@ -4,10 +4,11 @@
 
 - Menu
 - Delete video (constrained ?)
-- Makefile
 - Search component React + Page Result
 - Optimize (eadger loading)
-- on edit video hide publication date and set to null if private
+- on edit video set video to public if panned and date is passed
+- on ne peut pas s'abboner a soi-meme
+- afficher les abbonnes dans le BO de l'user
 
 ## Secondary
 

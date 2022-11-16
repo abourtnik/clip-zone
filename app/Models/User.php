@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Interfaces\Likeable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
@@ -140,5 +141,19 @@ class User extends Authenticatable
     public function videos_interactions (): HasManyThrough
     {
         return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id');
+    }
+
+    public function firstActiveVideo (): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->videos()->active()->latest('publication_date')->first()
+        );
+    }
+
+    public function othersActiveVideos (): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->videos()->whereNot('id', $this->first_active_video->id)->active()->latest('publication_date')
+        );
     }
 }

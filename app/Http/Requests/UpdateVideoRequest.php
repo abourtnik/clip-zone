@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Enums\ThumbnailType;
 use App\Enums\VideoStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
 class UpdateVideoRequest extends FormRequest
@@ -26,14 +27,21 @@ class UpdateVideoRequest extends FormRequest
      */
     public function rules()
     {
-        $thumbnailMimeTypes = implode(',', ThumbnailType::acceptedMimeTypes());
-
         return [
             'title' => 'required|string|max:100',
             'description' => 'nullable|string|max:5000',
-            'thumbnail' => 'nullable|file|mimetypes:'.$thumbnailMimeTypes.'|max:5120', // 5 Mo',
+            'thumbnail' => [
+                'nullable',
+                'file',
+                'mimetypes:'.implode(',', ThumbnailType::acceptedMimeTypes()),
+                'max:5120' // 5mo
+            ],
             'status' => [new Enum(VideoStatus::class)],
-            'publication_date' => 'nullable|date|after:today',
+            'publication_date' => [
+                Rule::excludeIf($this->status != VideoStatus::PLANNED->value),
+                'date',
+                'after:now'
+            ]
         ];
     }
 }

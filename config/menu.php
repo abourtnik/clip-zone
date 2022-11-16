@@ -43,6 +43,11 @@ return [
             'title' => 'Videos',
             'icon' => 'video',
             'route' => 'user.videos.index',
+        ],
+        [
+            'title' => 'Subscribers',
+            'icon' => 'users',
+            'route' => 'user.subscribers',
         ]
     ],
     'admin' => [

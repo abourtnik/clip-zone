@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class Video extends Model implements Likeable
 {
@@ -61,6 +62,13 @@ class Video extends Model implements Likeable
         );
     }
 
+    protected function shortDescription(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Str::limit($this->description, '247', '...')
+        );
+    }
+
     /*
     public function interactions () : BelongsToMany {
         return $this->belongsToMany(User::class, 'likes', 'video_id', 'user_id');
@@ -88,14 +96,17 @@ class Video extends Model implements Likeable
     public function scopeActive(Builder $query): void
     {
         $query->where('status', VideoStatus::PUBLIC)
-            ->where('publication_date', '<=', now());
+            ->orWhere(function($query) {
+                $query->where('status', VideoStatus::PLANNED)
+                    ->where('publication_date', '<=', now());
+            });
     }
 
     public function isActive () : bool {
-        return $this->status === VideoStatus::PUBLIC->value && $this->publication_date->lte(now());
+        return $this->status === VideoStatus::PUBLIC->value || ($this->status === VideoStatus::PLANNED->value && $this->publication_date->lte(now()));
     }
 
     public function isPlanned () : bool {
-        return $this->status === VideoStatus::PUBLIC->value && $this->publication_date->gt(now());
+        return $this->status === VideoStatus::PLANNED->value && $this->publication_date->gt(now());
     }
 }

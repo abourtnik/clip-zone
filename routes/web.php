@@ -23,6 +23,8 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/playlist', 'playlist')->name('playlist');
     Route::get('/playlist2', 'playlist2')->name('playlist2');
 
+    Route::get('/search', 'search')->name('search');
+
 
     Route::get('/video/{video}', 'video')->name('video')->can('show', 'video');
     Route::get('/user/{user}', 'user')->name('user');
@@ -55,6 +57,7 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::put('/update', [UserController::class, 'update'])->name('update');
     Route::resource('videos', VideoController::class);
+    Route::get('/subscribers', [UserController::class, 'subscribers'])->name('subscribers');;
 });
 
 // Admin

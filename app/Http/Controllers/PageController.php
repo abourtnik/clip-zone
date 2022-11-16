@@ -42,8 +42,23 @@ class PageController
     }
 
     public function search(Request $request): View {
+
+        $q = $request->get('q');
+
+        $match = '%'.$q.'%';
+
+        $videos = Video::active()
+            ->where(fn($query) =>
+                $query->where('title', 'LIKE', $match)
+                    ->orWhere('description', 'LIKE', $match)
+                    ->OrWhereHas('user', fn($query) => $query->where('username', 'LIKE', $match))
+            )
+            ->latest('publication_date')
+            ->paginate(12);
+
         return view('pages.search', [
-            'search' => $request->get('search')
+            'search' => $q,
+            'videos' => $videos
         ]);
     }
 }

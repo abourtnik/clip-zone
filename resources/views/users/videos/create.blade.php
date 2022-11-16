@@ -3,8 +3,8 @@
 @section('content')
     {{ Breadcrumbs::render('create_video') }}
     @if ($errors->any())
-        <div class="alert alert-danger mt-5">
-            Merci de corriger les erreurs suivantes:
+        <div class="alert alert-danger mt-3">
+            <p class="fw-bold">Oups some fields are incorrect</p>
             <ul>
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -49,29 +49,26 @@
                     <label for="description" class="form-label">Description</label>
                     <textarea class="form-control" id="description" rows="6" name="description" maxlength="5000">{{old('description')}}</textarea>
                 </div>
-                <div class="row">
+                <div class="row" x-data="{ planned: {{old('status', 'false')}}}">
                     <div class="col-6 mb-3">
                         <label for="status" class="form-label">Status</label>
-                        <select class="form-control" name="status" id="status" required>
+                        <select class="form-control" name="status" id="status" required x-model="planned">
                             @foreach($status as $s)
-                                <option value="{{$s['id']}}">{{$s['name']}}</option>
+                                <option value="{{$s['id']}}" @if(old('status') == $s['id']) selected @endif>{{$s['name']}}</option>
                             @endforeach
                         </select>
                     </div>
-                </div>
-                <h4 class="mt-3">Publication</h4>
-                <hr>
-                <div class="row" x-data="{ publication: false}">
-                    <div class="col-6 mb-3">
-                        <label for="publication" class="form-label">Publication</label>
-                        <select class="form-control" name="publication" id="publication" x-model="publication">
-                            <option selected value="">Publish video automatically after upload</option>
-                            <option value="1">Program video publication</option>
-                        </select>
-                    </div>
-                    <div class="col-6 mb-3">
+                    <div class="col-6 mb-3" x-show="planned == {{\App\Enums\VideoStatus::PLANNED->value}}">
                         <label for="publication_date" class="form-label">Publication date</label>
-                        <input class="form-control" type="datetime-local" id="publication_date" :disabled="!publication" name="publication_date" value="{{old('publication_date')}}">
+                        <input
+                            class="form-control"
+                            type="datetime-local"
+                            id="publication_date"
+                            name="publication_date"
+                            min="{{now()->toDateTimeLocalString('minute')}}"
+                            value="{{ old('status') == \App\Enums\VideoStatus::PLANNED->value ? old('publication_date') : ''}}"
+                            :required="planned == {{\App\Enums\VideoStatus::PLANNED->value}}"
+                        >
                         <div class="form-text">The video remains private until it is published.</div>
                     </div>
                 </div>

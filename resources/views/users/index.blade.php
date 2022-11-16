@@ -38,7 +38,7 @@
 
                     <hr>
                     <div class="d-flex gap-2">
-                        <a href="{{route('user.videos.index')}}" class="btn btn-primary">
+                        <a href="{{route('user.subscribers')}}" class="btn btn-primary">
                             <i class="fa-solid fa-eye"></i>
                             See all
                         </a>

@@ -14,7 +14,15 @@
                         <small class="text-muted video_views"></small>
                     </div>
                 </div>
-                <p class="alert alert-danger">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi aspernatur assumenda consequuntur deserunt dolorem dolores, ipsam laboriosam magnam molestias officia pariatur sapiente tempore voluptates. Ipsa perspiciatis quas quasi soluta voluptates?</p>
+                <div class="alert alert-danger">
+                    <p class="fw-bold">La suppresion d'une video est definitive.</p>
+                    <p>La suppresion d'une video entraîne automatiquement la suppresion des commentaires ainsi que des interactions liees.</p>
+                    <ul>
+                        <li><span class="video_comments"></span> comments</li>
+                        <li><span class="video_likes"></span> likes</li>
+                        <li><span class="video_dislikes"></span> dislikes</li>
+                    </ul>
+                </div>
             </div>
             <div class="modal-footer d-flex justify-content-between">
                 <a href="" class="btn btn-info text-white">

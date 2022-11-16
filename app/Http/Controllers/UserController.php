@@ -26,6 +26,12 @@ class UserController
         ]);
     }
 
+    public function subscribers(): View {
+        return view('users.subscribers', [
+            'user' => Auth::user()
+        ]);
+    }
+
     public function update(UpdateUserRequest $request): RedirectResponse {
 
         if ($request->file('avatar')) {

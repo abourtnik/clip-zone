@@ -1,0 +1,4 @@
+{
+    "subscribers": "[0,1] :count subscriber|[2,*] :count subscribers",
+    "videos": "[0,1] :count video|[2,*] :count videos"
+}

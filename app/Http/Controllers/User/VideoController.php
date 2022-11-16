@@ -22,7 +22,7 @@ class VideoController extends Controller
 
     public function index(): View {
         return view('users.videos.index', [
-            'videos' => Auth::user()->videos()->paginate(15)
+            'videos' => Auth::user()->videos()->latest('updated_at')->paginate(15)
         ]);
     }
 
@@ -37,22 +37,14 @@ class VideoController extends Controller
 
     public function store(StoreVideoRequest $request): RedirectResponse {
 
-        // Upload video
-        $video = $request->file('file')->store('/', 'videos');
+        $validated = $request->safe()->merge([
+            'file' => $request->file('file')->store('/', 'videos'),
+            'mimetype' =>$request->file('file')->getMimeType(),
+            'duration' =>  floor((new \getID3())->analyze($request->file('file')->getRealPath())['playtime_seconds']),
+            'thumbnail' =>  $request->file('thumbnail')->store('/', 'thumbnails')
+        ])->toArray();
 
-        // Upload Thumbnail
-        $thumbnail = $request->file('thumbnail')->store('/', 'thumbnails');
-
-        Auth::user()->videos()->create([
-            'title' => $request->get('title'),
-            'description' => $request->get('description'),
-            'duration' => $request->get('duration'),
-            'mimetype' => $request->get('mimetype'),
-            'file' => $video,
-            'thumbnail' => $thumbnail,
-            'status' => $request->get('status'),
-            'publication_date' => $request->get('publication_date')
-        ]);
+        Auth::user()->videos()->create($validated);
 
         if ($request->get('action') === 'create') {
             return redirect(route('user.videos.create'));
@@ -71,17 +63,11 @@ class VideoController extends Controller
 
     public function update(UpdateVideoRequest $request, Video $video): RedirectResponse {
 
-        if ($request->file('thumbnail')) {
-            $thumbnail = $request->file('thumbnail')->store('/', 'thumbnails');
-        }
+        $validated = $request->safe()->merge([
+            'thumbnail' =>  $request->file('thumbnail')?->store('/', 'thumbnails') ?? $video->thumbnail
+        ])->toArray();
 
-        $video->update([
-            'title' => $request->get('title'),
-            'description' => $request->get('description'),
-            'thumbnail' => $thumbnail ?? $video->thumbnail,
-            'status' => $request->get('status'),
-            'publication_date' => $request->get('publication_date')
-        ]);
+        $video->update($validated);
 
         if ($request->get('action') === 'save') {
             return redirect(route('user.videos.edit', $video));

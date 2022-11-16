@@ -54,7 +54,7 @@
                         </span>
                     @endif
                 </td>
-                <td>{{$video->publication_date->format('d F Y H:i:s')}}</td>
+                <td>{{$video->publication_date->format('d F Y H:i')}}</td>
                 <td>{{$video->views}}</td>
                 <td>{{$video->comments()->count()}}</td>
                 <td>{{$video->likes()->count()}}</td>
@@ -73,7 +73,10 @@
                         data-poster="{{$video->poster_url}}"
                         data-route="{{route('user.videos.destroy', $video)}}"
                         data-alt="{{$video->title}} Thumbnail"
-                        data-elements='{{json_encode(['title' => '', 'views' => '', 'publication' => '', 'poster' => 'src', 'route' => 'action', 'alt' => 'alt'])}}'
+                        data-comments="{{$video->comments()->count()}}"
+                        data-likes="{{$video->comments()->count()}}"
+                        data-dislikes="{{$video->comments()->count()}}"
+                        data-elements='{{json_encode(['title' => '', 'views' => '', 'publication' => '', 'poster' => 'src', 'route' => 'action', 'alt' => 'alt', 'comments' => '', 'likes' => '', 'dislikes' => ''])}}'
                     >
                         <i class="fa-solid fa-trash"></i>
                     </button>
