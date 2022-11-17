@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(User::class, 'subscriber_id');
             $table->foreignIdFor(User::class, 'user_id');
-            $table->timestamp('created_at')->nullable();
+            $table->timestamp('subscribe_at')->useCurrent();
         });
     }
 

@@ -23,14 +23,15 @@
             <div class="mt-3 d-flex justify-content-between align-items-center">
                 <div class="text-muted">{{$video->views}} views • {{$video->created_at->format('d F Y')}}</div>
                 @auth()
-                    <like-button
-                        type="like"
-                        active="{{ (bool) auth()->user()->hasLiked($video)}}"
-                        model="{{get_class($video)}}"
-                        target="{{$video->id}}"
-                        count="{{$video->likes()->count()}}"
-                        auth="true"
-                    />
+                    <div class="d-flex gap-1">
+                        <likes-button
+                            active="{{ json_encode(['like' => auth()->user()->hasLiked($video), 'dislike' => auth()->user()->hasDisliked($video) ])}}"
+                            model="{{get_class($video)}}"
+                            target="{{$video->id}}"
+                            count="{{ json_encode(['likes_count' => $video->likes()->count(), 'dislikes_count' => $video->dislikes()->count() ])}}"
+                            auth="true"
+                        />
+                    </div>
                 @else
                     <div class="d-flex justify-content-between gap-1">
                         <button
@@ -72,10 +73,12 @@
                 <div class="d-flex justify-content-between align-items-center w-100">
                     <div>
                         <a href="{{route('pages.user', $video->user)}}">{{$video->user->username}}</a>
-                        <small class="text-muted d-block">{{$video->user->subscribers_count}} abonnés</small>
+                        <small class="text-muted d-block">{{trans_choice('subscribers', $video->user->subscribers_count)}}</small>
                     </div>
                     @auth
-                        <subscribe-button isSubscribe="{{auth()->user()->isSubscribe($video->user) ? 'true' : 'false'}}" user="{{$video->user->id}}"/>
+                        @if(auth()->user()->isNot($video->user))
+                            <subscribe-button isSubscribe="{{auth()->user()->isSubscribe($video->user) ? 'true' : 'false'}}" user="{{$video->user->id}}"/>
+                        @endif
                     @else
                         <button
                             type="button"

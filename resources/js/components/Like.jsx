@@ -1,15 +1,28 @@
 import { useState } from 'preact/hooks';
 
-export default function Like ({type, model, target, count, active, auth}) {
+export default function Like ({model, target, count, active, auth}) {
 
-    const [liked, setLiked] = useState(active);
-    const [counter, setCounter] = useState(count);
+    const {like, dislike} = JSON.parse(active)
+    const {likes_count, dislikes_count} = JSON.parse(count)
 
-    const handleClick = () => {
+    const [liked, setLiked] = useState(like);
+    const [disliked, setDisLiked] = useState(dislike);
+    const [counterLike, setCounterLike] = useState(likes_count);
+    const [counterDislike, setCounterDislike] = useState(dislikes_count);
 
-        setLiked(liked => !liked)
-        liked ? setCounter(counter => counter - 1) : setCounter(counter => counter + 1);
-        //setDisliked(false)
+    const handleClick = (type) => {
+
+        if (type === 'like') {
+            setLiked(liked => !liked)
+            setDisLiked(false)
+            liked ? setCounterLike(counter => counter - 1) : setCounterLike(counter => counter + 1);
+            disliked ? setCounterDislike(counter => counter - 1) : null;
+        } else {
+            setDisLiked(liked => !liked)
+            setLiked(false)
+            disliked ? setCounterDislike(counter => counter - 1) : setCounterDislike(counter => counter + 1);
+            liked ? setCounterLike(counter => counter - 1) : null;
+        }
 
         const response = fetch(`/api/${type}`, {
             method: 'POST',
@@ -25,15 +38,13 @@ export default function Like ({type, model, target, count, active, auth}) {
         });
     }
 
-    const isActiveClass = liked ? 'btn': 'btn-outline';
-    const isActiveIcon = liked ? 'fa-solid': 'fa-regular';
-    const className = type === 'like' ? `${isActiveClass}-success` : `${isActiveClass}-danger`;
-    const icon = isActiveIcon + (type === 'like' ? ' fa-thumbs-up' : ' fa-thumbs-down');
 
-    //const text = liked ? 'Aimé'
 
+
+    /*
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+
 
     let attributes =  {
         ...(!auth && {
@@ -48,17 +59,32 @@ export default function Like ({type, model, target, count, active, auth}) {
             'onClick': handleClick
         })
     }
+    */
+
+    const isActiveClass = liked ? 'btn': 'btn-outline';
+    const isActiveIcon = liked ? 'fa-solid': 'fa-regular';
+    //const className = type === 'like' ? `${isActiveClass}-success` : `${isActiveClass}-danger`;
+    //const icon = isActiveIcon + (type === 'like' ? ' fa-thumbs-up' : ' fa-thumbs-down');
 
     return (
         <div className={'d-flex justify-content-between gap-1'}>
             <button
-                {...attributes}
-                className={'btn btn-sm ' + className}
+                onClick={() => handleClick('like')}
+                className={'btn btn-sm ' + (liked ? 'btn' : 'btn-outline') + '-success'}
             >
                 {/*<i className={icon}></i>*/}
                 {/*<img src={'/storage/images/' + icon} style={{width: '18px'}}/>*/}
-                {'Aime'}
-                {counter > 0 && <span className={'ml-1'}>{counter}</span>}
+                J'aime
+                {counterLike > 0 && <span className={'ml-1'}>{counterLike}</span>}
+            </button>
+            <button
+                onClick={() => handleClick('dislike')}
+                className={'btn btn-sm ' + (disliked ? 'btn' : 'btn-outline') + '-danger'}
+            >
+                {/*<i className={icon}></i>*/}
+                {/*<img src={'/storage/images/' + icon} style={{width: '18px'}}/>*/}
+                J'aime pas
+                {counterDislike > 0 && <span className={'ml-1'}>{counterDislike}</span>}
             </button>
         </div>
     )

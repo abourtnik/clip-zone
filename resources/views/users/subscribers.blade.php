@@ -1,7 +1,6 @@
 @extends('layouts.user')
 
 @section('content')
-    {{ Breadcrumbs::render('subscribers') }}
     <div class="d-flex justify-content-between align-items-center my-3">
         <h2>My Subscribers</h2>
     </div>
@@ -25,11 +24,13 @@
                         <span>{{$subscriber->username}}</span>
                     </a>
                 </td>
-                <td>{{$subscriber->suscribe_at}}</td>
-                <td>{{$subscriber->subscribers_count}}</td>
-                <td>{{$subscriber->created_at}}</td>
+                <td>{{$subscriber->pivot->subscribe_at->format('d F Y H:i')}}</td>
                 <td>
-                    <subscribe-button isSubscribe="{{$user->isSubscribe($subscriber) ? 'true' : 'false'}}" user="{{$user->id}}"/>
+                    {{trans_choice('subscribers', $subscriber->subscribers_count)}}
+                </td>
+                <td>{{$subscriber->created_at->format('d F Y H:i')}}</td>
+                <td>
+                    <subscribe-button isSubscribe="{{$user->isSubscribe($subscriber) ? 'true' : 'false'}}" user="{{$subscriber->id}}"/>
                 </td>
             </tr>
         @endforeach

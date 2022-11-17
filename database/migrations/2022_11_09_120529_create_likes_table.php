@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->morphs('likeable');
             $table->boolean('status');
-            $table->timestamps();
+            $table->timestamp('perform_at')->useCurrent();
         });
     }
 

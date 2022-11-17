@@ -13,6 +13,12 @@ class Like extends Model
 
     protected $guarded = ['id'];
 
+    public $timestamps = false;
+
+    protected $casts = [
+        'perform_at' => 'datetime',
+    ];
+
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);

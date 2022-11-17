@@ -57,7 +57,8 @@ Route::name('user.')->middleware('auth')->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::put('/update', [UserController::class, 'update'])->name('update');
     Route::resource('videos', VideoController::class);
-    Route::get('/subscribers', [UserController::class, 'subscribers'])->name('subscribers');;
+    Route::get('/subscribers', [UserController::class, 'subscribers'])->name('subscribers');
+    Route::get('/comments', [UserController::class, 'comments'])->name('comments');
 });
 
 // Admin

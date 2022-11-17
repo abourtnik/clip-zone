@@ -69,19 +69,19 @@ class Video extends Model implements Likeable
         );
     }
 
-    /*
-    public function interactions () : BelongsToMany {
-        return $this->belongsToMany(User::class, 'likes', 'video_id', 'user_id');
+    protected function likesRatio(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => ($this->likes()->count() / ($this->interactions()->count() ?: 1)) * 100
+        );
     }
 
-    public function likes () : BelongsToMany {
-        return $this->interactions()->wherePivot('status', true);
+    protected function dislikesRatio(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => ($this->dislikes()->count() / ($this->interactions()->count() ?: 1)) * 100
+        );
     }
-
-    public function dislikes () : BelongsToMany {
-        return $this->interactions()->wherePivot('status', false);
-    }
-    */
 
     public function comments () : HasMany {
         return $this->hasMany(Comment::class);

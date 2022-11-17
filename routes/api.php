@@ -26,7 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::post("follow/{user}", [UserController::class, 'follow']);
 
     Route::post('like', [\App\Http\Controllers\LikeController::class, 'like']);
-    //Route::post("dislike/{video}", [UserController::class, 'dislike']);
+    Route::post('dislike', [\App\Http\Controllers\LikeController::class, 'dislike']);
 
     Route::post("comments", [CommentController::class, 'comment']);
 });

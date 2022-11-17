@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CommentResource;
 use App\Models\Video;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 
 class VideoController
@@ -12,13 +13,17 @@ class VideoController
         return view('users.index');
     }
 
-    public function comments(Video $video) {
+    public function comments(Video $video, Request $request) {
+
+        $sort = $request->get('sort', 'top');
 
         return CommentResource::collection(
             $video
                 ->comments()
                 ->whereNull('parent_id')
-                ->latest()
+                ->withCount(['likes', 'dislikes'])
+                ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
+                ->when($sort === 'recent', fn($query) => $query->latest())
                 ->paginate(10)
         );
     }

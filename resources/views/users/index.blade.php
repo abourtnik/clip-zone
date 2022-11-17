@@ -78,7 +78,7 @@
 
                     <hr>
                     <div class="d-flex gap-2">
-                        <a href="{{route('user.videos.index')}}" class="btn btn-primary">
+                        <a href="{{route('user.comments')}}" class="btn btn-primary">
                             <i class="fa-solid fa-eye"></i>
                             See details
                         </a>
@@ -91,14 +91,14 @@
                 <div class="card-body">
                     <h5 class="card-title">Interactions on my videos</h5>
                     <hr>
-                    <div class="d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center justify-content-center gap-5">
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <i class="fa-solid fa-thumbs-up fa-2x"></i>
-                            <p class="card-text text-center fs-1">{{auth()->user()->videos_interactions->count()}}</p>
+                            <p class="card-text text-center fs-1">{{auth()->user()->videos_likes()->count()}}</p>
                         </div>
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <i class="fa-solid fa-thumbs-down fa-2x"></i>
-                            <p class="card-text text-center fs-1">0</p>
+                            <p class="card-text text-center fs-1">{{auth()->user()->videos_dislikes()->count()}}</p>
                         </div>
                     </div>
 

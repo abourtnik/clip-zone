@@ -48,6 +48,11 @@ return [
             'title' => 'Subscribers',
             'icon' => 'users',
             'route' => 'user.subscribers',
+        ],
+        [
+            'title' => 'Comments',
+            'icon' => 'comments',
+            'route' => 'user.comments',
         ]
     ],
     'admin' => [

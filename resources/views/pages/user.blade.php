@@ -11,8 +11,10 @@
                     <div class="text-muted text-sm">{{trans_choice('subscribers', $user->subscribers_count)}} • {{trans_choice('videos', $user->videos()->active()->count())}}</div>
                 </div>
             </div>
-            @if(auth()->check())
-                <subscribe-button isSubscribe="{{auth()->user()->isSubscribe($user) ? 'true' : 'false'}}" user="{{$user->id}}"/>
+            @auth
+                @if(auth()->user()->isNot($user))
+                    <subscribe-button isSubscribe="{{auth()->user()->isSubscribe($user) ? 'true' : 'false'}}" user="{{$user->id}}"/>
+                @endif
             @else
                 <button
                     type="button"

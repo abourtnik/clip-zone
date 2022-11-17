@@ -3,10 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class Subscription extends Model
+class Subscription extends Pivot
 {
+    protected $casts = [
+        'subscribe_at' => 'datetime',
+    ];
+
     protected $guarded = ['id'];
 
     use HasFactory;

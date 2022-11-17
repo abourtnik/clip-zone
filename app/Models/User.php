@@ -24,28 +24,13 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $guarded = ['id'];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
@@ -54,8 +39,46 @@ class User extends Authenticatable
         return $this->is_admin;
     }
 
+    /**
+     * Relations
+     */
+
     public function videos() : HasMany {
         return $this->hasMany(Video::class);
+    }
+
+    public function subscriptions() : BelongsToMany {
+        return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id');
+    }
+
+    public function subscribers() : BelongsToMany {
+        return $this->belongsToMany(User::class, 'subscriptions', 'user_id', 'subscriber_id')
+            ->using(Subscription::class)
+            ->withPivot('subscribe_at');
+    }
+
+    public function comments () : HasMany {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function videos_comments () : HasManyThrough {
+        return $this->hasManyThrough(Comment::class, Video::class);
+    }
+
+    public function videos_interactions (): HasManyThrough {
+        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id');
+    }
+
+    public function videos_likes (): HasManyThrough {
+        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id')->where('likes.status', true);
+    }
+
+    public function videos_dislikes (): HasManyThrough {
+        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id')->where('likes.status', false);
+    }
+
+    public function isSubscribe (User $user) : bool {
+        return $this->subscriptions()->where('user_id', $user->id)->exists();
     }
 
     public function getAvatarUrlAttribute() : string {
@@ -66,82 +89,40 @@ class User extends Authenticatable
         return $this->avatar ?? '/storage/images/default_bg.jpg';
     }
 
-    public function subscriptions() : BelongsToMany {
-        return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id');
-    }
-
-    public function subscribers() : BelongsToMany {
-        return $this->belongsToMany(User::class, 'subscriptions', 'user_id', 'subscriber_id');
-    }
-
-    public function isSubscribe (User $user) : bool {
-        return $this->subscriptions()->where('user_id', $user->id)->exists();
-    }
-
     public function getSubscribersCountAttribute () : int {
         return $this->subscribers()->count();
     }
 
-    /*
-    public function likes () : BelongsToMany {
-        return $this->belongsToMany(User::class, 'likes', 'user_id', 'video_id')->wherePivot('status', true);
-    }
-
-    public function dislikes () : BelongsToMany {
-        return $this->belongsToMany(User::class, 'likes', 'user_id', 'video_id')->wherePivot('status', false);
-    }
-
-    public function isLike (Video $video) : bool {
-        return $this->likes()->where(['video_id' => $video->id])->exists();
-    }
-
-    public function isDislike (Video $video) : bool {
-        return $this->dislikes()->where(['video_id' => $video->id])->exists();
-    }
-    */
-
-    public function comments () : HasMany {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function likes() : HasMany
-    {
+    public function likes () : HasMany {
         return $this->hasMany(Like::class);
     }
 
-    public function like(Likeable $likeable): void
+    public function hasInteract(Likeable $likeable): bool
     {
-        if ($this->hasLiked($likeable)) {
-            $likeable->likes()
-                ->whereHas('user', fn($q) => $q->whereId($this->id))
-                ->delete();
-        }
-
-        else {
-            Auth::user()->likes()->create([
-                'likeable_type' => get_class($likeable),
-                'likeable_id' => $likeable->id,
-                'status' => true,
-            ]);
-        }
+        return $likeable->interactions()
+            ->whereHas('user', fn($q) =>  $q->whereId($this->id))
+            ->exists();
     }
 
     public function hasLiked(Likeable $likeable): bool
     {
         return $likeable->likes()
             ->whereHas('user', fn($q) =>  $q->whereId($this->id))
+            ->where('status', true)
             ->exists();
     }
 
-    public function videos_comments () : HasManyThrough
+    public function hasDisliked(Likeable $likeable): bool
     {
-        return $this->hasManyThrough(Comment::class, Video::class);
+        return $likeable->dislikes()
+            ->whereHas('user', fn($q) =>  $q->whereId($this->id))
+            ->where('status', false)
+            ->exists();
     }
 
-    public function videos_interactions (): HasManyThrough
-    {
-        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id');
-    }
+    /**
+     * Attributes
+     */
 
     public function firstActiveVideo (): Attribute
     {

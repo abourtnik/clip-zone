@@ -4,10 +4,14 @@ import Comment from "./Comment";
 export default function Comments ({target, auth}) {
 
     const [comments, setComments] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [selectedSort, setSelectedSort] = useState('top');
 
     useEffect(async () => {
+        setLoading(true);
         const response = await fetch(`/api/comments/${target}`);
         const data = await response.json()
+        setLoading(false);
         setComments(data.data)
     }, []);
 
@@ -38,13 +42,24 @@ export default function Comments ({target, auth}) {
         document.getElementById('content').value = '';
     }
 
+    const sort = async (type) => {
+        setSelectedSort(type)
+        setLoading(true);
+        const response = await fetch(`/api/comments/${target}?sort=${type}`);
+        const data = await response.json()
+        setLoading(false);
+        setComments(data.data)
+    }
+
+    const activeButton = (type) => selectedSort === type ? 'primary ' : 'outline-primary ';
+
     return (
         <div className="mb-4">
             <div className="mb-3 d-flex align-items-cente justify-content-between">
                 <div>{comments.length} Commentaires</div>
                 <div className={'d-flex gap-2 align-items-center'}>
-                    <button className={'btn btn-primary btn-sm'}>Top des commentaires</button>
-                    <button className={'btn btn-outline-primary btn-sm'}>Les plus recents d'abord</button>
+                    <button onClick={() => sort('top')} className={'btn btn-' + activeButton('top') + 'btn-sm'}>Top Comments</button>
+                    <button onClick={() => sort('recent')} className={'btn btn-' + activeButton('recent') + 'btn-sm'}>Most recent first</button>
                 </div>
             </div>
             {
@@ -68,7 +83,15 @@ export default function Comments ({target, auth}) {
                     </a>
                 </div>
             }
-            {comments.map(comment => <Comment key={comment.id} comment={comment} auth={auth} canReply={true}/>)}
+            {
+                (loading) ?
+                    <div className={'text-center mt-3'}>
+                        <div className="spinner-border" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                : comments.map(comment => <Comment key={comment.id} comment={comment} auth={auth} canReply={true}/>)
+            }
         </div>
     )
 }

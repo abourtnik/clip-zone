@@ -63,7 +63,7 @@ export default function Comment ({comment, auth, canReply}) {
             <a href={comment.user.route}>
                 <img className="rounded-circle img-fluid" src={comment.user.avatar} alt={comment.user.username + ' avatar'} style="width: 50px;"/>
             </a>
-            <div>
+            <div className={'w-100'}>
                 <div className={'border p-3 bg-white'}>
                     <div className="d-flex justify-content-between align-items-center mb-1">
                         <div className={'d-flex align-items-center gap-2'}>
@@ -93,7 +93,15 @@ export default function Comment ({comment, auth, canReply}) {
                     <div className={'my-3'}>{comment.content}</div>
                     <div className="d-flex align-items-center gap-2 mt-1">
                         <div className="d-flex align-items-center gap-2">
-                            <Like type={'like'} model={comment.model} target={comment.id} count={comment.likes_count} active={comment.isLiked} auth={auth}/>
+                            <Like
+                                active={JSON.stringify({'like': comment.isLiked, 'dislike': comment.isDisliked})}
+                                model={comment.model}
+                                target={comment.id}
+                                count={JSON.stringify({'likes_count' : comment.likes_count, 'dislikes_count' : comment.dislikes_count})}
+                                auth={auth}
+                            />
+                           {/* <Like type={'like'} model={comment.model} target={comment.id} count={comment.likes_count} active={comment.isLiked} auth={auth}/>
+                            <Like type={'dislike'} model={comment.model} target={comment.id} count={comment.dilikes_count} active={comment.isDisliked} auth={auth}/>*/}
                         </div>
                         {
                             canReply &&  <button

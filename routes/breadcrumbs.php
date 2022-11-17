@@ -20,8 +20,3 @@ Breadcrumbs::for('edit_video', function (BreadcrumbTrail $trail, Video $video) {
     $trail->parent('videos');
     $trail->push($video->title, route('user.videos.edit', $video));
 });
-
-// Subscribers
-Breadcrumbs::for('subscribers', function (BreadcrumbTrail $trail) {
-    $trail->push('Subscribers', route('user.subscribers'));
-});

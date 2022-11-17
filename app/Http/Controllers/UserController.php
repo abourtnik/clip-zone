@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\CommentResource;
-use App\Models\Interfaces\Likeable;
-use App\Models\Like;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
@@ -32,6 +30,12 @@ class UserController
         ]);
     }
 
+    public function comments(): View {
+        return view('users.comments', [
+            'comments' => Auth::user()->videos_comments()->paginate(15)
+        ]);
+    }
+
     public function update(UpdateUserRequest $request): RedirectResponse {
 
         if ($request->file('avatar')) {
@@ -47,22 +51,17 @@ class UserController
         return redirect()->route('user.profile');
     }
 
-    public function follow (User $user) : void {
-
-        Auth::user()->subscriptions()->toggle($user);
-    }
-
-    public function like (Video $video) : void {
-        Auth::user()->like($video);
-    }
-
-    public function dislike (Video $video) : void {
-
-        if(Auth::user()->isLike($video)) {
-            Auth::user()->likes()->updateExistingPivot($video->id, ['status' => false]);
-        }
-        else {
-            Auth::user()->dislikes()->toggle([$video->id => ['status' => false]]);
+    public function follow (User $user) : JsonResponse {
+        if (Auth::user()->isNot($user)) {
+            Auth::user()->subscriptions()->toggle($user);
+            return response()->json([
+               'success' => true
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'You can\'t subscribe yourself'
+            ]);
         }
     }
 

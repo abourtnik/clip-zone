@@ -36,7 +36,7 @@
                         <small class="text-muted">{{Str::limit($video->description, 190), '...'}}</small>
                     </div>
                 </td>
-                <td>
+                <td class="align-middle">
                     @if($video->isActive())
                         <span class="badge bg-success">
                             <i class="fa-solid fa-eye"></i>&nbsp;
@@ -54,11 +54,53 @@
                         </span>
                     @endif
                 </td>
-                <td>{{$video->publication_date->format('d F Y H:i')}}</td>
-                <td>{{$video->views}}</td>
-                <td>{{$video->comments()->count()}}</td>
-                <td>{{$video->likes()->count()}}</td>
-                <td>
+                <td class="align-middle">{{$video->publication_date->format('d F Y H:i')}}</td>
+                <td class="align-middle">{{$video->views}}</td>
+                <td class="align-middle">
+                    <div class="d-flex gap-3">
+                        <div>{{$video->comments()->count()}}</div>
+                        <a class="link-primary text-decoration-none" href="{{route('user.comments')}}">Voir</a>
+                    </div>
+
+                </td>
+                <td class="align-middle">
+                    <a href="#likes" data-bs-toggle="modal" data-bs-target="#video_likes" class="text-decoration-none text-black">
+                        <div class="d-flex gap-2 justify-content-center mb-3">
+                            <div>
+                                <i class="fa-regular fa-thumbs-up"></i>
+                                {{$video->likes()->count()}}
+                            </div>
+                            <div>
+                                <i class="fa-regular fa-thumbs-down"></i>
+                                {{$video->dislikes()->count()}}
+                            </div>
+                        </div>
+                        <div class="progress border border-primary">
+                            <div
+                                class="progress-bar bg-success"
+                                role="progressbar"
+                                aria-label="Likes ratio"
+                                style="width: {{$video->likes_ratio}}%;"
+                                aria-valuenow="{{$video->likes_ratio}}"
+                                aria-valuemin="0"
+                                aria-valuemax="100">
+                                {{$video->likes_ratio}}%
+                            </div>
+                            <div
+                                class="progress-bar bg-danger"
+                                role="progressbar"
+                                aria-label="Dislikes ratio"
+                                style="width: {{$video->dislikes_ratio}}%"
+                                aria-valuenow="{{$video->dislikes_ratio}}"
+                                aria-valuemin="0"
+                                aria-valuemax="100">
+                                {{$video->dislikes_ratio}}%
+                            </div>
+                        </div>
+                    </a>
+
+                </td>
+                <td class="align-middle">
                     <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm">
                         <i class="fa-solid fa-pen"></i>
                     </a>
@@ -74,8 +116,8 @@
                         data-route="{{route('user.videos.destroy', $video)}}"
                         data-alt="{{$video->title}} Thumbnail"
                         data-comments="{{$video->comments()->count()}}"
-                        data-likes="{{$video->comments()->count()}}"
-                        data-dislikes="{{$video->comments()->count()}}"
+                        data-likes="{{$video->likes()->count()}}"
+                        data-dislikes="{{$video->dislikes()->count()}}"
                         data-elements='{{json_encode(['title' => '', 'views' => '', 'publication' => '', 'poster' => 'src', 'route' => 'action', 'alt' => 'alt', 'comments' => '', 'likes' => '', 'dislikes' => ''])}}'
                     >
                         <i class="fa-solid fa-trash"></i>
@@ -87,4 +129,5 @@
     </table>
     {{ $videos->links() }}
     @include('users.videos.modals.delete')
+    @include('users.videos.modals.likes')
 @endsection

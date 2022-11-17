@@ -32,7 +32,9 @@ class CommentResource extends JsonResource
             'is_updated' => $this->created_at->ne($this->updated_at),
             'model' => Comment::class,
             'likes_count' => $this->likes()->count(),
+            'dislikes_count' => $this->dislikes()->count(),
             'isLiked' => Auth::check() ? Auth::user()->hasLiked($this->resource) : false,
+            'isDisliked' => Auth::check() ? Auth::user()->hasDisliked($this->resource) : false,
             'replies' => CommentResource::collection(
                 $this->replies()
                     ->latest()
