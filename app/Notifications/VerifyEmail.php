@@ -30,20 +30,21 @@ class VerifyEmail extends Notification
     {
         $verificationUrl = $this->verificationUrl($notifiable);
 
-        return $this->buildMailMessage($verificationUrl);
+        return $this->buildMailMessage($verificationUrl, $notifiable);
     }
 
     /**
      * Get the verify email notification mail message for the given URL.
      *
      * @param  string  $url
+     * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    protected function buildMailMessage($url)
+    protected function buildMailMessage($url, $notifiable)
     {
         return (new MailMessage)
             ->subject('Welcome on ' .Config::get('app.name'). ' !')
-            ->markdown('mails.verify', ['url' => $url]);
+            ->markdown('mails.verify', compact('url', 'notifiable'));
     }
 
     /**

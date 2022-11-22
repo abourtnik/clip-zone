@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class);
+            $table->foreignIdFor(User::class)->constrained();
             $table->morphs('likeable');
             $table->boolean('status');
             $table->timestamp('perform_at')->useCurrent();

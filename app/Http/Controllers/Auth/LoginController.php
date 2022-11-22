@@ -58,6 +58,6 @@ class LoginController
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('hom');
+        return redirect()->route('pages.home');
     }
 }

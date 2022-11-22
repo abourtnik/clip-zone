@@ -78,6 +78,9 @@ class VideoController extends Controller
 
     public function destroy(Video $video): RedirectResponse {
 
+        $video->comments()->delete();
+        $video->interactions()->delete();
+
         $video->delete();
 
         return redirect()->route('user.videos.index');

@@ -140,6 +140,12 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
+    public function views () : Attribute {
+        return Attribute::make(
+            get: fn () => $this->videos()->sum('views')
+        );
+    }
+
     protected function password(): Attribute
     {
         return Attribute::make(

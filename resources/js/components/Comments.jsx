@@ -106,8 +106,8 @@ export default function Comments ({target, auth}) {
                         <textarea className="form-control" id="content" rows="1" name="content" placeholder="Ajouter un commentaire ..." required></textarea>
                     </div>
                     <div className="mb-3 d-flex justify-content-end">
-                        <button type="submit" className="btn btn-primary">
-                            Ajouter un commentaire
+                        <button type="submit" className="btn btn-success btn-sm">
+                            Write commment
                         </button>
                     </div>
                 </form> :

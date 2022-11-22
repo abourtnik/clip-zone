@@ -28,7 +28,7 @@ class RegistrationController
 
         event(new Registered($user));
 
-        return redirect(route('login'))->with('success', 'A message with a confirmation link has been sent to your e-mail. Please follow this link to activate your account.');
+        return redirect(route('login'))->with('success', 'A message with a confirmation link has been sent to your e-mail : <strong>'.$user->email.'</strong>. Please follow this link to activate your account.');
     }
 
     public function confirm ($id, $token) : RedirectResponse {

@@ -77,6 +77,16 @@ class UserController
 
     public function delete(User $user): RedirectResponse {
 
+        foreach ($user->videos as $video){
+            $video->comments()->delete();
+            $video->interactions()->delete();
+        }
+
+        $user->subscribers()->delete();
+        $user->subscriptions()->delete();
+        $user->comments()->delete();
+        $user->videos_interactions()->delete();
+
         $user->delete();
 
         return redirect()->route('pages.home');

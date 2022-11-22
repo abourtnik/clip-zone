@@ -1,8 +1,8 @@
 @component('mail::message')
 
-# Welcome on Youtube !
+# Hello {{$notifiable->username}}, welcome on {{ config('app.name') }} !
 
-You have just created an account on <a href="{{ config('app.name') }}">{{ Str::after(config('app.url'), '://') }}</a>. To activate your account, simply click on this link :
+You have just created an account on <a href="{{ config('app.url') }}">{{ Str::after(config('app.url'), '://') }}</a>. To activate your account, simply click on this link :
 
 @component('mail::button', ['url' => $url])
 Verify Email Address
