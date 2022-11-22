@@ -11,18 +11,25 @@
         </div>
     </form>
     <ul class="navbar-nav">
-        <li class="nav-item ml-4">
-            @auth
-            <a class="nav-link d-flex align-items-center" href="{{route('user.index')}}">
-                <strong>{{auth()->user()->username}}</strong>
-                <img style="width: 42px" class="ml-4 rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
-            </a>
-            @else
-            <a class="btn btn-outline-primary" href="{{route('login')}}">
-                <i class="fa-solid fa-user"></i>&nbsp;
-                Se connecter
-            </a>
-            @endif
-        </li>
+        @auth
+            <li class="nav-item ml-4">
+                <a class="nav-link d-flex align-items-center" href="{{route('user.index')}}">
+                    <strong>{{auth()->user()->username}}</strong>
+                    <img style="width: 42px" class="ml-4 rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
+                </a>
+            </li>
+            <li class="nav-item mx-3 d-flex align-items-center">
+                <a class="nav-link" href="{{route('logout')}}">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </a>
+            </li>
+        @else
+            <li class="nav-item ml-4">
+                <a class="btn btn-outline-primary" href="{{route('login')}}">
+                    <i class="fa-solid fa-user"></i>&nbsp;
+                    Se connecter
+                </a>
+            </li>
+        @endif
     </ul>
 </nav>

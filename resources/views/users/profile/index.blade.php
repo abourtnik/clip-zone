@@ -39,6 +39,12 @@
                         <input class="form-control" type="file" id="background" name="background">
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-12 mb-3">
+                        <label for="description" class="form-label">Channel Description</label>
+                        <textarea class="form-control" id="description" rows="6" name="description" maxlength="5000">{{old('description', $user->description)}}</textarea>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-success">
                     <i class="fa-solid fa-user-edit"></i>
                     Update
@@ -79,13 +85,11 @@
                 Vous n'êtes pas satisfait du contenu du site ?
                 Ou vous souhaitez supprimer toutes les informations associées à ce compte ?
             </div>
-            <form action="{{ route('user.videos.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <button type="submit" class="btn btn-danger">
-                    <i class="fa-solid fa-user-times"></i>
-                    Remove your account
-                </button>
-            </form>
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete_account">
+                <i class="fa-solid fa-user-times"></i>
+                Remove your account
+            </button>
         </div>
     </div>
+    @include('users.profile.modals.delete_account', $user)
 @endsection

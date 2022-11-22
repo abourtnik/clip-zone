@@ -19,7 +19,7 @@ class UserController
     }
 
     public function profile(): View {
-        return view('users.profile', [
+        return view('users.profile.index', [
             'user' => Auth::user()
         ]);
     }
@@ -73,6 +73,13 @@ class UserController
         ]);
 
         return new CommentResource($comment);
+    }
+
+    public function delete(User $user): RedirectResponse {
+
+        $user->delete();
+
+        return redirect()->route('pages.home');
     }
 
 }

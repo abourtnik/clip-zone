@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Video;
+use App\Models\Comment;
 use App\Policies\VideoPolicy;
+use App\Policies\CommentPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -14,7 +16,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        Video::class => VideoPolicy::class
+        Video::class => VideoPolicy::class,
+        Comment::class => CommentPolicy::class
     ];
 
     /**

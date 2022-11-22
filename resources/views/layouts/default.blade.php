@@ -11,13 +11,7 @@
         @include('layouts.parts.header')
         <div class="admin-content d-flex">
             @include('layouts.parts.sidebar', ['type' => 'default'])
-            <div class="container-fluid mt-3" style="margin-left: 280px">
-                @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {!! session('success') !!}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
+            <div class="container-fluid mt-3" style="margin-left: 280px;height: calc(100vh - 56px - 1rem);">
                 @yield('content')
             </div>
         </div>

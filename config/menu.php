@@ -53,6 +53,11 @@ return [
             'title' => 'Comments',
             'icon' => 'comments',
             'route' => 'user.comments',
+        ],
+        [
+            'title' => 'My channel',
+            'icon' => 'user-cog',
+            'route' => 'user.profile',
         ]
     ],
     'admin' => [

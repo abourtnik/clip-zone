@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PageController;
@@ -38,9 +38,10 @@ Route::controller(LoginController::class)->group(function () {
 });
 
 // Register
-Route::controller(RegisterController::class)->group(function () {
-    Route::get('/register', 'show')->name('register');
-    Route::post('/register', 'register')->name('register.perform');
+Route::controller(RegistrationController::class)->group(function () {
+    Route::get('/register', 'show')->name('registration');
+    Route::post('/register', 'register')->name('registration.perform');
+    Route::get('/register/verify/{id}/{token}', 'confirm')->name('registration.confirm');
 });
 
 // Password Reset
@@ -52,13 +53,14 @@ Route::controller(PasswordController::class)->group(function () {
 });
 
 // User
-Route::name('user.')->middleware('auth')->group(function () {
+Route::name('user.')->middleware(['auth'])->group(function () {
     Route::get('/account', [UserController::class, 'index'])->name('index');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::put('/update', [UserController::class, 'update'])->name('update');
     Route::resource('videos', VideoController::class);
     Route::get('/subscribers', [UserController::class, 'subscribers'])->name('subscribers');
     Route::get('/comments', [UserController::class, 'comments'])->name('comments');
+    Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('delete');
 });
 
 // Admin

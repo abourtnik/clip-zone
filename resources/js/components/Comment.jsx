@@ -1,9 +1,11 @@
-import { useState } from 'preact/hooks';
+import {useRef, useState} from 'preact/hooks';
+import { memo } from 'preact/compat';
 
 import Like from "./Like";
 
-export default function Comment ({comment, auth, canReply}) {
+const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) => {
 
+    const [onEdit, setOnEdit] = useState(false);
     const [showReply, setShowReply] = useState(false);
     const [replies, setReplies] = useState(comment.replies);
     const [showReplies, setShowReplies] = useState(false);
@@ -52,11 +54,19 @@ export default function Comment ({comment, auth, canReply}) {
         })
     }
 
+    const update = async (comment) => {
+        await updateComment(comment, textarea.current.value)
+        setOnEdit(false);
+    }
+
+
     const showRepliesText = (show, length) => {
         const count = length > 1 ? 'les ' + replies.length + ' réponses' : 'la réponse';
         const text = show ? 'Masquer ' + count : 'Afficher ' + count;
         return text;
     }
+
+    const textarea = useRef(null)
 
     return (
         <div className="d-flex mb-3 gap-2">
@@ -76,8 +86,8 @@ export default function Comment ({comment, auth, canReply}) {
                             {
                                 comment.user.id === parseInt(auth) &&
                                 <>
-                                    <button className={"btn btn-sm text-primary p-0"}>Modifier</button>
-                                    <button className={"btn btn-sm text-danger p-0"}>Supprimer</button>
+                                    <button onClick={() => setOnEdit(onEdit => !onEdit)} className={"btn btn-sm text-primary p-0"}>Modifier</button>
+                                    <button onClick={() => deleteComment(comment)} className={"btn btn-sm text-danger p-0"}>Supprimer</button>
                                 </>
                             }
                             {
@@ -90,7 +100,17 @@ export default function Comment ({comment, auth, canReply}) {
                         }
 
                     </div>
-                    <div className={'my-3'}>{comment.content}</div>
+                    {
+                        onEdit ?
+                            <div className={'my-3'}>
+                                <textarea className="form-control" rows="1" name="content" ref={textarea} required>{comment.content}</textarea>
+                                <div className={'d-flex gap-1 mt-2'}>
+                                    <button onClick={() => update(comment)} className={'btn btn-primary btn-sm'}>Modifier</button>
+                                    <button onClick={() => setOnEdit(false)} className={'btn btn-secondary btn-sm'}>Annuler</button>
+                                </div>
+                            </div>
+                            : <div className={'my-3'}>{comment.content}</div>
+                    }
                     <div className="d-flex align-items-center gap-2 mt-1">
                         <div className="d-flex align-items-center gap-2">
                             <Like
@@ -100,8 +120,6 @@ export default function Comment ({comment, auth, canReply}) {
                                 count={JSON.stringify({'likes_count' : comment.likes_count, 'dislikes_count' : comment.dislikes_count})}
                                 auth={auth}
                             />
-                           {/* <Like type={'like'} model={comment.model} target={comment.id} count={comment.likes_count} active={comment.isLiked} auth={auth}/>
-                            <Like type={'dislike'} model={comment.model} target={comment.id} count={comment.dilikes_count} active={comment.isDisliked} auth={auth}/>*/}
                         </div>
                         {
                             canReply &&  <button
@@ -144,10 +162,12 @@ export default function Comment ({comment, auth, canReply}) {
                 {
                     showReplies &&
                     <div className={'mt-3'}>
-                        {replies.map(comment => <Comment key={comment.id} comment={comment} auth={auth} canReply={false}/>)}
+                        {replies.map(comment => <Comment key={comment.id} comment={comment} auth={auth} canReply={false} deleteComment={deleteComment} updateComment={updateComment}/>)}
                     </div>
                 }
             </div>
         </div>
     )
-}
+});
+
+export default Comment;

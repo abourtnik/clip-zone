@@ -24,22 +24,26 @@ class LoginController
             'password' => ['required']
         ]);
 
+        $remember = $request->has('remember');
+
         $user = User::where('username', $credentials['username'])->orWhere('email', $credentials['username'])->first();
 
         if ($user && Hash::check($credentials['password'], $user->password)) {
-            Auth::login($user);
+
+            if (!$user->hasVerifiedEmail()) {
+                return back()->with('error', 'Your email is not verified. Please check your email')->onlyInput('username');
+            }
+
+            Auth::login($user, $remember);
 
             if ($user->isAdministrator()) {
                 return redirect()->intended('admin');
             }else {
                 return redirect()->intended('account');
             }
-
         }
 
-        return back()->withErrors([
-            'login' => 'The provided credentials do not match our records',
-        ])->onlyInput('username');
+        return back()->with('error', 'The provided credentials do not match our records')->onlyInput('username');
     }
 
     /**
@@ -54,6 +58,6 @@ class LoginController
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('hom');
     }
 }
