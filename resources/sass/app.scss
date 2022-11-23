@@ -60,3 +60,8 @@ $sidebar-width: 280px;
     background-color: #E5E5E5 !important;
 }
 
+.user-tabs.active {
+    font-weight: bold;
+    border-bottom: 4px solid $primary;
+}
+

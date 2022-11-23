@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-enum ThumbnailType : string {
+enum ImageType : string {
 
     case PNG = 'image/png';
     case JPEG = 'image/jpeg';

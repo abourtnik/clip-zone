@@ -38,15 +38,14 @@ class UserController
 
     public function update(UpdateUserRequest $request): RedirectResponse {
 
-        if ($request->file('avatar')) {
-            $avatar = $request->file('avatar')->store('/', 'avatars');
-        }
+        $user = auth()->user();
 
-        Auth::user()->update([
-            'username' => $request->get('username'),
-            'email' => $request->get('email'),
-            'avatar' => $avatar ?? null,
-        ]);
+        $validated = $request->safe()->merge([
+            'avatar' => $request->file('avatar')?->store('/', 'avatars') ?? $user->avatar,
+            'banner' => $request->file('banner')?->store('/', 'banners') ?? $user->banner,
+        ])->toArray();
+
+        $user->update($validated);
 
         return redirect()->route('user.profile');
     }

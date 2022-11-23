@@ -80,9 +80,9 @@ return [
             'throw' => false,
         ],
 
-        'backgrounds' => [
+        'banners' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/backgrounds'),
+            'root' => storage_path('app/public/banners'),
             'throw' => false,
         ],
 

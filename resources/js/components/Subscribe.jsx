@@ -1,6 +1,6 @@
 import { useState } from 'preact/hooks';
 
-export default function Subscribe ({issubscribe, user}) {
+export default function Subscribe ({issubscribe, user, size= null}) {
 
     const [subscribe, setSubscribe] = useState( issubscribe === 'true');
 
@@ -16,7 +16,7 @@ export default function Subscribe ({issubscribe, user}) {
         const data = await response.json();
     }
 
-    const className = subscribe ? 'btn-info text-white' : 'btn-danger';
+    const className = subscribe ? 'btn-info text-white' : 'btn-danger' + (size && ' btn-' + size);
 
     return (
         <button onClick={onClick} className={'btn ' + className}>

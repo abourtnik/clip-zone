@@ -31,6 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::resource("comments", CommentController::class)->only([
         'store', 'update', 'destroy'
     ]);
+
+    Route::get("interactions/{video}", [VideoController::class, 'interactions']);
+
 });
 
 Route::get("comments/{video}", [VideoController::class, 'comments']);

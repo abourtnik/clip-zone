@@ -84,11 +84,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function getAvatarUrlAttribute() : string {
-        return $this->avatar ? asset('storage/avatars/'. $this->avatar) : '/storage/images/default_men.png';
+        return $this->avatar ? asset('storage/avatars/'. $this->avatar) : '/images/default_men.png';
     }
 
     public function getBackgroundUrlAttribute() : string {
-        return $this->avatar ?? '/storage/images/default_bg.jpg';
+        return $this->banner ? asset('storage/banners/'. $this->banner) : '/images/default_banner.jpg';
     }
 
     public function getSubscribersCountAttribute () : int {
@@ -142,7 +142,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function views () : Attribute {
         return Attribute::make(
-            get: fn () => $this->videos()->sum('views')
+            get: fn () => number_format(num: $this->videos()->sum('views'), thousands_separator: ' ')
         );
     }
 

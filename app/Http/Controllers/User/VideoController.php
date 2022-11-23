@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Enums\ThumbnailType;
+use App\Enums\ImageType;
 use App\Enums\VideoStatus;
 use App\Enums\VideoType;
 use App\Http\Controllers\Controller;
@@ -31,7 +31,7 @@ class VideoController extends Controller
             'status' => VideoStatus::get(),
             'accepted_video_mimes_types' => implode(', ', VideoType::acceptedMimeTypes()),
             'accepted_video_formats' => implode(', ', VideoType::acceptedFormats()),
-            'accepted_thumbnail_mimes_types' => implode(', ', ThumbnailType::acceptedFormats())
+            'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats())
         ]);
     }
 

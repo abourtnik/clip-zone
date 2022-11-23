@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ImageType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -37,7 +38,19 @@ class UpdateUserRequest extends FormRequest
                 'max:255',
                 Rule::unique('users')->ignore(Auth::user())
             ],
-            'avatar' => 'nullable',
+            'avatar' => [
+                'nullable',
+                'file',
+                'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
+                'max:5120' // 5mo
+            ],
+            'banner' => [
+                'nullable',
+                'file',
+                'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
+                'max:5120' // 5mo
+            ],
+            'description' => 'nullable|string|max:5000',
         ];
     }
 }

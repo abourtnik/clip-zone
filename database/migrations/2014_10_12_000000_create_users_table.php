@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('avatar')->nullable();
-            $table->string('background')->nullable();
+            $table->string('banner')->nullable();
             $table->text('description')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('confirmation_token')->nullable();

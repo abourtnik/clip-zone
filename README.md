@@ -21,6 +21,7 @@
 - Video protected (uuid)
 - Signal comment (video ?)
 - Authorize comment and like on video
+- Add label New video on recent video
 
 ###Admin
 

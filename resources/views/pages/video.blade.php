@@ -3,7 +3,7 @@
 @section('content')
     <div class="row">
         <div class="col-9">
-            <video controls class="w-100 border" controlsList="nodownload">
+            <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->poster_url}}">
                 <source src="{{$video->url}}" type="{{$video->mimetype}}">
             </video>
             <div class="mt-3 d-flex align-items-center gap-2">

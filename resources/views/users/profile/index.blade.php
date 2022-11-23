@@ -2,8 +2,8 @@
 
 @section('content')
     @if ($errors->any())
-        <div class="alert alert-danger mt-5">
-            Merci de corriger les erreurs suivantes:
+        <div class="alert alert-danger mt-3">
+            <p class="fw-bold">Oups some fields are incorrect</p>
             <ul>
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -12,7 +12,7 @@
         </div>
     @endif
     <div class="d-flex align-items-center my-3">
-        <h2>My informations</h2>
+        <h2>Profile Informations</h2>
     </div>
     <div class="card shadow-soft">
         <div class="card-body">
@@ -22,11 +22,11 @@
                 <div class="row">
                     <div class="col-6 mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" required value="{{$user->username}}">
+                        <input type="text" class="form-control" id="username" name="username" required value="{{old('username', $user->username)}}">
                     </div>
                     <div class="col-6 mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" required value="{{$user->email}}">
+                        <input type="email" class="form-control" id="email" name="email" required value="{{old('email', $user->email)}}">
                     </div>
                 </div>
                 <div class="row">
@@ -35,8 +35,8 @@
                         <input class="form-control" type="file" id="avatar" name="avatar">
                     </div>
                     <div class="col-6 mb-3">
-                        <label for="background" class="form-label">Background</label>
-                        <input class="form-control" type="file" id="background" name="background">
+                        <label for="banner" class="form-label">Banner</label>
+                        <input class="form-control" type="file" id="banner" name="banner">
                     </div>
                 </div>
                 <div class="row">
@@ -53,7 +53,7 @@
         </div>
     </div>
     <div class="d-flex justify-content-between align-items-center my-3">
-        <h2>Password</h2>
+        <h2>Update Password</h2>
     </div>
     <div class="card shadow-soft my-3">
         <div class="card-body">
@@ -77,7 +77,7 @@
         </div>
     </div>
     <div class="d-flex justify-content-between align-items-center my-3">
-        <h2 class="text-danger">Remove account</h2>
+        <h2 class="text-danger">Delete Account</h2>
     </div>
     <div class="card shadow-soft my-3">
         <div class="card-body">
@@ -87,7 +87,7 @@
             </div>
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete_account">
                 <i class="fa-solid fa-user-times"></i>
-                Remove your account
+                Delete account
             </button>
         </div>
     </div>

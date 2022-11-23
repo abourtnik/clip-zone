@@ -27,6 +27,7 @@ return new class extends Migration
             $table->unsignedInteger('views')->default(0);
             $table->unsignedTinyInteger('status')->default(0);
             $table->timestamp('publication_date')->useCurrent();
+            $table->boolean('authorize_comment')->default(true);
             $table->timestamps();
         });
     }

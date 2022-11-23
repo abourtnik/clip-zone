@@ -92,10 +92,10 @@ export default function Comments ({target, auth}) {
     return (
         <div className="mb-4">
             <div className="mb-3 d-flex align-items-cente justify-content-between">
-                <div>{count} Commentaires</div>
+                <div>{count} Comments</div>
                 <div className={'d-flex gap-2 align-items-center'}>
                     <button onClick={() => sort('top')} className={'btn btn-' + activeButton('top') + 'btn-sm'}>Top Comments</button>
-                    <button onClick={() => sort('recent')} className={'btn btn-' + activeButton('recent') + 'btn-sm'}>Most recent first</button>
+                    <button onClick={() => sort('recent')} className={'btn btn-' + activeButton('recent') + 'btn-sm'}>Newest first</button>
                 </div>
             </div>
             {
@@ -103,7 +103,7 @@ export default function Comments ({target, auth}) {
                 <form onSubmit={addComment}>
                     <div className="mb-2">
                         <label htmlFor="content" className="form-label d-none"></label>
-                        <textarea className="form-control" id="content" rows="1" name="content" placeholder="Ajouter un commentaire ..." required></textarea>
+                        <textarea className="form-control" id="content" rows="1" name="content" placeholder="Add a comment..." required></textarea>
                     </div>
                     <div className="mb-3 d-flex justify-content-end">
                         <button type="submit" className="btn btn-success btn-sm">

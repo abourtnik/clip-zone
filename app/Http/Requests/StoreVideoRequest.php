@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\ThumbnailType;
+use App\Enums\ImageType;
 use App\Enums\VideoStatus;
 use App\Enums\VideoType;
 use Illuminate\Foundation\Http\FormRequest;
@@ -40,7 +40,7 @@ class StoreVideoRequest extends FormRequest
             'thumbnail' => [
                 'file',
                 'required',
-                'mimetypes:'.implode(',', ThumbnailType::acceptedMimeTypes()),
+                'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
                 'max:5120' // 5mo
             ],
             'status' => [new Enum(VideoStatus::class)],

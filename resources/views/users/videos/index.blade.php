@@ -50,7 +50,7 @@
 
                     </td>
                     <td class="align-middle">
-                        <a href="#likes" data-bs-toggle="modal" data-bs-target="#video_likes" class="text-decoration-none text-black">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#video_likes" class="text-decoration-none text-black" data-id="{{$video->id}}">
                             <div class="d-flex gap-2 justify-content-center mb-3">
                                 <div>
                                     <i class="fa-regular fa-thumbs-up"></i>

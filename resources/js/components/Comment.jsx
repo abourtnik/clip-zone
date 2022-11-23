@@ -61,8 +61,8 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
 
 
     const showRepliesText = (show, length) => {
-        const count = length > 1 ? 'les ' + replies.length + ' réponses' : 'la réponse';
-        const text = show ? 'Masquer ' + count : 'Afficher ' + count;
+        const count = length > 1 ? 'les ' + replies.length + ' replies' : 'reply';
+        const text = show ? 'Hide ' + count : 'Show ' + count;
         return text;
     }
 
@@ -86,13 +86,13 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                             {
                                 comment.user.id === parseInt(auth) &&
                                 <>
-                                    <button onClick={() => setOnEdit(onEdit => !onEdit)} className={"btn btn-sm text-primary p-0"}>Modifier</button>
-                                    <button onClick={() => deleteComment(comment)} className={"btn btn-sm text-danger p-0"}>Supprimer</button>
+                                    <button onClick={() => setOnEdit(onEdit => !onEdit)} className={"btn btn-sm text-primary p-0"}>Update</button>
+                                    <button onClick={() => deleteComment(comment)} className={"btn btn-sm text-danger p-0"}>Delete</button>
                                 </>
                             }
                             {
                                 comment.is_updated &&
-                                <small className="text-muted fw-semibold">Modifié</small>
+                                <small className="text-muted fw-semibold">Modified</small>
                             }
                         </div>
                         {
@@ -105,8 +105,8 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                             <div className={'my-3'}>
                                 <textarea className="form-control" rows="1" name="content" ref={textarea} required>{comment.content}</textarea>
                                 <div className={'d-flex gap-1 mt-2'}>
-                                    <button onClick={() => update(comment)} className={'btn btn-primary btn-sm'}>Modifier</button>
-                                    <button onClick={() => setOnEdit(false)} className={'btn btn-secondary btn-sm'}>Annuler</button>
+                                    <button onClick={() => update(comment)} className={'btn btn-primary btn-sm'}>Update</button>
+                                    <button onClick={() => setOnEdit(false)} className={'btn btn-secondary btn-sm'}>Cancel</button>
                                 </div>
                             </div>
                             : <div className={'my-3'}>{comment.content}</div>
@@ -127,7 +127,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                                 {...attributes}
                                 onClick={() => auth && setShowReply(true)}
                             >
-                                Répondre
+                                Reply
                             </button>
                         }
 
@@ -144,10 +144,10 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                                     onClick={() => setShowReply(false)}
                                     className="btn btn-sm btn-secondary"
                                 >
-                                    Annuler
+                                    Cancel
                                 </button>
                                 <button type="submit" className="btn btn-primary btn-sm">
-                                    Répondre
+                                    Reply
                                 </button>
                             </div>
                         </form>
