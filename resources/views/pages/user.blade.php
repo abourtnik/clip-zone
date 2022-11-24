@@ -4,7 +4,12 @@
 @section('style', 'margin-top: 0 !important')
 
 @section('content')
-    <img class="w-100" style="height: 250px" src="{{$user->background_url}}" alt="{{$user->username}} banner">
+    <div class="position-relative">
+        <img class="w-100" style="height: 250px" src="{{$user->background_url}}" alt="{{$user->username}} banner">
+        @if($user->website)
+            <a href="{{$user->website}}" class="position-absolute bottom-0 right-0 me-4 mb-4 p-2 text-white bg-dark bg-opacity-25 text-decoration-none text-uppercase">Website</a>
+        @endif
+    </div>
     <div class="w-100 bg-gray-100">
         <div class="col-10 offset-1">
             <div class="border-bottom">
@@ -101,10 +106,18 @@
                         </div>
                         <div class="col-3">
                             <div class="card card-body">
-                                <h6 class="card-title text-primary">Statistics</h6>
+                                <h6 class="card-title text-primary">Informations</h6>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item ps-0">Joined {{$user->created_at->format('d F Y')}}</li>
                                     <li class="list-group-item ps-0">{{$user->views}} views</li>
+                                    @if($user->country)
+                                        <li class="list-group-item ps-0">Country : {{$user->country_name}}</li>
+                                    @endif
+                                    @if($user->website)
+                                        <li class="list-group-item ps-0">
+                                            <a href="{{$user->website}}">Website</a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>

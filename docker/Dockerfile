@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev
 
 # Install PHP extensions
-RUN docker-php-ext-install mbstring exif pcntl bcmath pdo_mysql zip
+RUN docker-php-ext-install mbstring exif pcntl bcmath pdo_mysql zip intl
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg && docker-php-ext-install gd
 
 COPY php.ini /usr/local/etc/php/conf.d/custom.ini

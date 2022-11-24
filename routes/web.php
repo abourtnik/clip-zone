@@ -57,6 +57,7 @@ Route::name('user.')->middleware(['auth'])->group(function () {
     Route::get('/account', [UserController::class, 'index'])->name('index');
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::put('/update', [UserController::class, 'update'])->name('update');
+    Route::post('/update-password', [UserController::class, 'updatePassword'])->name('update-password');
     Route::resource('videos', VideoController::class);
     Route::get('/subscribers', [UserController::class, 'subscribers'])->name('subscribers');
     Route::get('/comments', [UserController::class, 'comments'])->name('comments');

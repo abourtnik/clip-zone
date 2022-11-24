@@ -11,6 +11,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+use Symfony\Component\Intl\Countries;
 
 class UserController
 {
@@ -20,7 +23,8 @@ class UserController
 
     public function profile(): View {
         return view('users.profile.index', [
-            'user' => Auth::user()
+            'user' => Auth::user(),
+            'countries' => Countries::getNames()
         ]);
     }
 
@@ -46,6 +50,29 @@ class UserController
         ])->toArray();
 
         $user->update($validated);
+
+        return redirect()->route('user.profile');
+    }
+
+    public function updatePassword(Request $request): RedirectResponse {
+
+        $user = auth()->user();
+
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => ['required', 'confirmed', Password::min(6)]
+        ]);
+
+        // Match The Current Password
+        if(!Hash::check($request->get('current_password'), $user->password)){
+            return back()->with("error", "Current Password doesn't match !");
+        }
+
+        // Update new password
+
+        $user->update([
+            'password' => $request->get('new_password')
+        ]);
 
         return redirect()->route('user.profile');
     }

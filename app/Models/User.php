@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Symfony\Component\Intl\Countries;
 
 /**
  * App\Models\User
@@ -150,6 +151,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Attribute::make(
             set: fn ($value) => Hash::make($value),
+        );
+    }
+
+    protected function countryName(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Countries::getName($this->country),
         );
     }
 

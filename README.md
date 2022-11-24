@@ -2,7 +2,6 @@
 
 ## Primary
 
-- Menu
 - Delete video (constrained ?)
 - Search component React + Page Result
 - Optimize (eadger loading)

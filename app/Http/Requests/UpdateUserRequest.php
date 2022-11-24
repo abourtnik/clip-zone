@@ -6,6 +6,7 @@ use App\Enums\ImageType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Symfony\Component\Intl\Countries;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -28,29 +29,39 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'username' => [
+                'sometimes',
                 'required',
                 'max:255',
                 Rule::unique('users', 'username')->ignore(Auth::user())
             ],
             'email' => [
+                'sometimes',
                 'required',
                 'email',
                 'max:255',
                 Rule::unique('users')->ignore(Auth::user())
             ],
             'avatar' => [
+                'sometimes',
                 'nullable',
                 'file',
                 'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
                 'max:5120' // 5mo
             ],
             'banner' => [
+                'sometimes',
                 'nullable',
                 'file',
                 'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
                 'max:5120' // 5mo
             ],
-            'description' => 'nullable|string|max:5000',
+            'description' => 'sometimes|nullable|string|max:5000',
+            'country' => [
+                'sometimes',
+                'nullable',
+                Rule::in(Countries::getCountryCodes())
+            ],
+            'website' => 'sometimes|nullable|url|max:255',
         ];
     }
 }
