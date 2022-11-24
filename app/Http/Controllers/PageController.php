@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PageController
@@ -60,5 +61,26 @@ class PageController
             'search' => $q,
             'videos' => $videos
         ]);
+    }
+
+    public function searchResult (Request $request): JsonResponse {
+
+        $q = $request->get('q');
+
+        $match = '%'.$q.'%';
+
+        $results = Video::active()
+            ->where(fn($query) =>
+                $query->where('title', 'LIKE', $match)
+                    ->orWhere('description', 'LIKE', $match)
+                    //->OrWhereHas('user', fn($query) => $query->where('username', 'LIKE', $match))
+                )
+            //->latest('publication_date')
+            ->limit(14)
+            ->pluck('title')
+            ->toArray();
+
+        return response()->json($results);
+
     }
 }
