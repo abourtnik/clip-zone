@@ -25,9 +25,6 @@ class Video extends Model implements Likeable
         'publication_date'
     ];
 
-    public const MAX_VIDEO_SIZE = '15mo';
-    public const MAX_VIDEO_THUMBNAIL = '5mo';
-
     public function user (): BelongsTo {
         return $this->belongsTo(User::class);
     }
@@ -43,15 +40,14 @@ class Video extends Model implements Likeable
     protected function duration(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => CarbonInterval::seconds($value)
-                                ->cascade()
-                                ->forHumans([
-                                    'join' => fn ($list) => implode(':', array_map(fn($part) => substr($part, 0, -1), $list)),
-                                    'short' => true,
-                                    'parts' => 3,
-                                    'minimumUnit' => 's',
-                                    //'options' => CarbonInterface::NO_ZERO_DIFF
-                                ])
+            get: function ($value) {
+                if ($value >= 3600) {
+                    return  floor($value / 3600). ':' .sprintf("%02d", floor(($value % 3600) / 60)). ':' .sprintf("%02d", ($value % 3600) % 60);
+                }
+                else {
+                    return floor($value / 60).':'. sprintf("%02d", $value % 60);
+                }
+            }
         );
     }
 
@@ -72,14 +68,14 @@ class Video extends Model implements Likeable
     protected function likesRatio(): Attribute
     {
         return Attribute::make(
-            get: fn () => ($this->likes()->count() / ($this->interactions()->count() ?: 1)) * 100
+            get: fn () => round(($this->likes_count / ($this->interactions_count ?: 1)) * 100, 0)
         );
     }
 
     protected function dislikesRatio(): Attribute
     {
         return Attribute::make(
-            get: fn () => ($this->dislikes()->count() / ($this->interactions()->count() ?: 1)) * 100
+            get: fn () => round(($this->dislikes_count / ($this->interactions_count ?: 1)) * 100, 0)
         );
     }
 

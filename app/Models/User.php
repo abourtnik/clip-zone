@@ -92,10 +92,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->banner ? asset('storage/banners/'. $this->banner) : '/images/default_banner.jpg';
     }
 
-    public function getSubscribersCountAttribute () : int {
-        return $this->subscribers()->count();
-    }
-
     public function likes () : HasMany {
         return $this->hasMany(Like::class);
     }

@@ -14,11 +14,43 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Symfony\Component\Intl\Countries;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class UserController
 {
-    public function index(): View {
-        return view('users.index');
+    public function index() : View
+    {
+        return view('users.index', [
+            'user' => Auth::user()->load([
+                'videos' => function ($query) {
+                    $query->withCount(['likes', 'dislikes', 'interactions', 'comments'])
+                        ->orderBy('publication_date', 'desc')
+                        ->limit(5);
+                },
+                'subscribers' => function ($query) {
+                    $query->withCount('subscribers')
+                        ->orderBy('subscribe_at', 'desc')
+                        ->limit(5);
+                },
+                "videos_comments" => function ($query) {
+                    $query->with(['user', 'video'])
+                        ->orderBy('created_at', 'desc')
+                        ->limit(5);
+                },
+                "videos_interactions" => function ($query) {
+                    $query->with([
+                        'likeable' => function (MorphTo $morphTo) {
+                            $morphTo->morphWith([
+                                Video::class => ['user']
+                            ]);
+                        },
+                        'user'
+                    ])
+                    ->orderBy('perform_at', 'desc')
+                    ->limit(5);
+                }
+            ])->loadCount('subscribers', 'videos_comments', 'videos_interactions', 'videos', 'videos_likes', 'videos_dislikes')
+        ]);
     }
 
     public function profile(): View {

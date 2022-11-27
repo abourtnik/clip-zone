@@ -9,7 +9,7 @@
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-video fa-2x"></i>
-                        <p class="card-text text-center fs-1">{{auth()->user()->videos()->count()}}</p>
+                        <p class="card-text text-center fs-1">{{$user->videos_count}}</p>
                     </div>
                 </div>
             </div>
@@ -21,7 +21,7 @@
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-user fa-2x"></i>
-                        <p class="card-text text-center fs-1">{{auth()->user()->subscribers_count}}</p>
+                        <p class="card-text text-center fs-1">{{$user->subscribers_count}}</p>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-eye fa-2x"></i>
-                        <p class="card-text text-center fs-1">{{auth()->user()->views}}</p>
+                        <p class="card-text text-center fs-1">{{$user->views}}</p>
                     </div>
                 </div>
             </div>
@@ -46,11 +46,11 @@
                     <div class="d-flex align-items-center justify-content-center gap-5">
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <i class="fa-solid fa-thumbs-up fa-2x"></i>
-                            <p class="card-text text-center fs-1">{{auth()->user()->videos_likes()->count()}}</p>
+                            <p class="card-text text-center fs-1">{{$user->videos_likes_count}}</p>
                         </div>
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <i class="fa-solid fa-thumbs-down fa-2x"></i>
-                            <p class="card-text text-center fs-1">{{auth()->user()->videos_dislikes()->count()}}</p>
+                            <p class="card-text text-center fs-1">{{$user->videos_dislikes_count}}</p>
                         </div>
                     </div>
                 </div>
@@ -67,30 +67,36 @@
                     </h5>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                    @if(auth()->user()->videos->count())
+                    @if($user->videos_count)
                         <table class="table">
                         <thead>
                         <tr>
-                            <th scope="col" style="width: 40%">Video</th>
-                            <th scope="col" style="width: 12%">Status</th>
+                            <th scope="col" style="width: 35%">Video</th>
+                            <th scope="col" style="width: 15%">Status</th>
                             <th scope="col" style="width: 10%">Views</th>
                             <th scope="col" style="width: 10%">Comments</th>
-                            <th scope="col" style="width: 18%">Interactions</th>
+                            <th scope="col" class="text-center" style="width: 20%">Interactions</th>
+                            <th scope="col" style="width: 10%">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach(auth()->user()->videos as $video)
+                        @foreach($user->videos as $video)
                             <tr>
                                 <td class="align-middle d-flex gap-3">
                                     <a href="{{route('pages.video', $video)}}">
-                                        <img src="{{$video->poster_url}}" alt="" style="width: 99px;">
+                                        <img src="{{$video->poster_url}}" alt="" style="width: 100px;">
                                     </a>
                                     <div>{{$video->title}}</div>
                                 </td>
                                 <td class="align-middle">@include('users.videos.partials.status')</td>
                                 <td class="align-middle">{{$video->views}}</td>
-                                <td class="align-middle">{{$video->comments()->count()}}</td>
+                                <td class="align-middle">{{$video->comments_count}}</td>
                                 <td class="align-middle">@include('users.videos.partials.interactions')</td>
+                                <td class="align-middle text-center">
+                                    <a href="{{route('user.videos.edit', $video)}}">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -128,7 +134,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if(auth()->user()->subscribers->count())
+                    @if($user->subscribers_count)
                     <table class="table">
                         <thead>
                         <tr>
@@ -138,7 +144,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach(auth()->user()->subscribers as $subscriber)
+                        @foreach($user->subscribers as $subscriber)
                             <tr>
                                 <td class="align-middle">
                                     <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2">
@@ -183,7 +189,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if(auth()->user()->videos_comments->count())
+                    @if($user->videos_comments_count)
                         <table class="table">
                         <thead>
                         <tr>
@@ -193,7 +199,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach(auth()->user()->videos_comments->take(5) as $comment)
+                        @foreach($user->videos_comments as $comment)
                             <tr>
                                 <td class="d-flex gap-3 align-items-center align-middle">
                                     <a href="{{route('pages.video', $comment->video)}}">
@@ -245,7 +251,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if(auth()->user()->videos_interactions->count())
+                    @if($user->videos_interactions_count)
                         <table class="table">
                         <thead>
                         <tr>
@@ -256,7 +262,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach(auth()->user()->videos_interactions->take(5) as $interaction)
+                        @foreach($user->videos_interactions as $interaction)
                             <tr>
                                 <td class="align-middle">
                                     <a href="{{route('pages.video', $interaction->likeable->id)}}">

@@ -2,14 +2,14 @@
     <div class="d-flex gap-2 justify-content-center mb-3">
         <div>
             <i class="fa-regular fa-thumbs-up"></i>
-            {{$video->likes()->count()}}
+            {{$video->likes_count}}
         </div>
         <div>
             <i class="fa-regular fa-thumbs-down"></i>
-            {{$video->dislikes()->count()}}
+            {{$video->dislikes_count}}
         </div>
     </div>
-    <div class="progress border border-primary">
+    <div class="progress border border-primary m-auto" style="max-width: 160px;">
         <div
             class="progress-bar bg-success"
             role="progressbar"

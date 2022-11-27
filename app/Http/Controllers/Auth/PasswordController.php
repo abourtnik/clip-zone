@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class PasswordController
 {
@@ -14,9 +15,17 @@ class PasswordController
 
     public function email (Request $request) : RedirectResponse {
 
-        return back()->withErrors([
-            'login' => 'The provided credentials do not match our records',
-        ])->onlyInput('username');
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
     }
 
     public function reset (Request $request) : View {
@@ -25,8 +34,22 @@ class PasswordController
 
     public function update (Request $request) : RedirectResponse {
 
-        return back()->withErrors([
-            'login' => 'The provided credentials do not match our records',
-        ])->onlyInput('username');
+        $request->validate([
+            'token' => 'required',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
     }
 }

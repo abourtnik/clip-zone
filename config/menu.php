@@ -18,7 +18,7 @@ return [
                 'icon' => 'user-check',
                 'route' => 'pages.subscriptions',
             ],
-            [
+           /* [
                 'title' => 'Library',
                 'icon' => 'bookmark',
                 'route' => 'pages.library',
@@ -32,7 +32,7 @@ return [
                 'title' => 'Playlist',
                 'icon' => 'clock',
                 'route' => 'pages.playlist',
-            ]
+            ]*/
         ]
     ],
     'user' => [

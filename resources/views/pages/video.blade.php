@@ -82,15 +82,15 @@
                     @else
                         <button
                             type="button"
-                            class="btn btn-danger text-uppercase"
+                            class="btn btn-danger"
                             data-bs-toggle="popover"
                             data-bs-placement="right"
-                            data-bs-title="Voulez-vous vous abonner à cette chaîne ?"
+                            data-bs-title="Want to subscribe to this channel?"
                             data-bs-trigger="focus"
                             data-bs-html="true"
-                            data-bs-content="Connectez-vous pour vous abonner à cette chaîne.<hr><a href='/login' class='btn btn-primary btn-sm'>Se connecter</a>"
+                            data-bs-content="Sign in to subscribe to this channel.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
                         >
-                            S'abonner
+                            Subscribe
                         </button>
                     @endif
                 </div>

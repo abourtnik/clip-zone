@@ -12,12 +12,17 @@
             <form method="POST" action="{{route('password.update')}}">
                 @csrf
                 <div class="form-group form-floating mb-3">
-                    <input type="password" class="form-control" name="password" id="password" placeholder="New Password" required>
+                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="New Password" required minlength="6">
                     <label for="password">New Password</label>
+                    @error('password')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
                 <div class="form-group form-floating mb-3">
-                    <input type="password" class="form-control" name="password_confirm" id="password_confirm" placeholder="Confirm New Password" required>
-                    <label for="password_confirm">Confirm New Password</label>
+                    <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Confirm New Password" required minlength="6">
+                    <label for="password_confirmation">Confirm New Password</label>
                 </div>
                 <button class="w-100 btn btn-lg btn-primary" type="submit">Reset Password</button>
             </form>

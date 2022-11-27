@@ -57,7 +57,7 @@ class VideoController extends Controller
         return view('users.videos.edit', [
             'video' => $video,
             'status' => VideoStatus::get(),
-            'accepted_thumbnail_mimes_types' => implode(', ', ThumbnailType::acceptedFormats())
+            'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats())
         ]);
     }
 

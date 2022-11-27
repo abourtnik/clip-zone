@@ -113,9 +113,9 @@ export default function Comments ({target, auth}) {
                 </form> :
 
                 <div className={'alert alert-primary d-flex justify-content-between align-items-center'}>
-                    <span>Connectez-vous pour ecrire un commentaire</span>
+                    <span>Sign in to write a comment</span>
                     <a href={'/login'} className={'btn btn-primary btn-sm'}>
-                        Se connecter
+                        Sign in
                     </a>
                 </div>
             }
