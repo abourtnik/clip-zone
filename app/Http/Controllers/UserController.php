@@ -60,15 +60,28 @@ class UserController
         ]);
     }
 
-    public function subscribers(): View {
+    public function subscribers() : View {
         return view('users.subscribers', [
-            'user' => Auth::user()
+            'subscribers' => Auth::user()->load([
+                'subscribers' => function ($query) {
+                    $query->withCount(['subscribers as is_subscribe_to_current_user' => function($query) {
+                       $query->where('subscriber_id', Auth::id());
+                    }])
+                    ->withCount('subscribers')
+                    ->orderBy('subscribe_at', 'desc');
+                }
+            ])->subscribers->paginate(15)
         ]);
     }
 
     public function comments(): View {
         return view('users.comments', [
-            'comments' => Auth::user()->videos_comments()->paginate(15)
+            'comments' => Auth::user()->load([
+                'videos_comments' => function ($query) {
+                    $query->with(['video', 'user'])
+                        ->orderBy('created_at', 'desc');
+                }
+            ])->videos_comments->paginate(15)
         ]);
     }
 

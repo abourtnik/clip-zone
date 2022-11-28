@@ -7,6 +7,7 @@ use App\Http\Resources\InteractionsResource;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 
 class VideoController
 {
@@ -22,7 +23,18 @@ class VideoController
             $video
                 ->comments()
                 ->whereNull('parent_id')
-                ->withCount(['likes', 'dislikes'])
+                ->with([
+                    'user',
+                    'video:id',
+                    'replies' => fn($q) => $q->with('user', 'video:id', 'replies')->latest(),
+                    'replies.video'
+                ])
+                ->withCount([
+                    'likes',
+                    'dislikes',
+                    'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
+                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
+                ])
                 ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
                 ->when($sort === 'recent', fn($query) => $query->latest())
                 ->paginate(10)

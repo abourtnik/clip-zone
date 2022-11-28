@@ -7,12 +7,13 @@ use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PageController
 {
     public function home(): View {
         return view('pages.home', [
-            'videos' => Video::active()->latest('publication_date')->paginate(12)
+            'videos' => Video::active()->with('user')->latest('publication_date')->paginate(12)
         ]);
     }
 
@@ -22,13 +23,22 @@ class PageController
         ]);
     }
 
-    public function video(Video $video): View {
+    public function video(Video $video) {
 
         //$video->increment('views');
 
         return view('pages.video', [
-            'video' => $video,
+            'video' => $video
+                ->load(['user'])
+                ->loadCount([
+                    'likes',
+                    'dislikes',
+                    'comments',
+                    'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
+                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
+                ]),
             'videos' => Video::where('id', '!=', $video->id)
+                ->with(['user'])
                 ->active()
                 ->inRandomOrder()
                 ->limit(12)
@@ -38,7 +48,11 @@ class PageController
 
     public function user(User $user): View {
         return view('pages.user', [
-            'user' => $user
+            'user' => $user->load([
+                'videos' => function ($q) {
+                    $q->with('user')->active()->latest('publication_date');
+                }
+            ])->loadCount('subscribers')
         ]);
     }
 

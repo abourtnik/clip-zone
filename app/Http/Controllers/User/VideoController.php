@@ -20,9 +20,15 @@ class VideoController extends Controller
         $this->authorizeResource(Video::class, 'video');
     }
 
-    public function index(): View {
+    public function index() {
         return view('users.videos.index', [
-            'videos' => Auth::user()->videos()->latest('updated_at')->paginate(15)
+            'videos' => Auth::user()->load([
+                'videos' => function ($query) {
+                    $query->withCount(['likes', 'dislikes', 'interactions', 'comments'])
+                        ->latest('updated_at');
+                }
+
+            ])->videos->paginate(15),
         ]);
     }
 

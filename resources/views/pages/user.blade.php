@@ -60,19 +60,19 @@
             </div>
             <div class="tab-content" style="min-height: 300px;">
                 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    @if($user->first_active_video)
+                    @if($user->videos->first())
                         <div class="row mt-4">
                             <div class="d-flex">
-                                <video controls class="w-50 h-100 border" controlsList="nodownload" poster="{{$user->first_active_video->poster_url}}">
-                                    <source src="{{$user->first_active_video->url}}" type="video/mp4">
+                                <video controls class="w-50 h-100 border" controlsList="nodownload" poster="{{$user->videos->first()->poster_url}}">
+                                    <source src="{{$user->videos->first()->url}}" type="video/mp4">
                                 </video>
                                 <div class="ml-4">
-                                    <a href="{{route('pages.video', $user->first_active_video)}}">{{$user->first_active_video->title}}</a>
-                                    <div class="text-muted text-sm my-2">{{$user->first_active_video->views}} views • {{$user->first_active_video->created_at->diffForHumans()}}</div>
+                                    <a href="{{route('pages.video', $user->videos->first())}}">{{$user->videos->first()->title}}</a>
+                                    <div class="text-muted text-sm my-2">{{$user->videos->first()->views}} views • {{$user->videos->first()->created_at->diffForHumans()}}</div>
                                     <div>
-                                        {!! nl2br(Str::limit($user->first_active_video->description, 600, '...')) !!}
-                                        @if(Str::length($user->first_active_video->description) > 600)
-                                            <a class="mt-2 d-block" href="{{route('pages.video', $user->first_active_video)}}">Read more</a>
+                                        {!! nl2br(Str::limit($user->videos->first()->description, 600, '...')) !!}
+                                        @if(Str::length($user->videos->first()->description) > 600)
+                                            <a class="mt-2 d-block" href="{{route('pages.video', $user->videos->first())}}">Read more</a>
                                         @endif
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                     @endif
                     <div class="mt-4">
                         <div class="row">
-                            @each('videos.card', $user->others_active_videos->paginate(12), 'video')
+                            @each('videos.card', $user->videos->skip(1)->paginate(12), 'video')
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                         <button type="button" class="btn btn-sm btn-outline-primary">Popular</button>
                     </div>
                     <div class="row">
-                        @each('videos.card', $user->videos()->active()->latest('publication_date')->paginate(12), 'video')
+                        @each('videos.card', $user->videos->paginate(12), 'video')
                     </div>
                 </div>
                 <div class="tab-pane" id="about" role="tabpanel" aria-labelledby="about-tab">

@@ -2,7 +2,7 @@
 
 @section('content')
     {{ Breadcrumbs::render('videos') }}
-    @if($videos->count())
+    @if($videos->total())
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2>My Videos</h2>
             <div>
@@ -44,21 +44,20 @@
                     <td class="align-middle">{{$video->views}}</td>
                     <td class="align-middle">
                         <div class="d-flex gap-3">
-                            <div>{{$video->comments()->count()}}</div>
+                            <div>{{$video->comments_count}}</div>
                             <a class="link-primary text-decoration-none" href="{{route('user.comments')}}">Voir</a>
                         </div>
-
                     </td>
                     <td class="align-middle">
                         <a href="#" data-bs-toggle="modal" data-bs-target="#video_likes" class="text-decoration-none text-black" data-id="{{$video->id}}">
                             <div class="d-flex gap-2 justify-content-center mb-3">
                                 <div>
                                     <i class="fa-regular fa-thumbs-up"></i>
-                                    {{$video->likes()->count()}}
+                                    {{$video->likes_count}}
                                 </div>
                                 <div>
                                     <i class="fa-regular fa-thumbs-down"></i>
-                                    {{$video->dislikes()->count()}}
+                                    {{$video->dislikes_count}}
                                 </div>
                             </div>
                             <div class="progress border border-primary">
@@ -100,9 +99,9 @@
                             data-poster="{{$video->poster_url}}"
                             data-route="{{route('user.videos.destroy', $video)}}"
                             data-alt="{{$video->title}} Thumbnail"
-                            data-comments="{{$video->comments()->count()}}"
-                            data-likes="{{$video->likes()->count()}}"
-                            data-dislikes="{{$video->dislikes()->count()}}"
+                            data-comments="{{$video->comments_count}}"
+                            data-likes="{{$video->likes_count}}"
+                            data-dislikes="{{$video->dislikes_count}}"
                             data-elements='{{json_encode(['title' => '', 'views' => '', 'publication' => '', 'poster' => 'src', 'route' => 'action', 'alt' => 'alt', 'comments' => '', 'likes' => '', 'dislikes' => ''])}}'
                         >
                             <i class="fa-solid fa-trash"></i>

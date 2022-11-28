@@ -31,16 +31,11 @@ class CommentResource extends JsonResource
             'created_at' => $this->created_at->diffForHumans(),
             'is_updated' => $this->created_at->ne($this->updated_at),
             'model' => Comment::class,
-            'likes_count' => $this->likes()->count(),
-            'dislikes_count' => $this->dislikes()->count(),
-            'isLiked' => Auth::check() ? Auth::user()->hasLiked($this->resource) : false,
-            'isDisliked' => Auth::check() ? Auth::user()->hasDisliked($this->resource) : false,
-            'replies' => CommentResource::collection(
-                $this->replies()
-                    ->latest()
-                    ->limit(10)
-                    ->get()
-            )
+            'likes_count' => $this->likes_count,
+            'dislikes_count' => $this->dislikes_count,
+            'liked_by_auth_user' => $this->liked_by_auth_user,
+            'disliked_by_auth_user' => $this->disliked_by_auth_user,
+            'replies' =>  CommentResource::collection($this->replies)
         ];
     }
 }

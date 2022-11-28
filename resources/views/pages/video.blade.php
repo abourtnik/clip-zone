@@ -25,10 +25,10 @@
                 @auth()
                     <div class="d-flex gap-1">
                         <likes-button
-                            active="{{ json_encode(['like' => auth()->user()->hasLiked($video), 'dislike' => auth()->user()->hasDisliked($video) ])}}"
+                            active="{{ json_encode(['like' => $video->liked_by_auth_user, 'dislike' => $video->disliked_by_auth_user ])}}"
                             model="{{get_class($video)}}"
                             target="{{$video->id}}"
-                            count="{{ json_encode(['likes_count' => $video->likes()->count(), 'dislikes_count' => $video->dislikes()->count() ])}}"
+                            count="{{ json_encode(['likes_count' => $video->likes_count, 'dislikes_count' => $video->dislikes_count ])}}"
                             auth="true"
                         />
                     </div>
@@ -44,8 +44,8 @@
                             data-bs-content="Connectez-vous pour donner votre avis.<hr><a href='/login' class='btn btn-primary btn-sm'>Se connecter</a>"
                         >
                             <i class="fa-regular fa-thumbs-up"></i>
-                            @if($video->likes->count())
-                                <span>{{$video->likes->count()}}</span>
+                            @if($video->likes_count)
+                                <span>{{$video->likes_count}}</span>
                             @endif
                         </button>
                         <button
@@ -58,8 +58,8 @@
                             data-bs-content="Connectez-vous pour donner votre avis.<hr><a href='/login' class='btn btn-primary btn-sm'>Se connecter</a>"
                         >
                             <i class="fa-regular fa-thumbs-down"></i>
-                            @if($video->likes->count())
-                                <span>{{$video->likes->count()}}</span>
+                            @if($video->dislikes_count)
+                                <span>{{$video->dislikes_count}}</span>
                             @endif
                         </button>
                     </div>

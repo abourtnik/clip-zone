@@ -114,7 +114,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                     <div className="d-flex align-items-center gap-2 mt-1">
                         <div className="d-flex align-items-center gap-2">
                             <Like
-                                active={JSON.stringify({'like': comment.isLiked, 'dislike': comment.isDisliked})}
+                                active={JSON.stringify({'like': comment.liked_by_auth_user, 'dislike': comment.disliked_by_auth_user})}
                                 model={comment.model}
                                 target={comment.id}
                                 count={JSON.stringify({'likes_count' : comment.likes_count, 'dislikes_count' : comment.dislikes_count})}

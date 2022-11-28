@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('content')
-    @if($comments->count())
+    @if($comments->total())
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2>My Comments</h2>
         </div>

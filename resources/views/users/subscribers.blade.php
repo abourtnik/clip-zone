@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('content')
-    @if($user->subscribers->count())
+    @if($subscribers->total())
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2>My Subscribers</h2>
         </div>
@@ -17,7 +17,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($user->subscribers as $subscriber)
+            @foreach($subscribers as $subscriber)
                 <tr class="bg-light">
                     <td>
                         <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2">
@@ -31,12 +31,13 @@
                     </td>
                     <td>{{$subscriber->created_at->format('d F Y H:i')}}</td>
                     <td>
-                        <subscribe-button isSubscribe="{{$user->isSubscribe($subscriber) ? 'true' : 'false'}}" user="{{$subscriber->id}}"/>
+                       <subscribe-button isSubscribe="{{$subscriber->is_subscribe_to_current_user ? 'true' : 'false'}}" user="{{$subscriber->id}}" size="sm"/>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
+        {{ $subscribers->links() }}
     @else
         <div class="card shadow">
             <div class="card-body d-flex justify-content-center align-items-center">
