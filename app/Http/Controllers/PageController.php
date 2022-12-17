@@ -23,26 +23,9 @@ class PageController
         ]);
     }
 
-    public function video(Video $video) {
-
-        //$video->increment('views');
-
-        return view('pages.video', [
-            'video' => $video
-                ->load(['user'])
-                ->loadCount([
-                    'likes',
-                    'dislikes',
-                    'comments',
-                    'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
-                ]),
-            'videos' => Video::where('id', '!=', $video->id)
-                ->with(['user'])
-                ->active()
-                ->inRandomOrder()
-                ->limit(12)
-                ->get()
+    public function subscriptions(): View {
+        return view('pages.subscriptions', [
+            'subscriptions' => auth()->user()->subscriptions
         ]);
     }
 

@@ -13,7 +13,7 @@
             <nav class="d-flex flex-column flex-shrink-0 bg-light border-end admin-sidebar fixed">
                 @include('layouts.parts.sidebar', ['type' => 'user'])
             </nav>
-            <div class="container-fluid mt-3" style="margin-left: 280px">
+            <div class="container-fluid mt-3" style="margin-left: 240px">
                 @yield('content')
             </div>
         </div>

@@ -11,10 +11,11 @@
         @include('layouts.parts.header')
         <div class="admin-content d-flex">
             @include('layouts.parts.sidebar', ['type' => 'default'])
-            <div class="container-fluid my-3 @yield('class')" style="margin-left: 280px;height: calc(100vh - 56px - 1rem); @yield('style')">
+            <div class="container-fluid my-3 @yield('class')" style="margin-left: 240px;height: calc(100vh - 56px - 1rem); @yield('style')">
                 @yield('content')
             </div>
         </div>
     </main>
+    @stack('scripts')
 </body>
 </html>

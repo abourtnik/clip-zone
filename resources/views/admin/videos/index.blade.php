@@ -23,7 +23,7 @@
     @foreach($videos as $video)
         <tr class="bg-light">
             <td class="d-flex gap-3">
-                <a href="{{route('pages.video', $video)}}">
+                <a href="{{route('video.show', $video)}}">
                     <img src="{{$video->poster_url}}" alt="" style="width: 120px;height: 68px">
                 </a>
                 <div>

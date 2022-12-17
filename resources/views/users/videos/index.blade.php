@@ -29,7 +29,7 @@
             @foreach($videos as $video)
                 <tr class="bg-light">
                     <td class="d-flex gap-3">
-                        <a href="{{route('pages.video', $video)}}">
+                        <a href="{{route('video.show', $video)}}">
                             <img src="{{$video->poster_url}}" alt="" style="width: 120px;height: 68px">
                         </a>
                         <div>
@@ -44,45 +44,19 @@
                     <td class="align-middle">{{$video->views}}</td>
                     <td class="align-middle">
                         <div class="d-flex gap-3">
-                            <div>{{$video->comments_count}}</div>
-                            <a class="link-primary text-decoration-none" href="{{route('user.comments')}}">Voir</a>
+                            @if($video->comments_count)
+                                <div class="badge bg-info">
+                                    {{$video->comments_count}} comments
+                                </div>
+                            @else
+                                <div class="badge bg-secondary">
+                                    No comments
+                                </div>
+                            @endif
                         </div>
                     </td>
                     <td class="align-middle">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#video_likes" class="text-decoration-none text-black" data-id="{{$video->id}}">
-                            <div class="d-flex gap-2 justify-content-center mb-3">
-                                <div>
-                                    <i class="fa-regular fa-thumbs-up"></i>
-                                    {{$video->likes_count}}
-                                </div>
-                                <div>
-                                    <i class="fa-regular fa-thumbs-down"></i>
-                                    {{$video->dislikes_count}}
-                                </div>
-                            </div>
-                            <div class="progress border border-primary">
-                                <div
-                                    class="progress-bar bg-success"
-                                    role="progressbar"
-                                    aria-label="Likes ratio"
-                                    style="width: {{$video->likes_ratio}}%;"
-                                    aria-valuenow="{{$video->likes_ratio}}"
-                                    aria-valuemin="0"
-                                    aria-valuemax="100">
-                                    {{$video->likes_ratio}}%
-                                </div>
-                                <div
-                                    class="progress-bar bg-danger"
-                                    role="progressbar"
-                                    aria-label="Dislikes ratio"
-                                    style="width: {{$video->dislikes_ratio}}%"
-                                    aria-valuenow="{{$video->dislikes_ratio}}"
-                                    aria-valuemin="0"
-                                    aria-valuemax="100">
-                                    {{$video->dislikes_ratio}}%
-                                </div>
-                            </div>
-                        </a>
+                        @include('users.videos.partials.interactions')
                     </td>
                     <td class="align-middle">
                         <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm">

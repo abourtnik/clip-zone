@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
 
 Route::get("comments/{video}", [VideoController::class, 'comments']);
 Route::get("search", [\App\Http\Controllers\PageController::class, 'searchResult']);
+Route::get("videos", [VideoController::class, 'load']);
 
 
 

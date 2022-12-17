@@ -1,4 +1,5 @@
 import { useState } from 'preact/hooks';
+import {ThumbsUpSolid, ThumbsUpRegular, ThumbsDownSolid, ThumbsDownRegular} from './Icon'
 
 export default function Like ({model, target, count, active, auth}) {
 
@@ -61,29 +62,20 @@ export default function Like ({model, target, count, active, auth}) {
     }
     */
 
-    const isActiveClass = liked ? 'btn': 'btn-outline';
-    const isActiveIcon = liked ? 'fa-solid': 'fa-regular';
-    //const className = type === 'like' ? `${isActiveClass}-success` : `${isActiveClass}-danger`;
-    //const icon = isActiveIcon + (type === 'like' ? ' fa-thumbs-up' : ' fa-thumbs-down');
-
     return (
         <div className={'d-flex justify-content-between gap-1'}>
             <button
                 onClick={() => handleClick('like')}
-                className={'btn btn-sm ' + (liked ? 'btn' : 'btn-outline') + '-success'}
+                className={'d-flex justify-content-between align-items-center btn btn-sm  ' + (liked ? 'btn' : 'btn-outline') + '-success'}
             >
-                {/*<i className={icon}></i>*/}
-                {/*<img src={'/storage/images/' + icon} style={{width: '18px'}}/>*/}
-                J'aime
+                {liked ? <ThumbsUpRegular/> : <ThumbsUpSolid/>}
                 {counterLike > 0 && <span className={'ml-1'}>{counterLike}</span>}
             </button>
             <button
                 onClick={() => handleClick('dislike')}
-                className={'btn btn-sm ' + (disliked ? 'btn' : 'btn-outline') + '-danger'}
+                className={'d-flex justify-content-between align-items-center btn btn-sm ' + (disliked ? 'btn' : 'btn-outline') + '-danger'}
             >
-                {/*<i className={icon}></i>*/}
-                {/*<img src={'/storage/images/' + icon} style={{width: '18px'}}/>*/}
-                J'aime pas
+                {disliked ? <ThumbsDownRegular/> : <ThumbsDownSolid/>}
                 {counterDislike > 0 && <span className={'ml-1'}>{counterDislike}</span>}
             </button>
         </div>

@@ -83,15 +83,29 @@
                         @foreach($user->videos as $video)
                             <tr>
                                 <td class="align-middle d-flex gap-3">
-                                    <a href="{{route('pages.video', $video)}}">
+                                    <a href="{{route('video.show', $video)}}">
                                         <img src="{{$video->poster_url}}" alt="" style="width: 100px;">
                                     </a>
-                                    <div>{{$video->title}}</div>
+                                    <small>{{$video->title}}</small>
                                 </td>
-                                <td class="align-middle">@include('users.videos.partials.status')</td>
+                                <td class="align-middle">
+                                    @include('users.videos.partials.status')
+                                </td>
                                 <td class="align-middle">{{$video->views}}</td>
-                                <td class="align-middle">{{$video->comments_count}}</td>
-                                <td class="align-middle">@include('users.videos.partials.interactions')</td>
+                                <td class="align-middle">
+                                    @if($video->comments_count)
+                                        <div class="badge bg-info">
+                                            {{$video->comments_count}} comments
+                                        </div>
+                                    @else
+                                        <div class="badge bg-secondary">
+                                            No comments
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="align-middle">
+                                    @include('users.videos.partials.interactions')
+                                </td>
                                 <td class="align-middle text-center">
                                     <a href="{{route('user.videos.edit', $video)}}">
                                         <i class="fa-solid fa-pen"></i>
@@ -115,7 +129,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <a href="{{route('user.videos.index')}}" class="btn btn-primary">
                             <i class="fa-solid fa-eye"></i>
-                            See all
+                            See all videos
                         </a>
                         <a href="{{route('user.videos.create')}}" class="btn btn-success">
                             <i class="fa-solid fa-upload"></i>
@@ -172,7 +186,7 @@
                     <div class="d-flex gap-2">
                         <a href="{{route('user.subscribers')}}" class="btn btn-primary">
                             <i class="fa-solid fa-eye"></i>
-                            See all
+                            See all subscribers
                         </a>
                     </div>
                 </div>
@@ -193,16 +207,17 @@
                         <table class="table">
                         <thead>
                         <tr>
-                            <th>Video</th>
-                            <th>Comment</th>
-                            <th>Date</th>
+                            <th scope="col" style="width: 20%">Video</th>
+                            <th scope="col" style="width: 55%">Comment</th>
+                            <th scope="col" style="width: 12%">Replies</th>
+                            <th scope="col" style="width: 13%">Date</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($user->videos_comments as $comment)
                             <tr>
                                 <td class="d-flex gap-3 align-items-center align-middle">
-                                    <a href="{{route('pages.video', $comment->video)}}">
+                                    <a href="{{route('video.show', $comment->video)}}">
                                         <img src="{{$comment->video->poster_url}}" alt="" style="width: 100px;">
                                     </a>
                                 </td>
@@ -216,6 +231,17 @@
                                             <small class="text-muted d-block">{{$comment->content}}</small>
                                         </div>
                                     </div>
+                                </td>
+                                <td class="align-middle">
+                                    @if($comment->replies_count)
+                                        <div class="badge bg-info">
+                                            {{$comment->replies_count}} replies
+                                        </div>
+                                    @else
+                                        <div class="badge bg-secondary">
+                                            No replies
+                                        </div>
+                                    @endif
                                 </td>
                                 <td class="align-middle">
                                     <small>{{$comment->created_at->diffForHumans()}}</small>
@@ -234,9 +260,9 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex gap-2">
-                        <a href="{{route('user.comments')}}" class="btn btn-primary">
+                        <a href="{{route('user.comments.index')}}" class="btn btn-primary">
                             <i class="fa-solid fa-eye"></i>
-                            See all
+                            See all comments
                         </a>
                     </div>
                 </div>
@@ -265,7 +291,7 @@
                         @foreach($user->videos_interactions as $interaction)
                             <tr>
                                 <td class="align-middle">
-                                    <a href="{{route('pages.video', $interaction->likeable->id)}}">
+                                    <a href="{{route('video.show', $interaction->likeable->id)}}">
                                         <img src="{{$interaction->likeable->poster_url}}" alt="" style="width: 100px;height: 60px">
                                     </a>
                                 </td>
@@ -299,7 +325,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <a href="{{route('user.videos.index')}}" class="btn btn-primary">
                             <i class="fa-solid fa-eye"></i>
-                            See all
+                            See all interactions
                         </a>
                     </div>
                 </div>

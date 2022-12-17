@@ -4,18 +4,49 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\InteractionsResource;
+use App\Http\Resources\VideoResource;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 class VideoController
 {
-    public function index(): View {
-        return view('users.index');
+    public function load () : ResourceCollection  {
+
+        return VideoResource::collection(
+            Video::active()
+                ->with('user')
+                ->latest('publication_date')
+                ->paginate(24)
+        );
     }
 
-    public function comments(Video $video, Request $request) {
+    public function show (Video $video) : View {
+
+        return view('videos.show', [
+            'video' => $video
+                ->load([
+                    'user' => fn($q) => $q->withCount('subscribers')
+                ])
+                ->loadCount([
+                    'likes',
+                    'dislikes',
+                    'comments',
+                    'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
+                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
+                ]),
+            'videos' => Video::where('id', '!=', $video->id)
+                ->with(['user'])
+                ->active()
+                ->inRandomOrder()
+                ->limit(12)
+                ->get()
+        ]);
+    }
+
+    public function comments(Video $video, Request $request) : ResourceCollection {
 
         $sort = $request->get('sort', 'top');
 

@@ -11,23 +11,22 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ArticleController;
 use App\Http\Controllers\Admin\UserController as UserAdminController;
 use App\Http\Controllers\Admin\VideoController as VideoAdminController;
-use App\Http\Controllers\User\VideoController;
+use App\Http\Controllers\User\VideoController as VideoUserController;
+use App\Http\Controllers\User\CommentController as CommentUserController;
+use App\Http\Controllers\VideoController;
 
 // Pages
 Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/trend', 'trend')->name('trend');
     Route::get('/subscriptions', 'subscriptions')->name('subscriptions');
-    Route::get('/library', 'library')->name('library');
-    Route::get('/history', 'history')->name('history');
-    Route::get('/playlist', 'playlist')->name('playlist');
-    Route::get('/playlist2', 'playlist2')->name('playlist2');
-
     Route::get('/search', 'search')->name('search');
-
-
-    Route::get('/video/{video}', 'video')->name('video')->can('show', 'video');
     Route::get('/user/{user}', 'user')->name('user');
+});
+
+// Videos
+Route::controller(VideoController::class)->prefix('video')->name('video.')->group(function () {
+    Route::get('/video/{video}', 'show')->name('show');
 });
 
 // Login
@@ -58,9 +57,16 @@ Route::name('user.')->middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile'])->name('profile');
     Route::put('/update', [UserController::class, 'update'])->name('update');
     Route::post('/update-password', [UserController::class, 'updatePassword'])->name('update-password');
-    Route::resource('videos', VideoController::class);
+
+    // Videos
+    Route::resource('videos', VideoUserController::class);
+
+    // Comments
+    Route::controller(CommentUserController::class)->prefix('comments')->name('comments.')->group(function () {
+        Route::get('/', 'index')->name('index');
+    });
+
     Route::get('/subscribers', [UserController::class, 'subscribers'])->name('subscribers');
-    Route::get('/comments', [UserController::class, 'comments'])->name('comments');
     Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('delete');
 });
 

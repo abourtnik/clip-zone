@@ -34,6 +34,8 @@ class UserController
                 },
                 "videos_comments" => function ($query) {
                     $query->with(['user', 'video'])
+                        ->whereNull('parent_id')
+                        ->withCount('replies')
                         ->orderBy('created_at', 'desc')
                         ->limit(5);
                 },
@@ -71,17 +73,6 @@ class UserController
                     ->orderBy('subscribe_at', 'desc');
                 }
             ])->subscribers->paginate(15)
-        ]);
-    }
-
-    public function comments(): View {
-        return view('users.comments', [
-            'comments' => Auth::user()->load([
-                'videos_comments' => function ($query) {
-                    $query->with(['video', 'user'])
-                        ->orderBy('created_at', 'desc');
-                }
-            ])->videos_comments->paginate(15)
         ]);
     }
 

@@ -1,5 +1,5 @@
 <article class="d-flex mb-2 position-relative gap-2">
-    <a href="{{route('pages.video', $video)}}">
+    <a href="{{route('video.show', $video)}}">
         <div class="position-relative">
             <img class="" src="{{$video->poster_url}}" alt="{{$video->title}}" style="height: 94px">
             <small class="position-absolute bottom-0 right-0 p-1 text-white bg-dark">

@@ -65,19 +65,7 @@ class Video extends Model implements Likeable
         );
     }
 
-    protected function likesRatio(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => round(($this->likes_count / ($this->interactions_count ?: 1)) * 100, 0)
-        );
-    }
 
-    protected function dislikesRatio(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => round(($this->dislikes_count / ($this->interactions_count ?: 1)) * 100, 0)
-        );
-    }
 
     public function comments () : HasMany {
         return $this->hasMany(Comment::class);

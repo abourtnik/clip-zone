@@ -17,23 +17,9 @@ return [
                 'title' => 'Subscriptions',
                 'icon' => 'user-check',
                 'route' => 'pages.subscriptions',
-            ],
-           /* [
-                'title' => 'Library',
-                'icon' => 'bookmark',
-                'route' => 'pages.library',
-            ],
-            [
-                'title' => 'History',
-                'icon' => 'clock-rotate-left',
-                'route' => 'pages.history',
-            ],
-            [
-                'title' => 'Playlist',
-                'icon' => 'clock',
-                'route' => 'pages.playlist',
-            ]*/
-        ]
+            ]
+        ],
+        'subscriptions' => true
     ],
     'user' => [
         'top' => [
@@ -55,7 +41,7 @@ return [
             [
                 'title' => 'Comments',
                 'icon' => 'comments',
-                'route' => 'user.comments',
+                'route' => 'user.comments.index',
             ],
 
         ],

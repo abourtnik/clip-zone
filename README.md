@@ -11,6 +11,7 @@
 - optimize render React
 - optimize like system
 - add loader and disabled on button
+- replace show more description by alpine JS
 
 ## Secondary
 

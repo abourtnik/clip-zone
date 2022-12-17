@@ -4,8 +4,8 @@
             class="progress-bar bg-success"
             role="progressbar"
             aria-label="Likes ratio"
-            style="width: {{$video->likes_ratio}}%;"
-            aria-valuenow="{{$video->likes_ratio}}"
+            style="width: {{$comment->likes_ratio}}%;"
+            aria-valuenow="{{$comment->likes_ratio}}"
             aria-valuemin="0"
             aria-valuemax="100">
         </div>
@@ -13,22 +13,22 @@
             class="progress-bar bg-danger"
             role="progressbar"
             aria-label="Dislikes ratio"
-            style="width: {{$video->dislikes_ratio}}%"
-            aria-valuenow="{{$video->dislikes_ratio}}"
+            style="width: {{$comment->dislikes_ratio}}%"
+            aria-valuenow="{{$comment->dislikes_ratio}}"
             aria-valuemin="0"
             aria-valuemax="100">
         </div>
     </div>
     <div class="d-flex gap-2 justify-content-between">
-        <small class="text-sm text-muted">{{$video->likes_ratio}}%</small>
+        <small class="text-sm text-muted">{{$comment->likes_ratio}}%</small>
         <div class="d-flex justify-content-between gap-2">
             <small class>
                 <i class="fa-regular fa-thumbs-up"></i>
-                {{$video->likes_count}}
+                {{$comment->likes_count}}
             </small>
             <small>
                 <i class="fa-regular fa-thumbs-down"></i>
-                {{$video->dislikes_count}}
+                {{$comment->dislikes_count}}
             </small>
         </div>
     </div>

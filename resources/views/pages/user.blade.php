@@ -67,12 +67,12 @@
                                     <source src="{{$user->videos->first()->url}}" type="video/mp4">
                                 </video>
                                 <div class="ml-4">
-                                    <a href="{{route('pages.video', $user->videos->first())}}">{{$user->videos->first()->title}}</a>
+                                    <a href="{{route('video.show', $user->videos->first())}}">{{$user->videos->first()->title}}</a>
                                     <div class="text-muted text-sm my-2">{{$user->videos->first()->views}} views • {{$user->videos->first()->created_at->diffForHumans()}}</div>
                                     <div>
                                         {!! nl2br(Str::limit($user->videos->first()->description, 600, '...')) !!}
                                         @if(Str::length($user->videos->first()->description) > 600)
-                                            <a class="mt-2 d-block" href="{{route('pages.video', $user->videos->first())}}">Read more</a>
+                                            <a class="mt-2 d-block" href="{{route('video.show', $user->videos->first())}}">Read more</a>
                                         @endif
                                     </div>
                                 </div>
