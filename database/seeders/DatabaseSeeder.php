@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\View;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Video;
@@ -18,7 +19,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        User::factory(50)->create()->each(function($user) {
+        User::factory(30)->create()->each(function($user) {
             $user->videos()->saveMany(Video::factory(rand(0, 10))->create([
                 'user_id' => $user->id
             ]))->each(function($video) {
@@ -28,6 +29,9 @@ class DatabaseSeeder extends Seeder
                 $video->interactions()->saveMany(Like::factory(rand(0, 100))->create([
                     'likeable_type' => Video::class,
                     'likeable_id' => $video->id,
+                ]));
+                $video->views()->saveMany(View::factory(rand(0, 100))->create([
+                    'video_id' => $video->id
                 ]));
             });
             foreach (range(0,20) as $i) {

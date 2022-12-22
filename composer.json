@@ -10,22 +10,14 @@
         "guzzlehttp/guzzle": "^7.2",
         "james-heinrich/getid3": "^1.9",
         "laravel/framework": "^9.19",
-        "laravel/horizon": "^5.10",
-        "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
-        "maatwebsite/excel": "^3.1",
         "psr/simple-cache": "^2.0",
-        "pusher/pusher-php-server": "^7.2",
-        "spatie/laravel-permission": "^5.5",
         "symfony/intl": "^6.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.0",
-        "laravel/sail": "^1.0.1",
-        "laravel/telescope": "^4.9",
-        "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.5.10",
         "spatie/laravel-ignition": "^1.0"

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CommentResource;
 use App\Http\Resources\InteractionsResource;
 use App\Http\Resources\VideoResource;
 use App\Models\Video;
@@ -13,17 +12,32 @@ use Illuminate\Support\Facades\Auth;
 
 class VideoController
 {
-    public function load () : ResourceCollection  {
+    public function load () : ResourceCollection {
 
         return VideoResource::collection(
             Video::active()
                 ->with('user')
+                ->withCount('views')
                 ->latest('publication_date')
                 ->paginate(24)
         );
     }
 
-    public function show (Video $video) : View {
+    public function show (Video $video, Request $request) : View {
+
+        $limit = ['unit' => 'minutes', 'value' => 1];
+
+        $ip_views_count = $video->views()->where('ip' , $request->ip())
+            ->whereBetween('view_at', [now()->sub($limit['unit'], 1), now()])
+            ->limit($limit['value'])
+            ->count();
+
+        if ($ip_views_count < $limit['value']) {
+            $video->views()->create([
+                'ip' => $request->ip(),
+                'user_id' => Auth::id()
+            ]);
+        }
 
         return view('videos.show', [
             'video' => $video
@@ -31,6 +45,7 @@ class VideoController
                     'user' => fn($q) => $q->withCount('subscribers')
                 ])
                 ->loadCount([
+                    'views',
                     'likes',
                     'dislikes',
                     'comments',
@@ -39,37 +54,12 @@ class VideoController
                 ]),
             'videos' => Video::where('id', '!=', $video->id)
                 ->with(['user'])
+                ->withCount(['views'])
                 ->active()
                 ->inRandomOrder()
                 ->limit(12)
                 ->get()
         ]);
-    }
-
-    public function comments(Video $video, Request $request) : ResourceCollection {
-
-        $sort = $request->get('sort', 'top');
-
-        return CommentResource::collection(
-            $video
-                ->comments()
-                ->whereNull('parent_id')
-                ->with([
-                    'user',
-                    'video:id',
-                    'replies' => fn($q) => $q->with('user', 'video:id', 'replies')->latest(),
-                    'replies.video'
-                ])
-                ->withCount([
-                    'likes',
-                    'dislikes',
-                    'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
-                ])
-                ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
-                ->when($sort === 'recent', fn($query) => $query->latest())
-                ->paginate(10)
-        );
     }
 
     public function interactions(Video $video) {

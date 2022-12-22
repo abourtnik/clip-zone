@@ -9,9 +9,8 @@
                     </div>
                 @endif
                 @if (session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div class="alert alert-success fade show" role="alert">
                         <strong>{!! session('success') !!}</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
             <h1 class="h3 mb-3 fw-normal text-center">Login</h1>

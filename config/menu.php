@@ -17,6 +17,7 @@ return [
                 'title' => 'Subscriptions',
                 'icon' => 'user-check',
                 'route' => 'pages.subscriptions',
+                'auth' => true
             ]
         ],
         'subscriptions' => true
@@ -49,7 +50,7 @@ return [
             [
                 'title' => 'My channel',
                 'icon' => 'user-cog',
-                'route' => 'user.profile',
+                'route' => 'user.edit',
             ]
         ]
     ],

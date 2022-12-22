@@ -4,7 +4,7 @@ import {usePaginateFetch} from "../hooks/usePaginateFetch";
 
 export default function Comments ({target, auth}) {
 
-    const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments/${target}`)
+    const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments?target=${target}`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
 
     const [selectedSort, setSelectedSort] = useState('top');
@@ -92,7 +92,7 @@ export default function Comments ({target, auth}) {
     return (
         <div className="mb-4">
             <div className="mb-3 d-flex align-items-cente justify-content-between">
-                <div>{count} Comments</div>
+                <div>{count} Comment{count > 1 && 's'}</div>
                 <div className={'d-flex gap-2 align-items-center'}>
                     <button onClick={() => sort('top')} className={'btn btn-' + activeButton('top') + 'btn-sm'}>Top Comments</button>
                     <button onClick={() => sort('recent')} className={'btn btn-' + activeButton('recent') + 'btn-sm'}>Newest first</button>

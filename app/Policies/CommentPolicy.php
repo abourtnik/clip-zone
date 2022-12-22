@@ -14,10 +14,10 @@ class CommentPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param Comment $comment
+     * @param User $user
      * @return Response|bool
      */
-    public function viewAny(Comment $comment) : Response|bool
+    public function viewAny(User $user) : Response|bool
     {
         return true;
     }

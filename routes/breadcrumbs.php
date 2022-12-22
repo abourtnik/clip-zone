@@ -20,3 +20,9 @@ Breadcrumbs::for('edit_video', function (BreadcrumbTrail $trail, Video $video) {
     $trail->parent('videos');
     $trail->push($video->title, route('user.videos.edit', $video));
 });
+
+// Videos > Show Video [Video]
+Breadcrumbs::for('show_video', function (BreadcrumbTrail $trail, Video $video) {
+    $trail->parent('videos');
+    $trail->push($video->title, route('user.videos.edit', $video));
+});

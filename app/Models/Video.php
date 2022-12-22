@@ -6,10 +6,10 @@ use App\Enums\VideoStatus;
 use App\Helpers\Number;
 use App\Models\Traits\HasLike;
 use App\Models\Interfaces\Likeable;
-use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use \Illuminate\Database\Eloquent\Builder;
@@ -27,6 +27,10 @@ class Video extends Model implements Likeable
 
     public function user (): BelongsTo {
         return $this->belongsTo(User::class);
+    }
+
+    public function views (): HasMany {
+        return $this->hasMany(View::class);
     }
 
     public function getUrlAttribute() : string {
@@ -51,12 +55,12 @@ class Video extends Model implements Likeable
         );
     }
 
-    protected function views(): Attribute
+    /*protected function views(): Attribute
     {
         return Attribute::make(
             get: fn ($value) => Number::humanize($value)
         );
-    }
+    }*/
 
     protected function shortDescription(): Attribute
     {

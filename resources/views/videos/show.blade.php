@@ -21,7 +21,7 @@
                 <h4 class="mb-0">{{$video->title}}</h4>
             </div>
             <div class="mt-3 d-flex justify-content-between align-items-center">
-                <div class="text-muted">{{$video->views}} views • {{$video->created_at->format('d F Y')}}</div>
+                <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->created_at->format('d F Y')}}</div>
                 @auth()
                     <div class="d-flex gap-1">
                         <likes-button
@@ -95,7 +95,19 @@
                     @endif
                 </div>
             </div>
-            <description-box description="{{ $video->description }}" />
+            <div class="my-4 pb-2 pt-0 card card-body text-decoration-none pointer-event" style='cursor: pointer; white-space: pre-line' x-data="{ open: false }" @click="open=!open">
+                <template x-if="open">
+                    <p>
+                        {{$video->description}}
+                    </p>
+                </template>
+                <template x-if="!open">
+                    <p>
+                        {{substr($video->description, 0, 250)}}
+                    </p>
+                </template>
+                <div class="text-primary fw-bold mt-1" x-text="open ? 'Show less': 'Show more'"></div>
+            </div>
             <hr>
             <comments-area target="{{$video->id}}" auth="{{auth()->user()?->id}}"/>
         </div>

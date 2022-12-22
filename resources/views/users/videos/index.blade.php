@@ -1,8 +1,8 @@
 @extends('layouts.user')
 
 @section('content')
-    {{ Breadcrumbs::render('videos') }}
     @if($videos->total())
+    {{ Breadcrumbs::render('videos') }}
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2>My Videos</h2>
             <div>
@@ -41,12 +41,12 @@
                         @include('users.videos.partials.status')
                     </td>
                     <td class="align-middle">{{$video->publication_date->format('d F Y H:i')}}</td>
-                    <td class="align-middle">{{$video->views}}</td>
+                    <td class="align-middle">{{$video->views_count}}</td>
                     <td class="align-middle">
                         <div class="d-flex gap-3">
                             @if($video->comments_count)
                                 <div class="badge bg-info">
-                                    {{$video->comments_count}} comments
+                                    {{trans_choice('comments', $video->comments_count)}}
                                 </div>
                             @else
                                 <div class="badge bg-secondary">
@@ -56,19 +56,20 @@
                         </div>
                     </td>
                     <td class="align-middle">
-                        @include('users.videos.partials.interactions')
+                        @include('users.partials.interactions', ['item' => $video])
                     </td>
                     <td class="align-middle">
-                        <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm">
+                        <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm" title="Edit video">
                             <i class="fa-solid fa-pen"></i>
                         </a>
                         <button
                             type="button"
+                            title="Delete video"
                             class="btn btn-danger btn-sm"
                             data-bs-toggle="modal"
                             data-bs-target="#delete_video"
                             data-title="{{$video->title}}"
-                            data-views="{{$video->views}} views"
+                            data-views="{{$video->views_count}} views"
                             data-publication="Publish at {{$video->publication_date->format('d F Y')}}"
                             data-poster="{{$video->poster_url}}"
                             data-route="{{route('user.videos.destroy', $video)}}"
@@ -80,6 +81,9 @@
                         >
                             <i class="fa-solid fa-trash"></i>
                         </button>
+                        <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="Video statistics">
+                            <i class="fa-solid fa-chart-simple"></i>
+                        </a>
                     </td>
                 </tr>
             @endforeach

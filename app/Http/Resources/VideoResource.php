@@ -2,9 +2,7 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Comment;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
 class VideoResource extends JsonResource
 {
@@ -21,7 +19,7 @@ class VideoResource extends JsonResource
             'title' => $this->title,
             'poster' => $this->poster_url,
             'duration' => $this->duration,
-            'views' => $this->views,
+            'views' => trans_choice('views', $this->views_count),
             'route' => route('video.show', $this),
             'user' => [
                 'username' => $this->user->username,

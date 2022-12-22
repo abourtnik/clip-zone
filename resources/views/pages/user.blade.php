@@ -68,7 +68,7 @@
                                 </video>
                                 <div class="ml-4">
                                     <a href="{{route('video.show', $user->videos->first())}}">{{$user->videos->first()->title}}</a>
-                                    <div class="text-muted text-sm my-2">{{$user->videos->first()->views}} views • {{$user->videos->first()->created_at->diffForHumans()}}</div>
+                                    <div class="text-muted text-sm my-2">{{trans_choice('views', $user->videos->first()->views_count)}} • {{$user->videos->first()->created_at->diffForHumans()}}</div>
                                     <div>
                                         {!! nl2br(Str::limit($user->videos->first()->description, 600, '...')) !!}
                                         @if(Str::length($user->videos->first()->description) > 600)
@@ -109,7 +109,7 @@
                                 <h6 class="card-title text-primary">Informations</h6>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item ps-0">Joined {{$user->created_at->format('d F Y')}}</li>
-                                    <li class="list-group-item ps-0">{{$user->views}} views</li>
+                                    <li class="list-group-item ps-0">{{trans_choice('views', $user->videos_views_count)}}</li>
                                     @if($user->country)
                                         <li class="list-group-item ps-0">Country : {{$user->country_name}}</li>
                                     @endif

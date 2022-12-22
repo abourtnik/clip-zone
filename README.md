@@ -11,7 +11,6 @@
 - optimize render React
 - optimize like system
 - add loader and disabled on button
-- replace show more description by alpine JS
 
 ## Secondary
 
@@ -21,6 +20,7 @@
 - Signal comment (video ?)
 - Authorize comment and like on video
 - Add label New video on recent video
+- Parse Link in Description
 
 ###Admin
 

@@ -1,6 +1,5 @@
-import {useState, useEffect, useRef, useCallback} from 'preact/hooks';
+import {useState, useEffect} from 'preact/hooks';
 import {usePaginateFetch} from "../hooks/usePaginateFetch";
-import {memo} from "preact/compat";
 import Video from "./Video";
 import { useInView } from 'react-intersection-observer';
 
@@ -14,39 +13,49 @@ export default function Videos ({}) {
     });
 
     useEffect( async () => {
-        //setPrimaryLoading(true);
         await load()
         setPrimaryLoading(false);
     }, []);
 
-    useEffect( async () => {
+    /*useEffect( async () => {
 
         if (inView) {
             await load()
         }
 
-    }, [inView]);
+    }, [inView]);*/
+
+    console.log(hasMore)
 
     return (
-        <div className={''}>
-            {
-                (primaryLoading) ?
+        <>
+        {
+            (primaryLoading) ?
+                <div className={'h-100 d-flex align-items-center justify-content-center'}>
                     <div className="spinner-border" role="status">
                         <span className="visually-hidden">Loading...</span>
-                        <div>dd</div>
                     </div>
-                    :
-                    <div className={''}>
-                        <div id="video-container" className="row gx-4">
-                            {videos.map(video => <Video key={video.id} video={video}/>)}
-                        </div>
-                        <div ref={ref} className={'d-flex justify-content-center'}>
-                            <div id={'loader'} className="spinner-border" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-            }
-        </div>
+                </div> :
+                <>
+                    {
+                        (videos.length) ?
+                            <>
+                                <div id="video-container" className="row gx-4">
+                                    {videos.map(video => <Video key={video.id} video={video}/>)}
+                                </div>
+                                {
+                                    hasMore &&
+                                    <div ref={ref} className={'d-flex justify-content-center'}>
+                                        <div id={'loader'} className="spinner-border" role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                }
+                            </> :
+                            <p> No video </p>
+                    }
+                </>
+        }
+        </>
     )
 };

@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
@@ -25,7 +24,7 @@ use Symfony\Component\Intl\Countries;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable;
 
     protected $guarded = ['id'];
 
@@ -50,6 +49,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Video::class);
     }
 
+    public function views() : HasMany {
+        return $this->hasMany(View::class);
+    }
+
     public function subscriptions() : BelongsToMany {
         return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id');
     }
@@ -72,16 +75,25 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasManyThrough(Comment::class, Video::class);
     }
 
+    public function videos_views () : HasManyThrough {
+        return $this->hasManyThrough(View::class, Video::class);
+    }
+
     public function videos_interactions (): HasManyThrough {
-        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id');
+        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id')
+            ->where('likeable_type', Video::class);
     }
 
     public function videos_likes (): HasManyThrough {
-        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id')->where('likes.status', true);
+        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id')
+            ->where('likes.status', true)
+            ->where('likeable_type', Video::class);
     }
 
     public function videos_dislikes (): HasManyThrough {
-        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id')->where('likes.status', false);
+        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id')
+            ->where('likes.status', false)
+            ->where('likeable_type', Video::class);
     }
 
     public function isSubscribe (User $user) : bool {
@@ -141,11 +153,11 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
-    public function views () : Attribute {
+    /*public function views () : Attribute {
         return Attribute::make(
             get: fn () => number_format(num: $this->videos()->sum('views'), thousands_separator: ' ')
         );
-    }
+    }*/
 
     protected function password(): Attribute
     {

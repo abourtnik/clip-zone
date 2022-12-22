@@ -33,9 +33,12 @@ class PageController
         return view('pages.user', [
             'user' => $user->load([
                 'videos' => function ($q) {
-                    $q->with('user')->active()->latest('publication_date');
+                    $q->with('user')
+                        ->withCount('views')
+                        ->active()
+                        ->latest('publication_date');
                 }
-            ])->loadCount('subscribers')
+            ])->loadCount('subscribers', 'videos_views')
         ]);
     }
 

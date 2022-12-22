@@ -18,10 +18,6 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
 Route::middleware('auth')->group(function () {
     Route::post("follow/{user}", [UserController::class, 'follow']);
 
@@ -29,14 +25,13 @@ Route::middleware('auth')->group(function () {
     Route::post('dislike', [\App\Http\Controllers\LikeController::class, 'dislike']);
 
     Route::resource("comments", CommentController::class)->only([
-        'store', 'update', 'destroy'
+        'index', 'store', 'update', 'destroy'
     ]);
 
     Route::get("interactions/{video}", [VideoController::class, 'interactions']);
 
 });
 
-Route::get("comments/{video}", [VideoController::class, 'comments']);
 Route::get("search", [\App\Http\Controllers\PageController::class, 'searchResult']);
 Route::get("videos", [VideoController::class, 'load']);
 

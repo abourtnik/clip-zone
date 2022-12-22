@@ -3,7 +3,7 @@
 @section('content')
     @if($comments->total())
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h2>My Comments</h2>
+            <h2>Comments</h2>
         </div>
         <hr>
         <table class="table table-bordered table-striped">
@@ -25,7 +25,7 @@
                         </a>
                         <div>{{Str::limit($comment->video->title, 100), '...'}}</div>
                     </td>
-                    <td>
+                    <td class="align-middle">
                         <div class="d-flex gap-2">
                             <a href="{{route('pages.user', $comment->user)}}">
                                 <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
@@ -40,7 +40,7 @@
                             </div>
                         </div>
                     </td>
-                    <td>
+                    <td class="align-middle">
                         @if($comment->replies_count)
                             <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#comment_replies">
                                 See replies ({{$comment->replies_count}})
@@ -51,10 +51,10 @@
                             </div>
                         @endif
                     </td>
-                    <td>
-                        @include('users.comments.partials.interactions')
+                    <td class="align-middle">
+                        @include('users.partials.interactions', ['item' => $comment])
                     </td>
-                    <td>
+                    <td class="align-middle">
                         <button class="btn btn-sm btn-primary">Reply</button>
                         <button class="btn btn-sm btn-danger">
                             <i class="fa-solid fa-trash"></i>

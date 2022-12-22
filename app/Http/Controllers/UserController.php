@@ -23,7 +23,7 @@ class UserController
         return view('users.index', [
             'user' => Auth::user()->load([
                 'videos' => function ($query) {
-                    $query->withCount(['likes', 'dislikes', 'interactions', 'comments'])
+                    $query->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
                         ->orderBy('publication_date', 'desc')
                         ->limit(5);
                 },
@@ -51,11 +51,11 @@ class UserController
                     ->orderBy('perform_at', 'desc')
                     ->limit(5);
                 }
-            ])->loadCount('subscribers', 'videos_comments', 'videos_interactions', 'videos', 'videos_likes', 'videos_dislikes')
+            ])->loadCount('subscribers', 'videos_comments', 'videos_views', 'videos_interactions', 'videos', 'videos_likes', 'videos_dislikes')
         ]);
     }
 
-    public function profile(): View {
+    public function edit(): View {
         return view('users.profile.index', [
             'user' => Auth::user(),
             'countries' => Countries::getNames()

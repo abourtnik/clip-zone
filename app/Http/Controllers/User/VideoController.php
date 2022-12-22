@@ -12,6 +12,7 @@ use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 
 class VideoController extends Controller
 {
@@ -24,7 +25,7 @@ class VideoController extends Controller
         return view('users.videos.index', [
             'videos' => Auth::user()->load([
                 'videos' => function ($query) {
-                    $query->withCount(['likes', 'dislikes', 'interactions', 'comments'])
+                    $query->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
                         ->latest('updated_at');
                 }
 
@@ -57,6 +58,26 @@ class VideoController extends Controller
         }
 
         return redirect()->route('user.videos.index');
+    }
+
+    public function show(Video $video): View {
+        return view('users.videos.show', [
+            'video' => $video->loadCount([
+                'views',
+                'likes',
+                'dislikes',
+                'comments',
+                'interactions'
+            ]),
+            'views' => $video->views()->select(
+                DB::raw("(COUNT(*)) as count"),
+                DB::raw("MONTHNAME(view_at) as month")
+            )
+                ->oldest('view_at')
+                ->groupBy('month')
+                ->get()
+                ->toArray()
+        ]);
     }
 
     public function edit(Video $video): View {
