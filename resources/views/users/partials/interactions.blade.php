@@ -1,6 +1,6 @@
 @if($item->interactions_count)
     <a href="#likes" data-bs-toggle="modal" data-bs-target="#video_likes" class="text-decoration-none text-black">
-        <div class="progress m-auto mb-1" style="max-width: 160px;height: 5px">
+        <div class="progress m-auto mb-1" style="height: 5px">
             <div
                 class="progress-bar bg-success"
                 role="progressbar"

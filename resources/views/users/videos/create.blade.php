@@ -49,16 +49,17 @@
                     <label for="description" class="form-label">Description</label>
                     <textarea class="form-control" id="description" rows="6" name="description" maxlength="5000">{{old('description')}}</textarea>
                 </div>
-                <div class="row" x-data="{ planned: {{old('status', 'false')}}}">
+                <div class="row" x-data="planned({{ json_encode(old('status') == \App\Enums\VideoStatus::PLANNED->value)}})">
+                    <div id="planned_value" class="d-none">{{\App\Enums\VideoStatus::PLANNED->value}}</div>
                     <div class="col-6 mb-3">
                         <label for="status" class="form-label">Status</label>
-                        <select class="form-control" name="status" id="status" required x-model="planned">
-                            @foreach($status as $s)
-                                <option value="{{$s['id']}}" @if(old('status') == $s['id']) selected @endif>{{$s['name']}}</option>
+                        <select class="form-control" name="status" id="status" required @change="update">
+                            @foreach($video_status as $status)
+                                <option @if(old('status') == $status['id']) selected @endif value="{{$status['id']}}">{{$status['name']}}</option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-6 mb-3" x-show="planned == {{\App\Enums\VideoStatus::PLANNED->value}}">
+                    <div class="col-6 mb-3" x-show="value">
                         <label for="publication_date" class="form-label">Publication date</label>
                         <input
                             class="form-control"
@@ -66,8 +67,8 @@
                             id="publication_date"
                             name="publication_date"
                             min="{{now()->toDateTimeLocalString('minute')}}"
-                            value="{{ old('status') == \App\Enums\VideoStatus::PLANNED->value ? old('publication_date') : ''}}"
-                            :required="planned == {{\App\Enums\VideoStatus::PLANNED->value}}"
+                            :required="value"
+                            x-model="date"
                         >
                         <div class="form-text">The video remains private until it is published.</div>
                     </div>
@@ -91,3 +92,16 @@
         </div>
     </div>
 @endsection
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        const planned_value = document.getElementById('planned_value').textContent;
+        Alpine.data('planned', (initial) => ({
+            value: initial,
+            date: initial ? '{{old('publication_date')}}' : '',
+            update(e) {
+                this.value = e.target.options[e.target.selectedIndex].index == planned_value;
+            }
+        }));
+    })
+</script>

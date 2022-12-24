@@ -44,7 +44,11 @@ return [
                 'icon' => 'comments',
                 'route' => 'user.comments.index',
             ],
-
+            [
+                'title' => 'Activity',
+                'icon' => 'rectangle-list',
+                'route' => 'user.activity.index',
+            ]
         ],
         'bottom' => [
             [

@@ -35,7 +35,7 @@ class VideoController extends Controller
 
     public function create(): View {
         return view('users.videos.create', [
-            'status' => VideoStatus::get(),
+            'video_status' => VideoStatus::get(),
             'accepted_video_mimes_types' => implode(', ', VideoType::acceptedMimeTypes()),
             'accepted_video_formats' => implode(', ', VideoType::acceptedFormats()),
             'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats())
@@ -83,7 +83,7 @@ class VideoController extends Controller
     public function edit(Video $video): View {
         return view('users.videos.edit', [
             'video' => $video,
-            'status' => VideoStatus::get(),
+            'video_status' => VideoStatus::get(),
             'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats())
         ]);
     }

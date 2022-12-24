@@ -25,10 +25,17 @@ class CommentController extends Controller
         return view('users.comments.index', [
             'comments' => Auth::user()->load([
                 'videos_comments' => function ($query) {
-                    $query->with(['video', 'user'])
-                        ->whereNull('parent_id')
-                        ->withCount(['likes', 'dislikes', 'interactions', 'replies'])
-                        ->orderBy('created_at', 'desc');
+                    $query->with([
+                        'video',
+                        'user' => function ($query) {
+                            $query->withCount(['subscriptions as is_subscribe_to_current_user' => function ($query) {
+                                $query->where('user_id', Auth::id());
+                            }]);
+                        }
+                    ])
+                    ->whereNull('parent_id')
+                    ->withCount(['likes', 'dislikes', 'interactions', 'replies'])
+                    ->orderBy('created_at', 'desc');
                 }
             ])->videos_comments->paginate(15)
         ]);

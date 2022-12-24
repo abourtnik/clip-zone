@@ -46,7 +46,7 @@ export default function Comments ({target, auth}) {
     const sort = async (type) => {
         setSelectedSort(type)
         setPrimaryLoading(true);
-        const response = await fetch(`/api/comments/${target}?sort=${type}`);
+        const response = await fetch(`/api/comments/?target=${target}&sort=${type}`);
         const data = await response.json()
         setPrimaryLoading(false);
         setComments(data.data)
@@ -91,7 +91,7 @@ export default function Comments ({target, auth}) {
 
     return (
         <div className="mb-4">
-            <div className="mb-3 d-flex align-items-cente justify-content-between">
+            <div className="mb-3 d-flex align-items-center justify-content-between">
                 <div>{count} Comment{count > 1 && 's'}</div>
                 <div className={'d-flex gap-2 align-items-center'}>
                     <button onClick={() => sort('top')} className={'btn btn-' + activeButton('top') + 'btn-sm'}>Top Comments</button>

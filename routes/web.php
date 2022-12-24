@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\UserController as UserAdminController;
 use App\Http\Controllers\Admin\VideoController as VideoAdminController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
 use App\Http\Controllers\User\CommentController as CommentUserController;
+use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\VideoController;
 
 // PAGES
@@ -26,7 +27,7 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
 
 // VIDEOS
 Route::controller(VideoController::class)->name('video.')->group(function () {
-    Route::get('/video/{video}', 'show')->name('show');
+    Route::get('/video/{video}', 'show')->name('show')->can('show', 'video');
 });
 
 // LOGIN
@@ -68,6 +69,11 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
 
     // Comments
     Route::controller(CommentUserController::class)->prefix('comments')->name('comments.')->group(function () {
+        Route::get('/', 'index')->name('index');
+    });
+
+    // Activity
+    Route::controller(ActivityController::class)->prefix('activity')->name('activity.')->group(function () {
         Route::get('/', 'index')->name('index');
     });
 

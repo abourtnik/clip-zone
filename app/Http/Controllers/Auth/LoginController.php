@@ -39,7 +39,7 @@ class LoginController
             if ($user->isAdministrator()) {
                 return redirect()->intended('admin');
             }else {
-                return redirect()->intended('profile.index');
+                return redirect()->intended('user.index');
             }
         }
 

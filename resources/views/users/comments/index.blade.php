@@ -32,9 +32,11 @@
                             </a>
                             <div>
                                 <div class="d-flex align-items-center">
-                                    <a href="{{route('pages.user', $comment->user)}}">{{$comment->user->username}}</a>
+                                    <a class="text-sm text-decoration-none" href="{{route('pages.user', $comment->user)}}">{{$comment->user->username}}</a>
+                                    @if($comment->user->is_subscribe_to_current_user)
+                                        <small class="text-muted">&nbsp;• <span class="text-danger">Subscriber</span></small>
+                                    @endif
                                     <small class="text-muted">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
-
                                 </div>
                                 <small class="text-muted d-block mt-1">{{$comment->content}}</small>
                             </div>
@@ -42,7 +44,7 @@
                     </td>
                     <td class="align-middle">
                         @if($comment->replies_count)
-                            <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#comment_replies">
+                            <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}">
                                 See replies ({{$comment->replies_count}})
                             </button>
                         @else
@@ -55,7 +57,7 @@
                         @include('users.partials.interactions', ['item' => $comment])
                     </td>
                     <td class="align-middle">
-                        <button class="btn btn-sm btn-primary">Reply</button>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}">Reply</button>
                         <button class="btn btn-sm btn-danger">
                             <i class="fa-solid fa-trash"></i>
                         </button>

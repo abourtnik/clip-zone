@@ -52,7 +52,9 @@ export default function Videos ({}) {
                                     </div>
                                 }
                             </> :
-                            <p> No video </p>
+                            <div className={'h-100 d-flex align-items-center justify-content-center'}>
+                                <p> No video </p>
+                            </div>
                     }
                 </>
         }

@@ -12,6 +12,7 @@
         "laravel/framework": "^9.19",
         "laravel/tinker": "^2.7",
         "psr/simple-cache": "^2.0",
+        "spatie/laravel-activitylog": "^4.7",
         "symfony/intl": "^6.1"
     },
     "require-dev": {

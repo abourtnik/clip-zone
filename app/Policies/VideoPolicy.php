@@ -31,7 +31,9 @@ class VideoPolicy
      */
     public function view(User $user, Video $video): Response|bool
     {
-        return $user->id === $video->user_id;
+        return $video->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(404);
     }
 
     /**
@@ -54,12 +56,10 @@ class VideoPolicy
      * @param  User $user
      * @return Response|bool
      */
-    public function create(User $user)
+    public function create(User $user) : Response|bool
     {
         return true;
     }
-
-
 
     /**
      * Determine whether the user can update the model.
@@ -68,9 +68,11 @@ class VideoPolicy
      * @param  Video $video
      * @return Response|bool
      */
-    public function update(User $user, Video $video)
+    public function update(User $user, Video $video) : Response|bool
     {
-        return $user->id === $video->user_id;
+        return $video->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(404);
     }
 
     /**
@@ -80,8 +82,10 @@ class VideoPolicy
      * @param  Video $video
      * @return Response|bool
      */
-    public function delete(User $user, Video $video)
+    public function delete(User $user, Video $video) : Response|bool
     {
-        return $user->id === $video->user_id;
+        return $video->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(404);
     }
 }

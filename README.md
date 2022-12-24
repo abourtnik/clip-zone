@@ -5,7 +5,6 @@
 - Delete video (constrained ?)
 - Search component React + Page Result
 - Optimize (eadger loading)
-- on edit video set video to public if planned and date is passed
 - see likes and dislikes in modal
 - edit, delete responses commentaires
 - optimize render React

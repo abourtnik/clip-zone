@@ -48,6 +48,33 @@ class CommentController extends Controller
         ]);
     }
 
+    public function replies (Comment $comment, Request $request) : ResourceCollection {
+
+        $sort = $request->get('sort', 'top');
+
+        return (CommentResource::collection(
+            $comment
+                ->loadCount('replies')
+                ->replies()
+                ->with([
+                    'user',
+                    'video:id',
+                    'replies' => fn($q) => $q->with('user', 'video:id', 'replies')->latest(),
+                    'replies.video'
+                ])
+                ->withCount([
+                    'likes',
+                    'dislikes',
+                    'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
+                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
+                ])
+                ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
+                ->when($sort === 'recent', fn($query) => $query->latest())
+                ->paginate(10)
+        ));
+
+    }
+
     public function store (Request $request) : CommentResource {
 
         $comment = Auth::user()->comments()->create([

@@ -52,7 +52,7 @@ class CommentPolicy
      * @param  User $user
      * @return Response|bool
      */
-    public function create(User $user)
+    public function create(User $user): Response|bool
     {
         return true;
     }
@@ -66,7 +66,7 @@ class CommentPolicy
      * @param  Comment $comment
      * @return Response|bool
      */
-    public function update(User $user, Comment $comment)
+    public function update(User $user, Comment $comment) : Response|bool
     {
         return $comment->user->is($user);
     }
@@ -78,8 +78,10 @@ class CommentPolicy
      * @param  Comment $comment
      * @return Response|bool
      */
-    public function delete(User $user, Comment $comment)
+    public function delete(User $user, Comment $comment): Response|bool
     {
-        return $comment->user->is($user);
+        return $comment->user->is($user) || $comment->video->user->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(403);
     }
 }

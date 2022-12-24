@@ -24,6 +24,8 @@ Route::middleware('auth')->group(function () {
     Route::post('like', [\App\Http\Controllers\LikeController::class, 'like']);
     Route::post('dislike', [\App\Http\Controllers\LikeController::class, 'dislike']);
 
+    Route::get('/comments/{comment}/replies', [CommentController::class, 'replies']);
+
     Route::resource("comments", CommentController::class)->only([
         'index', 'store', 'update', 'destroy'
     ]);

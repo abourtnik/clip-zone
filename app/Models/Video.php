@@ -25,6 +25,10 @@ class Video extends Model implements Likeable
         'publication_date'
     ];
 
+    protected $casts = [
+        'status' => VideoStatus::class
+    ];
+
     public function user (): BelongsTo {
         return $this->belongsTo(User::class);
     }
@@ -69,6 +73,13 @@ class Video extends Model implements Likeable
         );
     }
 
+    protected function realStatus(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->isActive() ? VideoStatus::PUBLIC : $this->status
+        );
+    }
+
 
 
     public function comments () : HasMany {
@@ -91,10 +102,10 @@ class Video extends Model implements Likeable
     }
 
     public function isActive () : bool {
-        return $this->status === VideoStatus::PUBLIC->value || ($this->status === VideoStatus::PLANNED->value && $this->publication_date->lte(now()));
+        return $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->publication_date->lte(now()));
     }
 
     public function isPlanned () : bool {
-        return $this->status === VideoStatus::PLANNED->value && $this->publication_date->gt(now());
+        return $this->status === VideoStatus::PLANNED && $this->publication_date->gt(now());
     }
 }

@@ -7,6 +7,7 @@ import Videos from "./Videos";
 import Interactions from "./Interactions";
 import Search from "./Search";
 import LineChart from "./LineChart";
+import Replies from "./Replies";
 
 register(Subscribe, 'subscribe-button');
 register(Like, 'likes-button', [], { shadow: false });
@@ -15,5 +16,6 @@ register(Videos, 'videos-area', [], { shadow: false });
 register(Interactions, 'interactions-area', [], { shadow: false });
 register(Search, 'search-bar', [], { shadow: false });
 register(LineChart, 'line-chart', [], { shadow: false });
+register(Replies, 'replies-area', [], { shadow: false });
 
 
