@@ -6,12 +6,12 @@ use App\Enums\ImageType;
 use App\Enums\VideoStatus;
 use App\Enums\VideoType;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreVideoRequest;
-use App\Http\Requests\UpdateVideoRequest;
+use App\Http\Requests\Video\StoreVideoRequest;
+use App\Http\Requests\Video\UpdateVideoRequest;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class VideoController extends Controller
@@ -71,10 +71,10 @@ class VideoController extends Controller
             ]),
             'views' => $video->views()->select(
                 DB::raw("(COUNT(*)) as count"),
-                DB::raw("MONTHNAME(view_at) as month")
+                DB::raw("DATE(view_at) as date")
             )
                 ->oldest('view_at')
-                ->groupBy('month')
+                ->groupBy('date')
                 ->get()
                 ->toArray()
         ]);

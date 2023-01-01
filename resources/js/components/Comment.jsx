@@ -29,8 +29,8 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
             credentials: 'include',
             body: JSON.stringify({
                 ...data,
-                target: parseInt(comment.video.id),
-                parent: comment.id
+                video_id: parseInt(comment.video.id),
+                parent_id: comment.id
             })
         });
 
@@ -41,6 +41,39 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
         setShowReply(false);
 
         document.getElementById('content-' + comment.id).value = '';
+    }
+
+    const deleteReply = async (reply) => {
+
+        const response = await fetch(`/api/comments/${reply.id}`, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'DELETE',
+            credentials: 'include'
+        });
+
+        setReplies(replies => replies.filter(r => r.id !== reply.id))
+    }
+
+    const updateReply = async (reply, content) => {
+
+        const response = await fetch(`/api/comments/${reply.id}`, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'PUT',
+            body: JSON.stringify({
+                content: content,
+            }),
+            credentials: 'include'
+        });
+
+        const updated_reply = await response.json();
+
+        setReplies(replies => replies.map(r => r.id === reply.id ? updated_reply.data : r))
     }
 
     let attributes =  {
@@ -109,7 +142,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                                     <button onClick={() => setOnEdit(false)} className={'btn btn-secondary btn-sm'}>Cancel</button>
                                 </div>
                             </div>
-                            : <div className={'my-3'}>{comment.content}</div>
+                            : <div className={'my-3'} style={{whiteSpace: 'pre-line'}}>{comment.content}</div>
                     }
                     <div className="d-flex align-items-center gap-2 mt-1">
                         <div className="d-flex align-items-center gap-2">
@@ -162,7 +195,18 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                 {
                     showReplies &&
                     <div className={'mt-3'}>
-                        {replies.map(comment => <Comment key={comment.id} comment={comment} auth={auth} canReply={false} deleteComment={deleteComment} updateComment={updateComment}/>)}
+                        {
+                            replies.map(comment =>
+                                <Comment
+                                    key={comment.id}
+                                    comment={comment}
+                                    auth={auth}
+                                    canReply={false}
+                                    deleteComment={deleteReply}
+                                    updateComment={updateReply}
+                                />
+                            )
+                        }
                     </div>
                 }
             </div>

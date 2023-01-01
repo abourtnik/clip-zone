@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Enums\ImageType;
-use App\Enums\VideoStatus;
-use App\Enums\VideoType;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreVideoRequest;
-use App\Http\Requests\UpdateVideoRequest;
 use App\Models\Comment;
-use App\Models\Video;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {

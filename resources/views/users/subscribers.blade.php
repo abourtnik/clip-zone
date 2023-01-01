@@ -25,12 +25,12 @@
                             <span>{{$subscriber->username}}</span>
                         </a>
                     </td>
-                    <td>{{$subscriber->pivot->subscribe_at->diffForHumans()}}</td>
-                    <td>
+                    <td class="align-middle">{{$subscriber->pivot->subscribe_at->diffForHumans()}}</td>
+                    <td class="align-middle">
                         {{trans_choice('subscribers', $subscriber->subscribers_count)}}
                     </td>
-                    <td>{{$subscriber->created_at->diffForHumans()}}</td>
-                    <td>
+                    <td class="align-middle">{{$subscriber->created_at->diffForHumans()}}</td>
+                    <td class="align-middle">
                        <subscribe-button isSubscribe="{{$subscriber->is_subscribe_to_current_user ? 'true' : 'false'}}" user="{{$subscriber->id}}" size="sm"/>
                     </td>
                 </tr>

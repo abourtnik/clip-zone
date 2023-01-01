@@ -4,7 +4,7 @@ import {usePaginateFetch} from "../hooks/usePaginateFetch";
 
 export default function Comments ({target, auth}) {
 
-    const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments?target=${target}`)
+    const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments?video_id=${target}`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
 
     const [selectedSort, setSelectedSort] = useState('top');
@@ -31,7 +31,7 @@ export default function Comments ({target, auth}) {
             credentials: 'include',
             body: JSON.stringify({
                 ...data,
-                target: parseInt(target)
+                video_id: parseInt(target)
             })
         });
 
@@ -46,7 +46,7 @@ export default function Comments ({target, auth}) {
     const sort = async (type) => {
         setSelectedSort(type)
         setPrimaryLoading(true);
-        const response = await fetch(`/api/comments/?target=${target}&sort=${type}`);
+        const response = await fetch(`/api/comments/?video_id=${target}&sort=${type}`);
         const data = await response.json()
         setPrimaryLoading(false);
         setComments(data.data)
@@ -103,11 +103,11 @@ export default function Comments ({target, auth}) {
                 <form onSubmit={addComment}>
                     <div className="mb-2">
                         <label htmlFor="content" className="form-label d-none"></label>
-                        <textarea className="form-control" id="content" rows="1" name="content" placeholder="Add a comment..." required></textarea>
+                        <textarea className="form-control" id="content" rows="4" name="content" placeholder="Add a comment..." required></textarea>
                     </div>
                     <div className="mb-3 d-flex justify-content-end">
                         <button type="submit" className="btn btn-success btn-sm">
-                            Write commment
+                            Commment
                         </button>
                     </div>
                 </form> :
@@ -141,7 +141,6 @@ export default function Comments ({target, auth}) {
                     }
                 </button>
             }
-
         </div>
     )
 }

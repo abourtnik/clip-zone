@@ -17,6 +17,8 @@ class Like extends Model
 
     public $timestamps = false;
 
+    protected static $recordEvents = ['created'];
+
     protected $casts = [
         'perform_at' => 'datetime',
     ];
@@ -34,5 +36,10 @@ class Like extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults();
+    }
+
+    public function tapActivity(Activity $activity, string $eventName)
+    {
+        $activity->properties = ['status' => $activity->subject->status];
     }
 }

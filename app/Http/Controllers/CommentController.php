@@ -2,27 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Comment\StoreCommentRequest;
+use App\Http\Requests\Comment\UpdateCommentRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Video;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Activity;
 
 class CommentController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Comment::class, 'comment');
+        //$this->authorizeResource(Comment::class, 'comment');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function index(Request $request) : ResourceCollection {
 
         $sort = $request->get('sort', 'top');
-        $target = $request->get('target');
+        $video_id = $request->get('video_id');
 
-        $video = Video::find($target)->loadCount('comments');
+        $video = Video::find($video_id)->loadCount('comments');
+
+        $this->authorize('viewAny', [Comment::class, $video]);
 
         return (CommentResource::collection(
             $video
@@ -75,29 +84,33 @@ class CommentController extends Controller
 
     }
 
-    public function store (Request $request) : CommentResource {
+    public function store (StoreCommentRequest $request) : CommentResource {
 
-        $comment = Auth::user()->comments()->create([
-            'video_id' => $request->get('target'),
-            'content' => $request->get('content'),
-            'parent_id' => $request->get('parent')
-        ]);
+        $video = Video::find($request->get('video_id'));
+
+        $this->authorize('create', [Comment::class, $video]);
+
+        $comment = Auth::user()->comments()->create($request->validated());
 
         return new CommentResource($comment);
     }
 
-    public function update(Comment $comment, Request $request): CommentResource
+    public function update(UpdateCommentRequest $request, Comment $comment): CommentResource
     {
-        $comment->update([
-            'content' => $request->get('content'),
-        ]);
+        $this->authorize('update', $comment);
+
+        $comment->update($request->validated());
 
         return new CommentResource($comment);
     }
 
     public function destroy(Comment $comment): JsonResponse
     {
+        $this->authorize('delete', $comment);
+
         $comment->delete();
+
+        Activity::forSubject($comment)->delete();
 
         return response()->json(null, 204);
     }

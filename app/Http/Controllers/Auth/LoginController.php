@@ -37,9 +37,9 @@ class LoginController
             Auth::login($user, $remember);
 
             if ($user->isAdministrator()) {
-                return redirect()->intended('admin');
+                return redirect()->route('admin.index');
             }else {
-                return redirect()->intended('user.index');
+                return redirect()->route('user.index');
             }
         }
 

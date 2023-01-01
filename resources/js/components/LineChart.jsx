@@ -7,6 +7,7 @@ import {
     Tooltip,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import moment from "moment";
 
 Chart.register(
     CategoryScale,
@@ -50,7 +51,7 @@ export default function LineChart({data}) {
 
     return (
         <Line options={options} data={{
-            labels: JSON.parse(data).map(p => p.month),
+            labels: JSON.parse(data).map(p => moment(p.date, 'YYYY-M-D').format("D MMM YYYY")),
             datasets: [
                 {
                     data: JSON.parse(data).map(p => p.count),

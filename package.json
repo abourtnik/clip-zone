@@ -19,6 +19,7 @@
         "alpinejs": "^3.10.5",
         "bootstrap": "^5.2.1",
         "chart.js": "^4.1.1",
+        "moment": "^2.29.4",
         "preact": "^10.11.2",
         "preact-custom-element": "^4.2.1",
         "react-chartjs-2": "^5.1.0",

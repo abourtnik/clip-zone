@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Video;
 
 use App\Enums\ImageType;
 use App\Enums\VideoStatus;
+use App\Enums\VideoType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
-class UpdateVideoRequest extends FormRequest
+class StoreVideoRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,9 +31,15 @@ class UpdateVideoRequest extends FormRequest
         return [
             'title' => 'required|string|max:100',
             'description' => 'nullable|string|max:5000',
-            'thumbnail' => [
-                'nullable',
+            'file' => [
                 'file',
+                'required',
+                'mimetypes:'.implode(',', VideoType::acceptedMimeTypes()),
+                'max:15360' // 15mo
+            ],
+            'thumbnail' => [
+                'file',
+                'required',
                 'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
                 'max:5120' // 5mo
             ],

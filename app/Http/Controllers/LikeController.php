@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\Interfaces\Likeable;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -16,9 +17,13 @@ class LikeController extends Controller
         $likeable = $model::findOrFail($request->get('id'));
 
         if (Auth::user()->hasLiked($likeable)) {
-            $likeable->likes()
+            $a = $likeable->likes()
                 ->whereHas('user', fn($q) => $q->whereId(Auth::user()->id))
-                ->delete();
+                ->first();
+
+            Activity::forSubject($a)->delete();
+            $a->delete();
+
         } else {
             Auth::user()->likes()->create([
                 'likeable_type' => get_class($likeable),
@@ -26,11 +31,13 @@ class LikeController extends Controller
                 'status' => true,
             ]);
         }
-
         if (Auth::user()->hasDisliked($likeable)) {
-            $likeable->dislikes()
+            $a = $likeable->dislikes()
                 ->whereHas('user', fn($q) => $q->whereId(Auth::user()->id))
-                ->delete();
+                ->first();
+
+            Activity::forSubject($a)->delete();
+            $a->delete();
         }
 
         return response()->json([
@@ -45,9 +52,14 @@ class LikeController extends Controller
         $likeable = $model::findOrFail($request->get('id'));
 
         if (Auth::user()->hasDisliked($likeable)) {
-            $likeable->dislikes()
+            $a = $likeable->dislikes()
                 ->whereHas('user', fn($q) => $q->whereId(Auth::user()->id))
-                ->delete();
+                ->first();
+
+            Activity::forSubject($a)->delete();
+            $a->delete();
+
+
         } else {
             Auth::user()->likes()->create([
                 'likeable_type' => get_class($likeable),
@@ -57,9 +69,13 @@ class LikeController extends Controller
         }
 
         if (Auth::user()->hasLiked($likeable)) {
-            $likeable->likes()
+            $a = $likeable->likes()
                 ->whereHas('user', fn($q) => $q->whereId(Auth::user()->id))
-                ->delete();
+                ->first();
+
+            Activity::forSubject($a)->delete();
+            $a->delete();
+
         }
 
         return response()->json([

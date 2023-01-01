@@ -80,6 +80,13 @@ class Video extends Model implements Likeable
         );
     }
 
+    protected function route(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => route('video.show', $this),
+        );
+    }
+
 
 
     public function comments () : HasMany {

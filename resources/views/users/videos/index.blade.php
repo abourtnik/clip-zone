@@ -2,13 +2,13 @@
 
 @section('content')
     @if($videos->total())
-    {{ Breadcrumbs::render('videos') }}
+        {{ Breadcrumbs::render('videos') }}
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2>My Videos</h2>
             <div>
-                <a class="btn btn-primary" href="{{route('user.videos.create')}}">
-                    <i class="fa-solid fa-plus"></i>
-                    New
+                <a class="btn btn-success" href="{{route('user.videos.create')}}">
+                    <i class="fa-solid fa-upload"></i>
+                    &nbsp;Import new video
                 </a>
             </div>
         </div>

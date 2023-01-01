@@ -173,6 +173,13 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
+    protected function route(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => route('pages.user', $this)
+        );
+    }
+
     public function sendEmailVerificationNotification () : void {
         $this->notify(new VerifyEmail);
     }

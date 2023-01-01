@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 use App\Models\Comment;
+use App\Models\Video;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
@@ -17,9 +18,11 @@ class CommentPolicy
      * @param User $user
      * @return Response|bool
      */
-    public function viewAny(User $user) : Response|bool
+    public function viewAny(User $user, Video $video) : Response|bool
     {
-        return true;
+        return $video->isActive() || $video->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(404, 'This video is private');
     }
 
     /**
@@ -52,9 +55,11 @@ class CommentPolicy
      * @param  User $user
      * @return Response|bool
      */
-    public function create(User $user): Response|bool
+    public function create(User $user, Video $video): Response|bool
     {
-        return true;
+        return $video->isActive() || $video->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(404, 'This video is private');
     }
 
 
@@ -68,7 +73,9 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment) : Response|bool
     {
-        return $comment->user->is($user);
+        return ($comment->user->is($user) && $comment->video->isActive()) || ($comment->video->user()->is($user) && $comment->user->is($user))
+            ? Response::allow()
+            : Response::denyWithStatus(404, 'This video is private');
     }
 
     /**
@@ -80,7 +87,7 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment): Response|bool
     {
-        return $comment->user->is($user) || $comment->video->user->is($user)
+        return ($comment->user->is($user) && $comment->video->isActive()) || ($comment->video->user()->is($user) && $comment->user->is($user))
             ? Response::allow()
             : Response::denyWithStatus(403);
     }
