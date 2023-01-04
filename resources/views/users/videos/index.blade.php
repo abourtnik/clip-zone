@@ -1,7 +1,7 @@
 @extends('layouts.user')
 
 @section('content')
-    @if($videos->total())
+    @if($videos->total() || $filters)
         {{ Breadcrumbs::render('videos') }}
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2>My Videos</h2>
@@ -13,6 +13,37 @@
             </div>
         </div>
         <hr>
+        <form class="my-4 d-flex gap-3 align-items-end" method="GET">
+            <div class="col">
+                <label for="search" class="form-label fw-bold">Search</label>
+                <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
+            </div>
+            <div class="col">
+                <label for="status" class="form-label fw-bold">Status</label>
+                <select name="status" class="form-select" aria-label="Default select example">
+                    <option selected value="">All</option>
+                    @foreach($video_status as $status)
+                        <option @if(($filters['status'] ?? null) === (string) $status['id']) selected @endif value="{{$status['id']}}">{{$status['name']}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col">
+                <label for="publication_date_start" class="form-label fw-bold">Publication date start</label>
+                <input type="datetime-local" name="date[]" class="form-control" id="publication_date_start" value="{{$filters['publication_date'][0] ?? null}}">
+            </div>
+            <div class="col">
+                <label for="publication_date_end" class="form-label fw-bold">Publication date end</label>
+                <input type="datetime-local" name="date[]" class="form-control" id="publication_date_end" value="{{$filters['publication_date'][1] ?? null}}">
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-outline-secondary" title="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
+                    <i class="fa-solid fa-eraser"></i>
+                </a>
+            </div>
+        </form>
         <table class="table table-bordered table-striped">
             <thead>
             <tr style="border-top: 3px solid #0D6EFD;">
@@ -26,7 +57,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($videos as $video)
+            @forelse($videos as $video)
                 <tr class="bg-light">
                     <td class="d-flex gap-3">
                         <a href="{{route('video.show', $video)}}">
@@ -86,7 +117,14 @@
                         </a>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+               <tr>
+                   <td colspan="7" class="text-center">
+                       <i class="fa-solid fa-database fa-2x my-3"></i>
+                       <p class="fw-bold">No matching videos</p>
+                   </td>
+               </tr>
+            @endforelse
             </tbody>
         </table>
         {{ $videos->links() }}

@@ -1,11 +1,33 @@
 @extends('layouts.user')
 
 @section('content')
-    @if($subscribers->total())
+    @if($subscribers->total() || $filters)
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2>My Subscribers</h2>
         </div>
         <hr>
+        <form class="my-4 d-flex gap-3 align-items-end" method="GET">
+            <div class="col">
+                <label for="search" class="form-label fw-bold">Search</label>
+                <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
+            </div>
+            <div class="col">
+                <label for="subscription_date_start" class="form-label fw-bold">Subscription date start</label>
+                <input type="datetime-local" name="date[]" class="form-control" id="subscription_date_start" value="{{$filters['subscription_date'][0] ?? null}}">
+            </div>
+            <div class="col">
+                <label for="subscription_date_end" class="form-label fw-bold">Subscription date end</label>
+                <input type="datetime-local" name="date[]" class="form-control" id="subscription_date_end" value="{{$filters['subscription_date'][1] ?? null}}">
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-outline-secondary" title="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
+                    <i class="fa-solid fa-eraser"></i>
+                </a>
+            </div>
+        </form>
         <table class="table table-bordered table-striped">
             <thead>
             <tr style="border-top: 3px solid #0D6EFD;">
@@ -17,7 +39,7 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($subscribers as $subscriber)
+            @forelse($subscribers as $subscriber)
                 <tr class="bg-light">
                     <td>
                         <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2">
@@ -25,16 +47,25 @@
                             <span>{{$subscriber->username}}</span>
                         </a>
                     </td>
-                    <td class="align-middle">{{$subscriber->pivot->subscribe_at->diffForHumans()}}</td>
+                    <td class="align-middle">
+                        {{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}
+                    </td>
                     <td class="align-middle">
                         {{trans_choice('subscribers', $subscriber->subscribers_count)}}
                     </td>
-                    <td class="align-middle">{{$subscriber->created_at->diffForHumans()}}</td>
+                    <td class="align-middle">{{$subscriber->created_at->format('d F Y - H:i')}}</td>
                     <td class="align-middle">
                        <subscribe-button isSubscribe="{{$subscriber->is_subscribe_to_current_user ? 'true' : 'false'}}" user="{{$subscriber->id}}" size="sm"/>
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td colspan="7" class="text-center">
+                        <i class="fa-solid fa-database fa-2x my-3"></i>
+                        <p class="fw-bold">No matching subscribers</p>
+                    </td>
+                </tr>
+            @endforelse
             </tbody>
         </table>
         {{ $subscribers->links() }}

@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\CommentFilters;
+use App\Filters\InteractionFilters;
+use App\Filters\VideoFilters;
+use App\Filters\SubscriberFilters;
+use App\Filters\ViewFilters;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\User;
@@ -18,40 +23,63 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class UserController
 {
-    public function index() : View
+    public function index(
+        VideoFilters $videoFilter,
+        CommentFilters $commentFilters,
+        SubscriberFilters $subscriberFilters,
+        InteractionFilters $interactionFilters,
+        ViewFilters $viewFilters,
+    ) : View
     {
         return view('users.index', [
             'user' => Auth::user()->load([
-                'videos' => function ($query) {
-                    $query->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
+                'videos' => function ($query) use ($videoFilter) {
+                    $query
+                        ->filter($videoFilter)
+                        ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
                         ->orderBy('publication_date', 'desc')
                         ->limit(5);
                 },
-                'subscribers' => function ($query) {
-                    $query->withCount('subscribers')
+                'subscribers' => function ($query) use ($subscriberFilters) {
+                    $query
+                        ->filter($subscriberFilters)
+                        ->withCount('subscribers')
                         ->orderBy('subscribe_at', 'desc')
                         ->limit(5);
                 },
-                "videos_comments" => function ($query) {
-                    $query->with(['user', 'video'])
+                "videos_comments" => function ($query) use ($commentFilters) {
+                    $query
+                        ->filter($commentFilters)
+                        ->with(['user', 'video'])
                         ->whereNull('parent_id')
                         ->withCount('replies')
                         ->orderBy('created_at', 'desc')
                         ->limit(5);
                 },
-                "videos_interactions" => function ($query) {
-                    $query->with([
-                        'likeable' => function (MorphTo $morphTo) {
-                            $morphTo->morphWith([
-                                Video::class => ['user']
-                            ]);
-                        },
-                        'user'
+                "videos_interactions" => function ($query) use ($interactionFilters) {
+                    $query
+                        ->filter($interactionFilters)
+                        ->with([
+                            'likeable' => function (MorphTo $morphTo) use ($interactionFilters) {
+                                $morphTo->morphWith([
+                                    Video::class => ['user']
+                                ]);
+                            },
+                            'user'
                     ])
                     ->orderBy('perform_at', 'desc')
                     ->limit(5);
                 }
-            ])->loadCount('subscribers', 'videos_comments', 'videos_views', 'videos_interactions', 'videos', 'videos_likes', 'videos_dislikes')
+            ])->loadCount([
+                'subscribers' => fn($query) => $query->filter($subscriberFilters),
+                'videos_views' => fn($query) => $query->filter($viewFilters),
+                'videos_interactions' => fn($query) => $query->whereHasMorph('likeable', Video::class, fn($query) => $query->whereHas('interactions', fn($query) => $query->filter($interactionFilters))),
+                'videos' => fn($query) => $query->filter($videoFilter),
+                'videos_comments' => fn($query) => $query->filter($commentFilters),
+                'videos_likes' => fn($query) => $query->whereHasMorph('likeable', Video::class, fn($query) => $query->whereHas('likes', fn($query) => $query->filter($interactionFilters))),
+                'videos_dislikes' => fn($query) => $query->whereHasMorph('likeable', Video::class, fn($query) => $query->whereHas('dislikes', fn($query) => $query->filter($interactionFilters))),
+            ]),
+            'filters' => $videoFilter->receivedFilters()
         ]);
     }
 
@@ -62,17 +90,20 @@ class UserController
         ]);
     }
 
-    public function subscribers() : View {
+    public function subscribers(SubscriberFilters $filters) : View {
         return view('users.subscribers', [
             'subscribers' => Auth::user()->load([
-                'subscribers' => function ($query) {
-                    $query->withCount(['subscribers as is_subscribe_to_current_user' => function($query) {
-                       $query->where('subscriber_id', Auth::id());
-                    }])
+                'subscribers' => function ($query) use ($filters) {
+                    $query
+                        ->filter($filters)
+                        ->withCount(['subscribers as is_subscribe_to_current_user' => function($query) {
+                            $query->where('subscriber_id', Auth::id());
+                        }])
                     ->withCount('subscribers')
                     ->orderBy('subscribe_at', 'desc');
                 }
-            ])->subscribers->paginate(15)
+            ])->subscribers->paginate(15),
+            'filters' => $filters->receivedFilters()
         ]);
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Enums\ImageType;
 use App\Enums\VideoStatus;
 use App\Enums\VideoType;
+use App\Filters\VideoFilters;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\StoreVideoRequest;
 use App\Http\Requests\Video\UpdateVideoRequest;
@@ -21,15 +22,18 @@ class VideoController extends Controller
         $this->authorizeResource(Video::class, 'video');
     }
 
-    public function index() {
+    public function index(VideoFilters $filters) {
         return view('users.videos.index', [
             'videos' => Auth::user()->load([
-                'videos' => function ($query) {
-                    $query->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
+                'videos' => function ($query) use ($filters) {
+                    $query
+                        ->filter($filters)
+                        ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
                         ->latest('updated_at');
                 }
-
-            ])->videos->paginate(15),
+            ])->videos->paginate(15)->withQueryString(),
+            'video_status' => VideoStatus::get(),
+            'filters' => $filters->receivedFilters()
         ]);
     }
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'preact/hooks';
 import Comment from "./Comment";
-import {usePaginateFetch} from "../hooks/usePaginateFetch";
+import {usePaginateFetch} from "../hooks";
 
 export default function Comments ({target, auth}) {
 
@@ -103,7 +103,7 @@ export default function Comments ({target, auth}) {
                 <form onSubmit={addComment}>
                     <div className="mb-2">
                         <label htmlFor="content" className="form-label d-none"></label>
-                        <textarea className="form-control" id="content" rows="4" name="content" placeholder="Add a comment..." required></textarea>
+                        <textarea className="form-control" id="content" rows="4" name="content" placeholder="Add a comment..." required maxLength={5000}></textarea>
                     </div>
                     <div className="mb-3 d-flex justify-content-end">
                         <button type="submit" className="btn btn-success btn-sm">

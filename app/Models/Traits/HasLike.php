@@ -3,6 +3,7 @@
 namespace App\Models\Traits;
 
 use App\Models\Like;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 

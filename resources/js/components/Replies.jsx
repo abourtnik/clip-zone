@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
-import {usePaginateFetch} from "../hooks/usePaginateFetch";
+import {usePaginateFetch} from "../hooks";
 import Like from "./Like";
 
 export default function Replies ({target}) {

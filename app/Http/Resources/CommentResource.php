@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 use App\Models\Comment;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 
 class CommentResource extends JsonResource
 {
@@ -19,6 +18,8 @@ class CommentResource extends JsonResource
         return [
             'id' => $this->id,
             'content' => $this->content,
+            'short_content' => $this->short_content,
+            'is_long' => $this->is_long,
             'user' => [
                 'id' => $this->user->id,
                 'username' => $this->user->username,

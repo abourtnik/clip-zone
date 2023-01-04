@@ -35,3 +35,13 @@ export function usePaginateFetch (url) {
         setNext
     }
 }
+
+export function useToggle (initial) {
+
+    const [value, setValue] = useState(initial);
+
+    const toggle = () => setValue(value => !value)
+
+    return [value, toggle]
+
+}

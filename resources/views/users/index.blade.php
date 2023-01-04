@@ -1,8 +1,38 @@
 @extends('layouts.user')
 
 @section('content')
+    <form class="mb-4 d-flex gap-3 align-items-end" method="GET">
+        <div class="col">
+            <label for="date_start" class="form-label fw-bold">Date start</label>
+            <input
+                type="datetime-local"
+                name="date[]"
+                class="form-control"
+                id="date_start"
+                value="{{$filters['date'][0] ?? null}}"
+            >
+        </div>
+        <div class="col">
+            <label for="date_end" class="form-label fw-bold">Date end</label>
+            <input
+                type="datetime-local"
+                name="date[]"
+                class="form-control"
+                id="date_end"
+                value="{{$filters['date'][1] ?? null}}"
+            >
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-outline-secondary" title="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
+                <i class="fa-solid fa-eraser"></i>
+            </a>
+        </div>
+    </form>
     <div class="row mb-4">
-        <div class="col-3">
+        <div class="col">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Uploaded videos</h5>
@@ -14,7 +44,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Subscribers</h5>
@@ -26,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Views</h5>
@@ -38,7 +68,19 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col">
+            <div class="card shadow border-primary">
+                <div class="card-body">
+                    <h5 class="card-title text-center text-primary">Comments</h5>
+                    <hr>
+                    <div class="d-flex align-items-center justify-content-center gap-4">
+                        <i class="fa-solid fa-comment fa-2x"></i>
+                        <p class="card-text text-center fs-1">{{$user->videos_comments_count}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
             <div class="card shadow border-primary">
                 <div class="card-body text-center">
                     <h5 class="card-title text-center text-primary">Interactions</h5>
@@ -67,7 +109,7 @@
                     </h5>
                 </div>
                 <div class="card-body d-flex justify-content-center">
-                    @if($user->videos_count)
+                    @if($user->videos_count || $filters)
                         <table class="table">
                             <thead>
                             <tr>
@@ -80,7 +122,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach($user->videos as $video)
+                                @forelse($user->videos as $video)
                                     <tr>
                                         <td class="align-middle d-flex gap-3 align-items-center">
                                             <a href="{{route('video.show', $video)}}">
@@ -112,7 +154,14 @@
                                             </a>
                                         </td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr class="bg-light">
+                                        <td colspan="7" class="text-center">
+                                            <i class="fa-solid fa-video-slash fa-2x my-3"></i>
+                                            <p class="fw-bold">No matching video for this period</p>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     @else
@@ -148,7 +197,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($user->subscribers_count)
+                    @if($user->subscribers_count || $filters)
                         <table class="table">
                         <thead>
                         <tr>
@@ -158,7 +207,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($user->subscribers as $subscriber)
+                        @forelse($user->subscribers as $subscriber)
                             <tr>
                                 <td class="align-middle">
                                     <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2">
@@ -171,7 +220,14 @@
                                     {{trans_choice('subscribers', $subscriber->subscribers_count)}}
                                 </td>
                             </tr>
-                        @endforeach
+                        @empty
+                            <tr class="bg-light">
+                                <td colspan="7" class="text-center">
+                                    <i class="fa-solid fa-user-slash fa-2x my-3"></i>
+                                    <p class="fw-bold">No matching subscribers for this period</p>
+                                </td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                     @else
@@ -203,7 +259,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($user->videos_comments_count)
+                    @if($user->videos_comments_count || $filters)
                         <table class="table">
                             <thead>
                             <tr>
@@ -214,12 +270,14 @@
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach($user->videos_comments as $comment)
+                                @forelse($user->videos_comments as $comment)
                                 <tr>
-                                    <td class="d-flex gap-3 align-items-center align-middle">
-                                        <a href="{{route('video.show', $comment->video)}}">
-                                            <img src="{{$comment->video->poster_url}}" alt="" style="width: 100px;">
-                                        </a>
+                                    <td class="align-start">
+                                        <div class="d-flex gap-3 align-items-center">
+                                            <a href="{{route('video.show', $comment->video)}}">
+                                                <img src="{{$comment->video->poster_url}}" alt="" style="width: 100px;">
+                                            </a>
+                                        </div>
                                     </td>
                                     <td class="align-middle">
                                         <div class="d-flex gap-2">
@@ -228,7 +286,7 @@
                                             </a>
                                             <div>
                                                 <a href="{{route('pages.user', $comment->user)}}">{{$comment->user->username}}</a>
-                                                <small class="text-muted d-block">{{$comment->content}}</small>
+                                                <small class="text-muted d-block">{{$comment->short_content}}</small>
                                             </div>
                                         </div>
                                     </td>
@@ -247,7 +305,14 @@
                                         <small>{{$comment->created_at->diffForHumans()}}</small>
                                     </td>
                                 </tr>
-                            @endforeach
+                                @empty
+                                    <tr class="bg-light">
+                                        <td colspan="7" class="text-center">
+                                            <i class="fa-solid fa-comment-slash fa-2x my-3"></i>
+                                            <p class="fw-bold">No matching comments for this period</p>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     @else
@@ -277,7 +342,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($user->videos_interactions_count)
+                    @if($user->videos_interactions_count || $filters)
                         <table class="table">
                             <thead>
                             <tr>
@@ -288,7 +353,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                @foreach($user->videos_interactions as $interaction)
+                                @forelse($user->videos_interactions as $interaction)
                                 <tr>
                                     <td class="align-middle">
                                         <a href="{{route('video.show', $interaction->likeable->id)}}">
@@ -308,9 +373,16 @@
                                             <i class="fa-solid fa-thumbs-down"></i>
                                         @endif
                                     </td>
-                                    <td class="align-middle">{{$interaction->perform_at->diffForHumans()}}</td>
+                                    <td class="align-middle">{{$interaction->perform_at->format('d F Y - H:i')}}</td>
                                 </tr>
-                            @endforeach
+                                @empty
+                                    <tr class="bg-light">
+                                        <td colspan="7" class="text-center">
+                                            <i class="fa-solid fa-bell-slash fa-2x my-3"></i>
+                                            <p class="fw-bold">No matching interactions for this period</p>
+                                        </td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     @else

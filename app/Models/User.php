@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Interfaces\Likeable;
 use App\Notifications\VerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -195,5 +196,10 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => $this->freshTimestamp(),
             'confirmation_token' => null,
         ])->save();
+    }
+
+    public function scopeFilter(Builder $query, $filters)
+    {
+        return $filters->apply($query);
     }
 }

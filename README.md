@@ -2,6 +2,7 @@
 
 ## Primary
 
+- Fix filter dashboard date for interactions_count
 - Delete video (constrained ?)
 - Search component React + Page Result
 - Optimize (eadger loading)

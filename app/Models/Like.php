@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -41,5 +42,10 @@ class Like extends Model
     public function tapActivity(Activity $activity, string $eventName)
     {
         $activity->properties = ['status' => $activity->subject->status];
+    }
+
+    public function scopeFilter(Builder $query, $filters)
+    {
+        return $filters->apply($query);
     }
 }

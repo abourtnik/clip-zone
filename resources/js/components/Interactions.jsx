@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
-import {usePaginateFetch} from "../hooks/usePaginateFetch";
+import {usePaginateFetch} from "../hooks";
 
 export default function Interactions ({target}) {
 

@@ -1,5 +1,6 @@
 import {useRef, useState} from 'preact/hooks';
 import { memo } from 'preact/compat';
+import {useToggle} from "../hooks";
 
 import Like from "./Like";
 
@@ -9,6 +10,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
     const [showReply, setShowReply] = useState(false);
     const [replies, setReplies] = useState(comment.replies);
     const [showReplies, setShowReplies] = useState(false);
+    const [expand, setExpand] = useToggle(false);
 
     const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
     const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
@@ -142,7 +144,10 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                                     <button onClick={() => setOnEdit(false)} className={'btn btn-secondary btn-sm'}>Cancel</button>
                                 </div>
                             </div>
-                            : <div className={'my-3'} style={{whiteSpace: 'pre-line'}}>{comment.content}</div>
+                            : <small className={'my-3'} style={{whiteSpace: 'pre-line'}}>
+                                <div>{expand ? comment.content : comment.short_content}</div>
+                                {comment.is_long && <button onClick={setExpand} className={'text-primary bg-transparent ps-0 mt-1'}>{expand ? 'Show less': 'Read more'}</button>}
+                            </small>
                     }
                     <div className="d-flex align-items-center gap-2 mt-1">
                         <div className="d-flex align-items-center gap-2">
@@ -170,7 +175,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                         <form className={'mt-2'} onSubmit={reply}>
                             <div className="mb-2">
                                 <label htmlFor={"content-" + comment.id} className="form-label d-none"></label>
-                                <textarea className="form-control" id={"content-" + comment.id} rows="1" name="content" placeholder="Répondre au commentaire ..." required></textarea>
+                                <textarea className="form-control" id={"content-" + comment.id} rows="1" name="content" placeholder="Add a reply ..." required maxLength={5000}></textarea>
                             </div>
                             <div className="d-flex justify-content-end gap-1">
                                 <button

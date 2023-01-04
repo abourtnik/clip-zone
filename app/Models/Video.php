@@ -115,4 +115,9 @@ class Video extends Model implements Likeable
     public function isPlanned () : bool {
         return $this->status === VideoStatus::PLANNED && $this->publication_date->gt(now());
     }
+
+    public function scopeFilter(Builder $query, $filters)
+    {
+        return $filters->apply($query);
+    }
 }

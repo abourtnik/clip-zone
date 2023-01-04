@@ -103,7 +103,7 @@
                 </template>
                 <template x-if="!open">
                     <p>
-                        {{substr($video->description, 0, 250)}}
+                        {{Str::limit($video->description, 250, ' ...')}}
                     </p>
                 </template>
                 <div class="text-primary fw-bold mt-1" x-text="open ? 'Show less': 'Show more'"></div>
