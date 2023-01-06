@@ -18,7 +18,12 @@
                         <img style="width: 100px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
                         <div class="ml-4">
                             <div>{{$user->username}}</div>
-                            <div class="text-muted text-sm">{{trans_choice('subscribers', $user->subscribers_count)}} • {{trans_choice('videos', $user->videos()->active()->count())}}</div>
+                            <div class="text-muted text-sm">
+                                @if($user->show_subscribers)
+                                    {{trans_choice('subscribers', $user->subscribers_count)}} •
+                                @endif
+                                {{trans_choice('videos', $user->videos()->active()->count())}}
+                            </div>
                         </div>
                     </div>
                     @auth

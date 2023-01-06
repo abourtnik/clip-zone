@@ -118,7 +118,7 @@ class UserController
 
         $user->update($validated);
 
-        return redirect()->route('user.profile');
+        return redirect()->route('user.edit');
     }
 
     public function updatePassword(Request $request): RedirectResponse {
@@ -141,7 +141,7 @@ class UserController
             'password' => $request->get('new_password')
         ]);
 
-        return redirect()->route('user.profile');
+        return redirect()->route('user.edit');
     }
 
     public function follow (User $user) : JsonResponse {

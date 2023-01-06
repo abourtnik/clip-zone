@@ -50,7 +50,7 @@ class CommentController extends Controller
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ])
                 ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
-                ->when($sort === 'recent', fn($query) => $query->latest())
+                ->when($sort === 'newest', fn($query) => $query->latest())
                 ->paginate(10)
         ))->additional([
             'count' => $video->comments_count,

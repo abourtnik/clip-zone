@@ -20,6 +20,7 @@ use App\Http\Controllers\VideoController;
 Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/trend', 'trend')->name('trend');
+    Route::get('/categories/{slug}', 'category')->name('category');
     Route::get('/subscriptions', 'subscriptions')->name('subscriptions');
     Route::get('/search', 'search')->name('search');
     Route::get('/user/{user}', 'user')->name('user');

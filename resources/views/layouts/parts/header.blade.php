@@ -5,6 +5,12 @@
     <search-bar class="d-flex w-25"></search-bar>
     <ul class="navbar-nav">
         @auth
+            <li class="nav-item ml-4 d-flex align-items-center">
+                <a class="btn btn-success" href="{{route('user.videos.create')}}">
+                    <i class="fa-solid fa-video-camera"></i>
+                    Create
+                </a>
+            </li>
             <li class="nav-item ml-4">
                 <a class="nav-link d-flex align-items-center" href="{{route('user.index')}}">
                     <strong>{{auth()->user()->username}}</strong>
@@ -20,7 +26,7 @@
             <li class="nav-item ml-4">
                 <a class="btn btn-outline-primary" href="{{route('login')}}">
                     <i class="fa-solid fa-user"></i>&nbsp;
-                    Se connecter
+                    Sign in
                 </a>
             </li>
         @endif

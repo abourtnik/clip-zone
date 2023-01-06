@@ -28,6 +28,16 @@
                 </select>
             </div>
             <div class="col">
+                <label for="category" class="form-label fw-bold">Category</label>
+                <select name="category" class="form-select" aria-label="Default select example">
+                    <option selected value="">All</option>
+                    <option @if(($filters['category'] ?? null) === 'without') selected @endif value="without">Without category</option>
+                    @foreach($categories as $category)
+                        <option @if(($filters['category'] ?? null) === (string) $category->id) selected @endif value="{{$category->id}}">{{$category->title}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col">
                 <label for="publication_date_start" class="form-label fw-bold">Publication date start</label>
                 <input type="datetime-local" name="date[]" class="form-control" id="publication_date_start" value="{{$filters['publication_date'][0] ?? null}}">
             </div>
@@ -47,10 +57,11 @@
         <table class="table table-bordered table-striped">
             <thead>
             <tr style="border-top: 3px solid #0D6EFD;">
-                <th scope="col" class="w-50">Video</th>
-                <th scope="col">Status</th>
+                <th scope="col" style="width: 40%">Video</th>
+                <th scope="col">Visibility</th>
                 <th scope="col">Publication date</th>
                 <th scope="col">Views</th>
+                <th scope="col">Category</th>
                 <th scope="col">Comments</th>
                 <th scope="col">Interactions</th>
                 <th scope="col">Actions</th>
@@ -74,7 +85,18 @@
                     <td class="align-middle">{{$video->publication_date->format('d F Y H:i')}}</td>
                     <td class="align-middle">{{$video->views_count}}</td>
                     <td class="align-middle">
-                        <div class="d-flex gap-3">
+                        @if($video->category)
+                            <div class="badge bg-primary">
+                                {{$video->category->title}}
+                            </div>
+                        @else
+                            <div class="badge bg-secondary">
+                                No category
+                            </div>
+                        @endif
+                    </td>
+                    <td class="align-middle">
+                        <div class="">
                             @if($video->comments_count)
                                 <div class="badge bg-info">
                                     {{trans_choice('comments', $video->comments_count)}}
@@ -84,10 +106,20 @@
                                     No comments
                                 </div>
                             @endif
+                            @if(!$video->allow_comments)
+                                <div class="badge bg-danger">
+                                    Disabled
+                                </div>
+                            @endif
                         </div>
                     </td>
                     <td class="align-middle">
                         @include('users.partials.interactions', ['item' => $video])
+                        @if(!$video->show_likes)
+                            <div class="badge bg-danger">
+                                Disabled
+                            </div>
+                        @endif
                     </td>
                     <td class="align-middle">
                         <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm" title="Edit video">
@@ -119,7 +151,7 @@
                 </tr>
             @empty
                <tr>
-                   <td colspan="7" class="text-center">
+                   <td colspan="8" class="text-center">
                        <i class="fa-solid fa-database fa-2x my-3"></i>
                        <p class="fw-bold">No matching videos</p>
                    </td>

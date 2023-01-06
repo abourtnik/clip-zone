@@ -3,17 +3,16 @@
 namespace App\Models;
 
 use App\Enums\VideoStatus;
-use App\Helpers\Number;
 use App\Models\Traits\HasLike;
 use App\Models\Interfaces\Likeable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Symfony\Component\Intl\Languages;
 
 class Video extends Model implements Likeable
 {
@@ -31,6 +30,10 @@ class Video extends Model implements Likeable
 
     public function user (): BelongsTo {
         return $this->belongsTo(User::class);
+    }
+
+    public function category (): BelongsTo {
+        return $this->belongsTo(Category::class);
     }
 
     public function views (): HasMany {
@@ -87,7 +90,19 @@ class Video extends Model implements Likeable
         );
     }
 
+    protected function descriptionIsLong(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Str::length($this->description) > 780,
+        );
+    }
 
+    protected function languageName(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Languages::getName($this->language),
+        );
+    }
 
     public function comments () : HasMany {
         return $this->hasMany(Comment::class);

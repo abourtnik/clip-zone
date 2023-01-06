@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\View;
 
 use Illuminate\Support\Facades\Log;
 
@@ -63,6 +65,11 @@ class AppServiceProvider extends ServiceProvider
                     'pageName' => $pageName,
                 ]
             );
+        });
+
+        View::composer(['pages.*', 'auth.*', 'videos.*'], function($view)
+        {
+            $view->with('categories', Category::where('in_menu', true)->ordered()->get());
         });
     }
 }

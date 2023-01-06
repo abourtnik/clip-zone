@@ -90,6 +90,23 @@
                                 <textarea class="form-control" id="description" rows="6" name="description" maxlength="5000">{{old('description', $user->description)}}</textarea>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <div class="form-check form-switch">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        id="show_subscribers"
+                                        value="1"
+                                        name="show_subscribers"
+                                        @if(old('show_subscribers', $user->show_subscribers)) checked @endif
+                                    >
+                                    <label class="form-check-label" for="show_subscribers">
+                                        Show subscribers count
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-footer d-flex justify-content-end">
                         <button type="submit" class="btn btn-secondary">

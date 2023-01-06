@@ -28,6 +28,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('country', 3)->nullable();
             $table->string('website')->nullable();
+            $table->boolean('show_subscribers')->default(true);
             $table->timestamps();
         });
     }

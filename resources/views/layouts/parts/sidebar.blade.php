@@ -69,5 +69,24 @@
              @endif
         </ul>
     @endif
+    @if(config('menu.'.$type. '.explore'))
+        <hr class="my-3 w-75 mx-auto">
+        <div class="fw-bold ps-4 mb-2">Explore</div>
+        <ul class="nav nav-pills flex-column mb-auto text-center">
+            @foreach($categories as $category)
+                <li class="nav-item">
+                    <a
+                        href="{{route('pages.category', $category->slug)}}"
+                        class="nav-link rounded-0 d-flex align-items-center gap-4 {{ (request()->route()->action['as'] === $menu['route']) ? 'bg-light-dark fw-bold text-black' : 'text-black' }}"
+                        aria-current="page"
+                    >
+                        <i style="width: 24px" class="fa-solid fa-{{$category->icon}}"></i>
+                        <span class="text-sm">{{$category->title}}</span>
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+
+    @endif
 </nav>
 

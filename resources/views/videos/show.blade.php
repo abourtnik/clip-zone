@@ -8,12 +8,12 @@
             </video>
             <div class="mt-3 d-flex align-items-center gap-2">
                 @if($video->isPlanned())
-                    <div class="d-flex alert alert-warning p-2 align-items-center gap-2 mb-0">
+                    <div class="d-flex alert alert-warning px-2 py-1 align-items-center gap-2 mb-0">
                         <i class="fa-solid fa-clock"></i>
                         <strong>Planned - {{$video->publication_date->format('d M Y H:i')}}</strong>
                     </div>
                 @elseif(!$video->isActive())
-                    <div class="d-flex alert alert-danger p-2 align-items-center gap-2 mb-0">
+                    <div class="d-flex alert alert-danger px-2 py-1 align-items-center gap-2 mb-0">
                         <i class="fa-solid fa-lock"></i>
                         <strong>Private</strong>
                     </div>
@@ -66,20 +66,20 @@
                 @endauth
             </div>
             <hr>
-            <div class="d-flex gap-3">
-                <a href="{{route('pages.user', $video->user)}}">
-                    <img class="rounded" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar" style="width: 48px;height: 48px;">
-                </a>
-                <div class="d-flex justify-content-between align-items-center w-100">
-                    <div>
+            <div class="d-flex gap-3 justify-content-between align-items-center">
+                <div class="d-flex gap-3">
+                    <a href="{{route('pages.user', $video->user)}}">
+                        <img class="rounded" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar" style="width: 48px;height: 48px;">
+                    </a>
+                    <div class="d-flex flex-column">
                         <a href="{{route('pages.user', $video->user)}}">{{$video->user->username}}</a>
-                        <small class="text-muted d-block">{{trans_choice('subscribers', $video->user->subscribers_count)}}</small>
-                    </div>
-                    @auth
-                        @if(auth()->user()->isNot($video->user))
-                            <subscribe-button isSubscribe="{{auth()->user()->isSubscribe($video->user) ? 'true' : 'false'}}" user="{{$video->user->id}}"/>
+                        @if($video->user->show_subscribers)
+                            <small class="text-muted d-block">{{trans_choice('subscribers', $video->user->subscribers_count)}}</small>
                         @endif
-                    @else
+                    </div>
+                </div>
+                <div class="">
+                    @if(!Auth::check())
                         <button
                             type="button"
                             class="btn btn-danger"
@@ -92,24 +92,56 @@
                         >
                             Subscribe
                         </button>
+                    @elseif(auth()->user()->isNot($video->user))
+                       <subscribe-button isSubscribe="{{auth()->user()->isSubscribe($video->user) ? 'true' : 'false'}}" user="{{$video->user->id}}"/>
                     @endif
                 </div>
             </div>
-            <div class="my-4 pb-2 pt-0 card card-body text-decoration-none pointer-event" style='cursor: pointer; white-space: pre-line' x-data="{ open: false }" @click="open=!open">
-                <template x-if="open">
-                    <p>
+            @if($video->description_is_long)
+                <div class="my-4 card pointer-event" style='cursor: pointer;' x-data="{ open: false }" @click="open=!open">
+                    <div class="card-body">
+                        <template x-if="open">
+                            <p>
+                                {{$video->description}}
+                            </p>
+                        </template>
+                        <template x-if="!open">
+                            <p>
+                                {{$video->short_description}}
+                            </p>
+                        </template>
+                        <div class="text-primary fw-bold mt-1" x-text="open ? 'Show less': 'Show more'"></div>
+                    </div>
+                </div>
+            @else
+                <div class="card my-4">
+                    <div class="card-body">
                         {{$video->description}}
-                    </p>
-                </template>
-                <template x-if="!open">
-                    <p>
-                        {{Str::limit($video->description, 250, ' ...')}}
-                    </p>
-                </template>
-                <div class="text-primary fw-bold mt-1" x-text="open ? 'Show less': 'Show more'"></div>
+                    </div>
+                </div>
+            @endif
+            <div class="d-flex gap-2 align-items-center">
+                @if($video->category)
+                    <div class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0">
+                        <i class="fa-solid fa-{{$video->category->icon}}"></i>
+                        <strong>{{$video->category->title}}</strong>
+                    </div>
+                @endif
+                @if($video->language)
+                    <div class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0">
+                        <i class="fa-solid fa-language"></i>
+                        <strong>{{$video->language_name}}</strong>
+                    </div>
+                @endif
             </div>
             <hr>
-            <comments-area target="{{$video->id}}" auth="{{auth()->user()?->id}}"/>
+            @if($video->allow_comments)
+                <comments-area target="{{$video->id}}" auth="{{auth()->user()?->id}}" defaultSort="{{$video->default_comments_sort}}"/>
+            @else
+                <div class="alert alert-primary text-center">
+                    <strong>Comments are turned off</strong>
+                </div>
+            @endif
         </div>
         <div class="col-3">
             @each('videos.card-secondary', $videos, 'video')

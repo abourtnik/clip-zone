@@ -185,6 +185,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Spatie\EloquentSortable\EloquentSortableServiceProvider::class,
 
         /*
          * Application Service Providers...

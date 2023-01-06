@@ -17,10 +17,30 @@ return [
                 'title' => 'Subscriptions',
                 'icon' => 'user-check',
                 'route' => 'pages.subscriptions',
-                'auth' => true
+                //'auth' => true
+            ],
+            [
+                'title' => 'History',
+                'icon' => 'history',
+                'route' => 'pages.subscriptions',
+                //'auth' => true
+            ],
+            [
+                'title' => 'Your videos',
+                'icon' => 'video',
+                'route' => 'user.index',
+                //'auth' => true
+            ],
+            [
+                'title' => 'Liked videos',
+                'icon' => 'thumbs-up',
+                'route' => 'pages.subscriptions',
+                //'auth' => true
             ]
+
         ],
-        'subscriptions' => true
+        'subscriptions' => true,
+        'explore' => true,
     ],
     'user' => [
         'top' => [

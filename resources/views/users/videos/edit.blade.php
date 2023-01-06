@@ -20,9 +20,15 @@
             <form action="{{ route('user.videos.update', $video) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
+                <h5 class="text-primary">Details</h5>
+                <hr>
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" class="form-control" id="title" name="title" required value="{{old('title', $video->title)}}">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" rows="6" name="description">{{old('description', $video->description)}}</textarea>
                 </div>
                 <div class="row">
                     <div class="col-6 mb-3">
@@ -39,9 +45,27 @@
                         <img src="{{$video->poster_url}}" class="w-100 img-fluid" style="height: 150px" alt="Video {{$video->id}} Thumbnail">
                     </div>
                 </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea class="form-control" id="description" rows="6" name="description">{{old('description', $video->description)}}</textarea>
+                <h5 class="text-primary my-3">Category & Language</h5>
+                <hr>
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <label for="category" class="form-label">Category</label>
+                        <select class="form-control" name="category_id" id="category">
+                            <option value="" disabled selected>--- Select category ---</option>
+                            @foreach($categories as $category)
+                                <option @if(old('category', $video->category_id) == $category->id) selected @endif value="{{$category->id}}">{{$category->title}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <label for="language" class="form-label">Video language</label>
+                        <select class="form-control" name="language" id="language">
+                            <option value="" disabled selected>--- Select Language ---</option>
+                            @foreach($languages as $code => $language)
+                                <option @if(old('language', $video->language) == $code) selected @endif value="{{$code}}">{{$language}}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
                 <div class="row" x-data="planned({{ json_encode(old('status', $video->real_status->value) == \App\Enums\VideoStatus::PLANNED->value)}})">
                     <div id="planned_value" class="d-none">{{\App\Enums\VideoStatus::PLANNED->value}}</div>
@@ -67,6 +91,48 @@
                             x-model="date"
                         >
                         <div class="form-text">The video remains private until it is published.</div>
+                    </div>
+                </div>
+                <h5 class="text-primary my-3">Comments and ratings</h5>
+                <hr>
+                <div class="row mb-3">
+                    <div class="col-4 d-flex align-items-center">
+                        <div class="form-check form-switch">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="allow_comments"
+                                value="1"
+                                name="allow_comments"
+                                @if(old('allow_comments', $video->allow_comments)) checked @endif
+                            >
+                            <label class="form-check-label" for="allow_comments">
+                                Allow comments on videos
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <label for="default_comments_sort" class="form-label">Default comments sort</label>
+                        <select class="form-control" name="default_comments_sort" id="default_comments_sort">
+                            @foreach(['top', 'newest'] as $option)
+                                <option @if(old('default_comments_sort', $video->default_comments_sort) == $option) selected @endif value="{{$option}}">{{Str::ucfirst($option)}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-4 d-flex align-items-center">
+                        <div class="form-check form-switch">
+                            <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="show_likes"
+                                value="1"
+                                name="show_likes"
+                                @if(old('show_likes', $video->show_likes)) checked @endif
+                            >
+                            <label class="form-check-label" for="show_likes">
+                                Show likes and dislikes count on video
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-between">

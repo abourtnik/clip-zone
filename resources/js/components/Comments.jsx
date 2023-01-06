@@ -2,12 +2,12 @@ import { useState, useEffect } from 'preact/hooks';
 import Comment from "./Comment";
 import {usePaginateFetch} from "../hooks";
 
-export default function Comments ({target, auth}) {
+export default function Comments ({target, auth, defaultsort}) {
 
     const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments?video_id=${target}`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
 
-    const [selectedSort, setSelectedSort] = useState('top');
+    const [selectedSort, setSelectedSort] = useState(defaultsort);
 
     useEffect( async () => {
         setPrimaryLoading(true);
@@ -95,7 +95,7 @@ export default function Comments ({target, auth}) {
                 <div>{count} Comment{count > 1 && 's'}</div>
                 <div className={'d-flex gap-2 align-items-center'}>
                     <button onClick={() => sort('top')} className={'btn btn-' + activeButton('top') + 'btn-sm'}>Top Comments</button>
-                    <button onClick={() => sort('recent')} className={'btn btn-' + activeButton('recent') + 'btn-sm'}>Newest first</button>
+                    <button onClick={() => sort('newest')} className={'btn btn-' + activeButton('newest') + 'btn-sm'}>Newest first</button>
                 </div>
             </div>
             {

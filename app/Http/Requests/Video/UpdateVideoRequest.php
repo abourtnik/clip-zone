@@ -7,6 +7,7 @@ use App\Enums\VideoStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
+use Symfony\Component\Intl\Languages;
 
 class UpdateVideoRequest extends FormRequest
 {
@@ -41,7 +42,31 @@ class UpdateVideoRequest extends FormRequest
                 Rule::excludeIf($this->status != VideoStatus::PLANNED->value),
                 'date',
                 'after:now'
-            ]
+            ],
+            'category_id' => 'nullable|exists:categories,id',
+            'language' => [
+                'nullable',
+                Rule::in(Languages::getLanguageCodes())
+            ],
+            'allow_comments' => 'required|boolean',
+            'default_comments_sort' => [
+                'required',
+                Rule::in(['top', 'newest']),
+            ],
+            'show_likes' => 'required|boolean'
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'allow_comments' => $this->request->has('allow_comments'),
+            'show_likes' => $this->request->has('show_likes'),
+        ]);
     }
 }

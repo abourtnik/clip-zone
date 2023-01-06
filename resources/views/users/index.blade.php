@@ -169,6 +169,7 @@
                             <i class="fa-solid fa-upload fa-2x"></i>
                             <h5 class="my-3">Import your first video</h5>
                             <a href="{{route('user.videos.create')}}" class="btn btn-success">
+                                <i class="fa-solid fa-plus"></i>
                                 Import
                             </a>
                         </div>

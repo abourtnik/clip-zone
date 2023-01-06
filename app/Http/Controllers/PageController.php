@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PageController
 {
@@ -20,6 +20,17 @@ class PageController
     public function trend(): View {
         return view('pages.trend', [
             'videos' => Video::active()->latest('publication_date')->paginate(12)
+        ]);
+    }
+
+    public function category(string $slug): View {
+
+        $category = Category::where('slug', $slug)->firstOrFail();
+
+        return view('pages.category', [
+            'category' => $category
+                ->load(['videos' => fn($q) => $q->withCount('views')->latest('publication_date')->paginate(24)])
+                ->loadCount('videos')
         ]);
     }
 

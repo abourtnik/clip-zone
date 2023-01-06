@@ -62,6 +62,19 @@ class UpdateUserRequest extends FormRequest
                 Rule::in(Countries::getCountryCodes())
             ],
             'website' => 'sometimes|nullable|url|max:255',
+            'show_subscribers' => 'sometimes|boolean'
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     *
+     * @return void
+     */
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'show_subscribers' => $this->request->has('show_subscribers')
+        ]);
     }
 }

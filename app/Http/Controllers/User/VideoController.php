@@ -9,11 +9,13 @@ use App\Filters\VideoFilters;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\StoreVideoRequest;
 use App\Http\Requests\Video\UpdateVideoRequest;
+use App\Models\Category;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\Intl\Languages;
 
 class VideoController extends Controller
 {
@@ -33,7 +35,8 @@ class VideoController extends Controller
                 }
             ])->videos->paginate(15)->withQueryString(),
             'video_status' => VideoStatus::get(),
-            'filters' => $filters->receivedFilters()
+            'filters' => $filters->receivedFilters(),
+            'categories' => Category::all(),
         ]);
     }
 
@@ -42,12 +45,13 @@ class VideoController extends Controller
             'video_status' => VideoStatus::get(),
             'accepted_video_mimes_types' => implode(', ', VideoType::acceptedMimeTypes()),
             'accepted_video_formats' => implode(', ', VideoType::acceptedFormats()),
-            'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats())
+            'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats()),
+            'categories' => Category::all(),
+            'languages' => Languages::getNames(),
         ]);
     }
 
     public function store(StoreVideoRequest $request): RedirectResponse {
-
         $validated = $request->safe()->merge([
             'file' => $request->file('file')->store('/', 'videos'),
             'mimetype' =>$request->file('file')->getMimeType(),
@@ -88,7 +92,9 @@ class VideoController extends Controller
         return view('users.videos.edit', [
             'video' => $video,
             'video_status' => VideoStatus::get(),
-            'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats())
+            'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats()),
+            'categories' => Category::all(),
+            'languages' => Languages::getNames(),
         ]);
     }
 
