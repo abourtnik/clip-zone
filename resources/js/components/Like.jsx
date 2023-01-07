@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks';
 import {ThumbsUpSolid, ThumbsUpRegular, ThumbsDownSolid, ThumbsDownRegular} from './Icon'
 
-export default function Like ({model, target, count, active, auth}) {
+export default function Like ({model, target, count, active, auth, showcount}) {
 
     const {like, dislike} = JSON.parse(active)
     const {likes_count, dislikes_count} = JSON.parse(count)
@@ -69,14 +69,14 @@ export default function Like ({model, target, count, active, auth}) {
                 className={'d-flex justify-content-between align-items-center btn btn-sm  ' + (liked ? 'btn' : 'btn-outline') + '-success'}
             >
                 {liked ? <ThumbsUpRegular/> : <ThumbsUpSolid/>}
-                {counterLike > 0 && <span className={'ml-1'}>{counterLike}</span>}
+                { (showcount === 'true' && counterLike > 0) && <span className={'ml-1'}>{counterLike}</span>}
             </button>
             <button
                 onClick={() => handleClick('dislike')}
                 className={'d-flex justify-content-between align-items-center btn btn-sm ' + (disliked ? 'btn' : 'btn-outline') + '-danger'}
             >
                 {disliked ? <ThumbsDownRegular/> : <ThumbsDownSolid/>}
-                {counterDislike > 0 && <span className={'ml-1'}>{counterDislike}</span>}
+                { (showcount === 'true' && counterDislike > 0) && <span className={'ml-1'}>{counterDislike}</span>}
             </button>
         </div>
     )

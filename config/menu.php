@@ -1,46 +1,46 @@
 <?php
 
 return [
-    'default' => [
+    'front' => [
         'top' => [
             [
-                'title' => 'Home',
-                'icon' => 'house',
-                'route' => 'pages.home',
+                [
+                    'title' => 'Home',
+                    'icon' => 'house',
+                    'route' => 'pages.home',
+                ],
+                [
+                    'title' => 'Trend',
+                    'icon' => 'fire',
+                    'route' => 'pages.trend',
+                ],
+                [
+                    'title' => 'Subscriptions',
+                    'icon' => 'user-check',
+                    'route' => 'pages.subscriptions',
+                ],
             ],
             [
-                'title' => 'Trend',
-                'icon' => 'fire',
-                'route' => 'pages.trend',
+                [
+                    'title' => 'History',
+                    'icon' => 'history',
+                    'route' => 'pages.subscriptions',
+                    //'auth' => true
+                ],
+                [
+                    'title' => 'Your videos',
+                    'icon' => 'video',
+                    'route' => 'user.index',
+                    //'auth' => true
+                ],
+                [
+                    'title' => 'Liked videos',
+                    'icon' => 'thumbs-up',
+                    'route' => 'pages.subscriptions',
+                    //'auth' => true
+                ]
             ],
-            [
-                'title' => 'Subscriptions',
-                'icon' => 'user-check',
-                'route' => 'pages.subscriptions',
-                //'auth' => true
-            ],
-            [
-                'title' => 'History',
-                'icon' => 'history',
-                'route' => 'pages.subscriptions',
-                //'auth' => true
-            ],
-            [
-                'title' => 'Your videos',
-                'icon' => 'video',
-                'route' => 'user.index',
-                //'auth' => true
-            ],
-            [
-                'title' => 'Liked videos',
-                'icon' => 'thumbs-up',
-                'route' => 'pages.subscriptions',
-                //'auth' => true
-            ]
-
         ],
-        'subscriptions' => true,
-        'explore' => true,
     ],
     'user' => [
         'top' => [

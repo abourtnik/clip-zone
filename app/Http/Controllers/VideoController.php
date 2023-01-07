@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\InteractionsResource;
 use App\Http\Resources\VideoResource;
+use App\Models\Category;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
@@ -12,10 +13,30 @@ use Illuminate\Support\Facades\Auth;
 
 class VideoController
 {
-    public function load () : ResourceCollection {
-
+    public function home () : ResourceCollection {
         return VideoResource::collection(
             Video::active()
+                ->with('user')
+                ->withCount('views')
+                ->latest('publication_date')
+                ->paginate(24)
+        );
+    }
+
+    public function trend () : ResourceCollection {
+        return VideoResource::collection(
+            Video::active()
+                ->with('user')
+                ->withCount('views')
+                ->orderBy('views_count', 'desc')
+                ->paginate(24)
+        );
+    }
+
+    public function category (Category $category) : ResourceCollection {
+        return VideoResource::collection(
+            Video::active()
+                ->whereRelation('category', 'id', $category->id)
                 ->with('user')
                 ->withCount('views')
                 ->latest('publication_date')

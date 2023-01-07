@@ -35,8 +35,13 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get("search", [\App\Http\Controllers\PageController::class, 'searchResult']);
-Route::get("videos", [VideoController::class, 'load']);
 
+
+Route::prefix('videos')->name('videos.')->controller(VideoController::class)->group(function () {
+    Route::get('/home', 'home')->name('home');
+    Route::get('/trend', 'trend')->name('trend');
+    Route::get('/category/{category}', 'category')->name('category');
+});
 
 
 

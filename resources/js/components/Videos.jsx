@@ -4,9 +4,9 @@ import Video from "./Video";
 import { useInView } from 'react-intersection-observer';
 
 
-export default function Videos ({}) {
+export default function Videos ({url}) {
 
-    const {items: videos, setItems: setVideos, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch('/api/videos/')
+    const {items: videos, setItems: setVideos, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(url)
     const [primaryLoading, setPrimaryLoading] = useState(true)
     const { ref, inView } = useInView({
         threshold: 0.5
@@ -24,8 +24,6 @@ export default function Videos ({}) {
         }
 
     }, [inView]);*/
-
-    console.log(hasMore)
 
     return (
         <>

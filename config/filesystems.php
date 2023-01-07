@@ -86,6 +86,12 @@ return [
             'throw' => false,
         ],
 
+        'categories' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/categories'),
+            'throw' => false,
+        ]
+
     ],
 
     /*

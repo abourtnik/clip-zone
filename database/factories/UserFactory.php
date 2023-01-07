@@ -27,6 +27,7 @@ class UserFactory extends Factory
             'description' => fake()->realText(),
             'country' => fake()->countryCode(),
             'website' => fake()->url(),
+            'show_subscribers' => fake()->boolean()
         ];
     }
 

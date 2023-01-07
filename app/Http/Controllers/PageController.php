@@ -5,22 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Video;
+use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PageController
 {
     public function home(): View {
-        return view('pages.home', [
-            'videos' => Video::active()->with('user')->latest('publication_date')->paginate(12)
-        ]);
+        return view('pages.home');
     }
 
     public function trend(): View {
-        return view('pages.trend', [
-            'videos' => Video::active()->latest('publication_date')->paginate(12)
-        ]);
+        return view('pages.trend');
     }
 
     public function category(string $slug): View {
@@ -28,15 +26,36 @@ class PageController
         $category = Category::where('slug', $slug)->firstOrFail();
 
         return view('pages.category', [
-            'category' => $category
-                ->load(['videos' => fn($q) => $q->withCount('views')->latest('publication_date')->paginate(24)])
-                ->loadCount('videos')
+            'category' => $category->loadCount('videos')
         ]);
     }
 
     public function subscriptions(): View {
+
+        $users = [];
+        $subscriptions = Auth::user()->subscriptions;
+
+        if (!$subscriptions->count()) {
+            $users = User::where('id', '!=', Auth::user()->id)
+                ->where('show_subscribers', true)
+                ->withCount('subscribers')
+                ->orderBy('subscribers_count', 'desc')
+                ->paginate(18);
+        } else {
+
+            $sorted_videos = Auth::user()
+                ->subscriptions_videos()
+                ->latest()
+                ->get()
+                ->groupBy(fn ($item) => Carbon::parse($item->created_at)->format('Y-m-d'))
+                ->all();
+
+        }
+
         return view('pages.subscriptions', [
-            'subscriptions' => auth()->user()->subscriptions
+            'subscriptions' => $subscriptions,
+            'users' => $users,
+            'sorted_videos' => $sorted_videos
         ]);
     }
 

@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-    <videos-area />
+    <videos-area url="{{route('videos.home')}}" />
 @endsection
 
 

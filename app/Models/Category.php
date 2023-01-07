@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\EloquentSortable\Sortable;
@@ -15,5 +16,12 @@ class Category extends Model implements Sortable
 
     public function videos () : HasMany {
         return $this->hasMany(Video::class);
+    }
+
+    protected function backgroundUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->background ? asset('storage/categories/'. $this->background) : '/images/default_banner.jpg'
+        );
     }
 }

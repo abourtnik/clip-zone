@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg bg-light border border-start-0 d-flex justify-content-between align-items-center px-2 sticky-top" style="height: 56px">
-    <a style="width: 280px" class="navbar-brand text-center" href="{{route('pages.home')}}">
+    <a style="width: 280px" class="navbar-brand text-center text-danger fw-bold" href="{{route('pages.home')}}">
         Youtube Clone
     </a>
     <search-bar class="d-flex w-25"></search-bar>

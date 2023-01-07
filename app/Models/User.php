@@ -58,6 +58,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id');
     }
 
+    public function subscriptions_videos () : HasManyThrough {
+        return $this->hasManyThrough(Video::class, Subscription::class, 'subscriber_id', 'user_id', 'id', 'user_id');
+    }
+
     public function latest_subscriptions() : BelongsToMany {
         return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id')->latest('subscribe_at');
     }

@@ -30,6 +30,7 @@ class VideoController extends Controller
                 'videos' => function ($query) use ($filters) {
                     $query
                         ->filter($filters)
+                        ->with('category:id,title')
                         ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
                         ->latest('updated_at');
                 }

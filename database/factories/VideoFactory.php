@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,7 +25,12 @@ class VideoFactory extends Factory
             'duration' => fake()->numberBetween(5, 4000),
             'mimetype' => 'video/mp4',
             'status' => fake()->numberBetween(0, 1),
-            'publication_date' => fake()->dateTimeInInterval('now', '+3 days')
+            'publication_date' => fake()->dateTimeInInterval('now', '+3 days'),
+            'category_id' => Category::inRandomOrder()->first()->id,
+            'language' => fake()->languageCode(),
+            'allow_comments' => fake()->boolean(),
+            'default_comments_sort' => fake()->randomElements(['top', 'newest']),
+            'show_likes' => fake()->boolean(),
         ];
     }
 }

@@ -30,6 +30,7 @@
                             target="{{$video->id}}"
                             count="{{ json_encode(['likes_count' => $video->likes_count, 'dislikes_count' => $video->dislikes_count ])}}"
                             auth="true"
+                            showCount="{{$video->show_likes ? 'true': 'false'}}"
                         />
                     </div>
                 @else
