@@ -8,11 +8,9 @@
 </head>
 <body>
     <main class="h-100 overflow-auto">
-        @include('layouts.parts.header')
+        @include('layouts.menus.header')
         <div class="admin-content d-flex overflow-hidden">
-            <nav class="d-flex flex-column flex-shrink-0 bg-light border-end admin-sidebar fixed">
-                @include('layouts.parts.sidebar', ['type' => 'user'])
-            </nav>
+            @include('layouts.menus.back', ['type' => 'user'])
             <div class="container-fluid mt-3" style="margin-left: 240px">
                 @yield('content')
             </div>

@@ -1,9 +1,9 @@
-@if($video->isActive())
+@if($video->is_active)
     <span class="badge bg-success">
         <i class="fa-solid fa-eye"></i>&nbsp;
         Public
     </span>
-@elseif($video->isPlanned())
+@elseif($video->is_planned)
     <span class="badge bg-warning">
         <i class="fa-solid fa-clock"></i>&nbsp;
         Planned

@@ -25,6 +25,10 @@ class Comment extends Model implements Likeable
 
     use HasFactory;
 
+    /**
+     * -------------------- RELATIONS --------------------
+     */
+
     public function video () : BelongsTo {
         return $this->belongsTo(Video::class);
     }
@@ -41,15 +45,9 @@ class Comment extends Model implements Likeable
         return $this->hasOne(Comment::class, 'id', 'parent_id');
     }
 
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
-    }
-
-    public function scopeFilter(Builder $query, $filters)
-    {
-        return $filters->apply($query);
-    }
+    /**
+     * -------------------- ATTRIBUTES --------------------
+     */
 
     protected function isLong(): Attribute
     {
@@ -64,4 +62,26 @@ class Comment extends Model implements Likeable
             get: fn () => Str::limit($this->content, 780,' ...'),
         );
     }
+
+    /**
+     * -------------------- SCOPES --------------------
+     */
+
+    public function scopeFilter(Builder $query, $filters)
+    {
+        return $filters->apply($query);
+    }
+
+    /**
+     * -------------------- METHODS --------------------
+     */
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
+
+
+
+
 }

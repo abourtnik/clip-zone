@@ -17,14 +17,14 @@ class VideoResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'poster' => $this->poster_url,
+            'thumbnail' => $this->thumbnail_url,
             'duration' => $this->duration,
             'views' => trans_choice('views', $this->views_count),
-            'route' => route('video.show', $this),
+            'route' => $this->route,
             'user' => [
                 'username' => $this->user->username,
                 'avatar' => $this->user->avatar_url,
-                'route' => route('pages.user', $this->user)
+                'route' => $this->user->route
             ],
             'created_at' => $this->created_at->diffForHumans(),
         ];

@@ -24,20 +24,17 @@ return [
                 [
                     'title' => 'History',
                     'icon' => 'history',
-                    'route' => 'pages.subscriptions',
-                    //'auth' => true
+                    'route' => 'pages.history',
                 ],
                 [
                     'title' => 'Your videos',
                     'icon' => 'video',
                     'route' => 'user.index',
-                    //'auth' => true
                 ],
                 [
                     'title' => 'Liked videos',
                     'icon' => 'thumbs-up',
-                    'route' => 'pages.subscriptions',
-                    //'auth' => true
+                    'route' => 'pages.liked',
                 ]
             ],
         ],

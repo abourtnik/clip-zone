@@ -23,7 +23,7 @@
                 <small class="text-muted">{{$activity->created_at->format('H:i')}}</small>
             </div>
             <a href="{{$activity->subject->likeable->route}}">
-                <img class="img-fluid" src="{{$activity->subject->likeable->poster_url}}" alt="{{$activity->subject->likeable->title}}" style="width: 120px;height: 68px">
+                <img class="img-fluid" src="{{$activity->subject->likeable->thumbnail_url}}" alt="{{$activity->subject->likeable->title}}" style="width: 120px;height: 68px">
             </a>
         </div>
     </div>

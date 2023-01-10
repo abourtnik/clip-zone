@@ -42,7 +42,7 @@
                         <div class="form-text">Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> - Max file size :  <strong>5 Mo</strong></div>
                     </div>
                     <div class="col-6">
-                        <img src="{{$video->poster_url}}" class="w-100 img-fluid" style="height: 150px" alt="Video {{$video->id}} Thumbnail">
+                        <img src="{{$video->thumbnail_url}}" class="w-100 img-fluid" style="height: 150px" alt="Video {{$video->id}} Thumbnail">
                     </div>
                 </div>
                 <h5 class="text-primary my-3">Category & Language</h5>

@@ -71,8 +71,8 @@
             @forelse($videos as $video)
                 <tr class="bg-light">
                     <td class="d-flex gap-3">
-                        <a href="{{route('video.show', $video)}}">
-                            <img src="{{$video->poster_url}}" alt="" style="width: 120px;height: 68px">
+                        <a href="{{$video->route}}">
+                            <img src="{{$video->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
                         </a>
                         <div>
                             <div>{{Str::limit($video->title, 100), '...'}}</div>
@@ -134,7 +134,7 @@
                             data-title="{{$video->title}}"
                             data-views="{{$video->views_count}} views"
                             data-publication="Publish at {{$video->publication_date->format('d F Y')}}"
-                            data-poster="{{$video->poster_url}}"
+                            data-poster="{{$video->thumbnail_url}}"
                             data-route="{{route('user.videos.destroy', $video)}}"
                             data-alt="{{$video->title}} Thumbnail"
                             data-comments="{{$video->comments_count}}"

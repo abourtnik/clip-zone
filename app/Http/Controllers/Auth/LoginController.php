@@ -36,7 +36,12 @@ class LoginController
 
             Auth::login($user, $remember);
 
-            if ($user->isAdministrator()) {
+            $user->update([
+                'last_login_at' => now(),
+                'last_login_ip' => $request->getClientIp(),
+            ]);
+
+            if ($user->is_admin) {
                 return redirect()->route('admin.index');
             }else {
                 return redirect()->route('user.index');

@@ -13,9 +13,9 @@
 </head>
 <body>
     <main class="h-100 overflow-auto">
-        @include('layouts.parts.header')
+        @include('layouts.menus.header')
         <div class="admin-content d-flex overflow-hidden">
-            @include('layouts.parts.sidebar', ['type' => 'admin'])
+            @include('layouts.menus.back', ['type' => 'admin'])
             <div class="container-fluid mt-3" style="margin-left: 280px">
                 @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">

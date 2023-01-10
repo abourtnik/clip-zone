@@ -5,7 +5,7 @@
 
 @section('content')
     <div class="position-relative">
-        <img class="w-100" style="height: 250px" src="{{$user->background_url}}" alt="{{$user->username}} banner">
+        <img class="w-100" style="height: 250px" src="{{$user->banner_url}}" alt="{{$user->username}} banner">
         @if($user->website)
             <a href="{{$user->website}}" class="position-absolute bottom-0 right-0 me-4 mb-4 p-2 text-white bg-dark bg-opacity-25 text-decoration-none text-uppercase">Website</a>
         @endif
@@ -28,7 +28,7 @@
                     </div>
                     @auth
                         @if(auth()->user()->isNot($user))
-                            <subscribe-button isSubscribe="{{auth()->user()->isSubscribe($user) ? 'true' : 'false'}}" user="{{$user->id}}"/>
+                            <subscribe-button isSubscribe="{{auth()->user()->isSubscribeTo($user) ? 'true' : 'false'}}" user="{{$user->id}}"/>
                         @endif
                     @else
                         <button
@@ -68,7 +68,7 @@
                     @if($user->videos->first())
                         <div class="row mt-4">
                             <div class="d-flex">
-                                <video controls class="w-50 h-100 border" controlsList="nodownload" poster="{{$user->videos->first()->poster_url}}">
+                                <video controls class="w-50 h-100 border" controlsList="nodownload" poster="{{$user->videos->first()->thumbnail_url}}">
                                     <source src="{{$user->videos->first()->url}}" type="video/mp4">
                                 </video>
                                 <div class="ml-4">
@@ -84,6 +84,13 @@
                             </div>
                         </div>
                         <hr>
+                    @else
+                        <div class="d-flex align-items-center h-75 mt-4">
+                            <div class="w-50 border p-4 bg-light text-center bg-white">
+                                <i class="fa-solid fa-video-slash fa-5x mb-3"></i>
+                                <p class="text-muted">This user has no videos</p>
+                            </div>
+                        </div>
                     @endif
                     <div class="mt-4">
                         <div class="row">
@@ -92,13 +99,22 @@
                     </div>
                 </div>
                 <div class="tab-pane " id="videos" role="tabpanel" aria-labelledby="videos-tab">
-                    <div class="d-flex align-items-center gap-2 my-4">
-                        <button type="button" class="btn btn-sm btn-primary">Recently uploaded</button>
-                        <button type="button" class="btn btn-sm btn-outline-primary">Popular</button>
-                    </div>
-                    <div class="row">
-                        @each('videos.card', $user->videos->paginate(12), 'video')
-                    </div>
+                    @if($user->videos->count())
+                        <div class="d-flex align-items-center gap-2 my-4">
+                            <button type="button" class="btn btn-sm btn-primary">Recently uploaded</button>
+                            <button type="button" class="btn btn-sm btn-outline-primary">Popular</button>
+                        </div>
+                        <div class="row">
+                            @each('videos.card', $user->videos->paginate(12), 'video')
+                        </div>
+                    @else
+                        <div class="d-flex align-items-center h-75 mt-4">
+                            <div class="w-50 border p-4 bg-light text-center bg-white">
+                                <i class="fa-solid fa-video-slash fa-5x mb-3"></i>
+                                <p class="text-muted">This user has no videos</p>
+                            </div>
+                        </div>
+                    @endif
                 </div>
                 <div class="tab-pane" id="about" role="tabpanel" aria-labelledby="about-tab">
                     <div class="row mt-4">

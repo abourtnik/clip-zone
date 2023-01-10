@@ -18,6 +18,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call([
+            CategorySeeder::class,
+        ]);
+
         User::factory(30)->create()->each(function($user) {
             $user->videos()->saveMany(Video::factory(rand(0, 10))->create([
                 'user_id' => $user->id
@@ -37,9 +41,5 @@ class DatabaseSeeder extends Seeder
                 $user->subscriptions()->toggle(User::where('id', '!=', $user->id)->inRandomOrder()->first());
             }
         });
-
-        $this->call([
-            CategorySeeder::class,
-        ]);
     }
 }

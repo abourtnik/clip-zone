@@ -7,6 +7,9 @@ help: ## Show help options
 exec: ## Enter in docker container
 	docker exec -it php_container /bin/bash
 
+reset: ## Reset database and run seeders
+	docker exec -it php_container php artisan migrate:fresh --seed
+
 start: ## Start dev server
 	docker-compose up -d
 	docker exec -it php_container npm run dev
@@ -14,5 +17,5 @@ start: ## Start dev server
 stop: ## Stop dev server
 	docker-compose down
 
-optimize: ## Stop dev server
+optimize: ## Clear application cache
 	docker exec -it php_container php artisan optimize

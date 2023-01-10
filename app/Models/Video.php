@@ -28,6 +28,10 @@ class Video extends Model implements Likeable
         'status' => VideoStatus::class
     ];
 
+    /**
+     * -------------------- RELATIONS --------------------
+     */
+
     public function user (): BelongsTo {
         return $this->belongsTo(User::class);
     }
@@ -40,12 +44,41 @@ class Video extends Model implements Likeable
         return $this->hasMany(View::class);
     }
 
-    public function getUrlAttribute() : string {
-        return asset('storage/videos/'. $this->file);
+    public function comments () : HasMany {
+        return $this->hasMany(Comment::class);
     }
 
-    public function getPosterUrlAttribute() : string {
-        return asset('storage/thumbnails/'. $this->thumbnail);
+    /**
+     * -------------------- ATTRIBUTES --------------------
+     */
+
+    protected function fileUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => asset('storage/videos/'. $this->file)
+        );
+    }
+
+    protected function thumbnailUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => asset('storage/thumbnails/'. $this->thumbnail)
+        );
+    }
+
+    protected function isActive(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->publication_date->lte(now()))
+        );
+    }
+
+    protected function isPlanned(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status === VideoStatus::PLANNED && $this->publication_date->gt(now())
+
+        );
     }
 
     protected function duration(): Attribute
@@ -61,13 +94,6 @@ class Video extends Model implements Likeable
             }
         );
     }
-
-    /*protected function views(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => Number::humanize($value)
-        );
-    }*/
 
     protected function shortDescription(): Attribute
     {
@@ -104,9 +130,9 @@ class Video extends Model implements Likeable
         );
     }
 
-    public function comments () : HasMany {
-        return $this->hasMany(Comment::class);
-    }
+    /**
+     * -------------------- SCOPES --------------------
+     */
 
     /**
      * Scope a query to only include active videos.
@@ -121,14 +147,6 @@ class Video extends Model implements Likeable
                 $query->where('status', VideoStatus::PLANNED)
                     ->where('publication_date', '<=', now());
             });
-    }
-
-    public function isActive () : bool {
-        return $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->publication_date->lte(now()));
-    }
-
-    public function isPlanned () : bool {
-        return $this->status === VideoStatus::PLANNED && $this->publication_date->gt(now());
     }
 
     public function scopeFilter(Builder $query, $filters)

@@ -21,6 +21,25 @@ class PageController
         return view('pages.trend');
     }
 
+    public function liked(): View {
+        return view('pages.liked');
+    }
+
+    public function history(): View {
+        return view('pages.history');
+    }
+
+    public function discover(): View {
+        return view('pages.discover', [
+           'users' => User::active()
+               ->where('show_subscribers', true)
+               ->withCount('subscribers')
+               ->when(Auth::check(), fn($query) => $query->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray()))
+               ->orderBy('subscribers_count', 'desc')
+               ->get()
+        ]);
+    }
+
     public function category(string $slug): View {
 
         $category = Category::where('slug', $slug)->firstOrFail();
@@ -32,30 +51,24 @@ class PageController
 
     public function subscriptions(): View {
 
-        $users = [];
-        $subscriptions = Auth::user()->subscriptions;
+        if (!Auth::check()) {
+            return view('pages.subscriptions');
+        }
 
-        if (!$subscriptions->count()) {
-            $users = User::where('id', '!=', Auth::user()->id)
+        return view('pages.subscriptions', [
+            'subscriptions' => Auth::user()->subscriptions,
+            'users' => User::active()
+                ->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray())
                 ->where('show_subscribers', true)
                 ->withCount('subscribers')
                 ->orderBy('subscribers_count', 'desc')
-                ->paginate(18);
-        } else {
-
-            $sorted_videos = Auth::user()
+                ->paginate(18),
+            'sorted_videos' => Auth::user()
                 ->subscriptions_videos()
                 ->latest()
                 ->get()
                 ->groupBy(fn ($item) => Carbon::parse($item->created_at)->format('Y-m-d'))
-                ->all();
-
-        }
-
-        return view('pages.subscriptions', [
-            'subscriptions' => $subscriptions,
-            'users' => $users,
-            'sorted_videos' => $sorted_videos
+                ->all()
         ]);
     }
 

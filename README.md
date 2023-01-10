@@ -18,13 +18,10 @@
 - Pin comment on video
 - Video protected (uuid)
 - Signal comment (video ?)
-- Authorize comment and like on video
 - Add label New video on recent video
 - Parse Link in Description
-- Add category
-- Add video language
 
-###Admin
+### Admin
 
 - Admin Block video 
 - Admin Block user (and all of this video) 

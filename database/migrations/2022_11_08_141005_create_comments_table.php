@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Comment::class, 'parent_id')->nullable()->constrained('comments');
             $table->longText('content');
+            $table->ipAddress('ip');
             $table->timestamps();
         });
     }

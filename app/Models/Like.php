@@ -34,11 +34,6 @@ class Like extends Model
         return $this->morphTo();
     }
 
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
-    }
-
     public function tapActivity(Activity $activity, string $eventName)
     {
         $activity->properties = ['status' => $activity->subject->status];
@@ -47,5 +42,10 @@ class Like extends Model
     public function scopeFilter(Builder $query, $filters)
     {
         return $filters->apply($query);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
     }
 }

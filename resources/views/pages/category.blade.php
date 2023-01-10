@@ -7,7 +7,7 @@
     <img class="w-100" src="{{$category->background_url}}" alt="{{$category->title}} background" style="height: 270px;object-fit: cover;">
     <div class="bg-light-dark d-flex align-items-center justify-content-between py-4 px-3">
         <div class="d-flex gap-4 align-items-center">
-            <div class="rounded-circle bg-info p-3">
+            <div class="rounded-circle p-3" style="background-color: rebeccapurple">
                 <i class="fa-solid fa-{{$category->icon}} fa-2x text-white"></i>
             </div>
             <h5>{{$category->title}}</h5>

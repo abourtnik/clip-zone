@@ -22,8 +22,14 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/trend', 'trend')->name('trend');
     Route::get('/categories/{slug}', 'category')->name('category');
     Route::get('/subscriptions', 'subscriptions')->name('subscriptions');
+    Route::get('/discover', 'discover')->name('discover');
     Route::get('/search', 'search')->name('search');
-    Route::get('/user/{user}', 'user')->name('user');
+    Route::get('/user/{user}', 'user')->name('user')->can('show', 'user');
+
+    Route::middleware('auth')->group(function () {
+        Route::get('/history', 'history')->name('history');
+        Route::get('/liked', 'liked')->name('liked');
+    });
 });
 
 // VIDEOS

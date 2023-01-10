@@ -84,7 +84,7 @@ class UserController
     }
 
     public function edit(): View {
-        return view('users.profile.index', [
+        return view('users.profile.edit', [
             'user' => Auth::user(),
             'countries' => Countries::getNames()
         ]);

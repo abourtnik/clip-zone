@@ -8,7 +8,7 @@
 </head>
 <body>
     <main class="h-100 overflow-auto">
-        @include('layouts.parts.header')
+        @include('layouts.menus.header')
         <div class="admin-content d-flex">
             @include('layouts.menus.front')
             <div class="container-fluid my-3 @yield('class')" style="margin-left: 240px;height: calc(100vh - 56px - 2rem); @yield('style')">

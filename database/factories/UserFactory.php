@@ -23,6 +23,8 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => 'password',
+            'last_login_at' => now(),
+            'last_login_ip' => fake()->ipv4(),
             'remember_token' => Str::random(10),
             'description' => fake()->realText(),
             'country' => fake()->countryCode(),

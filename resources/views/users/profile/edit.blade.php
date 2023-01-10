@@ -105,6 +105,7 @@
                                         Show subscribers count
                                     </label>
                                 </div>
+                                <div class="form-text">If you disabled this, you don't appear on discover page </div>
                             </div>
                         </div>
                     </div>

@@ -3,16 +3,16 @@
 @section('content')
     <div class="row">
         <div class="col-9">
-            <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->poster_url}}">
-                <source src="{{$video->url}}" type="{{$video->mimetype}}">
+            <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
+                <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
             </video>
             <div class="mt-3 d-flex align-items-center gap-2">
-                @if($video->isPlanned())
+                @if($video->is_planned)
                     <div class="d-flex alert alert-warning px-2 py-1 align-items-center gap-2 mb-0">
                         <i class="fa-solid fa-clock"></i>
                         <strong>Planned - {{$video->publication_date->format('d M Y H:i')}}</strong>
                     </div>
-                @elseif(!$video->isActive())
+                @elseif(!$video->is_active)
                     <div class="d-flex alert alert-danger px-2 py-1 align-items-center gap-2 mb-0">
                         <i class="fa-solid fa-lock"></i>
                         <strong>Private</strong>

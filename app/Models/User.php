@@ -36,14 +36,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'banned_at' => 'datetime'
     ];
 
-    public function isAdministrator() : bool|null {
-        return $this->is_admin;
-    }
-
     /**
-     * Relations
+     * -------------------- RELATIONS --------------------
      */
 
     public function videos() : HasMany {
@@ -54,16 +51,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(View::class);
     }
 
+    public function comments () : HasMany {
+        return $this->hasMany(Comment::class);
+    }
+
     public function subscriptions() : BelongsToMany {
         return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id');
-    }
-
-    public function subscriptions_videos () : HasManyThrough {
-        return $this->hasManyThrough(Video::class, Subscription::class, 'subscriber_id', 'user_id', 'id', 'user_id');
-    }
-
-    public function latest_subscriptions() : BelongsToMany {
-        return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id')->latest('subscribe_at');
     }
 
     public function subscribers() : BelongsToMany {
@@ -72,8 +65,12 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withPivot('subscribe_at');
     }
 
-    public function comments () : HasMany {
-        return $this->hasMany(Comment::class);
+    public function subscriptions_videos () : HasManyThrough {
+        return $this->hasManyThrough(Video::class, Subscription::class, 'subscriber_id', 'user_id', 'id', 'user_id');
+    }
+
+    public function latest_subscriptions() : BelongsToMany {
+        return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id')->latest('subscribe_at');
     }
 
     public function videos_comments () : HasManyThrough {
@@ -101,48 +98,25 @@ class User extends Authenticatable implements MustVerifyEmail
             ->where('likeable_type', Video::class);
     }
 
-    public function isSubscribe (User $user) : bool {
-        return $this->subscriptions()->where('user_id', $user->id)->exists();
-    }
-
-    public function getAvatarUrlAttribute() : string {
-        return $this->avatar ? asset('storage/avatars/'. $this->avatar) : '/images/default_men.png';
-    }
-
-    public function getBackgroundUrlAttribute() : string {
-        return $this->banner ? asset('storage/banners/'. $this->banner) : '/images/default_banner.jpg';
-    }
-
     public function likes () : HasMany {
         return $this->hasMany(Like::class);
     }
 
-    public function hasInteract(Likeable $likeable): bool
-    {
-        return $likeable->interactions()
-            ->whereHas('user', fn($q) =>  $q->whereId($this->id))
-            ->exists();
-    }
-
-    public function hasLiked(Likeable $likeable): bool
-    {
-        return $likeable->likes()
-            ->whereHas('user', fn($q) =>  $q->whereId($this->id))
-            ->where('status', true)
-            ->exists();
-    }
-
-    public function hasDisliked(Likeable $likeable): bool
-    {
-        return $likeable->dislikes()
-            ->whereHas('user', fn($q) =>  $q->whereId($this->id))
-            ->where('status', false)
-            ->exists();
-    }
-
     /**
-     * Attributes
+     * -------------------- ATTRIBUTES --------------------
      */
+
+    public function avatarUrl() : Attribute {
+        return Attribute::make(
+            get: fn () => $this->avatar ? asset('storage/avatars/'. $this->avatar) : '/images/default_men.png'
+        );
+    }
+
+    public function bannerUrl() : Attribute {
+        return Attribute::make(
+            get: fn () => $this->banner ? asset('storage/banners/'. $this->banner) : '/images/default_banner.jpg'
+        );
+    }
 
     public function firstActiveVideo (): Attribute
     {
@@ -157,12 +131,6 @@ class User extends Authenticatable implements MustVerifyEmail
             get: fn () => $this->videos()->whereNot('id', $this->first_active_video->id)->active()->latest('publication_date')
         );
     }
-
-    /*public function views () : Attribute {
-        return Attribute::make(
-            get: fn () => number_format(num: $this->videos()->sum('views'), thousands_separator: ' ')
-        );
-    }*/
 
     protected function password(): Attribute
     {
@@ -185,6 +153,68 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
+    protected function isActive(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => !$this->is_banned && $this->hasVerifiedEmail() && !$this->is_admin
+        );
+    }
+
+    protected function isBanned(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => !is_null($this->banned_at)
+        );
+    }
+
+    /**
+     * -------------------- SCOPES --------------------
+     */
+
+    /**
+     * Scope a query to only include active users.
+     *
+     * @param  Builder $query
+     * @return void
+     */
+    public function scopeActive(Builder $query): void
+    {
+        $query->whereNotNull(['email_verified_at',])->whereNull(['is_admin', 'banned_at']);
+    }
+
+    public function scopeFilter(Builder $query, $filters)
+    {
+        return $filters->apply($query);
+    }
+
+    /**
+     * -------------------- METHODS --------------------
+     */
+
+    public function isSubscribeTo(User $user) : bool
+    {
+        return $this->subscriptions()->where('user_id', $user->id)->exists();
+    }
+
+    protected function hasLiked(Likeable $likeable): bool
+    {
+        return $likeable->likes()
+            ->whereHas('user', fn($q) =>  $q->whereId($this->id))
+            ->exists();
+    }
+
+    protected function hasDisliked(Likeable $likeable): bool
+    {
+        return $likeable->dislikes()
+            ->whereHas('user', fn($q) =>  $q->whereId($this->id))
+            ->exists();
+    }
+
+    /**
+     * Send e-mail for verify account.
+     *
+     * @return void
+     */
     public function sendEmailVerificationNotification () : void {
         $this->notify(new VerifyEmail);
     }
@@ -200,10 +230,5 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => $this->freshTimestamp(),
             'confirmation_token' => null,
         ])->save();
-    }
-
-    public function scopeFilter(Builder $query, $filters)
-    {
-        return $filters->apply($query);
     }
 }

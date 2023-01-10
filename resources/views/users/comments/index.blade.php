@@ -71,7 +71,7 @@
                     <td class="">
                         <div class="d-flex gap-3 align-items-center">
                             <a href="{{route('video.show', $comment->video)}}">
-                                <img src="{{$comment->video->poster_url}}" alt="" style="width: 120px;height: 68px">
+                                <img src="{{$comment->video->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
                             </a>
                             <div>{{Str::limit($comment->video->title, 100), '...'}}</div>
                         </div>

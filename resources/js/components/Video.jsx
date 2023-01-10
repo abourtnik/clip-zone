@@ -4,7 +4,7 @@ export default function Video ({video}) {
             <div className="position-relative">
                 <a href={video.route}>
                     <div className="position-relative">
-                        <img className="img-fluid w-100" src={video.poster} alt={video.title} style="width: 360px; height: 200px"/>
+                        <img className="img-fluid w-100" src={video.thumbnail} alt={video.title} style="width: 360px; height: 200px"/>
                         <small className="position-absolute bottom-0 right-0 p-1 text-white bg-dark">
                             {video.duration}
                         </small>

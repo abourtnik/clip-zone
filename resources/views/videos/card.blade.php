@@ -2,7 +2,7 @@
     <div class="position-relative">
         <a href="{{route('video.show', $video)}}" >
             <div class="position-relative">
-                <img class="img-fluid w-100" src="{{$video->poster_url}}" alt="{{$video->title}}" style="width: 360px; height: 200px">
+                <img class="img-fluid w-100" src="{{$video->thumbnail_url}}" alt="{{$video->title}}" style="width: 360px; height: 200px">
                 <small class="position-absolute bottom-0 right-0 p-1 text-white bg-dark">
                     {{$video->duration}}
                 </small>

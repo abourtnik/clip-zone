@@ -125,8 +125,8 @@
                                 @forelse($user->videos as $video)
                                     <tr>
                                         <td class="align-middle d-flex gap-3 align-items-center">
-                                            <a href="{{route('video.show', $video)}}">
-                                                <img src="{{$video->poster_url}}" alt="" style="width: 101px;">
+                                            <a href="{{$video->route}}">
+                                                <img src="{{$video->thumbnail_url}}" alt="" style="width: 101px;">
                                             </a>
                                             <small>{{Str::limit($video->title, 30)}}</small>
                                         </td>
@@ -276,7 +276,7 @@
                                     <td class="align-start">
                                         <div class="d-flex gap-3 align-items-center">
                                             <a href="{{route('video.show', $comment->video)}}">
-                                                <img src="{{$comment->video->poster_url}}" alt="" style="width: 100px;">
+                                                <img src="{{$comment->video->thumbnail_url}}" alt="" style="width: 100px;">
                                             </a>
                                         </div>
                                     </td>
@@ -358,7 +358,7 @@
                                 <tr>
                                     <td class="align-middle">
                                         <a href="{{route('video.show', $interaction->likeable->id)}}">
-                                            <img src="{{$interaction->likeable->poster_url}}" alt="" style="width: 100px;height: 60px">
+                                            <img src="{{$interaction->likeable->thumbnail_url}}" alt="" style="width: 100px;height: 60px">
                                         </a>
                                     </td>
                                     <td class="align-middle">

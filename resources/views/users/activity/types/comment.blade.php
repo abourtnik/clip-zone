@@ -16,7 +16,7 @@
                 <small class="text-muted">{{$activity->created_at->format('H:i')}}</small>
             </div>
             <a href="{{$activity->subject->video->route}}">
-                <img class="img-fluid" src="{{$activity->subject->video->poster_url}}" alt="{{$activity->subject->video->title}}" style="width: 120px;height: 68px">
+                <img class="img-fluid" src="{{$activity->subject->video->thumbnail_url}}" alt="{{$activity->subject->video->title}}" style="width: 120px;height: 68px">
             </a>
         </div>
     </div>

@@ -3,11 +3,10 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Video;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-class VideoPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -26,28 +25,24 @@ class VideoPolicy
      * Determine whether the user can view the model.
      *
      * @param  User $user
-     * @param  Video $video
      * @return Response|bool
      */
-    public function view(User $user, Video $video): Response|bool
+    public function view(User $user): Response|bool
     {
-        return $video->user()->is($user)
-            ? Response::allow()
-            : Response::denyWithStatus(404);
+        return true;
     }
 
     /**
      * Determine whether the user can view video.
      *
      * @param User|null $user
-     * @param Video $video
      * @return Response|bool
      */
-    public function show(?User $user, Video $video): Response|bool
+    public function show(?User $user, User $model): Response|bool
     {
-        return $video->is_active || $video->user()->is($user)
+        return $model->is_active
             ? Response::allow()
-            : Response::denyWithStatus(404, 'This video is private');
+            : Response::denyWithStatus(404, 'This user don\'t exist');
     }
 
     /**
@@ -65,27 +60,21 @@ class VideoPolicy
      * Determine whether the user can update the model.
      *
      * @param  User $user
-     * @param  Video $video
      * @return Response|bool
      */
-    public function update(User $user, Video $video) : Response|bool
+    public function update(User $user) : Response|bool
     {
-        return $video->user()->is($user)
-            ? Response::allow()
-            : Response::denyWithStatus(404);
+        return true;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  User $user
-     * @param  Video $video
      * @return Response|bool
      */
-    public function delete(User $user, Video $video) : Response|bool
+    public function delete(User $user) : Response|bool
     {
-        return $video->user()->is($user)
-            ? Response::allow()
-            : Response::denyWithStatus(404);
+        return true;
     }
 }

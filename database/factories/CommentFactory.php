@@ -20,7 +20,8 @@ class CommentFactory extends Factory
     {
         return [
             'content' => fake()->text(100),
-            'user_id' => User::inRandomOrder()->first()->id
+            'user_id' => User::inRandomOrder()->first()->id,
+            'ip' => fake()->ipv4(),
         ];
     }
 }
