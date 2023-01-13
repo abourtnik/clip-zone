@@ -130,6 +130,13 @@ class Video extends Model implements Likeable
         );
     }
 
+    protected function type(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => 'video',
+        );
+    }
+
     /**
      * -------------------- SCOPES --------------------
      */

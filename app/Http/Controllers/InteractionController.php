@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\InteractionsResource;
 use App\Models\Activity;
-use App\Models\Interfaces\Likeable;
+use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
-class LikeController extends Controller
+class InteractionController extends Controller
 {
     public function like(Request $request): JsonResponse
     {
@@ -81,5 +83,22 @@ class LikeController extends Controller
         return response()->json([
 
         ]);
+    }
+
+    public function list (Request $request) : ResourceCollection {
+
+        $filter = $request->get('filter', 'all');
+        $search = $request->get('search');
+        $video_id = $request->get('video_id');
+
+        $video = Video::findOrFail($video_id)->loadCount('comments');
+
+        return InteractionsResource::collection(
+            $video->interactions()
+                ->when($filter === 'up', fn($query) => $query->where('status', true))
+                ->when($filter === 'down', fn($query) => $query->where('status', false))
+                ->when($search, fn($query) => $query->whereRelation('user', 'username', 'LIKE',  '%'.$search.'%'))
+                ->paginate(30)
+        );
     }
 }

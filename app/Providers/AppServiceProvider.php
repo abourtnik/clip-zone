@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 
@@ -67,9 +68,9 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        View::composer(['pages.*', 'auth.*', 'videos.*'], function($view)
-        {
+        View::composer(['pages.*', 'auth.*', 'videos.show'], function($view) {
             $view->with('categories', Category::where('in_menu', true)->ordered()->get());
+            $view->with('subscriptions', Auth::user()?->subscriptions()->latest('subscribe_at')->get());
         });
     }
 }

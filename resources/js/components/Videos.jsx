@@ -2,7 +2,7 @@ import {useState, useEffect} from 'preact/hooks';
 import {usePaginateFetch} from "../hooks";
 import Video from "./Video";
 import { useInView } from 'react-intersection-observer';
-
+import Skeleton from "./Skeleton";
 
 export default function Videos ({url}) {
 
@@ -29,11 +29,10 @@ export default function Videos ({url}) {
         <>
         {
             (primaryLoading) ?
-                <div className={'h-100 d-flex align-items-center justify-content-center'}>
-                    <div className="spinner-border" role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
-                </div> :
+                <div id="video-container" className="row gx-4">
+                    {[...Array(24).keys()].map(i => <Skeleton key={i}/>)}
+                </div>
+                :
                 <>
                     {
                         (videos.length) ?

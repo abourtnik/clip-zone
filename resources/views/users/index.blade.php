@@ -369,9 +369,13 @@
                                     </td>
                                     <td class="align-middle">
                                         @if($interaction->status)
-                                            <i class="fa-solid fa-thumbs-up"></i>
+                                            <div class="badge bg-success">
+                                                <i class="fa-solid fa-thumbs-up"></i>
+                                            </div>
                                         @else
-                                            <i class="fa-solid fa-thumbs-down"></i>
+                                            <div class="badge bg-danger">
+                                                <i class="fa-solid fa-thumbs-down"></i>
+                                            </div>
                                         @endif
                                     </td>
                                     <td class="align-middle">{{$interaction->perform_at->format('d F Y - H:i')}}</td>

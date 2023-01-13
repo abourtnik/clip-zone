@@ -4,9 +4,7 @@
 
 - Fix filter dashboard date for interactions_count
 - Delete video (constrained ?)
-- Search component React + Page Result
 - Optimize (eadger loading)
-- see likes and dislikes in modal
 - edit, delete responses commentaires
 - optimize render React
 - optimize like system

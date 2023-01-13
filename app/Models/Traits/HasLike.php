@@ -2,8 +2,7 @@
 
 namespace App\Models\Traits;
 
-use App\Models\Like;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Interaction;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
@@ -11,7 +10,7 @@ trait HasLike
 {
     public function interactions(): MorphMany
     {
-        return $this->morphMany(Like::class, 'likeable');
+        return $this->morphMany(Interaction::class, 'likeable');
     }
 
     public function likes(): MorphMany

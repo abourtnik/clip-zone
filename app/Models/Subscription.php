@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Subscription extends Pivot
 {
+    use HasFactory;
+
     protected $table = 'subscriptions';
 
     protected $casts = [
@@ -15,5 +17,5 @@ class Subscription extends Pivot
 
     protected $guarded = ['id'];
 
-    use HasFactory;
+    public $timestamps = false;
 }

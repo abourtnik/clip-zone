@@ -74,20 +74,12 @@ class VideoController
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ]),
             'videos' => Video::where('id', '!=', $video->id)
+                ->active()
                 ->with(['user'])
                 ->withCount(['views'])
-                ->active()
                 ->inRandomOrder()
                 ->limit(12)
                 ->get()
         ]);
-    }
-
-    public function interactions(Video $video) {
-        return InteractionsResource::collection(
-            $video
-                ->interactions()
-                ->paginate(10)
-        );
     }
 }

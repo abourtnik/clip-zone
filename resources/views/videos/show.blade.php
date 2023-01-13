@@ -94,7 +94,7 @@
                             Subscribe
                         </button>
                     @elseif(auth()->user()->isNot($video->user))
-                       <subscribe-button isSubscribe="{{auth()->user()->isSubscribe($video->user) ? 'true' : 'false'}}" user="{{$video->user->id}}"/>
+                       <subscribe-button isSubscribe="{{auth()->user()->isSubscribeTo($video->user) ? 'true' : 'false'}}" user="{{$video->user->id}}"/>
                     @endif
                 </div>
             </div>

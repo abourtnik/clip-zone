@@ -18,9 +18,14 @@ class CommentPolicy
      * @param User $user
      * @return Response|bool
      */
-    public function viewAny(User $user, Video $video) : Response|bool
+    public function viewAny(User $user) : Response|bool
     {
-        return $video->isActive() || $video->user()->is($user)
+        return true;
+    }
+
+    public function list(?User $user, Video $video) : Response|bool
+    {
+        return ($video->is_active && $video->allow_comments) || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(404, 'This video is private');
     }

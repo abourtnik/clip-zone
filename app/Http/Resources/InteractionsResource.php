@@ -22,12 +22,12 @@ class InteractionsResource extends JsonResource
                 'username' => $this->user->username,
                 'avatar' => $this->user->avatar_url,
                 'route' => route('pages.user', $this->user),
-                'is_subscribe' => auth()->user()->isSubscribe($this->user)
+                'is_subscribe' => auth()->user()->isSubscribeTo($this->user)
             ],
             'video' => [
                 'id' => $this->likeable->id
             ],
-            'perform_at' => $this->perform_at->diffForHumans()
+            'perform_at' => $this->perform_at->diffForHumans(),
         ];
     }
 }

@@ -16,8 +16,8 @@ export default function Video ({video}) {
                         <img className="rounded-circle" src={video.user.avatar} alt={video.user.username + ' avatar'} style={{width: '36px'}} />
                     </a>
                     <div className="ml-2">
-                        <div className="fw-bolder">{video.id} - {video.title}</div>
-                        <a href={video.user.route} className="position-relative">
+                        <div className="fw-bolder">{video.title}</div>
+                        <a href={video.user.route} className="position-relative text-decoration-none text-black">
                             <small>{video.user.username}</small>
                         </a>
                         <small className="text-muted d-block">{video.views} • {video.created_at}</small>

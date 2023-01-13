@@ -12,24 +12,24 @@
             <hr class="w-90">
         @endunless
     @endforeach
-    @unless(!Auth::check() && !Auth::user()?->subscriptions()->count())
-        <div class="fw-bold ps-4 mb-2 text-sm">Subscriptions ({{auth()->user()->subscriptions()->count()}})</div>
+    @if(Auth::check() && $subscriptions)
+        <div class="fw-bold ps-4 mb-2 text-sm">Subscriptions ({{$subscriptions->count()}})</div>
         <ul class="nav nav-pills flex-column text-center" x-data="{ open: false }">
-            @foreach(auth()->user()->latest_subscriptions->slice(0, 7) as $user)
+            @foreach($subscriptions->slice(0, 7) as $user)
                 <x-sidebar-item route="{{route('pages.user', $user)}}">
                     <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
                     <span class="text-sm">{{$user->username}}</span>
                 </x-sidebar-item>
             @endforeach
-            @if(auth()->user()->subscriptions()->count() > 7)
+            @if($subscriptions->count() > 7)
                 <li class="nav-item">
-                    <button @click="open = true" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" :class="{'d-none':open}" role="button">
+                    <button @click="open = true" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" x-show.important="!open" role="button">
                         <i class="fa-solid fa-chevron-down"></i>
-                        <small>Show {{auth()->user()->subscriptions()->count() - 7}} more</small>
+                        <small>Show {{$subscriptions->count() - 7}} more</small>
                     </button>
                 </li>
                 <div x-show="open">
-                    @foreach(auth()->user()->latest_subscriptions->slice(7) as $user)
+                    @foreach($subscriptions->slice(7) as $user)
                         <li class="nav-item">
                             <a href="{{route('pages.user', $user)}}" class="nav-link rounded-0 gap-4 {{ (request()->route()->action['as'] === 'pages.user' && Route::current()->user->is($user)) ? 'bg-light-dark fw-bold text-black' : 'text-black' }} d-flex align-items-center" aria-current="page">
                                 <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">

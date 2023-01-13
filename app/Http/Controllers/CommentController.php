@@ -18,20 +18,22 @@ class CommentController extends Controller
 {
     public function __construct()
     {
-        //$this->authorizeResource(Comment::class, 'comment');
+        $this->authorizeResource(Comment::class, 'comment');
     }
 
     /**
+     * @param Request $request
+     * @return ResourceCollection
      * @throws AuthorizationException
      */
-    public function index(Request $request) : ResourceCollection {
+    public function list(Request $request) : ResourceCollection {
 
         $sort = $request->get('sort', 'top');
         $video_id = $request->get('video_id');
 
-        $video = Video::find($video_id)->loadCount('comments');
+        $video = Video::findOrFail($video_id)->loadCount('comments');
 
-        $this->authorize('viewAny', [Comment::class, $video]);
+        $this->authorize('list', [Comment::class, $video]);
 
         return (CommentResource::collection(
             $video
@@ -86,10 +88,6 @@ class CommentController extends Controller
 
     public function store (StoreCommentRequest $request) : CommentResource {
 
-        $video = Video::find($request->get('video_id'));
-
-        $this->authorize('create', [Comment::class, $video]);
-
         $comment = Auth::user()->comments()->create($request->validated());
 
         return new CommentResource($comment);
@@ -97,8 +95,6 @@ class CommentController extends Controller
 
     public function update(UpdateCommentRequest $request, Comment $comment): CommentResource
     {
-        $this->authorize('update', $comment);
-
         $comment->update($request->validated());
 
         return new CommentResource($comment);
@@ -106,8 +102,6 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment): JsonResponse
     {
-        $this->authorize('delete', $comment);
-
         $comment->delete();
 
         Activity::forSubject($comment)->delete();

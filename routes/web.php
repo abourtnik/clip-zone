@@ -15,6 +15,7 @@ use App\Http\Controllers\User\VideoController as VideoUserController;
 use App\Http\Controllers\User\CommentController as CommentUserController;
 use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\SearchController;
 
 // PAGES
 Route::name('pages.')->controller(PageController::class)->group(function () {
@@ -23,7 +24,6 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/categories/{slug}', 'category')->name('category');
     Route::get('/subscriptions', 'subscriptions')->name('subscriptions');
     Route::get('/discover', 'discover')->name('discover');
-    Route::get('/search', 'search')->name('search');
     Route::get('/user/{user}', 'user')->name('user')->can('show', 'user');
 
     Route::middleware('auth')->group(function () {
@@ -35,6 +35,11 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
 // VIDEOS
 Route::controller(VideoController::class)->name('video.')->group(function () {
     Route::get('/video/{video}', 'show')->name('show')->can('show', 'video');
+});
+
+// SEARCH
+Route::controller(SearchController::class)->name('search.')->group(function () {
+    Route::get('/search', 'index')->name('index');
 });
 
 // LOGIN

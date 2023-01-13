@@ -18,8 +18,8 @@ class VideoFactory extends Factory
     public function definition()
     {
         return [
-            'title' => fake()->sentence(3, true),
-            'description' => fake()->realTextBetween(10, 1000),
+            'title' => fake()->realText(100),
+            'description' => fake()->realText(5000),
             'file' => '1.webm',
             'thumbnail' => fake()->numberBetween(1, 12) .'.png',
             'duration' => fake()->numberBetween(5, 4000),
@@ -29,7 +29,7 @@ class VideoFactory extends Factory
             'category_id' => Category::inRandomOrder()->first()->id,
             'language' => fake()->languageCode(),
             'allow_comments' => fake()->boolean(),
-            'default_comments_sort' => fake()->randomElements(['top', 'newest']),
+            'default_comments_sort' => fake()->randomElement(['top', 'newest']),
             'show_likes' => fake()->boolean(),
         ];
     }

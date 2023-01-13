@@ -115,11 +115,16 @@
                     </td>
                     <td class="align-middle">
                         @include('users.partials.interactions', ['item' => $video])
-                        @if(!$video->show_likes)
-                            <div class="badge bg-danger">
-                                Disabled
+                        <div class="d-flex align-items-center gap-1">
+                            <div class="badge bg-primary mt-2" data-bs-toggle="modal" data-bs-target="#video_likes" style="cursor: pointer;" data-id="{{$video->id}}">
+                                Details
                             </div>
-                        @endif
+                            @if(!$video->show_likes)
+                                <div class="badge bg-danger mt-2">
+                                    Disabled
+                                </div>
+                            @endif
+                        </div>
                     </td>
                     <td class="align-middle">
                         <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm" title="Edit video">

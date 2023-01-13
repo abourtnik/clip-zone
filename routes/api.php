@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\InteractionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,22 +23,25 @@ use App\Http\Controllers\CommentController;
 Route::middleware('auth')->group(function () {
     Route::post("follow/{user}", [UserController::class, 'follow']);
 
-    Route::post('like', [\App\Http\Controllers\LikeController::class, 'like']);
-    Route::post('dislike', [\App\Http\Controllers\LikeController::class, 'dislike']);
-
     Route::get('/comments/{comment}/replies', [CommentController::class, 'replies']);
 
     Route::resource("comments", CommentController::class)->only([
-        'index', 'store', 'update', 'destroy'
+        'store', 'update', 'destroy'
     ]);
 
-    Route::get("interactions/{video}", [VideoController::class, 'interactions']);
+    // Interactions
+    Route::name('interactions.')->controller(InteractionController::class)->group(function () {
+        Route::get('/interactions', 'list')->name('list');
+        Route::post('/like', 'like')->name('like');
+        Route::post('/dislike', 'dislike')->name('dislike');
+    });
 
 });
 
-Route::get("search", [\App\Http\Controllers\PageController::class, 'searchResult']);
+Route::get("comments", [CommentController::class, 'list']);
+Route::get("search", [SearchController::class, 'search']);
 
-
+// VIDEOS
 Route::prefix('videos')->name('videos.')->controller(VideoController::class)->group(function () {
     Route::get('/home', 'home')->name('home');
     Route::get('/trend', 'trend')->name('trend');

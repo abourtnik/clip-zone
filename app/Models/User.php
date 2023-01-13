@@ -69,10 +69,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasManyThrough(Video::class, Subscription::class, 'subscriber_id', 'user_id', 'id', 'user_id');
     }
 
-    public function latest_subscriptions() : BelongsToMany {
-        return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id')->latest('subscribe_at');
-    }
-
     public function videos_comments () : HasManyThrough {
         return $this->hasManyThrough(Comment::class, Video::class);
     }
@@ -82,24 +78,24 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function videos_interactions (): HasManyThrough {
-        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id')
+        return $this->hasManyThrough(Interaction::class, Video::class, 'user_id', 'likeable_id')
             ->where('likeable_type', Video::class);
     }
 
     public function videos_likes (): HasManyThrough {
-        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id')
-            ->where('likes.status', true)
+        return $this->hasManyThrough(Interaction::class, Video::class, 'user_id', 'likeable_id')
+            ->where('interactions.status', true)
             ->where('likeable_type', Video::class);
     }
 
     public function videos_dislikes (): HasManyThrough {
-        return $this->hasManyThrough(Like::class, Video::class, 'user_id', 'likeable_id')
-            ->where('likes.status', false)
+        return $this->hasManyThrough(Interaction::class, Video::class, 'user_id', 'likeable_id')
+            ->where('interactions.status', false)
             ->where('likeable_type', Video::class);
     }
 
-    public function likes () : HasMany {
-        return $this->hasMany(Like::class);
+    public function interactions () : HasMany {
+        return $this->hasMany(Interaction::class);
     }
 
     /**
@@ -164,6 +160,13 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return Attribute::make(
             get: fn () => !is_null($this->banned_at)
+        );
+    }
+
+    protected function type(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => 'user',
         );
     }
 

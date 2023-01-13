@@ -45,7 +45,9 @@ class PageController
         $category = Category::where('slug', $slug)->firstOrFail();
 
         return view('pages.category', [
-            'category' => $category->loadCount('videos')
+            'category' => $category->loadCount([
+                'videos' => fn($query) => $query->active()
+            ])
         ]);
     }
 
@@ -56,7 +58,6 @@ class PageController
         }
 
         return view('pages.subscriptions', [
-            'subscriptions' => Auth::user()->subscriptions,
             'users' => User::active()
                 ->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray())
                 ->where('show_subscribers', true)
@@ -65,6 +66,8 @@ class PageController
                 ->paginate(18),
             'sorted_videos' => Auth::user()
                 ->subscriptions_videos()
+                ->with('user')
+                ->withCount('views')
                 ->latest()
                 ->get()
                 ->groupBy(fn ($item) => Carbon::parse($item->created_at)->format('Y-m-d'))
@@ -83,47 +86,5 @@ class PageController
                 }
             ])->loadCount('subscribers', 'videos_views')
         ]);
-    }
-
-    public function search(Request $request): View {
-
-        $q = $request->get('q');
-
-        $match = '%'.$q.'%';
-
-        $videos = Video::active()
-            ->where(fn($query) =>
-                $query->where('title', 'LIKE', $match)
-                    ->orWhere('description', 'LIKE', $match)
-                    ->OrWhereHas('user', fn($query) => $query->where('username', 'LIKE', $match))
-            )
-            ->latest('publication_date')
-            ->paginate(12);
-
-        return view('pages.search', [
-            'search' => $q,
-            'videos' => $videos
-        ]);
-    }
-
-    public function searchResult (Request $request): JsonResponse {
-
-        $q = $request->get('q');
-
-        $match = '%'.$q.'%';
-
-        $results = Video::active()
-            ->where(fn($query) =>
-                $query->where('title', 'LIKE', $match)
-                    ->orWhere('description', 'LIKE', $match)
-                    //->OrWhereHas('user', fn($query) => $query->where('username', 'LIKE', $match))
-                )
-            //->latest('publication_date')
-            ->limit(14)
-            ->pluck('title')
-            ->toArray();
-
-        return response()->json($results);
-
     }
 }
