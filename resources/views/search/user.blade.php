@@ -5,16 +5,20 @@
         <small class="text-muted d-block mb-3">{{trans_choice('subscribers', $user->subscribers_count)}} • {{trans_choice('videos', $user->videos_count)}}</small>
         <small class="text-muted d-block">{{$user->description}}</small>
     </div>
-    <button
-        type="button"
-        class="btn btn-danger"
-        data-bs-toggle="popover"
-        data-bs-placement="right"
-        data-bs-title="Want to subscribe to this channel?"
-        data-bs-trigger="focus"
-        data-bs-html="true"
-        data-bs-content="Sign in to subscribe to this channel.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
-    >
-        Subscribe
-    </button>
+    @auth
+        <subscribe-button isSubscribe="true" user="{{$user->id}}"/>
+    @else
+        <button
+            type="button"
+            class="btn btn-danger"
+            data-bs-toggle="popover"
+            data-bs-placement="right"
+            data-bs-title="Want to subscribe to this channel?"
+            data-bs-trigger="focus"
+            data-bs-html="true"
+            data-bs-content="Sign in to subscribe to this channel.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+        >
+            Subscribe
+        </button>
+    @endauth
 </div>

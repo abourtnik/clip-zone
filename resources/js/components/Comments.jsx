@@ -1,19 +1,28 @@
 import { useState, useEffect } from 'preact/hooks';
 import Comment from "./Comment";
 import {usePaginateFetch} from "../hooks";
+import {Comment as Skeleton} from "./Skeletons";
+import {useInView} from "react-intersection-observer";
 
-export default function Comments ({target, auth, defaultsort}) {
+export default function Comments ({target, auth, defaultSort}) {
 
-    const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments?video_id=${target}`)
+    const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments?video_id=${target}&sort=${defaultSort}`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
 
-    const [selectedSort, setSelectedSort] = useState(defaultsort);
+    const [selectedSort, setSelectedSort] = useState(defaultSort);
+
+    const {ref,inView} = useInView();
 
     useEffect( async () => {
-        setPrimaryLoading(true);
         await load()
         setPrimaryLoading(false);
     }, []);
+
+    useEffect( async () => {
+        if (inView && !loading) {
+            await load()
+        }
+    }, [inView]);
 
     const addComment = async (event) => {
 
@@ -121,25 +130,16 @@ export default function Comments ({target, auth, defaultsort}) {
             }
             {
                 (primaryLoading) ?
-                    <div className={'text-center mt-3'}>
-                        <div className="spinner-border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
+                    <div className="d-flex flex-column gap-2">
+                        {[...Array(4).keys()].map(i => <Skeleton key={i}/>)}
                     </div>
                 : comments.map(comment => <Comment key={comment.id} comment={comment} auth={auth} canReply={true} deleteComment={deleteComment} updateComment={updateComment}/>)
             }
             {
-                (!primaryLoading && hasMore) &&
-                <button type={'button'} onClick={() => load(selectedSort)} className={'btn btn-outline-primary w-100'}>
-                    {
-                        loading ?
-                            <div>
-                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                <span className="sr-only">Loading...</span>
-                            </div> :
-                            <span>En charger plus</span>
-                    }
-                </button>
+                hasMore &&
+                <div ref={ref} className="d-flex flex-column gap-2">
+                    {[...Array(4).keys()].map(i => <Skeleton key={i}/>)}
+                </div>
             }
         </div>
     )

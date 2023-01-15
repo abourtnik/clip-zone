@@ -1,5 +1,7 @@
 @extends('layouts.default')
 
+@section('title', $video->title)
+
 @section('content')
     <div class="row">
         <div class="col-9">
@@ -24,13 +26,12 @@
                 <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->created_at->format('d F Y')}}</div>
                 @auth()
                     <div class="d-flex gap-1">
-                        <likes-button
+                        <interaction-button
                             active="{{ json_encode(['like' => $video->liked_by_auth_user, 'dislike' => $video->disliked_by_auth_user ])}}"
                             model="{{get_class($video)}}"
                             target="{{$video->id}}"
                             count="{{ json_encode(['likes_count' => $video->likes_count, 'dislikes_count' => $video->dislikes_count ])}}"
-                            auth="true"
-                            showCount="{{$video->show_likes ? 'true': 'false'}}"
+                            show-count="{{$video->show_likes}}"
                         />
                     </div>
                 @else
@@ -39,13 +40,13 @@
                             class="btn btn-sm btn-outline-success"
                             data-bs-toggle="popover"
                             data-bs-placement="left"
-                            data-bs-title="Vous aimez cette vidéo ?"
+                            data-bs-title="Like this video ?"
                             data-bs-trigger="focus"
                             data-bs-html="true"
-                            data-bs-content="Connectez-vous pour donner votre avis.<hr><a href='/login' class='btn btn-primary btn-sm'>Se connecter</a>"
+                            data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
                         >
                             <i class="fa-regular fa-thumbs-up"></i>
-                            @if($video->likes_count)
+                            @if($video->show_likes && $video->likes_count)
                                 <span>{{$video->likes_count}}</span>
                             @endif
                         </button>
@@ -53,13 +54,13 @@
                             class="btn btn-sm btn-outline-danger"
                             data-bs-toggle="popover"
                             data-bs-placement="right"
-                            data-bs-title="Vous n'aimez pas cette vidéo ?"
+                            data-bs-title="Don't like this video ?"
                             data-bs-trigger="focus"
                             data-bs-html="true"
-                            data-bs-content="Connectez-vous pour donner votre avis.<hr><a href='/login' class='btn btn-primary btn-sm'>Se connecter</a>"
+                            data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
                         >
                             <i class="fa-regular fa-thumbs-down"></i>
-                            @if($video->dislikes_count)
+                            @if($video->show_likes && $video->dislikes_count)
                                 <span>{{$video->dislikes_count}}</span>
                             @endif
                         </button>
@@ -86,7 +87,7 @@
                             class="btn btn-danger"
                             data-bs-toggle="popover"
                             data-bs-placement="right"
-                            data-bs-title="Want to subscribe to this channel?"
+                            data-bs-title="Want to subscribe to this channel ?"
                             data-bs-trigger="focus"
                             data-bs-html="true"
                             data-bs-content="Sign in to subscribe to this channel.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
@@ -137,7 +138,7 @@
             </div>
             <hr>
             @if($video->allow_comments)
-                <comments-area target="{{$video->id}}" auth="{{auth()->user()?->id}}" defaultSort="{{$video->default_comments_sort}}"/>
+                <comments-area target="{{$video->id}}" auth="{{auth()->user()?->id}}" default-sort="{{$video->default_comments_sort}}"/>
             @else
                 <div class="alert alert-primary text-center">
                     <strong>Comments are turned off</strong>

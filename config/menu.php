@@ -17,14 +17,14 @@ return [
                 [
                     'title' => 'Subscriptions',
                     'icon' => 'user-check',
-                    'route' => 'pages.subscriptions',
+                    'route' => 'subscription.index',
                 ],
             ],
             [
                 [
                     'title' => 'History',
                     'icon' => 'history',
-                    'route' => 'pages.history',
+                    'route' => 'history.index',
                 ],
                 [
                     'title' => 'Your videos',

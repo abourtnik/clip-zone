@@ -45,14 +45,14 @@
                     </li>
                 </div>
             @endif
-            <x-sidebar-item route="{{route('pages.discover')}}">
+            <x-sidebar-item route="{{route('subscription.discover')}}">
                 <i style="width: 24px" class="fa-solid fa-user-plus"></i>
                 <span class="text-sm">Discover channels</span>
             </x-sidebar-item>
         </ul>
     @else
         <ul class="nav nav-pills flex-column text-center">
-            <x-sidebar-item route="{{route('pages.discover')}}">
+            <x-sidebar-item route="{{route('subscription.discover')}}">
                 <i style="width: 24px" class="fa-solid fa-user-plus"></i>
                 <span class="text-sm">Discover channels</span>
             </x-sidebar-item>

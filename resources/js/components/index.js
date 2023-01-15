@@ -1,7 +1,7 @@
 import register from 'preact-custom-element';
 
 import Subscribe from "./Subscribe";
-import Like from "./Like";
+import Interaction from "./Interaction";
 import Comments from "./Comments";
 import Videos from "./Videos";
 import Interactions from "./Interactions";
@@ -10,7 +10,7 @@ import LineChart from "./LineChart";
 import Replies from "./Replies";
 
 register(Subscribe, 'subscribe-button');
-register(Like, 'likes-button', [], { shadow: false });
+register(Interaction, 'interaction-button', [], { shadow: false });
 register(Comments, 'comments-area', [], { shadow: false });
 register(Videos, 'videos-area', [], { shadow: false });
 register(Interactions, 'interactions-area', [], { shadow: false });

@@ -199,17 +199,17 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->subscriptions()->where('user_id', $user->id)->exists();
     }
 
-    protected function hasLiked(Likeable $likeable): bool
+    public function hasLiked(Likeable $likeable): bool
     {
         return $likeable->likes()
-            ->whereHas('user', fn($q) =>  $q->whereId($this->id))
+            ->whereRelation('user', 'id', $this->id)
             ->exists();
     }
 
-    protected function hasDisliked(Likeable $likeable): bool
+    public function hasDisliked(Likeable $likeable): bool
     {
         return $likeable->dislikes()
-            ->whereHas('user', fn($q) =>  $q->whereId($this->id))
+            ->whereRelation('user', 'id', $this->id)
             ->exists();
     }
 

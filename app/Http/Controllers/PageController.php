@@ -7,9 +7,8 @@ use App\Models\User;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class PageController
 {
@@ -22,22 +21,26 @@ class PageController
     }
 
     public function liked(): View {
-        return view('pages.liked');
-    }
 
-    public function history(): View {
-        return view('pages.history');
-    }
+        $interactions = Auth::user()
+            ->interactions()
+            ->where('status', true)
+            ->where('likeable_type', Video::class)
+            ->with(['likeable' => function (MorphTo $morphTo) {
+                $morphTo->morphWith([
+                    Video::class => ['user'],
+                ]);
+            }])
+            ->latest('perform_at')
+            ->get()
+            ->groupBy(fn ($item) => Carbon::parse($item->perform_at)->format('Y-m-d'))
+            ->all();
 
-    public function discover(): View {
-        return view('pages.discover', [
-           'users' => User::active()
-               ->where('show_subscribers', true)
-               ->withCount('subscribers')
-               ->when(Auth::check(), fn($query) => $query->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray()))
-               ->orderBy('subscribers_count', 'desc')
-               ->get()
+        return view('pages.liked', [
+            'data' => $interactions
         ]);
+
+        return view('pages.liked');
     }
 
     public function category(string $slug): View {
@@ -48,30 +51,6 @@ class PageController
             'category' => $category->loadCount([
                 'videos' => fn($query) => $query->active()
             ])
-        ]);
-    }
-
-    public function subscriptions(): View {
-
-        if (!Auth::check()) {
-            return view('pages.subscriptions');
-        }
-
-        return view('pages.subscriptions', [
-            'users' => User::active()
-                ->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray())
-                ->where('show_subscribers', true)
-                ->withCount('subscribers')
-                ->orderBy('subscribers_count', 'desc')
-                ->paginate(18),
-            'sorted_videos' => Auth::user()
-                ->subscriptions_videos()
-                ->with('user')
-                ->withCount('views')
-                ->latest()
-                ->get()
-                ->groupBy(fn ($item) => Carbon::parse($item->created_at)->format('Y-m-d'))
-                ->all()
         ]);
     }
 

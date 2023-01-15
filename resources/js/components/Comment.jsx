@@ -1,8 +1,9 @@
-import {useRef, useState} from 'preact/hooks';
+import {useRef, useState, useEffect} from 'preact/hooks';
 import { memo } from 'preact/compat';
 import {useToggle} from "../hooks";
 
-import Like from "./Like";
+import Interaction from "./Interaction";
+import {ThumbsDownSolid, ThumbsUpSolid} from "./Icon";
 
 const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) => {
 
@@ -12,8 +13,10 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
     const [showReplies, setShowReplies] = useState(false);
     const [expand, setExpand] = useToggle(false);
 
-    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    useEffect(() => {
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+        [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    }, [])
 
     const reply = async (event) => {
 
@@ -82,10 +85,10 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
         ...(!auth && {
             'data-bs-toggle': "popover",
             'data-bs-placement': "left",
-            'data-bs-title': "Vous souhaitez répondre à ce commentaire ?",
+            'data-bs-title': "Want to reply to this comment ?",
             'data-bs-trigger': "focus",
             'data-bs-html': "true",
-            'data-bs-content': "Connectez-vous pour répondre.<hr><a href='/login' class='btn btn-primary btn-sm'>Se connecter</a>",
+            'data-bs-content': "Sign in for reply.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>",
         })
     }
 
@@ -96,9 +99,8 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
 
 
     const showRepliesText = (show, length) => {
-        const count = length > 1 ? 'les ' + replies.length + ' replies' : 'reply';
-        const text = show ? 'Hide ' + count : 'Show ' + count;
-        return text;
+        const count = length > 1 ? replies.length + ' replies' : 'reply';
+        return (show ? 'Hide ' : 'Show ') + count;
     }
 
     const textarea = useRef(null)
@@ -151,13 +153,44 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                     }
                     <div className="d-flex align-items-center gap-2 mt-1">
                         <div className="d-flex align-items-center gap-2">
-                            <Like
-                                active={JSON.stringify({'like': comment.liked_by_auth_user, 'dislike': comment.disliked_by_auth_user})}
-                                model={comment.model}
-                                target={comment.id}
-                                count={JSON.stringify({'likes_count' : comment.likes_count, 'dislikes_count' : comment.dislikes_count})}
-                                auth={auth}
-                            />
+                            {
+                                auth ?
+                                    <Interaction
+                                        active={JSON.stringify({'like': comment.liked_by_auth_user, 'dislike': comment.disliked_by_auth_user})}
+                                        model={comment.model}
+                                        target={comment.id}
+                                        count={JSON.stringify({'likes_count' : comment.likes_count, 'dislikes_count' : comment.dislikes_count})}
+                                        auth={auth}
+                                    />
+                                    :
+                                    <div className="d-flex justify-content-between gap-1">
+                                        <button
+                                            className="btn btn-sm btn-outline-success d-flex gap-1 align-items-center"
+                                            data-bs-toggle="popover"
+                                            data-bs-placement="left"
+                                            data-bs-title="Like this comment ?"
+                                            data-bs-trigger="focus"
+                                            data-bs-html="true"
+                                            data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                        >
+                                            <ThumbsUpSolid/>
+                                            <span>{comment.likes_count}</span>
+                                        </button>
+                                        <button
+                                            className="btn btn-sm btn-outline-danger d-flex gap-1 align-items-center"
+                                            data-bs-toggle="popover"
+                                            data-bs-placement="right"
+                                            data-bs-title="Don't like this comment ?"
+                                            data-bs-trigger="focus"
+                                            data-bs-html="true"
+                                            data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                        >
+                                            <ThumbsDownSolid/>
+                                            <span>{comment.dislikes_count}</span>
+                                        </button>
+                                    </div>
+                            }
+
                         </div>
                         {
                             canReply &&  <button

@@ -98,9 +98,9 @@
                     <td class="align-middle">
                         <div class="">
                             @if($video->comments_count)
-                                <div class="badge bg-info">
+                                <a href="{{route('user.comments.index') .'?video='.$video->id}}" class="badge bg-info text-decoration-none">
                                     {{trans_choice('comments', $video->comments_count)}}
-                                </div>
+                                </a>
                             @else
                                 <div class="badge bg-secondary">
                                     No comments

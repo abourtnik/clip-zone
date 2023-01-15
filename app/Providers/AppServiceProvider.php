@@ -68,9 +68,15 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        View::composer(['pages.*', 'auth.*', 'videos.show'], function($view) {
+        View::composer(['pages.*', 'auth.*', 'videos.show', 'subscription.*'], function($view) {
             $view->with('categories', Category::where('in_menu', true)->ordered()->get());
-            $view->with('subscriptions', Auth::user()?->subscriptions()->latest('subscribe_at')->get());
+            $view->with(
+                'subscriptions',
+                Auth::user()?->subscriptions()
+                    ->withCount(['videos', 'subscribers'])
+                    ->latest('subscribe_at')
+                    ->get()
+            );
         });
     }
 }

@@ -158,16 +158,6 @@ class UserController
         }
     }
 
-    public function comment (Video $video, Request $request) {
-
-        $comment = Auth::user()->comments()->create([
-           'video_id' => $video->id,
-           'content' => $request->get('content')
-        ]);
-
-        return new CommentResource($comment);
-    }
-
     public function delete(User $user): RedirectResponse {
 
         foreach ($user->videos as $video){

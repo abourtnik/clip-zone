@@ -17,7 +17,7 @@ export function usePaginateFetch (url) {
         const data = await response.json();
         if (response.ok) {
             setItems(items => [...items, ...data.data])
-            setCount(data.meta.total)
+            setCount(data.count ?? data.meta.total)
             setNext(data.links.next)
         } else {
             console.error(data);

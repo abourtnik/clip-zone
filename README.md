@@ -14,7 +14,7 @@
 
 - Pin video on account home
 - Pin comment on video
-- Video protected (uuid)
+- Video protected (uuid) + protected download
 - Signal comment (video ?)
 - Add label New video on recent video
 - Parse Link in Description

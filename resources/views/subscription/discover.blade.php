@@ -1,5 +1,7 @@
 @extends('layouts.default')
 
+@section('title', 'Discover')
+
 @section('content')
     @if($users)
         <h3 class="mb-4">Discover new channels</h3>
@@ -13,10 +15,10 @@
                             <div class="text-muted">{{trans_choice('subscribers', $user->subscribers_count)}}</div>
                             <button
                                 type="button"
-                                class="btn btn-danger"
+                                class="btn btn-danger btn-sm"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
-                                data-bs-title="Want to subscribe to this channel?"
+                                data-bs-title="Want to subscribe to this channel ?"
                                 data-bs-trigger="focus"
                                 data-bs-html="true"
                                 data-bs-content="Sign in to subscribe to this channel.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"

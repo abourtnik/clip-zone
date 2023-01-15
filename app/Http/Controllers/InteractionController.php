@@ -98,7 +98,8 @@ class InteractionController extends Controller
                 ->when($filter === 'up', fn($query) => $query->where('status', true))
                 ->when($filter === 'down', fn($query) => $query->where('status', false))
                 ->when($search, fn($query) => $query->whereRelation('user', 'username', 'LIKE',  '%'.$search.'%'))
-                ->paginate(30)
+                ->paginate(40)
+                ->withQueryString()
         );
     }
 }

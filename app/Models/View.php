@@ -23,6 +23,10 @@ class View extends Model
         return $this->belongsTo(Video::class);
     }
 
+    public function user () : BelongsTo {
+        return $this->belongsTo(Video::class);
+    }
+
     public function scopeFilter(Builder $query, $filters)
     {
         return $filters->apply($query);

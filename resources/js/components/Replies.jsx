@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'preact/hooks';
 import {usePaginateFetch} from "../hooks";
-import Like from "./Like";
+import Interaction from "./Interaction";
 
 export default function Replies ({target}) {
 
@@ -90,7 +90,7 @@ export default function Replies ({target}) {
                                     <div className={'my-3'}>{comment.content}</div>
                                     <div className="d-flex align-items-center gap-2 mt-1">
                                         <div className="d-flex align-items-center gap-2">
-                                            <Like
+                                            <Interaction
                                                 active={JSON.stringify({'like': comment.liked_by_auth_user, 'dislike': comment.disliked_by_auth_user})}
                                                 model={comment.model}
                                                 target={comment.id}

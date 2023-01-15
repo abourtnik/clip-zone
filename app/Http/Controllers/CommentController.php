@@ -18,7 +18,7 @@ class CommentController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(Comment::class, 'comment');
+        //$this->authorizeResource(Comment::class, 'comment');
     }
 
     /**
@@ -53,7 +53,8 @@ class CommentController extends Controller
                 ])
                 ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
                 ->when($sort === 'newest', fn($query) => $query->latest())
-                ->paginate(10)
+                ->paginate(24)
+                ->withQueryString()
         ))->additional([
             'count' => $video->comments_count,
         ]);
@@ -87,6 +88,8 @@ class CommentController extends Controller
     }
 
     public function store (StoreCommentRequest $request) : CommentResource {
+
+        $this->authorize('create', [Comment::class, Video::findOrFail($request->get('video_id'))]);
 
         $comment = Auth::user()->comments()->create($request->validated());
 

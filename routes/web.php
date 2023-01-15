@@ -16,18 +16,17 @@ use App\Http\Controllers\User\CommentController as CommentUserController;
 use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\HistoryController;
 
 // PAGES
 Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/trend', 'trend')->name('trend');
     Route::get('/categories/{slug}', 'category')->name('category');
-    Route::get('/subscriptions', 'subscriptions')->name('subscriptions');
-    Route::get('/discover', 'discover')->name('discover');
     Route::get('/user/{user}', 'user')->name('user')->can('show', 'user');
 
     Route::middleware('auth')->group(function () {
-        Route::get('/history', 'history')->name('history');
         Route::get('/liked', 'liked')->name('liked');
     });
 });
@@ -40,6 +39,20 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
 // SEARCH
 Route::controller(SearchController::class)->name('search.')->group(function () {
     Route::get('/search', 'index')->name('index');
+});
+
+// SUBSCRIPTION
+Route::controller(SubscriptionController::class)->name('subscription.')->group(function () {
+    Route::get('/subscriptions', 'index')->name('index');
+    Route::get('/manage', 'manage')->name('manage')->middleware('auth');
+    Route::get('/discover', 'discover')->name('discover');
+
+});
+
+// HISTORY
+Route::controller(HistoryController::class)->name('history.')->middleware('auth')->group(function () {
+    Route::get('/history', 'index')->name('index');
+    Route::get('/history-clear', 'clear')->name('clear');
 });
 
 // LOGIN

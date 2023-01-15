@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks';
 import {ThumbsUpSolid, ThumbsUpRegular, ThumbsDownSolid, ThumbsDownRegular} from './Icon'
 
-export default function Like ({model, target, count, active, auth, showcount}) {
+export default function Interaction ({model, target, count, active, showCount}) {
 
     const {like, dislike} = JSON.parse(active)
     const {likes_count, dislikes_count} = JSON.parse(count)
@@ -39,29 +39,6 @@ export default function Like ({model, target, count, active, auth, showcount}) {
         });
     }
 
-
-
-
-    /*
-    const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-    const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-
-
-    let attributes =  {
-        ...(!auth && {
-            'data-bs-toggle': "popover",
-            'data-bs-placement': "left",
-            'data-bs-title': "Vous aimez ce commentaire ?",
-            'data-bs-trigger': "focus",
-            'data-bs-html': "true",
-            'data-bs-content': "Connectez-vous pour donner votre avis.<hr><a href='/login' class='btn btn-primary btn-sm'>Se connecter</a>",
-        }),
-        ...(auth && {
-            'onClick': handleClick
-        })
-    }
-    */
-
     return (
         <div className={'d-flex justify-content-between gap-1'}>
             <button
@@ -69,14 +46,14 @@ export default function Like ({model, target, count, active, auth, showcount}) {
                 className={'d-flex justify-content-between align-items-center btn btn-sm  ' + (liked ? 'btn' : 'btn-outline') + '-success'}
             >
                 {liked ? <ThumbsUpRegular/> : <ThumbsUpSolid/>}
-                { (showcount === 'true' && counterLike > 0) && <span className={'ml-1'}>{counterLike}</span>}
+                { (showCount === 'true' && counterLike > 0) && <span className={'ml-1'}>{counterLike}</span>}
             </button>
             <button
                 onClick={() => handleClick('dislike')}
                 className={'d-flex justify-content-between align-items-center btn btn-sm ' + (disliked ? 'btn' : 'btn-outline') + '-danger'}
             >
                 {disliked ? <ThumbsDownRegular/> : <ThumbsDownSolid/>}
-                { (showcount === 'true' && counterDislike > 0) && <span className={'ml-1'}>{counterDislike}</span>}
+                { (showCount === 'true' && counterDislike > 0) && <span className={'ml-1'}>{counterDislike}</span>}
             </button>
         </div>
     )

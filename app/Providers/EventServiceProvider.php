@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Comment;
 use App\Observers\CategoryObserver;
+use App\Observers\CommentObserver;
 use Illuminate\Auth\Events\Registered;
 use App\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -30,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         Category::observe(CategoryObserver::class);
+        Comment::observe(CommentObserver::class);
     }
 
     /**
