@@ -46,6 +46,7 @@ Route::prefix('videos')->name('videos.')->controller(VideoController::class)->gr
     Route::get('/home', 'home')->name('home');
     Route::get('/trend', 'trend')->name('trend');
     Route::get('/category/{category}', 'category')->name('category');
+    Route::get('/user/{user}', 'user')->name('user');
 });
 
 

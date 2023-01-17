@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Subscription;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Subscription>
+ * @extends Factory<Subscription>
  */
 class SubscriptionFactory extends Factory
 {
@@ -16,7 +16,7 @@ class SubscriptionFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition() : array
     {
         return [
             'subscribe_at' => fake()->dateTimeBetween('-1 year'),

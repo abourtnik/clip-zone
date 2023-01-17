@@ -3,10 +3,11 @@
 namespace Database\Factories;
 
 use App\Models\Category;
+use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<Video>
  */
 class VideoFactory extends Factory
 {
@@ -15,7 +16,7 @@ class VideoFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition() : array
     {
         return [
             'title' => fake()->realText(100),
@@ -28,9 +29,9 @@ class VideoFactory extends Factory
             'publication_date' => fake()->dateTimeInInterval('now', '+3 days'),
             'category_id' => Category::inRandomOrder()->first()->id,
             'language' => fake()->languageCode(),
-            'allow_comments' => fake()->boolean(),
+            'allow_comments' => fake()->boolean(80),
             'default_comments_sort' => fake()->randomElement(['top', 'newest']),
-            'show_likes' => fake()->boolean(),
+            'show_likes' => fake()->boolean(80),
         ];
     }
 }

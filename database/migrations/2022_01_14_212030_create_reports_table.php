@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'report_by')->constrained();
+            $table->foreignIdFor(User::class, 'user_id')->constrained();
             $table->morphs('reportable');
             $table->string('reason');
             $table->text('comment')->nullable();

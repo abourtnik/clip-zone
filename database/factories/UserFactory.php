@@ -3,11 +3,11 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\User;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
@@ -16,7 +16,7 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition() : array
     {
         return [
             'username' => fake()->userName(),
@@ -29,8 +29,8 @@ class UserFactory extends Factory
             'avatar' => fake()->randomElement(array_merge(array_map(fn($i) => $i . '.png', range(1, 10)), [null])),
             'description' => fake()->realText(5000),
             'country' => fake()->countryCode(),
-            'website' => fake()->url(),
-            'show_subscribers' => fake()->boolean()
+            'website' => fake()->domainName(),
+            'show_subscribers' => fake()->boolean(90)
         ];
     }
 

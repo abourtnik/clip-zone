@@ -1,11 +1,11 @@
 export default function Video ({video}) {
     return (
-        <article className="col-md-6 col-lg-4 col-xl-3 mb-4 gap-4">
+        <article className="col-md-6 col-lg-4 col-xl-3">
             <div className="position-relative">
                 <a href={video.route}>
                     <div className="position-relative">
-                        <img className="img-fluid w-100" src={video.thumbnail} alt={video.title} style="width: 360px; height: 200px"/>
-                        <small className="position-absolute bottom-0 right-0 p-1 text-white bg-dark">
+                        <img className="img-fluid w-100 rounded-4" src={video.thumbnail} alt={video.title} style="width: 360px; height: 202px;object-fit: cover;"/>
+                        <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                             {video.duration}
                         </small>
                     </div>

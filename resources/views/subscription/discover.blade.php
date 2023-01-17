@@ -8,25 +8,29 @@
         <div class="row gx-3 gy-3">
             @foreach($users as $user)
                 <div class="col-2">
-                    <div class="card">
+                    <a href="{{$user->route}}" class="card text-decoration-none">
                         <div class="card-body d-flex flex-column gap-2 align-items-center">
                             <img style="width: 80px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
-                            <strong>{{$user->username}}</strong>
+                            <strong class="text-black">{{$user->username}}</strong>
                             <div class="text-muted">{{trans_choice('subscribers', $user->subscribers_count)}}</div>
-                            <button
-                                type="button"
-                                class="btn btn-danger btn-sm"
-                                data-bs-toggle="popover"
-                                data-bs-placement="right"
-                                data-bs-title="Want to subscribe to this channel ?"
-                                data-bs-trigger="focus"
-                                data-bs-html="true"
-                                data-bs-content="Sign in to subscribe to this channel.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
-                            >
-                                Subscribe
-                            </button>
+                            @auth
+                                <subscribe-button isSubscribe="false" user="{{$user->id}}" size="sm" />
+                            @else
+                                <button
+                                    type="button"
+                                    class="btn btn-danger btn-sm"
+                                    data-bs-toggle="popover"
+                                    data-bs-placement="right"
+                                    data-bs-title="Want to subscribe to this channel ?"
+                                    data-bs-trigger="focus"
+                                    data-bs-html="true"
+                                    data-bs-content="Sign in to subscribe to this channel.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                >
+                                    Subscribe
+                                </button>
+                            @endauth
                         </div>
-                    </div>
+                    </a>
                 </div>
             @endforeach
         </div>

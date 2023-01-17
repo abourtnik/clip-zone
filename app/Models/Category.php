@@ -24,4 +24,11 @@ class Category extends Model implements Sortable
             get: fn () => $this->background ? asset('storage/categories/'. $this->background) : '/images/default_banner.jpg'
         );
     }
+
+    protected function route(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => route('pages.category', $this->slug)
+        );
+    }
 }

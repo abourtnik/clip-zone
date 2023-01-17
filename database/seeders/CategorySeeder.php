@@ -17,7 +17,7 @@ class CategorySeeder extends Seeder
         $categories = [
             [
                 'title' => 'Autos & Vehicles',
-                'icon' => 'car'
+                'icon' => 'car',
             ],
             [
                 'title' => 'Comedy',
@@ -27,7 +27,8 @@ class CategorySeeder extends Seeder
                 'title' => 'Education',
                 'icon' => 'book',
                 'in_menu' => true,
-                'position' => 5
+                'position' => 5,
+                'background' => 'education.png'
             ],
             [
                 'title' => 'Entertainment',
@@ -41,7 +42,8 @@ class CategorySeeder extends Seeder
                 'title' => 'Gaming',
                 'icon' => 'gamepad',
                 'in_menu' => true,
-                'position' => 2
+                'position' => 2,
+                'background' => 'gaming.png'
             ],
             [
                 'title' => 'Howto & Style',
@@ -51,14 +53,15 @@ class CategorySeeder extends Seeder
                 'title' => 'Music',
                 'icon' => 'music',
                 'in_menu' => true,
-                'position' => 1
-
+                'position' => 1,
+                'background' => 'music.png'
             ],
             [
                 'title' => 'News & Politics',
                 'icon' => 'newspaper',
                 'in_menu' => true,
-                'position' => 3
+                'position' => 3,
+                'background' => 'news.png'
             ],
             [
                 'title' => 'Nonprofits & Activism',
@@ -72,31 +75,36 @@ class CategorySeeder extends Seeder
                 'title' => 'Pets & Animals',
                 'icon' => 'paw',
                 'in_menu' => true,
-                'position' => 12
+                'position' => 12,
+                'background' => 'pets.png'
             ],
             [
                 'title' => 'Science & Technology',
                 'icon' => 'flask',
                 'in_menu' => true,
-                'position' => 13
+                'position' => 13,
+                'background' => 'science.png'
             ],
             [
                 'title' => 'Sports',
                 'icon' => 'futbol',
                 'in_menu' => true,
-                'position' => 4
+                'position' => 4,
+                'background' => 'sports.png'
             ],
             [
                 'title' => 'Travel & Events',
                 'icon' => 'suitcase',
                 'in_menu' => true,
-                'position' => 15
+                'position' => 15,
+                'background' => 'travel.png'
             ],
             [
                 'title' => 'Fashion & Beauty',
                 'icon' => 'bag-shopping',
                 'in_menu' => true,
-                'position' => 16
+                'position' => 16,
+                'background' => 'fashion.png'
             ]
         ];
 

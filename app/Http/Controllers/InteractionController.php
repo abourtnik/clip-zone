@@ -27,7 +27,7 @@ class InteractionController extends Controller
             $a->delete();
 
         } else {
-            Auth::user()->likes()->create([
+            Auth::user()->interactions()->create([
                 'likeable_type' => get_class($likeable),
                 'likeable_id' => $likeable->id,
                 'status' => true,
@@ -63,7 +63,7 @@ class InteractionController extends Controller
 
 
         } else {
-            Auth::user()->likes()->create([
+            Auth::user()->interactions()->create([
                 'likeable_type' => get_class($likeable),
                 'likeable_id' => $likeable->id,
                 'status' => false,

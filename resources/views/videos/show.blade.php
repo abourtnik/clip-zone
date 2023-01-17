@@ -124,10 +124,10 @@
             @endif
             <div class="d-flex gap-2 align-items-center">
                 @if($video->category)
-                    <div class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0">
+                    <a href="{{$video->category->route}}" class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0 text-decoration-none">
                         <i class="fa-solid fa-{{$video->category->icon}}"></i>
                         <strong>{{$video->category->title}}</strong>
-                    </div>
+                    </a>
                 @endif
                 @if($video->language)
                     <div class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0">

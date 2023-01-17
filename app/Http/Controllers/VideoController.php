@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\InteractionsResource;
 use App\Http\Resources\VideoResource;
 use App\Models\Category;
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
@@ -81,5 +81,19 @@ class VideoController
                 ->limit(12)
                 ->get()
         ]);
+    }
+
+    public function user (User $user, Request $request) {
+
+        $sort = $request->get('sort', 'recent');
+
+        return VideoResource::collection(
+            $user->videos()
+                ->active()
+                ->withCount('views')
+                ->when($sort === 'recent', fn($query) => $query->latest('created_at'))
+                ->when($sort === 'popular', fn($query) => $query->orderByRaw('views_count DESC'))
+                ->paginate(24)
+        );
     }
 }

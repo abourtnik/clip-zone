@@ -4,16 +4,11 @@ import Video from "./Video";
 import { useInView } from 'react-intersection-observer';
 import {Video as Skeleton} from "./Skeletons";
 
-export default function Videos ({url}) {
+export default function Videos ({url, skeletons = 12}) {
 
     const {items: videos, load, loading, hasMore} =  usePaginateFetch(url)
     const [primaryLoading, setPrimaryLoading] = useState(true)
     const {ref,inView} = useInView();
-
-    useEffect( async () => {
-        await load()
-        setPrimaryLoading(false);
-    }, []);
 
     useEffect( async () => {
         if (inView && !loading) {
@@ -21,24 +16,30 @@ export default function Videos ({url}) {
         }
     }, [inView]);
 
+    useEffect( async () => {
+        setPrimaryLoading(true);
+        await load()
+        setPrimaryLoading(false);
+    }, [url]);
+
     return (
         <>
         {
             (primaryLoading) ?
-                <div className="row gx-4">
-                    {[...Array(24).keys()].map(i => <Skeleton key={i}/>)}
+                <div className="row gx-3 gy-5">
+                    {[...Array(parseInt(skeletons)).keys()].map(i => <Skeleton key={i}/>)}
                 </div>
                 :
                 <>
                     {
                         (videos.length) ?
                             <>
-                                <div id="video-container" className="row gx-3">
+                                <div id="video-container" className="row gx-3 gy-5">
                                     {videos.map(video => <Video key={video.id} video={video}/>)}
                                 </div>
                                 {
                                     hasMore &&
-                                    <div ref={ref} className="row gx-3">
+                                    <div ref={ref} className="row gx-3 gy-5">
                                         {[...Array(12).keys()].map(i => <Skeleton key={i}/>)}
                                     </div>
                                 }

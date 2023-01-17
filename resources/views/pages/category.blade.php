@@ -6,17 +6,11 @@
 @section('style', 'margin-top: 0 !important')
 
 @section('content')
-    <img class="w-100" src="{{$category->background_url}}" alt="{{$category->title}} background" style="height: 270px;object-fit: cover;">
-    <div class="bg-light-dark d-flex align-items-center justify-content-between py-4 px-3">
-        <div class="d-flex gap-4 align-items-center">
-            <div class="rounded-circle p-3" style="background-color: rebeccapurple">
-                <i class="fa-solid fa-{{$category->icon}} fa-2x text-white"></i>
-            </div>
-            <h5>{{$category->title}}</h5>
-        </div>
-        <strong>
-            {{$category->videos_count}} Videos
-        </strong>
+    <div class="position-relative">
+        <img class="w-100" src="{{$category->background_url}}" alt="{{$category->title}} background" style="height: 400px;object-fit: cover;">
+        <h1 class="position-absolute top-50 start-50 translate-middle text-white" style="z-index: 1">{{$category->title}}</h1>
+        <div class="position-absolute top-0 right-0 w-100 h-100 bg-dark bg-opacity-50"></div>
+        <strong class="position-absolute bottom-0 end-0 text-white p-2" style="z-index: 1">{{trans_choice('videos', $category->videos_count)}}</strong>
     </div>
     <div class="container-fluid mt-3 my-3">
         <videos-area url="{{route('videos.category', $category)}}" />

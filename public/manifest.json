@@ -1,0 +1,20 @@
+{
+    "start_url": "/",
+    "name": "Youtube Clone",
+    "short_name": "YC",
+    "icons": [
+        {
+            "src": "/img/icons/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/img/icons/android-chrome-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#377BB5",
+    "background_color": "#377BB5",
+    "display": "standalone"
+}

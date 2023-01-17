@@ -1,13 +1,15 @@
 @extends('layouts.default')
 
+@section('title', $user->username)
+
 @section('class', 'px-0')
 @section('style', 'margin-top: 0 !important')
 
 @section('content')
     <div class="position-relative">
-        <img class="w-100" style="height: 250px" src="{{$user->banner_url}}" alt="{{$user->username}} banner">
+        <img class="w-100" style="height: 250px; object-fit: cover;" src="{{$user->banner_url}}" alt="{{$user->username}} banner">
         @if($user->website)
-            <a href="{{$user->website}}" class="position-absolute bottom-0 right-0 me-4 mb-4 p-2 text-white bg-dark bg-opacity-25 text-decoration-none text-uppercase">Website</a>
+            <a href="{{$user->website}}" class="position-absolute bottom-0 right-0 me-2 mb-2 p-1 text-white bg-dark bg-opacity-25 text-decoration-none fw-bold">{{$user->website}}</a>
         @endif
     </div>
     <div class="w-100 bg-gray-100">
@@ -36,12 +38,12 @@
                             class="btn btn-danger text-uppercase"
                             data-bs-toggle="popover"
                             data-bs-placement="right"
-                            data-bs-title="Voulez-vous vous abonner à cette chaîne ?"
+                            data-bs-title="Want to subscribe to this channel ?"
                             data-bs-trigger="focus"
                             data-bs-html="true"
-                            data-bs-content="Connectez-vous pour vous abonner à cette chaîne.<hr><a href='/login' class='btn btn-primary btn-sm'>Se connecter</a>"
+                            data-bs-content="Sign in to subscribe to this channel.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
                         >
-                            S'abonner
+                            Subscribe
                         </button>
                     @endif
                 </div>
@@ -100,13 +102,7 @@
                 </div>
                 <div class="tab-pane " id="videos" role="tabpanel" aria-labelledby="videos-tab">
                     @if($user->videos->count())
-                        <div class="d-flex align-items-center gap-2 my-4">
-                            <button type="button" class="btn btn-sm btn-primary">Recently uploaded</button>
-                            <button type="button" class="btn btn-sm btn-outline-primary">Popular</button>
-                        </div>
-                        <div class="row">
-                            @each('videos.card', $user->videos->paginate(12), 'video')
-                        </div>
+                        <user-videos user="{{$user->id}}" videos="{{$user->videos()->active()->count()}}"/>
                     @else
                         <div class="d-flex align-items-center h-75 mt-4">
                             <div class="w-50 border p-4 bg-light text-center bg-white">
@@ -148,5 +144,3 @@
         </div>
     </div>
 @endsection
-
-

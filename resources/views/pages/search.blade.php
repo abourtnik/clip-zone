@@ -1,5 +1,7 @@
 @extends('layouts.default')
 
+@section('title', $search)
+
 @section('content')
     <div x-data="{ filters: false }">
         <div class="d-flex justify-content-between align-items-center">

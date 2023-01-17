@@ -5,9 +5,10 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 use App\Models\User;
+use App\Models\Interaction;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
+ * @extends Factory<Interaction>
  */
 class InteractionFactory extends Factory
 {
@@ -16,7 +17,7 @@ class InteractionFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition()
+    public function definition() : array
     {
         return [
             'status' => fake()->boolean(),
