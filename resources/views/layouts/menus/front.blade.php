@@ -1,4 +1,4 @@
-<nav class="d-flex flex-column flex-shrink-0 bg-light border-end admin-sidebar fixed">
+<nav class="flex-column flex-shrink-0 bg-light border-end admin-sidebar fixed d-none d-sm-flex">
     @foreach(config('menu.front.top') as $submenu)
         @unless($loop->index === 1 && !Auth::check())
             <ul class="nav nav-pills flex-column text-center">
@@ -70,8 +70,8 @@
     </ul>
     <hr class="w-90">
     <div class="mb-3 ps-4">
-        <a class="text-muted text-sm fw-bold text-decoration-none" href="#">Terms</a>
-        <a class="text-muted text-sm fw-bold text-decoration-none" href="#">Privacy</a>
+        <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">Terms</a>
+        <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">Privacy</a>
         <div class="d-flex align-items-center gap-2 mt-2">
             <small class="text-muted">© {{now()->format('Y')}}</small>
             <a class="text-sm fw-bold text-decoration-none" href="https://antonbourtnik.fr/">Anton Bourtnik</a>

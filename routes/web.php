@@ -25,6 +25,7 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/trend', 'trend')->name('trend');
     Route::get('/categories/{slug}', 'category')->name('category');
     Route::get('/user/{user}', 'user')->name('user')->can('show', 'user');
+    Route::get('/terms', 'terms')->name('terms');
 
     Route::middleware('auth')->group(function () {
         Route::get('/liked', 'liked')->name('liked');

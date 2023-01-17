@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-9">
+        <div class="col-lg-9">
             <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
                 <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
             </video>
@@ -31,7 +31,7 @@
                             model="{{get_class($video)}}"
                             target="{{$video->id}}"
                             count="{{ json_encode(['likes_count' => $video->likes_count, 'dislikes_count' => $video->dislikes_count ])}}"
-                            show-count="{{$video->show_likes}}"
+                            @if(!$video->show_likes) show-count="false" @endif
                         />
                     </div>
                 @else
@@ -145,7 +145,7 @@
                 </div>
             @endif
         </div>
-        <div class="col-3">
+        <div class="col-lg-3">
             @each('videos.card-secondary', $videos, 'video')
         </div>
     </div>

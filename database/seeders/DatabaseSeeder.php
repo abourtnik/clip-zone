@@ -25,7 +25,9 @@ class DatabaseSeeder extends Seeder
         User::factory(100)->create()->each(function($user) {
             Video::factory(rand(0, 10))->create(['user_id' => $user->id])->each(function ($video) {
                 Comment::factory(rand(0, 10))->create(['video_id' => $video->id])->each(function ($comment) use ($video) {
-                   Comment::factory(rand(0, 10))->create(['parent_id' => $comment->id, 'video_id' => $video->id]);
+                    Comment::factory(rand(0, 10))->create(['parent_id' => $comment->id, 'video_id' => $video->id])->each(function ($comment) use ($video) {
+                        Interaction::factory(rand(0, 5))->create(['likeable_type' => Comment::class, 'likeable_id' => $comment->id]);
+                    });
                     Interaction::factory(rand(0, 10))->create(['likeable_type' => Comment::class, 'likeable_id' => $comment->id]);
                 });
                 Interaction::factory(rand(0, 100))->create(['likeable_type' => Video::class, 'likeable_id' => $video->id]);

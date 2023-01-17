@@ -55,15 +55,17 @@
             @endforelse
         @endif
     @else
-        <div class="d-flex justify-content-center align-items-center h-75">
-            <div class="w-50 border p-4 bg-light text-center">
-                <i class="fa-brands fa-youtube fa-7x mb-3"></i>
-                <h2>Don’t miss new videos</h2>
-                <p class="text-muted">Sign in to see updates from your favorite YouTube channels</p>
-                <a href="{{route('login')}}" class="btn btn-outline-primary">
-                    <i class="fa-solid fa-user"></i>
-                    Sign in
-                </a>
+        <div class="h-full">
+            <div class="d-flex justify-content-center align-items-center h-75">
+                <div class="w-75 border p-4 bg-light text-center">
+                    <i class="fa-brands fa-youtube fa-7x mb-3"></i>
+                    <h2>Don’t miss new videos</h2>
+                    <p class="text-muted">Sign in to see updates from your favorite YouTube channels</p>
+                    <a href="{{route('login')}}" class="btn btn-outline-primary">
+                        <i class="fa-solid fa-user"></i>
+                        Sign in
+                    </a>
+                </div>
             </div>
         </div>
     @endif

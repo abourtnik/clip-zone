@@ -24,6 +24,7 @@ class SubscriptionController extends Controller
                 ->paginate(18),
             'sorted_videos' => Auth::user()
                 ->subscriptions_videos()
+                ->active()
                 ->with('user')
                 ->withCount('views')
                 ->latest()

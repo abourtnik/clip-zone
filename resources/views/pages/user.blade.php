@@ -9,7 +9,7 @@
     <div class="position-relative">
         <img class="w-100" style="height: 250px; object-fit: cover;" src="{{$user->banner_url}}" alt="{{$user->username}} banner">
         @if($user->website)
-            <a href="{{$user->website}}" class="position-absolute bottom-0 right-0 me-2 mb-2 p-1 text-white bg-dark bg-opacity-25 text-decoration-none fw-bold">{{$user->website}}</a>
+            <a href="//{{$user->website}}" class="position-absolute bottom-0 right-0 me-2 mb-2 p-1 text-white bg-dark bg-opacity-25 text-decoration-none fw-bold" rel="external nofollow">{{$user->website}}</a>
         @endif
     </div>
     <div class="w-100 bg-gray-100">

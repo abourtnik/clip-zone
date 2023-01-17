@@ -42,8 +42,17 @@ class CommentController extends Controller
                 ->with([
                     'user',
                     'video:id',
-                    'replies' => fn($q) => $q->with('user', 'video:id', 'replies')->latest(),
-                    'replies.video'
+                    'replies' => function($q) {
+                        return $q
+                            ->with(['user', 'video:id'])
+                            ->withCount([
+                                'likes',
+                                'dislikes',
+                                'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
+                                'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
+                            ])
+                            ->latest();
+                    }
                 ])
                 ->withCount([
                     'likes',

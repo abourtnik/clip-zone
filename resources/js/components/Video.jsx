@@ -12,11 +12,11 @@ export default function Video ({video}) {
                     <span style="position: absolute;inset: 0;"></span>
                 </a>
                 <div className="d-flex mt-2">
-                    <a href={video.user.route} style="height: 36px;" className="position-relative">
+                    <a href={video.user.route} style="height: 36px;" className="position-relative" title={video.user.username}>
                         <img className="rounded-circle" src={video.user.avatar} alt={video.user.username + ' avatar'} style={{width: '36px'}} />
                     </a>
                     <div className="ml-2">
-                        <div className="fw-bolder">{video.title}</div>
+                        <a href={video.route} className="fw-bolder text-decoration-none text-black d-block position-relative" title={video.title}>{video.short_title}</a>
                         <a href={video.user.route} className="position-relative text-decoration-none text-black">
                             <small>{video.user.username}</small>
                         </a>

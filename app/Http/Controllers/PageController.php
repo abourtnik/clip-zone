@@ -66,4 +66,8 @@ class PageController
             ])->loadCount('subscribers', 'videos_views')
         ]);
     }
+
+    public function terms () {
+        return view('pages.terms');
+    }
 }

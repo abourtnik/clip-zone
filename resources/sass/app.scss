@@ -77,3 +77,17 @@ $sidebar-width: 240px;
     background-color: #e6eff4;
 }
 
+.h-full {
+    height: calc(100vh - 56px - 2rem);
+}
+
+#main-container {
+    margin-left: 240px
+}
+
+@media (max-width: 575px) {
+    #main-container {
+        margin-left: 0;
+    }
+}
+

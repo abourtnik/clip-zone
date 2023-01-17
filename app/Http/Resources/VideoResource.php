@@ -17,6 +17,7 @@ class VideoResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'short_title' => $this->short_title,
             'thumbnail' => $this->thumbnail_url,
             'duration' => $this->duration,
             'views' => trans_choice('views', $this->views_count),

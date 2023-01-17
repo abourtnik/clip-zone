@@ -17,9 +17,7 @@ export default function UserVideos ({user, videos}) {
                 <button onClick={() => sort('recent')} className={'btn btn-' + activeButton('recent') + 'btn-sm'} type="button">Recently uploaded</button>
                 <button onClick={() => sort('popular')} className={'btn btn-' + activeButton('popular') + 'btn-sm'} type="button">Popular</button>
             </div>
-            <div className={'row'}>
-                <Videos url={"/api/videos/user/" + user + '?sort=' + selectedSort} skeletons={videos}/>
-            </div>
+            <Videos url={"/api/videos/user/" + user + '?sort=' + selectedSort} skeletons={videos}/>
         </>
 
     )
