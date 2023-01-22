@@ -7,12 +7,16 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
-                    <p class="fw-bold">La suppresion d'un compte est definitive.</p>
-                    <p>La suppresion de votre compte entraîne automatiquement la suppresion de toutes vos videos, commentaires et interractions</p>
+                    <p class="fw-bold">Your account will be permanently deleted.</p>
+                    <p class="fw-bold">
+                        Once your account is deleted, all of its resources and data will be permanently deleted.
+                       Before deleting your account, please download all data or information that you wish to retain.
+                    </p>
+                    <p>This data will be permanently deleted : </p>
                     <ul>
-                        <li> {{$user->videos->count()}} videos</li>
-                        <li> {{$user->comments->count()}} comments</li>
-                        <li> {{$user->likes->count()}} likes</li>
+                        <li>{{trans_choice('videos', $user->videos->count())}}</li>
+                        <li>{{trans_choice('comments', $user->comments->count())}}</li>
+                        <li>{{$user->likes->count()}} likes</li>
                         <li>{{$user->likes->count()}} dislikes</li>
                     </ul>
                 </div>

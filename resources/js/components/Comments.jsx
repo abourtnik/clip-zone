@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'preact/hooks';
+import {useState, useEffect, useCallback} from 'preact/hooks';
 import Comment from "./Comment";
 import {usePaginateFetch} from "../hooks";
 import {Comment as Skeleton} from "./Skeletons";
@@ -62,7 +62,7 @@ export default function Comments ({target, auth, defaultSort}) {
         setNext(data.links.next)
     }
 
-    const deleteComment = async (comment) => {
+    const deleteComment = useCallback(async (comment) => {
 
         const response = await fetch(`/api/comments/${comment.id}`, {
             headers: {
@@ -75,9 +75,9 @@ export default function Comments ({target, auth, defaultSort}) {
 
         setComments(comments => comments.filter(c => c.id !== comment.id))
         setCount(count => count - 1);
-    }
+    }, []);
 
-    const updateComment = async (comment, content) => {
+    const updateComment = useCallback(async (comment, content) => {
 
         const response = await fetch(`/api/comments/${comment.id}`, {
             headers: {
@@ -94,7 +94,7 @@ export default function Comments ({target, auth, defaultSort}) {
         const updated_comment = await response.json();
 
         setComments(comments => comments.map(c => c.id === comment.id ? updated_comment.data : c))
-    }
+    },[]);
 
     const activeButton = (type) => selectedSort === type ? 'primary ' : 'outline-primary ';
 

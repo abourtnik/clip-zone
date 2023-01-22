@@ -105,7 +105,7 @@ class Video extends Model implements Likeable
     protected function shortTitle(): Attribute
     {
         return Attribute::make(
-            get: fn () => Str::limit($this->title, '71', '...')
+            get: fn () => Str::limit($this->title, '69', '...')
         );
     }
 

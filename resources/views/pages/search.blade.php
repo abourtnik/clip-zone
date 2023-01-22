@@ -3,52 +3,52 @@
 @section('title', $search)
 
 @section('content')
-    <div x-data="{ filters: false }">
+    <div x-data="{ filters: {{!empty($filters) ? 'true' : 'false'}} }">
         <div class="d-flex justify-content-between align-items-center">
             <button class="btn btn-primary btn-sm" @click="filters = !filters">
                 <i class="fa-solid fa-filter"></i>
                 Filters
             </button>
-            @if($results)
-                <div class="fw-bold">{{$results->total()}} Results</div>
+            @if($results->count())
+                <div class="fw-bold"> {{trans_choice('results', $results->total())}}</div>
             @else
                 <div class="fw-bold">0 Results</div>
             @endif
         </div>
         <form class="my-4 d-flex gap-3 align-items-end" method="GET" x-show.important="filters">
+            <input type="hidden" name="q" value="{{$search}}">
             <div class="col">
-                <label for="status" class="form-label fw-bold">Type</label>
-                <select name="status" class="form-select" aria-label="Default select example">
+                <label for="type" class="form-label fw-bold">Type</label>
+                <select name="type" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
-                    <option value="">User</option>
-                    <option value="">Videos</option>
+                    <option @selected(($filters['type'] ?? null) === 'users') value="users">User</option>
+                    <option @selected(($filters['type'] ?? null) === 'videos') value="videos">Videos</option>
                 </select>
             </div>
             <div class="col">
-                <label for="category" class="form-label fw-bold">Upload Date</label>
-                <select name="category" class="form-select" aria-label="Default select example">
+                <label for="date" class="form-label fw-bold">Upload Date</label>
+                <select name="date" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
-                    <option value="">Last hour</option>
-                    <option value="">Today</option>
-                    <option value="">This week</option>
-                    <option value="">This month</option>
-                    <option value="">This year</option>
+                    @foreach(['hour' => 'Last hour' ,'today' => 'Today', 'week' => 'This week', 'month' => 'This month', 'year' => 'This year'] as $value => $label)
+                        <option @selected(($filters['date'] ?? null) === $value) value="{{$value}}">{{$label}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col">
-                <label for="category" class="form-label fw-bold">Duration</label>
-                <select name="category" class="form-select" aria-label="Default select example">
+                <label for="duration" class="form-label fw-bold">Duration</label>
+                <select name="duration" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
-                    <option value="">Under 4 minutes</option>
-                    <option value="">4-20 minutes</option>
-                    <option value="">Over 20 minutes</option>
+                    @foreach(['4' => 'Under 4 minutes' , '4-20' => '4-20 minutes', '20' => 'Over 20 minutes'] as $value => $label)
+                        <option @selected(($filters['duration'] ?? null) == $value) value="{{$value}}">{{$label}}</option>
+                    @endforeach
                 </select>
             </div>
+
             <div class="btn-group">
                 <button type="submit" class="btn btn-outline-secondary" title="Search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
-                <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
+                <a href="?q={{$search}}&clear=1" class="btn btn-outline-secondary" title="Clear">
                     <i class="fa-solid fa-eraser"></i>
                 </a>
             </div>

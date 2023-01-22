@@ -18,6 +18,7 @@
     document.getElementById('comment_replies').addEventListener('show.bs.modal', event => {
         const button = event.relatedTarget
         const id = button.dataset.id;
-        document.querySelector('.modal-body').innerHTML = `<replies-area target="${id}"/>`;
+        const video = button.dataset.video;
+        document.querySelector('.modal-body').innerHTML = `<replies-area target="${id}" video="${video}"/>`;
     })
 </script>

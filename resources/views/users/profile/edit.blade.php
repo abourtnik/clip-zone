@@ -105,7 +105,7 @@
                                         Show subscribers count
                                     </label>
                                 </div>
-                                <div class="form-text">If you disabled this, you don't appear on discover page </div>
+                                <div class="form-text">By disabling this option, you don't appear on <a class="text-decoration-none" href="{{route('subscription.discover')}}">discover</a> page</div>
                             </div>
                         </div>
                     </div>
@@ -165,8 +165,8 @@
             <div class="card shadow-soft my-3">
                 <div class="card-body">
                     <div class="alert alert-danger fw-bold">
-                        Once your account is deleted, all of its resources and data wille be permanently deleted.
-                        Before deleting your account, please download and data or information that you wish to retain.
+                        Once your account is deleted, all of its resources and data will be permanently deleted.
+                        Before deleting your account, please download all data or information that you wish to retain.
                     </div>
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete_account">
                         <i class="fa-solid fa-user-times"></i>

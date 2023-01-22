@@ -1,8 +1,8 @@
 import { useState } from 'preact/hooks';
 
-export default function Subscribe ({issubscribe, user, size= null}) {
+export default function Subscribe ({isSubscribe = true, user, size= null}) {
 
-    const [subscribe, setSubscribe] = useState( issubscribe === 'true');
+    const [subscribe, setSubscribe] = useState(isSubscribe);
 
     const onClick = async () => {
 

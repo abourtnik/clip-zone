@@ -136,9 +136,9 @@
                                         <td class="align-middle">{{$video->views_count}}</td>
                                         <td class="align-middle">
                                             @if($video->comments_count)
-                                                <div class="badge bg-info">
+                                                <a href="{{route('user.comments.index') .'?video='.$video->id}}" class="badge bg-info text-decoration-none">
                                                     {{trans_choice('comments', $video->comments_count)}}
-                                                </div>
+                                                </a>
                                             @else
                                                 <div class="badge bg-secondary">
                                                     No comments
@@ -178,7 +178,7 @@
                 <div class="card-footer">
                     <div class="d-flex justify-content-between align-items-center">
                         <a href="{{route('user.videos.index')}}" class="btn btn-primary btn-sm">
-                            <i class="fa-solid fa-eye"></i>
+                            <i class="fa-solid fa-eye"></i>&nbsp;
                             See all videos
                         </a>
                         <a href="{{route('user.videos.create')}}" class="btn btn-success btn-sm">
@@ -211,12 +211,16 @@
                         @forelse($user->subscribers as $subscriber)
                             <tr>
                                 <td class="align-middle">
-                                    <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2">
+                                    <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2 text-decoration-none">
                                         <img class="rounded" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 50px;">
                                         <span>{{$subscriber->username}}</span>
                                     </a>
                                 </td>
-                                <td class="align-middle">{{$subscriber->pivot->subscribe_at->diffForHumans()}}</td>
+                                <td class="align-middle">
+                                    <div data-bs-toggle="tooltip" data-bs-title="{{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}">
+                                        {{$subscriber->pivot->subscribe_at->diffForHumans()}}
+                                    </div>
+                                </td>
                                 <td class="align-middle">
                                     {{trans_choice('subscribers', $subscriber->subscribers_count)}}
                                 </td>
@@ -242,7 +246,7 @@
                 <div class="card-footer">
                     <div class="d-flex gap-2">
                         <a href="{{route('user.subscribers')}}" class="btn btn-primary btn-sm">
-                            <i class="fa-solid fa-eye"></i>
+                            <i class="fa-solid fa-eye"></i>&nbsp;
                             See all subscribers
                         </a>
                     </div>
@@ -286,8 +290,24 @@
                                                 <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
                                             </a>
                                             <div>
-                                                <a href="{{route('pages.user', $comment->user)}}">{{$comment->user->username}}</a>
-                                                <small class="text-muted d-block">{{$comment->short_content}}</small>
+                                                <a href="{{route('pages.user', $comment->user)}}" class="text-decoration-none">{{$comment->user->username}}</a>
+                                                @if($comment->is_long)
+                                                    <div class="mt-1 d-block" x-data="{ open: false }">
+                                                        <template x-if="open">
+                                                            <small class="text-muted">
+                                                                {{$comment->content}}
+                                                            </small>
+                                                        </template>
+                                                        <template x-if="!open">
+                                                            <small class="text-muted">
+                                                                {{Str::limit($comment->content, 100)}}
+                                                            </small>
+                                                        </template>
+                                                        <button @click="open=!open" class="text-primary text-sm bg-transparent d-block mt-1 ps-0" x-text="open ? 'Show less': 'Read more'"></button>
+                                                    </div>
+                                                @else
+                                                    <small class="text-muted d-block mt-1">{{$comment->content}}</small>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>
@@ -303,7 +323,7 @@
                                         @endif
                                     </td>
                                     <td class="align-middle">
-                                        <small>{{$comment->created_at->diffForHumans()}}</small>
+                                        <small data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">{{$comment->created_at->diffForHumans()}}</small>
                                     </td>
                                 </tr>
                                 @empty
@@ -327,7 +347,7 @@
                 <div class="card-footer">
                     <div class="d-flex gap-2">
                         <a href="{{route('user.comments.index')}}" class="btn btn-primary btn-sm">
-                            <i class="fa-solid fa-eye"></i>
+                            <i class="fa-solid fa-eye"></i>&nbsp;
                             See all comments
                         </a>
                     </div>
@@ -362,7 +382,7 @@
                                         </a>
                                     </td>
                                     <td class="align-middle">
-                                        <a href="{{route('pages.user', $interaction->user->id)}}" class="d-flex align-items-center gap-2">
+                                        <a href="{{route('pages.user', $interaction->user->id)}}" class="d-flex align-items-center gap-2 text-decoration-none">
                                             <img class="rounded" src="{{$interaction->user->avatar_url}}" alt="{{$interaction->user->username}} avatar" style="width: 50px;">
                                             <span>{{$interaction->user->username}}</span>
                                         </a>
@@ -378,7 +398,11 @@
                                             </div>
                                         @endif
                                     </td>
-                                    <td class="align-middle">{{$interaction->perform_at->format('d F Y - H:i')}}</td>
+                                    <td class="align-middle">
+                                        <div data-bs-toggle="tooltip" data-bs-title="{{$interaction->perform_at->format('d F Y - H:i')}}">
+                                            {{$interaction->perform_at->diffForHumans()}}
+                                        </div>
+                                    </td>
                                 </tr>
                                 @empty
                                     <tr class="bg-light">
@@ -401,7 +425,7 @@
                 <div class="card-footer">
                     <div class="d-flex justify-content-between align-items-center">
                         <a href="{{route('user.videos.index')}}" class="btn btn-primary btn-sm">
-                            <i class="fa-solid fa-eye"></i>
+                            <i class="fa-solid fa-eye"></i>&nbsp;
                             See all interactions
                         </a>
                     </div>

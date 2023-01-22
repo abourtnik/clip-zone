@@ -2,48 +2,54 @@
 
 namespace App\Http\Controllers;
 
+use App\Filters\SearchFilters;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class SearchController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request, SearchFilters $filters): View
     {
         $q = $request->get('q');
+
+        $type = $request->get('type');
 
         if (!$q) {
             return view('pages.search', [
                 'search' => $q,
-                'results' => []
+                'results' => collect()
             ]);
         }
 
         $match = '%'.$q.'%';
 
-        $videos = Video::active()
+        $videos = in_array($type, ['videos', null]) ? Video::active()
+            ->filter($filters)
             ->where(function($query) use ($match) {
                 $query->where('title', 'LIKE', $match)->orWhere('description', 'LIKE', $match);
             })
             ->with('user')
             ->latest('publication_date')
             ->withCount('views')
-            ->get();
+            ->get() : collect();
 
-        $users = User::active()
+        $users = in_array($type, ['users', null]) ? User::active()
             ->where('username', 'LIKE' , $match)
             ->withCount([
                 'subscribers',
                 'videos' => fn($query) => $query->active()
             ])
             ->orderBy('subscribers_count', 'desc')
-            ->get();
+            ->get() : collect();
 
         return view('pages.search', [
             'search' => $q,
             'results' => $videos->concat($users)->shuffle()->paginate(12)->withQueryString(),
+            'filters' => $filters->receivedFilters() + ['type' => $type]
         ]);
     }
 
@@ -62,7 +68,7 @@ class SearchController extends Controller
             ->get()
             ->map(fn($video) => [
                 'category' => 'Video',
-                'title' => $video->title,
+                'title' => Str::limit($video->title, 45),
                 'url' => $video->route,
                 'image' => $video->thumbnail_url,
             ]);
@@ -80,12 +86,10 @@ class SearchController extends Controller
                 'image' => $user->avatar_url,
             ]);
 
-        //dd($users->concat($videos));
-
         return response()->json([
             'total' => $users->concat($videos)->count(),
             'items' => $users->concat($videos)->slice(0, 15)->toArray(),
-            'route' => route('search.index'). '?q=' .$q
+            'route' => route('search.index'). '?q=' .$q,
         ]);
 
     }

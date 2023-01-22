@@ -1,18 +1,57 @@
 import { useState, useEffect } from 'preact/hooks';
 import {usePaginateFetch} from "../hooks";
-import Interaction from "./Interaction";
+import Comment from "./Comment";
+import {Comment as Skeleton} from "./Skeletons";
+import {useInView} from "react-intersection-observer";
 
-export default function Replies ({target}) {
+export default function Replies ({target, video}) {
 
     const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments/${target}/replies`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
 
     const [selectedSort, setSelectedSort] = useState('top');
 
+    const {ref,inView} = useInView();
+
     useEffect( async () => {
         await load()
         setPrimaryLoading(false);
     }, []);
+
+    useEffect( async () => {
+        if (inView && !loading) {
+            await load()
+        }
+    }, [inView]);
+
+    const reply = async (event) => {
+
+        event.preventDefault();
+
+        const formData = new FormData(event.target);
+        const data = Object.fromEntries(formData.entries());
+
+        const response = await fetch('/api/comments', {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            credentials: 'include',
+            body: JSON.stringify({
+                ...data,
+                video_id: video,
+                parent_id: target
+            })
+        });
+
+        const comment = await response.json();
+
+        setComments(comments => [comment.data, ...comments]);
+        setCount(count => count + 1);
+
+        document.getElementById('content').value = '';
+    }
 
     const deleteComment = async (comment) => {
 
@@ -29,6 +68,25 @@ export default function Replies ({target}) {
         setCount(count => count - 1);
     }
 
+    const updateComment = async (comment, content) => {
+
+        const response = await fetch(`/api/comments/${comment.id}`, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'PUT',
+            body: JSON.stringify({
+                content: content,
+            }),
+            credentials: 'include'
+        });
+
+        const updated_comment = await response.json();
+
+        setComments(comments => comments.map(c => c.id === comment.id ? updated_comment.data : c))
+    };
+
     const sort = async (type) => {
         setSelectedSort(type)
         setPrimaryLoading(true);
@@ -44,16 +102,16 @@ export default function Replies ({target}) {
    return (
         <div className="mb-4">
             <div className="mb-3 d-flex align-items-center justify-content-between">
-                <div>{count} Comment{count > 1 && 's'}</div>
+                <div>{count} Replies{count > 1 && 's'}</div>
                 <div className={'d-flex gap-2 align-items-center'}>
                     <button onClick={() => sort('top')} className={'btn btn-' + activeButton('top') + 'btn-sm'}>Top Replies</button>
                     <button onClick={() => sort('recent')} className={'btn btn-' + activeButton('recent') + 'btn-sm'}>Newest replies</button>
                 </div>
             </div>
-            <form onSubmit={null}>
+            <form onSubmit={reply}>
                 <div className="mb-2">
                     <label htmlFor="content" className="form-label d-none"></label>
-                    <textarea className="form-control" id="content" rows="1" name="content" placeholder="Add a reply..." required></textarea>
+                    <textarea className="form-control" id="content" rows="4" name="content" placeholder="Add a reply..." required></textarea>
                 </div>
                 <div className="mb-3 d-flex justify-content-end">
                     <button type="submit" className="btn btn-success btn-sm">
@@ -63,60 +121,17 @@ export default function Replies ({target}) {
             </form>
             {
                 (primaryLoading) ?
-                    <div className={'text-center mt-3'}>
-                        <div className="spinner-border" role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div>
+                    <div className="d-flex flex-column gap-2">
+                        {[...Array(4).keys()].map(i => <Skeleton key={i}/>)}
                     </div>
-                    : comments.map(comment => (
-                        <div className="d-flex mb-3 gap-2">
-                            <a href={comment.user.route}>
-                                <img className="rounded-circle img-fluid" src={comment.user.avatar} alt={comment.user.username + ' avatar'} style="width: 50px;"/>
-                            </a>
-                            <div className={'w-100'}>
-                                <div className={'border p-3 bg-white'}>
-                                    <div className="d-flex justify-content-between align-items-center mb-1">
-                                        <div className={'d-flex align-items-center gap-2'}>
-                                            <a href={comment.user.route}>
-                                                {comment.user.username}
-                                            </a>•
-                                            <small className="text-muted">{comment.created_at}</small>
-                                        </div>
-                                        <div className={'d-flex align-items-center gap-2'}>
-                                            <button onClick={() => deleteComment(comment)} className={"btn btn-sm text-danger p-0"}>Delete</button>
-                                            {comment.is_updated && <small className="text-muted fw-semibold">Modified</small>}
-                                        </div>
-                                    </div>
-                                    <div className={'my-3'}>{comment.content}</div>
-                                    <div className="d-flex align-items-center gap-2 mt-1">
-                                        <div className="d-flex align-items-center gap-2">
-                                            <Interaction
-                                                active={JSON.stringify({'like': comment.liked_by_auth_user, 'dislike': comment.disliked_by_auth_user})}
-                                                model={comment.model}
-                                                target={comment.id}
-                                                count={JSON.stringify({'likes_count' : comment.likes_count, 'dislikes_count' : comment.dislikes_count})}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))
+                    : comments.map(comment => <Comment key={comment.id} comment={comment} auth={true} canReply={false} deleteComment={deleteComment} updateComment={updateComment}/>)
             }
             {
-                (!primaryLoading && hasMore) &&
-                <button type={'button'} onClick={() => load(selectedSort)} className={'btn btn-outline-primary w-100'}>
-                    {
-                        loading ?
-                            <div>
-                                <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                <span className="sr-only">Loading...</span>
-                            </div> :
-                            <span>En charger plus</span>
-                    }
-                </button>
+                hasMore &&
+                <div ref={ref} className="d-flex flex-column gap-2">
+                    {[...Array(4).keys()].map(i => <Skeleton key={i}/>)}
+                </div>
             }
-
         </div>
     )
 }

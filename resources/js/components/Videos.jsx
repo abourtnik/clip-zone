@@ -34,12 +34,12 @@ export default function Videos ({url, skeletons = 12}) {
                     {
                         (videos.length) ?
                             <>
-                                <div className="row gx-3 gy-5">
+                                <div className="row gx-3 gy-4">
                                     {videos.map(video => <Video key={video.id} video={video}/>)}
                                 </div>
                                 {
                                     hasMore &&
-                                    <div ref={ref} className="row gx-3 gy-5">
+                                    <div ref={ref} className="row gx-3 gy-4">
                                         {[...Array(12).keys()].map(i => <Skeleton key={i}/>)}
                                     </div>
                                 }

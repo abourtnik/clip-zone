@@ -9,7 +9,7 @@
 <body>
     <main class="h-100 overflow-auto">
         @include('layouts.menus.header')
-        <div class="admin-content d-flex overflow-hidden">
+        <div class="admin-content d-flex">
             @include('layouts.menus.back', ['type' => 'user'])
             <div class="container-fluid mt-3" style="margin-left: 240px">
                 @yield('content')

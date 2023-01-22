@@ -1,4 +1,4 @@
-import {useRef, useState, useEffect} from 'preact/hooks';
+import {useRef, useState, useEffect, useCallback} from 'preact/hooks';
 import { memo } from 'preact/compat';
 import {useToggle} from "../hooks";
 
@@ -48,7 +48,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
         document.getElementById('content-' + comment.id).value = '';
     }
 
-    const deleteReply = async (reply) => {
+    const deleteReply = useCallback (async (reply) => {
 
         const response = await fetch(`/api/comments/${reply.id}`, {
             headers: {
@@ -60,9 +60,9 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
         });
 
         setReplies(replies => replies.filter(r => r.id !== reply.id))
-    }
+    }, []);
 
-    const updateReply = async (reply, content) => {
+    const updateReply = useCallback (async (reply, content) => {
 
         const response = await fetch(`/api/comments/${reply.id}`, {
             headers: {
@@ -79,7 +79,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
         const updated_reply = await response.json();
 
         setReplies(replies => replies.map(r => r.id === reply.id ? updated_reply.data : r))
-    }
+    }, []);
 
     let attributes =  {
         ...(!auth && {
@@ -106,31 +106,23 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
     const textarea = useRef(null)
 
     return (
-        <div className="d-flex mb-3 gap-2">
-            <a href={comment.user.route}>
+        <article className="d-flex mb-3 gap-2">
+            <a href={comment.user.route} className={'h-100'}>
                 <img className="rounded-circle img-fluid" src={comment.user.avatar} alt={comment.user.username + ' avatar'} style="width: 50px;"/>
             </a>
             <div className={'w-100'}>
                 <div className={'border p-3 bg-white'}>
-                    <div className="d-flex justify-content-between align-items-center mb-1">
+                    <div className="d-flex justify-content-between align-items-center">
                         <div className={'d-flex align-items-center gap-2'}>
-                            <a href={comment.user.route}>
+                            <a href={comment.user.route} className={'text-decoration-none'}>
                                 {comment.user.username}
                             </a>•
                             <small className="text-muted">{comment.created_at}</small>
                         </div>
                         <div className={'d-flex align-items-center gap-2'}>
-                            {
-                                comment.user.id === parseInt(auth) &&
-                                <>
-                                    <button onClick={() => setOnEdit(onEdit => !onEdit)} className={"btn btn-sm text-primary p-0"}>Update</button>
-                                    <button onClick={() => deleteComment(comment)} className={"btn btn-sm text-danger p-0"}>Delete</button>
-                                </>
-                            }
-                            {
-                                comment.is_updated &&
-                                <small className="text-muted fw-semibold">Modified</small>
-                            }
+                            {comment.can_update && <button onClick={() => setOnEdit(onEdit => !onEdit)} className={"btn btn-sm text-primary p-0"}>Update</button>}
+                            {comment.can_delete && <button onClick={() => deleteComment(comment)} className={"btn btn-sm text-danger p-0"}>Delete</button>}
+                            {comment.is_updated && <small className="text-muted fw-semibold">Modified</small>}
                         </div>
                         {
 
@@ -140,16 +132,16 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                     {
                         onEdit ?
                             <div className={'my-3'}>
-                                <textarea className="form-control" rows="1" name="content" ref={textarea} required>{comment.content}</textarea>
+                                <textarea className="form-control" rows="3" name="content" ref={textarea} required>{comment.content}</textarea>
                                 <div className={'d-flex gap-1 mt-2'}>
                                     <button onClick={() => update(comment)} className={'btn btn-primary btn-sm'}>Update</button>
                                     <button onClick={() => setOnEdit(false)} className={'btn btn-secondary btn-sm'}>Cancel</button>
                                 </div>
                             </div>
-                            : <small className={'my-3'} style={{whiteSpace: 'pre-line'}}>
-                                <div>{expand ? comment.content : comment.short_content}</div>
-                                {comment.is_long && <button onClick={setExpand} className={'text-primary bg-transparent ps-0 mt-1'}>{expand ? 'Show less': 'Read more'}</button>}
-                            </small>
+                            : <div className={comment.is_long ? 'my-2' : 'mt-2 mb-3'} style={{whiteSpace: 'pre-line'}}>
+                                <div className={'text-sm'}>{expand ? comment.content : comment.short_content}</div>
+                                {comment.is_long && <button onClick={setExpand} className={'text-primary bg-transparent ps-0 text-sm mt-1'}>{expand ? 'Show less': 'Read more'}</button>}
+                            </div>
                     }
                     <div className="d-flex align-items-center gap-2 mt-1">
                         <div className="d-flex align-items-center gap-2">
@@ -248,7 +240,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                     </div>
                 }
             </div>
-        </div>
+        </article>
     )
 });
 

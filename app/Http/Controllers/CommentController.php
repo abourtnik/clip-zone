@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Models\Video;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
@@ -41,10 +42,14 @@ class CommentController extends Controller
                 ->whereNull('parent_id')
                 ->with([
                     'user',
-                    'video:id',
+                    'video' => fn($q) => $q->with('user'),
                     'replies' => function($q) {
                         return $q
-                            ->with(['user', 'video:id'])
+                            ->with([
+                                'user',
+                                'video' => fn($q) => $q->with('user'),
+                                'replies'
+                            ])
                             ->withCount([
                                 'likes',
                                 'dislikes',
@@ -79,9 +84,8 @@ class CommentController extends Controller
                 ->replies()
                 ->with([
                     'user',
-                    'video:id',
-                    'replies' => fn($q) => $q->with('user', 'video:id', 'replies')->latest(),
-                    'replies.video'
+                    'video' => fn($q) => $q->with('user'),
+                    'replies'
                 ])
                 ->withCount([
                     'likes',
@@ -91,7 +95,8 @@ class CommentController extends Controller
                 ])
                 ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
                 ->when($sort === 'recent', fn($query) => $query->latest())
-                ->paginate(10)
+                ->paginate(12)
+                ->withQueryString()
         ));
 
     }
@@ -112,12 +117,21 @@ class CommentController extends Controller
         return new CommentResource($comment);
     }
 
-    public function destroy(Comment $comment): JsonResponse
+    public function destroy(Comment $comment): JsonResponse|RedirectResponse
     {
+        // Remove interaction for this comment
+        $comment->interactions()->delete();
+
+        // Remove replies and replies interactions
+        $comment->replies_interactions()->delete();
+        $comment->replies()->delete();
+
+        // Remove comment
         $comment->delete();
 
+        // Remove activity for this comment
         Activity::forSubject($comment)->delete();
 
-        return response()->json(null, 204);
+        return request()->wantsJson() ? response()->json(null, 204) : redirect()->back();
     }
 }

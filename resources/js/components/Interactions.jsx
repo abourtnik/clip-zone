@@ -1,8 +1,10 @@
-import { useState, useEffect } from 'preact/hooks';
+import { useState, useEffect, useCallback } from 'preact/hooks';
 import {usePaginateFetch} from "../hooks";
 import {ThumbsDownRegular, ThumbsUpRegular } from "./Icon";
 import {useInView} from "react-intersection-observer";
 import {Interaction as Skeleton} from "./Skeletons";
+import Subscribe from "./Subscribe";
+import {debounce} from "../functions";
 
 export default function Interactions ({target}) {
 
@@ -38,9 +40,13 @@ export default function Interactions ({target}) {
         setCount(data.meta.total)
     }
 
-    const searching = async event => {
-        const value = event.target.value;
-        setSearch(value)
+    const handleChange = e => {
+        const value = e.target.value;
+        setSearch(value);
+        searching(value)
+    };
+
+    const searching = useCallback(debounce(async value => {
         setInteractions([]);
         setPrimaryLoading(true);
         const response = await fetch(`/api/interactions?video_id=${target}&filter=${filter}&search=${value}`);
@@ -48,7 +54,7 @@ export default function Interactions ({target}) {
         setPrimaryLoading(false);
         setInteractions(data.data)
         setCount(data.meta.total)
-    }
+    }, 300), []);
 
     return (
         <div style="height: 450px;">
@@ -62,7 +68,7 @@ export default function Interactions ({target}) {
                     Only
                     <ThumbsDownRegular/>
                 </button>
-                <input onChange={searching} type="text" className={'form-control form-control-sm'} placeholder="Search user" aria-label="Search"/>
+                <input onChange={handleChange} type="text" className={'form-control form-control-sm'} placeholder="Search user" aria-label="Search"/>
             </div>
             <hr/>
             <small className={'text-muted mb-1 d-block'}>{ primaryLoading ? 'Loading ...' : count + ' Results' }</small>
@@ -85,12 +91,12 @@ export default function Interactions ({target}) {
                                                         <div className={'badge bg-' + (interaction.status ? 'success' : 'danger')}>
                                                             {interaction.status ? <ThumbsUpRegular/> : <ThumbsDownRegular/>}
                                                         </div>
-                                                        <a href={interaction.user.route} className="d-flex align-items-center gap-2">
+                                                        <a href={interaction.user.route} className="d-flex align-items-center gap-2 text-decoration-none">
                                                             <img className="rounded" src={interaction.user.avatar} alt={interaction.user.username + ' avatar'} style="width: 40px;"/>
                                                             <span>{interaction.user.username}</span>
                                                         </a>
                                                     </div>
-                                                    <subscribe-button isSubscribe={interaction.user.is_subscribe} user={interaction.user.id} size={'sm'}/>
+                                                    <Subscribe isSubscribe={interaction.user.is_subscribe} user={interaction.user.id} size={'sm'}/>
                                                 </li>
                                             ))
                                         }

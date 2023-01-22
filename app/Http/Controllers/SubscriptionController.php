@@ -21,7 +21,7 @@ class SubscriptionController extends Controller
                 ->where('show_subscribers', true)
                 ->withCount('subscribers')
                 ->orderBy('subscribers_count', 'desc')
-                ->paginate(18),
+                ->paginate(24),
             'sorted_videos' => Auth::user()
                 ->subscriptions_videos()
                 ->active()

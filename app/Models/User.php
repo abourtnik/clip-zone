@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 use Symfony\Component\Intl\Countries;
 
 /**
@@ -98,6 +99,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Interaction::class);
     }
 
+    public function likes () : HasMany {
+        return $this->hasMany(Interaction::class)->where('status', true);
+    }
+
+    public function dislikes () : HasMany {
+        return $this->hasMany(Interaction::class)->where('status', false);
+    }
+
     /**
      * -------------------- ATTRIBUTES --------------------
      */
@@ -170,6 +179,13 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
+    protected function shortDescription(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Str::limit($this->description, '300', '...')
+        );
+    }
+
     /**
      * -------------------- SCOPES --------------------
      */
@@ -182,7 +198,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function scopeActive(Builder $query): void
     {
-        $query->whereNotNull(['email_verified_at',])->whereNull(['is_admin', 'banned_at']);
+        $query->whereNotNull(['email_verified_at'])->whereNull(['is_admin', 'banned_at']);
     }
 
     public function scopeFilter(Builder $query, $filters)

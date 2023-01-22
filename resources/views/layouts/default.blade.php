@@ -33,7 +33,7 @@
         @include('layouts.menus.header')
         <div class="admin-content d-flex">
             @include('layouts.menus.front')
-            <div id="main-container" class="container-fluid my-3 @yield('class')" @yield('style')">
+            <div id="main-container" class="container-fluid my-3 @yield('class')" style="@yield('style')">
                 @yield('content')
             </div>
         </div>

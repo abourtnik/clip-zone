@@ -31,11 +31,11 @@
             </div>
             <div class="col">
                 <label for="comment_date_start" class="form-label fw-bold">Comment date start</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="comment_date_start" value="{{$filters['comment_date'][0] ?? null}}">
+                <input type="datetime-local" name="date[]" class="form-control" id="comment_date_start" value="{{$filters['date'][0] ?? null}}">
             </div>
             <div class="col">
                 <label for="comment_date_end" class="form-label fw-bold">Comment date end</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="comment_date_end" value="{{$filters['comment_date'][1] ?? null}}">
+                <input type="datetime-local" name="date[]" class="form-control" id="comment_date_end" value="{{$filters['date'][1] ?? null}}">
             </div>
             <div class="col">
                 <label for="replies" class="form-label fw-bold">Replies</label>
@@ -73,7 +73,7 @@
                             <a href="{{route('video.show', $comment->video)}}">
                                 <img src="{{$comment->video->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
                             </a>
-                            <div>{{Str::limit($comment->video->title, 100), '...'}}</div>
+                            <small>{{Str::limit($comment->video->title, 100), '...'}}</small>
                         </div>
                     </td>
                     <td class="align-middle">
@@ -111,7 +111,7 @@
                     </td>
                     <td class="align-middle">
                         @if($comment->replies_count)
-                            <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}">
+                            <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}" data-video="{{$comment->video->id}}">
                                 See replies ({{$comment->replies_count}})
                             </button>
                         @else
@@ -124,10 +124,16 @@
                         @include('users.partials.interactions', ['item' => $comment])
                     </td>
                     <td class="align-middle">
-                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}">Reply</button>
-                        <button class="btn btn-sm btn-danger">
-                            <i class="fa-solid fa-trash"></i>
-                        </button>
+                        <div class="d-flex align-items-center gap-2">
+                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}" data-video="{{$comment->video->id}}">Reply</button>
+                            <form method="POST" action="{{route('comments.destroy', $comment)}}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             @empty

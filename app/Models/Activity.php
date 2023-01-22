@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Spatie\Activitylog\Models\Activity as SpatieActivity;
 
@@ -13,5 +14,10 @@ class Activity extends SpatieActivity
         return Attribute::make(
             get: fn () => strtolower(end($class)),
         );
+    }
+
+    public function scopeFilter(Builder $query, $filters)
+    {
+        return $filters->apply($query);
     }
 }

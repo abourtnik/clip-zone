@@ -74,7 +74,7 @@
                         <img class="rounded" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar" style="width: 48px;height: 48px;">
                     </a>
                     <div class="d-flex flex-column">
-                        <a href="{{route('pages.user', $video->user)}}">{{$video->user->username}}</a>
+                        <a href="{{route('pages.user', $video->user)}}" class="text-decoration-none">{{$video->user->username}}</a>
                         @if($video->user->show_subscribers)
                             <small class="text-muted d-block">{{trans_choice('subscribers', $video->user->subscribers_count)}}</small>
                         @endif
@@ -95,7 +95,10 @@
                             Subscribe
                         </button>
                     @elseif(auth()->user()->isNot($video->user))
-                       <subscribe-button isSubscribe="{{auth()->user()->isSubscribeTo($video->user) ? 'true' : 'false'}}" user="{{$video->user->id}}"/>
+                        <subscribe-button
+                            @if(!Auth()->user()->isSubscribeTo($video->user)) is-subscribe @endif
+                            user="{{$video->user->id}}"
+                        />
                     @endif
                 </div>
             </div>
@@ -138,7 +141,7 @@
             </div>
             <hr>
             @if($video->allow_comments)
-                <comments-area target="{{$video->id}}" auth="{{auth()->user()?->id}}" default-sort="{{$video->default_comments_sort}}"/>
+                <div id="comments_area"></div>
             @else
                 <div class="alert alert-primary text-center">
                     <strong>Comments are turned off</strong>
@@ -150,3 +153,18 @@
         </div>
     </div>
 @endsection
+
+@pushIf($video->allow_comments , 'scripts')
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            for (const entry of entries) {
+                if(entry.isIntersecting) {
+                    document.getElementById('comments_area').innerHTML ="<comments-area target='{{$video->id}}' auth='{{auth()->user()?->id}}' default-sort='{{$video->default_comments_sort}}' />";
+                    observer.unobserve(entry.target)
+                }
+            }
+        });
+
+        observer.observe(document.getElementById('comments_area'));
+    </script>
+@endPushIf

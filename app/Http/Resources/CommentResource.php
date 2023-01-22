@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Comment;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class CommentResource extends JsonResource
 {
@@ -36,6 +37,8 @@ class CommentResource extends JsonResource
             'dislikes_count' => $this->dislikes_count,
             'liked_by_auth_user' => $this->liked_by_auth_user,
             'disliked_by_auth_user' => $this->disliked_by_auth_user,
+            'can_delete' => Auth::check() && (Auth::user()->is($this->user) || Auth::user()->is($this->video->user)),
+            'can_update' => Auth::check() && Auth::user()->is($this->user),
             'replies' =>  CommentResource::collection($this->replies)
         ];
     }

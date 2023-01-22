@@ -8,7 +8,7 @@
                 <a style="width: 240px" class="navbar-brand text-center text-danger fw-bold" href="{{route('pages.home')}}">
                     Youtube Clone
                 </a>
-                <search-bar class="d-flex w-25"></search-bar>
+                <search-bar class="d-flex w-25" query="{{request()->get('q')}}"></search-bar>
                 <ul class="navbar-nav">
                     @auth
                         <li class="nav-item ml-4 d-flex align-items-center">

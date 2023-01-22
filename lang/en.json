@@ -3,5 +3,6 @@
     "videos": "[0,1] :count video|[2,*] :count videos",
     "comments": "[0,1] :count comment|[2,*] :count comments",
     "replies": "[0,1] :count reply|[2,*] :count replies",
-    "views": "[0,1] :count view|[2,*] :count views"
+    "views": "[0,1] :count view|[2,*] :count views",
+    "results": "[0,1] :count result|[2,*] :count results"
 }

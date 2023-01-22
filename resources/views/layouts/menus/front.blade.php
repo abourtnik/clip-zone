@@ -12,7 +12,7 @@
             <hr class="w-90">
         @endunless
     @endforeach
-    @if(Auth::check() && $subscriptions)
+    @if(Auth::check() && $subscriptions->count())
         <div class="fw-bold ps-4 mb-2 text-sm">Subscriptions ({{$subscriptions->count()}})</div>
         <ul class="nav nav-pills flex-column text-center" x-data="{ open: false }">
             @foreach($subscriptions->slice(0, 7) as $user)

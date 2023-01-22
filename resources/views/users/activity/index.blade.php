@@ -5,15 +5,42 @@
         <h2>My activity</h2>
     </div>
     <hr>
+    <form class="my-4 d-flex gap-3 align-items-end" method="GET">
+        <div class="col">
+            <label for="type" class="form-label fw-bold">Type</label>
+            <select name="type" class="form-select" aria-label="Default select example">
+                <option selected value="">All</option>
+                @foreach(['comments' => 'Comments', 'interactions' => 'Likes & Dislikes', 'likes' => 'Likes', 'dislikes' => 'Dislikes'] as $value => $label)
+                    <option @selected(($filters['type'] ?? null) === $value) value="{{$value}}">{{$label}}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="col">
+            <label for="activity_date_start" class="form-label fw-bold">Date start</label>
+            <input type="datetime-local" name="date[]" class="form-control" id="activity_date_start" value="{{$filters['date'][0] ?? null}}">
+        </div>
+        <div class="col">
+            <label for="activity_date_end" class="form-label fw-bold">Date end</label>
+            <input type="datetime-local" name="date[]" class="form-control" id="activity_date_end" value="{{$filters['date'][1] ?? null}}">
+        </div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-outline-secondary" title="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
+                <i class="fa-solid fa-eraser"></i>
+            </a>
+        </div>
+    </form>
     @forelse($activity_log as $date => $log)
-        <div class="row">
+        <div class="row mt-5">
             <div class="col-1 d-flex flex-column justify-content-center align-items-center">
-                <div class="alert alert-secondary p-1 mb-0">
+                <div class="alert alert-secondary px-3 py-1 mb-0 fw-bold">
                     {{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}
                 </div>
                 <div class="h-100 border border-secondary" style="width: 1px"></div>
             </div>
-            <div class="col-11 mt-4">
+            <div class="col-8 mt-5">
                 @foreach($log as $activity)
                     @include('users.activity.types.'. $activity->type)
                 @endforeach

@@ -66,9 +66,9 @@ class UserController
                                 ]);
                             },
                             'user'
-                    ])
-                    ->orderBy('perform_at', 'desc')
-                    ->limit(5);
+                        ])
+                        ->orderBy('perform_at', 'desc')
+                        ->limit(5);
                 }
             ])->loadCount([
                 'subscribers' => fn($query) => $query->filter($subscriberFilters),

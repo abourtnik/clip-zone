@@ -25,7 +25,7 @@ class VideoFactory extends Factory
             'thumbnail' => fake()->numberBetween(1, 12) .'.png',
             'duration' => fake()->numberBetween(5, 4000),
             'mimetype' => 'video/mp4',
-            'status' => fake()->numberBetween(0, 1),
+            'status' => fake()->numberBetween(0, 2),
             'publication_date' => fake()->dateTimeInInterval('now', '+3 days'),
             'category_id' => Category::inRandomOrder()->first()->id,
             'language' => fake()->languageCode(),

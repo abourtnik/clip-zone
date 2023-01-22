@@ -17,7 +17,7 @@ export default function Video ({video}) {
                     </a>
                     <div className="ml-2">
                         <a href={video.route} className="fw-bolder text-decoration-none text-black d-block position-relative" title={video.title}>{video.short_title}</a>
-                        <a href={video.user.route} className="position-relative text-decoration-none text-black">
+                        <a href={video.user.route} className="position-relative text-decoration-none">
                             <small>{video.user.username}</small>
                         </a>
                         <small className="text-muted d-block">{video.views} • {video.created_at}</small>

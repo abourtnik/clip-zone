@@ -13,11 +13,11 @@
             </div>
             <div class="col">
                 <label for="subscription_date_start" class="form-label fw-bold">Subscription date start</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="subscription_date_start" value="{{$filters['subscription_date'][0] ?? null}}">
+                <input type="datetime-local" name="date[]" class="form-control" id="subscription_date_start" value="{{$filters['date'][0] ?? null}}">
             </div>
             <div class="col">
                 <label for="subscription_date_end" class="form-label fw-bold">Subscription date end</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="subscription_date_end" value="{{$filters['subscription_date'][1] ?? null}}">
+                <input type="datetime-local" name="date[]" class="form-control" id="subscription_date_end" value="{{$filters['date'][1] ?? null}}">
             </div>
             <div class="btn-group">
                 <button type="submit" class="btn btn-outline-secondary" title="Search">
@@ -42,7 +42,7 @@
             @forelse($subscribers as $subscriber)
                 <tr class="bg-light">
                     <td>
-                        <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2">
+                        <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2 text-decoration-none">
                             <img class="rounded" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 50px;">
                             <span>{{$subscriber->username}}</span>
                         </a>
@@ -55,7 +55,11 @@
                     </td>
                     <td class="align-middle">{{$subscriber->created_at->format('d F Y - H:i')}}</td>
                     <td class="align-middle">
-                       <subscribe-button isSubscribe="{{$subscriber->is_subscribe_to_current_user ? 'true' : 'false'}}" user="{{$subscriber->id}}" size="sm"/>
+                        <subscribe-button
+                            @if(!$subscriber->is_subscribe_to_current_user) is-subscribe @endif
+                            user="{{$subscriber->id}}"
+                            size="sm"
+                        />
                     </td>
                 </tr>
             @empty

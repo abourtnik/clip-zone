@@ -21,7 +21,7 @@ class RegistrationController
 
         $validated = $request
             ->safe()
-            ->merge(['is_admin' => false])
+            ->merge(['is_admin' => null])
             ->except('cgu');
 
         $user = User::create($validated);

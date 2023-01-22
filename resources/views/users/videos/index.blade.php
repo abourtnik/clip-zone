@@ -39,11 +39,11 @@
             </div>
             <div class="col">
                 <label for="publication_date_start" class="form-label fw-bold">Publication date start</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="publication_date_start" value="{{$filters['publication_date'][0] ?? null}}">
+                <input type="datetime-local" name="date[]" class="form-control" id="publication_date_start" value="{{$filters['date'][0] ?? null}}">
             </div>
             <div class="col">
                 <label for="publication_date_end" class="form-label fw-bold">Publication date end</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="publication_date_end" value="{{$filters['publication_date'][1] ?? null}}">
+                <input type="datetime-local" name="date[]" class="form-control" id="publication_date_end" value="{{$filters['date'][1] ?? null}}">
             </div>
             <div class="btn-group">
                 <button type="submit" class="btn btn-outline-secondary" title="Search">
