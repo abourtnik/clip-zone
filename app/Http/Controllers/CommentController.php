@@ -103,10 +103,8 @@ class CommentController extends Controller
 
     }
 
-    public function store (StoreCommentRequest $request) : CommentResource {
-
-        sleep(5);
-
+    public function store (StoreCommentRequest $request) : CommentResource
+    {
         $this->authorize('create', [Comment::class, Video::findOrFail($request->get('video_id'))]);
 
         $comment = Auth::user()->comments()->create($request->validated());
@@ -121,22 +119,10 @@ class CommentController extends Controller
         return new CommentResource($comment);
     }
 
-    public function delete(Comment $comment): JsonResponse|RedirectResponse
+    public function delete(Comment $comment): JsonResponse
     {
-        // Remove interaction for this comment
-        $comment->interactions()->delete();
-
-        // Remove replies and replies interactions
-        $comment->replies_interactions()->delete();
-        $comment->replies()->delete();
-
-        // Remove comment
         $comment->delete();
-
-        // Remove activity for this comment
-        Activity::forSubject($comment)->delete();
-
-        return request()->wantsJson() ? response()->json(null, 204) : redirect()->back();
+        return response()->json(null, 204);
     }
 
     public function pin(Comment $comment)

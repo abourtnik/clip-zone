@@ -1,12 +1,8 @@
-import {useState, useEffect, useCallback} from 'preact/hooks';
-
-export default function Button ({load= false, children, onClick}) {
-
-    const [loading, setLoading] = useState(load);
-
+export default function Button ({loading= false, children, color = 'primary', ...props}) {
     return (
-        <button className="btn btn-success btn-sm" onClick={onClick}>
-            {loading ? 'Loading ...' : children}
+        <button className={"btn btn-" + color + " btn-sm"} disabled={loading} {...props}>
+            {loading && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>}
+            {children}
         </button>
     )
 }

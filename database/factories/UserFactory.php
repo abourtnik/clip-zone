@@ -26,7 +26,7 @@ class UserFactory extends Factory
             'last_login_at' => now(),
             'last_login_ip' => fake()->ipv4(),
             'remember_token' => Str::random(10),
-            'avatar' => fake()->randomElement(array_merge(array_map(fn($i) => $i . '.png', range(1, 10)), [null])),
+            'avatar' => fake()->randomElement(array_merge(array_map(fn($i) => 'default-' .$i . '.png', range(1, 10)), [null])),
             'description' => fake()->realText(5000),
             'country' => fake()->countryCode(),
             'website' => fake()->domainName(),

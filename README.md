@@ -3,14 +3,13 @@
 ## Primary
 
 - Delete video (constrained ?)
-- add loader and disabled on button
+- Remove file on edit
 
 ## Secondary
 
 - optimize like system
 - optimize comment system
 - Confirmation modal delete comments
-- Parse Link in Description
 
 ### Admin
 

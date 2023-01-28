@@ -120,12 +120,12 @@
                         <div class="card-body">
                             <template x-if="open">
                                 <p>
-                                    {{$video->description}}
+                                    {!! nl2br($video->parsed_description) !!}
                                 </p>
                             </template>
                             <template x-if="!open">
                                 <p>
-                                    {{$video->short_description}}
+                                    {!! nl2br($video->short_description) !!}
                                 </p>
                             </template>
                             <div class="text-primary fw-bold mt-1" x-text="open ? 'Show less': 'Show more'"></div>
@@ -134,7 +134,7 @@
                 @else
                     <div class="card my-4">
                         <div class="card-body">
-                            {{$video->description}}
+                            {!! nl2br($video->parsed_description) !!}
                         </div>
                     </div>
                 @endif

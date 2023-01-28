@@ -99,9 +99,14 @@
                         <source src="{{route('video.file', $video)}}" type="{{$video->mimetype}}">
                     </video>
                     <div class="bg-light mt-2 px-3 py-2 d-flex flex-column gap-3">
-                        <div>
-                            <small class="text-muted fw-bold mb-2">Video Link</small>
-                            <a class="text-decoration-none d-block text-sm" href="{{route('video.show', $video)}}">{{route('video.show', $video)}}</a>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <small class="text-muted fw-bold mb-2">Video Link</small>
+                                <a class="text-decoration-none d-block text-sm" href="{{route('video.show', $video)}}">{{route('video.show', $video)}}</a>
+                            </div>
+                            <button x-data @click="navigator.clipboard.writeText($event.currentTarget.dataset.link)" type="button" class="btn btn-sm btn-light" title="Copy video link" data-link="{{route('video.show', $video)}}">
+                                <i class="fa-regular fa-copy"></i>
+                            </button>
                         </div>
                         <div>
                             <small class="text-muted fw-bold mb-2">Original file name</small>
@@ -200,14 +205,5 @@
 @endsection
 
 <script>
-    document.addEventListener('alpine:init', () => {
-        const planned_value = document.getElementById('planned_value').textContent;
-         Alpine.data('planned', (initial) => ({
-             value: initial,
-             date: initial ? '{{old('publication_date', $video->publication_date)}}' : '',
-             update(e) {
-                 this.value = e.target.options[e.target.selectedIndex].index == planned_value;
-             }
-         }));
-    })
+
 </script>

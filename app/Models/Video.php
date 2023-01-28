@@ -125,8 +125,28 @@ class Video extends Model implements Likeable
 
     protected function shortDescription(): Attribute
     {
+        $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
+
+        $a = clean(preg_replace($url, '<a href="$0" target="_blank" title="$0" rel="external nofollow">$0</a>', Str::limit($this->description, 247)));
+
         return Attribute::make(
-            get: fn () => Str::limit($this->description, '247', '...')
+            get: fn () => $a
+        );
+    }
+
+    protected function parsedDescription(): Attribute
+    {
+        $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
+
+        return Attribute::make(
+            get: fn () => clean(preg_replace($url, '<a href="$0" target="_blank" title="$0" rel="external nofollow" target="_blank">$0</a>', $this->description))
+        );
+    }
+
+    protected function descriptionIsLong(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Str::length($this->description) > 247,
         );
     }
 
@@ -148,13 +168,6 @@ class Video extends Model implements Likeable
     {
         return Attribute::make(
             get: fn () => route('video.show', $this),
-        );
-    }
-
-    protected function descriptionIsLong(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => Str::length($this->description) > 780,
         );
     }
 

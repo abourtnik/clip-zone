@@ -30,14 +30,16 @@ export default function Interactions ({target}) {
     }, [inView]);
 
     const filtering = async (type) => {
-        setFilter(type)
-        setInteractions([]);
-        setPrimaryLoading(true);
-        const response = await fetch(`/api/interactions?video_id=${target}&filter=${type}&search=${search}`);
-        const data = await response.json()
-        setPrimaryLoading(false);
-        setInteractions(data.data)
-        setCount(data.meta.total)
+        if (type !== filter) {
+            setFilter(type)
+            setInteractions([]);
+            setPrimaryLoading(true);
+            const response = await fetch(`/api/interactions?video_id=${target}&filter=${type}&search=${search}`);
+            const data = await response.json()
+            setPrimaryLoading(false);
+            setInteractions(data.data)
+            setCount(data.meta.total)
+        }
     }
 
     const handleChange = e => {

@@ -58,7 +58,7 @@ export default function Search ({query = ''}) {
                                 }
                                 <li className={'text-center border-top d-flex'}>
                                     <a className={'text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold result py-2'} href={data.route}>
-                                        See {data.total} results
+                                        See {data.total} result{data.total > 1 && 's'}
                                     </a>
                                 </li>
                             </ul>

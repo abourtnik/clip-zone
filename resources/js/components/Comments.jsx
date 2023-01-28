@@ -1,8 +1,8 @@
 import {useState, useEffect, useCallback} from 'preact/hooks';
 import Comment from "./Comment";
+import CommentsForm from "./CommentsForm";
 import {usePaginateFetch} from "../hooks";
 import {Comment as Skeleton} from "./Skeletons";
-import Button from './Button'
 import {useInView} from "react-intersection-observer";
 
 export default function Comments ({target, auth, defaultSort}) {
@@ -25,12 +25,7 @@ export default function Comments ({target, auth, defaultSort}) {
         }
     }, [inView]);
 
-    const addComment = async (event) => {
-
-        event.preventDefault();
-
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData.entries());
+    const addComment = async (data) => {
 
         const response = await fetch(`/api/comments`, {
             headers: {
@@ -129,27 +124,7 @@ export default function Comments ({target, auth, defaultSort}) {
                     <button onClick={() => sort('newest')} className={'btn btn-' + activeButton('newest') + 'btn-sm'}>Newest first</button>
                 </div>
             </div>
-            {
-                auth ?
-                <form onSubmit={addComment}>
-                    <div className="mb-2">
-                        <label htmlFor="content" className="form-label d-none"></label>
-                        <textarea className="form-control" id="content" rows="4" name="content" placeholder="Add a comment..." required maxLength={5000}></textarea>
-                    </div>
-                    <div className="mb-3 d-flex justify-content-end">
-                        <Button type={'submit'}>
-                            Commment
-                        </Button>
-                    </div>
-                </form> :
-
-                <div className={'alert alert-primary d-flex justify-content-between align-items-center'}>
-                    <span>Sign in to write a comment</span>
-                    <a href={'/login'} className={'btn btn-primary btn-sm'}>
-                        Sign in
-                    </a>
-                </div>
-            }
+            <CommentsForm auth={auth} addComment={addComment}/>
             {
                 (primaryLoading) ?
                     <div className="d-flex flex-column gap-2">

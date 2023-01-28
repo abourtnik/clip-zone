@@ -3,7 +3,9 @@ import { memo } from 'preact/compat';
 import {useToggle} from "../hooks";
 
 import Interaction from "./Interaction";
+import ReplyForm from "./ReplyForm";
 import {ThumbsDownSolid, ThumbsUpSolid, Ellipsis, Pin, Pen, Trash, Flag} from "./Icon";
+import Button from './Button'
 
 const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pin}) => {
 
@@ -12,18 +14,14 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
     const [replies, setReplies] = useState(comment.replies);
     const [showReplies, setShowReplies] = useState(false);
     const [expand, setExpand] = useToggle(false);
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
         [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
     }, [])
 
-    const reply = async (event) => {
-
-        event.preventDefault();
-
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData.entries());
+    const reply = async (data) => {
 
         const response = await fetch('/api/comments', {
             headers: {
@@ -93,8 +91,10 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
     }
 
     const update = async (comment) => {
+        setLoading(true);
         await updateComment(comment, textarea.current.value)
         setOnEdit(false);
+        setLoading(false);
     }
 
 
@@ -180,8 +180,10 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                             <div className={'my-3'}>
                                 <textarea className="form-control" rows="3" name="content" ref={textarea} required>{comment.content}</textarea>
                                 <div className={'d-flex gap-1 mt-2'}>
-                                    <button onClick={() => update(comment)} className={'btn btn-primary btn-sm'}>Save</button>
-                                    <button onClick={() => setOnEdit(false)} className={'btn btn-secondary btn-sm'}>Cancel</button>
+                                    <Button loading={loading} onClick={() => update(comment)}>
+                                        Save
+                                    </Button>
+                                    <button disabled={loading} onClick={() => setOnEdit(false)} className={'btn btn-secondary btn-sm'}>Cancel</button>
                                 </div>
                             </div>
                             : <div className={comment.is_long ? 'my-2' : 'mt-2 mb-3'} style={{whiteSpace: 'pre-line'}}>
@@ -228,10 +230,9 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                                         </button>
                                     </div>
                             }
-
                         </div>
                         {
-                            canReply &&  <button
+                            canReply && <button
                                 className="btn btn-sm text-info"
                                 {...attributes}
                                 onClick={() => auth && setShowReply(true)}
@@ -239,28 +240,8 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                                 Reply
                             </button>
                         }
-
                     </div>
-                    {
-                        showReply &&
-                        <form className={'mt-2'} onSubmit={reply}>
-                            <div className="mb-2">
-                                <label htmlFor={"content-" + comment.id} className="form-label d-none"></label>
-                                <textarea className="form-control" id={"content-" + comment.id} rows="1" name="content" placeholder="Add a reply ..." required maxLength={5000}></textarea>
-                            </div>
-                            <div className="d-flex justify-content-end gap-1">
-                                <button
-                                    onClick={() => setShowReply(false)}
-                                    className="btn btn-sm btn-secondary"
-                                >
-                                    Cancel
-                                </button>
-                                <button type="submit" className="btn btn-primary btn-sm">
-                                    Reply
-                                </button>
-                            </div>
-                        </form>
-                    }
+                    {showReply && <ReplyForm setShowReply={setShowReply} comment={comment} reply={reply}/>}
                     {
                         replies.length > 0 &&
                         <button className={'btn btn-sm text-primary my-1 mt-2 ps-0 fw-bold d-flex align-items-center gap-2'} onClick={() => setShowReplies(showReplies => !showReplies)}>

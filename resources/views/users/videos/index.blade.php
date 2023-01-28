@@ -137,15 +137,15 @@
                             data-bs-toggle="modal"
                             data-bs-target="#delete_video"
                             data-title="{{$video->title}}"
-                            data-views="{{$video->views_count}} views"
-                            data-publication="Publish at {{$video->publication_date->format('d F Y')}}"
+                            data-infos="{{trans_choice('views', $video->views_count)}} • {{$video->publication_date->format('d F Y')}}"
                             data-poster="{{$video->thumbnail_url}}"
                             data-route="{{route('user.videos.destroy', $video)}}"
+                            data-download="{{route('video.download', $video)}}"
                             data-alt="{{$video->title}} Thumbnail"
                             data-comments="{{$video->comments_count}}"
                             data-likes="{{$video->likes_count}}"
                             data-dislikes="{{$video->dislikes_count}}"
-                            data-elements='{{json_encode(['title' => '', 'views' => '', 'publication' => '', 'poster' => 'src', 'route' => 'action', 'alt' => 'alt', 'comments' => '', 'likes' => '', 'dislikes' => ''])}}'
+                            data-elements='{{json_encode(['title' => '', 'infos' => '', 'poster' => 'src', 'route' => 'action', 'download' => 'href', 'alt' => 'alt', 'comments' => '', 'likes' => '', 'dislikes' => ''])}}'
                         >
                             <i class="fa-solid fa-trash"></i>
                         </button>

@@ -6,17 +6,18 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="mb-2 p-2 bg-light-dark text-dark d-flex gap-2">
-                    <img style="width: 100px" src="" alt="" class="video_poster video_alt">
-                    <div>
-                        <div class="video_title"></div>
-                        <small class="text-muted d-block video_publication"></small>
-                        <small class="text-muted video_views"></small>
+                <div class="mb-2 p-2 bg-light-dark text-dark">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img style="width: 120px;height: 68px" src="" alt="" class="video_poster video_alt">
+                        <div>
+                            <small class="video_title"></small>
+                            <div class="text-muted video_infos text-sm mt-1"></div>
+                        </div>
                     </div>
                 </div>
                 <div class="alert alert-danger">
-                    <p class="fw-bold">La suppresion d'une video est definitive.</p>
-                    <p>La suppresion d'une video entraîne automatiquement la suppresion des commentaires ainsi que des interactions liees.</p>
+                    <p class="fw-bold">Deleting a video is permanent</p>
+                    <p>The deletion of a video automatically leads to the deletion of comments as well as related interactions.</p>
                     <ul>
                         <li><span class="video_comments"></span> comments</li>
                         <li><span class="video_likes"></span> likes</li>
@@ -25,7 +26,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-between">
-                <a href="" class="btn btn-info text-white">
+                <a href="" class="btn btn-info text-white video_download">
                     <i class="fa-solid fa-download"></i> &nbsp;
                     Download video
                 </a>

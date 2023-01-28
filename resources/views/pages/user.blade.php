@@ -84,9 +84,9 @@
                                     <a href="{{$user->pinned_video->route}}" class="text-decoration-none text-black fw-bold">{{$user->pinned_video->title}}</a>
                                     <div class="text-muted text-sm my-2">{{trans_choice('views', $user->pinned_video->views_count)}} • {{$user->pinned_video->created_at->diffForHumans()}}</div>
                                     <div>
-                                        {{ $user->pinned_video->short_description }}
+                                        {!! nl2br(e($user->pinned_video->short_description)) !!}
                                         @if($user->pinned_video->description_is_long)
-                                            <a class="mt-2 d-block text-decoration-none" href="{{$user->pinned_video->route}}">Read more</a>
+                                            <a class="mt-2 d-block text-decoration-none fw-bold" href="{{$user->pinned_video->route}}">Read more</a>
                                         @endif
                                     </div>
                                 </div>
@@ -134,7 +134,7 @@
                             <div class="card card-body">
                                 <h6 class="card-title text-primary">Description</h6>
                                 <hr>
-                                {!! nl2br($user->description) !!}
+                                {!! nl2br(e($user->description)) !!}
                             </div>
                         </div>
                         <div class="col-3">

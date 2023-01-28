@@ -45,6 +45,8 @@ class CommentController extends Controller
 
     public function destroy(Comment $comment): RedirectResponse {
 
-        return redirect()->route('user.videos.index');
+        $comment->delete();
+
+        return redirect()->route('user.comments.index');
     }
 }

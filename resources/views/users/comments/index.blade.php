@@ -125,14 +125,24 @@
                     </td>
                     <td class="align-middle">
                         <div class="d-flex align-items-center gap-2">
-                            <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}" data-video="{{$comment->video->id}}">Reply</button>
-                            <form method="POST" action="{{route('comments.destroy', $comment)}}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </form>
+                            <button
+                                class="btn btn-sm btn-primary"
+                                data-bs-toggle="modal"
+                                data-bs-target="#comment_replies"
+                                data-id="{{$comment->id}}"
+                                data-video="{{$comment->video->id}}">
+                                Reply
+                            </button>
+                            <button
+                                class="btn btn-sm btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#comment_delete"
+                                data-route="{{route('user.comments.destroy', $comment)}}"
+                                data-author="{{$comment->user->username}}"
+                                data-replies-count="{{$comment->replies_count}}"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -148,6 +158,7 @@
         </table>
         {{ $comments->links() }}
         @include('users.comments.modals.replies')
+        @include('users.comments.modals.delete')
     @else
         <div class="card shadow">
             <div class="card-body d-flex justify-content-center align-items-center">

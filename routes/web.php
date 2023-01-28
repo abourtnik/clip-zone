@@ -98,9 +98,7 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     Route::resource('videos', VideoUserController::class);
 
     // Comments
-    Route::controller(CommentUserController::class)->prefix('comments')->name('comments.')->group(function () {
-        Route::get('/', 'index')->name('index');
-    });
+    Route::resource('comments', CommentUserController::class)->only(['index', 'destroy']);
 
     // Activity
     Route::controller(ActivityController::class)->prefix('activity')->name('activity.')->group(function () {

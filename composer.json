@@ -11,6 +11,7 @@
         "james-heinrich/getid3": "^1.9",
         "laravel/framework": "^9.19",
         "laravel/tinker": "^2.7",
+        "mews/purifier": "^3.3",
         "psr/simple-cache": "^2.0",
         "spatie/eloquent-sortable": "^4.0",
         "spatie/laravel-activitylog": "^4.7",
