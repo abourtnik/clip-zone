@@ -42,7 +42,7 @@ class CommentController extends Controller
                 ->whereNull('parent_id')
                 ->with([
                     'user',
-                    'video' => fn($q) => $q->with('user'),
+                    'video' => fn($q) => $q->with(['user', 'pinned_comment']),
                     'replies' => function($q) {
                         return $q
                             ->with([
@@ -57,14 +57,16 @@ class CommentController extends Controller
                                 'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                             ])
                             ->latest();
-                    }
+                    },
                 ])
                 ->withCount([
                     'likes',
                     'dislikes',
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
+                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
+                    'replies as author_replies' => fn ($query) => $query->where('user_id', $video->user->id)
                 ])
+                ->when($video->pinned_comment, fn($query) => $query->orderByRaw('id <> ' .$video->pinned_comment->id))
                 ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
                 ->when($sort === 'newest', fn($query) => $query->latest())
                 ->paginate(24)
@@ -103,6 +105,8 @@ class CommentController extends Controller
 
     public function store (StoreCommentRequest $request) : CommentResource {
 
+        sleep(5);
+
         $this->authorize('create', [Comment::class, Video::findOrFail($request->get('video_id'))]);
 
         $comment = Auth::user()->comments()->create($request->validated());
@@ -117,7 +121,7 @@ class CommentController extends Controller
         return new CommentResource($comment);
     }
 
-    public function destroy(Comment $comment): JsonResponse|RedirectResponse
+    public function delete(Comment $comment): JsonResponse|RedirectResponse
     {
         // Remove interaction for this comment
         $comment->interactions()->delete();
@@ -133,5 +137,19 @@ class CommentController extends Controller
         Activity::forSubject($comment)->delete();
 
         return request()->wantsJson() ? response()->json(null, 204) : redirect()->back();
+    }
+
+    public function pin(Comment $comment)
+    {
+        $comment->video->update([
+            'pinned_comment_id' => $comment->id
+        ]);
+    }
+
+    public function unpin(Comment $comment)
+    {
+        $comment->video->update([
+            'pinned_comment_id' => null
+        ]);
     }
 }

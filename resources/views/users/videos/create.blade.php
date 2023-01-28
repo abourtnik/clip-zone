@@ -61,7 +61,7 @@
                         <select class="form-control" name="category_id" id="category">
                             <option value="" disabled selected>--- Select category ---</option>
                             @foreach($categories as $category)
-                                <option @if(old('category') == $category->id) selected @endif value="{{$category->id}}">{{$category->title}}</option>
+                                <option @selected(old('category') == $category->id) value="{{$category->id}}">{{$category->title}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -70,7 +70,7 @@
                         <select class="form-control" name="language" id="language">
                             <option value="" disabled selected>--- Select Language ---</option>
                             @foreach($languages as $code => $language)
-                                <option @if(old('language') == $code) selected @endif value="{{$code}}">{{$language}}</option>
+                                <option @selected(old('language') == $code) value="{{$code}}">{{$language}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -81,7 +81,7 @@
                         <label for="status" class="form-label">Visibility</label>
                         <select class="form-control" name="status" id="status" required @change="update">
                             @foreach($video_status as $status)
-                                <option @if(old('status') == $status['id']) selected @endif value="{{$status['id']}}">{{$status['name']}}</option>
+                                <option @selected(old('status') == $status['id']) value="{{$status['id']}}">{{$status['name']}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -110,7 +110,7 @@
                                 id="allow_comments"
                                 value="1"
                                 name="allow_comments"
-                                @if(!old() || old('allow_comments')) checked @endif
+                                @checked(!old() || old('allow_comments'))
                             >
                             <label class="form-check-label" for="allow_comments">
                                 Allow comments on videos
@@ -121,7 +121,7 @@
                         <label for="default_comments_sort" class="form-label">Default comments sort</label>
                         <select class="form-control" name="default_comments_sort" id="default_comments_sort">
                             @foreach(['top', 'newest'] as $option)
-                                <option @if(old('default_comments_sort') == $option) selected @endif value="{{$option}}">{{Str::ucfirst($option)}}</option>
+                                <option @selected(old('default_comments_sort') == $option) value="{{$option}}">{{Str::ucfirst($option)}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -133,7 +133,7 @@
                                 id="show_likes"
                                 value="1"
                                 name="show_likes"
-                                @if(!old() || old('show_likes')) checked @endif
+                                @checked(!old() || old('show_likes'))
                             >
                             <label class="form-check-label" for="show_likes">
                                 Show likes and dislikes count on video

@@ -15,6 +15,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Symfony\Component\Intl\Languages;
 
 class VideoController extends Controller
@@ -54,6 +55,8 @@ class VideoController extends Controller
 
     public function store(StoreVideoRequest $request): RedirectResponse {
         $validated = $request->safe()->merge([
+            'uuid' => (string) Str::uuid(),
+            'original_file_name' => $request->file('file')->getClientOriginalName(),
             'file' => $request->file('file')->store('/', 'videos'),
             'mimetype' =>$request->file('file')->getMimeType(),
             'duration' =>  floor((new \getID3())->analyze($request->file('file')->getRealPath())['playtime_seconds']),
@@ -120,6 +123,24 @@ class VideoController extends Controller
         $video->interactions()->delete();
 
         $video->delete();
+
+        return redirect()->route('user.videos.index');
+    }
+
+    public function pin (Video $video) : RedirectResponse
+    {
+        $video->user->update([
+            'pinned_video_id' => $video->id
+        ]);
+
+        return redirect()->route('user.videos.index');
+    }
+
+    public function unpin(Video $video): RedirectResponse
+    {
+        $video->user->update([
+            'pinned_video_id' => null
+        ]);
 
         return redirect()->route('user.videos.index');
     }

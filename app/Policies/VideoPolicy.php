@@ -51,6 +51,20 @@ class VideoPolicy
     }
 
     /**
+     * Determine whether the user can download video.
+     *
+     * @param User $user
+     * @param Video $video
+     * @return Response|bool
+     */
+    public function download(User $user, Video $video): Response|bool
+    {
+        return $video->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(403, 'You can only download your videos');
+    }
+
+    /**
      * Determine whether the user can create the model.
      *
      * @param  User $user

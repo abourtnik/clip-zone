@@ -11,7 +11,7 @@
         @include('layouts.menus.header')
         <div class="admin-content d-flex">
             @include('layouts.menus.back', ['type' => 'user'])
-            <div class="container-fluid mt-3" style="margin-left: 240px">
+            <div id="main-container" class="container-fluid my-3" style="margin-left: 240px">
                 @yield('content')
             </div>
         </div>

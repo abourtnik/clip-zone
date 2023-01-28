@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Symfony\Component\Intl\Languages;
 
@@ -48,6 +49,10 @@ class Video extends Model implements Likeable
         return $this->hasMany(Comment::class);
     }
 
+    public function pinned_comment () : HasOne {
+        return $this->hasOne(Comment::class, 'id', 'pinned_comment_id');
+    }
+
     /**
      * -------------------- ATTRIBUTES --------------------
      */
@@ -69,6 +74,13 @@ class Video extends Model implements Likeable
     protected function isActive(): Attribute
     {
         return Attribute::make(
+            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->publication_date->lte(now())) || $this->status === VideoStatus::UNLISTED
+        );
+    }
+
+    protected function isPublic(): Attribute
+    {
+        return Attribute::make(
             get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->publication_date->lte(now()))
         );
     }
@@ -77,6 +89,22 @@ class Video extends Model implements Likeable
     {
         return Attribute::make(
             get: fn () => $this->status === VideoStatus::PLANNED && $this->publication_date->gt(now())
+
+        );
+    }
+
+    protected function isUnlisted(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status === VideoStatus::UNLISTED
+
+        );
+    }
+
+    protected function isPrivate(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status === VideoStatus::PRIVATE
 
         );
     }
@@ -141,6 +169,13 @@ class Video extends Model implements Likeable
     {
         return Attribute::make(
             get: fn () => 'video',
+        );
+    }
+
+    protected function isPinned(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->user->pinned_video?->is($this)
         );
     }
 

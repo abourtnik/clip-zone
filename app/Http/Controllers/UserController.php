@@ -107,7 +107,7 @@ class UserController
         ]);
     }
 
-    public function update(UpdateUserRequest $request): RedirectResponse {
+    public function update(UpdateUserRequest $request) : RedirectResponse {
 
         $user = auth()->user();
 

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
@@ -105,6 +106,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function dislikes () : HasMany {
         return $this->hasMany(Interaction::class)->where('status', false);
+    }
+
+    public function pinned_video () : HasOne {
+        return $this->hasOne(Video::class, 'id', 'pinned_video_id');
     }
 
     /**

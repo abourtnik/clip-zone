@@ -23,12 +23,6 @@ use App\Http\Controllers\InteractionController;
 Route::middleware('auth')->group(function () {
     Route::post("follow/{user}", [UserController::class, 'follow']);
 
-    Route::get('/comments/{comment}/replies', [CommentController::class, 'replies']);
-
-    Route::resource("comments", CommentController::class)->only([
-        'store', 'update', 'destroy'
-    ]);
-
     // Interactions
     Route::name('interactions.')->controller(InteractionController::class)->group(function () {
         Route::get('/interactions', 'list')->name('list');
@@ -38,8 +32,21 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::get("comments", [CommentController::class, 'list']);
+// SEARCH
 Route::get("search", [SearchController::class, 'search']);
+
+// COMMENTS
+Route::prefix('comments')->name('comments.')->controller(CommentController::class)->group(function () {
+    Route::get('/', 'list')->name('list');
+    Route::middleware('auth')->group(function () {
+        Route::get('/{comment}/replies', 'replies')->name('replies');
+        Route::post('/', 'store')->name('store');
+        Route::put('/{comment}', 'update')->name('update')->can('update', 'comment');
+        Route::delete('/{comment}', 'delete')->name('delete')->can('delete', 'comment');
+        Route::post('/{comment}/pin', 'pin')->name('pin')->can('pin', 'comment');
+        Route::post('/{comment}/unpin', 'unpin')->name('unpin')->can('pin', 'comment');
+    });
+});
 
 // VIDEOS
 Route::prefix('videos')->name('videos.')->controller(VideoController::class)->group(function () {
@@ -48,9 +55,3 @@ Route::prefix('videos')->name('videos.')->controller(VideoController::class)->gr
     Route::get('/category/{category}', 'category')->name('category');
     Route::get('/user/{user}', 'user')->name('user');
 });
-
-
-
-
-
-

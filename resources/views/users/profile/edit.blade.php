@@ -18,7 +18,7 @@
     @endif
     <div class="row align-items-start my-3">
         <div class="col-4">
-            <h2>Profile Informations</h2>
+            <h2>Profile Information</h2>
             <p class="text-muted">Update you account profile informations and email address.</p>
         </div>
         <div class="col-8">
@@ -47,7 +47,7 @@
                                 <select class="form-control" name="country" id="country">
                                     <option selected value="">Select Country</option>
                                     @foreach($countries as $code => $name)
-                                        <option @if(old('country', $user->country) === $code) selected @endif value="{{$code}}">{{$name}}</option>
+                                        <option @selected(old('country', $user->country) === $code) value="{{$code}}">{{$name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -109,7 +109,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-end">
+                    <div class="card-footer d-flex justify-content-between">
+                        <a class="btn btn-success" href="{{$user->route}}">
+                            <i class="fa-solid fa-eye"></i>&nbsp;
+                            Show my channel
+                        </a>
                         <button type="submit" class="btn btn-secondary">
                             <i class="fa-solid fa-user-edit"></i>
                             Update

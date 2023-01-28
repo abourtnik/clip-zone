@@ -62,8 +62,9 @@ class PageController
                         ->withCount('views')
                         ->active()
                         ->latest('publication_date');
-                }
-            ])->loadCount('subscribers', 'videos_views')
+                },
+                'pinned_video' => fn($q) => $q->withCount('views')
+            ])->loadCount('subscribers', 'videos_views', 'videos')
         ]);
     }
 

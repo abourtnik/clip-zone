@@ -3,9 +3,9 @@ import { memo } from 'preact/compat';
 import {useToggle} from "../hooks";
 
 import Interaction from "./Interaction";
-import {ThumbsDownSolid, ThumbsUpSolid} from "./Icon";
+import {ThumbsDownSolid, ThumbsUpSolid, Ellipsis, Pin, Pen, Trash, Flag} from "./Icon";
 
-const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) => {
+const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pin}) => {
 
     const [onEdit, setOnEdit] = useState(false);
     const [showReply, setShowReply] = useState(false);
@@ -112,29 +112,75 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
             </a>
             <div className={'w-100'}>
                 <div className={'border p-3 bg-white'}>
+                    {
+                        comment.is_pinned &&
+                        <div className={'d-flex align-items-center gap-2 mb-3 badge rounded-pill text-bg-primary'} style='width:fit-content'>
+                            <Pin/>
+                            <span className={'text-white'}>Pinned by {comment.author.username} </span>
+                        </div>
+                    }
                     <div className="d-flex justify-content-between align-items-center">
                         <div className={'d-flex align-items-center gap-2'}>
-                            <a href={comment.user.route} className={'text-decoration-none'}>
+                            <a href={comment.user.route} className={'text-decoration-none' + (comment.user.is_author ? ' badge rounded-pill text-bg-secondary' : '') }>
                                 {comment.user.username}
-                            </a>•
+                            </a>
+                            <span>•</span>
                             <small className="text-muted">{comment.created_at}</small>
-                        </div>
-                        <div className={'d-flex align-items-center gap-2'}>
-                            {comment.can_update && <button onClick={() => setOnEdit(onEdit => !onEdit)} className={"btn btn-sm text-primary p-0"}>Update</button>}
-                            {comment.can_delete && <button onClick={() => deleteComment(comment)} className={"btn btn-sm text-danger p-0"}>Delete</button>}
-                            {comment.is_updated && <small className="text-muted fw-semibold">Modified</small>}
+                            {comment.is_updated && <><span>•</span> <small className="text-muted fw-semibold">Modified</small></>}
                         </div>
                         {
-
+                            auth &&
+                            <div className={'dropdown'}>
+                                <button className={'bg-transparent btn-sm dropdown-toggle comment-dropdown'} type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <Ellipsis/>
+                                </button>
+                                <ul className="dropdown-menu">
+                                    {
+                                        comment.can_pin &&
+                                        <li>
+                                            <button onClick={() => pin(comment, comment.is_pinned ? 'unpin' : 'pin')} className="dropdown-item d-flex align-items-center gap-3" >
+                                                <Pin width={'12px'}/>
+                                                {comment.is_pinned ? 'Unpin' : 'Pin'}
+                                            </button>
+                                        </li>
+                                    }
+                                    {
+                                        comment.can_update &&
+                                        <li>
+                                            <button className="dropdown-item d-flex align-items-center gap-3" onClick={() => setOnEdit(onEdit => !onEdit)}>
+                                                <Pen />
+                                                Edit
+                                            </button>
+                                        </li>
+                                    }
+                                    {
+                                        comment.can_delete &&
+                                        <li>
+                                            <button className="dropdown-item d-flex align-items-center gap-3" onClick={() => deleteComment(comment)}>
+                                                <Trash />
+                                                Remove
+                                            </button>
+                                        </li>
+                                    }
+                                    {
+                                        comment.can_report &&
+                                        <li>
+                                            <button className="dropdown-item d-flex align-items-center gap-3">
+                                                <Flag />
+                                                Report
+                                            </button>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
                         }
-
                     </div>
                     {
                         onEdit ?
                             <div className={'my-3'}>
                                 <textarea className="form-control" rows="3" name="content" ref={textarea} required>{comment.content}</textarea>
                                 <div className={'d-flex gap-1 mt-2'}>
-                                    <button onClick={() => update(comment)} className={'btn btn-primary btn-sm'}>Update</button>
+                                    <button onClick={() => update(comment)} className={'btn btn-primary btn-sm'}>Save</button>
                                     <button onClick={() => setOnEdit(false)} className={'btn btn-secondary btn-sm'}>Cancel</button>
                                 </div>
                             </div>
@@ -217,7 +263,14 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment}) =
                     }
                     {
                         replies.length > 0 &&
-                        <button className={'btn btn-sm text-primary my-1 mt-2 ps-0 fw-bold'} onClick={() => setShowReplies(showReplies => !showReplies)}>
+                        <button className={'btn btn-sm text-primary my-1 mt-2 ps-0 fw-bold d-flex align-items-center gap-2'} onClick={() => setShowReplies(showReplies => !showReplies)}>
+                            {
+                                comment.is_author_reply &&
+                                <>
+                                    <img style="width: 24px;" src={comment.author.avatar} alt={comment.author.username + ' avatar'}/>
+                                    <span>•</span>
+                                </>
+                            }
                             {showRepliesText(showReplies, replies.length)}
                         </button>
                     }

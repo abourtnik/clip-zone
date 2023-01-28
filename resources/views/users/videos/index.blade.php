@@ -23,7 +23,7 @@
                 <select name="status" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
                     @foreach($video_status as $status)
-                        <option @if(($filters['status'] ?? null) === (string) $status['id']) selected @endif value="{{$status['id']}}">{{$status['name']}}</option>
+                        <option @selected(($filters['status'] ?? null) === (string) $status['id']) value="{{$status['id']}}">{{$status['name']}}</option>
                     @endforeach
                 </select>
             </div>
@@ -31,9 +31,9 @@
                 <label for="category" class="form-label fw-bold">Category</label>
                 <select name="category" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
-                    <option @if(($filters['category'] ?? null) === 'without') selected @endif value="without">Without category</option>
+                    <option @selected(($filters['category'] ?? null) === 'without') value="without">Without category</option>
                     @foreach($categories as $category)
-                        <option @if(($filters['category'] ?? null) === (string) $category->id) selected @endif value="{{$category->id}}">{{$category->title}}</option>
+                        <option @selected(($filters['category'] ?? null) === (string) $category->id) value="{{$category->id}}">{{$category->title}}</option>
                     @endforeach
                 </select>
             </div>
@@ -152,6 +152,19 @@
                         <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="Video statistics">
                             <i class="fa-solid fa-chart-simple"></i>
                         </a>
+                        @if($video->is_public && $video->is_pinned)
+                            <form action="{{route('user.videos.unpin', $video)}}" method="POST" class="d-inline-block">
+                                <button class="btn btn-secondary btn-sm" title="Unpin video" type="submit">
+                                    <i class="fa-solid fa-link-slash"></i>
+                                </button>
+                            </form>
+                        @elseif ($video->is_public && !$video->is_pinned)
+                            <form action="{{route('user.videos.pin', $video)}}" method="POST" class="d-inline-block">
+                                <button class="btn btn-secondary btn-sm" title="Pin video" type="submit">
+                                    <i class="fa-solid fa-thumbtack"></i>
+                                </button>
+                            </form>
+                        @endif
                     </td>
                 </tr>
             @empty

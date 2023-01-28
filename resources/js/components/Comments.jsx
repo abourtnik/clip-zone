@@ -2,6 +2,7 @@ import {useState, useEffect, useCallback} from 'preact/hooks';
 import Comment from "./Comment";
 import {usePaginateFetch} from "../hooks";
 import {Comment as Skeleton} from "./Skeletons";
+import Button from './Button'
 import {useInView} from "react-intersection-observer";
 
 export default function Comments ({target, auth, defaultSort}) {
@@ -53,9 +54,15 @@ export default function Comments ({target, auth, defaultSort}) {
     }
 
     const sort = async (type) => {
-        setSelectedSort(type)
+        if (type !== selectedSort) {
+            setSelectedSort(type)
+            await reload(type)
+        }
+    }
+
+    const reload = async (type) => {
         setPrimaryLoading(true);
-        const response = await fetch(`/api/comments/?video_id=${target}&sort=${type}`);
+        const response = await fetch(`/api/comments?video_id=${target}&sort=${type}`);
         const data = await response.json()
         setPrimaryLoading(false);
         setComments(data.data)
@@ -96,6 +103,21 @@ export default function Comments ({target, auth, defaultSort}) {
         setComments(comments => comments.map(c => c.id === comment.id ? updated_comment.data : c))
     },[]);
 
+    const pin = useCallback(async (comment, action= 'pin') => {
+
+        const response = await fetch(`/api/comments/${comment.id}/${action}`, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            credentials: 'include',
+        });
+
+        await reload(selectedSort)
+
+    }, []);
+
     const activeButton = (type) => selectedSort === type ? 'primary ' : 'outline-primary ';
 
     return (
@@ -115,9 +137,9 @@ export default function Comments ({target, auth, defaultSort}) {
                         <textarea className="form-control" id="content" rows="4" name="content" placeholder="Add a comment..." required maxLength={5000}></textarea>
                     </div>
                     <div className="mb-3 d-flex justify-content-end">
-                        <button type="submit" className="btn btn-success btn-sm">
+                        <Button type={'submit'}>
                             Commment
-                        </button>
+                        </Button>
                     </div>
                 </form> :
 
@@ -133,7 +155,15 @@ export default function Comments ({target, auth, defaultSort}) {
                     <div className="d-flex flex-column gap-2">
                         {[...Array(4).keys()].map(i => <Skeleton key={i}/>)}
                     </div>
-                : comments.map(comment => <Comment key={comment.id} comment={comment} auth={auth} canReply={true} deleteComment={deleteComment} updateComment={updateComment}/>)
+                : comments.map(comment => <Comment
+                        key={comment.id}
+                        comment={comment}
+                        auth={auth}
+                        canReply={true}
+                        deleteComment={deleteComment}
+                        updateComment={updateComment}
+                        pin={pin}
+                    />)
             }
             {
                 hasMore &&

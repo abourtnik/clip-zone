@@ -20,7 +20,7 @@ class ViewFactory extends Factory
     {
         return [
             'ip' => fake()->ipv4(),
-            'view_at' => fake()->dateTimeBetween('-1 year', 'now'),
+            'view_at' => fake()->dateTimeBetween('-1 year'),
             'user_id' => User::inRandomOrder()->first()->id
         ];
     }

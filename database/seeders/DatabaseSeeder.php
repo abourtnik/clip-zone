@@ -34,7 +34,9 @@ class DatabaseSeeder extends Seeder
                 View::factory(rand(0, 100))->create(['video_id' => $video->id]);
             });
             foreach (range(0,20) as $i) {
-                $user->subscriptions()->toggle(User::where('id', '!=', $user->id)->inRandomOrder()->first());
+                $user->subscriptions()->toggle([
+                    User::where('id', '!=', $user->id)->inRandomOrder()->first()->id => ['subscribe_at' => fake()->dateTimeBetween('-1 year')]
+                ]);
             }
         });
     }

@@ -3,11 +3,9 @@ import '@fortawesome/fontawesome-free/js/all.js';
 
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min';
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 
 import Alpine from 'alpinejs'
-
-import { Toast } from 'bootstrap'
 
 import './components/index.js'
 

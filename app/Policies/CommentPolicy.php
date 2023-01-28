@@ -92,7 +92,35 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment): Response|bool
     {
-        return ($comment->user->is($user) && $comment->video->is_active) || ($comment->video->user()->is($user) && $comment->user->is($user))
+        return ($comment->user->is($user) && $comment->video->is_active) || $comment->video->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(403);
+    }
+
+    /**
+     * Determine whether the user can report the model.
+     *
+     * @param  User $user
+     * @param  Comment $comment
+     * @return Response|bool
+     */
+    public function report(User $user, Comment $comment): Response|bool
+    {
+        return $comment->user->isNot($user)
+            ? Response::allow()
+            : Response::denyWithStatus(403);
+    }
+
+    /**
+     * Determine whether the user can pin the model.
+     *
+     * @param  User $user
+     * @param  Comment $comment
+     * @return Response|bool
+     */
+    public function pin(User $user, Comment $comment): Response|bool
+    {
+        return $comment->user->is($user) && $comment->video->user->is($user) && !$comment->is_reply
             ? Response::allow()
             : Response::denyWithStatus(403);
     }

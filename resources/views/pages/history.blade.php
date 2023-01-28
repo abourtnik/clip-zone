@@ -14,7 +14,7 @@
             @endif
         </div>
         <hr>
-        <div class="row gx-3 gy-4">
+        <div class="row gx-3 gy-4 mb-5">
             @foreach($views as $view)
                 @include('videos.card', ['video' => $view->video])
             @endforeach

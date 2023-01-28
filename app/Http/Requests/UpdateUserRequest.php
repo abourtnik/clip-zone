@@ -31,7 +31,8 @@ class UpdateUserRequest extends FormRequest
             'username' => [
                 'sometimes',
                 'required',
-                'max:255',
+                'min:3',
+                'max:40',
                 Rule::unique('users', 'username')->ignore(Auth::user())
             ],
             'email' => [
@@ -61,7 +62,12 @@ class UpdateUserRequest extends FormRequest
                 'nullable',
                 Rule::in(Countries::getCountryCodes())
             ],
-            'website' => 'sometimes|nullable|url|max:255',
+            'website' => [
+                'sometimes',
+                'nullable',
+                'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+                'max:255',
+            ],
             'show_subscribers' => 'sometimes|boolean'
         ];
     }

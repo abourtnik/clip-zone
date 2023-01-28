@@ -21,7 +21,7 @@
                     @endif
                 </div>
                 <hr>
-                <div class="row">
+                <div class="row gx-3 gy-4">
                     @each('videos.card', $videos, 'video')
                 </div>
             @empty

@@ -65,6 +65,10 @@ $sidebar-width: 240px;
     border-bottom: 4px solid $primary;
 }
 
+.w-30 {
+    width: 30%;
+}
+
 .w-90 {
     width: 90%;
 }
@@ -91,3 +95,16 @@ $sidebar-width: 240px;
     }
 }
 
+.radius-end-0 {
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.radius-start-0 {
+    border-bottom-left-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+}
+
+.comment-dropdown::after {
+    display: none;
+}

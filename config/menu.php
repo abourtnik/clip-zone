@@ -29,7 +29,7 @@ return [
                 [
                     'title' => 'Your videos',
                     'icon' => 'video',
-                    'route' => 'user.index',
+                    'route' => 'user.videos.index',
                 ],
                 [
                     'title' => 'Liked videos',

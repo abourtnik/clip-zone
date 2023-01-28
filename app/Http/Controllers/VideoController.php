@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class VideoController
 {
@@ -56,7 +58,7 @@ class VideoController
         if ($ip_views_count < $limit['value']) {
             $video->views()->create([
                 'ip' => $request->ip(),
-                'user_id' => Auth::id()
+                'user_id' => Auth::user()?->id
             ]);
         }
 
@@ -83,13 +85,28 @@ class VideoController
         ]);
     }
 
+    public function download (Video $video): StreamedResponse
+    {
+        return Storage::disk('videos')->download($video->file);
+    }
+
+    public function file (Video $video)
+    {
+        return Storage::disk('videos')->response(
+            path: $video->file,
+            headers: ['Content-Type' => $video->mimetype]
+        );
+    }
+
     public function user (User $user, Request $request) {
 
         $sort = $request->get('sort', 'recent');
+        $excludePinned = $request->exists('excludePinned');
 
         return VideoResource::collection(
             $user->videos()
                 ->active()
+                ->when($excludePinned, fn($query) => $query->where('id', '!=', $user->pinned_video->id))
                 ->withCount('views')
                 ->when($sort === 'recent', fn($query) => $query->latest('created_at'))
                 ->when($sort === 'popular', fn($query) => $query->orderByRaw('views_count DESC'))

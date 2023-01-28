@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Comment;
 
 return new class extends Migration
 {
@@ -18,9 +19,11 @@ return new class extends Migration
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
+            $table->uuid();
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('file');
+            $table->string('original_file_name');
             $table->string('mimetype');
             $table->string('thumbnail');
             $table->unsignedMediumInteger('duration');
@@ -32,6 +35,7 @@ return new class extends Migration
             $table->boolean('allow_comments')->default(true);
             $table->string('default_comments_sort')->default('top');
             $table->boolean('show_likes')->default(true);
+            $table->foreignIdFor(Comment::class, 'pinned_comment_id')->nullable();
             $table->timestamps();
         });
     }

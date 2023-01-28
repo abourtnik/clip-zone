@@ -32,15 +32,15 @@ export default function Search ({query = ''}) {
         <>
         <form method="GET" className="d-flex w-100" role="search" action="/search">
             <div className="input-group">
-                <input onChange={handleChange} className="form-control" type="search" placeholder="Search" aria-label="Search" name="q" value={search}/>
-                <button className="btn btn-outline-secondary" type="submit">
+                <input onChange={handleChange} className="form-control rounded-5 rounded-end radius-end-0" type="search" placeholder="Search" aria-label="Search" name="q" value={search}/>
+                <button className="btn btn-outline-secondary rounded-5 rounded-start radius-start-0 px-4" type="submit">
                     <SearchIcon/>
                 </button>
             </div>
         </form>
         {
             (search.trim() && !loading) &&
-                <div className={'position-absolute w-25 bg-white shadow border rounded'} style={{top:'47px'}}>
+                <div className={'position-absolute w-30 bg-white shadow-lg border border-1 rounded-4 pt-3'} style={{top:'49px'}}>
                     {
                         data.total ?
                             <ul className={'list-unstyled mb-0'}>
@@ -63,7 +63,7 @@ export default function Search ({query = ''}) {
                                 </li>
                             </ul>
                             :
-                            <div className={'d-flex justify-content-center align-items-center flex-column py-3'}>
+                            <div className={'d-flex justify-content-center align-items-center flex-column pb-3'}>
                                 <strong>No results found</strong>
                             </div>
                     }

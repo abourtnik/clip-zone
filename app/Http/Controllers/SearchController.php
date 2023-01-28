@@ -49,7 +49,7 @@ class SearchController extends Controller
         return view('pages.search', [
             'search' => $q,
             'results' => $videos->concat($users)->shuffle()->paginate(12)->withQueryString(),
-            'filters' => $filters->receivedFilters() + ['type' => $type]
+            'filters' => $filters->receivedFilters() + ($type ? ['type' => $type] : [])
         ]);
     }
 

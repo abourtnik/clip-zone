@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', $search)
+@section('title', $search ?? 'Search')
 
 @section('content')
     <div x-data="{ filters: {{!empty($filters) ? 'true' : 'false'}} }">

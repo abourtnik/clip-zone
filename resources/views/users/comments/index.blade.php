@@ -16,7 +16,7 @@
                 <select name="video" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
                     @foreach($videos as $video)
-                        <option @if(($filters['video'] ?? null) === (string) $video->id) selected @endif value="{{$video->id}}">{{$video->title}}</option>
+                        <option @selected(($filters['video'] ?? null) === (string) $video->id) value="{{$video->id}}">{{$video->title}}</option>
                     @endforeach
                 </select>
             </div>
@@ -25,7 +25,7 @@
                 <select name="user" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
                     @foreach($users as $user)
-                        <option @if(($filters['user'] ?? null) === (string) $user->id) selected @endif value="{{$user->id}}">{{$user->username}}</option>
+                        <option @selected(($filters['user'] ?? null) === (string) $user->id) value="{{$user->id}}">{{$user->username}}</option>
                     @endforeach
                 </select>
             </div>
@@ -42,7 +42,7 @@
                 <select name="replies" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
                     @foreach(['with', 'without'] as $option)
-                        <option @if(($filters['replies'] ?? null) === $option) selected @endif value="{{$option}}">{{ucfirst($option)}} replies</option>
+                        <option @selected(($filters['replies'] ?? null) === $option) value="{{$option}}">{{ucfirst($option)}} replies</option>
                     @endforeach
                 </select>
             </div>

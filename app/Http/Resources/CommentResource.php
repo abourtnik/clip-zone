@@ -25,7 +25,8 @@ class CommentResource extends JsonResource
                 'id' => $this->user->id,
                 'username' => $this->user->username,
                 'avatar' => $this->user->avatar_url,
-                'route' => route('pages.user', $this->user)
+                'route' => route('pages.user', $this->user),
+                'is_author' => $this->video->user->is($this->user)
             ],
             'video' => [
                 'id' => $this->video->id
@@ -35,11 +36,22 @@ class CommentResource extends JsonResource
             'model' => Comment::class,
             'likes_count' => $this->likes_count,
             'dislikes_count' => $this->dislikes_count,
-            'liked_by_auth_user' => $this->liked_by_auth_user,
-            'disliked_by_auth_user' => $this->disliked_by_auth_user,
-            'can_delete' => Auth::check() && (Auth::user()->is($this->user) || Auth::user()->is($this->video->user)),
-            'can_update' => Auth::check() && Auth::user()->is($this->user),
-            'replies' =>  CommentResource::collection($this->replies)
+            'liked_by_auth_user' => $this->liked_by_auth_user > 0,
+            'disliked_by_auth_user' => $this->disliked_by_auth_user > 0,
+            'can_delete' => Auth::user()?->can('delete', $this->resource) ?? false,
+            'can_update' => Auth::user()?->can('update', $this->resource) ?? false,
+            'can_report' => Auth::user()?->can('report', $this->resource) ?? false,
+            'can_pin' => Auth::user()?->can('pin', $this->resource) ?? false,
+            'replies' =>  CommentResource::collection($this->replies),
+            'is_pinned' => $this->is_pinned,
+            'is_reply' => $this->is_reply,
+            'is_author_reply' => $this->when(!$this->is_reply, fn() => $this->author_replies > 0),
+            'author' => $this->when(!$this->is_reply, function () {
+                return [
+                    'username' => $this->video->user->username,
+                    'avatar' => $this->video->user->avatar_url,
+                ];
+            })
         ];
     }
 }

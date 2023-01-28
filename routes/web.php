@@ -34,7 +34,9 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
 
 // VIDEOS
 Route::controller(VideoController::class)->name('video.')->group(function () {
-    Route::get('/video/{video}', 'show')->name('show')->can('show', 'video');
+    Route::get('/video/{video:uuid}', 'show')->name('show')->can('show', 'video');
+    Route::get('/video/file/{video:uuid}', 'file')->name('file');
+    Route::get('/video/download/{video:uuid}', 'download')->name('download')->can('download', 'video');
 });
 
 // SEARCH
@@ -91,6 +93,8 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     });
 
     // Videos
+    Route::post('/{video}/pin', [VideoUserController::class, 'pin'])->name('videos.pin');
+    Route::post('/{video}/unpin', [VideoUserController::class, 'unpin'])->name('videos.unpin');
     Route::resource('videos', VideoUserController::class);
 
     // Comments

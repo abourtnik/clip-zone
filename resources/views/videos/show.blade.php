@@ -6,7 +6,7 @@
     <div class="row">
         <div class="col-lg-9">
             <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
-                <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
+                <source src="{{route('video.file', $video)}}" type="{{$video->mimetype}}">
             </video>
             <div class="mt-3 d-flex align-items-center gap-2">
                 @if($video->is_planned)
@@ -14,25 +14,37 @@
                         <i class="fa-solid fa-clock"></i>
                         <strong>Planned - {{$video->publication_date->format('d M Y H:i')}}</strong>
                     </div>
-                @elseif(!$video->is_active)
+                @elseif($video->is_private)
                     <div class="d-flex alert alert-danger px-2 py-1 align-items-center gap-2 mb-0">
                         <i class="fa-solid fa-lock"></i>
                         <strong>Private</strong>
                     </div>
+                @elseif($video->is_unlisted)
+                    <div class="d-flex alert alert-secondary px-2 py-1 align-items-center gap-2 mb-0">
+                        <i class="fa-solid fa-eye-slash"></i>
+                        <strong>Unlisted</strong>
+                    </div>
                 @endif
                 <h4 class="mb-0">{{$video->title}}</h4>
             </div>
-            <div class="mt-3 d-flex justify-content-between align-items-center">
+            <div class="mt-4 d-flex justify-content-between align-items-center">
                 <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->created_at->format('d F Y')}}</div>
                 @auth()
-                    <div class="d-flex gap-1">
+                    <div class="d-flex gap-3 align-items-center">
+                        <div>
+                            <a href="{{route('video.download', $video)}}" class="btn btn-primary btn-sm">
+                                <i class="fa-solid fa-download"></i>
+                                Download
+                            </a>
+                        </div>
                         <interaction-button
                             active="{{ json_encode(['like' => $video->liked_by_auth_user, 'dislike' => $video->disliked_by_auth_user ])}}"
                             model="{{get_class($video)}}"
                             target="{{$video->id}}"
                             count="{{ json_encode(['likes_count' => $video->likes_count, 'dislikes_count' => $video->dislikes_count ])}}"
                             @if(!$video->show_likes) show-count="false" @endif
-                        />
+                        >
+                        </interaction-button>
                     </div>
                 @else
                     <div class="d-flex justify-content-between gap-1">
@@ -102,28 +114,30 @@
                     @endif
                 </div>
             </div>
-            @if($video->description_is_long)
-                <div class="my-4 card pointer-event" style='cursor: pointer;' x-data="{ open: false }" @click="open=!open">
-                    <div class="card-body">
-                        <template x-if="open">
-                            <p>
-                                {{$video->description}}
-                            </p>
-                        </template>
-                        <template x-if="!open">
-                            <p>
-                                {{$video->short_description}}
-                            </p>
-                        </template>
-                        <div class="text-primary fw-bold mt-1" x-text="open ? 'Show less': 'Show more'"></div>
+            @if($video->description)
+                @if($video->description_is_long)
+                    <div class="my-4 card pointer-event" style='cursor: pointer;' x-data="{ open: false }" @click="open=!open">
+                        <div class="card-body">
+                            <template x-if="open">
+                                <p>
+                                    {{$video->description}}
+                                </p>
+                            </template>
+                            <template x-if="!open">
+                                <p>
+                                    {{$video->short_description}}
+                                </p>
+                            </template>
+                            <div class="text-primary fw-bold mt-1" x-text="open ? 'Show less': 'Show more'"></div>
+                        </div>
                     </div>
-                </div>
-            @else
-                <div class="card my-4">
-                    <div class="card-body">
-                        {{$video->description}}
+                @else
+                    <div class="card my-4">
+                        <div class="card-body">
+                            {{$video->description}}
+                        </div>
                     </div>
-                </div>
+                @endif
             @endif
             <div class="d-flex gap-2 align-items-center">
                 @if($video->category)

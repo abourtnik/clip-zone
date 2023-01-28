@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks';
 import Videos from "./Videos";
 
-export default function UserVideos ({user, videos, showSort = true}) {
+export default function UserVideos ({user, videos, showSort = true, excludePinned = true}) {
 
     const [selectedSort, setSelectedSort] = useState('recent');
 
@@ -10,6 +10,8 @@ export default function UserVideos ({user, videos, showSort = true}) {
     const sort = async (type) => {
         setSelectedSort(type)
     }
+
+    const pinned = excludePinned && '&excludePinned';
 
     return (
         <>
@@ -20,7 +22,7 @@ export default function UserVideos ({user, videos, showSort = true}) {
                     <button onClick={() => sort('popular')} className={'btn btn-' + activeButton('popular') + 'btn-sm'} type="button">Popular</button>
                 </div>
             }
-            <Videos url={"/api/videos/user/" + user + '?sort=' + selectedSort} skeletons={videos}/>
+            <Videos url={`/api/videos/user/${user}?sort=${selectedSort}${pinned}`} skeletons={videos}/>
         </>
 
     )

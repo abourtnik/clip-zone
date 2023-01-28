@@ -59,16 +59,32 @@ class Comment extends Model implements Likeable
     protected function isLong(): Attribute
     {
         return Attribute::make(
-            get: fn () => Str::length($this->content) > 780,
+            get: fn () => Str::length($this->content) > 780
         );
     }
 
     protected function shortContent(): Attribute
     {
         return Attribute::make(
-            get: fn () => Str::limit($this->content, 780,' ...'),
+            get: fn () => Str::limit($this->content, 780,' ...')
         );
     }
+
+    protected function isReply(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => !is_null($this->parent_id)
+        );
+    }
+
+    protected function isPinned(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->video->pinned_comment?->is($this)
+        );
+    }
+
+
 
     /**
      * -------------------- SCOPES --------------------

@@ -20,12 +20,6 @@
     <meta property="og:image" content="https://www.antonbourtnik.fr/img/logo.png" />
     <meta property="og:language" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
 
-    <link rel="shortcut icon" href="favicon.ico">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/icons/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/icons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/icons/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json" />
-
     @vite(['resources/js/app.js'])
 </head>
 <body>
@@ -38,6 +32,7 @@
             </div>
         </div>
     </main>
+    @include('layouts.menus.responsive')
     @stack('scripts')
 </body>
 </html>

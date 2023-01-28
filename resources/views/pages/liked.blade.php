@@ -8,7 +8,7 @@
             <h5 class="mb-0">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
         </div>
         <hr>
-        <div class="row gx-3 gy-4">
+        <div class="row gx-3 gy-4 mb-5">
             @foreach($interactions as $interaction)
                 @include('videos.card', ['video' => $interaction->likeable])
             @endforeach
