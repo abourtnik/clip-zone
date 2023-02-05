@@ -45,8 +45,6 @@ class RegistrationController
 
         if (!$user->hasVerifiedEmail()) {
             $user->markEmailAsVerified();
-
-            //event(new Verified($user));
         }
 
         Auth::login($user);

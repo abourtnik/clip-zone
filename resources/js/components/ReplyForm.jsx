@@ -21,7 +21,7 @@ export default function ReplyForm ({setShowReply, comment, reply}) {
         <form className={'mt-2'} onSubmit={handleSubmit}>
             <div className="mb-2">
                 <label htmlFor={"content-" + comment.id} className="form-label d-none"></label>
-                <textarea className="form-control" id={"content-" + comment.id} rows="1" name="content" placeholder="Add a reply ..." required maxLength={5000}></textarea>
+                <textarea className="form-control" id={"content-" + comment.id} rows="3" name="content" placeholder="Add a reply ..." required maxLength={5000}></textarea>
             </div>
             <div className="d-flex justify-content-end gap-1">
                 <button

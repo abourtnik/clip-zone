@@ -1,15 +1,17 @@
 @extends('layouts.user')
 
+@section('title', 'Channel videos')
+
 @section('content')
     @if($videos->total() || $filters)
         {{ Breadcrumbs::render('videos') }}
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2>My Videos</h2>
             <div>
-                <a class="btn btn-success" href="{{route('user.videos.create')}}">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#video_create">
                     <i class="fa-solid fa-upload"></i>
                     &nbsp;Import new video
-                </a>
+                </button>
             </div>
         </div>
         <hr>
@@ -72,7 +74,13 @@
                 <tr class="bg-light">
                     <td class="d-flex gap-3">
                         <a href="{{$video->route}}">
-                            <img src="{{$video->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
+                            @if($video->is_draft)
+                                <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="width: 120px;height: 68px">
+                                    <i class="fa-solid fa-image fa-2x"></i>
+                                </div>
+                            @else
+                                <img src="{{$video->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
+                            @endif
                         </a>
                         <div>
                             <div>{{Str::limit($video->title, 100), '...'}}</div>
@@ -83,20 +91,26 @@
                         @include('users.videos.partials.status')
                     </td>
                     <td class="align-middle">{{$video->publication_date->format('d F Y H:i')}}</td>
-                    <td class="align-middle">{{$video->views_count}}</td>
                     <td class="align-middle">
-                        @if($video->category)
-                            <div class="badge bg-primary">
-                                {{$video->category->title}}
-                            </div>
-                        @else
-                            <div class="badge bg-secondary">
-                                No category
-                            </div>
+                        @if(!$video->is_draft)
+                            {{$video->views_count}}
                         @endif
                     </td>
                     <td class="align-middle">
-                        <div class="">
+                        @if(!$video->is_draft)
+                            @if($video->category)
+                                <div class="badge bg-primary">
+                                    {{$video->category->title}}
+                                </div>
+                            @else
+                                <div class="badge bg-secondary">
+                                    No category
+                                </div>
+                            @endif
+                        @endif
+                    </td>
+                    <td class="align-middle">
+                        @if(!$video->is_draft)
                             @if($video->comments_count)
                                 <a href="{{route('user.comments.index') .'?video='.$video->id}}" class="badge bg-info text-decoration-none">
                                     {{trans_choice('comments', $video->comments_count)}}
@@ -111,25 +125,33 @@
                                     Disabled
                                 </div>
                             @endif
-                        </div>
+                        @endif
                     </td>
                     <td class="align-middle">
-                        @include('users.partials.interactions', ['item' => $video])
-                        <div class="d-flex align-items-center gap-1">
-                            <div class="badge bg-primary mt-2" data-bs-toggle="modal" data-bs-target="#video_likes" style="cursor: pointer;" data-id="{{$video->id}}">
-                                Details
-                            </div>
-                            @if(!$video->show_likes)
-                                <div class="badge bg-danger mt-2">
-                                    Disabled
+                        @if(!$video->is_draft)
+                            @include('users.partials.interactions', ['item' => $video])
+                            <div class="d-flex align-items-center gap-1">
+                                <div class="badge bg-primary mt-2" data-bs-toggle="modal" data-bs-target="#video_likes" style="cursor: pointer;" data-id="{{$video->id}}">
+                                    Details
                                 </div>
-                            @endif
-                        </div>
+                                @if(!$video->show_likes)
+                                    <div class="badge bg-danger mt-2">
+                                        Disabled
+                                    </div>
+                                @endif
+                            </div>
+                        @endif
                     </td>
                     <td class="align-middle">
-                        <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm" title="Edit video">
-                            <i class="fa-solid fa-pen"></i>
-                        </a>
+                        @if($video->is_draft)
+                            <a href="{{route('user.videos.create', $video)}}" class="btn btn-primary btn-sm" title="Edit draft">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                        @else
+                            <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm" title="Edit video">
+                                <i class="fa-solid fa-pen"></i>
+                            </a>
+                        @endif
                         <button
                             type="button"
                             title="Delete video"
@@ -142,16 +164,18 @@
                             data-route="{{route('user.videos.destroy', $video)}}"
                             data-download="{{route('video.download', $video)}}"
                             data-alt="{{$video->title}} Thumbnail"
-                            data-comments="{{$video->comments_count}}"
-                            data-likes="{{$video->likes_count}}"
-                            data-dislikes="{{$video->dislikes_count}}"
+                            data-comments="{{trans_choice('comments', $video->comments_count)}}"
+                            data-likes="{{trans_choice('likes', $video->likes_count)}}"
+                            data-dislikes="{{trans_choice('dislikes', $video->dislikes_count)}}"
                             data-elements='{{json_encode(['title' => '', 'infos' => '', 'poster' => 'src', 'route' => 'action', 'download' => 'href', 'alt' => 'alt', 'comments' => '', 'likes' => '', 'dislikes' => ''])}}'
                         >
                             <i class="fa-solid fa-trash"></i>
                         </button>
-                        <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="Video statistics">
-                            <i class="fa-solid fa-chart-simple"></i>
-                        </a>
+                        @if(!$video->is_draft)
+                            <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="Video statistics">
+                                <i class="fa-solid fa-chart-simple"></i>
+                            </a>
+                        @endif
                         @if($video->is_public && $video->is_pinned)
                             <form action="{{route('user.videos.unpin', $video)}}" method="POST" class="d-inline-block">
                                 <button class="btn btn-secondary btn-sm" title="Unpin video" type="submit">
@@ -187,10 +211,10 @@
                     <i class="fa-solid fa-upload fa-2x"></i>
                     <h5 class="my-3">Import your first video</h5>
                     <div class="text-muted my-3">Some description</div>
-                    <a href="{{route('user.videos.create')}}" class="btn btn-success">
+                    <button class="btn btn-success btn" data-bs-toggle="modal" data-bs-target="#video_create">
                         <i class="fa-solid fa-plus"></i>
                         Import
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

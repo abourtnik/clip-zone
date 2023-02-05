@@ -16,14 +16,14 @@
                     <ul>
                         <li>{{trans_choice('videos', $user->videos->count())}}</li>
                         <li>{{trans_choice('comments', $user->comments->count())}}</li>
-                        <li>{{$user->likes->count()}} likes</li>
-                        <li>{{$user->likes->count()}} dislikes</li>
+                        <li>{{trans_choice('likes', $user->likes->count())}}</li>
+                        <li>{{trans_choice('dislikes', $user->dislikes->count())}}</li>
                     </ul>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <form method="POST" action="{{route('user.delete', $user)}}">
+                <form method="POST" action="{{route('user.delete')}}">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">

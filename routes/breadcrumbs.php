@@ -10,9 +10,9 @@ Breadcrumbs::for('videos', function (BreadcrumbTrail $trail) {
 });
 
 // Videos > Create Video
-Breadcrumbs::for('create_video', function (BreadcrumbTrail $trail) {
+Breadcrumbs::for('create_video', function (BreadcrumbTrail $trail, Video $video) {
     $trail->parent('videos');
-    $trail->push('Create new video', route('user.videos.create'));
+    $trail->push('Create new video', route('user.videos.create', $video));
 });
 
 // Videos > Update Video [Video]

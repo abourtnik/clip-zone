@@ -1,5 +1,7 @@
 @extends('layouts.user')
 
+@section('title', 'Channel subscribers')
+
 @section('content')
     @if($subscribers->total() || $filters)
         <div class="d-flex justify-content-between align-items-center my-3">
@@ -80,10 +82,10 @@
                     <i class="fa-solid fa-user-slash fa-2x"></i>
                     <h5 class="my-3">No subscriber yet</h5>
                     <div class="text-muted my-3">Upload more video for more subscribers</div>
-                    <a href="{{route('user.videos.create')}}" class="btn btn-success">
+                    <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#video_create">
                         <i class="fa-solid fa-plus"></i>
                         Upload new video
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

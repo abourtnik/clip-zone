@@ -7,11 +7,13 @@ use App\Enums\VideoStatus;
 use App\Enums\VideoType;
 use App\Filters\VideoFilters;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Video\FileRequest;
 use App\Http\Requests\Video\StoreVideoRequest;
 use App\Http\Requests\Video\UpdateVideoRequest;
 use App\Models\Category;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -25,7 +27,7 @@ class VideoController extends Controller
         $this->authorizeResource(Video::class, 'video');
     }
 
-    public function index(VideoFilters $filters) {
+    public function index(VideoFilters $filters): View {
         return view('users.videos.index', [
             'videos' => Auth::user()->load([
                 'videos' => function ($query) use ($filters) {
@@ -42,8 +44,9 @@ class VideoController extends Controller
         ]);
     }
 
-    public function create(): View {
+    public function create(Video $video): View {
         return view('users.videos.create', [
+            'video' => $video,
             'video_status' => VideoStatus::get(),
             'accepted_video_mimes_types' => implode(', ', VideoType::acceptedMimeTypes()),
             'accepted_video_formats' => implode(', ', VideoType::acceptedFormats()),
@@ -53,17 +56,12 @@ class VideoController extends Controller
         ]);
     }
 
-    public function store(StoreVideoRequest $request): RedirectResponse {
+    public function store(StoreVideoRequest $request, Video $video): RedirectResponse {
         $validated = $request->safe()->merge([
-            'uuid' => (string) Str::uuid(),
-            'original_file_name' => $request->file('file')->getClientOriginalName(),
-            'file' => $request->file('file')->store('/', 'videos'),
-            'mimetype' =>$request->file('file')->getMimeType(),
-            'duration' =>  floor((new \getID3())->analyze($request->file('file')->getRealPath())['playtime_seconds']),
             'thumbnail' =>  $request->file('thumbnail')->store('/', 'thumbnails')
         ])->toArray();
 
-        Auth::user()->videos()->create($validated);
+        $video->update($validated);
 
         if ($request->get('action') === 'create') {
             return redirect(route('user.videos.create'));
@@ -119,9 +117,6 @@ class VideoController extends Controller
 
     public function destroy(Video $video): RedirectResponse {
 
-        $video->comments()->delete();
-        $video->interactions()->delete();
-
         $video->delete();
 
         return redirect()->route('user.videos.index');
@@ -143,5 +138,26 @@ class VideoController extends Controller
         ]);
 
         return redirect()->route('user.videos.index');
+    }
+
+    public function upload (FileRequest $request) : JsonResponse {
+
+        $file = $request->file('file');
+
+        $validated = $request->safe()->merge([
+            'uuid' => (string) Str::uuid(),
+            'title' => Str::replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName()),
+            'original_file_name' => $file->getClientOriginalName(),
+            'file' => $file->store('/', 'videos'),
+            'mimetype' => $file->getMimeType(),
+            'duration' =>  floor((new \getID3())->analyze($file->getRealPath())['playtime_seconds']),
+            'status' => VideoStatus::DRAFT,
+        ])->toArray();
+
+        $video = Auth::user()->videos()->create($validated);
+
+        return response()->json([
+            'route' => route('user.videos.create', $video)
+        ]);
     }
 }

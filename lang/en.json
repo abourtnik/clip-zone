@@ -4,5 +4,7 @@
     "comments": "[0,1] :count comment|[2,*] :count comments",
     "replies": "[0,1] :count reply|[2,*] :count replies",
     "views": "[0,1] :count view|[2,*] :count views",
-    "results": "[0,1] :count result|[2,*] :count results"
+    "results": "[0,1] :count result|[2,*] :count results",
+    "likes": "[0,1] :count like|[2,*] :count likes",
+    "dislikes": "[0,1] :count dislike|[2,*] :count dislikes"
 }

@@ -76,7 +76,7 @@ Route::controller(RegistrationController::class)->group(function () {
 Route::controller(PasswordController::class)->group(function () {
     Route::get('/forgot-password', 'forgot')->name('password.forgot');
     Route::post('/forgot-password', 'email')->name('password.email');
-    Route::get('/reset-password/{token}', 'reset')->name('password.reset');
+    Route::get('/reset-password/{id}/{token}', 'reset')->name('password.reset');
     Route::post('/reset-password', 'update')->name('password.update');
 });
 
@@ -95,7 +95,11 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     // Videos
     Route::post('/{video}/pin', [VideoUserController::class, 'pin'])->name('videos.pin');
     Route::post('/{video}/unpin', [VideoUserController::class, 'unpin'])->name('videos.unpin');
-    Route::resource('videos', VideoUserController::class);
+    Route::resource('videos', VideoUserController::class)->only([
+        'index', 'show', 'edit', 'update', 'destroy'
+    ]);;
+    Route::get('/videos/{video}/create', [VideoUserController::class, 'create'])->name('videos.create');
+    Route::post('/videos/{video}/store', [VideoUserController::class, 'store'])->name('videos.store');
 
     // Comments
     Route::resource('comments', CommentUserController::class)->only(['index', 'destroy']);

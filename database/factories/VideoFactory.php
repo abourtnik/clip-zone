@@ -24,7 +24,7 @@ class VideoFactory extends Factory
             'description' => fake()->realText(5000),
             'file' => '1.webm',
             'original_file_name' => fake()->word() . '.avi',
-            'thumbnail' => fake()->numberBetween(1, 12) .'.png',
+            'thumbnail' => 'default-'.fake()->numberBetween(1, 12).'.png',
             'duration' => fake()->numberBetween(5, 4000),
             'mimetype' => 'video/mp4',
             'status' => fake()->numberBetween(0, 3),

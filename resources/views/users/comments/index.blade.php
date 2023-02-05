@@ -1,5 +1,7 @@
 @extends('layouts.user')
 
+@section('title', 'Channel comments')
+
 @section('content')
     @if($comments->total() || $filters)
         <div class="d-flex justify-content-between align-items-center my-3">
@@ -166,10 +168,10 @@
                     <i class="fa-solid fa-comment-slash fa-2x"></i>
                     <h5 class="my-3">No comments yet</h5>
                     <div class="text-muted my-3">Upload more video for more comments</div>
-                    <a href="{{route('user.videos.create')}}" class="btn btn-success">
+                    <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#video_create">
                         <i class="fa-solid fa-plus"></i>
                         Upload new video
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>

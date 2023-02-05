@@ -2,14 +2,19 @@
 
 ## Primary
 
-- Delete video (constrained ?)
 - Remove file on edit
+- Confirmation modal delete comments
+- Activity refactor
+- Responsive
+- Edit bug status
+- Create UI
+- 
 
 ## Secondary
 
 - optimize like system
 - optimize comment system
-- Confirmation modal delete comments
+
 
 ### Admin
 
@@ -20,6 +25,9 @@
 - Categories CRUD
 - Protected download
 - Notifications
+- Add new notification badge if subscription have new video not viewed
+- Playlists for creator
+- Playslist for user
 
 
 

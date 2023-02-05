@@ -15,6 +15,7 @@
         "psr/simple-cache": "^2.0",
         "spatie/eloquent-sortable": "^4.0",
         "spatie/laravel-activitylog": "^4.7",
+        "staudenmeir/eloquent-has-many-deep": "^1.7",
         "symfony/intl": "^6.1"
     },
     "require-dev": {

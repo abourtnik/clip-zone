@@ -36,7 +36,7 @@
                         </div>
                         <a href="{{route('password.forgot')}}" class="text-muted text-decoration-none">Forgot password ?</a>
                     </div>
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign In</button>
                     <div class="mt-4 mb-3 text-muted text-center d-flex justify-content-center">
                         <p class="mr-2">Do not have an account ?</p>
                         <a href="{{route('registration')}}" class="font-weight-bold">

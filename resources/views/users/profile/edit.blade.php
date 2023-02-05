@@ -1,5 +1,7 @@
 @extends('layouts.user')
 
+@section('title', 'Channel settings')
+
 @section('content')
     @if ($errors->any())
         <div class="alert alert-danger mt-3">
@@ -14,6 +16,11 @@
     @if (session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
+        </div>
+    @endif
+    @if (session('status'))
+        <div class="alert alert-success fade show" role="alert">
+            <strong>{!! session('status') !!}</strong>
         </div>
     @endif
     <div class="row align-items-start my-3">

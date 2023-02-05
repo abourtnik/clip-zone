@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\PasswordReset;
+use App\Models\User;
+use App\Notifications\ResetPassword;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class PasswordController
 {
@@ -19,37 +22,65 @@ class PasswordController
             'email' => 'required|email|exists:users,email',
         ]);
 
-        $status = Password::sendResetLink(
-            $request->only('email')
-        );
+        $user = User::where('email', $request->get('email'))->first();
 
-        return $status === Password::RESET_LINK_SENT
-            ? back()->with(['status' => __($status)])
-            : back()->withErrors(['email' => __($status)]);
+        $recentlyCreatedToken = PasswordReset::where('user_id', $user->id)->latest()->first();
+
+        if ($recentlyCreatedToken && !$recentlyCreatedToken->is_expired) {
+            return back()->withErrors(['email' => 'A reset request has already been sent to this email'])->withInput();
+        }
+
+        $reset = PasswordReset::create([
+            'user_id' => $user->id,
+            'token' => Str::random(40),
+            'created_at' => now()
+        ]);
+
+        $user->notify(new ResetPassword($reset->token));
+
+        return back()->with(['status' => 'A message with a reset link has been sent to your e-mail. Please follow this link to reset your password.']);
+
     }
 
-    public function reset (Request $request) : View {
-        return view('auth.password.reset');
+    public function reset (string $id, string $token) : View|RedirectResponse {
+
+        $this->checkToken($id, $token);
+
+        return view('auth.password.reset', [
+            'id' => $id,
+            'token' => $token,
+        ]);
     }
 
-    public function update (Request $request) : RedirectResponse {
-
+    public function update (Request $request) : RedirectResponse
+    {
         $request->validate([
-            'token' => 'required',
             'password' => 'required|min:6|confirmed',
         ]);
 
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
+        $user = $this->checkToken($request->get('id'), $request->get('token'));
 
-                $user->save();
+        $user->updatePassword($request->get('password'));
 
-                event(new PasswordReset($user));
-            }
-        );
+        PasswordReset::where([
+            'user_id' => $request->get('id'),
+        ])->delete();
+
+        return redirect(route('login'))->with('success', 'Your password has been reset successfully');
+
+    }
+
+    private function checkToken (string $user_id, string $token): RedirectResponse|User {
+
+        $reset = PasswordReset::where([
+            'user_id' => $user_id,
+            'token' => $token
+        ])->latest()->first();
+
+        if (!$reset || $reset->is_expired) {
+            return redirect(route('login'))->with('error', 'This link is expired or invalid');
+        }
+
+        return $reset->user;
     }
 }

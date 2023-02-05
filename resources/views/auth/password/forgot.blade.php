@@ -1,16 +1,21 @@
 @extends('layouts.default')
 
-@section('title', 'Forgot password')
+@section('title', 'Password forget')
 
 @section('content')
     <div class="h-full">
         <div class="d-flex justify-content-center align-items-center h-75">
             <div id="login-form" class="w-50 border p-4 bg-light">
+                @if (session('status'))
+                    <div class="alert alert-success fade show" role="alert">
+                        <strong>{!! session('status') !!}</strong>
+                    </div>
+                @endif
                 <h1 class="h3 mb-3 fw-normal text-center">Password forget</h1>
                 <form method="POST" action="{{route('password.email')}}">
                     @csrf
                     <div class="form-group form-floating mb-3">
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" id="email" placeholder="Email" required value="{{ old('email') }}">
+                        <input type="email" @class(['form-control', 'is-invalid' => $errors->has('email')]) name="email" id="email" placeholder="Email" required value="{{ old('email') }}">
                         <label for="email">Email</label>
                         @error('email')
                         <div class="invalid-feedback">

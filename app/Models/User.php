@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\Interfaces\Likeable;
+use App\Notifications\PasswordUpdate;
 use App\Notifications\VerifyEmail;
+use App\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +20,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Symfony\Component\Intl\Countries;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 
 /**
  * App\Models\User
@@ -27,7 +31,7 @@ use Symfony\Component\Intl\Countries;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRelationships;
 
     protected $guarded = ['id'];
 
@@ -58,7 +62,9 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function subscriptions() : BelongsToMany {
-        return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id');
+        return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id')
+            ->using(Subscription::class)
+            ->withPivot('subscribe_at');
     }
 
     public function subscribers() : BelongsToMany {
@@ -94,6 +100,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasManyThrough(Interaction::class, Video::class, 'user_id', 'likeable_id')
             ->where('interactions.status', false)
             ->where('likeable_type', Video::class);
+    }
+
+    public function videos_comments_interactions () : HasManyDeep {
+
+        return $this->hasManyDeep(Interaction::class,
+            [Video::class, Comment::class],
+            ['user_id', 'video_id', 'likeable_id']
+        );
     }
 
     public function interactions () : HasMany {
@@ -244,6 +258,18 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Send a password reset notification to the user.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token) : void
+    {
+        $this->notify(new ResetPassword($token));
+    }
+
+
+    /**
      * Mark the given user's email as verified.
      *
      * @return bool
@@ -254,5 +280,22 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => $this->freshTimestamp(),
             'confirmation_token' => null,
         ])->save();
+    }
+
+    /**
+     * Update User Password
+     *
+     * @param string $password
+     * @return void
+     */
+    public function updatePassword(string $password): void
+    {
+        $this->update([
+            'password' => $password
+        ]);
+
+        $this->setRememberToken(Str::random(60));
+
+        $this->notify(new PasswordUpdate());
     }
 }

@@ -12,7 +12,7 @@
                     <div class="form-group form-floating mb-3">
                         <input
                             type="text"
-                            class="form-control @error('username') is-invalid @enderror"
+                            @class(['form-control', 'is-invalid' => $errors->has('username')])
                             name="username"
                             id="username"
                             placeholder="Username"
@@ -30,7 +30,7 @@
                     <div class="form-group form-floating mb-3">
                         <input
                             type="email"
-                            class="form-control @error('email') is-invalid @enderror"
+                            @class(['form-control', 'is-invalid' => $errors->has('email')])
                             name="email"
                             id="email"
                             placeholder="Email"
@@ -47,7 +47,7 @@
                     <div class="form-group form-floating mb-3">
                         <input
                             type="password"
-                            class="form-control @error('password') is-invalid @enderror"
+                            @class(['form-control', 'is-invalid' => $errors->has('password')])
                             id="password"
                             name="password"
                             placeholder="Password"
@@ -64,7 +64,7 @@
                     <div class="form-group form-floating mb-3">
                         <input
                             type="password"
-                            class="form-control @error('password_confirmation') is-invalid @enderror"
+                            @class(['form-control', 'is-invalid' => $errors->has('password_confirmation')])
                             id="password_confirmation"
                             name="password_confirmation"
                             placeholder="Confirm password"
@@ -79,7 +79,7 @@
                         @enderror
                     </div>
                     <div class="form-check my-4">
-                        <input class="form-check-input @error('cgu') is-invalid @enderror" type="checkbox" id="cgu" name="cgu">
+                        <input @class(['form-check-input', 'is-invalid' => $errors->has('cgu')]) type="checkbox" id="cgu" name="cgu">
                         <label class="form-check-label" for="cgu">
                             I agree all statements in <a href="{{route('pages.terms')}}">Terms of service</a>
                         </label>

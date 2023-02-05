@@ -32,12 +32,6 @@ class StoreVideoRequest extends FormRequest
         return [
             'title' => 'required|string|max:100',
             'description' => 'nullable|string|max:5000',
-            'file' => [
-                'file',
-                'required',
-                'mimetypes:'.implode(',', VideoType::acceptedMimeTypes()),
-                'max:15360' // 15mo
-            ],
             'thumbnail' => [
                 'file',
                 'required',

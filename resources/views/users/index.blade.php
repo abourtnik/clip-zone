@@ -1,5 +1,7 @@
 @extends('layouts.user')
 
+@section('title', 'Channel dashboard')
+
 @section('content')
     <form class="mb-4 d-flex gap-3 align-items-end" method="GET">
         <div class="col">
@@ -80,7 +82,7 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col col-xl-5 col-xxl-4">
             <div class="card shadow border-primary">
                 <div class="card-body text-center">
                     <h5 class="card-title text-center text-primary">Interactions</h5>
@@ -168,10 +170,10 @@
                         <div class="text-center my-3">
                             <i class="fa-solid fa-upload fa-2x"></i>
                             <h5 class="my-3">Import your first video</h5>
-                            <a href="{{route('user.videos.create')}}" class="btn btn-success">
+                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#video_create">
                                 <i class="fa-solid fa-plus"></i>
                                 Import
-                            </a>
+                            </button>
                         </div>
                     @endif
                 </div>
@@ -181,10 +183,10 @@
                             <i class="fa-solid fa-eye"></i>&nbsp;
                             See all videos
                         </a>
-                        <a href="{{route('user.videos.create')}}" class="btn btn-success btn-sm">
+                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#video_create">
                             <i class="fa-solid fa-upload"></i>
                             Import new video
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>

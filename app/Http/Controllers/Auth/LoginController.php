@@ -31,15 +31,10 @@ class LoginController
         if ($user && Hash::check($credentials['password'], $user->password)) {
 
             if (!$user->hasVerifiedEmail()) {
-                return back()->with('error', 'Your email is not verified. Please check your email')->onlyInput('username');
+                return back()->with('error', 'Your email is not verified. Please check your mailbox')->onlyInput('username');
             }
 
             Auth::login($user, $remember);
-
-            $user->update([
-                'last_login_at' => now(),
-                'last_login_ip' => $request->getClientIp(),
-            ]);
 
             if ($user->is_admin) {
                 return redirect()->route('admin.index');

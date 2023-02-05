@@ -8,7 +8,6 @@ use App\Filters\VideoFilters;
 use App\Filters\SubscriberFilters;
 use App\Filters\ViewFilters;
 use App\Http\Requests\UpdateUserRequest;
-use App\Http\Resources\CommentResource;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
@@ -135,13 +134,9 @@ class UserController
             return back()->with("error", "Current Password doesn't match !");
         }
 
-        // Update new password
+        $user->updatePassword($request->get('new_password'));
 
-        $user->update([
-            'password' => $request->get('new_password')
-        ]);
-
-        return redirect()->route('user.edit');
+        return redirect()->route('user.edit')->with(['status' => 'Your password has been updated successfully !']);
     }
 
     public function follow (User $user) : JsonResponse {
@@ -158,20 +153,10 @@ class UserController
         }
     }
 
-    public function delete(User $user): RedirectResponse {
+    public function delete(): RedirectResponse {
 
-        foreach ($user->videos as $video){
-            $video->comments()->delete();
-            $video->interactions()->delete();
-        }
-
-        $user->subscribers()->delete();
-        $user->subscriptions()->delete();
-        $user->comments()->delete();
-        $user->videos_interactions()->delete();
-
-        $user->delete();
-
+        User::find(Auth::id())->delete();
+        Auth::logout();
         return redirect()->route('pages.home');
     }
 

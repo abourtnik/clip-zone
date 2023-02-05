@@ -16,12 +16,18 @@
                     </div>
                 </div>
                 <div class="alert alert-danger">
-                    <p class="fw-bold">Deleting a video is permanent</p>
+                    <p class="fw-bold">Deleting video is permanent and can't be undone</p>
                     <p>The deletion of a video automatically leads to the deletion of comments as well as related interactions.</p>
                     <ul>
-                        <li><span class="video_comments"></span> comments</li>
-                        <li><span class="video_likes"></span> likes</li>
-                        <li><span class="video_dislikes"></span> dislikes</li>
+                        <li>
+                            <span class="video_comments"></span>
+                        </li>
+                        <li>
+                            <span class="video_likes"></span>
+                        </li>
+                        <li>
+                            <span class="video_dislikes"></span>
+                        </li>
                     </ul>
                 </div>
             </div>

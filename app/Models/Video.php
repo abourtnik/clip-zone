@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Symfony\Component\Intl\Languages;
@@ -51,6 +52,11 @@ class Video extends Model implements Likeable
 
     public function pinned_comment () : HasOne {
         return $this->hasOne(Comment::class, 'id', 'pinned_comment_id');
+    }
+
+    public function comment_interactions (): HasManyThrough {
+        return $this->hasManyThrough(Interaction::class, Comment::class, 'video_id', 'likeable_id')
+            ->where('likeable_type', Comment::class);
     }
 
     /**
@@ -105,6 +111,14 @@ class Video extends Model implements Likeable
     {
         return Attribute::make(
             get: fn () => $this->status === VideoStatus::PRIVATE
+
+        );
+    }
+
+    protected function isDraft(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status === VideoStatus::DRAFT
 
         );
     }

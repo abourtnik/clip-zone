@@ -4,10 +4,16 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\User;
+use App\Models\Video;
 use App\Observers\CategoryObserver;
 use App\Observers\CommentObserver;
+use App\Observers\UserObserver;
+use App\Observers\VideoObserver;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Login;
 use App\Listeners\SendEmailVerificationNotification;
+use App\Listeners\SuccessfulLogin;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 
@@ -21,6 +27,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        Login::class => [
+            SuccessfulLogin::class,
         ]
     ];
 
@@ -29,10 +38,12 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot() : void
     {
         Category::observe(CategoryObserver::class);
         Comment::observe(CommentObserver::class);
+        User::observe(UserObserver::class);
+        Video::observe(VideoObserver::class);
     }
 
     /**
@@ -40,7 +51,7 @@ class EventServiceProvider extends ServiceProvider
      *
      * @return bool
      */
-    public function shouldDiscoverEvents()
+    public function shouldDiscoverEvents() : bool
     {
         return false;
     }

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('confirmation_token')->nullable();
-            $table->timestamp('last_login_at')->useCurrent()->nullable();
+            $table->timestamp('last_login_at')->nullable();
             $table->ipAddress('last_login_ip')->nullable();
             $table->boolean('is_admin')->nullable();
             $table->rememberToken();

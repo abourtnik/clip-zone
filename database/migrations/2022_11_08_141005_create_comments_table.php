@@ -19,9 +19,9 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Video::class)->constrained();
-            $table->foreignIdFor(User::class)->constrained();
-            $table->foreignIdFor(Comment::class, 'parent_id')->nullable()->constrained('comments');
+            $table->foreignIdFor(Video::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(Comment::class, 'parent_id')->nullable()->constrained('comments')->cascadeOnDelete();
             $table->longText('content');
             $table->ipAddress('ip');
             $table->timestamps();

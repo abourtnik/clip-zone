@@ -28,7 +28,7 @@ class CategorySeeder extends Seeder
                 'icon' => 'book',
                 'in_menu' => true,
                 'position' => 5,
-                'background' => 'education.png'
+                'background' => 'education.jpg'
             ],
             [
                 'title' => 'Entertainment',
@@ -61,7 +61,7 @@ class CategorySeeder extends Seeder
                 'icon' => 'newspaper',
                 'in_menu' => true,
                 'position' => 3,
-                'background' => 'news.png'
+                'background' => 'news.jpg'
             ],
             [
                 'title' => 'Nonprofits & Activism',
@@ -76,35 +76,35 @@ class CategorySeeder extends Seeder
                 'icon' => 'paw',
                 'in_menu' => true,
                 'position' => 12,
-                'background' => 'pets.png'
+                'background' => 'pets.jpg'
             ],
             [
                 'title' => 'Science & Technology',
                 'icon' => 'flask',
                 'in_menu' => true,
                 'position' => 13,
-                'background' => 'science.png'
+                'background' => 'science.jpg'
             ],
             [
                 'title' => 'Sports',
                 'icon' => 'futbol',
                 'in_menu' => true,
                 'position' => 4,
-                'background' => 'sports.png'
+                'background' => 'sports.jpg'
             ],
             [
                 'title' => 'Travel & Events',
                 'icon' => 'suitcase',
                 'in_menu' => true,
                 'position' => 15,
-                'background' => 'travel.png'
+                'background' => 'travel.jpg'
             ],
             [
                 'title' => 'Fashion & Beauty',
                 'icon' => 'bag-shopping',
                 'in_menu' => true,
                 'position' => 16,
-                'background' => 'fashion.png'
+                'background' => 'fashion.jpg'
             ]
         ];
 

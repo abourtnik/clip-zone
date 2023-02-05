@@ -24,6 +24,11 @@
                         <i class="fa-solid fa-eye-slash"></i>
                         <strong>Unlisted</strong>
                     </div>
+                @elseif($video->is_draft)
+                    <div class="d-flex alert alert-secondary px-2 py-1 align-items-center gap-2 mb-0">
+                        <i class="fa-solid fa-file"></i>
+                        <strong>Draft</strong>
+                    </div>
                 @endif
                 <h4 class="mb-0">{{$video->title}}</h4>
             </div>

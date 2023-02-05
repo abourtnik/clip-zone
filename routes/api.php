@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VideoController;
+use App\Http\Controllers\User\VideoController as VideoUserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\InteractionController;
@@ -21,7 +21,7 @@ use App\Http\Controllers\InteractionController;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::post("follow/{user}", [UserController::class, 'follow']);
+    Route::post("follow/{user}", [UserController::class, 'follow'])->name('follow');
 
     // Interactions
     Route::name('interactions.')->controller(InteractionController::class)->group(function () {
@@ -30,10 +30,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/dislike', 'dislike')->name('dislike');
     });
 
+    // Upload
+    Route::post('/videos/upload', [VideoUserController::class, 'upload'])->name('videos.upload');
+
 });
 
 // SEARCH
-Route::get("search", [SearchController::class, 'search']);
+Route::get("search", [SearchController::class, 'search'])->name('search');
 
 // COMMENTS
 Route::prefix('comments')->name('comments.')->controller(CommentController::class)->group(function () {

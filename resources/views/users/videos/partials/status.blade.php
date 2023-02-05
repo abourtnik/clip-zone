@@ -13,6 +13,11 @@
         <i class="fa-solid fa-eye-slash"></i>&nbsp;
         Unlisted
     </span>
+@elseif($video->is_draft)
+    <span class="badge bg-secondary">
+        <i class="fa-solid fa-file"></i>&nbsp;
+        Draft
+    </span>
 @else
     <span class="badge bg-danger">
         <i class="fa-solid fa-eye-slash"></i>&nbsp;

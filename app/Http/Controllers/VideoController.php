@@ -108,6 +108,7 @@ class VideoController
                 ->active()
                 ->when($excludePinned, fn($query) => $query->where('id', '!=', $user->pinned_video->id))
                 ->withCount('views')
+                ->with('user')
                 ->when($sort === 'recent', fn($query) => $query->latest('created_at'))
                 ->when($sort === 'popular', fn($query) => $query->orderByRaw('views_count DESC'))
                 ->paginate(24)
