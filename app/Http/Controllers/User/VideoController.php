@@ -6,6 +6,7 @@ use App\Enums\ImageType;
 use App\Enums\VideoStatus;
 use App\Enums\VideoType;
 use App\Filters\VideoFilters;
+use App\Helpers\Image;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\FileRequest;
 use App\Http\Requests\Video\StoreVideoRequest;
@@ -103,7 +104,7 @@ class VideoController extends Controller
     public function update(UpdateVideoRequest $request, Video $video): RedirectResponse {
 
         $validated = $request->safe()->merge([
-            'thumbnail' =>  $request->file('thumbnail')?->store('/', 'thumbnails') ?? $video->thumbnail
+            'thumbnail' => Image::storeAndDelete($request->file('thumbnail'), $video->thumbnail, 'thumbnails')
         ])->toArray();
 
         $video->update($validated);

@@ -22,7 +22,7 @@ class VideoFactory extends Factory
             'uuid' => fake()->uuid(),
             'title' => fake()->realText(100),
             'description' => fake()->realText(5000),
-            'file' => '1.webm',
+            'file' => 'default.webm',
             'original_file_name' => fake()->word() . '.avi',
             'thumbnail' => 'default-'.fake()->numberBetween(1, 12).'.png',
             'duration' => fake()->numberBetween(5, 4000),

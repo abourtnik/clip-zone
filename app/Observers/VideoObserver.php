@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Helpers\Image;
 use App\Models\Video;
 
 class VideoObserver
@@ -19,5 +20,8 @@ class VideoObserver
 
         // Remove video comments interaction
         $video->comment_interactions()->delete();
+
+        Image::deleteIf($video->file, 'videos');
+        Image::deleteIf($video->thumbnail, 'thumbnails');
     }
 }

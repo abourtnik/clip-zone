@@ -1,12 +1,12 @@
-<nav class="navbar navbar-expand-sm bg-light border border-start-0 px-2 sticky-top" style="height: 56px">
+<nav class="navbar navbar-expand-md bg-light border border-start-0 px-2 sticky-top" style="height: 56px">
     <div class="container-fluid" x-data="{search:false}">
         <div class="d-flex align-items-center gap-3" x-show.important="!search">
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsive-sidebar">
                 <span class="navbar-toggler-icon" style="width: 1.2em;height: 1.2em;"></span>
             </button>
-            <a class="navbar-brand text-danger fw-bold d-sm-none me-0 fs-6" href="{{route('pages.home')}}">Youtube Clone</a>
+            <a class="navbar-brand text-danger fw-bold d-md-none me-0 fs-6" href="{{route('pages.home')}}">Youtube ClonR</a>
         </div>
-        <div class="d-flex align-items-center d-sm-none gap-3">
+        <div class="d-flex align-items-center d-md-none gap-3">
             <div class="d-flex gap-4 align-items-center" >
                 <button x-show.important="!search" @click="search = true" class="nav-link d-flex align-items-center bg-transparent">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -14,7 +14,6 @@
                 <button x-show.important="search" @click="search = false" class="nav-link d-flex align-items-center bg-transparent">
                     <i  class="fa-solid fa-arrow-left"></i>
                 </button>
-
                 <div x-show="search">
                     <div class="input-group">
                         <input class="form-control rounded-5 rounded-end radius-end-0" type="search" placeholder="Search" aria-label="Search" name="q">
@@ -35,10 +34,15 @@
                         <i class="fa-solid fa-right-from-bracket"></i>
                     </a>
                 @else
-                    <a x-show.important="!search" class="btn btn-outline-primary" href="{{route('login')}}">
-                        <i class="fa-solid fa-user"></i>&nbsp;
-                        Sign in
-                    </a>
+                    <div x-show.important="!search">
+                        <a class="btn bg-transparent text-primary ps-0" href="{{route('login')}}">
+                            Log In
+                        </a>
+                        <a class="btn btn-sm btn-primary" href="{{route('registration')}}">
+                            <i class="fa-solid fa-user"></i>&nbsp;
+                            Register
+                        </a>
+                    </div>
                 @endauth
             </div>
         </div>

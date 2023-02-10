@@ -207,5 +207,14 @@
 @endsection
 
 <script>
-
+    document.addEventListener('alpine:init', () => {
+        const planned_value = document.getElementById('planned_value').textContent;
+        Alpine.data('planned', (initial) => ({
+            value: initial,
+            date: initial ? '{{old('publication_date', $video->publication_date)}}' : '',
+            update(e) {
+                this.value = e.target.options[e.target.selectedIndex].index == planned_value;
+            }
+        }));
+    })
 </script>

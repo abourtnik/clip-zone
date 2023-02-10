@@ -7,6 +7,8 @@ import ReplyForm from "./ReplyForm";
 import {ThumbsDownSolid, ThumbsUpSolid, Ellipsis, Pin, Pen, Trash, Flag} from "./Icon";
 import Button from './Button'
 
+import ConfirmDelete from './Comments/ConfirmDelete'
+
 const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pin}) => {
 
     const [onEdit, setOnEdit] = useState(false);
@@ -14,7 +16,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
     const [replies, setReplies] = useState(comment.replies);
     const [showReplies, setShowReplies] = useState(false);
     const [expand, setExpand] = useToggle(false);
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
@@ -131,7 +133,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                         {
                             auth &&
                             <div className={'dropdown'}>
-                                <button className={'bg-transparent btn-sm dropdown-toggle comment-dropdown'} type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button className={'bg-transparent btn-sm dropdown-toggle comment-dropdown'} type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                                     <Ellipsis/>
                                 </button>
                                 <ul className="dropdown-menu">
@@ -154,13 +156,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                                         </li>
                                     }
                                     {
-                                        comment.can_delete &&
-                                        <li>
-                                            <button className="dropdown-item d-flex align-items-center gap-3" onClick={() => deleteComment(comment)}>
-                                                <Trash />
-                                                Remove
-                                            </button>
-                                        </li>
+                                        comment.can_delete && <ConfirmDelete comment={comment} onDelete={deleteComment}/>
                                     }
                                     {
                                         comment.can_report &&

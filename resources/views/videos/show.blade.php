@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-9">
+        <div class="col-lg-7 col-xl-8 col-xxl-9">
             <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
                 <source src="{{route('video.file', $video)}}" type="{{$video->mimetype}}">
             </video>
@@ -167,7 +167,7 @@
                 </div>
             @endif
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-5 col-xl-4 col-xxl-3">
             @each('videos.card-secondary', $videos, 'video')
         </div>
     </div>

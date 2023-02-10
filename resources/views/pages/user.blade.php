@@ -130,14 +130,14 @@
                 </div>
                 <div class="tab-pane" id="about" role="tabpanel" aria-labelledby="about-tab">
                     <div class="row mt-4">
-                        <div class="col-9">
+                        <div class="col-lg-9 order-2 order-lg-1">
                             <div class="card card-body">
                                 <h6 class="card-title text-primary">Description</h6>
                                 <hr>
                                 {!! nl2br(e($user->description)) !!}
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-lg-3 order-1 order-lg-2 mb-4 mb-lg-0">
                             <div class="card card-body">
                                 <h6 class="card-title text-primary">Informations</h6>
                                 <ul class="list-group list-group-flush">

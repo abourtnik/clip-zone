@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Helpers\Image;
 use App\Models\User;
 
 class UserObserver
@@ -16,5 +17,8 @@ class UserObserver
     {
         $user->videos_comments_interactions()->delete();
         $user->videos_interactions()->delete();
+
+        Image::deleteIf($user->avatar, 'avatars');
+        Image::deleteIf($user->banner, 'banners');
     }
 }

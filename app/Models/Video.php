@@ -174,7 +174,7 @@ class Video extends Model implements Likeable
     protected function realStatus(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->isActive() ? VideoStatus::PUBLIC : $this->status
+            get: fn () => $this->is_active ? VideoStatus::PUBLIC : $this->status
         );
     }
 
