@@ -69,6 +69,11 @@ $sidebar-width: 240px;
     width: 30%;
 }
 
+.w-35 {
+    width: 35%;
+
+}
+
 .w-90 {
     width: 90%;
 }
@@ -108,3 +113,17 @@ $sidebar-width: 240px;
 .comment-dropdown::after {
     display: none;
 }
+
+
+@media (max-width: 370px) {
+    .navbar-brand {
+        display: none;
+    }
+}
+
+@media (max-width: 450px) {
+    .navbar-brand-auth {
+        display: none;
+    }
+}
+

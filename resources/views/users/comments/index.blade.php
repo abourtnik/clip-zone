@@ -57,107 +57,109 @@
                 </a>
             </div>
         </form>
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr style="border-top: 3px solid #0D6EFD;">
-                <th class="w-25">Video</th>
-                <th class="w-50">Comment</th>
-                <th>Replies</th>
-                <th>Interactions</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            @forelse($comments as $comment)
-                <tr class="bg-light">
-                    <td class="">
-                        <div class="d-flex gap-3 align-items-center">
-                            <a href="{{route('video.show', $comment->video)}}">
-                                <img src="{{$comment->video->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
-                            </a>
-                            <small>{{Str::limit($comment->video->title, 100), '...'}}</small>
-                        </div>
-                    </td>
-                    <td class="align-middle">
-                        <div class="d-flex gap-2">
-                            <a href="{{route('pages.user', $comment->user)}}">
-                                <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
-                            </a>
-                            <div>
-                                <div class="d-flex align-items-center">
-                                    <a class="text-sm text-decoration-none" href="{{route('pages.user', $comment->user)}}">{{$comment->user->username}}</a>
-                                    @if($comment->user->is_subscribe_to_current_user)
-                                        <small class="text-muted">&nbsp;• <span class="text-danger">Subscriber</span></small>
-                                    @endif
-                                    <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
-                                </div>
-                                @if($comment->is_long)
-                                    <div class="mt-1 d-block" x-data="{ open: false }">
-                                        <template x-if="open">
-                                            <small class="text-muted">
-                                                {{$comment->content}}
-                                            </small>
-                                        </template>
-                                        <template x-if="!open">
-                                            <small class="text-muted">
-                                                {{$comment->short_content}}
-                                            </small>
-                                        </template>
-                                        <button @click="open=!open" class="text-primary text-sm bg-transparent d-block mt-1 ps-0" x-text="open ? 'Show less': 'Read more'"></button>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr style="border-top: 3px solid #0D6EFD;">
+                    <th class="w-25">Video</th>
+                    <th class="w-50">Comment</th>
+                    <th>Replies</th>
+                    <th>Interactions</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @forelse($comments as $comment)
+                    <tr class="bg-light">
+                        <td class="">
+                            <div class="d-flex gap-3 align-items-center">
+                                <a href="{{route('video.show', $comment->video)}}">
+                                    <img src="{{$comment->video->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
+                                </a>
+                                <small>{{Str::limit($comment->video->title, 100), '...'}}</small>
+                            </div>
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex gap-2">
+                                <a href="{{route('pages.user', $comment->user)}}">
+                                    <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
+                                </a>
+                                <div>
+                                    <div class="d-flex align-items-center">
+                                        <a class="text-sm text-decoration-none" href="{{route('pages.user', $comment->user)}}">{{$comment->user->username}}</a>
+                                        @if($comment->user->is_subscribe_to_current_user)
+                                            <small class="text-muted">&nbsp;• <span class="text-danger">Subscriber</span></small>
+                                        @endif
+                                        <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
                                     </div>
-                                @else
-                                    <small class="text-muted d-block mt-1">{{$comment->content}}</small>
-                                @endif
+                                    @if($comment->is_long)
+                                        <div class="mt-1 d-block" x-data="{ open: false }">
+                                            <template x-if="open">
+                                                <small class="text-muted">
+                                                    {{$comment->content}}
+                                                </small>
+                                            </template>
+                                            <template x-if="!open">
+                                                <small class="text-muted">
+                                                    {{$comment->short_content}}
+                                                </small>
+                                            </template>
+                                            <button @click="open=!open" class="text-primary text-sm bg-transparent d-block mt-1 ps-0" x-text="open ? 'Show less': 'Read more'"></button>
+                                        </div>
+                                    @else
+                                        <small class="text-muted d-block mt-1">{{$comment->content}}</small>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td class="align-middle">
-                        @if($comment->replies_count)
-                            <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}" data-video="{{$comment->video->id}}">
-                                See replies ({{$comment->replies_count}})
-                            </button>
-                        @else
-                            <div class="badge bg-secondary">
-                                No replies
+                        </td>
+                        <td class="align-middle">
+                            @if($comment->replies_count)
+                                <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}" data-video="{{$comment->video->id}}">
+                                    See replies ({{$comment->replies_count}})
+                                </button>
+                            @else
+                                <div class="badge bg-secondary">
+                                    No replies
+                                </div>
+                            @endif
+                        </td>
+                        <td class="align-middle">
+                            @include('users.partials.interactions', ['item' => $comment])
+                        </td>
+                        <td class="align-middle">
+                            <div class="d-flex align-items-center gap-2">
+                                <button
+                                    class="btn btn-sm btn-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#comment_replies"
+                                    data-id="{{$comment->id}}"
+                                    data-video="{{$comment->video->id}}">
+                                    Reply
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-danger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#comment_delete"
+                                    data-route="{{route('user.comments.destroy', $comment)}}"
+                                    data-author="{{$comment->user->username}}"
+                                    data-replies-count="{{$comment->replies_count}}"
+                                >
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
                             </div>
-                        @endif
-                    </td>
-                    <td class="align-middle">
-                        @include('users.partials.interactions', ['item' => $comment])
-                    </td>
-                    <td class="align-middle">
-                        <div class="d-flex align-items-center gap-2">
-                            <button
-                                class="btn btn-sm btn-primary"
-                                data-bs-toggle="modal"
-                                data-bs-target="#comment_replies"
-                                data-id="{{$comment->id}}"
-                                data-video="{{$comment->video->id}}">
-                                Reply
-                            </button>
-                            <button
-                                class="btn btn-sm btn-danger"
-                                data-bs-toggle="modal"
-                                data-bs-target="#comment_delete"
-                                data-route="{{route('user.comments.destroy', $comment)}}"
-                                data-author="{{$comment->user->username}}"
-                                data-replies-count="{{$comment->replies_count}}"
-                            >
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="7" class="text-center">
-                        <i class="fa-solid fa-database fa-2x my-3"></i>
-                        <p class="fw-bold">No matching comments</p>
-                    </td>
-                </tr>
-            @endforelse
-            </tbody>
-        </table>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            <i class="fa-solid fa-database fa-2x my-3"></i>
+                            <p class="fw-bold">No matching comments</p>
+                        </td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
         {{ $comments->links() }}
         @include('users.comments.modals.replies')
         @include('users.comments.modals.delete')

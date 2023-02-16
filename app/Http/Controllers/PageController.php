@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Models\Video;
 use Carbon\Carbon;
@@ -24,6 +25,7 @@ class PageController
 
         $interactions = Auth::user()
             ->interactions()
+            ->whereHasMorph('likeable', [Video::class], fn($query) => $query->active())
             ->where('status', true)
             ->where('likeable_type', Video::class)
             ->with(['likeable' => function (MorphTo $morphTo) {
@@ -55,6 +57,17 @@ class PageController
     }
 
     public function user(User $user): View {
+
+        if (Auth::check() && Auth::user()->isSubscribeTo($user)) {
+
+            Subscription::where([
+                'user_id' => $user->id,
+                'subscriber_id' => Auth::user()->id,
+            ])->update([
+                'read_at' => now()
+            ]);
+        }
+
         return view('pages.user', [
             'user' => $user->load([
                 'videos' => function ($q) {

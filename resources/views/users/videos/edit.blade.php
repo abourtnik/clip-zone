@@ -21,7 +21,7 @@
         @method('PUT')
         @csrf
         <div class="row">
-            <div class="col-8">
+            <div class="col-xl-8 order-last order-xl-first">
                 <div class="card shadow-soft">
                     <div class="card-body" style="min-height: 875px">
                         <h5 class="text-primary">Details</h5>
@@ -78,7 +78,7 @@
                                 <select class="form-control" name="language" id="language">
                                     <option value="" selected>--- Select Language ---</option>
                                     @foreach($languages as $code => $language)
-                                        <option @selected(old('language', $video->language) == $code) value="{{$code}}">{{$language}}</option>
+                                        <option @selected(old('language', $video->language?->value) == $code) value="{{$code}}">{{$language}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -94,7 +94,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-xl-4 order-first order-xl-last mb-4 mb-xl-0">
                 <div class="card shadow-soft">
                     <div class="card-body">
                         <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
@@ -123,9 +123,9 @@
                                 <div class="col-6">
                                     <label for="status" class="form-label d-none">Visibility</label>
                                     <select class="form-control" name="status" id="status" required @change="update">
-                                        @foreach($video_status as $status)
-                                            <option @selected(old('status', $video->real_status->value) == $status['id']) value="{{$status['id']}}">
-                                                {{$status['name']}}
+                                        @foreach($status as $id => $name)
+                                            <option @selected(old('status', $video->real_status->value) == $id) value="{{$id}}">
+                                                {{$name}}
                                             </option>
                                         @endforeach
                                     </select>

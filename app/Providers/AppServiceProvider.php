@@ -4,11 +4,9 @@ namespace App\Providers;
 
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-
-use Illuminate\Support\Facades\Queue;
-use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\View;
@@ -34,25 +32,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Pagination
         Paginator::useBootstrapFive();
 
-        Queue::after(function (JobProcessed $event) {
-
-            /*
-            Log::debug('An informational message.');
-            Log::debug($event->connectionName);
-            Log::debug($event->job->getName());
-            Log::debug($event->job->timeout());
-            Log::debug($event->job->resolveName());
-            Log::debug($event->job->uuid());
-            Log::debug($event->job->getRawBody());
-            */
-
-            // $event->connectionName
-            // $event->job
-            // $event->job->payload()
-        });
-
+        // Collection Pagination
         Collection::macro('paginate', function($perPage, $total = null, $page = null, $pageName = 'page') {
             $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
 
@@ -68,12 +51,17 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
+        // Menu Request
         View::composer(['pages.*', 'auth.*', 'videos.show', 'subscription.*'], function($view) {
             $view->with('categories', Category::where('in_menu', true)->ordered()->get());
             $view->with(
                 'subscriptions',
                 Auth::user()?->subscriptions()
-                    ->withCount(['videos', 'subscribers'])
+                    ->withCount([
+                        'videos as new_videos' => fn($query) => $query->active()
+                            ->where('publication_date', '>', DB::raw('subscriptions.read_at')),
+                        'subscribers'
+                    ])
                     ->latest('subscribe_at')
                     ->get()
             );

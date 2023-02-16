@@ -12,8 +12,12 @@ class HistoryController extends Controller
     public function index(): View
     {
         $views = ViewModel::selectRaw('*')
-            ->joinSub(ViewModel::selectRaw('video_id, MAX(id) AS id')->where('user_id' , Auth::id())->groupBy('video_id'), 'b', function ($join) {
-                $join->on('views.video_id', '=', 'b.video_id')->on('views.id', '=', 'b.id');
+            ->joinSub(
+                ViewModel::selectRaw('video_id, MAX(id) AS id')
+                    ->where('user_id' , Auth::id())
+                    ->whereHas('video', fn($query) => $query->active())
+                    ->groupBy('video_id'), 'b', function ($join) {
+                        $join->on('views.video_id', '=', 'b.video_id')->on('views.id', '=', 'b.id');
             })
             ->with(['video' => fn($q) => $q->with('user')])
             ->latest('view_at')

@@ -17,7 +17,7 @@
     <meta property="og:url" content="{{url()->full()}}" />
     <meta property="og:title" content="@yield('title') - {{config('app.name')}}" />
     <meta property="og:description" content="@yield('description')" />
-    <meta property="og:image" content="https://www.antonbourtnik.fr/img/logo.png" />
+    <meta property="og:image" content="/logo.png" />
     <meta property="og:language" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
     @vite(['resources/js/app.js'])
 </head>
@@ -26,7 +26,7 @@
         @include('layouts.menus.header')
         <div class="admin-content d-flex">
             @include('layouts.menus.back', ['type' => 'user'])
-            <div id="main-container" class="container-fluid my-3" style="margin-left: 240px">
+            <div id="main-container" class="container-fluid my-3 @yield('class')" style="@yield('style')">
                 @yield('content')
             </div>
         </div>

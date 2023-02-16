@@ -97,6 +97,7 @@ export default function Interactions ({target}) {
                                                             <img className="rounded" src={interaction.user.avatar} alt={interaction.user.username + ' avatar'} style="width: 40px;"/>
                                                             <span>{interaction.user.username}</span>
                                                         </a>
+                                                        <div className={'text-muted text-sm'}>{interaction.perform_at}</div>
                                                     </div>
                                                     <Subscribe isSubscribe={interaction.user.is_subscribe} user={interaction.user.id} size={'sm'}/>
                                                 </li>
@@ -118,7 +119,6 @@ export default function Interactions ({target}) {
                         }
                     </div>
             }
-
         </div>
     )
 }

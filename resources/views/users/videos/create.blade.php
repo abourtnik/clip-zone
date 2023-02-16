@@ -20,9 +20,9 @@
     <form action="{{ route('user.videos.store', $video) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row">
-            <div class="col-8">
+            <div class="col-xl-8 order-last order-xl-first">
                 <div class="card shadow-soft">
-                    <div class="card-body" style="min-height: 875px">
+                    <div class="card-body" style="min-height: 912px">
                         <h5 class="text-primary">Details</h5>
                         <hr>
                         <div class="mb-3" x-data="{ count: 0 }" x-init="count = $refs.title.value.length">
@@ -101,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4">
+            <div class="col-xl-4 order-first order-xl-last mb-4 mb-xl-0">
                 <div class="card shadow-soft">
                     <div class="card-body">
                         <video controls class="w-100 border" controlsList="nodownload">
@@ -126,14 +126,12 @@
                         <hr class="mt-2">
                         <div>
                             <div id="planned_value" class="d-none">{{\App\Enums\VideoStatus::PLANNED->value}}</div>
-                            <div class="row"
-                                 x-data="planned({{ json_encode(old('status') == \App\Enums\VideoStatus::PLANNED->value)}})">
+                            <div class="row" x-data="planned({{ json_encode(old('status') == \App\Enums\VideoStatus::PLANNED->value)}})">
                                 <div class="col-6">
                                     <label for="status" class="form-label d-none">Visibility</label>
                                     <select class="form-control" name="status" id="status" required @change="update">
-                                        @foreach($video_status as $status)
-                                            <option
-                                                @selected(old('status') == $status['id']) value="{{$status['id']}}">{{$status['name']}}</option>
+                                        @foreach($status as $id => $name)
+                                            <option @selected(old('status') == $id) value="{{$id}}">{{$name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -201,10 +199,6 @@
                 Cancel
             </a>
             <div class="d-flex gap-2">
-                <button value="create" type="submit" name="action" class="btn btn-success">
-                    <i class="fa-solid fa-plus"></i>
-                    Create & Add Another
-                </button>
                 <button type="submit" class="btn btn-success">
                     <i class="fa-solid fa-plus"></i>
                     Create Video

@@ -13,6 +13,7 @@ class Subscription extends Pivot
 
     protected $casts = [
         'subscribe_at' => 'datetime',
+        'read_at' => 'datetime',
     ];
 
     protected $guarded = ['id'];

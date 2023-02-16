@@ -4,8 +4,8 @@
 
 @section('content')
     <div class="h-full">
-        <div class="d-flex justify-content-center align-items-center h-75">
-            <div class="w-50 border p-4 bg-light">
+        <div class="row align-items-center h-75">
+            <div class="col-12 col-sm-10 offset-sm-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 border p-4 bg-light">
                 <h1 class="h3 mb-3 fw-normal text-center">Password reset</h1>
                 <form method="POST" action="{{route('password.update')}}">
                     @csrf

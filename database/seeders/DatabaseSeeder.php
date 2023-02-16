@@ -16,22 +16,22 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run() : void
     {
         $this->call([
             CategorySeeder::class,
         ]);
 
-        User::factory(100)->create()->each(function($user) {
-            Video::factory(rand(0, 10))->create(['user_id' => $user->id])->each(function ($video) {
-                Comment::factory(rand(0, 10))->create(['video_id' => $video->id])->each(function ($comment) use ($video) {
-                    Comment::factory(rand(0, 10))->create(['parent_id' => $comment->id, 'video_id' => $video->id])->each(function ($comment) use ($video) {
-                        Interaction::factory(rand(0, 5))->create(['likeable_type' => Comment::class, 'likeable_id' => $comment->id]);
+        User::factory(0)->create()->each(function($user) {
+            Video::factory(2)->create(['user_id' => $user->id])->each(function ($video) {
+                Comment::factory(rand(0, 2))->create(['video_id' => $video->id])->each(function ($comment) use ($video) {
+                    Comment::factory(rand(0, 2))->create(['parent_id' => $comment->id, 'video_id' => $video->id])->each(function ($comment) use ($video) {
+                        //Interaction::factory(rand(0, 5))->create(['likeable_type' => Comment::class, 'likeable_id' => $comment->id]);
                     });
-                    Interaction::factory(rand(0, 10))->create(['likeable_type' => Comment::class, 'likeable_id' => $comment->id]);
+                    //Interaction::factory(rand(0, 10))->create(['likeable_type' => Comment::class, 'likeable_id' => $comment->id]);
                 });
-                Interaction::factory(rand(0, 100))->create(['likeable_type' => Video::class, 'likeable_id' => $video->id]);
-                View::factory(rand(0, 100))->create(['video_id' => $video->id]);
+                //Interaction::factory(rand(0, 100))->create(['likeable_type' => Video::class, 'likeable_id' => $video->id]);
+                View::factory(rand(1, 4))->create(['video_id' => $video->id]);
             });
             foreach (range(0,20) as $i) {
                 $user->subscriptions()->toggle([

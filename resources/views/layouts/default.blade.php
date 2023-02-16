@@ -39,6 +39,7 @@
         </div>
     </main>
     @include('layouts.menus.responsive')
+    @include('users.videos.modals.create')
     @stack('scripts')
 </body>
 </html>

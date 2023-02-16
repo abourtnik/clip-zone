@@ -30,50 +30,52 @@
                 </a>
             </div>
         </form>
-        <table class="table table-bordered table-striped">
-            <thead>
-            <tr style="border-top: 3px solid #0D6EFD;">
-                <th scope="col">Channel</th>
-                <th scope="col">Date of subscription</th>
-                <th scope="col">Subscribers count</th>
-                <th scope="col">Registration date</th>
-                <th scope="col">Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            @forelse($subscribers as $subscriber)
-                <tr class="bg-light">
-                    <td>
-                        <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2 text-decoration-none">
-                            <img class="rounded" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 50px;">
-                            <span>{{$subscriber->username}}</span>
-                        </a>
-                    </td>
-                    <td class="align-middle">
-                        {{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}
-                    </td>
-                    <td class="align-middle">
-                        {{trans_choice('subscribers', $subscriber->subscribers_count)}}
-                    </td>
-                    <td class="align-middle">{{$subscriber->created_at->format('d F Y - H:i')}}</td>
-                    <td class="align-middle">
-                        <subscribe-button
-                            @if(!$subscriber->is_subscribe_to_current_user) is-subscribe @endif
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr style="border-top: 3px solid #0D6EFD;">
+                    <th scope="col">Channel</th>
+                    <th scope="col">Date of subscription</th>
+                    <th scope="col">Subscribers count</th>
+                    <th scope="col">Registration date</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                @forelse($subscribers as $subscriber)
+                    <tr class="bg-light">
+                        <td>
+                            <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2 text-decoration-none">
+                                <img class="rounded" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 50px;">
+                                <span>{{$subscriber->username}}</span>
+                            </a>
+                        </td>
+                        <td class="align-middle">
+                            {{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}
+                        </td>
+                        <td class="align-middle">
+                            {{trans_choice('subscribers', $subscriber->subscribers_count)}}
+                        </td>
+                        <td class="align-middle">{{$subscriber->created_at->format('d F Y - H:i')}}</td>
+                        <td class="align-middle">
+                            <subscribe-button
+                                @if(!$subscriber->is_subscribe_to_current_user) is-subscribe @endif
                             user="{{$subscriber->id}}"
-                            size="sm"
-                        />
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="7" class="text-center">
-                        <i class="fa-solid fa-database fa-2x my-3"></i>
-                        <p class="fw-bold">No matching subscribers</p>
-                    </td>
-                </tr>
-            @endforelse
-            </tbody>
-        </table>
+                                size="sm"
+                            />
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="7" class="text-center">
+                            <i class="fa-solid fa-database fa-2x my-3"></i>
+                            <p class="fw-bold">No matching subscribers</p>
+                        </td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
         {{ $subscribers->links() }}
     @else
         <div class="card shadow">

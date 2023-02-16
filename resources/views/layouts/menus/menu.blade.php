@@ -12,12 +12,20 @@
     @endunless
 @endforeach
 @if(Auth::check() && $subscriptions->count())
-    <div class="fw-bold ps-4 mb-2 text-sm">Subscriptions ({{$subscriptions->count()}})</div>
+    <div class="d-flex align-items-center justify-content-between ps-3 pe-2 mb-2 text-sm">
+        <div class="fw-bold ">Subscriptions ({{$subscriptions->count()}})</div>
+        <a class="text-decoration-none text-primary" href="{{route('subscription.manage')}}">See</a>
+    </div>
     <ul class="nav nav-pills flex-column text-center" x-data="{ open: false }">
         @foreach($subscriptions->slice(0, 7) as $user)
-            <x-sidebar-item route="{{route('pages.user', $user)}}">
-                <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
-                <span class="text-sm">{{$user->username}}</span>
+            <x-sidebar-item route="{{route('pages.user', $user)}}" class="justify-content-between">
+                <div class="d-flex align-items-center gap-4">
+                    <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
+                    <span class="text-sm">{{$user->username}}</span>
+                </div>
+                @if($user->new_videos)
+                <span class="bg-primary rounded-circle" style="width: 8px;height: 8px"></span>
+                @endif
             </x-sidebar-item>
         @endforeach
         @if($subscriptions->count() > 7)
@@ -58,7 +66,7 @@
     </ul>
 @endif
 <hr class="w-90">
-<div class="fw-bold ps-4 mb-2">Explore</div>
+<div class="fw-bold ps-3 mb-2">Explore</div>
 <ul class="nav nav-pills flex-column mb-auto text-center">
     @foreach($categories as $category)
         <x-sidebar-item route="{{route('pages.category', $category->slug)}}">

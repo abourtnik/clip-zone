@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class, 'subscriber_id')->constrained('users')->cascadeOnDelete();
             $table->foreignIdFor(User::class, 'user_id')->constrained()->cascadeOnDelete();
             $table->timestamp('subscribe_at')->useCurrent();
+            $table->timestamp('read_at')->useCurrent();
         });
     }
 

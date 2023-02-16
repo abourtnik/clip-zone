@@ -64,13 +64,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function subscriptions() : BelongsToMany {
         return $this->belongsToMany(User::class, 'subscriptions', 'subscriber_id', 'user_id')
             ->using(Subscription::class)
-            ->withPivot('subscribe_at');
+            ->withPivot(['subscribe_at', 'read_at']);
     }
 
     public function subscribers() : BelongsToMany {
         return $this->belongsToMany(User::class, 'subscriptions', 'user_id', 'subscriber_id')
             ->using(Subscription::class)
-            ->withPivot('subscribe_at');
+            ->withPivot(['subscribe_at', 'read_at']);
     }
 
     public function subscriptions_videos () : HasManyThrough {
@@ -124,6 +124,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function pinned_video () : HasOne {
         return $this->hasOne(Video::class, 'id', 'pinned_video_id');
+    }
+
+    public function activity () : HasMany {
+        return $this->hasMany(Activity::class, 'causer_id');
     }
 
     /**

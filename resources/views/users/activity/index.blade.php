@@ -1,6 +1,6 @@
 @extends('layouts.user')
 
-@section('title', 'Activity')
+@section('title', 'My Activity')
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center my-3">
@@ -12,7 +12,7 @@
             <label for="type" class="form-label fw-bold">Type</label>
             <select name="type" class="form-select" aria-label="Default select example">
                 <option selected value="">All</option>
-                @foreach(['comments' => 'Comments', 'interactions' => 'Likes & Dislikes', 'likes' => 'Likes', 'dislikes' => 'Dislikes'] as $value => $label)
+                @foreach($types as $value => $label)
                     <option @selected(($filters['type'] ?? null) === $value) value="{{$value}}">{{$label}}</option>
                 @endforeach
             </select>
@@ -34,30 +34,85 @@
             </a>
         </div>
     </form>
-    @forelse($activity_log as $date => $log)
-        <div class="row mt-2 justify-content-center">
-            <div class="col-12 mt-2">
-                <h5 class="mb-3">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
-                @foreach($log as $activity)
-                    @include('users.activity.types.'. $activity->type)
-                @endforeach
+    <div class="row">
+        <div class="col-xl-8 order-last order-xl-first">
+            <div class="card card-body">
+                <h5 class="text-primary">Activity</h5>
+                <hr>
+                @forelse($activity_log as $date => $log)
+                    <div class="row mt-2 justify-content-center">
+                        <div class="col-12 mt-2">
+                            <h5 class="mb-3">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
+                            @foreach($log as $activity)
+                                @include('users.activity.types.'. $activity->type)
+                            @endforeach
+                        </div>
+                    </div>
+                   {{-- {{ $activity_log->links() }}--}}
+                @empty
+                    <div class="card">
+                        <div class="card-body d-flex justify-content-center align-items-center">
+                            <div class="my-3 text-center">
+                                <i class="fa-solid fa-eye-slash fa-2x"></i>
+                                <h5 class="my-3">No activity yet</h5>
+                                <div class="text-muted my-3">Start to interact with your first video</div>
+                                <a href="{{route('pages.home')}}" class="btn btn-success">
+                                    <i class="fa-solid fa-play"></i>&nbsp;
+                                    Start interaction
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforelse
             </div>
         </div>
-        {{ $activity_log->links() }}
-    @empty
-        <div class="card shadow">
-            <div class="card-body d-flex justify-content-center align-items-center">
-                <div class="my-3 text-center">
-                    <i class="fa-solid fa-eye-slash fa-2x"></i>
-                    <h5 class="my-3">No activity yet</h5>
-                    <div class="text-muted my-3">Begin with interact first video</div>
-                    <a href="{{route('pages.home')}}" class="btn btn-success">
-                        <i class="fa-solid fa-play"></i>
-                        Start interaction
-                    </a>
-                </div>
+        <div class="col-xl-4 order-first order-xl-last mb-3 mb-xl-0">
+            <div class="card card-body">
+                <h5 class="text-primary">Statistics</h5>
+                <hr>
+                <ul class="list-group list-group-flush border-top-0">
+                    <li class="list-group-item ps-0 py-3">
+                        <div class="row">
+                            <div class="col-12 col-sm d-flex align-items-center gap-3 mb-3 mb-sm-0">
+                                <div class="rounded-circle text-white px-2 py-1 bg-success">
+                                    <i class="fa-solid fa-thumbs-up"></i>
+                                </div>
+                                <span>Video Likes : {{$user->video_likes_count}}</span>
+                            </div>
+                            <div class="col-12 col-sm d-flex align-items-center gap-3">
+                                <div class="rounded-circle text-white px-2 py-1 bg-success">
+                                    <i class="fa-solid fa-thumbs-up"></i>
+                                </div>
+                                <span>Comment Likes : {{$user->comment_likes_count}}</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item ps-0 py-3">
+                        <div class="row">
+                            <div class="col-12 col-sm d-flex align-items-center gap-3 mb-3 mb-sm-0">
+                                <div class="rounded-circle text-white px-2 py-1 bg-danger">
+                                    <i class="fa-solid fa-thumbs-down"></i>
+                                </div>
+                                <span>Video Dislikes : {{$user->video_dislikes_count}}</span>
+                            </div>
+                            <div class="col-12 col-sm d-flex align-items-center gap-3 mb-3 mb-sm-0">
+                                <div class="rounded-circle text-white px-2 py-1 bg-danger">
+                                    <i class="fa-solid fa-thumbs-down"></i>
+                                </div>
+                                <span>Comment Dislikes : {{$user->comment_dislikes_count}}</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item ps-0 d-flex align-items-center justify-content-between py-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-circle text-white px-2 py-1 bg-primary">
+                                <i class="fa-solid fa-comment"></i>
+                            </div>
+                            <span>Comments : {{$user->comments_count}}</span>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
-    @endforelse
-
+    </div>
 @endsection

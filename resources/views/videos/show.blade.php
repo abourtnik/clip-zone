@@ -8,7 +8,7 @@
             <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
                 <source src="{{route('video.file', $video)}}" type="{{$video->mimetype}}">
             </video>
-            <div class="mt-3 d-flex align-items-center gap-2">
+            <div class="mt-3 d-flex align-items-center gap-3">
                 @if($video->is_planned)
                     <div class="d-flex alert alert-warning px-2 py-1 align-items-center gap-2 mb-0">
                         <i class="fa-solid fa-clock"></i>
@@ -143,6 +143,12 @@
                         </div>
                     </div>
                 @endif
+            @else
+                <div class="my-4 card">
+                    <div class="card-body">
+                        <div class="alert alert-primary mb-0 fw-bold">No description provided</div>
+                    </div>
+                </div>
             @endif
             <div class="d-flex gap-2 align-items-center">
                 @if($video->category)
@@ -154,7 +160,7 @@
                 @if($video->language)
                     <div class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0">
                         <i class="fa-solid fa-language"></i>
-                        <strong>{{$video->language_name}}</strong>
+                        <strong>{{$video->language->name}}</strong>
                     </div>
                 @endif
             </div>

@@ -4,10 +4,10 @@ namespace App\Http\Requests\Video;
 
 use App\Enums\ImageType;
 use App\Enums\VideoStatus;
+use App\Enums\Languages;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
-use Symfony\Component\Intl\Languages;
 
 class UpdateVideoRequest extends FormRequest
 {
@@ -37,7 +37,10 @@ class UpdateVideoRequest extends FormRequest
                 'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
                 'max:5120' // 5mo
             ],
-            'status' => [new Enum(VideoStatus::class)],
+            'status' => [
+                'required',
+                Rule::in(VideoStatus::validStatus()),
+            ],
             'publication_date' => [
                 Rule::excludeIf($this->status != VideoStatus::PLANNED->value),
                 'date',
@@ -46,7 +49,7 @@ class UpdateVideoRequest extends FormRequest
             'category_id' => 'nullable|exists:categories,id',
             'language' => [
                 'nullable',
-                Rule::in(Languages::getLanguageCodes())
+                new Enum(Languages::class)
             ],
             'allow_comments' => 'required|boolean',
             'default_comments_sort' => [

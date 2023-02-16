@@ -4,7 +4,7 @@
 
 @section('content')
     <form class="mb-4 d-flex gap-3 align-items-end" method="GET">
-        <div class="col">
+        <div class="col-12 col-sm">
             <label for="date_start" class="form-label fw-bold">Date start</label>
             <input
                 type="datetime-local"
@@ -14,7 +14,7 @@
                 value="{{$filters['date'][0] ?? null}}"
             >
         </div>
-        <div class="col">
+        <div class="col-12 col-sm">
             <label for="date_end" class="form-label fw-bold">Date end</label>
             <input
                 type="datetime-local"
@@ -34,7 +34,7 @@
         </div>
     </form>
     <div class="row mb-4">
-        <div class="col">
+        <div class="col-12 col-sm-4 col-md-4 col-xl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Uploaded videos</h5>
@@ -46,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col-12 col-sm-4 col-md-4 col-xl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Subscribers</h5>
@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col-12 col-sm-4 col-md-4 col-xl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Views</h5>
@@ -70,7 +70,7 @@
                 </div>
             </div>
         </div>
-        <div class="col">
+        <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-sm-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Comments</h5>
@@ -82,7 +82,7 @@
                 </div>
             </div>
         </div>
-        <div class="col col-xl-5 col-xxl-4">
+        <div class="col-12 col-sm-6 col-md-6 col-xl">
             <div class="card shadow border-primary">
                 <div class="card-body text-center">
                     <h5 class="card-title text-center text-primary">Interactions</h5>
@@ -102,7 +102,7 @@
         </div>
     </div>
     <div class="row mb-4">
-        <div class="col-7">
+        <div class="col-xl-7 mb-4 mb-xl-0">
             <div class="card">
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-video"></i>
@@ -112,7 +112,8 @@
                 </div>
                 <div class="card-body d-flex justify-content-center">
                     @if($user->videos_count || $filters)
-                        <table class="table">
+                        <div class="table-responsive">
+                            <table class="table">
                             <thead>
                             <tr>
                                 <th scope="col" style="width: 35%">Video</th>
@@ -166,6 +167,7 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        </div>
                     @else
                         <div class="text-center my-3">
                             <i class="fa-solid fa-upload fa-2x"></i>
@@ -191,7 +193,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-5">
+        <div class="col-xl-5">
             <div class="card">
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-user"></i>
@@ -201,42 +203,44 @@
                 </div>
                 <div class="card-body">
                     @if($user->subscribers_count || $filters)
+                    <div class="table-responsive">
                         <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Channel</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Subscribers</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @forelse($user->subscribers as $subscriber)
+                            <thead>
                             <tr>
-                                <td class="align-middle">
-                                    <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2 text-decoration-none">
-                                        <img class="rounded" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 50px;">
-                                        <span>{{$subscriber->username}}</span>
-                                    </a>
-                                </td>
-                                <td class="align-middle">
-                                    <div data-bs-toggle="tooltip" data-bs-title="{{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}">
-                                        {{$subscriber->pivot->subscribe_at->diffForHumans()}}
-                                    </div>
-                                </td>
-                                <td class="align-middle">
-                                    {{trans_choice('subscribers', $subscriber->subscribers_count)}}
-                                </td>
+                                <th scope="col">Channel</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Subscribers</th>
                             </tr>
-                        @empty
-                            <tr class="bg-light">
-                                <td colspan="7" class="text-center">
-                                    <i class="fa-solid fa-user-slash fa-2x my-3"></i>
-                                    <p class="fw-bold">No matching subscribers for this period</p>
-                                </td>
-                            </tr>
-                        @endforelse
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            @forelse($user->subscribers as $subscriber)
+                                <tr>
+                                    <td class="align-middle">
+                                        <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2 text-decoration-none">
+                                            <img class="rounded" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 50px;">
+                                            <span>{{$subscriber->username}}</span>
+                                        </a>
+                                    </td>
+                                    <td class="align-middle">
+                                        <div data-bs-toggle="tooltip" data-bs-title="{{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}">
+                                            {{$subscriber->pivot->subscribe_at->diffForHumans()}}
+                                        </div>
+                                    </td>
+                                    <td class="align-middle">
+                                        {{trans_choice('subscribers', $subscriber->subscribers_count)}}
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr class="bg-light">
+                                    <td colspan="7" class="text-center">
+                                        <i class="fa-solid fa-user-slash fa-2x my-3"></i>
+                                        <p class="fw-bold">No matching subscribers for this period</p>
+                                    </td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                     @else
                         <div class="text-center my-3">
                             <i class="fa-solid fa-user-slash fa-2x"></i>
@@ -257,7 +261,7 @@
         </div>
     </div>
     <div class="row mb-4">
-        <div class="col-7">
+        <div class="col-xl-7 mb-4 mb-xl-0">
             <div class="card">
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-comment"></i>
@@ -267,67 +271,68 @@
                 </div>
                 <div class="card-body">
                     @if($user->videos_comments_count || $filters)
-                        <table class="table">
-                            <thead>
-                            <tr>
-                                <th scope="col" style="width: 20%">Video</th>
-                                <th scope="col" style="width: 55%">Comment</th>
-                                <th scope="col" style="width: 12%">Replies</th>
-                                <th scope="col" style="width: 13%">Date</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($user->videos_comments as $comment)
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
                                 <tr>
-                                    <td class="align-start">
-                                        <div class="d-flex gap-3 align-items-center">
-                                            <a href="{{route('video.show', $comment->video)}}">
-                                                <img src="{{$comment->video->thumbnail_url}}" alt="" style="width: 100px;">
-                                            </a>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        <div class="d-flex gap-2">
-                                            <a href="{{route('pages.user', $comment->user)}}">
-                                                <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
-                                            </a>
-                                            <div>
-                                                <a href="{{route('pages.user', $comment->user)}}" class="text-decoration-none">{{$comment->user->username}}</a>
-                                                @if($comment->is_long)
-                                                    <div class="mt-1 d-block" x-data="{ open: false }">
-                                                        <template x-if="open">
-                                                            <small class="text-muted">
-                                                                {{$comment->content}}
-                                                            </small>
-                                                        </template>
-                                                        <template x-if="!open">
-                                                            <small class="text-muted">
-                                                                {{Str::limit($comment->content, 100)}}
-                                                            </small>
-                                                        </template>
-                                                        <button @click="open=!open" class="text-primary text-sm bg-transparent d-block mt-1 ps-0" x-text="open ? 'Show less': 'Read more'"></button>
-                                                    </div>
-                                                @else
-                                                    <small class="text-muted d-block mt-1">{{$comment->content}}</small>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle">
-                                        @if($comment->replies_count)
-                                            <div class="badge bg-info">
-                                                {{trans_choice('replies', $comment->replies_count)}}
-                                            </div>
-                                        @else
-                                            <div class="badge bg-secondary">
-                                                No replies
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td class="align-middle">
-                                        <small data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">{{$comment->created_at->diffForHumans()}}</small>
-                                    </td>
+                                    <th scope="col" style="width: 20%">Video</th>
+                                    <th scope="col" style="width: 55%">Comment</th>
+                                    <th scope="col" style="width: 12%">Replies</th>
+                                    <th scope="col" style="width: 13%">Date</th>
                                 </tr>
+                                </thead>
+                                <tbody>
+                                @forelse($user->videos_comments as $comment)
+                                    <tr>
+                                        <td class="align-start">
+                                            <div class="d-flex gap-3 align-items-center">
+                                                <a href="{{route('video.show', $comment->video)}}">
+                                                    <img src="{{$comment->video->thumbnail_url}}" alt="" style="width: 100px;">
+                                                </a>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="d-flex gap-2">
+                                                <a href="{{route('pages.user', $comment->user)}}">
+                                                    <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
+                                                </a>
+                                                <div>
+                                                    <a href="{{route('pages.user', $comment->user)}}" class="text-decoration-none">{{$comment->user->username}}</a>
+                                                    @if($comment->is_long)
+                                                        <div class="mt-1 d-block" x-data="{ open: false }">
+                                                            <template x-if="open">
+                                                                <small class="text-muted">
+                                                                    {{$comment->content}}
+                                                                </small>
+                                                            </template>
+                                                            <template x-if="!open">
+                                                                <small class="text-muted">
+                                                                    {{Str::limit($comment->content, 100)}}
+                                                                </small>
+                                                            </template>
+                                                            <button @click="open=!open" class="text-primary text-sm bg-transparent d-block mt-1 ps-0" x-text="open ? 'Show less': 'Read more'"></button>
+                                                        </div>
+                                                    @else
+                                                        <small class="text-muted d-block mt-1">{{$comment->content}}</small>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            @if($comment->replies_count)
+                                                <div class="badge bg-info">
+                                                    {{trans_choice('replies', $comment->replies_count)}}
+                                                </div>
+                                            @else
+                                                <div class="badge bg-secondary">
+                                                    No replies
+                                                </div>
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            <small data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">{{$comment->created_at->diffForHumans()}}</small>
+                                        </td>
+                                    </tr>
                                 @empty
                                     <tr class="bg-light">
                                         <td colspan="7" class="text-center">
@@ -336,8 +341,9 @@
                                         </td>
                                     </tr>
                                 @endforelse
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     @else
                         <div class="text-center my-3">
                             <i class="fa-solid fa-comment-slash fa-2x"></i>
@@ -356,7 +362,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-5">
+        <div class="col-xl-5">
             <div class="card">
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-thumbs-up"></i>
@@ -366,7 +372,8 @@
                 </div>
                 <div class="card-body">
                     @if($user->videos_interactions_count || $filters)
-                        <table class="table">
+                        <div class="table-responsive">
+                            <table class="table">
                             <thead>
                             <tr>
                                 <th scope="col">Video</th>
@@ -416,6 +423,7 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        </div>
                     @else
                         <div class="text-center my-3">
                             <i class="fa-solid fa-eye-slash fa-2x"></i>

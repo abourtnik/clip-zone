@@ -18,8 +18,11 @@ class SubscriptionFactory extends Factory
      */
     public function definition() : array
     {
+        $date = fake()->dateTimeBetween('-1 year');
+
         return [
-            'subscribe_at' => fake()->dateTimeBetween('-1 year'),
+            'subscribe_at' => $date,
+            'read_at' => $date,
         ];
     }
 }

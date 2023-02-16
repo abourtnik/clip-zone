@@ -2,13 +2,9 @@
 
 ## Primary
 
-- Remove file on edit
-- Confirmation modal delete comments
-- Activity refactor
 - Responsive
-- Edit bug status
-- Create UI
-- 
+- First publication date
+
 
 ## Secondary
 

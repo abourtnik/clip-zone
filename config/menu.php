@@ -63,7 +63,7 @@ return [
             ],
             [
                 'title' => 'Activity',
-                'icon' => 'rectangle-list',
+                'icon' => 'bars-staggered',
                 'route' => 'user.activity.index',
             ]
         ],

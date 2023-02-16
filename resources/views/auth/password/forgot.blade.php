@@ -4,8 +4,8 @@
 
 @section('content')
     <div class="h-full">
-        <div class="d-flex justify-content-center align-items-center h-75">
-            <div id="login-form" class="w-50 border p-4 bg-light">
+        <div class="row align-items-center h-75">
+            <div id="login-form" class="col-12 col-sm-10 offset-sm-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 border p-4 bg-light">
                 @if (session('status'))
                     <div class="alert alert-success fade show" role="alert">
                         <strong>{!! session('status') !!}</strong>

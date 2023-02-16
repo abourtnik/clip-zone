@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Enums\ImageType;
 use App\Enums\VideoStatus;
 use App\Enums\VideoType;
+use App\Enums\Languages;
 use App\Filters\VideoFilters;
 use App\Helpers\Image;
 use App\Http\Controllers\Controller;
@@ -19,7 +20,6 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Symfony\Component\Intl\Languages;
 
 class VideoController extends Controller
 {
@@ -39,7 +39,7 @@ class VideoController extends Controller
                         ->latest('updated_at');
                 }
             ])->videos->paginate(15)->withQueryString(),
-            'video_status' => VideoStatus::get(),
+            'status' => VideoStatus::getAll(),
             'filters' => $filters->receivedFilters(),
             'categories' => Category::all(),
         ]);
@@ -48,12 +48,12 @@ class VideoController extends Controller
     public function create(Video $video): View {
         return view('users.videos.create', [
             'video' => $video,
-            'video_status' => VideoStatus::get(),
+            'status' => VideoStatus::getActive(),
             'accepted_video_mimes_types' => implode(', ', VideoType::acceptedMimeTypes()),
             'accepted_video_formats' => implode(', ', VideoType::acceptedFormats()),
             'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats()),
             'categories' => Category::all(),
-            'languages' => Languages::getNames(),
+            'languages' => Languages::get()
         ]);
     }
 
@@ -63,10 +63,6 @@ class VideoController extends Controller
         ])->toArray();
 
         $video->update($validated);
-
-        if ($request->get('action') === 'create') {
-            return redirect(route('user.videos.create'));
-        }
 
         return redirect()->route('user.videos.index');
     }
@@ -91,13 +87,18 @@ class VideoController extends Controller
         ]);
     }
 
-    public function edit(Video $video): View {
+    public function edit(Video $video): View|RedirectResponse {
+
+        if ($video->isDraft) {
+            return redirect()->route('user.videos.create', $video);
+        }
+
         return view('users.videos.edit', [
             'video' => $video,
-            'video_status' => VideoStatus::get(),
+            'status' => VideoStatus::getActive(),
             'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats()),
             'categories' => Category::all(),
-            'languages' => Languages::getNames(),
+            'languages' => Languages::get(),
         ]);
     }
 

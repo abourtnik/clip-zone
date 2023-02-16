@@ -9,10 +9,8 @@ class Activity extends SpatieActivity
 {
     protected function type(): Attribute
     {
-        $class = explode( '\\', get_class($this->subject));
-
         return Attribute::make(
-            get: fn () => strtolower(end($class)),
+            get: fn () => strtolower(class_basename($this->subject)) . ($this->subject->likeable ? '_'.strtolower(class_basename($this->subject->likeable)) : ''),
         );
     }
 

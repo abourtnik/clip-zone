@@ -68,7 +68,7 @@ class SearchController extends Controller
             ->get()
             ->map(fn($video) => [
                 'category' => 'Video',
-                'title' => Str::limit($video->title, 45),
+                'title' => Str::limit($video->title, 68),
                 'url' => $video->route,
                 'image' => $video->thumbnail_url,
             ]);

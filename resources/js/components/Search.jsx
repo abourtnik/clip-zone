@@ -2,7 +2,7 @@ import { useState, useCallback } from 'preact/hooks';
 import {debounce} from "../functions";
 import {Search as SearchIcon} from  './Icon'
 
-export default function Search ({query = ''}) {
+export default function Search ({query = '', responsive = true}) {
 
     const [search, setSearch] = useState(query);
     const [data, setData] = useState([]);
@@ -28,6 +28,9 @@ export default function Search ({query = ''}) {
 
     }, 300), []);
 
+    const width = responsive ? 'w-100 start-0' : 'w-35 rounded-4';
+    const textSize = responsive ? 'text-sm' : '';
+
     return (
         <>
         <form method="GET" className="d-flex w-100" role="search" action="/search">
@@ -40,7 +43,7 @@ export default function Search ({query = ''}) {
         </form>
         {
             (search.trim() && !loading) &&
-                <div className={'position-absolute w-30 bg-white shadow-lg border border-1 rounded-4 pt-3'} style={{top:'49px'}}>
+                <div className={'position-absolute ' + width + ' bg-white shadow-lg border border-1 pt-3'} style={{top:'53px'}}>
                     {
                         data.total ?
                             <ul className={'list-unstyled mb-0'}>
@@ -49,14 +52,16 @@ export default function Search ({query = ''}) {
                                         <li>
                                             <a href={result.url}
                                                className="d-flex align-items-center gap-2 justify-content-start text-decoration-none px-3 py-2 result">
-                                                <div className={'text-muted border-end pe-2'}>{result.category}</div>
-                                                <div className={'text-black'}>{result.title}</div>
+
+                                                <div className={'pe-2'}>
+                                                    <SearchIcon/>
+                                                </div>
+                                                <div className={'text-black text-lowercase ' + textSize}>{result.title}</div>
                                             </a>
                                         </li>
-
                                     ))
                                 }
-                                <li className={'text-center border-top d-flex'}>
+                                <li className={'text-center border-top d-flex align-items-center'}>
                                     <a className={'text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold result py-2'} href={data.route}>
                                         See {data.total} result{data.total > 1 && 's'}
                                     </a>

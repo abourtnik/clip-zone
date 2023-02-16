@@ -6,7 +6,7 @@
             </div>
             <div class="d-flex gap-3 justify-content-between w-100">
                 <div class="w-75">
-                    <div class="d-flex gap-4 align-items-start">
+                    <div class="d-flex flex-column flex-sm-row gap-4 align-items-start">
                         <strong>Commented</strong>
                         <a href="{{$activity->subject->video->route}}" class="text-decoration-none text-sm">{{$activity->subject->video->title}}</a>
                         <a href="{{$activity->subject->video->route}}">

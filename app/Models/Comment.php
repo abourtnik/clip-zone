@@ -90,6 +90,17 @@ class Comment extends Model implements Likeable
      * -------------------- SCOPES --------------------
      */
 
+    /**
+     * Scope a query to only include replies.
+     *
+     * @param  Builder $query
+     * @return void
+     */
+    public function scopeReplies(Builder $query): void
+    {
+        $query->whereNotNull('parent_id');
+    }
+
     public function scopeFilter(Builder $query, $filters)
     {
         return $filters->apply($query);

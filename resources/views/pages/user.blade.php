@@ -24,7 +24,7 @@
                                 @if($user->show_subscribers)
                                     {{trans_choice('subscribers', $user->subscribers_count)}} •
                                 @endif
-                                {{trans_choice('videos', $user->videos()->active()->count())}}
+                                {{trans_choice('videos', $user->videos_count)}}
                             </div>
                         </div>
                     </div>
@@ -95,14 +95,14 @@
                         <hr>
                         <user-videos
                             user="{{$user->id}}"
-                            videos="{{$user->videos()->active()->count()}}"
+                            videos="{{$user->videos_count}}"
                             show-sort
                         />
                     @elseif($user->videos_count)
                         <div class="mt-4">
                             <user-videos
                                 user="{{$user->id}}"
-                                videos="{{$user->videos()->active()->count()}}"
+                                videos="{{$user->videos_count}}"
                                 show-sort
                                 exclude-pinned
                             />
@@ -118,7 +118,7 @@
                 </div>
                 <div class="tab-pane " id="videos" role="tabpanel" aria-labelledby="videos-tab">
                     @if($user->videos->count())
-                        <user-videos user="{{$user->id}}" videos="{{$user->videos()->active()->count()}}"  exclude-pinned/>
+                        <user-videos user="{{$user->id}}" videos="{{$user->videos_count}}"  exclude-pinned/>
                     @else
                         <div class="d-flex align-items-center justify-content-center h-75 mt-4">
                             <div class="w-100 border p-4 bg-light text-center bg-white">

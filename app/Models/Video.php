@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\VideoStatus;
+use App\Enums\Languages;
 use App\Models\Traits\HasLike;
 use App\Models\Interfaces\Likeable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +15,6 @@ use \Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
-use Symfony\Component\Intl\Languages;
 
 class Video extends Model implements Likeable
 {
@@ -27,7 +27,8 @@ class Video extends Model implements Likeable
     ];
 
     protected $casts = [
-        'status' => VideoStatus::class
+        'status' => VideoStatus::class,
+        'language' => Languages::class
     ];
 
     /**
@@ -182,13 +183,6 @@ class Video extends Model implements Likeable
     {
         return Attribute::make(
             get: fn () => route('video.show', $this),
-        );
-    }
-
-    protected function languageName(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => Languages::getName($this->language),
         );
     }
 
