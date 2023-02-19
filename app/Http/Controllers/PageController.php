@@ -41,8 +41,6 @@ class PageController
         return view('pages.liked', [
             'data' => $interactions
         ]);
-
-        return view('pages.liked');
     }
 
     public function category(string $slug): View {

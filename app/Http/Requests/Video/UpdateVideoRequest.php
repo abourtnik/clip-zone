@@ -16,7 +16,7 @@ class UpdateVideoRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize() : bool
     {
         return true;
     }
@@ -26,7 +26,7 @@ class UpdateVideoRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'title' => 'required|string|max:100',
@@ -41,7 +41,7 @@ class UpdateVideoRequest extends FormRequest
                 'required',
                 Rule::in(VideoStatus::validStatus()),
             ],
-            'publication_date' => [
+            'scheduled_date' => [
                 Rule::excludeIf($this->status != VideoStatus::PLANNED->value),
                 'date',
                 'after:now'

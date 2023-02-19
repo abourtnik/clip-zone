@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\VideoStatus;
+use App\Filters\VideoFilters;
 use App\Jobs\Export;
+use App\Models\Category;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
@@ -11,10 +14,30 @@ use Illuminate\Support\Facades\Auth;
 
 class VideoController
 {
-    public function index () : View {
+    public function index (VideoFilters $filters) : View {
         return view('admin.videos.index', [
-            'videos' => Video::query()->latest()->paginate(15)
+            'videos' => Video::filter($filters)->with([
+                'category:id,title',
+                'user' => fn($q) => $q->withCount(['videos', 'subscribers'])
+            ])
+            ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
+            ->latest('created_at')
+            ->paginate(15),
+            'filters' => $filters->receivedFilters(),
+            'status' => VideoStatus::getAll(),
+            'categories' => Category::all(),
+            'users' => User::all(),
         ]);
+    }
+
+    public function ban (Video $video) : RedirectResponse {
+
+        $video->update([
+           'status' => VideoStatus::BANNED,
+           'banned_at' => now()
+        ]);
+
+        return redirect()->route('admin.videos.index');
     }
 
     public function export (): RedirectResponse {

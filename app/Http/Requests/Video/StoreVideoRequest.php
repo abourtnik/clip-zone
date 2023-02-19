@@ -29,7 +29,7 @@ class StoreVideoRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:1',
+            'title' => 'required|string|max:100',
             'description' => 'nullable|string|max:5000',
             'thumbnail' => [
                 'file',
@@ -41,7 +41,7 @@ class StoreVideoRequest extends FormRequest
                 'required',
                  Rule::in(VideoStatus::validStatus()),
             ],
-            'publication_date' => [
+            'scheduled_date' => [
                 Rule::excludeIf($this->status != VideoStatus::PLANNED->value),
                 'date',
                 'after:now'
@@ -49,7 +49,7 @@ class StoreVideoRequest extends FormRequest
             'category_id' => 'nullable|exists:categories,id',
             'language' => [
                 'nullable',
-                [new Enum(Languages::class)]
+                new Enum(Languages::class)
             ],
             'allow_comments' => 'required|boolean',
             'default_comments_sort' => [

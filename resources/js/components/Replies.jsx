@@ -3,6 +3,7 @@ import {usePaginateFetch} from "../hooks";
 import Comment from "./Comment";
 import {Comment as Skeleton} from "./Skeletons";
 import {useInView} from "react-intersection-observer";
+import CommentsForm from "./CommentsForm";
 
 export default function Replies ({target, video}) {
 
@@ -24,12 +25,7 @@ export default function Replies ({target, video}) {
         }
     }, [inView]);
 
-    const reply = async (event) => {
-
-        event.preventDefault();
-
-        const formData = new FormData(event.target);
-        const data = Object.fromEntries(formData.entries());
+    const reply = async (data) => {
 
         const response = await fetch('/api/comments', {
             headers: {
@@ -88,13 +84,15 @@ export default function Replies ({target, video}) {
     };
 
     const sort = async (type) => {
-        setSelectedSort(type)
-        setPrimaryLoading(true);
-        const response = await fetch(`/api/comments/${target}/replies?sort=${type}`);
-        const data = await response.json()
-        setPrimaryLoading(false);
-        setComments(data.data)
-        setNext(data.links.next)
+        if (type !== selectedSort) {
+            setSelectedSort(type)
+            setPrimaryLoading(true);
+            const response = await fetch(`/api/comments/${target}/replies?sort=${type}`);
+            const data = await response.json()
+            setPrimaryLoading(false);
+            setComments(data.data)
+            setNext(data.links.next)
+        }
     }
 
     const activeButton = (type) => selectedSort === type ? 'primary ' : 'outline-primary ';
@@ -108,17 +106,7 @@ export default function Replies ({target, video}) {
                     <button onClick={() => sort('recent')} className={'btn btn-' + activeButton('recent') + 'btn-sm'}>Newest replies</button>
                 </div>
             </div>
-            <form onSubmit={reply}>
-                <div className="mb-2">
-                    <label htmlFor="content" className="form-label d-none"></label>
-                    <textarea className="form-control" id="content" rows="4" name="content" placeholder="Add a reply..." required></textarea>
-                </div>
-                <div className="mb-3 d-flex justify-content-end">
-                    <button type="submit" className="btn btn-success btn-sm">
-                        Write reply
-                    </button>
-                </div>
-            </form>
+            <CommentsForm auth={true} addComment={reply} placeholder={'Add a reply...'} label={'Write reply'}/>
             {
                 (primaryLoading) ?
                     <div className="d-flex flex-column gap-2">

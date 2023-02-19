@@ -110,7 +110,7 @@
                         Last uploaded videos
                     </h5>
                 </div>
-                <div class="card-body d-flex justify-content-center">
+                <div class="card-body">
                     @if($user->videos_count || $filters)
                         <div class="table-responsive">
                             <table class="table">
@@ -134,7 +134,7 @@
                                             <small>{{Str::limit($video->title, 30)}}</small>
                                         </td>
                                         <td class="align-middle">
-                                            @include('users.videos.partials.status')
+                                            @include('videos.status')
                                         </td>
                                         <td class="align-middle">{{$video->views_count}}</td>
                                         <td class="align-middle">
@@ -222,12 +222,14 @@
                                         </a>
                                     </td>
                                     <td class="align-middle">
-                                        <div data-bs-toggle="tooltip" data-bs-title="{{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}">
+                                        <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}">
                                             {{$subscriber->pivot->subscribe_at->diffForHumans()}}
                                         </div>
                                     </td>
                                     <td class="align-middle">
-                                        {{trans_choice('subscribers', $subscriber->subscribers_count)}}
+                                        <div class="text-sm">
+                                            {{trans_choice('subscribers', $subscriber->subscribers_count)}}
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
@@ -298,23 +300,9 @@
                                                 </a>
                                                 <div>
                                                     <a href="{{route('pages.user', $comment->user)}}" class="text-decoration-none">{{$comment->user->username}}</a>
-                                                    @if($comment->is_long)
-                                                        <div class="mt-1 d-block" x-data="{ open: false }">
-                                                            <template x-if="open">
-                                                                <small class="text-muted">
-                                                                    {{$comment->content}}
-                                                                </small>
-                                                            </template>
-                                                            <template x-if="!open">
-                                                                <small class="text-muted">
-                                                                    {{Str::limit($comment->content, 100)}}
-                                                                </small>
-                                                            </template>
-                                                            <button @click="open=!open" class="text-primary text-sm bg-transparent d-block mt-1 ps-0" x-text="open ? 'Show less': 'Read more'"></button>
-                                                        </div>
-                                                    @else
-                                                        <small class="text-muted d-block mt-1">{{$comment->content}}</small>
-                                                    @endif
+                                                    <x-expand-item max="180">
+                                                        {{$comment->content}}
+                                                    </x-expand-item>
                                                 </div>
                                             </div>
                                         </td>
@@ -408,7 +396,7 @@
                                         @endif
                                     </td>
                                     <td class="align-middle">
-                                        <div data-bs-toggle="tooltip" data-bs-title="{{$interaction->perform_at->format('d F Y - H:i')}}">
+                                        <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$interaction->perform_at->format('d F Y - H:i')}}">
                                             {{$interaction->perform_at->diffForHumans()}}
                                         </div>
                                     </td>

@@ -5,19 +5,21 @@ namespace App\Http\Resources;
 use App\Models\Comment;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class CommentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request) : array
     {
         return [
             'id' => $this->id,
+            'class' => Comment::class,
             'content' => $this->content,
             'short_content' => $this->short_content,
             'is_long' => $this->is_long,

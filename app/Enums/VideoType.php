@@ -5,7 +5,7 @@ namespace App\Enums;
 enum VideoType : string {
 
     case MP4 = 'video/mp4';
-    case MOV = 'video/quicktime';
+    //case MOV = 'video/quicktime';
     case OGG = 'video/ogg';
     case WEBM = 'video/webm';
 

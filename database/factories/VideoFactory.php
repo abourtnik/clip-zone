@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\Languages;
+use App\Enums\VideoStatus;
 use App\Models\Category;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -27,10 +29,10 @@ class VideoFactory extends Factory
             'thumbnail' => 'default-'.fake()->numberBetween(1, 12).'.png',
             'duration' => fake()->numberBetween(5, 4000),
             'mimetype' => 'video/mp4',
-            'status' => fake()->numberBetween(0, 3),
+            'status' => fake()->randomElement([VideoStatus::PUBLIC->value, VideoStatus::PRIVATE->value, VideoStatus::UNLISTED->value]),
             'publication_date' => fake()->dateTimeBetween('-1 year'),
             'category_id' => Category::inRandomOrder()->first()->id,
-            'language' => fake()->languageCode(),
+            'language' => fake()->randomElement(array_keys(Languages::get())),
             'allow_comments' => fake()->boolean(90),
             'default_comments_sort' => fake()->randomElement(['top', 'newest']),
             'show_likes' => fake()->boolean(90),

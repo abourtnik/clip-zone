@@ -40,17 +40,18 @@ export default function Interaction ({model, target, count, active, showCount = 
     }
 
     return (
-        <div className={'d-flex justify-content-between gap-1'}>
+        <div className={'d-flex justify-content-between gap-1 bg-light-dark border border-primary rounded-4 p-1'}>
             <button
                 onClick={() => handleClick('like')}
-                className={'d-flex justify-content-between align-items-center btn btn-sm  ' + (liked ? 'btn' : 'btn-outline') + '-success'}
+                className={'d-flex justify-content-between align-items-center btn btn-sm border border-0 ' + (liked ? 'text-success' : 'text-black')}
             >
-                {liked ? <ThumbsUpRegular/> : <ThumbsUpSolid/>}
+                {liked ? <ThumbsUpRegular width={'16px'}/> : <ThumbsUpSolid width={'16px'}/>}
                 { (showCount && counterLike > 0) && <span className={'ml-1'}>{counterLike}</span>}
             </button>
+            <div className="vr"></div>
             <button
                 onClick={() => handleClick('dislike')}
-                className={'d-flex justify-content-between align-items-center btn btn-sm ' + (disliked ? 'btn' : 'btn-outline') + '-danger'}
+                className={'d-flex justify-content-between align-items-center btn btn-sm border border-0 ' + (disliked ? 'text-danger' : 'text-black')}
             >
                 {disliked ? <ThumbsDownRegular/> : <ThumbsDownSolid/>}
                 { (showCount && counterDislike > 0) && <span className={'ml-1'}>{counterDislike}</span>}

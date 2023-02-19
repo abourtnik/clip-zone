@@ -3,16 +3,17 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
 
 class VideoResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request) : array
     {
         return [
             'id' => $this->id,
@@ -27,7 +28,7 @@ class VideoResource extends JsonResource
                 'avatar' => $this->user->avatar_url,
                 'route' => $this->user->route
             ],
-            'created_at' => $this->publication_date->diffForHumans(),
+            'publication_date' => $this->publication_date->diffForHumans(),
         ];
     }
 }

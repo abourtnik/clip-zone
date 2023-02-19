@@ -21,6 +21,7 @@ return new class extends Migration
             $table->morphs('reportable');
             $table->string('reason');
             $table->text('comment')->nullable();
+            $table->unsignedTinyInteger('status')->default(0);
             $table->timestamps();
         });
     }

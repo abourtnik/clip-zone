@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignIdFor(Comment::class, 'parent_id')->nullable()->constrained('comments')->cascadeOnDelete();
             $table->longText('content');
             $table->ipAddress('ip');
+            $table->timestamp('banned_at')->nullable();
             $table->timestamps();
         });
     }

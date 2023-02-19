@@ -58,11 +58,19 @@
                                 <img style="width: 42px" class="ml-4 rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
                             </a>
                         </li>
-                        <li class="nav-item mx-3 d-flex align-items-center">
-                            <a class="nav-link" href="{{route('logout')}}">
-                                <i class="fa-solid fa-right-from-bracket"></i>
-                            </a>
-                        </li>
+                        @impersonating($guard = null)
+                            <li class="nav-item mx-3 d-flex align-items-center">
+                                <a class="nav-link" href="{{route('impersonate.leave')}}">
+                                    <i class="fa-solid fa-right-from-bracket text-danger"></i>
+                                </a>
+                            </li>
+                        @else
+                            <li class="nav-item mx-3 d-flex align-items-center">
+                                <a class="nav-link" href="{{route('logout')}}">
+                                    <i class="fa-solid fa-right-from-bracket"></i>
+                                </a>
+                            </li>
+                        @endImpersonating
                     @else
                         <li class="nav-item">
                             <a class="btn bg-transparent text-primary" href="{{route('login')}}">

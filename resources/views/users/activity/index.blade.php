@@ -1,10 +1,10 @@
 @extends('layouts.user')
 
-@section('title', 'My Activity')
+@section('title', 'Channel Activity')
 
 @section('content')
     <div class="d-flex justify-content-between align-items-center my-3">
-        <h2>My activity</h2>
+        <h2>My Activity</h2>
     </div>
     <hr>
     <form class="my-4 d-flex gap-3 align-items-end" method="GET">

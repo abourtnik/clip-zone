@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Enums\ReportReason;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -52,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Menu Request
-        View::composer(['pages.*', 'auth.*', 'videos.show', 'subscription.*'], function($view) {
+        View::composer(['pages.*', 'auth.*', 'videos.show', 'subscription.*', 'errors::*'], function($view) {
             $view->with('categories', Category::where('in_menu', true)->ordered()->get());
             $view->with(
                 'subscriptions',
@@ -65,6 +66,7 @@ class AppServiceProvider extends ServiceProvider
                     ->latest('subscribe_at')
                     ->get()
             );
+            $view->with('report_reasons', ReportReason::get());
         });
     }
 }

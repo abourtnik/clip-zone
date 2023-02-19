@@ -65,6 +65,11 @@ return [
                 'title' => 'Activity',
                 'icon' => 'bars-staggered',
                 'route' => 'user.activity.index',
+            ],
+            [
+                'title' => 'Reports',
+                'icon' => 'flag',
+                'route' => 'user.reports.index',
             ]
         ],
         'bottom' => [
@@ -91,6 +96,16 @@ return [
                 'title' => 'Videos',
                 'icon' => 'video',
                 'route' => 'admin.videos.index',
+            ],
+            [
+                'title' => 'Comments',
+                'icon' => 'comment',
+                'route' => 'admin.comments.index',
+            ],
+            [
+                'title' => 'Reports',
+                'icon' => 'flag',
+                'route' => 'admin.reports.index',
             ]
         ]
     ]

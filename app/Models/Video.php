@@ -4,8 +4,10 @@ namespace App\Models;
 
 use App\Enums\VideoStatus;
 use App\Enums\Languages;
+use App\Models\Interfaces\Reportable;
 use App\Models\Traits\HasLike;
 use App\Models\Interfaces\Likeable;
+use App\Models\Traits\HasReport;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,14 +18,16 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 
-class Video extends Model implements Likeable
+class Video extends Model implements Likeable, Reportable
 {
-    use HasFactory, HasLike;
+    use HasFactory, HasLike, HasReport;
 
     protected $guarded = ['id'];
 
     protected $dates = [
-        'publication_date'
+        'publication_date',
+        'scheduled_date',
+        'banned_at'
     ];
 
     protected $casts = [
@@ -81,21 +85,21 @@ class Video extends Model implements Likeable
     protected function isActive(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->publication_date->lte(now())) || $this->status === VideoStatus::UNLISTED
+            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now())) || $this->status === VideoStatus::UNLISTED
         );
     }
 
     protected function isPublic(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->publication_date->lte(now()))
+            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now()))
         );
     }
 
     protected function isPlanned(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status === VideoStatus::PLANNED && $this->publication_date->gt(now())
+            get: fn () => $this->status === VideoStatus::PLANNED && $this->scheduled_date->gt(now())
 
         );
     }
@@ -120,6 +124,14 @@ class Video extends Model implements Likeable
     {
         return Attribute::make(
             get: fn () => $this->status === VideoStatus::DRAFT
+
+        );
+    }
+
+    protected function isBanned(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status === VideoStatus::BANNED
 
         );
     }
@@ -215,7 +227,7 @@ class Video extends Model implements Likeable
         $query->where('status', VideoStatus::PUBLIC)
             ->orWhere(function($query) {
                 $query->where('status', VideoStatus::PLANNED)
-                    ->where('publication_date', '<=', now());
+                    ->where('scheduled_date', '<=', now());
             });
     }
 

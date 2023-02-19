@@ -30,7 +30,8 @@ class FileRequest extends FormRequest
                 'required',
                 'mimetypes:'.implode(',', VideoType::acceptedMimeTypes()),
                 'max:15360' // 15mo
-            ]
+            ],
+            'duration' => 'required|numeric'
         ];
     }
 }

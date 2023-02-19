@@ -1,30 +1,44 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegistrationController;
-use App\Http\Controllers\Auth\PasswordController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\CommentController as CommentAdminController;
 use App\Http\Controllers\Admin\UserController as UserAdminController;
 use App\Http\Controllers\Admin\VideoController as VideoAdminController;
-use App\Http\Controllers\User\VideoController as VideoUserController;
-use App\Http\Controllers\User\CommentController as CommentUserController;
-use App\Http\Controllers\User\ActivityController;
-use App\Http\Controllers\VideoController;
+use App\Http\Controllers\Admin\ReportController as ReportAdminController;
+
+
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Auth\RegistrationController;
+
+use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SubscriptionController;
-use App\Http\Controllers\HistoryController;
+
+use App\Http\Controllers\User\ActivityController;
+use App\Http\Controllers\User\CommentController as CommentUserController;
+use App\Http\Controllers\User\ReportController;
+use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\VideoController as VideoUserController;
+use App\Http\Controllers\VideoController;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+// IMPERSONATE
+Route::impersonate();
 
 // PAGES
 Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/trend', 'trend')->name('trend');
     Route::get('/categories/{slug}', 'category')->name('category');
-    Route::get('/user/{user}', 'user')->name('user')->can('show', 'user');
+    Route::get('/user/{user}', 'user')
+        ->name('user')
+        ->can('show', 'user')
+        ->missing(fn(Request $request) => abort(404, 'User not found'));
     Route::get('/terms', 'terms')->name('terms');
 
     Route::middleware('auth')->group(function () {
@@ -34,7 +48,10 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
 
 // VIDEOS
 Route::controller(VideoController::class)->name('video.')->group(function () {
-    Route::get('/video/{video:uuid}', 'show')->name('show')->can('show', 'video');
+    Route::get('/video/{video:uuid}', 'show')
+        ->name('show')
+        ->can('show', 'video')
+        ->missing(fn(Request $request) => abort(404, 'Video not found'));
     Route::get('/video/file/{video:uuid}', 'file')->name('file');
     Route::get('/video/download/{video:uuid}', 'download')->name('download')->can('download', 'video');
 });
@@ -93,13 +110,16 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     });
 
     // Videos
-    Route::post('/{video}/pin', [VideoUserController::class, 'pin'])->name('videos.pin');
-    Route::post('/{video}/unpin', [VideoUserController::class, 'unpin'])->name('videos.unpin');
+    Route::controller(VideoUserController::class)->prefix('videos')->name('videos.')->group(function () {
+        Route::post('/{video}/pin', 'pin')->name('pin');
+        Route::post('/{video}/unpin', 'unpin')->name('unpin');
+        Route::get('{video}/create', 'create')->name('create');
+        Route::post('{video}/store', 'store')->name('store');
+    });
+
     Route::resource('videos', VideoUserController::class)->except([
         'create', 'store'
     ]);
-    Route::get('/videos/{video}/create', [VideoUserController::class, 'create'])->name('videos.create');
-    Route::post('/videos/{video}/store', [VideoUserController::class, 'store'])->name('videos.store');
 
     // Comments
     Route::resource('comments', CommentUserController::class)->only(['index', 'destroy']);
@@ -109,23 +129,53 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
         Route::get('/', 'index')->name('index');
     });
 
+    // Reports
+    Route::controller(ReportController::class)->prefix('report')->name('reports.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'report')->name('report');
+        Route::post('/cancel', 'cancel')->name('cancel');
+    });
+
     Route::get('/subscribers', [UserController::class, 'subscribers'])->name('subscribers');
 });
 
 // ADMIN
 Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
+
+    // Dashboard
     Route::get('/', [AdminController::class, 'index'])->name('index');
+
     Route::get('/download/{model}', [AdminController::class, 'download'])->name('download');
+
+    // Articles
     Route::controller(ArticleController::class)->prefix('articles')->name('articles.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/export', 'export')->name('export');
     });
+
+    // Users
     Route::controller(UserAdminController::class)->prefix('users')->name('users.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/{user}/ban', 'ban')->name('ban');
         Route::get('/export', 'export')->name('export');
     });
+
+    // Videos
     Route::controller(VideoAdminController::class)->prefix('videos')->name('videos.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/{video}/ban', 'ban')->name('ban');
         Route::get('/export', 'export')->name('export');
     });
+
+    // Comments
+    Route::controller(CommentAdminController::class)->prefix('comments')->name('comments.')->group(function () {
+        Route::get('/', 'index')->name('index');
+    });
+
+    // Reports
+    Route::controller(ReportAdminController::class)->prefix('reports')->name('reports.')->group(function () {
+        Route::get('/', 'index')->name('index');
+    });
+
+
 });

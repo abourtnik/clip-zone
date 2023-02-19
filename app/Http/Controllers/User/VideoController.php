@@ -59,7 +59,13 @@ class VideoController extends Controller
 
     public function store(StoreVideoRequest $request, Video $video): RedirectResponse {
         $validated = $request->safe()->merge([
-            'thumbnail' =>  $request->file('thumbnail')->store('/', 'thumbnails')
+            'thumbnail' =>  $request->file('thumbnail')->store('/', 'thumbnails'),
+            'scheduled_date' => $request->get('scheduled_date'),
+            'publication_date' => match((int) $request->get('status')) {
+                VideoStatus::PUBLIC->value => now(),
+                VideoStatus::PLANNED->value => $request->get('scheduled_date'),
+                default => null,
+            }
         ])->toArray();
 
         $video->update($validated);
@@ -104,8 +110,19 @@ class VideoController extends Controller
 
     public function update(UpdateVideoRequest $request, Video $video): RedirectResponse {
 
+        // Publication date is the first date that video become public, this data never be updated after first publication
+
         $validated = $request->safe()->merge([
-            'thumbnail' => Image::storeAndDelete($request->file('thumbnail'), $video->thumbnail, 'thumbnails')
+            'thumbnail' => Image::storeAndDelete($request->file('thumbnail'), $video->thumbnail, 'thumbnails'),
+            'scheduled_date' => match((int) $request->get('status')) {
+                VideoStatus::PLANNED->value => $request->get('scheduled_date'),
+                default => null,
+            },
+            'publication_date' => $video->publication_date?->isPast() ? $video->publication_date : match((int) $request->get('status')) {
+                VideoStatus::PUBLIC->value => now(),
+                VideoStatus::PLANNED->value => $request->get('scheduled_date'),
+                default => null,
+             }
         ])->toArray();
 
         $video->update($validated);
@@ -152,7 +169,7 @@ class VideoController extends Controller
             'original_file_name' => $file->getClientOriginalName(),
             'file' => $file->store('/', 'videos'),
             'mimetype' => $file->getMimeType(),
-            'duration' =>  floor((new \getID3())->analyze($file->getRealPath())['playtime_seconds']),
+            'duration' => floor($request->get('duration')),
             'status' => VideoStatus::DRAFT,
         ])->toArray();
 

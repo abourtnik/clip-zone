@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Filters\CommentFilters;
 use App\Filters\InteractionFilters;
-use App\Filters\VideoFilters;
 use App\Filters\SubscriberFilters;
+use App\Filters\VideoFilters;
 use App\Filters\ViewFilters;
 use App\Helpers\Image;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -19,7 +20,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Symfony\Component\Intl\Countries;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class UserController
 {

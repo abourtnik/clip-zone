@@ -31,7 +31,7 @@ class VideoPolicy
      */
     public function view(User $user, Video $video): Response|bool
     {
-        return $video->user()->is($user)
+        return $video->user()->is($user) || $user->is_admin
             ? Response::allow()
             : Response::denyWithStatus(404);
     }

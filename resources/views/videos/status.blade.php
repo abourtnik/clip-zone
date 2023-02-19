@@ -18,6 +18,11 @@
         <i class="fa-solid fa-file"></i>&nbsp;
         Draft
     </span>
+@elseif($video->is_banned)
+    <span class="badge bg-primary">
+        <i class="fa-solid fa-ban"></i>&nbsp;
+        Banned {{$video->banned_at->diffForHumans()}}
+    </span>
 @else
     <span class="badge bg-danger">
         <i class="fa-solid fa-eye-slash"></i>&nbsp;

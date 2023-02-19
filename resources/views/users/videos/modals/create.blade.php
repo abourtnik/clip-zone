@@ -62,15 +62,17 @@
             isUpload: false,
             error: null,
             controller: null,
-            uploadFile(file) {
+            async uploadFile (file) {
                 if(!file) {
                     return;
                 }
+                const duration = await this.getVideoDuration(file);
                 this.controller = new AbortController();
                 this.isUpload = true;
                 this.error = null;
                 const data = new FormData()
                 data.append('file', file)
+                data.append('duration', duration)
                 fetch('{{route('videos.upload')}}', {
                     method: 'POST',
                     body: data,
@@ -104,6 +106,17 @@
             },
             cancel() {
                 this.controller.abort();
+            },
+            getVideoDuration(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => {
+                        const media = new Audio(reader.result);
+                        media.onloadedmetadata = () => resolve(media.duration);
+                    };
+                    reader.readAsDataURL(file);
+                    reader.onerror = error => reject(error);
+                });
             }
         }));
     })

@@ -10,6 +10,7 @@ enum VideoStatus : int {
     case PLANNED = 2;
     case UNLISTED = 3;
     case DRAFT = 4;
+    case BANNED = 5;
 
     public static function getAll(): array {
         return self::get(self::cases());

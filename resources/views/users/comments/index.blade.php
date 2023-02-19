@@ -5,7 +5,7 @@
 @section('content')
     @if($comments->total() || $filters)
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h2>Comments</h2>
+            <h2>My Comments</h2>
         </div>
         <hr>
         <form class="my-4 d-flex gap-3 align-items-end" method="GET">
@@ -92,23 +92,9 @@
                                         @endif
                                         <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
                                     </div>
-                                    @if($comment->is_long)
-                                        <div class="mt-1 d-block" x-data="{ open: false }">
-                                            <template x-if="open">
-                                                <small class="text-muted">
-                                                    {{$comment->content}}
-                                                </small>
-                                            </template>
-                                            <template x-if="!open">
-                                                <small class="text-muted">
-                                                    {{$comment->short_content}}
-                                                </small>
-                                            </template>
-                                            <button @click="open=!open" class="text-primary text-sm bg-transparent d-block mt-1 ps-0" x-text="open ? 'Show less': 'Read more'"></button>
-                                        </div>
-                                    @else
-                                        <small class="text-muted d-block mt-1">{{$comment->content}}</small>
-                                    @endif
+                                    <x-expand-item>
+                                        {{$comment->content}}
+                                    </x-expand-item>
                                 </div>
                             </div>
                         </td>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{env('APP_NAME')}} - Admin</title>
+    <title>@yield('title') - Admin</title>
     <script>
         window.User = {
             id : {{auth()->user()->id}}
@@ -13,16 +13,10 @@
 </head>
 <body>
     <main class="h-100 overflow-auto">
-        @include('layouts.menus.header')
-        <div class="admin-content d-flex overflow-hidden">
+        @include('layouts.headers.admin')
+        <div class="admin-content d-flex">
             @include('layouts.menus.back', ['type' => 'admin'])
-            <div class="container-fluid mt-3" style="margin-left: 280px">
-                @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {!! session('success') !!}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
+            <div id="main-container" class="container-fluid my-3 @yield('class')" style="@yield('style')">
                 @yield('content')
             </div>
         </div>

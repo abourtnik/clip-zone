@@ -136,12 +136,12 @@
                                     </select>
                                 </div>
                                 <div class="col-6" x-show="value">
-                                    <label for="publication_date" class="form-label d-none">Publication date</label>
+                                    <label for="scheduled_date" class="form-label d-none">Scheduled date</label>
                                     <input
                                         class="form-control"
                                         type="datetime-local"
-                                        id="publication_date"
-                                        name="publication_date"
+                                        id="scheduled_date"
+                                        name="scheduled_date"
                                         min="{{now()->toDateTimeLocalString('minute')}}"
                                         :required="value"
                                         x-model="date"
@@ -213,7 +213,7 @@
         const planned_value = document.getElementById('planned_value').textContent;
         Alpine.data('planned', (initial) => ({
             value: initial,
-            date: initial ? '{{old('publication_date')}}' : '',
+            date: initial ? '{{old('scheduled_date')}}' : '',
             update(e) {
                 this.value = e.target.options[e.target.selectedIndex].index == planned_value;
             }

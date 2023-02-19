@@ -186,6 +186,7 @@ return [
          * Package Service Providers...
          */
         Spatie\EloquentSortable\EloquentSortableServiceProvider::class,
+        Lab404\Impersonate\ImpersonateServiceProvider::class,
 
         /*
          * Application Service Providers...

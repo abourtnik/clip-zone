@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\Interfaces\Likeable;
+use App\Models\Interfaces\Reportable;
 use App\Models\Traits\HasLike;
+use App\Models\Traits\HasReport;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,9 +18,9 @@ use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class Comment extends Model implements Likeable
+class Comment extends Model implements Likeable, Reportable
 {
-    use HasLike, LogsActivity;
+    use HasLike, LogsActivity, HasReport;
 
     protected $guarded = ['id'];
 

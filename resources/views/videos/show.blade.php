@@ -12,7 +12,7 @@
                 @if($video->is_planned)
                     <div class="d-flex alert alert-warning px-2 py-1 align-items-center gap-2 mb-0">
                         <i class="fa-solid fa-clock"></i>
-                        <strong>Planned - {{$video->publication_date->format('d M Y H:i')}}</strong>
+                        <strong>Planned - {{$video->scheduled_date->format('d M Y H:i')}}</strong>
                     </div>
                 @elseif($video->is_private)
                     <div class="d-flex alert alert-danger px-2 py-1 align-items-center gap-2 mb-0">
@@ -33,15 +33,9 @@
                 <h4 class="mb-0">{{$video->title}}</h4>
             </div>
             <div class="mt-4 d-flex justify-content-between align-items-center">
-                <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->created_at->format('d F Y')}}</div>
-                @auth()
-                    <div class="d-flex gap-3 align-items-center">
-                        <div>
-                            <a href="{{route('video.download', $video)}}" class="btn btn-primary btn-sm">
-                                <i class="fa-solid fa-download"></i>
-                                Download
-                            </a>
-                        </div>
+                <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date ? $video->publication_date->format('d F Y H:i') : $video->created_at->format('d F Y H:i')}}</div>
+                @auth
+                    <div class="d-flex gap-2 align-items-center">
                         <interaction-button
                             active="{{ json_encode(['like' => $video->liked_by_auth_user, 'dislike' => $video->disliked_by_auth_user ])}}"
                             model="{{get_class($video)}}"
@@ -50,36 +44,68 @@
                             @if(!$video->show_likes) show-count="false" @endif
                         >
                         </interaction-button>
+                        <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4" title="Download video">
+                            <i class="fa-solid fa-download"></i>&nbsp;
+                            Download
+                        </a>
+                        @if($video->user->isNot(Auth::user()))
+                            @if(Auth::user()->report($video))
+                                <div class="rounded-4 d-flex alert alert-secondary px-2 py-2 align-items-center gap-2 mb-0 text-sm">
+                                    <i class="fa-regular fa-flag"></i>
+                                    <span>Report {{$video->reports->first()->created_at->diffForHumans()}}</span>
+                                </div>
+                            @else
+                                <button class="btn btn-secondary rounded-4" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
+                                    <i class="fa-regular fa-flag"></i>&nbsp;
+                                    Report
+                                </button>
+                            @endif
+                        @endif
                     </div>
                 @else
-                    <div class="d-flex justify-content-between gap-1">
+                    <div class="d-flex gap-2 align-items-center">
+                        <div class="d-flex justify-content-between gap-1 bg-light-dark border border-primary rounded-4 p-1">
+                            <button
+                                class="d-flex justify-content-between align-items-center btn btn-sm border border-0 text-black"
+                                data-bs-toggle="popover"
+                                data-bs-placement="left"
+                                data-bs-title="Like this video ?"
+                                data-bs-trigger="focus"
+                                data-bs-html="true"
+                                data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                            >
+                                <i class="fa-regular fa-thumbs-up"></i>
+                                @if($video->show_likes && $video->likes_count)
+                                    <span>{{$video->likes_count}}</span>
+                                @endif
+                            </button>
+                            <div class="vr"></div>
+                            <button
+                                class="d-flex justify-content-between align-items-center btn btn-sm border border-0 text-black"
+                                data-bs-toggle="popover"
+                                data-bs-placement="right"
+                                data-bs-title="Don't like this video ?"
+                                data-bs-trigger="focus"
+                                data-bs-html="true"
+                                data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                            >
+                                <i class="fa-regular fa-thumbs-down"></i>
+                                @if($video->show_likes && $video->dislikes_count)
+                                    <span>{{$video->dislikes_count}}</span>
+                                @endif
+                            </button>
+                        </div>
                         <button
-                            class="btn btn-sm btn-outline-success"
-                            data-bs-toggle="popover"
-                            data-bs-placement="left"
-                            data-bs-title="Like this video ?"
-                            data-bs-trigger="focus"
-                            data-bs-html="true"
-                            data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
-                        >
-                            <i class="fa-regular fa-thumbs-up"></i>
-                            @if($video->show_likes && $video->likes_count)
-                                <span>{{$video->likes_count}}</span>
-                            @endif
-                        </button>
-                        <button
-                            class="btn btn-sm btn-outline-danger"
+                            class="btn btn-secondary rounded-4"
                             data-bs-toggle="popover"
                             data-bs-placement="right"
-                            data-bs-title="Don't like this video ?"
+                            data-bs-title="Need to report the video?"
                             data-bs-trigger="focus"
                             data-bs-html="true"
-                            data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                            data-bs-content="Sign in to report inappropriate content.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
                         >
-                            <i class="fa-regular fa-thumbs-down"></i>
-                            @if($video->show_likes && $video->dislikes_count)
-                                <span>{{$video->dislikes_count}}</span>
-                            @endif
+                            <i class="fa-regular fa-flag"></i>&nbsp;
+                            Report
                         </button>
                     </div>
                 @endauth
@@ -114,8 +140,8 @@
                     @elseif(auth()->user()->isNot($video->user))
                         <subscribe-button
                             @if(!Auth()->user()->isSubscribeTo($video->user)) is-subscribe @endif
-                            user="{{$video->user->id}}"
-                        />
+                            user="{{$video->user->id}}">
+                        </subscribe-button>
                     @endif
                 </div>
             </div>

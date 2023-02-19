@@ -98,7 +98,7 @@ class VideoController
         );
     }
 
-    public function user (User $user, Request $request) {
+    public function user (User $user, Request $request) : ResourceCollection {
 
         $sort = $request->get('sort', 'recent');
         $excludePinned = $request->exists('excludePinned');

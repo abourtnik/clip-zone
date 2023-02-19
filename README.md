@@ -3,8 +3,6 @@
 ## Primary
 
 - Responsive
-- First publication date
-
 
 ## Secondary
 

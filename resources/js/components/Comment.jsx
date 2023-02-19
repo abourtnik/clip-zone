@@ -161,7 +161,13 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                                     {
                                         comment.can_report &&
                                         <li>
-                                            <button className="dropdown-item d-flex align-items-center gap-3">
+                                            <button
+                                                className="dropdown-item d-flex align-items-center gap-3"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#report"
+                                                data-id={comment.id}
+                                                data-type={comment.class}
+                                            >
                                                 <Flag />
                                                 Report
                                             </button>

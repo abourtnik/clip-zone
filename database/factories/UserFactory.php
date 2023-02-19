@@ -18,6 +18,8 @@ class UserFactory extends Factory
      */
     public function definition() : array
     {
+        $date = fake()->dateTimeBetween('-1 year');
+
         return [
             'username' => fake()->userName(),
             'email' => fake()->unique()->safeEmail(),
@@ -30,7 +32,9 @@ class UserFactory extends Factory
             'description' => fake()->realText(5000),
             'country' => fake()->countryCode(),
             'website' => fake()->domainName(),
-            'show_subscribers' => fake()->boolean(90)
+            'show_subscribers' => fake()->boolean(90),
+            'created_at' => $date,
+            'updated_at' => $date
         ];
     }
 

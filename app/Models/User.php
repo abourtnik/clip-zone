@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Interfaces\Likeable;
+use App\Models\Interfaces\Reportable;
+use App\Models\Traits\HasReport;
 use App\Notifications\PasswordUpdate;
 use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword;
@@ -16,6 +18,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Lab404\Impersonate\Models\Impersonate;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
@@ -29,9 +32,9 @@ use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
  * @property boolean $is_admin
  */
 
-class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail, Reportable
 {
-    use HasFactory, Notifiable, HasRelationships;
+    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate;
 
     protected $guarded = ['id'];
 
@@ -42,7 +45,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'banned_at' => 'datetime'
+        'banned_at' => 'datetime',
+        'last_login_at' => 'datetime'
     ];
 
     /**
@@ -130,6 +134,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Activity::class, 'causer_id');
     }
 
+    public function user_reports () : HasMany {
+        return $this->hasMany(Report::class, 'user_id');
+    }
+
+    public function video_reports () : HasManyThrough {
+        return $this->hasManyThrough(Report::class, Video::class, 'user_id', 'reportable_id')
+            ->where('reportable_type', Video::class);
+    }
+
     /**
      * -------------------- ATTRIBUTES --------------------
      */
@@ -209,6 +222,13 @@ class User extends Authenticatable implements MustVerifyEmail
         );
     }
 
+    protected function isAdmin(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => !is_null($value)
+        );
+    }
+
     /**
      * -------------------- SCOPES --------------------
      */
@@ -250,6 +270,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $likeable->dislikes()
             ->whereRelation('user', 'id', $this->id)
             ->exists();
+    }
+
+    public function report(Reportable $reportable): Report|null
+    {
+        return $reportable->reports()
+            ->whereRelation('user', 'id', $this->id)
+            ->first();
     }
 
     /**
@@ -301,5 +328,23 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->setRememberToken(Str::random(60));
 
         $this->notify(new PasswordUpdate());
+    }
+
+    /**
+     * @return bool
+     */
+    public function canImpersonate() : bool
+    {
+        // For example
+        return $this->is_admin;
+    }
+
+    /**
+     * @return bool
+     */
+    public function canBeImpersonated()
+    {
+        // For example
+        return !$this->is_admin;
     }
 }

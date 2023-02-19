@@ -20,7 +20,7 @@ export default function Video ({video}) {
                         <a href={video.user.route} className="position-relative text-decoration-none">
                             <small>{video.user.username}</small>
                         </a>
-                        <small className="text-muted d-block">{video.views} • {video.created_at}</small>
+                        <small className="text-muted d-block">{video.views} • {video.publication_date}</small>
                     </div>
                 </div>
             </div>

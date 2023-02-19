@@ -26,7 +26,7 @@
                     <select name="status" class="form-select" aria-label="Default select example">
                         <option selected value="">All</option>
                         @foreach($status as $id => $name)
-                            <option @selected(($filters['status'] ?? null) == $id) value="{{$id}}">{{$name}}</option>
+                            <option @selected(($filters['status'] ?? null) === (string) $id) value="{{$id}}">{{$name}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -64,7 +64,9 @@
                 <tr style="border-top: 3px solid #0D6EFD;">
                     <th scope="col" style="width: 40%">Video</th>
                     <th scope="col">Visibility</th>
-                    <th scope="col">Publication date</th>
+                    <th scope="col" class="">
+                        Date
+                    </th>
                     <th scope="col">Views</th>
                     <th scope="col">Category</th>
                     <th scope="col">Comments</th>
@@ -91,9 +93,20 @@
                             </div>
                         </td>
                         <td class="align-middle">
-                            @include('users.videos.partials.status')
+                            @include('videos.status')
                         </td>
-                        <td class="align-middle">{{$video->publication_date->format('d F Y H:i')}}</td>
+                        <td class="align-middle">
+                            @if($video->is_private || $video->is_unlisted || $video->is_draft)
+                                {{$video->created_at->format('d F Y H:i')}}
+                                <div class="text-sm text-muted">Uploaded</div>
+                            @elseif($video->is_planned)
+                                {{$video->scheduled_date->format('d F Y H:i')}}
+                                <div class="text-sm text-muted">Scheduled</div>
+                            @else
+                                {{$video->publication_date->format('d F Y H:i')}}
+                                <div class="text-sm text-muted">Published</div>
+                            @endif
+                        </td>
                         <td class="align-middle">
                             @if(!$video->is_draft)
                                 {{$video->views_count}}
@@ -164,7 +177,7 @@
                                 data-bs-toggle="modal"
                                 data-bs-target="#delete_video"
                                 data-title="{{$video->title}}"
-                                data-infos="{{trans_choice('views', $video->views_count)}} • {{$video->publication_date->format('d F Y')}}"
+                                data-infos="{{trans_choice('views', $video->views_count)}} • {{$video->created_at->format('d F Y')}}"
                                 data-poster="{{$video->thumbnail_url}}"
                                 data-route="{{route('user.videos.destroy', $video)}}"
                                 data-download="{{route('video.download', $video)}}"
@@ -209,7 +222,7 @@
         </div>
         {{ $videos->links() }}
         @include('users.videos.modals.delete')
-        @include('users.videos.modals.likes')
+        @include('videos.modals.interactions')
     @else
         <div class="card shadow">
             <div class="card-body d-flex justify-content-center align-items-center">
