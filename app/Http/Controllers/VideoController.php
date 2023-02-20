@@ -65,7 +65,8 @@ class VideoController
         return view('videos.show', [
             'video' => $video
                 ->load([
-                    'user' => fn($q) => $q->withCount('subscribers')
+                    'user' => fn($q) => $q->withCount('subscribers'),
+                    'reports' => fn($q) => $q->where('user_id', Auth::id())
                 ])
                 ->loadCount([
                     'views',

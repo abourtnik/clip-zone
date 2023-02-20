@@ -14,6 +14,24 @@
                 <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
             </div>
             <div class="col">
+                <label for="video" class="form-label fw-bold">Video</label>
+                <select name="video" class="form-select" aria-label="Default select example">
+                    <option selected value="">All</option>
+                    @foreach($videos as $video)
+                        <option @selected(($filters['video'] ?? null) === (string) $video->id) value="{{$video->id}}">{{$video->title}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col">
+                <label for="user" class="form-label fw-bold">User</label>
+                <select name="user" class="form-select" aria-label="Default select example">
+                    <option selected value="">All</option>
+                    @foreach($users as $user)
+                        <option @selected(($filters['user'] ?? null) === (string) $user->id) value="{{$user->id}}">{{$user->username}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col">
                 <label for="comment_date_start" class="form-label fw-bold">Comment date start</label>
                 <input type="datetime-local" name="date[]" class="form-control" id="comment_date_start" value="{{$filters['date'][0] ?? null}}">
             </div>
@@ -27,6 +45,15 @@
                     <option selected value="">All</option>
                     @foreach(['with', 'without'] as $option)
                         <option @selected(($filters['replies'] ?? null) === $option) value="{{$option}}">{{ucfirst($option)}} replies</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col">
+                <label for="ban" class="form-label fw-bold">Banned</label>
+                <select name="ban" class="form-select" aria-label="Default select example">
+                    <option selected value="">All</option>
+                    @foreach(['banned' => 'Banned', 'not_banned' => 'Not banned'] as $id => $label)
+                        <option @selected(($filters['ban'] ?? null) === $id) value="{{$id}}">{{$label}}</option>
                     @endforeach
                 </select>
             </div>
@@ -47,7 +74,7 @@
                     <th class="w-50">Comment</th>
                     <th>Replies</th>
                     <th>Interactions</th>
-                    <th>Action</th>
+                    <th>Ban</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -63,16 +90,16 @@
                         </td>
                         <td class="align-middle">
                             <div class="d-flex gap-2">
-                                <a href="{{route('pages.user', $comment->user)}}">
+                                <a href="{{$comment->user->route}}">
                                     <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
                                 </a>
-                                <div>
+                                <div class="d-flex flex-column gap-1">
                                     <div class="d-flex align-items-center">
-                                        <a class="text-sm text-decoration-none" href="{{route('pages.user', $comment->user)}}">{{$comment->user->username}}</a>
-                                        @if($comment->user->is_subscribe_to_current_user)
-                                            <small class="text-muted">&nbsp;• <span class="text-danger">Subscriber</span></small>
-                                        @endif
+                                        <a @class(['text-sm text-decoration-none', 'badge rounded-pill text-bg-secondary' => $comment->user->is($comment->video->user)]) href="{{$comment->user->route}}">{{$comment->user->username}}</a>
                                         <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
+                                        @if($comment->is_updated)
+                                            <small class="text-muted text-muted fw-semibold">&nbsp;• Modified</small>
+                                        @endif
                                     </div>
                                     <x-expand-item>
                                         {{$comment->content}}
@@ -95,9 +122,26 @@
                             @include('users.partials.interactions', ['item' => $comment])
                         </td>
                         <td class="align-middle">
-                            <a href="" class="btn btn-danger btn-sm" title="Ban Video">
-                                <i class="fa-solid fa-ban"></i>
-                            </a>
+                            @if($comment->is_banned)
+                                <div class="badge bg-warning">
+                                    {{$comment->banned_at->diffForHumans()}}
+                                </div>
+                            @else
+                                <button
+                                    class="btn btn-danger btn-sm"
+                                    title="Ban comment"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#ban_comment"
+                                    data-route="{{route('admin.comments.ban', $comment)}}"
+                                    data-username="{{$comment->user->username}}"
+                                    data-avatar="{{$comment->user->avatar_url}}"
+                                    data-date="{{$comment->created_at->diffForHumans()}}"
+                                    data-content="{{$comment->content}}"
+                                >
+                                    <i class="fa-solid fa-ban"></i>
+                                    Ban comment
+                                </button>
+                            @endif
                         </td>
                     </tr>
                 @empty
@@ -112,7 +156,7 @@
             </table>
         </div>
         {{ $comments->links() }}
-        @include('users.comments.modals.delete')
+        @include('admin.comments.modals.ban')
     @else
         <div class="card shadow">
             <div class="card-body d-flex justify-content-center align-items-center">

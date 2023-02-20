@@ -63,7 +63,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($reports->count() || $filters)
+                    @if($reports->count())
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -124,7 +124,7 @@
                                         </td>
                                         <td class="align-middle text-sm">
                                             <div class="d-flex gap-2 align-items-center">
-                                                <a href="{{route('admin.reports.index')}}" class="btn btn-sm btn-primary">
+                                                <a href="{{route('admin.reports.index') .'?id='.$report->reportable->id. '&type='.strtolower($report->type)}}" class="btn btn-sm btn-primary">
                                                     <i class="fa-solid fa-flag"></i>&nbsp;
                                                     See all reports
                                                 </a>
@@ -150,7 +150,6 @@
                         <div class="text-center my-3">
                             <i class="fa-solid fa-eye-slash fa-2x"></i>
                             <h5 class="my-3">No reports yet</h5>
-                            <small class="text-muted">Some description</small>
                         </div>
                     @endif
                 </div>

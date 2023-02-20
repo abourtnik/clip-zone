@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Subscription;
-use App\Models\User;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -51,31 +49,6 @@ class PageController
             'category' => $category->loadCount([
                 'videos' => fn($query) => $query->active()
             ])
-        ]);
-    }
-
-    public function user(User $user): View {
-
-        if (Auth::check() && Auth::user()->isSubscribeTo($user)) {
-
-            Subscription::where([
-                'user_id' => $user->id,
-                'subscriber_id' => Auth::user()->id,
-            ])->update([
-                'read_at' => now()
-            ]);
-        }
-
-        return view('pages.user', [
-            'user' => $user->load([
-                'videos' => function ($q) {
-                    $q->with('user')
-                        ->withCount('views')
-                        ->active()
-                        ->latest('publication_date');
-                },
-                'pinned_video' => fn($q) => $q->withCount('views')
-            ])->loadCount('subscribers', 'videos_views', 'videos')
         ]);
     }
 

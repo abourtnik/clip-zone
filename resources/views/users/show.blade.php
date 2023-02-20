@@ -153,10 +153,10 @@
                                     @endif
                                     @auth
                                     <li class="list-group-item ps-0">
-                                        @if(Auth::user()?->report($user))
+                                        @if($user->reports)
                                             <div class="rounded-4 d-flex alert alert-secondary px-2 py-2 align-items-center gap-2 mb-0 text-sm">
                                                 <i class="fa-regular fa-flag"></i>
-                                                <span>Report {{Auth::user()->report($user)->created_at->diffForHumans()}}</span>
+                                                <span>Report {{$user->reports->first()->created_at->diffForHumans()}}</span>
                                             </div>
                                         @else
                                             <button class="btn btn-outline-secondary rounded-4 btn-sm" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$user->id}}" data-type="{{\App\Models\User::class}}">

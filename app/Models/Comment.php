@@ -26,6 +26,10 @@ class Comment extends Model implements Likeable, Reportable
 
     protected static $recordEvents = ['created'];
 
+    protected $dates = [
+        'banned_at'
+    ];
+
     use HasFactory;
 
     /**
@@ -86,6 +90,20 @@ class Comment extends Model implements Likeable, Reportable
         );
     }
 
+    protected function isBanned(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => !is_null($this->banned_at)
+        );
+    }
+
+    protected function isUpdated(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->created_at->ne($this->updated_at)
+        );
+    }
+
 
 
     /**
@@ -103,6 +121,23 @@ class Comment extends Model implements Likeable, Reportable
         $query->whereNotNull('parent_id');
     }
 
+    /**
+     * Scope a query to only active comment.
+     *
+     * @param  Builder $query
+     * @return void
+     */
+    public function scopeActive(Builder $query): void
+    {
+        $query->whereNotNull('banned_at');
+    }
+
+    /**
+     * Scope a query to only include replies.
+     *
+     * @param  Builder $query
+     * @return void
+     */
     public function scopeFilter(Builder $query, $filters)
     {
         return $filters->apply($query);

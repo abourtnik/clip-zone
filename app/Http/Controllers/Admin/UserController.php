@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\VideoStatus;
 use App\Filters\UserFilters;
 use App\Jobs\Export;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController
@@ -25,11 +27,24 @@ class UserController
         ]);
     }
 
-    public function ban (User $user) : RedirectResponse {
+    public function ban (User $user, Request $request) : RedirectResponse {
 
         $user->update([
             'banned_at' => now()
         ]);
+
+        if ($request->has('ban_videos')){
+            $user->videos()->update([
+                'banned_at' => now(),
+                'status' => VideoStatus::BANNED
+            ]);
+        }
+
+        if ($request->has('ban_comments')){
+            $user->comments()->update([
+                'banned_at' => now(),
+            ]);
+        }
 
         return redirect()->route('admin.users.index');
     }

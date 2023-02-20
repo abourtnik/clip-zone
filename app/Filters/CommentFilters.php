@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use App\Filters\Comments\AuthorFilter;
+use App\Filters\Comments\BanFilter;
 use App\Filters\Comments\DateFilter;
 use App\Filters\Comments\SearchFilter;
 use App\Filters\Comments\VideoFilter;
@@ -16,5 +17,6 @@ class CommentFilters extends AbstractFilters
         'user' => AuthorFilter::class,
         'date' => DateFilter::class,
         'replies' => RepliesFilter::class,
+        'ban' => BanFilter::class,
     ];
 }

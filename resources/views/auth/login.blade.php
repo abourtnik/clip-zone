@@ -8,7 +8,7 @@
             <div id="login-form" class="col-12 col-sm-10 offset-sm-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 border p-4 bg-light">
                 @if (session('error'))
                     <div class="alert alert-danger">
-                        {{ session('error') }}
+                        {!! session('error') !!}
                     </div>
                 @endif
                 @if (session('success'))

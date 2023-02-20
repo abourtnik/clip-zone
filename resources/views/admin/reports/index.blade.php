@@ -14,9 +14,12 @@
                 <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
             </div>
             <div class="col">
-                <label for="type" class="form-label fw-bold">Report By</label>
+                <label for="user" class="form-label fw-bold">Report By</label>
                 <select name="user" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
+                    @foreach($users as $user)
+                        <option @selected(($filters['user'] ?? null) === $user->id) value="{{$user->id}}">{{$user->username}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col">
@@ -41,7 +44,9 @@
                 <label for="status" class="form-label fw-bold">Status</label>
                 <select name="status" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
-                    <option value="pending">Pending</option>
+                    @foreach($status as $id => $label)
+                        <option @selected(($filters['status'] ?? null) === (string) $id) value="{{$id}}">{{$label}}</option>
+                    @endforeach
                 </select>
             </div>
             <div class="col">
@@ -69,9 +74,9 @@
                     <th style="width: 10%">Type</th>
                     <th class="w-30">Content</th>
                     <th class="w-30">Reason</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th>Action</th>
+                    <th >Status</th>
+                    <th style="width: 7%">Date</th>
+                    <th style="width: 7%">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -84,7 +89,7 @@
                             </a>
                         </td>
                         <td class="align-middle">
-                            <div class="d-flex align-items-center justify-content-center gap-2">
+                            <div class="d-flex align-items-center justify-content-center gap-2 badge bg-info">
                                 <i class="fa-solid fa-{{$report->icon}}"></i>
                                 {{$report->type}}
                             </div>
@@ -122,20 +127,32 @@
                             </x-expand-item>
                         </td>
                         <td class="align-middle">
-                            <div class="badge bg-warning">
-                                Pending
+                            <div class="badge bg-{{$report->status->color()}}">
+                                {{$report->status->name()}}
                             </div>
                         </td>
                         <td class="align-middle text-sm">
                             {{$report->created_at->diffForHumans()}}
                         </td>
                         <td class="align-middle">
-                            <div class="d-flex align-items-center gap-2">
-                                <button class="btn btn-sm btn-primary">
-                                    <i class="fa-solid fa-ban"></i>&nbsp;
-                                    Cancel
-                                </button>
-                            </div>
+                            @if($report->is_pending)
+                                <div class="d-flex flex-column gap-2">
+                                    <form class="w-100" method="POST" action="{{route('admin.reports.accept', $report)}}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-success btn-sm w-100">
+                                            <i class="fa-solid fa-check"></i>&nbsp;
+                                            Accept
+                                        </button>
+                                    </form>
+                                    <form class="w-100" method="POST" action="{{route('admin.reports.reject', $report)}}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm w-100">
+                                            <i class="fa-solid fa-xmark"></i>&nbsp;
+                                            Reject
+                                        </button>
+                                    </form>
+                                </div>
+                            @endif
                         </td>
                     </tr>
                 @empty
@@ -154,7 +171,8 @@
         <div class="card shadow">
             <div class="card-body d-flex justify-content-center align-items-center">
                 <div class="my-3 text-center">
-                    <h5 class="my-3">You haven't submitted any reports.</h5>
+                    <i class="fa-solid fa-eye-slash fa-2x"></i>
+                    <h5 class="my-3">No reports are submitted.</h5>
                 </div>
             </div>
         </div>

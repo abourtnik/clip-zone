@@ -3,7 +3,9 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsive-sidebar">
             <span class="navbar-toggler-icon" style="width: 1.2em;height: 1.2em;"></span>
         </button>
-        <a class="text-decoration-none text-danger fw-bold me-0 fs-6" href="{{route('admin.index')}}">{{config('app.name')}} Admin</a>
+        <a class="text-decoration-none text-danger fw-bold me-0 fs-6" href="{{route('admin.index')}}">
+            {{config('app.name')}} Admin
+        </a>
         <a class="nav-link" href="{{route('logout')}}">
             <i class="fa-solid fa-right-from-bracket"></i>
         </a>

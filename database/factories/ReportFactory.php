@@ -27,7 +27,7 @@ class ReportFactory extends Factory
             'user_id' => $user->id,
             'reason' => fake()->randomElement(array_values(ReportReason::get())),
             'comment' => fake()->realText(5000),
-            'status' => ReportStatus::PROGRESS->value,
+            'status' => ReportStatus::PENDING->value,
             'created_at' => $date,
             'updated_at' => $date,
         ];

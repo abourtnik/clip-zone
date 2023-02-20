@@ -6,5 +6,6 @@
     "views": "[0,1] :count view|[2,*] :count views",
     "results": "[0,1] :count result|[2,*] :count results",
     "likes": "[0,1] :count like|[2,*] :count likes",
-    "dislikes": "[0,1] :count dislike|[2,*] :count dislikes"
+    "dislikes": "[0,1] :count dislike|[2,*] :count dislikes",
+    "reports": "[0,1] :count report|[2,*] :count reports"
 }

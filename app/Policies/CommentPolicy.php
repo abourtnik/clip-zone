@@ -120,7 +120,7 @@ class CommentPolicy
      */
     public function pin(User $user, Comment $comment): Response|bool
     {
-        return $comment->user->is($user) && $comment->video->user->is($user) && !$comment->is_reply
+        return $comment->video->user->is($user) && !$comment->is_reply
             ? Response::allow()
             : Response::denyWithStatus(403);
     }

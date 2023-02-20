@@ -6,10 +6,16 @@ use Illuminate\Support\Arr;
 
 enum ReportReason : string {
 
-    //'Sexual Content', 'Violent or repulsive content', 'Hateful or abusive content', 'Harassment or bullying', 'Harmful or dangerous acts', 'Misinformation', 'Child abuse', 'Promotes terrorism', 'Spam or misleading', 'Infringes my rights', 'Captions issue'
-
     case SEXUAL = 'Sexual Content';
     case VIOLENT = 'Violent or repulsive content';
+    case ABUSIVE = 'Hateful or abusive content';
+    case HARASSMENT = 'Harassment or bullying';
+    case HARMFUL = 'Harmful or dangerous acts';
+    case MISINFORMATION = 'Misinformation';
+    case CHILD_ABUSE = 'Child abuse';
+    case TERRORISM = 'Promotes terrorism';
+    case INFRINGES = 'Infringes my rights';
+    case CAPTIONS = 'Captions issue';
 
 
     public static function get(): array {
@@ -17,6 +23,6 @@ enum ReportReason : string {
     }
 
     public static function valid(): array {
-        return Arr::pluck(self::cases(), 'name');
+        return Arr::pluck(self::cases(), 'value');
     }
 }

@@ -4,7 +4,9 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsive-sidebar">
                 <span class="navbar-toggler-icon" style="width: 1.2em;height: 1.2em;"></span>
             </button>
-            <a @class(['navbar-brand text-danger fw-bold d-md-none me-0 fs-6', 'navbar-brand-auth' => Auth::guest()]) href="{{route('pages.home')}}">Youtube Clone</a>
+            <a @class(['navbar-brand text-danger fw-bold d-md-none me-0 fs-6', 'navbar-brand-auth' => Auth::guest()]) href="{{route('pages.home')}}">
+                {{config('app.name')}}
+            </a>
         </div>
         <div class="d-flex align-items-center d-md-none gap-3" x-show.important="!search">
             <div class="d-flex gap-4 align-items-center" >
@@ -41,7 +43,7 @@
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
             <div class="d-flex justify-content-between align-items-center w-100">
                 <a style="width: 240px" class="navbar-brand text-center text-danger fw-bold" href="{{route('pages.home')}}">
-                    Youtube Clone
+                    {{config('app.name')}}
                 </a>
                 <search-bar class="w-35" responsive query="{{request()->get('q')}}"></search-bar>
                 <ul class="navbar-nav">

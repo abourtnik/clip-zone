@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Hash;
 
-
 class LoginController
 {
     public function show(): View {
@@ -32,6 +31,10 @@ class LoginController
 
             if (!$user->hasVerifiedEmail()) {
                 return back()->with('error', 'Your email is not verified. Please check your mailbox')->onlyInput('username');
+            }
+
+            if ($user->is_banned) {
+                return back()->with('error', 'Your account has been suspended for violating our <a target="_blank" class="text-danger fw-bold" href="/terms">Terms of Service</a>')->onlyInput('username');
             }
 
             Auth::login($user, $remember);

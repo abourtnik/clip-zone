@@ -79,14 +79,14 @@
                 </td>
                 <td class="align-middle">
                     @if($user->videos_count)
-                        <a href="{{route('admin.videos.index') .'?user='.$user->id}}" class="badge bg-primary text-decoration-none">{{$user->videos_count}} videos</a>
+                        <a href="{{route('admin.videos.index') .'?user='.$user->id}}" class="badge bg-primary text-decoration-none">{{trans_choice('videos', $user->videos_count)}}</a>
                     @else
                         <div class="badge bg-secondary">No videos</div>
                     @endif
                 </td>
                 <td class="align-middle">
                     @if($user->comments_count)
-                        <div class="badge bg-primary">{{$user->comments_count}} comments</div>
+                        <a href="{{route('admin.comments.index') .'?user='.$user->id}}" class="badge bg-primary  text-decoration-none">{{trans_choice('comments', $user->comments_count)}}</a>
                     @else
                         <div class="badge bg-secondary">No comments</div>
                     @endif
@@ -107,6 +107,8 @@
                             data-route="{{route('admin.users.ban', $user)}}"
                             data-username="{{$user->username}}"
                             data-avatar="{{$user->avatar_url}}"
+                            data-videos="{{$user->videos_count}}"
+                            data-comments="{{$user->comments_count}}"
                         >
                             <i class="fa-solid fa-ban"></i>
                             Ban user

@@ -91,6 +91,9 @@
                                             <small class="text-muted">&nbsp;• <span class="text-danger">Subscriber</span></small>
                                         @endif
                                         <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
+                                        @if($comment->is_updated)
+                                            <small class="text-muted text-muted fw-semibold">&nbsp;• Modified</small>
+                                        @endif
                                     </div>
                                     <x-expand-item>
                                         {{$comment->content}}
@@ -113,26 +116,17 @@
                             @include('users.partials.interactions', ['item' => $comment])
                         </td>
                         <td class="align-middle">
-                            <div class="d-flex align-items-center gap-2">
-                                <button
-                                    class="btn btn-sm btn-primary"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#comment_replies"
-                                    data-id="{{$comment->id}}"
-                                    data-video="{{$comment->video->id}}">
-                                    Reply
-                                </button>
-                                <button
-                                    class="btn btn-sm btn-danger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#comment_delete"
-                                    data-route="{{route('user.comments.destroy', $comment)}}"
-                                    data-author="{{$comment->user->username}}"
-                                    data-replies-count="{{$comment->replies_count}}"
-                                >
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
+                            <button
+                                class="btn btn-sm btn-danger d-flex align-items-center gap-1"
+                                data-bs-toggle="modal"
+                                data-bs-target="#comment_delete"
+                                data-route="{{route('user.comments.destroy', $comment)}}"
+                                data-author="{{$comment->user->username}}"
+                                data-replies-count="{{$comment->replies_count}}"
+                            >
+                                <i class="fa-solid fa-trash"></i>
+                                Remove
+                            </button>
                         </td>
                     </tr>
                 @empty

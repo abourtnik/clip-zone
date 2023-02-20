@@ -7,22 +7,23 @@ use App\Http\Controllers\Admin\UserController as UserAdminController;
 use App\Http\Controllers\Admin\VideoController as VideoAdminController;
 use App\Http\Controllers\Admin\ReportController as ReportAdminController;
 
-
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegistrationController;
 
+use App\Http\Controllers\VideoController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\ContactController;
 
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\User\CommentController as CommentUserController;
 use App\Http\Controllers\User\ReportController;
-use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
-use App\Http\Controllers\VideoController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -35,12 +36,7 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');
     Route::get('/trend', 'trend')->name('trend');
     Route::get('/categories/{slug}', 'category')->name('category');
-    Route::get('/user/{user}', 'user')
-        ->name('user')
-        ->can('show', 'user')
-        ->missing(fn(Request $request) => abort(404, 'User not found'));
     Route::get('/terms', 'terms')->name('terms');
-
     Route::middleware('auth')->group(function () {
         Route::get('/liked', 'liked')->name('liked');
     });
@@ -54,6 +50,14 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
     Route::get('/video/file/{video:uuid}', 'file')->name('file');
     Route::get('/video/download/{video:uuid}', 'download')->name('download')->can('download', 'video');
+});
+
+// USERS
+Route::controller(UserController::class)->name('user.')->group(function () {
+    Route::get('/user/{user}', 'show')
+        ->name('show')
+        ->can('show', 'user')
+        ->missing(fn(Request $request) => abort(404, 'User not found'));
 });
 
 // SEARCH
@@ -73,6 +77,12 @@ Route::controller(SubscriptionController::class)->name('subscription.')->group(f
 Route::controller(HistoryController::class)->name('history.')->middleware('auth')->group(function () {
     Route::get('/history', 'index')->name('index');
     Route::get('/history-clear', 'clear')->name('clear');
+});
+
+// CONTACT
+Route::controller(ContactController::class)->name('contact.')->group(function () {
+    Route::get('/contact', 'show')->name('show');
+    Route::post('/contact', 'contact')->name('contact');
 });
 
 // LOGIN
@@ -101,7 +111,7 @@ Route::controller(PasswordController::class)->group(function () {
 Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function () {
 
     // Profile
-    Route::controller(UserController::class)->group(function () {
+    Route::controller(ProfileController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/edit', 'edit')->name('edit');
         Route::put('/update', 'update')->name('update');
@@ -170,12 +180,14 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
     // Comments
     Route::controller(CommentAdminController::class)->prefix('comments')->name('comments.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/{comment}/ban', 'ban')->name('ban');
     });
 
     // Reports
     Route::controller(ReportAdminController::class)->prefix('reports')->name('reports.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::post('/{report}/accept', 'accept')->name('accept');
+        Route::post('/{report}/reject', 'reject')->name('reject');
     });
-
 
 });

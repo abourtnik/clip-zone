@@ -53,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Menu Request
-        View::composer(['pages.*', 'auth.*', 'videos.show', 'subscription.*', 'errors::*'], function($view) {
+        View::composer(['pages.*', 'auth.*', 'videos.show', 'users.show', 'subscription.*', 'contact.show', 'errors::*'], function($view) {
             $view->with('categories', Category::where('in_menu', true)->ordered()->get());
             $view->with(
                 'subscriptions',

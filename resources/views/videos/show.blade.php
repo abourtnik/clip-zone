@@ -49,7 +49,7 @@
                             Download
                         </a>
                         @if($video->user->isNot(Auth::user()))
-                            @if(Auth::user()->report($video))
+                            @if($video->reports)
                                 <div class="rounded-4 d-flex alert alert-secondary px-2 py-2 align-items-center gap-2 mb-0 text-sm">
                                     <i class="fa-regular fa-flag"></i>
                                     <span>Report {{$video->reports->first()->created_at->diffForHumans()}}</span>

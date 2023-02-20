@@ -138,7 +138,7 @@
             <td class="align-middle">
                 @if(!$video->is_draft)
                     @if($video->comments_count)
-                        <a href="{{route('user.comments.index') .'?video='.$video->id}}" class="badge bg-info text-decoration-none">
+                        <a href="{{route('admin.comments.index') .'?video='.$video->id}}" class="badge bg-info text-decoration-none">
                             {{trans_choice('comments', $video->comments_count)}}
                         </a>
                     @else

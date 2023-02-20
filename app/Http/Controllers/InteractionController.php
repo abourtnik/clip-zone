@@ -98,6 +98,7 @@ class InteractionController extends Controller
                 ->when($filter === 'up', fn($query) => $query->where('status', true))
                 ->when($filter === 'down', fn($query) => $query->where('status', false))
                 ->when($search, fn($query) => $query->whereRelation('user', 'username', 'LIKE',  '%'.$search.'%'))
+                ->latest('perform_at')
                 ->paginate(40)
                 ->withQueryString()
         );

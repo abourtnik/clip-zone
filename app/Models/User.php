@@ -190,7 +190,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     protected function route(): Attribute
     {
         return Attribute::make(
-            get: fn () => route('pages.user', $this)
+            get: fn () => route('user.show', $this)
         );
     }
 

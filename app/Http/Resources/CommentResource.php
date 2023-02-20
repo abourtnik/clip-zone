@@ -13,7 +13,7 @@ class CommentResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param Request $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @return array
      */
     public function toArray($request) : array
     {
@@ -34,7 +34,7 @@ class CommentResource extends JsonResource
                 'id' => $this->video->id
             ],
             'created_at' => $this->created_at->diffForHumans(),
-            'is_updated' => $this->created_at->ne($this->updated_at),
+            'is_updated' => $this->is_updated,
             'model' => Comment::class,
             'likes_count' => $this->likes_count,
             'dislikes_count' => $this->dislikes_count,

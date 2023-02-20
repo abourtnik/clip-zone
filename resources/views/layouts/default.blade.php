@@ -13,7 +13,7 @@
     <meta name="msapplication-navbutton-color" content="#FF6174" />
     <meta name="apple-mobile-web-app-status-bar-style" content="#FF6174" />
 
-    <meta property="og:site_name" content="Youtube clone" />
+    <meta property="og:site_name" content="{{config('app.name')}}" />
     <meta property="og:url" content="{{url()->full()}}" />
     <meta property="og:title" content="@yield('title') - {{config('app.name')}}" />
     <meta property="og:description" content="@yield('description')" />

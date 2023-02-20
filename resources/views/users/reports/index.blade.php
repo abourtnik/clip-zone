@@ -73,7 +73,7 @@
                 @forelse($reports as $report)
                     <tr class="bg-light">
                         <td class="align-middle">
-                            <div class="d-flex align-items-center gap-2">
+                            <div class="d-flex align-items-center justify-content-center gap-2 badge bg-info">
                                 <i class="fa-solid fa-{{$report->icon}}"></i>
                                 {{$report->type}}
                             </div>
@@ -112,8 +112,8 @@
                             </x-expand-item>
                         </td>
                         <td class="align-middle">
-                            <div class="badge bg-warning">
-                                Pending
+                            <div class="badge bg-{{$report->status->color()}}">
+                                {{$report->status->name()}}
                             </div>
                         </td>
                         <td class="align-middle">

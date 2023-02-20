@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Symfony\Component\Intl\Countries;
 
-class UserController
+class ProfileController
 {
     public function index(
         VideoFilters $videoFilter,

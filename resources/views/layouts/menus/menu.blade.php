@@ -18,7 +18,7 @@
     </div>
     <ul class="nav nav-pills flex-column text-center" x-data="{ open: false }">
         @foreach($subscriptions->slice(0, 7) as $user)
-            <x-sidebar-item route="{{route('pages.user', $user)}}" class="justify-content-between">
+            <x-sidebar-item route="{{$user->route}}" class="justify-content-between">
                 <div class="d-flex align-items-center gap-4">
                     <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
                     <span class="text-sm">{{$user->username}}</span>
@@ -38,7 +38,7 @@
             <div x-show="open">
                 @foreach($subscriptions->slice(7) as $user)
                     <li class="nav-item">
-                        <a href="{{route('pages.user', $user)}}" class="nav-link rounded-0 gap-4 {{ (request()->route()->action['as'] === 'pages.user' && Route::current()->user->is($user)) ? 'bg-light-dark fw-bold text-black' : 'text-black' }} d-flex align-items-center" aria-current="page">
+                        <a href="{{$user->route}}" class="nav-link rounded-0 gap-4 {{ (request()->route()->action['as'] === 'pages.user' && Route::current()->user->is($user)) ? 'bg-light-dark fw-bold text-black' : 'text-black' }} d-flex align-items-center" aria-current="page">
                             <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
                             <span class="">{{$user->username}}</span>
                         </a>
@@ -77,10 +77,10 @@
 </ul>
 <hr class="w-90">
 <div class="mb-3 ps-4">
-    <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">Terms</a>
-    <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">Privacy</a>
+    <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">Terms of Service •</a>
+    <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('contact.show')}}">Contact</a>
     <div class="d-flex align-items-center gap-2 mt-2">
         <small class="text-muted">© {{now()->format('Y')}}</small>
-        <a class="text-sm fw-bold text-decoration-none" href="https://antonbourtnik.fr/">Anton Bourtnik</a>
+        <a class="text-sm fw-bold text-decoration-none" href="https://antonbourtnik.fr">Anton Bourtnik</a>
     </div>
 </div>

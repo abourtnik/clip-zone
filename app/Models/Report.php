@@ -44,6 +44,13 @@ class Report extends Model
         );
     }
 
+    protected function isPending(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status === ReportStatus::PENDING
+        );
+    }
+
     protected function icon(): Attribute
     {
         return Attribute::make(

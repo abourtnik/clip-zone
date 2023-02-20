@@ -111,9 +111,18 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <small class="text-muted fw-bold mb-2">Video Link</small>
-                                    <a class="text-decoration-none d-block text-sm" href="{{route('video.show', $video)}}">{{$video->route}}</a>
+                                    <a class="text-decoration-none d-block text-sm w-75" href="{{$video->route}}">{{$video->route}}</a>
                                 </div>
-                                <button x-data @click="navigator.clipboard.writeText($event.currentTarget.dataset.link)" type="button" class="btn btn-sm btn-light" title="Copy video link" data-link="{{$video->route}}">
+                                <button
+                                    x-data
+                                    @click="navigator.clipboard.writeText($event.currentTarget.dataset.link)"
+                                    type="button"
+                                    class="btn btn-sm btn-light"
+                                    title="Copy video link"
+                                    data-link="{{$video->route}}"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-title="Copy video link"
+                                >
                                     <i class="fa-regular fa-copy"></i>
                                 </button>
                             </div>
