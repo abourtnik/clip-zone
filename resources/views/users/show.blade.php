@@ -51,7 +51,6 @@
                             <a href="{{route('user.edit')}}" class="btn btn-primary">Customize channel</a>
                             <a href="{{route('user.videos.index')}}" class="btn btn-primary">Manage videos</a>
                         </div>
-
                     @endif
                 </div>
                 <ul class="nav" role="tablist">
@@ -63,6 +62,11 @@
                     <li class="nav-item" role="presentation">
                         <a class="nav-link user-tabs" data-bs-toggle="tab" data-bs-target="#videos" type="button" role="tab" aria-controls="videos" aria-selected="false">
                             Videos
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link user-tabs" data-bs-toggle="tab" data-bs-target="#playlists" type="button" role="tab" aria-controls="playlists" aria-selected="false">
+                            Playlists
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -128,18 +132,34 @@
                         </div>
                     @endif
                 </div>
+                <div class="tab-pane " id="playlists" role="tabpanel" aria-labelledby="playlists-tab">
+                    @if($user->playlists_count)
+                        <div class="row gx-3 gy-4 mt-0">
+                            @each('playlists.card', $user->playlists, 'playlist')
+                        </div>
+                    @else
+                        <div class="d-flex align-items-center justify-content-center h-75 mt-4">
+                            <div class="w-100 border p-4 bg-light text-center bg-white">
+                                <i class="fa-solid fa-video-slash fa-5x mb-3"></i>
+                                <p class="text-muted">This user has no playlists</p>
+                            </div>
+                        </div>
+                    @endif
+                </div>
                 <div class="tab-pane" id="about" role="tabpanel" aria-labelledby="about-tab">
                     <div class="row mt-4">
                         <div class="col-lg-9 order-2 order-lg-1">
                             <div class="card card-body">
                                 <h6 class="card-title text-primary">Description</h6>
                                 <hr>
-                                {!! nl2br(e($user->description)) !!}
+                                <x-expand-item max="1000">
+                                    {!! nl2br(e($user->description)) !!}
+                                </x-expand-item>
                             </div>
                         </div>
                         <div class="col-lg-3 order-1 order-lg-2 mb-4 mb-lg-0">
                             <div class="card card-body">
-                                <h6 class="card-title text-primary">Informations</h6>
+                                <h6 class="card-title text-primary mb-4">Informations</h6>
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item ps-0">Joined {{$user->created_at->format('d F Y')}}</li>
                                     <li class="list-group-item ps-0">{{trans_choice('views', $user->videos_views_count)}}</li>
@@ -153,13 +173,13 @@
                                     @endif
                                     @auth
                                     <li class="list-group-item ps-0">
-                                        @if($user->reports)
-                                            <div class="rounded-4 d-flex alert alert-secondary px-2 py-2 align-items-center gap-2 mb-0 text-sm">
+                                        @if($user->reports->count())
+                                            <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">
                                                 <i class="fa-regular fa-flag"></i>
-                                                <span>Report {{$user->reports->first()->created_at->diffForHumans()}}</span>
+                                                <span>Reported {{$user->reports->first()->created_at->diffForHumans()}}</span>
                                             </div>
                                         @else
-                                            <button class="btn btn-outline-secondary rounded-4 btn-sm" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$user->id}}" data-type="{{\App\Models\User::class}}">
+                                            <button class="btn btn-secondary rounded-4 btn-sm px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$user->id}}" data-type="{{\App\Models\User::class}}">
                                                 <i class="fa-regular fa-flag"></i>&nbsp;
                                                 Report
                                             </button>

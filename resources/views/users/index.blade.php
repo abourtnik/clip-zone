@@ -216,7 +216,7 @@
                             @forelse($user->subscribers as $subscriber)
                                 <tr>
                                     <td class="align-middle">
-                                        <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2 text-decoration-none">
+                                        <a href="{{$subscriber->route}}" class="d-flex align-items-center gap-2 text-decoration-none">
                                             <img class="rounded" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 50px;">
                                             <span>{{$subscriber->username}}</span>
                                         </a>
@@ -295,11 +295,11 @@
                                         </td>
                                         <td class="align-middle">
                                             <div class="d-flex gap-2">
-                                                <a href="{{route('pages.user', $comment->user)}}">
+                                                <a href="{{$comment->user->route}}">
                                                     <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
                                                 </a>
                                                 <div>
-                                                    <a href="{{route('pages.user', $comment->user)}}" class="text-decoration-none">{{$comment->user->username}}</a>
+                                                    <a href="{{$comment->user->route}}" class="text-decoration-none">{{$comment->user->username}}</a>
                                                     <x-expand-item max="180">
                                                         {{$comment->content}}
                                                     </x-expand-item>
@@ -379,7 +379,7 @@
                                         </a>
                                     </td>
                                     <td class="align-middle">
-                                        <a href="{{route('pages.user', $interaction->user->id)}}" class="d-flex align-items-center gap-2 text-decoration-none">
+                                        <a href="{{$interaction->user->route}}" class="d-flex align-items-center gap-2 text-decoration-none">
                                             <img class="rounded" src="{{$interaction->user->avatar_url}}" alt="{{$interaction->user->username}} avatar" style="width: 50px;">
                                             <span>{{$interaction->user->username}}</span>
                                         </a>

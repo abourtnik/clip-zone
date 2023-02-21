@@ -95,28 +95,7 @@
                             </div>
                         </td>
                         <td class="align-middle">
-                            @if($report->type == 'Video')
-                                <div class="d-flex gap-3 align-items-start">
-                                    <a href="{{$report->reportable->route}}">
-                                        <img src="{{$report->reportable->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
-                                    </a>
-                                    <div class="d-flex flex-column gap-2">
-                                        <small>{{Str::limit($report->reportable->title, 100), '...'}}</small>
-                                        <a class="text-primary text-decoration-none" href="{{$report->reportable->user->route}}">
-                                            {{$report->reportable->user->username}}
-                                        </a>
-                                    </div>
-                                </div>
-                            @elseif($report->type == 'Comment')
-                                <x-expand-item>
-                                    {{$report->reportable->content}}
-                                </x-expand-item>
-                            @elseif($report->type == 'User')
-                                <a class="d-flex text-decoration-none align-items-center gap-2" href="{{$report->reportable->route}}">
-                                    <img class="rounded" src="{{$report->reportable->avatar_url}}" alt="{{$report->reportable->username}} avatar" style="width: 50px;">
-                                    <div>{{$report->reportable->username}}</div>
-                                </a>
-                            @endif
+                            @include('reports.' .strtolower($report->type))
                         </td>
                         <td class="align-middle">
                             <div class="badge bg-danger">

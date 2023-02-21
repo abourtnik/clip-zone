@@ -33,7 +33,7 @@
                 <h4 class="mb-0">{{$video->title}}</h4>
             </div>
             <div class="mt-4 d-flex justify-content-between align-items-center">
-                <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date ? $video->publication_date->format('d F Y H:i') : $video->created_at->format('d F Y H:i')}}</div>
+                <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date?->format('d F Y') ?? $video->created_at->format('d F Y')}}</div>
                 @auth
                     <div class="d-flex gap-2 align-items-center">
                         <interaction-button
@@ -48,18 +48,16 @@
                             <i class="fa-solid fa-download"></i>&nbsp;
                             Download
                         </a>
-                        @if($video->user->isNot(Auth::user()))
-                            @if($video->reports)
-                                <div class="rounded-4 d-flex alert alert-secondary px-2 py-2 align-items-center gap-2 mb-0 text-sm">
-                                    <i class="fa-regular fa-flag"></i>
-                                    <span>Report {{$video->reports->first()->created_at->diffForHumans()}}</span>
-                                </div>
-                            @else
-                                <button class="btn btn-secondary rounded-4" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
-                                    <i class="fa-regular fa-flag"></i>&nbsp;
-                                    Report
-                                </button>
-                            @endif
+                        @if($video->user->isNot(Auth::user()) && $video->reports->count())
+                            <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">
+                                <i class="fa-regular fa-flag"></i>
+                                <span>Reported {{$video->reports->first()->created_at->diffForHumans()}}</span>
+                            </div>
+                        @elseif($video->user->isNot(Auth::user()))
+                            <button class="btn btn-secondary rounded-4" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
+                                <i class="fa-regular fa-flag"></i>&nbsp;
+                                Report
+                            </button>
                         @endif
                     </div>
                 @else
@@ -113,11 +111,11 @@
             <hr>
             <div class="d-flex gap-3 justify-content-between align-items-center">
                 <div class="d-flex gap-3">
-                    <a href="{{route('pages.user', $video->user)}}">
+                    <a href="{{$video->user->route}}">
                         <img class="rounded" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar" style="width: 48px;height: 48px;">
                     </a>
                     <div class="d-flex flex-column">
-                        <a href="{{route('pages.user', $video->user)}}" class="text-decoration-none">{{$video->user->username}}</a>
+                        <a href="{{$video->user->route}}" class="text-decoration-none">{{$video->user->username}}</a>
                         @if($video->user->show_subscribers)
                             <small class="text-muted d-block">{{trans_choice('subscribers', $video->user->subscribers_count)}}</small>
                         @endif
@@ -145,30 +143,28 @@
                     @endif
                 </div>
             </div>
-            @if($video->description)
-                @if($video->description_is_long)
-                    <div class="my-4 card pointer-event" style='cursor: pointer;' x-data="{ open: false }" @click="open=!open">
-                        <div class="card-body">
-                            <template x-if="open">
-                                <p>
-                                    {!! nl2br($video->parsed_description) !!}
-                                </p>
-                            </template>
-                            <template x-if="!open">
-                                <p>
-                                    {!! nl2br($video->short_description) !!}
-                                </p>
-                            </template>
-                            <div class="text-primary fw-bold mt-1" x-text="open ? 'Show less': 'Show more'"></div>
-                        </div>
+            @if($video->description && $video->description_is_long)
+                <div class="my-4 card pointer-event" style='cursor: pointer;' x-data="{ open: false }" @click="open=!open">
+                    <div class="card-body">
+                        <template x-if="open">
+                            <p>
+                                {!! nl2br($video->parsed_description) !!}
+                            </p>
+                        </template>
+                        <template x-if="!open">
+                            <p>
+                                {!! nl2br($video->short_description) !!}
+                            </p>
+                        </template>
+                        <div class="text-primary fw-bold mt-1" x-text="open ? 'Show less': 'Show more'"></div>
                     </div>
-                @else
-                    <div class="card my-4">
-                        <div class="card-body">
-                            {!! nl2br($video->parsed_description) !!}
-                        </div>
+                </div>
+            @elseif($video->description)
+                <div class="card my-4">
+                    <div class="card-body">
+                        {!! nl2br($video->parsed_description) !!}
                     </div>
-                @endif
+                </div>
             @else
                 <div class="my-4 card">
                     <div class="card-body">

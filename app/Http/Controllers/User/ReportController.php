@@ -8,6 +8,7 @@ use App\Filters\ReportFilters;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Report\ReportRequest;
 use App\Models\Comment;
+use App\Models\Report;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
@@ -27,7 +28,7 @@ class ReportController extends Controller
                                     $morphTo->morphWith([
                                         User::class,
                                         Video::class => ['user'],
-                                        Comment::class,
+                                        Comment::class => ['video', 'user']
                                     ]);
                             }
                         ])
@@ -52,8 +53,10 @@ class ReportController extends Controller
         return redirect()->back();
     }
 
-    public function cancel () {
+    public function cancel (Report $report) : RedirectResponse {
 
+        $report->delete();
 
+        return redirect()->route('user.reports.index');
     }
 }

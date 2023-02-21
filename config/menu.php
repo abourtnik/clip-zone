@@ -52,6 +52,11 @@ return [
                 'route' => 'user.videos.index',
             ],
             [
+                'title' => 'Playlists',
+                'icon' => 'rectangle-list',
+                'route' => 'user.playlists.index',
+            ],
+            [
                 'title' => 'Subscribers',
                 'icon' => 'users',
                 'route' => 'user.subscribers',

@@ -45,7 +45,7 @@
                 @forelse($subscribers as $subscriber)
                     <tr class="bg-light">
                         <td>
-                            <a href="{{route('pages.user', $subscriber)}}" class="d-flex align-items-center gap-2 text-decoration-none">
+                            <a href="{{$subscriber->route}}" class="d-flex align-items-center gap-2 text-decoration-none">
                                 <img class="rounded" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 50px;">
                                 <span>{{$subscriber->username}}</span>
                             </a>

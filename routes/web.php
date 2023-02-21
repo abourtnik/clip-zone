@@ -13,6 +13,7 @@ use App\Http\Controllers\Auth\RegistrationController;
 
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SearchController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\ContactController;
 
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ActivityController;
+use App\Http\Controllers\User\PlaylistController as PlaylistUserController;;
 use App\Http\Controllers\User\CommentController as CommentUserController;
 use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
@@ -53,6 +55,14 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
 });
 
 // USERS
+Route::controller(PlaylistController::class)->name('playlist.')->group(function () {
+    Route::get('/playlist/{playlist:uuid}', 'show')
+        ->name('show')
+        ->can('show', 'playlist')
+        ->missing(fn(Request $request) => abort(404, 'Playlist not found'));
+});
+
+// PLAYLISTS
 Route::controller(UserController::class)->name('user.')->group(function () {
     Route::get('/user/{user}', 'show')
         ->name('show')
@@ -134,6 +144,9 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     // Comments
     Route::resource('comments', CommentUserController::class)->only(['index', 'destroy']);
 
+    // Playlists
+    Route::resource('playlists', PlaylistUserController::class)->except(['show']);
+
     // Activity
     Route::controller(ActivityController::class)->prefix('activity')->name('activity.')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -143,10 +156,10 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     Route::controller(ReportController::class)->prefix('report')->name('reports.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/', 'report')->name('report');
-        Route::post('/cancel', 'cancel')->name('cancel');
+        Route::post('/{report}/cancel', 'cancel')->name('cancel');
     });
 
-    Route::get('/subscribers', [UserController::class, 'subscribers'])->name('subscribers');
+    Route::get('/subscribers', [ProfileController::class, 'subscribers'])->name('subscribers');
 });
 
 // ADMIN
@@ -189,5 +202,4 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
         Route::post('/{report}/accept', 'accept')->name('accept');
         Route::post('/{report}/reject', 'reject')->name('reject');
     });
-
 });

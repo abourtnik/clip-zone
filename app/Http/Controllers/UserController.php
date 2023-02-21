@@ -29,9 +29,14 @@ class UserController
                         ->active()
                         ->latest('publication_date');
                 },
+                'playlists' => function ($q) {
+                    $q->withCount('videos')
+                        ->active()
+                        ->latest('created_at');
+                },
                 'pinned_video' => fn($q) => $q->withCount('views'),
                 'reports' => fn($q) => $q->where('user_id', Auth::id())
-            ])->loadCount('subscribers', 'videos_views', 'videos')
+            ])->loadCount('subscribers', 'videos_views', 'videos', 'playlists')
         ]);
 
     }

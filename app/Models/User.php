@@ -143,6 +143,10 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
             ->where('reportable_type', Video::class);
     }
 
+    public function playlists () : HasMany {
+        return $this->hasMany(Playlist::class);
+    }
+
     /**
      * -------------------- ATTRIBUTES --------------------
      */

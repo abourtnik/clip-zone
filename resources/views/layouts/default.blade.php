@@ -40,7 +40,7 @@
     </main>
     @include('layouts.menus.responsive')
     @include('users.videos.modals.create')
-    @include('users.videos.modals.report')
+    @include('reports.modal')
     @stack('scripts')
 </body>
 </html>

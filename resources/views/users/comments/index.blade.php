@@ -81,12 +81,12 @@
                         </td>
                         <td class="align-middle">
                             <div class="d-flex gap-2">
-                                <a href="{{route('pages.user', $comment->user)}}">
+                                <a href="{{$comment->user->route}}">
                                     <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
                                 </a>
                                 <div>
                                     <div class="d-flex align-items-center">
-                                        <a class="text-sm text-decoration-none" href="{{route('pages.user', $comment->user)}}">{{$comment->user->username}}</a>
+                                        <a class="text-sm text-decoration-none" href="{{$comment->user->route}}">{{$comment->user->username}}</a>
                                         @if($comment->user->is_subscribe_to_current_user)
                                             <small class="text-muted">&nbsp;• <span class="text-danger">Subscriber</span></small>
                                         @endif

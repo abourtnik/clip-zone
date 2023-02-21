@@ -1,6 +1,6 @@
 @if($video->is_public)
     <span class="badge bg-success">
-        <i class="fa-solid fa-eye"></i>&nbsp;
+        <i class="fa-solid fa-earth-europe"></i>&nbsp;
         Public
     </span>
 @elseif($video->is_planned)
