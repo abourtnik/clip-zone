@@ -34,10 +34,24 @@ class Playlist extends Model
      * -------------------- ATTRIBUTES --------------------
      */
 
+    protected function thumbnail(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->videos()->first()->thumbnail_url
+        );
+    }
+
     protected function route(): Attribute
     {
         return Attribute::make(
             get: fn () => route('playlist.show', $this),
+        );
+    }
+
+    protected function type(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => 'playlist',
         );
     }
 

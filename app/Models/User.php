@@ -147,6 +147,16 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         return $this->hasMany(Playlist::class);
     }
 
+    public function favorites_playlist () : BelongsToMany {
+        return $this->belongsToMany(Playlist::class, 'favorites_playlist', 'user_id', 'playlist_id')
+            ->using(FavoritePlaylist::class)
+            ->withPivot(['added_at']);
+    }
+
+    public function notifications () : HasMany {
+        return $this->hasMany(Notification::class);
+    }
+
     /**
      * -------------------- ATTRIBUTES --------------------
      */

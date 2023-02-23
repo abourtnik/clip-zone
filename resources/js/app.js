@@ -16,11 +16,28 @@ window.Alpine = Alpine
 
 Alpine.start()
 
-const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+const popovers = [...document.querySelectorAll('[data-bs-toggle="popover"]')]
+popovers.map(element => new bootstrap.Popover(element))
 
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+const tooltips = [...document.querySelectorAll('[data-bs-toggle="tooltip"]')];
+tooltips.map(element => new bootstrap.Tooltip(element))
+
+const ajaxButtons = [...document.querySelectorAll('.ajax-button')];
+ajaxButtons.map(element => element.addEventListener('click', async e => {
+
+    const url = e.currentTarget.dataset.url;
+    const method = e.currentTarget.dataset.method ?? 'GET';
+
+    await fetch(url, {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method: method,
+        credentials: 'include',
+    });
+
+}))
 
 /*
 window.Echo = new Echo({
@@ -30,11 +47,6 @@ window.Echo = new Echo({
     forceTLS: true
 });
 
-
-
-
-
-/*
 window.Echo.private('App.Models.User.' + User.id).notification(notification => {
  const notifications_count = document.getElementById('notifications_count');
  notifications_count.innerText = parseInt(notifications_count.innerText) + 1 ;

@@ -23,6 +23,7 @@
                     <option selected value="">All</option>
                     <option @selected(($filters['type'] ?? null) === 'users') value="users">User</option>
                     <option @selected(($filters['type'] ?? null) === 'videos') value="videos">Videos</option>
+                    <option @selected(($filters['type'] ?? null) === 'playlists') value="playlists">Playlists</option>
                 </select>
             </div>
             <div class="col">

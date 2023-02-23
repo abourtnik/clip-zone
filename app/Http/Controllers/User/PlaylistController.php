@@ -51,7 +51,7 @@ class PlaylistController extends Controller
 
         foreach ($videos as $key => $id) {
             $playlist->videos()->attach([
-                $id => ['added_at' => now(), 'position' => $key]
+                $id => ['position' => $key]
             ]);
         }
 

@@ -44,6 +44,10 @@
                             @if(!$video->show_likes) show-count="false" @endif
                         >
                         </interaction-button>
+                        <button class="btn btn-info rounded-4" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                            <i class="fa-solid fa-share"></i>&nbsp;
+                            Share
+                        </button>
                         <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4" title="Download video">
                             <i class="fa-solid fa-download"></i>&nbsp;
                             Download
@@ -196,7 +200,7 @@
             @endif
         </div>
         <div class="col-lg-5 col-xl-4 col-xxl-3">
-            @each('videos.card-secondary', $videos, 'video')
+            @each('videos.card-secondary',  $videos, 'video')
         </div>
     </div>
 @endsection

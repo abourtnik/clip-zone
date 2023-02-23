@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
@@ -32,10 +33,14 @@ Route::middleware('auth')->group(function () {
     // Upload
     Route::post('/videos/upload', [VideoUserController::class, 'upload'])->name('videos.upload');
 
+    // Notifications
+    Route::get('/{notification}/read', [NotificationController::class, 'read'])->name('notifications.read');
+
 });
 
 // SEARCH
 Route::get("search", [SearchController::class, 'search'])->name('search');
+Route::get("search-videos", [SearchController::class, 'searchVideos'])->name('search-videos');
 
 // COMMENTS
 Route::prefix('comments')->name('comments.')->controller(CommentController::class)->group(function () {

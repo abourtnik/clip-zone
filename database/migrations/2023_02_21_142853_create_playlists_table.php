@@ -31,8 +31,14 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Playlist::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Video::class)->constrained()->cascadeOnDelete();
-            $table->timestamp('added_at');
             $table->unsignedTinyInteger('position')->default(0);
+        });
+
+        Schema::create('favorites_playlist', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Playlist::class)->constrained()->cascadeOnDelete();
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->timestamp('added_at')->useCurrent();
         });
     }
 
@@ -43,6 +49,7 @@ return new class extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('favorites_playlist');
         Schema::dropIfExists('playlist_has_videos');
         Schema::dropIfExists('playlists');
     }

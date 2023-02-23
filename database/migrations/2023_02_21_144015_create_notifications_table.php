@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->text('message');
             $table->string('url');
+            $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });
     }

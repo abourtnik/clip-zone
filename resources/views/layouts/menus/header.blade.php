@@ -49,15 +49,67 @@
                 <ul class="navbar-nav">
                     @auth
                         <li class="nav-item ml-4 align-items-center d-none d-lg-flex">
-                            <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#video_create">
+                            <button class="btn btn-success btn-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#video_create">
                                 <i class="fa-solid fa-video-camera"></i>
                                 <span class="d-none d-xl-inline">Create</span>
                             </button>
                         </li>
-                        <li class="nav-item ml-4">
+                        <li class="nav-item mx-4 d-flex align-items-center dropdown" x-data="{unread_notifications: {{$unread_notifications}}}">
+                            <button type="button" class="nav-link bg-transparent position-relative dropdown-toggle without-caret" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                <i class="fa-solid fa-bell"></i>
+                                <span x-show="unread_notifications > 0" class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger text-sm">
+                                    <span x-show="unread_notifications > 99">99 +</span>
+                                    <span x-show="unread_notifications <= 99" x-text="unread_notifications"></span>
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right border border-0 m-0 p-0" style="left: inherit; right: 0;top:53px;min-width:400px">
+                                <div class="card">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <strong>Notifications</strong>
+                                        <a x-show="unread_notifications > 0" class="btn-link text-primary text-decoration-none text-sm fw-bold" href="{{route('user.notifications.read-all')}}">Mark all as read</a>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        @if($notifications->count())
+                                            <ul class="list-group list-group-flush overflow-auto" style="max-height: 420px">
+                                                @foreach($notifications as $notification)
+                                                    <div x-data="{is_read: {{$notification->is_read ? 'true': 'false'}}}" class="text-decoration-none text-black list-group-item notification d-flex align-items-center justify-content-between" href="{{$notification->url}}">
+                                                        <div class="w-75">
+                                                            <p class="mb-0 text-sm">{!! $notification->message !!}</p>
+                                                            <p class="text-muted text-sm mb-0 mt-2">{{$notification->created_at->diffForHumans()}}</p>
+                                                        </div>
+                                                        <span x-show="!is_read" class="bg-primary rounded-circle" style="width: 10px;height: 10px"></span>
+                                                        <button
+                                                            x-show="!is_read"
+                                                            @click="is_read = true;unread_notifications--"
+                                                            class="bg-success bg-opacity-25 rounded-4 btn-sm ajax-button"
+                                                            type="button"
+                                                            data-bs-toggle="tooltip"
+                                                            data-bs-title="Mark as read"
+                                                            data-url="{{route('user.notifications.read', $notification)}}"
+                                                        >
+                                                            <i class="fa-solid fa-check"></i>
+                                                        </button>
+                                                    </div>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <div class="d-flex flex-column justify-content-center align-items-center p-5">
+                                                <i class="fa-solid fa-bell-slash fa-2x"></i>
+                                                <h5 class="mt-3 fs-6">Your notifications live here</h5>
+                                                <p class="text-muted text-center text-sm">Subscribe to your favorite channels to get notified about their latest videos.</p>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="card-footer text-center">
+                                        <a class="btn-link text-primary text-decoration-none text-sm fw-bold" href="{{route('user.notifications.index')}}">See All Notifications</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link d-flex align-items-center" href="{{route('user.index')}}">
-                                <strong class="d-none d-lg-block">{{auth()->user()->username}}</strong>
-                                <img style="width: 42px" class="ml-4 rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
+                                <img style="width: 42px" class="rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
                             </a>
                         </li>
                         @impersonating($guard = null)

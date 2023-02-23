@@ -1,6 +1,6 @@
 @extends('layouts.user')
 
-@section('title', 'Create video')
+@section('title', 'Create playlist')
 
 @section('content')
     {{ Breadcrumbs::render('create_playlist') }}
@@ -20,7 +20,7 @@
     <form action="{{ route('user.playlists.store') }}" method="POST">
         @csrf
         <div class="row">
-            <div class="col-xl-7 order-last order-xl-first">
+            <div class="col-xl-6 order-last order-xl-first">
                 <div class="card shadow-soft">
                     <div class="card-body">
                         <h5 class="text-primary">Details</h5>
@@ -76,19 +76,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-5 order-first order-xl-last mb-4 mb-xl-0">
+            <div class="col-xl-6 order-first order-xl-last mb-4 mb-xl-0">
                 <div class="card shadow-soft">
                     <div class="card-body">
                         <h5 class="text-primary">Add Videos</h5>
                         <hr>
-                        <div class="col-12 mt-3">
-                            <label for="videos" class="form-label">Videos</label>
-                            <select class="form-control" name="videos[]" id="videos" required multiple>
-                                @foreach($videos as $video)
-                                    <option value="{{$video->id}}">{{$video->title}}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                        <playlist-videos/>
                     </div>
                 </div>
             </div>

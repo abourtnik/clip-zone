@@ -25,6 +25,7 @@ use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\User\PlaylistController as PlaylistUserController;;
 use App\Http\Controllers\User\CommentController as CommentUserController;
 use App\Http\Controllers\User\ReportController;
+use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
 
 use Illuminate\Http\Request;
@@ -157,6 +158,15 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
         Route::get('/', 'index')->name('index');
         Route::post('/', 'report')->name('report');
         Route::post('/{report}/cancel', 'cancel')->name('cancel');
+    });
+
+    // Notifications
+    Route::controller(NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{notification}/read', 'read')->name('read');
+        Route::get('/{notification}/unread', 'unread')->name('unread');
+        Route::get('/{notification}/remove', 'remove')->name('remove');
+        Route::get('/read-all', 'readAll')->name('read-all');
     });
 
     Route::get('/subscribers', [ProfileController::class, 'subscribers'])->name('subscribers');

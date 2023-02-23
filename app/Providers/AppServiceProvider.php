@@ -76,6 +76,23 @@ class AppServiceProvider extends ServiceProvider
                     ->get()
             );
             $view->with('report_reasons', ReportReason::get());
+            $view->with('favorite_playlists', Auth::user()?->favorites_playlist()->latest('added_at')->get());
+        });
+
+        // Notifications
+
+        View::composer([
+            'pages.*',
+            'auth.*',
+            'videos.show',
+            'users.*',
+            'playlists.show',
+            'subscription.*',
+            'contact.show',
+            'errors::*'
+        ], function($view) {
+            $view->with('notifications', Auth::user()?->notifications()->latest()->limit(20)->get());
+            $view->with('unread_notifications', Auth::user()?->notifications()->unread()->count());
         });
     }
 }

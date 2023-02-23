@@ -11,6 +11,45 @@
         <hr class="w-90">
     @endunless
 @endforeach
+@if(Auth::check() && $favorite_playlists->count())
+    <div class="d-flex align-items-center justify-content-between ps-3 pe-2 mb-2 text-sm">
+        <div class="fw-bold ">Playlists ({{$favorite_playlists->count()}})</div>
+        <a class="text-decoration-none text-primary" href="{{route('subscription.manage')}}">See</a>
+    </div>
+    <ul class="nav nav-pills flex-column text-center" x-data="{ open: false }">
+        @foreach($favorite_playlists->slice(0, 7) as $playlist)
+            <x-sidebar-item route="{{$playlist->route}}" class="justify-content-between">
+                <div class="d-flex align-items-center gap-4">
+                    <i class="fa-solid fa-list"></i>
+                    <span class="text-sm">{{$playlist->title}}</span>
+                </div>
+            </x-sidebar-item>
+        @endforeach
+        @if($favorite_playlists->count() > 7)
+            <li class="nav-item">
+                <button @click="open = true" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" x-show.important="!open" role="button">
+                    <i class="fa-solid fa-chevron-down"></i>
+                    <small>Show {{$favorite_playlists->count() - 7}} more</small>
+                </button>
+            </li>
+            <div x-show="open">
+                @foreach($favorite_playlists->slice(7) as $playlist)
+                    <x-sidebar-item route="{{$playlist->route}}" class="justify-content-between">
+                        <i class="fa-solid fa-list"></i>
+                        <span class="text-sm">{{$playlist->title}}</span>
+                    </x-sidebar-item>
+                @endforeach
+                <li class="nav-item">
+                    <button @click="open = false" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" role="button">
+                        <i class="fa-solid fa-chevron-up"></i>
+                        <small>Show Less</small>
+                    </button>
+                </li>
+            </div>
+        @endif
+    </ul>
+    <hr>
+@endif
 @if(Auth::check() && $subscriptions->count())
     <div class="d-flex align-items-center justify-content-between ps-3 pe-2 mb-2 text-sm">
         <div class="fw-bold ">Subscriptions ({{$subscriptions->count()}})</div>
@@ -37,12 +76,15 @@
             </li>
             <div x-show="open">
                 @foreach($subscriptions->slice(7) as $user)
-                    <li class="nav-item">
-                        <a href="{{$user->route}}" class="nav-link rounded-0 gap-4 {{ (request()->route()->action['as'] === 'pages.user' && Route::current()->user->is($user)) ? 'bg-light-dark fw-bold text-black' : 'text-black' }} d-flex align-items-center" aria-current="page">
+                    <x-sidebar-item route="{{$user->route}}" class="justify-content-between">
+                        <div class="d-flex align-items-center gap-4">
                             <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
-                            <span class="">{{$user->username}}</span>
-                        </a>
-                    </li>
+                            <span class="text-sm">{{$user->username}}</span>
+                        </div>
+                        @if($user->new_videos)
+                            <span class="bg-primary rounded-circle" style="width: 8px;height: 8px"></span>
+                        @endif
+                    </x-sidebar-item>
                 @endforeach
                 <li class="nav-item">
                     <button @click="open = false" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" role="button">

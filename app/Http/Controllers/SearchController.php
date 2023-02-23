@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Filters\SearchFilters;
+use App\Http\Resources\VideoResource;
+use App\Models\Playlist;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -46,9 +49,17 @@ class SearchController extends Controller
             ->orderBy('subscribers_count', 'desc')
             ->get() : collect();
 
+        $playlists = in_array($type, ['playlists', null]) ? Playlist::active()
+            ->where('title', 'LIKE' , $match)
+            ->withCount('videos')
+            ->latest('created_at')
+            ->get() : collect();
+
+        //dd($playlists);
+
         return view('pages.search', [
             'search' => $q,
-            'results' => $videos->concat($users)->shuffle()->paginate(12)->withQueryString(),
+            'results' => $videos->concat($users)->concat($playlists)->shuffle()->paginate(12)->withQueryString(),
             'filters' => $filters->receivedFilters() + ($type ? ['type' => $type] : [])
         ]);
     }
@@ -83,7 +94,7 @@ class SearchController extends Controller
                 'category' => 'User',
                 'title' => $user->username,
                 'url' => $user->route,
-                'image' => $user->avatar_url,
+                'image' => $user->avatar_url
             ]);
 
         return response()->json([
@@ -92,5 +103,22 @@ class SearchController extends Controller
             'route' => route('search.index'). '?q=' .$q,
         ]);
 
+    }
+
+    public function searchVideos (Request $request): ResourceCollection {
+
+        $q = $request->get('q');
+
+        $match = '%'.$q.'%';
+
+        return VideoResource::collection(
+            Video::active()
+                ->where(fn($query) => $query->where('title', 'LIKE', $match)->orWhere('description', 'LIKE', $match))
+                ->with('user')
+                ->withCount('views')
+                ->latest('publication_date')
+                ->limit(24)
+                ->get()
+        );
     }
 }

@@ -133,7 +133,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                         {
                             auth &&
                             <div className={'dropdown'}>
-                                <button className={'bg-transparent btn-sm dropdown-toggle comment-dropdown'} type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                                <button className={'bg-transparent btn-sm dropdown-toggle without-caret'} type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                                     <Ellipsis/>
                                 </button>
                                 <ul className="dropdown-menu">

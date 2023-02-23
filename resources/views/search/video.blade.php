@@ -11,7 +11,7 @@
     <div>
         <h5 class="mb-1">{{$video->title}}</h5>
         <small class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->created_at->diffForHumans()}}</small>
-        <a href="{{route('pages.user', $video->user)}}" class="d-flex align-items-center gap-2 text-muted text-sm position-relative text-decoration-none my-3">
+        <a href="{{$video->user->route}}" class="d-flex align-items-center gap-2 text-muted text-sm position-relative text-decoration-none my-3">
             <img class="rounded-circle img-fluid" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar" style="width: 24px">
             <span>{{$video->user->username}}</span>
         </a>

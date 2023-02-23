@@ -11,7 +11,7 @@ class VideoResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @return array
      */
     public function toArray($request) : array
     {

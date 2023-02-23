@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.7",
         "mews/purifier": "^3.3",
         "psr/simple-cache": "^2.0",
+        "pusher/pusher-php-server": "^7.2",
         "spatie/eloquent-sortable": "^4.0",
         "spatie/laravel-activitylog": "^4.7",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
