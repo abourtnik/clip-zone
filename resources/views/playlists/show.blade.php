@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-3">
-            <div class="bg-secondary text-white rounded-4 py-4 px-3" style="background: linear-gradient(to bottom, rgba(89,69,61,0.800) 0%, rgba(89,69,61,0.298) 33%, rgba(89,69,61,0.800) 100%);">
+            <div x-data="{favorite: {{$playlist->favorite_by_auth_user ? 'true' : 'false'}}}" class="bg-secondary text-white rounded-4 py-4 px-3" style="background: linear-gradient(to bottom, rgba(89,69,61,0.800) 0%, rgba(89,69,61,0.298) 33%, rgba(89,69,61,0.800) 100%);">
                 <img class="img-fluid w-100 rounded-4" src="{{$playlist->videos->first()->thumbnail_url}}" alt="{{$playlist->title}}" style="width: 360px; height: 202px;object-fit: cover;">
                 <h2 class="h4 my-3">{{$playlist->title}}</h2>
                 <div class="mt-3">by <a class="text-decoration-none text-white fw-bold " href="{{$playlist->user->route}}">{{$playlist->user->username}}</a> </div>
@@ -18,6 +18,30 @@
                     <div class="text-sm">•</div>
                     <div class="text-sm">{{$playlist->created_at->diffForHumans()}}</div>
                 </div>
+                @auth
+                    <button x-show.important="!favorite" @click="favorite = true;" class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button" data-url="{{route('playlist.favorite', $playlist)}}">
+                        <i class="fa-regular fa-heart"></i>
+                        <span>Add to favorites</span>
+                    </button>
+                    <button x-show.important="favorite" @click="favorite = false;" class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button" data-url="{{route('playlist.remove-favorite', $playlist)}}">
+                        <i class="fa-solid fa-heart"></i>
+                        <span>Remove from favorites</span>
+                    </button>
+                @else
+                    <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        data-bs-toggle="popover"
+                        data-bs-placement="right"
+                        data-bs-title="Want to save this playlist ?"
+                        data-bs-trigger="focus"
+                        data-bs-html="true"
+                        data-bs-content="Sign in to save this playlist.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                    >
+                        <i class="fa-regular fa-heart"></i>
+                        <span>Add to favorites</span>
+                    </button>
+                @endauth
                 <p class="text-sm">{{$playlist->description}}</p>
             </div>
         </div>

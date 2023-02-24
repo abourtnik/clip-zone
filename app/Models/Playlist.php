@@ -30,6 +30,12 @@ class Playlist extends Model
         return $this->belongsToMany(Video::class, 'playlist_has_videos');
     }
 
+    public function users () : BelongsToMany {
+        return $this->belongsToMany(User::class, 'favorites_playlist', 'user_id', 'playlist_id')
+            ->using(FavoritePlaylist::class)
+            ->withPivot(['added_at']);
+    }
+
     /**
      * -------------------- ATTRIBUTES --------------------
      */

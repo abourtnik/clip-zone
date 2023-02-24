@@ -41,7 +41,6 @@
     @include('layouts.menus.responsive')
     @include('users.videos.modals.create')
     @include('modals.report')
-    @include('modals.share')
     @stack('scripts')
 </body>
 </html>

@@ -55,15 +55,17 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
     Route::get('/video/download/{video:uuid}', 'download')->name('download')->can('download', 'video');
 });
 
-// USERS
+// PLAYLISTS
 Route::controller(PlaylistController::class)->name('playlist.')->group(function () {
     Route::get('/playlist/{playlist:uuid}', 'show')
         ->name('show')
         ->can('show', 'playlist')
         ->missing(fn(Request $request) => abort(404, 'Playlist not found'));
+    Route::get('/{playlist}/favorite', 'favorite')->name('favorite');
+    Route::get('/{playlist}/remove-favorite', 'removeFavorite')->name('remove-favorite');
 });
 
-// PLAYLISTS
+// USERS
 Route::controller(UserController::class)->name('user.')->group(function () {
     Route::get('/user/{user}', 'show')
         ->name('show')

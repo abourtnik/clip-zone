@@ -44,14 +44,18 @@
                             @if(!$video->show_likes) show-count="false" @endif
                         >
                         </interaction-button>
-                        <button class="btn btn-info rounded-4" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                        <button class="btn btn-info rounded-4 btn-sm" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                             <i class="fa-solid fa-share"></i>&nbsp;
                             Share
                         </button>
-                        <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4" title="Download video">
+                        <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4 btn-sm" title="Download video">
                             <i class="fa-solid fa-download"></i>&nbsp;
                             Download
                         </a>
+                        <button class="btn btn-warning btn-sm rounded-4 px-4" title="Save video" data-bs-toggle="modal" data-bs-target="#save">
+                            <i class="fa-regular fa-bookmark"></i>&nbsp;
+                            Save
+                        </button>
                         @if($video->user->isNot(Auth::user()) && $video->reports->count())
                             <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">
                                 <i class="fa-regular fa-flag"></i>
@@ -97,6 +101,10 @@
                                 @endif
                             </button>
                         </div>
+                        <button class="btn btn-info rounded-4" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                            <i class="fa-solid fa-share"></i>&nbsp;
+                            Share
+                        </button>
                         <button
                             class="btn btn-secondary rounded-4"
                             data-bs-toggle="popover"
@@ -203,6 +211,8 @@
             @each('videos.card-secondary',  $videos, 'video')
         </div>
     </div>
+    @include('modals.share')
+    @includeWhen(Auth::check(), 'modals.save')
 @endsection
 
 @pushIf($video->allow_comments , 'scripts')
