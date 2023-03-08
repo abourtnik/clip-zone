@@ -10,6 +10,7 @@ use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -54,8 +55,6 @@ class SearchController extends Controller
             ->withCount('videos')
             ->latest('created_at')
             ->get() : collect();
-
-        //dd($playlists);
 
         return view('pages.search', [
             'search' => $q,
@@ -107,12 +106,13 @@ class SearchController extends Controller
 
     public function searchVideos (Request $request): ResourceCollection {
 
-        $q = $request->get('q');
+        list('q' => $q, 'except_ids' => $except_ids) = $request->only('q', 'except_ids');
 
         $match = '%'.$q.'%';
 
         return VideoResource::collection(
-            Video::active()
+            Video::where(fn($q) => $q->active()->orWhere('user_id' , Auth::user()->id))
+                ->whereNotIn('id', $except_ids)
                 ->where(fn($query) => $query->where('title', 'LIKE', $match)->orWhere('description', 'LIKE', $match))
                 ->with('user')
                 ->withCount('views')

@@ -5,7 +5,7 @@
 @section('content')
     <div class="h-full">
         <div class="row align-items-center h-100">
-            <div id="register-form" class="col-12 col-sm-10 offset-sm-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 border p-4 bg-light">
+            <div class="col-12 col-sm-10 offset-sm-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3 border p-4 bg-light">
                 <h1 class="h3 mb-3 fw-normal text-center">Create Account</h1>
                 <form method="POST" action="{{route('registration.perform')}}">
                     @csrf

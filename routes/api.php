@@ -3,7 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
 use App\Http\Controllers\VideoController;
@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::post("follow/{user}", [UserController::class, 'follow'])->name('follow');
+    Route::post("follow/{user}", [ProfileController::class, 'follow'])->name('follow');
 
     // Interactions
     Route::name('interactions.')->controller(InteractionController::class)->group(function () {
@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
 
 // SEARCH
 Route::get("search", [SearchController::class, 'search'])->name('search');
-Route::get("search-videos", [SearchController::class, 'searchVideos'])->name('search-videos');
+Route::post("search-videos", [SearchController::class, 'searchVideos'])->name('search-videos');
 
 // COMMENTS
 Route::prefix('comments')->name('comments.')->controller(CommentController::class)->group(function () {

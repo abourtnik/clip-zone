@@ -14,14 +14,14 @@
 @if(Auth::check() && $favorite_playlists->count())
     <div class="d-flex align-items-center justify-content-between ps-3 pe-2 mb-2 text-sm">
         <div class="fw-bold ">Playlists ({{$favorite_playlists->count()}})</div>
-        <a class="text-decoration-none text-primary" href="{{route('subscription.manage')}}">See</a>
+        <a class="text-decoration-none text-primary" href="{{route('playlist.manage')}}">See</a>
     </div>
     <ul class="nav nav-pills flex-column text-center" x-data="{ open: false }">
         @foreach($favorite_playlists->slice(0, 7) as $playlist)
             <x-sidebar-item route="{{$playlist->route}}" class="justify-content-between">
                 <div class="d-flex align-items-center gap-4">
                     <i class="fa-solid fa-list"></i>
-                    <span class="text-sm">{{$playlist->title}}</span>
+                    <span class="text-sm">{{Str::limit($playlist->title, 25)}}</span>
                 </div>
             </x-sidebar-item>
         @endforeach
@@ -36,7 +36,7 @@
                 @foreach($favorite_playlists->slice(7) as $playlist)
                     <x-sidebar-item route="{{$playlist->route}}" class="justify-content-between">
                         <i class="fa-solid fa-list"></i>
-                        <span class="text-sm">{{$playlist->title}}</span>
+                        <span class="text-sm">{{Str::limit($playlist->title, 25)}}</span>
                     </x-sidebar-item>
                 @endforeach
                 <li class="nav-item">

@@ -53,7 +53,7 @@
                     <th scope="col" style="width: 40%">Playlist</th>
                     <th scope="col">Visibility</th>
                     <th scope="col">Created</th>
-                    <th scope="col">Last updated</th>
+                    <th scope="col">Updated</th>
                     <th scope="col">Videos count</th>
                     <th scope="col">Actions</th>
                 </tr>

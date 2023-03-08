@@ -43,7 +43,9 @@ class PlaylistPolicy
      */
     public function show(?User $user, Playlist $playlist): Response|bool
     {
-        return true;
+        return $playlist->is_active || $playlist->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(404, 'This playlist is private');
     }
 
     /**
@@ -69,7 +71,7 @@ class PlaylistPolicy
     {
         return $playlist->user->is($user)
             ? Response::allow()
-            : Response::denyWithStatus(404, 'This playlist is private');
+            : Response::denyWithStatus(403);
     }
 
     /**

@@ -19,6 +19,7 @@
     <meta property="og:description" content="@yield('description')" />
     <meta property="og:image" content="/logo.png" />
     <meta property="og:language" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite(['resources/js/app.js'])
 </head>
 <body>

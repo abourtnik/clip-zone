@@ -3,7 +3,6 @@
 ## Primary
 
 - Responsive
-- Share action
 - Banned video can be update to public by author
 
 ## Secondary

@@ -29,7 +29,8 @@ export default function Interaction ({model, target, count, active, showCount = 
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             credentials: 'include',
             body: JSON.stringify({

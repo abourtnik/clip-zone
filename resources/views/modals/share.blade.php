@@ -6,7 +6,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h5 class="mb-3">Share</h5>
                 <div class="d-flex gap-2 align-items-center">
                     <a href="mailto:?body={{$video->route}}" class="rounded-circle p-3 border" style="background-color: #888888;padding: 0.7rem !important;">
                         <i class="fa-regular fa-envelope fa-2x text-white"></i>
@@ -41,6 +40,9 @@
                         @click="navigator.clipboard.writeText($event.currentTarget.dataset.link)"
                         title="Copy video link"
                         data-link="{{$video->route}}"
+                        data-bs-toggle="tooltip"
+                        data-bs-title="Link copied !"
+                        data-bs-trigger="click"
                     >
                         Copy
                     </button>

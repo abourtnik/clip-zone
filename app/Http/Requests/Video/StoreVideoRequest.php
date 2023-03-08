@@ -5,7 +5,9 @@ namespace App\Http\Requests\Video;
 use App\Enums\ImageType;
 use App\Enums\VideoStatus;
 use App\Enums\Languages;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
@@ -56,7 +58,14 @@ class StoreVideoRequest extends FormRequest
                 'required',
                 Rule::in(['top', 'newest']),
             ],
-            'show_likes' => 'required|boolean'
+            'show_likes' => 'required|boolean',
+            'playlists' => 'nullable|array',
+            'playlists.*' => [
+                'numeric',
+                Rule::exists('playlists', 'id')->where(function (Builder $query){
+                    return $query->where('user_id', Auth::user()->id);
+                })
+            ]
         ];
     }
 
@@ -71,5 +80,18 @@ class StoreVideoRequest extends FormRequest
             'allow_comments' => $this->request->has('allow_comments'),
             'show_likes' => $this->request->has('show_likes'),
         ]);
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'playlists.*.exists' => 'Playlist in position :position not exists on our records',
+            'playlists.*.numeric' => 'Playlist in position :position must be type numeric',
+        ];
     }
 }

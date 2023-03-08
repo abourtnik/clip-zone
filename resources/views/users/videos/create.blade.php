@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h5 class="text-primary mt-5">Secondary</h5>
+                        <h5 class="text-primary mt-3">Secondary</h5>
                         <hr>
                         <div class="row">
                             <div class="col-4 mb-3">
@@ -74,7 +74,7 @@
                                     <option value="" selected>--- Select Category ---</option>
                                     @foreach($categories as $category)
                                         <option
-                                            @selected(old('category') == $category->id) value="{{$category->id}}">{{$category->title}}</option>
+                                            @selected(old('category_id') == $category->id) value="{{$category->id}}">{{$category->title}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -94,6 +94,18 @@
                                     @foreach(['top', 'newest'] as $option)
                                         <option
                                             @selected(old('default_comments_sort') == $option) value="{{$option}}">{{Str::ucfirst($option)}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <h5 class="text-primary mt-3">Playlists</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="playlists" class="form-label d-none">Playlists</label>
+                                <select id="playlists" name="playlists[]" multiple placeholder="Select Playlist..." autocomplete="off" class="select-multiple form-control">
+                                    @foreach($playlists as $playlist)
+                                        <option @selected(in_array($playlist->id, old('playlists', []))) value="{{$playlist->id}}">{{Str::limit($playlist->title, 40)}}</option>
                                     @endforeach
                                 </select>
                             </div>

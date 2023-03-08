@@ -5,21 +5,22 @@
                 <h5 class="modal-title">Save Video to ...</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body w-50">
-                @foreach(\Illuminate\Support\Facades\Auth::user()->playlists as $playlist)
-                    <div class="form-check mb-3 w-100">
-                        <div class="d-flex align-items-center justify-content-between">
+            <div class="modal-body">
+                @foreach($user_playlists as $playlist)
+                    <div class="form-check mb-3">
+                        <div class="d-flex align-items-center gap-3">
                             <div>
                                 <input
                                     class="form-check-input"
                                     name="playlists[]"
                                     type="checkbox"
+                                    @checked($playlist->has_video)
                                     value="{{$playlist->id}}"
                                     id="playlist-{{$playlist->id}}"
                                     @change="playlists += ($event.target.checked) ? 1 : -1"
                                 >
                                 <label class="form-check-label" for="playlist-{{$playlist->id}}">
-                                    {{$playlist->title}}
+                                    {{Str::limit($playlist->title, 60)}}
                                 </label>
                             </div>
                             <i class="fa-solid fa-{{$playlist->status->icon()}}"></i>&nbsp;

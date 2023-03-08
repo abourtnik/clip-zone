@@ -97,19 +97,27 @@
                         </td>
                         <td class="align-middle">
                             @if($video->is_private || $video->is_unlisted || $video->is_draft)
-                                {{$video->created_at->format('d F Y H:i')}}
+                                <small>{{$video->created_at->format('d F Y H:i')}}</small>
                                 <div class="text-sm text-muted">Uploaded</div>
                             @elseif($video->is_planned)
-                                {{$video->scheduled_date->format('d F Y H:i')}}
+                                <small>{{$video->scheduled_date->format('d F Y H:i')}}</small>
                                 <div class="text-sm text-muted">Scheduled</div>
                             @else
-                                {{$video->publication_date->format('d F Y H:i')}}
+                                <small>{{$video->publication_date->format('d F Y H:i')}}</small>
                                 <div class="text-sm text-muted">Published</div>
                             @endif
                         </td>
                         <td class="align-middle">
                             @if(!$video->is_draft)
-                                {{$video->views_count}}
+                                @if($video->views_count)
+                                    <div class="badge bg-info">
+                                        {{trans_choice('views', $video->views_count)}}
+                                    </div>
+                                @else
+                                    <div class="badge bg-secondary">
+                                        No views
+                                    </div>
+                                @endif
                             @endif
                         </td>
                         <td class="align-middle">

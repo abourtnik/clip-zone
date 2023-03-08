@@ -122,8 +122,8 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                         </div>
                     }
                     <div className="d-flex justify-content-between align-items-center">
-                        <div className={'d-flex align-items-center gap-2'}>
-                            <a href={comment.user.route} className={'text-decoration-none' + (comment.user.is_author ? ' badge rounded-pill text-bg-secondary' : '') }>
+                        <div className={'d-flex align-items-center gap-1'}>
+                            <a href={comment.user.route} className={'text-decoration-none text-sm' + (comment.user.is_author ? ' badge rounded-pill text-bg-secondary' : '') }>
                                 {comment.user.username}
                             </a>
                             <span>•</span>

@@ -35,14 +35,14 @@
                                 name="title"
                                 required
                                 value="{{old('title', $playlist->title)}}"
-                                maxlength="100"
+                                maxlength="150"
                                 x-ref="title"
                                 @keyup="count = $refs.title.value.length"
                             >
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="form-text">A catchy title can help you hook viewers.</div>
                                 <div class="form-text">
-                                    <span x-text="count"></span> / <span>100</span>
+                                    <span x-text="count"></span> / <span>150</span>
                                 </div>
                             </div>
                         </div>
@@ -78,20 +78,7 @@
                 </div>
             </div>
             <div class="col-xl-5 order-first order-xl-last mb-4 mb-xl-0">
-                <div class="card shadow-soft">
-                    <div class="card-body">
-                        <h5 class="text-primary">Add Videos</h5>
-                        <hr>
-                        <div class="col-12 mt-3">
-                            <label for="videos" class="form-label">Videos</label>
-                            <select class="form-control" name="videos[]" id="videos" required multiple>
-                                @foreach($videos as $video)
-                                    <option @selected(in_array($video->id, $playlist->videos->pluck('id')->toArray())) value="{{$video->id}}">{{$video->title}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                <playlist-videos initial="{{$videos}}"/>
             </div>
         </div>
         <div class="d-flex justify-content-between mt-3">

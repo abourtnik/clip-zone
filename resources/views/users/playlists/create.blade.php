@@ -34,14 +34,14 @@
                                 name="title"
                                 required
                                 value="{{old('title')}}"
-                                maxlength="100"
+                                maxlength="150"
                                 x-ref="title"
                                 @keyup="count = $refs.title.value.length"
                             >
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="form-text">A catchy title can help you hook viewers.</div>
                                 <div class="form-text">
-                                    <span x-text="count"></span> / <span>100</span>
+                                    <span x-text="count"></span> / <span>150</span>
                                 </div>
                             </div>
                         </div>
@@ -77,13 +77,7 @@
                 </div>
             </div>
             <div class="col-xl-6 order-first order-xl-last mb-4 mb-xl-0">
-                <div class="card shadow-soft">
-                    <div class="card-body">
-                        <h5 class="text-primary">Add Videos</h5>
-                        <hr>
-                        <playlist-videos/>
-                    </div>
-                </div>
+                <playlist-videos initial="{{$videos}}"/>
             </div>
         </div>
         <div class="d-flex justify-content-between mt-3">

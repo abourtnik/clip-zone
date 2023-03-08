@@ -53,7 +53,8 @@ class VideoController extends Controller
             'accepted_video_formats' => implode(', ', VideoType::acceptedFormats()),
             'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats()),
             'categories' => Category::all(),
-            'languages' => Languages::get()
+            'languages' => Languages::get(),
+            'playlists' => Auth::user()->playlists,
         ]);
     }
 
@@ -105,6 +106,11 @@ class VideoController extends Controller
             'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats()),
             'categories' => Category::all(),
             'languages' => Languages::get(),
+            'playlists' => Auth::user()->load([
+                'playlists' => fn($q) => $q->withCount([
+                    'videos as has_video' => fn($q) => $q->where('video_id', $video->id)
+                ])
+            ])->playlists
         ]);
     }
 
@@ -126,6 +132,8 @@ class VideoController extends Controller
         ])->toArray();
 
         $video->update($validated);
+
+        $video->playlists()->sync($request->get('playlists'));
 
         if ($request->get('action') === 'save') {
             return redirect(route('user.videos.edit', $video));

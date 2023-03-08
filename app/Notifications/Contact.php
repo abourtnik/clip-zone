@@ -2,21 +2,40 @@
 
 namespace App\Notifications;
 
-use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Notifications\AnonymousNotifiable;
+
 
 class Contact extends Notification
 {
+    public string $name;
+    public string $email;
+    public string $message;
+
+
+    /**
+     * Create a notification instance.
+     *
+     * @param string $name
+     * @param string $email
+     * @param string $message
+     * @return void
+     */
+    public function __construct(string $name, string $email, string $message)
+    {
+        $this->name = $name;
+        $this->email = $email;
+        $this->message = $message;
+    }
     /**
      * Get the notification's channels.
      *
-     * @param User $notifiable
+     * @param AnonymousNotifiable $notifiable
      * @return array|string
      */
-    public function via(User $notifiable): array|string
+    public function via(AnonymousNotifiable $notifiable): array|string
     {
         return ['mail'];
     }
@@ -24,24 +43,29 @@ class Contact extends Notification
     /**
      * Build the mail representation of the notification.
      *
-     * @param User $notifiable
+     * @param AnonymousNotifiable $notifiable
      * @return MailMessage
      */
-    public function toMail(User $notifiable): MailMessage
+    public function toMail(AnonymousNotifiable $notifiable): MailMessage
     {
         return $this->buildMailMessage($notifiable);
     }
 
     /**
-     * Get the verify email notification mail message for the given URL.
+     * Get the contact email notification mail message.
      *
-     * @param User $notifiable
+     * @param AnonymousNotifiable $notifiable
      * @return MailMessage
      */
-    protected function buildMailMessage(User $notifiable): MailMessage
+    protected function buildMailMessage(AnonymousNotifiable $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Welcome on ' .Config::get('app.name'). ' !')
-            ->markdown('mails.contact', compact('notifiable'));
+            ->subject('New message contact on ' .Config::get('app.name'). ' !')
+            ->from($this->email, $this->name)
+            ->replyTo($this->email, $this->name)
+            ->markdown('mails.contact', [
+                'name' => $this->name,
+                'message' => $this->message
+            ]);
     }
 }

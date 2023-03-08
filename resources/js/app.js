@@ -9,6 +9,8 @@ import Alpine from 'alpinejs'
 
 import './components/index.js'
 
+import TomSelect from "tom-select";
+
 window.Pusher = Pusher;
 window.bootstrap = bootstrap;
 
@@ -38,6 +40,16 @@ ajaxButtons.map(element => element.addEventListener('click', async e => {
     });
 
 }))
+
+document.querySelectorAll('.select-multiple').forEach((el)=>{
+    new TomSelect(el,{
+        plugins: {
+            remove_button:{
+                title:'Remove this item',
+            }
+        }
+    });
+});
 
 /*
 window.Echo = new Echo({

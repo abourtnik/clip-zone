@@ -63,6 +63,7 @@ Route::controller(PlaylistController::class)->name('playlist.')->group(function 
         ->missing(fn(Request $request) => abort(404, 'Playlist not found'));
     Route::get('/{playlist}/favorite', 'favorite')->name('favorite');
     Route::get('/{playlist}/remove-favorite', 'removeFavorite')->name('remove-favorite');
+    Route::get('/playlists/manage', 'manage')->name('manage')->middleware('auth');
 });
 
 // USERS

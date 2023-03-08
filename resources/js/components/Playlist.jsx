@@ -1,13 +1,14 @@
 import { useState, useCallback } from 'preact/hooks';
 import {debounce} from "../functions";
-import {Cross} from './Icon'
+import {Cross, Bars} from './Icon'
+import { ReactSortable } from "react-sortablejs";
 
-export default function Playlist ({}) {
+export default function Playlist ({initial = []}) {
 
     const [search, setSearch] = useState('');
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [videos, setVideos] = useState([]);
+    const [videos, setVideos] = useState(initial.length ? JSON.parse(initial) : initial);
     const [showSuggestions, setShowSuggestions] = useState(false);
 
     const handleChange = e => {
@@ -21,9 +22,15 @@ export default function Playlist ({}) {
         setShowSuggestions(true);
 
         const response = await fetch('/api/search-videos?q=' + value, {
+            method: 'POST',
             headers: {
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
+            body : JSON.stringify({
+                'except_ids' : videos.map(v => v.id)
+            })
         });
 
         const data = await response.json();
@@ -31,11 +38,11 @@ export default function Playlist ({}) {
         setData(data.data);
         setLoading(false)
 
-    }, 300), []);
+    }, 300), [videos]);
 
     const addVideo = (video) => {
         setShowSuggestions(false);
-        setVideos(videos => [video, ...videos])
+        setVideos(videos => [...videos, video])
     }
 
     const remove = (video) => {
@@ -43,58 +50,83 @@ export default function Playlist ({}) {
     }
 
     return (
-        <div>
-            <div className={'position-relative'}>
-                <form method="GET" className="d-flex w-100" role="search" action="/search">
-                    <div className="input-group">
-                        <input onChange={handleChange} className="form-control rounded-5" type="search" placeholder="Search Videos" aria-label="Search" name="q" value={search}/>
-                    </div>
-                </form>
-                {
-                    (search.trim() && !loading) &&
-                    <div className={'position-absolute shadow-lg  left-0 w-100 bg-white shadow-lg border border-1 pt-3 overflow-auto ' + (showSuggestions ? '' : ' d-none')} style={{top:'39px',zIndex:3, maxHeight: '557px'}}>
-                        {
-                            data.length ?
-                                <ul className={'list-group list-group-flush mb-0'}>
-                                    {
-                                        data.map(result => (
-                                            <li style={{cursor: 'pointer'}} className={'list-group-item p-0'} onClick={() => addVideo(result)}>
-                                                <div className="d-flex align-items-start gap-2 justify-content-start px-3 py-2 result">
-                                                    <img style={{width:'150px', height: '84px'}} src={result.thumbnail} alt=""/>
+        <div className="card shadow-soft">
+            <div className="card-body">
+                <h5 className="text-primary">Videos { videos.length > 0 && '• ' + videos.length}</h5>
+                <hr/>
+                <div className={'position-relative'}>
+                    <form method="GET" className="d-flex w-100" role="search" action="/search">
+                        <div className="input-group">
+                            <input onChange={handleChange} className="form-control rounded-5" type="search" placeholder="Search Videos" aria-label="Search" name="q" value={search}/>
+                        </div>
+                    </form>
+                    {
+                        (search.trim() && !loading) &&
+                        <div className={'position-absolute shadow-lg  left-0 w-100 bg-white shadow-lg border border-1 pt-3 overflow-auto ' + (showSuggestions ? '' : ' d-none')} style={{top:'39px',zIndex:3, maxHeight: '557px'}}>
+                            {
+                                data.length ?
+                                    <ul className={'list-group list-group-flush mb-0'}>
+                                        {
+                                            data.map(result => (
+                                                <li style={{cursor: 'pointer'}} className={'list-group-item p-0'} onClick={() => addVideo(result)}>
+                                                    <div className="d-flex align-items-start gap-2 justify-content-start px-3 py-2 result">
+                                                        <div className={'position-relative'}>
+                                                            <img style={{width:'150px', height: '84px'}} src={result.thumbnail} alt=""/>
+                                                            <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
+                                                                {result.duration}
+                                                            </small>
+                                                        </div>
+                                                        <div>
+                                                            <div className={'text-black text-lowercase text-sm'}>{result.title}</div>
+                                                            <div className={'text-muted text-lowercase text-sm'}>{result.user.username} • {result.views}</div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            ))
+                                        }
+                                    </ul>
+                                    :
+                                    <div className={'d-flex justify-content-center align-items-center flex-column pb-3'}>
+                                        <strong>No results found</strong>
+                                    </div>
+                            }
+                        </div>
+                    }
+                </div>
+                <hr/>
+                <div style={{height: '557px'}} className={'overflow-auto'}>
+                    {
+                        videos.length ?
+                            <ReactSortable
+                                tag="ul"
+                                list={videos}
+                                setList={setVideos}
+                                className={'list-group list-group-flush mb-0 overflow-auto'}
+                                ghostClass='bg-light-dark'
+                                handle={'.handle'}
+                                animation={150}
+                            >
+                                {
+                                    videos.map(video => (
+                                        <li className={'list-group-item p-0'}>
+                                            <div className="d-flex align-items-center gap-3 justify-content-between px-3 py-2">
+                                                <div className={'handle'} style={{cursor: 'move'}}>
+                                                    <Bars/>
+                                                </div>
+                                                <div className={'d-flex w-100 align-items-start gap-2'}>
+                                                    <div className={'position-relative'}>
+                                                        <img style={{width:'150px', height: '84px'}} src={video.thumbnail} alt=""/>
+                                                        <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
+                                                            {video.duration}
+                                                        </small>
+                                                    </div>
                                                     <div>
-                                                        <div className={'text-black text-lowercase text-sm'}>{result.title}</div>
-                                                        <div className={'text-muted text-lowercase text-sm'}>{result.user.username} • {result.views}</div>
+                                                        <div className={'text-black text-lowercase text-sm'}>{video.title}</div>
+                                                        <div className={'text-muted text-lowercase text-sm'}>{video.user.username} • {video.views}</div>
                                                     </div>
                                                 </div>
-                                            </li>
-                                        ))
-                                    }
-                                </ul>
-                                :
-                                <div className={'d-flex justify-content-center align-items-center flex-column pb-3'}>
-                                    <strong>No results found</strong>
-                                </div>
-                        }
-                    </div>
-                }
-            </div>
-            <hr/>
-            <div style={{height: '557px'}}>
-                {
-                    videos.length ?
-                        <ul className={'list-group list-group-flush mb-0 overflow-auto'} >
-                            {
-                                videos.map(video => (
-                                    <li className={'list-group-item p-0'}>
-                                        <div className="d-flex align-items-start gap-2 justify-content px-3 py-2">
-                                            <img style={{width:'150px', height: '84px'}} src={video.thumbnail} alt=""/>
-                                            <div className={'d-flex w-100 align-items-center justify-content-between'}>
-                                                <div>
-                                                    <div className={'text-black text-lowercase text-sm'}>{video.title}</div>
-                                                    <div className={'text-muted text-lowercase text-sm'}>{video.user.username} • {video.views}</div>
-                                                </div>
                                                 <button
-                                                    className="bg-danger bg-opacity-50 rounded-4 py-1 btn-sm"
+                                                    className="bg-transparent py-1 btn-sm"
                                                     type="button"
                                                     data-bs-toggle="tooltip"
                                                     data-bs-title="Remove"
@@ -103,17 +135,17 @@ export default function Playlist ({}) {
                                                     <Cross/>
                                                 </button>
                                             </div>
-                                        </div>
-                                        <input type="hidden" name={'videos[]'} value={video.id}/>
-                                    </li>
-                                ))
-                            }
-                        </ul> :
-                        <div className={'d-flex flex-column gap-1 justify-content-center align-items-center h-100 w-100'}>
-                            <div className={'fw-bold fs-5'}>No video selected</div>
-                            <p className={'text-muted text-sm'}>Some description</p>
-                        </div>
-                }
+                                            <input type="hidden" name={'videos[]'} value={video.id}/>
+                                        </li>
+                                    ))
+                                }
+                            </ReactSortable> :
+                            <div className={'d-flex flex-column gap-1 justify-content-center align-items-center h-100 w-100'}>
+                                <div className={'fw-bold fs-5'}>Add new video</div>
+                                <p className={'text-muted text-sm'}>Some description</p>
+                            </div>
+                    }
+                </div>
             </div>
         </div>
     )

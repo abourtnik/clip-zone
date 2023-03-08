@@ -27,7 +27,7 @@ class Playlist extends Model
 
     public function videos() : BelongsToMany
     {
-        return $this->belongsToMany(Video::class, 'playlist_has_videos');
+        return $this->belongsToMany(Video::class, 'playlist_has_videos')->orderByPivot('position', 'asc');
     }
 
     public function users () : BelongsToMany {
@@ -58,6 +58,13 @@ class Playlist extends Model
     {
         return Attribute::make(
             get: fn () => 'playlist',
+        );
+    }
+
+    protected function isActive(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status === PlaylistStatus::PUBLIC || $this->status === PlaylistStatus::UNLISTED
         );
     }
 

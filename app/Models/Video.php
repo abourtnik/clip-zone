@@ -14,7 +14,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use \Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
@@ -65,7 +66,7 @@ class Video extends Model implements Likeable, Reportable
             ->where('likeable_type', Comment::class);
     }
 
-    public function playlist() : BelongsToMany {
+    public function playlists() : BelongsToMany {
         return $this->belongsToMany(Playlist::class, 'playlist_has_videos');
     }
 
@@ -224,19 +225,41 @@ class Video extends Model implements Likeable, Reportable
     /**
      * Scope a query to only include active videos.
      *
-     * @param  Builder $query
-     * @return void
+     * @param QueryBuilder|EloquentBuilder $query
+     * @return QueryBuilder|EloquentBuilder
      */
-    public function scopeActive(Builder $query): void
+    public function scopeActive(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
     {
-        $query->where('status', VideoStatus::PUBLIC)
+        return $query->where('status', VideoStatus::PUBLIC)
             ->orWhere(function($query) {
                 $query->where('status', VideoStatus::PLANNED)
                     ->where('scheduled_date', '<=', now());
             });
     }
 
-    public function scopeFilter(Builder $query, $filters)
+    /**
+     * Scope a query to only include not active videos.
+     *
+     * @param QueryBuilder|EloquentBuilder $query
+     * @return QueryBuilder|EloquentBuilder
+     */
+    public function scopeNotActive(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
+    {
+        return $query->whereIn('status', [VideoStatus::PRIVATE, VideoStatus::BANNED, VideoStatus::DRAFT])
+            ->orWhere(function($query) {
+                $query->where('status', VideoStatus::PLANNED)
+                    ->where('scheduled_date', '>', now());
+            });
+    }
+
+    /**
+     * Scope a query to only filter videos.
+     *
+     * @param EloquentBuilder $query
+     * @param $filters
+     * @return EloquentBuilder
+     */
+    public function scopeFilter(EloquentBuilder $query, $filters) : EloquentBuilder
     {
         return $filters->apply($query);
     }

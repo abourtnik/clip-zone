@@ -7,6 +7,7 @@ use App\Filters\PlaylistFilters;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Playlist\StorePlaylistRequest;
 use App\Http\Requests\Playlist\UpdatePlaylistRequest;
+use App\Http\Resources\VideoResource;
 use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
@@ -34,7 +35,13 @@ class PlaylistController extends Controller
     public function create(): View {
         return view('users.playlists.create', [
             'status' => PlaylistStatus::get(),
-            'videos' => Video::active()->get(),
+            'videos' => VideoResource::collection(
+                old('videos') ? Video::whereIn('id', old('videos'))
+                    ->with('user')
+                    ->with('views')
+                    ->when(ctype_digit(implode('', old('videos'))), fn($q) => $q->orderByRaw('FIELD(id,' . implode(',', old('videos')).")"))
+                    ->get() : []
+            )->toJson()
         ]);
     }
 
@@ -63,7 +70,13 @@ class PlaylistController extends Controller
         return view('users.playlists.edit', [
             'playlist' => $playlist,
             'status' => PlaylistStatus::get(),
-            'videos' => Video::active()->get(),
+            'videos' => VideoResource::collection(
+                old('videos') ? Video::whereIn('id', old('videos'))
+                    ->with('user')
+                    ->with('views')
+                    ->when(ctype_digit(implode('', old('videos'))), fn($q) => $q->orderByRaw('FIELD(id,' . implode(',', old('videos')).")"))
+                    ->get() : $playlist->videos->load('user')->loadCount('views')
+            )->toJson()
         ]);
     }
 
@@ -71,11 +84,17 @@ class PlaylistController extends Controller
 
         $validated = $request->validated();
 
-        $videos = $request->get('videos');
+        $videos = [];
+
+        foreach ($request->get('videos') as $key => $value) {
+            $videos[$value] = ['position' => $key];
+        }
 
         $playlist->videos()->sync($videos);
 
         $playlist->update($validated);
+
+        $playlist->touch();
 
         if ($request->get('action') === 'save') {
             return redirect(route('user.playlists.edit', $playlist));

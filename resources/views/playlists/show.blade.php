@@ -5,7 +5,7 @@
 @section('content')
     <div class="row">
         <div class="col-3">
-            <div x-data="{favorite: {{$playlist->favorite_by_auth_user ? 'true' : 'false'}}}" class="bg-secondary text-white rounded-4 py-4 px-3" style="background: linear-gradient(to bottom, rgba(89,69,61,0.800) 0%, rgba(89,69,61,0.298) 33%, rgba(89,69,61,0.800) 100%);">
+            <div x-data="{favorite: {{$favorite_by_auth_user ? 'true' : 'false'}}}" class="bg-secondary text-white rounded-4 py-4 px-3" style="background: linear-gradient(to bottom, rgba(89,69,61,0.800) 0%, rgba(89,69,61,0.298) 33%, rgba(89,69,61,0.800) 100%);">
                 <img class="img-fluid w-100 rounded-4" src="{{$playlist->videos->first()->thumbnail_url}}" alt="{{$playlist->title}}" style="width: 360px; height: 202px;object-fit: cover;">
                 <h2 class="h4 my-3">{{$playlist->title}}</h2>
                 <div class="mt-3">by <a class="text-decoration-none text-white fw-bold " href="{{$playlist->user->route}}">{{$playlist->user->username}}</a> </div>
@@ -13,11 +13,12 @@
                     <i class="fa-solid fa-{{$playlist->status->icon()}}"></i>&nbsp;
                     {{$playlist->status->name()}}
                 </span>
-                <div class="d-flex align-items-center gap-1 mb-3">
+                <div class="d-flex align-items-center gap-1 mb-2">
                     <div class="text-sm">{{trans_choice('videos', $playlist->videos_count)}}</div>
                     <div class="text-sm">•</div>
-                    <div class="text-sm">{{$playlist->created_at->diffForHumans()}}</div>
+                    <div class="text-sm">Created {{$playlist->created_at->diffForHumans()}}</div>
                 </div>
+                <div class="text-sm mb-3">Updated {{$playlist->updated_at->diffForHumans()}}</div>
                 @auth
                     <button x-show.important="!favorite" @click="favorite = true;" class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button" data-url="{{route('playlist.favorite', $playlist)}}">
                         <i class="fa-regular fa-heart"></i>
@@ -42,10 +43,20 @@
                         <span>Add to favorites</span>
                     </button>
                 @endauth
-                <p class="text-sm">{{$playlist->description}}</p>
+                <div class="mt-3">
+                    <x-expand-item max="150" color="white">
+                        {{$playlist->description}}
+                    </x-expand-item>
+                </div>
             </div>
         </div>
         <div class="col-9">
+            @if($playlist->hidden_videos_count && (Auth::guest() || Auth::user()?->isNot($playlist->user)))
+                <div class="alert alert-info alert-dismissible">
+                    <strong>{{ $playlist->hidden_videos_count }} unavailable video(s) is hidden</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
             @foreach($playlist->videos as $key => $video)
                 <div class="d-flex gap-3 align-items-center">
                     <span>{{$key + 1}}</span>

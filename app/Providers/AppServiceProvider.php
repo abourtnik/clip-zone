@@ -59,6 +59,7 @@ class AppServiceProvider extends ServiceProvider
             'videos.show',
             'users.show',
             'playlists.show',
+            'playlists.manage',
             'subscription.*',
             'contact.show',
             'errors::*'
@@ -87,6 +88,7 @@ class AppServiceProvider extends ServiceProvider
             'videos.show',
             'users.*',
             'playlists.show',
+            'playlists.manage',
             'subscription.*',
             'contact.show',
             'errors::*'

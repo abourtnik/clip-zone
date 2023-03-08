@@ -3,8 +3,12 @@
 namespace App\Http\Requests\Playlist;
 
 use App\Enums\PlaylistStatus;
+use App\Models\Video;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
+use Illuminate\Database\Query\Builder;
 
 class StorePlaylistRequest extends FormRequest
 {
@@ -26,14 +30,33 @@ class StorePlaylistRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'title' => 'required|string|max:100',
+            'title' => 'required|string|max:150',
             'description' => 'nullable|string|max:5000',
             'status' => [
                 'required',
                 new Enum(PlaylistStatus::class)
             ],
             'videos' => 'required|array',
-            'videos.*' => 'exists:videos,id'
+            'videos.*' => [
+                'numeric',
+                Rule::exists('videos', 'id')->where(function (Builder $query){
+                    return (new Video)->scopeActive($query)->orWhere('user_id', Auth::user()->id);
+                })
+            ]
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'videos.required' => 'You can\'t create playlist without videos',
+            'videos.*.exists' => 'Video in position :position not exists on our records',
+            'videos.*.numeric' => 'Video in position :position must be type numeric',
         ];
     }
 }
