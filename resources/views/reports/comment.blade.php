@@ -7,7 +7,7 @@
         <a class="text-sm text-decoration-none" href="{{$report->reportable->video->user->route}}">{{$report->reportable->video->user->username}}</a>
     </div>
 </div>
-<a class="text-sm text-decoration-none" href="{{$report->reportable->user->username}}">{{$report->reportable->user->username}}</a> :
+<a class="text-sm text-decoration-none badge rounded-pill text-bg-secondary" href="{{$report->reportable->user->username}}">{{$report->reportable->user->username}} : </a>
 <x-expand-item>
     {{$report->reportable->content}}
 </x-expand-item>

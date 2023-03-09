@@ -14,7 +14,9 @@
                         </a>
                     </div>
                     <hr class="my-3">
-                    <div class="text-muted text-sm fst-italic my-3">{{$activity->subject->content}}</div>
+                    <x-expand-item>
+                        {{$activity->subject->content}}
+                    </x-expand-item>
                 </div>
                 <small class="text-muted fw-bold">{{$activity->created_at->format('H:i')}}</small>
             </div>

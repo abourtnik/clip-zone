@@ -85,9 +85,11 @@
                             <div class="badge bg-danger mb-2">
                                 {{$report->reason->value}}
                             </div>
-                            <x-expand-item>
-                                {{$report->comment}}
-                            </x-expand-item>
+                            <div>
+                                <x-expand-item>
+                                    {{$report->comment}}
+                                </x-expand-item>
+                            </div>
                         </td>
                         <td class="align-middle">
                             <div class="badge bg-{{$report->status->color()}}">

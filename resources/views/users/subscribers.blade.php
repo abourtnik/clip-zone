@@ -51,7 +51,9 @@
                             </a>
                         </td>
                         <td class="align-middle">
-                            {{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}
+                            <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}">
+                                {{$subscriber->pivot->subscribe_at->diffForHumans()}}
+                            </div>
                         </td>
                         <td class="align-middle">
                             {{trans_choice('subscribers', $subscriber->subscribers_count)}}
@@ -60,7 +62,7 @@
                         <td class="align-middle">
                             <subscribe-button
                                 @if(!$subscriber->is_subscribe_to_current_user) is-subscribe @endif
-                            user="{{$subscriber->id}}"
+                                user="{{$subscriber->id}}"
                                 size="sm"
                             />
                         </td>

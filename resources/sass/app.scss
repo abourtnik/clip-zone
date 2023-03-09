@@ -132,3 +132,50 @@ $sidebar-width: 240px;
     }
 }
 
+.interaction-button:hover {
+    background-color: lightgrey;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+}
+
+.notifications {
+    border-top: 1px solid var(--bs-border-color) !important;
+    left: inherit !important;
+    right: -27px !important;
+    top: 56px !important;
+    min-width: 400px;
+}
+
+.notifications:after, .notifications:before {
+    bottom: 100%;
+    left: 90%;
+    border: solid transparent;
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.notifications:after {
+    border-color: rgba(248, 248, 248, 0);
+    border-bottom-color: #F8F8F8;
+    border-width: 15px;
+    margin-left: -15px;
+}
+
+.notifications:before {
+    border-color: rgba(222, 226, 230, 0);
+    border-bottom-color: var(--bs-border-color);
+    border-width: 16px;
+    margin-left: -16px;
+}

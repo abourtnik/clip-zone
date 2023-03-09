@@ -6,10 +6,11 @@ export default function Search ({query = '', responsive = true}) {
 
     const [search, setSearch] = useState(query);
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = e => {
         const value = e.target.value;
+        setLoading(true);
         setSearch(value);
         suggest(value)
     };
@@ -35,7 +36,17 @@ export default function Search ({query = '', responsive = true}) {
         <>
         <form method="GET" className="d-flex w-100" role="search" action="/search">
             <div className="input-group">
-                <input onChange={handleChange} className="form-control rounded-5 rounded-end radius-end-0" type="search" placeholder="Search" aria-label="Search" name="q" value={search}/>
+                <div className={'position-relative'} style={{flex: '1 1 auto'}}>
+                    <input onChange={handleChange} className="form-control rounded-5 rounded-end radius-end-0" type="search" placeholder="Search" aria-label="Search" name="q" value={search}/>
+                    {
+                        loading &&
+                        <div className="position-absolute top-50 right-0 translate-middle" >
+                            <div className={'spinner-border spinner-border-sm'} role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    }
+                </div>
                 <button className="btn btn-outline-secondary rounded-5 rounded-start radius-start-0 px-4" type="submit">
                     <SearchIcon/>
                 </button>

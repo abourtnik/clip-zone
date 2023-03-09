@@ -30,7 +30,8 @@ export default function Comments ({target, auth, defaultSort}) {
         const response = await fetch(`/api/comments`, {
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             method: 'POST',
             credentials: 'include',
@@ -69,7 +70,8 @@ export default function Comments ({target, auth, defaultSort}) {
         const response = await fetch(`/api/comments/${comment.id}`, {
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             method: 'DELETE',
             credentials: 'include'
@@ -84,7 +86,8 @@ export default function Comments ({target, auth, defaultSort}) {
         const response = await fetch(`/api/comments/${comment.id}`, {
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             method: 'PUT',
             body: JSON.stringify({
@@ -103,7 +106,8 @@ export default function Comments ({target, auth, defaultSort}) {
         const response = await fetch(`/api/comments/${comment.id}/${action}`, {
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             method: 'POST',
             credentials: 'include',

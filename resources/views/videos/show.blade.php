@@ -44,11 +44,11 @@
                             @if(!$video->show_likes) show-count="false" @endif
                         >
                         </interaction-button>
-                        <button class="btn btn-info rounded-4 btn-sm" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                        <button class="btn btn-info rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                             <i class="fa-solid fa-share"></i>&nbsp;
                             Share
                         </button>
-                        <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4 btn-sm" title="Download video">
+                        <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4 btn-sm px-3" title="Download video">
                             <i class="fa-solid fa-download"></i>&nbsp;
                             Download
                         </a>
@@ -57,12 +57,12 @@
                             Save
                         </button>
                         @if($video->user->isNot(Auth::user()) && $video->reports->count())
-                            <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">
+                            <div class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 align-items-center gap-2 mb-0 text-sm">
                                 <i class="fa-regular fa-flag"></i>
                                 <span>Reported {{$video->reports->first()->created_at->diffForHumans()}}</span>
                             </div>
                         @elseif($video->user->isNot(Auth::user()))
-                            <button class="btn btn-secondary rounded-4" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
+                            <button class="btn btn-secondary btn-sm rounded-4 px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
                                 <i class="fa-regular fa-flag"></i>&nbsp;
                                 Report
                             </button>
@@ -70,9 +70,9 @@
                     </div>
                 @else
                     <div class="d-flex gap-2 align-items-center">
-                        <div class="d-flex justify-content-between gap-1 bg-light-dark border border-primary rounded-4 p-1">
+                        <div class="d-flex justify-content-between bg-light-dark border border-secondary rounded-4">
                             <button
-                                class="d-flex justify-content-between align-items-center btn btn-sm border border-0 text-black"
+                                class="interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
                                 data-bs-toggle="popover"
                                 data-bs-placement="left"
                                 data-bs-title="Like this video ?"
@@ -87,7 +87,7 @@
                             </button>
                             <div class="vr"></div>
                             <button
-                                class="d-flex justify-content-between align-items-center btn btn-sm border border-0 text-black"
+                                class="interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
                                 data-bs-title="Don't like this video ?"
@@ -101,12 +101,12 @@
                                 @endif
                             </button>
                         </div>
-                        <button class="btn btn-info rounded-4" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                        <button class="btn btn-info rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                             <i class="fa-solid fa-share"></i>&nbsp;
                             Share
                         </button>
                         <button
-                            class="btn btn-secondary rounded-4"
+                            class="btn btn-secondary rounded-4 btn-sm px-3"
                             data-bs-toggle="popover"
                             data-bs-placement="right"
                             data-bs-title="Need to report the video?"

@@ -4,7 +4,7 @@ import {useToggle} from "../hooks";
 
 import Interaction from "./Interaction";
 import ReplyForm from "./ReplyForm";
-import {ThumbsDownSolid, ThumbsUpSolid, Ellipsis, Pin, Pen, Trash, Flag} from "./Icon";
+import {ThumbsDownSolid, ThumbsUpSolid, Ellipsis, Pin, Pen, Flag} from "./Icon";
 import Button from './Button'
 
 import ConfirmDelete from './Comments/ConfirmDelete'
@@ -28,7 +28,8 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
         const response = await fetch('/api/comments', {
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             method: 'POST',
             credentials: 'include',
@@ -53,7 +54,8 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
         const response = await fetch(`/api/comments/${reply.id}`, {
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             method: 'DELETE',
             credentials: 'include'
@@ -67,7 +69,8 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
         const response = await fetch(`/api/comments/${reply.id}`, {
             headers: {
                 'Accept': 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
             method: 'PUT',
             body: JSON.stringify({
@@ -84,7 +87,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
     let attributes =  {
         ...(!auth && {
             'data-bs-toggle': "popover",
-            'data-bs-placement': "left",
+            'data-bs-placement': "right",
             'data-bs-title': "Want to reply to this comment ?",
             'data-bs-trigger': "focus",
             'data-bs-html': "true",
@@ -205,9 +208,9 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                                         auth={auth}
                                     />
                                     :
-                                    <div className="d-flex justify-content-between gap-1">
+                                    <div className="d-flex justify-content-between bg-light-dark border border-secondary rounded-4">
                                         <button
-                                            className="btn btn-sm btn-outline-success d-flex gap-1 align-items-center"
+                                            className="interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
                                             data-bs-toggle="popover"
                                             data-bs-placement="left"
                                             data-bs-title="Like this comment ?"
@@ -216,10 +219,11 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                                             data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
                                         >
                                             <ThumbsUpSolid/>
-                                            <span>{comment.likes_count}</span>
+                                            {comment.likes_count > 0 && <span>{comment.likes_count}</span>}
                                         </button>
+                                        <div className="vr"></div>
                                         <button
-                                            className="btn btn-sm btn-outline-danger d-flex gap-1 align-items-center"
+                                            className="interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
                                             data-bs-toggle="popover"
                                             data-bs-placement="right"
                                             data-bs-title="Don't like this comment ?"
@@ -228,7 +232,7 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                                             data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
                                         >
                                             <ThumbsDownSolid/>
-                                            <span>{comment.dislikes_count}</span>
+                                            {comment.dislikes_count > 0 && <span>{comment.dislikes_count}</span>}
                                         </button>
                                     </div>
                             }

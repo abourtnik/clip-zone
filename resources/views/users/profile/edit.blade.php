@@ -34,22 +34,41 @@
                     <div class="card-body">
                         @method('PUT')
                         @csrf
+                        <div class="d-flex justify-content-start mb-3">
+                            <div class="d-flex align-items-center gap-4" x-data="{ upload: false }">
+                                <div @mouseover="upload=true" @mouseleave="upload=false"  class="border border-secondary rounded-circle position-relative overflow-hidden" style="width: 110px">
+                                    <img id="avatar" class="img-fluid" :class="upload && 'opacity-75'" src="{{$user->avatar_url}}" alt="">
+                                    <div x-show.important="upload"
+                                         x-transition.duration.500ms
+                                         x-transition.scale
+                                         class="position-absolute bottom-0 left-0 right-0 w-100 bg-light text-center border-top border-1 py-1 border-secondary"
+                                    >
+                                        <i class="fa-solid fa-upload"></i>
+                                    </div>
+                                    <input
+                                        class="position-absolute bottom-0 left-0 right-0 top-0 opacity-0 cursor-pointer"
+                                        type="file"
+                                        name="avatar"
+                                        @change="document.getElementById('avatar').setAttribute('src', URL.createObjectURL($event.target.files[0]))"
+                                    />
+                                </div>
+                                <div class="d-flex flex-column gap-2">
+                                    <div class="text-muted">Member since {{$user->created_at->longAbsoluteDiffForHumans()}}</div>
+                                    <div class="badge bg-secondary w-75">Standard account</div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
                         <div class="row">
-                            <div class="col-12 col-sm-6 mb-3">
+                            <div class="col-12 col-sm-4 mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="text" class="form-control" id="username" name="username" required value="{{old('username', $user->username)}}">
                             </div>
-                            <div class="col-12 col-sm-6 mb-3">
+                            <div class="col-12 col-sm-4 mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" required value="{{old('email', $user->email)}}">
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-sm-6 mb-3">
-                                <label for="avatar" class="form-label">Avatar</label>
-                                <input class="form-control" type="file" id="avatar" name="avatar">
-                            </div>
-                            <div class="col-12 col-sm-6 mb-3">
+                            <div class="col-12 col-sm-4 mb-3">
                                 <label for="country" class="form-label">Country</label>
                                 <select class="form-control" name="country" id="country">
                                     <option selected value="">Select Country</option>

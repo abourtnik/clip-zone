@@ -22,7 +22,9 @@
                         </a>
                     </div>
                     <hr>
-                    <div class="text-muted text-sm fst-italic my-3">{{$activity->subject->likeable->content}}</div>
+                    <x-expand-item>
+                        {{$activity->subject->likeable->content}}
+                    </x-expand-item>
                 </div>
                 <small class="text-muted fw-bold">{{$activity->created_at->format('H:i')}}</small>
             </div>

@@ -18,9 +18,7 @@ class SearchController extends Controller
 {
     public function index(Request $request, SearchFilters $filters): View
     {
-        $q = $request->get('q');
-
-        $type = $request->get('type');
+        list('q' => $q, 'type' => $type) = $request->only('q', 'type');
 
         if (!$q) {
             return view('pages.search', [

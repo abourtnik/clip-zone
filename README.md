@@ -2,6 +2,8 @@
 
 ## Primary
 
+- Use hook for fetch request
+- Validate thumbnail and avatar width and height
 - Responsive
 - Banned video can be update to public by author
 

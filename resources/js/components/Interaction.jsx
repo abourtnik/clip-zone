@@ -41,21 +41,29 @@ export default function Interaction ({model, target, count, active, showCount = 
     }
 
     return (
-        <div className={'d-flex justify-content-between gap-1 bg-light-dark border border-primary rounded-4 p-1'}>
+        <div className={'d-flex justify-content-between bg-light-dark border border-secondary rounded-4'}>
             <button
                 onClick={() => handleClick('like')}
-                className={'d-flex justify-content-between align-items-center btn btn-sm border border-0 ' + (liked ? 'text-success' : 'text-black')}
+                className={'interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 px-3 rounded-5 rounded-end ' + (liked ? 'text-success' : 'text-black')}
+                data-bs-toggle="tooltip"
+                data-bs-title="I like this"
+                data-bs-placement="bottom"
+                data-bs-trigger="hover"
             >
                 {liked ? <ThumbsUpRegular width={'16px'}/> : <ThumbsUpSolid width={'16px'}/>}
-                { (showCount && counterLike > 0) && <span className={'ml-1'}>{counterLike}</span>}
+                { (showCount && counterLike > 0) && <span className={''}>{counterLike}</span>}
             </button>
             <div className="vr"></div>
             <button
                 onClick={() => handleClick('dislike')}
-                className={'d-flex justify-content-between align-items-center btn btn-sm border border-0 ' + (disliked ? 'text-danger' : 'text-black')}
+                className={'interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 px-3 rounded-5 rounded-start ' + (disliked ? 'text-danger' : 'text-black')}
+                data-bs-toggle="tooltip"
+                data-bs-title="I dislike this"
+                data-bs-placement="bottom"
+                data-bs-trigger="hover"
             >
-                {disliked ? <ThumbsDownRegular/> : <ThumbsDownSolid/>}
-                { (showCount && counterDislike > 0) && <span className={'ml-1'}>{counterDislike}</span>}
+                {disliked ? <ThumbsDownRegular width={'16px'}/> : <ThumbsDownSolid width={'16px'}/>}
+                { (showCount && counterDislike > 0) && <span className={''}>{counterDislike}</span>}
             </button>
         </div>
     )

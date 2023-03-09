@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md bg-light border border-start-0 px-2 sticky-top" style="height: 56px">
+<nav class="navbar navbar-expand-md bg-white border border-start-0 px-2 sticky-top" style="height: 56px">
     <div class="container-fluid" x-data="{search:false}">
         <div class="d-flex align-items-center gap-3" x-show.important="!search">
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsive-sidebar">
@@ -63,8 +63,8 @@
                                     <span class="visually-hidden">unread messages</span>
                                 </span>
                             </button>
-                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right border border-0 m-0 p-0" style="left: inherit; right: 0;top:53px;min-width:400px">
-                                <div class="card">
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right border border-0 m-0 p-0 notifications">
+                                <div class="card border border-top-0">
                                     <div class="card-header d-flex justify-content-between align-items-center">
                                         <strong>Notifications</strong>
                                         <a x-show="unread_notifications > 0" class="btn-link text-primary text-decoration-none text-sm fw-bold" href="{{route('user.notifications.read-all')}}">Mark all as read</a>

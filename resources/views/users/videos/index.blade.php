@@ -110,9 +110,9 @@
                         <td class="align-middle">
                             @if(!$video->is_draft)
                                 @if($video->views_count)
-                                    <div class="badge bg-info">
+                                    <a href="{{route('user.videos.show', $video)}}" class="badge bg-info text-decoration-none">
                                         {{trans_choice('views', $video->views_count)}}
-                                    </div>
+                                    </a>
                                 @else
                                     <div class="badge bg-secondary">
                                         No views
