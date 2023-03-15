@@ -1,4 +1,5 @@
 import { useState } from 'preact/hooks';
+import {jsonFetch} from '../hooks'
 
 export default function Subscribe ({isSubscribe = true, user, size= null}) {
 
@@ -8,12 +9,9 @@ export default function Subscribe ({isSubscribe = true, user, size= null}) {
 
         setSubscribe(subscribe => !subscribe)
 
-        const response = await fetch(`/api/follow/${user}`, {
+        await jsonFetch(`/api/subscribe/${user}`, {
             method: 'POST',
-            credentials: 'include'
-        });
-
-        const data = await response.json();
+        })
     }
 
     const className = (subscribe ? 'btn-info text-white' : 'btn-danger') + (size ? ' btn-' + size : '');

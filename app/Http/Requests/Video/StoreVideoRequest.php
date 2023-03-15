@@ -18,7 +18,7 @@ class StoreVideoRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize() : bool
     {
         return true;
     }
@@ -28,11 +28,19 @@ class StoreVideoRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules() : array
     {
         return [
-            'title' => 'required|string|max:100',
-            'description' => 'nullable|string|max:5000',
+            'title' => [
+                'required',
+                'string',
+                'max:'.config('validation.video.title.max')
+            ],
+            'description' => [
+                'nullable',
+                'string',
+                'max:'.config('validation.video.description.max')
+            ],
             'thumbnail' => [
                 'file',
                 'required',

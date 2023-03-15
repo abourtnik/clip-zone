@@ -30,8 +30,16 @@ class StorePlaylistRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'title' => 'required|string|max:150',
-            'description' => 'nullable|string|max:5000',
+            'title' => [
+                'required',
+                'string',
+                'max:'.config('validation.playlist.title.max')
+            ],
+            'description' => [
+                'nullable',
+                'string',
+                'max:'.config('validation.playlist.description.max')
+            ],
             'status' => [
                 'required',
                 new Enum(PlaylistStatus::class)

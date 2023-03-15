@@ -32,10 +32,10 @@
                 @endif
                 <h4 class="mb-0">{{$video->title}}</h4>
             </div>
-            <div class="mt-4 d-flex justify-content-between align-items-center">
+            <div class="mt-4 d-flex flex-column flex-xxl-row gap-3 justify-content-between align-items-start align-items-xxl-center">
                 <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date?->format('d F Y') ?? $video->created_at->format('d F Y')}}</div>
                 @auth
-                    <div class="d-flex gap-2 align-items-center">
+                    <div class="d-flex flex-wrap gap-2 align-items-center">
                         <interaction-button
                             active="{{ json_encode(['like' => $video->liked_by_auth_user, 'dislike' => $video->disliked_by_auth_user ])}}"
                             model="{{get_class($video)}}"

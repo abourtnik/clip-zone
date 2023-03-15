@@ -22,7 +22,7 @@
                         </a>
                     </div>
                 </div>
-                <small class="text-muted fw-bold">{{$activity->created_at->format('H:i')}}</small>
+                <small class="text-muted fw-bold">{{$activity->updated_at->format('H:i')}}</small>
             </div>
         </div>
     </div>

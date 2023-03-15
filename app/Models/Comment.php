@@ -129,7 +129,7 @@ class Comment extends Model implements Likeable, Reportable
      */
     public function scopeActive(Builder $query): void
     {
-        $query->whereNotNull('banned_at');
+        $query->whereNull('banned_at');
     }
 
     /**

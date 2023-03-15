@@ -24,9 +24,18 @@ class ContactRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'name' => ['required', 'min:3', 'max:40'],
+            'name' => [
+                'required',
+                'min:'.config('validation.contact.name.min'),
+                'max:'.config('validation.contact.name.max'),
+            ],
             'email' => ['required', 'email'],
-            'message' => ['required', 'string', 'min:10', 'max:5000'],
+            'message' => [
+                'required',
+                'string',
+                'min:'.config('validation.contact.message.min'),
+                'max:'.config('validation.contact.message.max'),
+            ],
         ];
     }
 }

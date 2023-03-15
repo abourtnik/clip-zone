@@ -29,7 +29,7 @@
                         <div class="mb-3" x-data="{ count: 0 }" x-init="count = $refs.title.value.length">
                             <label for="title" class="form-label">Title</label>
                             <input
-                                maxlength="100"
+                                maxlength="{{config('validation.video.title.max')}}"
                                 type="text"
                                 class="form-control"
                                 id="title"
@@ -40,7 +40,7 @@
                                 @keyup="count = $refs.title.value.length">
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="form-text">
-                                    <span x-text="count"></span> / <span>100</span>
+                                    <span x-text="count"></span> / <span>{{config('validation.video.title.max')}}</span>
                                 </div>
                             </div>
                         </div>
@@ -50,14 +50,14 @@
                                 class="form-control"
                                 id="description"
                                 rows="15"
-                                maxlength="5000"
+                                maxlength="{{config('validation.video.description.max')}}"
                                 name="description"
                                 x-ref="description"
                                 @keyup="count = $refs.description.value.length"
                             >{{old('description', $video->description)}}</textarea>
                             <div class="d-flex align-items-center justify-content-end">
                                 <div class="form-text">
-                                    <span x-text="count"></span> / <span>5000</span>
+                                    <span x-text="count"></span> / <span>{{config('validation.video.description.max')}}</span>
                                 </div>
                             </div>
                         </div>

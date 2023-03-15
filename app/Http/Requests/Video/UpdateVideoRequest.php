@@ -31,8 +31,16 @@ class UpdateVideoRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'title' => 'required|string|max:10',
-            'description' => 'nullable|string|max:5000',
+            'title' => [
+                'required',
+                'string',
+                'max:'.config('validation.video.title.max')
+            ],
+            'description' => [
+                'nullable',
+                'string',
+                'max:'.config('validation.video.description.max')
+            ],
             'thumbnail' => [
                 'nullable',
                 'file',

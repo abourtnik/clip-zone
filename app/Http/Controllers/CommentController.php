@@ -32,13 +32,16 @@ class CommentController extends Controller
         $sort = $request->get('sort', 'top');
         $video_id = $request->get('video_id');
 
-        $video = Video::findOrFail($video_id)->loadCount('comments');
+        $video = Video::findOrFail($video_id)->loadCount([
+            'comments' => fn($q) => $q->active()
+        ]);
 
         $this->authorize('list', [Comment::class, $video]);
 
         return (CommentResource::collection(
             $video
                 ->comments()
+                ->active()
                 ->whereNull('parent_id')
                 ->with([
                     'user',
@@ -67,7 +70,7 @@ class CommentController extends Controller
                     'replies as author_replies' => fn ($query) => $query->where('user_id', $video->user->id)
                 ])
                 ->when($video->pinned_comment, fn($query) => $query->orderByRaw('id <> ' .$video->pinned_comment->id))
-                ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
+                ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC')->latest())
                 ->when($sort === 'newest', fn($query) => $query->latest())
                 ->paginate(24)
                 ->withQueryString()
@@ -127,6 +130,7 @@ class CommentController extends Controller
 
     public function pin(Comment $comment)
     {
+        throw new \Error('rr');
         $comment->video->update([
             'pinned_comment_id' => $comment->id
         ]);

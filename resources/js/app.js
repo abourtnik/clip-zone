@@ -29,14 +29,17 @@ ajaxButtons.map(element => element.addEventListener('click', async e => {
 
     const url = e.currentTarget.dataset.url;
     const method = e.currentTarget.dataset.method ?? 'GET';
+    const body = e.currentTarget.dataset.body ?? null;
 
     await fetch(url, {
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
         method: method,
         credentials: 'include',
+        body : body
     });
 
 }))

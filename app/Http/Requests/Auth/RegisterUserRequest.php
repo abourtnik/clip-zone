@@ -12,7 +12,7 @@ class RegisterUserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize() : bool
     {
         return true;
     }
@@ -22,12 +22,26 @@ class RegisterUserRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules() : array
     {
         return [
-            'username' => ['required', 'min:3', 'max:40', 'unique:users,username'],
-            'email' => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'confirmed', Password::min(6)],
+            'username' => [
+                'required',
+                'min:'.config('validation.user.username.min'),
+                'max:'.config('validation.user.username.max'),
+                'unique:users,username'
+            ],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                'unique:users,email'
+            ],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(config('validation.user.password.max'))
+            ],
             'cgu' => ['accepted']
         ];
     }

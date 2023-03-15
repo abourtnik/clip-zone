@@ -40,9 +40,9 @@ class ActivityController extends Controller
                         ]);
                     }
                 ])
-                ->latest()
+                ->latest('updated_at')
                 ->get()
-                ->groupBy(fn ($item) => Carbon::parse($item->created_at)->format('Y-m-d'))
+                ->groupBy(fn ($item) => Carbon::parse($item->updated_at)->format('Y-m-d'))
                 ->all(),
             'filters' => $filters->receivedFilters(),
             'types' => [

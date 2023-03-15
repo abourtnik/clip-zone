@@ -17,7 +17,8 @@
                             id="username"
                             placeholder="Username"
                             required
-                            minlength="3"
+                            minlength="{{config('validation.user.username.min')}}"
+                            maxlength="{{config('validation.user.username.max')}}"
                             value="{{ old('username') }}"
                         >
                         <label for="username">Username</label>
@@ -51,7 +52,7 @@
                             id="password"
                             name="password"
                             placeholder="Password"
-                            minlength="6"
+                            minlength="{{config('validation.user.password.min')}}"
                             required
                         >
                         <label for="password">Password</label>
@@ -68,7 +69,7 @@
                             id="password_confirmation"
                             name="password_confirmation"
                             placeholder="Confirm password"
-                            minlength="6"
+                            minlength="{{config('validation.user.password.min')}}"
                             required
                         >
                         <label for="password_confirmation">Confirm password</label>

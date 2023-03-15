@@ -12,7 +12,7 @@ class StoreCommentRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize() : bool
     {
         return true;
     }
@@ -22,7 +22,7 @@ class StoreCommentRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'video_id' => 'required|exists:videos,id',
@@ -32,7 +32,11 @@ class StoreCommentRequest extends FormRequest
                     return $query->whereNull('parent_id');
                 }),
             ],
-            'content' => 'required|string|max:5000',
+            'content' => [
+                'required',
+                'string',
+                'max:'.config('validation.comment.content.max')
+            ]
         ];
     }
 }

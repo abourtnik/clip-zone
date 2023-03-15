@@ -349,7 +349,6 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
      */
     public function canImpersonate() : bool
     {
-        // For example
         return $this->is_admin;
     }
 
@@ -358,7 +357,6 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
      */
     public function canBeImpersonated()
     {
-        // For example
         return !$this->is_admin;
     }
 }

@@ -21,7 +21,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth')->group(function () {
-    Route::post("follow/{user}", [ProfileController::class, 'follow'])->name('follow');
+    Route::post("subscribe/{user}", [ProfileController::class, 'subscribe'])
+        ->name('subscribe')
+        ->can('subscribe', 'user')
+        ->missing(fn() => abort(404, 'User not found'));
 
     // Interactions
     Route::name('interactions.')->controller(InteractionController::class)->group(function () {
@@ -34,8 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/videos/upload', [VideoUserController::class, 'upload'])->name('videos.upload');
 
     // Notifications
-    Route::get('/{notification}/read', [NotificationController::class, 'read'])->name('notifications.read');
-
+    Route::get('/{notification}/read', [NotificationController::class, 'read'])
+        ->name('notifications.read')
+        ->missing(fn() => abort(404, 'Notification not found'));
 });
 
 // SEARCH

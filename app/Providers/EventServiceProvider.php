@@ -4,10 +4,12 @@ namespace App\Providers;
 
 use App\Models\Category;
 use App\Models\Comment;
+use App\Models\Interaction;
 use App\Models\User;
 use App\Models\Video;
 use App\Observers\CategoryObserver;
 use App\Observers\CommentObserver;
+use App\Observers\InteractionObserver;
 use App\Observers\UserObserver;
 use App\Observers\VideoObserver;
 use Illuminate\Auth\Events\Registered;
@@ -44,6 +46,7 @@ class EventServiceProvider extends ServiceProvider
         Comment::observe(CommentObserver::class);
         User::observe(UserObserver::class);
         Video::observe(VideoObserver::class);
+        Interaction::observe(InteractionObserver::class);
     }
 
     /**

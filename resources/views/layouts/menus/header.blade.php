@@ -73,7 +73,7 @@
                                         @if($notifications->count())
                                             <ul class="list-group list-group-flush overflow-auto" style="max-height: 420px">
                                                 @foreach($notifications as $notification)
-                                                    <div x-data="{is_read: {{$notification->is_read ? 'true': 'false'}}}" class="text-decoration-none text-black list-group-item notification d-flex align-items-center justify-content-between" href="{{$notification->url}}">
+                                                    <a href="{{$notification->url}}" x-data="{is_read: {{$notification->is_read ? 'true': 'false'}}}" class="text-decoration-none text-black list-group-item notification d-flex align-items-center justify-content-between">
                                                         <div class="w-75">
                                                             <p class="mb-0 text-sm">{!! $notification->message !!}</p>
                                                             <p class="text-muted text-sm mb-0 mt-2">{{$notification->created_at->diffForHumans()}}</p>
@@ -90,7 +90,7 @@
                                                         >
                                                             <i class="fa-solid fa-check"></i>
                                                         </button>
-                                                    </div>
+                                                    </a>
                                                 @endforeach
                                             </ul>
                                         @else

@@ -3,86 +3,57 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\InteractionsResource;
-use App\Models\Activity;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class InteractionController extends Controller
 {
-    public function like(Request $request): JsonResponse
-    {
-        $model = $request->get('model');
+    private function perform (Request $request, $status) : JsonResponse {
 
-        $likeable = $model::findOrFail($request->get('id'));
+        $request->validate([
+            'id' => 'required|numeric',
+            'model' => ['required', Rule::in(['App\\Models\\Video', 'App\\Models\\Comment'])]
+        ]);
 
-        if (Auth::user()->hasLiked($likeable)) {
-            $a = $likeable->likes()
-                ->whereHas('user', fn($q) => $q->whereId(Auth::user()->id))
-                ->first();
+        list('model' => $model, 'id' => $id) = $request->only('model', 'id');
 
-            Activity::forSubject($a)->delete();
-            $a->delete();
+        $likeable = $model::findOrFail($id);
 
+        $interaction = $likeable->interactions()->whereRelation('user', 'id', Auth::user()->id)->first();
+
+        if ($interaction) {
+            if ($interaction->status == $status) {
+                $interaction->delete();
+            } else {
+                $interaction->update([
+                    'status' => $status,
+                    'perform_at' => now()
+                ]);
+            }
         } else {
             Auth::user()->interactions()->create([
                 'likeable_type' => get_class($likeable),
                 'likeable_id' => $likeable->id,
-                'status' => true,
+                'status' => $status,
             ]);
         }
-        if (Auth::user()->hasDisliked($likeable)) {
-            $a = $likeable->dislikes()
-                ->whereHas('user', fn($q) => $q->whereId(Auth::user()->id))
-                ->first();
 
-            Activity::forSubject($a)->delete();
-            $a->delete();
-        }
+        return response()->json();
 
-        return response()->json([
+    }
 
-        ]);
+    public function like(Request $request): JsonResponse
+    {
+        return $this->perform($request, true);
     }
 
     public function dislike(Request $request): JsonResponse
     {
-        $model = $request->get('model');
-
-        $likeable = $model::findOrFail($request->get('id'));
-
-        if (Auth::user()->hasDisliked($likeable)) {
-            $a = $likeable->dislikes()
-                ->whereHas('user', fn($q) => $q->whereId(Auth::user()->id))
-                ->first();
-
-            Activity::forSubject($a)->delete();
-            $a->delete();
-
-
-        } else {
-            Auth::user()->interactions()->create([
-                'likeable_type' => get_class($likeable),
-                'likeable_id' => $likeable->id,
-                'status' => false,
-            ]);
-        }
-
-        if (Auth::user()->hasLiked($likeable)) {
-            $a = $likeable->likes()
-                ->whereHas('user', fn($q) => $q->whereId(Auth::user()->id))
-                ->first();
-
-            Activity::forSubject($a)->delete();
-            $a->delete();
-
-        }
-
-        return response()->json([
-
-        ]);
+        return $this->perform($request, false);
     }
 
     public function list (Request $request) : ResourceCollection {

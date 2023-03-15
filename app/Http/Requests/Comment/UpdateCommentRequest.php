@@ -11,7 +11,7 @@ class UpdateCommentRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize() : bool
     {
         return true;
     }
@@ -21,10 +21,14 @@ class UpdateCommentRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules() : array
     {
         return [
-            'content' => 'required|string|max:5000',
+            'content' => [
+                'required',
+                'string',
+                'max:'.config('validation.comment.content.max')
+            ]
         ];
     }
 }

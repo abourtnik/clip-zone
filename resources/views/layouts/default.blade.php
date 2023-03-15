@@ -31,12 +31,25 @@
     @vite(['resources/js/app.js'])
 </head>
 <body>
-    <main class="h-100 overflow-auto">
+    <main class="h-100 overflow-auto position-relative">
         @include('layouts.menus.header')
         <div class="admin-content d-flex">
             @include('layouts.menus.front')
             <div id="main-container" class="container-fluid my-3 @yield('class')" style="@yield('style')">
                 @yield('content')
+            </div>
+        </div>
+        <div class="toast-container pe-4 end-0 position-fixed" style="top:68px;">
+            <div id="toast" class="toast align-items-center bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="10000">
+                <div class="d-flex align-items-center justify-content-between mr-2">
+                    <div class="toast-body d-flex align-items-center gap-3 ">
+                        <div class="rounded-4 px-2 py-1 bg-danger text-white">
+                            <i class="fa-2x fa-solid fa-triangle-exclamation"></i>
+                        </div>
+                        <strong id="toast-message"></strong>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
             </div>
         </div>
     </main>

@@ -2,58 +2,48 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
+use App\Models\User;
 use Illuminate\Notifications\Notification;
-use Illuminate\Notifications\Messages\BroadcastMessage;
-use function Termwind\render;
 
 class UserNotification extends Notification
 {
-    use Queueable;
-
-    private string $model;
+    private string $message;
+    private string $url;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(string $model)
+    public function __construct(string $message, string $url)
     {
-        $this->model = $model;
+        $this->message = $message;
+        $this->url = $url;
     }
+
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed  $notifiable
+     * @param User $notifiable
      * @return array
      */
-    public function via($notifiable)
+    public function via(User $notifiable) : array
     {
-        return ['database', 'broadcast'];
+        return ['database'];
     }
 
     /**
      * Get the array representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param  User $notifiable
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray(User $notifiable) : array
     {
         return [
-
+            'message' => $this->message,
+            'url' => $this->url
         ];
-    }
-
-    public function toBroadcast($notifiable)
-    {
-        $id = uniqid();
-
-        return new BroadcastMessage([
-            'toast_id' => $id,
-            'toast' => view('admin.partials.toast', ['id' => $id, 'model' => $this->model])->render(),
-        ]);
     }
 }

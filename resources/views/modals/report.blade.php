@@ -24,7 +24,7 @@
                             id="comment"
                             rows="3"
                             name="comment"
-                            maxlength="5000"
+                            maxlength="{{config('validation.report.comment.max')}}"
                             x-ref="comment"
                             @keyup="count = $refs.comment.value.length"
                         ></textarea>

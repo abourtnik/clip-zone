@@ -20,7 +20,17 @@
                     <div class="row">
                         <div class="col mb-3">
                             <label for="name" class="form-label">Your name</label>
-                            <input type="text" @class(['form-control', 'is-invalid' => $errors->has('name')]) name="name" id="name" required autofocus value="{{ old('name', 'test') }}">
+                            <input
+                                type="text"
+                                minlength="{{config('validation.contact.name.min')}}"
+                                maxlength="{{config('validation.contact.name.max')}}"
+                                @class(['form-control', 'is-invalid' => $errors->has('name')])
+                                name="name"
+                                id="name"
+                                required
+                                autofocus
+                                value="{{ old('name') }}"
+                            >
                             @error('name')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -29,7 +39,7 @@
                         </div>
                         <div class="col mb-3">
                             <label for="email" class="form-label">Your email</label>
-                            <input type="email" @class(['form-control', 'is-invalid' => $errors->has('email')]) name="email" id="email" required value="{{ old('email', 'test@test.fr') }}">
+                            <input type="email" @class(['form-control', 'is-invalid' => $errors->has('email')]) name="email" id="email" required value="{{ old('email') }}">
                             @error('email')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -44,13 +54,13 @@
                             id="message"
                             rows="15"
                             name="message"
-                            maxlength="5000"
+                            maxlength="{{config('validation.contact.message.max')}}"
                             x-ref="message"
                             @keyup="count = $refs.message.value.length"
-                        >{{old('message', 'loremlorem')}}</textarea>
+                        >{{old('message')}}</textarea>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="form-text">
-                                <span x-text="count"></span> / <span>5000</span>
+                                <span x-text="count"></span> / <span>{{config('validation.contact.message.max')}}</span>
                             </div>
                             @error('message')
                             <div @class(['invalid-feedback w-75 text-end', 'd-block' => $errors->has('message')])>

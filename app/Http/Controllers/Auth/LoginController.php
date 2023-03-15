@@ -39,11 +39,7 @@ class LoginController
 
             Auth::login($user, $remember);
 
-            if ($user->is_admin) {
-                return redirect()->route('admin.index');
-            }else {
-                return redirect()->route('user.index');
-            }
+            return redirect()->route('user.index');
         }
 
         return back()->with('error', 'The provided credentials do not match our records')->onlyInput('username');

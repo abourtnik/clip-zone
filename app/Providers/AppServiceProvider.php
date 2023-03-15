@@ -11,6 +11,8 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\View;
+use Illuminate\Notifications\Channels\DatabaseChannel as IlluminateDatabaseChannel;
+use App\Notifications\Channels\DatabaseChannel;
 
 use Illuminate\Support\Facades\Log;
 
@@ -33,6 +35,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Notifications
+        $this->app->instance(IlluminateDatabaseChannel::class, new DatabaseChannel());
+
         // Pagination
         Paginator::useBootstrapFive();
 

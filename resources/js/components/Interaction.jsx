@@ -1,5 +1,6 @@
 import { useState } from 'preact/hooks';
 import {ThumbsUpSolid, ThumbsUpRegular, ThumbsDownSolid, ThumbsDownRegular} from './Icon'
+import {jsonFetch} from '../hooks'
 
 export default function Interaction ({model, target, count, active, showCount = true}) {
 
@@ -11,7 +12,7 @@ export default function Interaction ({model, target, count, active, showCount = 
     const [counterLike, setCounterLike] = useState(likes_count);
     const [counterDislike, setCounterDislike] = useState(dislikes_count);
 
-    const handleClick = (type) => {
+    const handleClick = async (type) => {
 
         if (type === 'like') {
             setLiked(liked => !liked)
@@ -25,19 +26,13 @@ export default function Interaction ({model, target, count, active, showCount = 
             liked ? setCounterLike(counter => counter - 1) : null;
         }
 
-        const response = fetch(`/api/${type}`, {
+        await jsonFetch(`/api/${type}` , {
             method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            credentials: 'include',
             body: JSON.stringify({
                 'model': model,
                 'id': target,
             })
-        });
+        })
     }
 
     return (

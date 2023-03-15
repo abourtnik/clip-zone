@@ -21,11 +21,11 @@
             <input type="datetime-local" name="date[]" class="form-control" id="registration_date_end" value="{{$filters['date'][1] ?? null}}">
         </div>
         <div class="col">
-            <label for="ban" class="form-label fw-bold">Banned</label>
-            <select name="ban" class="form-select" aria-label="Default select example">
+            <label for="status" class="form-label fw-bold">Status</label>
+            <select name="status" class="form-select" aria-label="Default select example">
                 <option selected value="">All</option>
-                @foreach(['banned' => 'Banned', 'not_banned' => 'Not banned'] as $id => $label)
-                    <option @selected(($filters['ban'] ?? null) === $id) value="{{$id}}">{{$label}}</option>
+                @foreach(['banned' => 'Banned', 'not_confirmed' => 'Not confirmed'] as $id => $label)
+                    <option @selected(($filters['status'] ?? null) === $id) value="{{$id}}">{{$label}}</option>
                 @endforeach
             </select>
         </div>
@@ -54,21 +54,23 @@
             </tr>
         </thead>
         <tbody>
-        @foreach($users as $user)
+        @forelse($users as $user)
             <tr class="bg-light">
                 <td class="align-middle">
-                    <a href="{{$user->route}}" class="d-flex align-items-start gap-3 text-decoration-none">
-                        <img class="rounded" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar" style="width: 50px;">
+                    <div class="d-flex align-items-start gap-3 text-decoration-none">
+                        <a href="{{$user->route}}" class="text-decoration-none">
+                            <img class="rounded" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar" style="width: 50px;">
+                        </a>
                         <div>
-                            <span>{{$user->username}}</span>
+                            <a href="{{$user->route}}" class="text-decoration-none">{{$user->username}}</a>
                             <x-expand-item max="150">
                                 {{$user->description}}
                             </x-expand-item>
                         </div>
-                    </a>
+                    </div>
                 </td>
                 <td class="align-middle">
-                    {{$user->email}}
+                    <small>{{$user->email}}</small>
                 </td>
                 <td class="align-middle">
                     @if($user->subscribers_count)
@@ -91,37 +93,61 @@
                         <div class="badge bg-secondary">No comments</div>
                     @endif
                 </td>
-                <td class="align-middle">{{$user->created_at->diffForHumans()}}</td>
-                <td class="align-middle">{{$user->last_login_at->diffForHumans()}}</td>
                 <td class="align-middle">
-                    @if($user->is_banned)
-                        <div class="badge bg-warning">
-                            {{$user->banned_at->diffForHumans()}}
-                        </div>
-                    @else
-                        <button
-                            class="btn btn-danger btn-sm"
-                            title="Ban user"
-                            data-bs-toggle="modal"
-                            data-bs-target="#ban_user"
-                            data-route="{{route('admin.users.ban', $user)}}"
-                            data-username="{{$user->username}}"
-                            data-avatar="{{$user->avatar_url}}"
-                            data-videos="{{$user->videos_count}}"
-                            data-comments="{{$user->comments_count}}"
-                        >
-                            <i class="fa-solid fa-ban"></i>
-                            Ban user
-                        </button>
+                    <small>{{$user->created_at->diffForHumans()}}</small>
+                </td>
+                <td class="align-middle">
+                    <small>{{$user->last_login_at?->diffForHumans()}}</small>
+                </td>
+                <td class="align-middle">
+                    @if($user->hasVerifiedEmail())
+                        @if($user->is_banned)
+                            <div class="badge bg-warning">
+                                {{$user->banned_at->diffForHumans()}}
+                            </div>
+                        @else
+                            <button
+                                class="btn btn-danger btn-sm"
+                                title="Ban user"
+                                data-bs-toggle="modal"
+                                data-bs-target="#ban_user"
+                                data-route="{{route('admin.users.ban', $user)}}"
+                                data-username="{{$user->username}}"
+                                data-avatar="{{$user->avatar_url}}"
+                                data-videos="{{$user->videos_count}}"
+                                data-comments="{{$user->comments_count}}"
+                            >
+                                <i class="fa-solid fa-ban"></i>
+                                Ban user
+                            </button>
+                        @endif
                     @endif
                 </td>
                 <td class="align-middle">
-                    <a target="_blank" class="btn btn-primary btn-sm" href="{{route('impersonate', $user)}}">
-                        <i class="fa-solid fa-user-ninja"></i>
-                    </a>
+                    @if($user->hasVerifiedEmail())
+                        <a target="_blank" class="btn btn-primary btn-sm" href="{{route('impersonate', $user)}}">
+                            <i class="fa-solid fa-user-ninja"></i>
+                            Ninja
+                        </a>
+                    @else
+                        <form id="form-ban" method="POST" action="{{route('admin.users.confirm', $user)}}">
+                            @csrf
+                            <button type="submit" class="btn btn-success btn-sm">
+                                <i class="fa-solid fa-user-check"></i>
+                                Confirm email
+                            </button>
+                        </form>
+                    @endif
                 </td>
             </tr>
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="9" class="text-center">
+                    <i class="fa-solid fa-database fa-2x my-3"></i>
+                    <p class="fw-bold">No matching users</p>
+                </td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
   </div>

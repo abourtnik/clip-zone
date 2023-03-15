@@ -15,7 +15,7 @@ class UpdateUserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize() : bool
     {
         return true;
     }
@@ -25,14 +25,14 @@ class UpdateUserRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             'username' => [
                 'sometimes',
                 'required',
-                'min:3',
-                'max:40',
+                'min:'.config('validation.user.username.min'),
+                'max:'.config('validation.user.username.max'),
                 Rule::unique('users', 'username')->ignore(Auth::user())
             ],
             'email' => [
@@ -56,7 +56,12 @@ class UpdateUserRequest extends FormRequest
                 'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
                 'max:5120' // 5mo
             ],
-            'description' => 'sometimes|nullable|string|max:5000',
+            'description' => [
+                'sometimes',
+                'nullable',
+                'string',
+                'max:'.config('validation.user.description.max'),
+            ],
             'country' => [
                 'sometimes',
                 'nullable',
@@ -66,7 +71,7 @@ class UpdateUserRequest extends FormRequest
                 'sometimes',
                 'nullable',
                 'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
-                'max:255',
+                'max:'.config('validation.user.website.max'),
             ],
             'show_subscribers' => 'sometimes|boolean'
         ];

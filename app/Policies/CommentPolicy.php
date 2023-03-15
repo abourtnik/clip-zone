@@ -57,7 +57,8 @@ class CommentPolicy
     /**
      * Determine whether the user can create the model.
      *
-     * @param  User $user
+     * @param User $user
+     * @param Video $video
      * @return Response|bool
      */
     public function create(User $user, Video $video): Response|bool

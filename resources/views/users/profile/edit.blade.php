@@ -62,7 +62,16 @@
                         <div class="row">
                             <div class="col-12 col-sm-4 mb-3">
                                 <label for="username" class="form-label">Username</label>
-                                <input type="text" class="form-control" id="username" name="username" required value="{{old('username', $user->username)}}">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="username"
+                                    name="username"
+                                    required
+                                    value="{{old('username', $user->username)}}"
+                                    minlength="{{config('validation.user.username.min')}}"
+                                    maxlength="{{config('validation.user.username.max')}}"
+                                >
                             </div>
                             <div class="col-12 col-sm-4 mb-3">
                                 <label for="email" class="form-label">Email</label>
@@ -107,13 +116,31 @@
                             </div>
                             <div class="col-12 col-sm-6 mb-3">
                                 <label for="website" class="form-label">Website</label>
-                                <input class="form-control" type="text" id="website" name="website" value="{{old('website', $user->website)}}">
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    id="website"
+                                    name="website"
+                                    value="{{old('website', $user->website)}}"
+                                    maxlength="{{config('validation.user.website.max')}}"
+                                >
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row" x-data="{ count: 0 }" x-init="count = $refs.message.value.length">
                             <div class="col-12 mb-3">
                                 <label for="description" class="form-label">Channel Description</label>
-                                <textarea class="form-control" id="description" rows="6" name="description" maxlength="5000">{{old('description', $user->description)}}</textarea>
+                                <textarea
+                                    class="form-control"
+                                    id="description"
+                                    rows="6"
+                                    name="description"
+                                    maxlength="{{config('validation.user.description.max')}}"
+                                    x-ref="message"
+                                    @keyup="count = $refs.message.value.length"
+                                >{{old('description', $user->description)}}</textarea>
+                                <div class="form-text">
+                                    <span x-text="count"></span> / <span>{{config('validation.user.description.max')}}</span>
+                                </div>
                             </div>
                         </div>
                         <div class="row">

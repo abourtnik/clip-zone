@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 
 class CommentResource extends JsonResource
 {
+    public static $wrap = null;
+
     /**
      * Transform the resource into an array.
      *

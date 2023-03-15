@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex gap-2 align-items-center">
+                <div class="d-flex flex-wrap gap-2 align-items-center">
                     <a href="mailto:?body={{$video->route}}" class="rounded-circle p-3 border" style="background-color: #888888;padding: 0.7rem !important;">
                         <i class="fa-regular fa-envelope fa-2x text-white"></i>
                     </a>

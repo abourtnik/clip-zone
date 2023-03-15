@@ -140,18 +140,9 @@ class ProfileController
         return redirect()->route('user.edit')->with(['status' => 'Your password has been updated successfully !']);
     }
 
-    public function follow (User $user) : JsonResponse {
-        if (Auth::user()->isNot($user)) {
-            Auth::user()->subscriptions()->toggle($user);
-            return response()->json([
-               'success' => true
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'You can\'t subscribe yourself'
-            ]);
-        }
+    public function subscribe (User $user) : JsonResponse {
+        Auth::user()->subscriptions()->toggle($user);
+        return response()->json();
     }
 
     public function delete(): RedirectResponse {

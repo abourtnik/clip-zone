@@ -34,14 +34,14 @@
                                 name="title"
                                 required
                                 value="{{old('title', $video->title)}}"
-                                maxlength="100"
+                                maxlength="{{config('validation.video.title.max')}}"
                                 x-ref="title"
                                 @keyup="count = $refs.title.value.length"
                             >
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="form-text">A catchy title can help you hook viewers.</div>
                                 <div class="form-text">
-                                    <span x-text="count"></span> / <span>100</span>
+                                    <span x-text="count"></span> / <span>{{config('validation.video.title.max')}}</span>
                                 </div>
                             </div>
                         </div>
@@ -52,7 +52,7 @@
                                 id="description"
                                 rows="15"
                                 name="description"
-                                maxlength="5000"
+                                maxlength="{{config('validation.video.description.max')}}"
                                 x-ref="description"
                                 @keyup="count = $refs.description.value.length"
                             >{{old('description')}}</textarea>
@@ -61,7 +61,7 @@
                                     videos more easily through search.
                                 </div>
                                 <div class="form-text">
-                                    <span x-text="count"></span> / <span>5000</span>
+                                    <span x-text="count"></span> / <span>{{config('validation.video.description.max')}}</span>
                                 </div>
                             </div>
                         </div>

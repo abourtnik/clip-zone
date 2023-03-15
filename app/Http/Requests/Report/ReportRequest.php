@@ -33,7 +33,11 @@ class ReportRequest extends FormRequest
                 'required',
                 Rule::in(ReportReason::valid())
             ],
-            'comment' => 'nullable|string|max:5000',
+            'comment' => [
+                'nullable',
+                'string',
+                'max:'.config('validation.reason.comment.max')
+            ],
             'id' => [
                 'required',
                 'numeric'

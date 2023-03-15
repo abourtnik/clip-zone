@@ -1,15 +1,22 @@
-import { useState, useCallback } from 'preact/hooks';
+import { useState, useCallback, useRef } from 'preact/hooks';
 import {debounce} from "../functions";
 import {Search as SearchIcon} from  './Icon'
+import {useClickOutside} from '../hooks'
 
 export default function Search ({query = '', responsive = true}) {
+
+    const ref = useRef(null)
 
     const [search, setSearch] = useState(query);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [showResults, setShowResults] = useState(false);
+
+    useClickOutside(ref, () => setShowResults(false))
 
     const handleChange = e => {
         const value = e.target.value;
+        setShowResults(true)
         setLoading(true);
         setSearch(value);
         suggest(value)
@@ -34,12 +41,12 @@ export default function Search ({query = '', responsive = true}) {
 
     return (
         <>
-        <form method="GET" className="d-flex w-100" role="search" action="/search">
+        <form ref={ref} method="GET" className="d-flex w-100" role="search" action="/search">
             <div className="input-group">
                 <div className={'position-relative'} style={{flex: '1 1 auto'}}>
-                    <input onChange={handleChange} className="form-control rounded-5 rounded-end radius-end-0" type="search" placeholder="Search" aria-label="Search" name="q" value={search}/>
+                    <input onClick={() => setShowResults(true)} onChange={handleChange} className="form-control rounded-5 rounded-end radius-end-0" type="search" placeholder="Search" aria-label="Search" name="q" value={search}/>
                     {
-                        loading &&
+                        (loading && search.trim()) &&
                         <div className="position-absolute top-50 right-0 translate-middle" >
                             <div className={'spinner-border spinner-border-sm'} role="status">
                                 <span className="visually-hidden">Loading...</span>
@@ -53,7 +60,7 @@ export default function Search ({query = '', responsive = true}) {
             </div>
         </form>
         {
-            (search.trim() && !loading) &&
+            (showResults && search.trim() && !loading) &&
                 <div className={'position-absolute ' + width + ' bg-white shadow-lg border border-1 pt-3'} style={{top:'53px'}}>
                     {
                         data.total ?

@@ -11,31 +11,10 @@ class UserPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any models.
-     *
-     * @param  User  $user
-     * @return Response|bool
-     */
-    public function viewAny(User $user) : Response|bool
-    {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  User $user
-     * @return Response|bool
-     */
-    public function view(User $user): Response|bool
-    {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can view video.
+     * Determine whether the user can view other user.
      *
      * @param User|null $user
+     * @param User $model
      * @return Response|bool
      */
     public function show(?User $user, User $model): Response|bool
@@ -46,35 +25,16 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can create the model.
+     * Determine whether the user can subscribe other user.
      *
-     * @param  User $user
+     * @param User $user
+     * @param User $model
      * @return Response|bool
      */
-    public function create(User $user) : Response|bool
+    public function subscribe (User $user, User $model): Response|bool
     {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can update the model.
-     *
-     * @param  User $user
-     * @return Response|bool
-     */
-    public function update(User $user) : Response|bool
-    {
-        return true;
-    }
-
-    /**
-     * Determine whether the user can delete the model.
-     *
-     * @param  User $user
-     * @return Response|bool
-     */
-    public function delete(User $user) : Response|bool
-    {
-        return true;
+        return $user->isNot($model)
+            ? Response::allow()
+            : Response::denyWithStatus(403, 'You can\'t subscribe yourself');
     }
 }

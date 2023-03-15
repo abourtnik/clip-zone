@@ -49,6 +49,13 @@ class UserController
         return redirect()->route('admin.users.index');
     }
 
+    public function confirm (User $user) : RedirectResponse {
+
+        $user->markEmailAsVerified();
+
+        return redirect()->route('admin.users.index');
+    }
+
     public function export (): RedirectResponse {
         Export::dispatch(User::class, Auth::user());
         return redirect()->route('admin.users.index')->withSuccess('Votre export a bien été pris en compte. Vous recevrez une <strong>notification</strong> quand celui-ci sera disponible.');

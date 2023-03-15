@@ -35,14 +35,14 @@
                                 name="title"
                                 required
                                 value="{{old('title', $playlist->title)}}"
-                                maxlength="150"
+                                maxlength="{{config('validation.playlist.title.max')}}"
                                 x-ref="title"
                                 @keyup="count = $refs.title.value.length"
                             >
                             <div class="d-flex align-items-center justify-content-between">
                                 <div class="form-text">A catchy title can help you hook viewers.</div>
                                 <div class="form-text">
-                                    <span x-text="count"></span> / <span>150</span>
+                                    <span x-text="count"></span> / <span>{{config('validation.playlist.title.max')}}</span>
                                 </div>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                                 id="description"
                                 rows="15"
                                 name="description"
-                                maxlength="5000"
+                                maxlength="{{config('validation.playlist.description.max')}}"
                                 x-ref="description"
                                 @keyup="count = $refs.description.value.length"
                             >{{old('description', $playlist->description)}}</textarea>
@@ -62,7 +62,7 @@
                                     videos more easily through search.
                                 </div>
                                 <div class="form-text">
-                                    <span x-text="count"></span> / <span>5000</span>
+                                    <span x-text="count"></span> / <span>{{config('validation.playlist.description.max')}}</span>
                                 </div>
                             </div>
                         </div>
