@@ -25,7 +25,7 @@
     </span>
 @else
     <span class="badge bg-danger">
-        <i class="fa-solid fa-eye-slash"></i>&nbsp;
+        <i class="fa-solid fa-lock"></i>&nbsp;
         Private
     </span>
 @endif

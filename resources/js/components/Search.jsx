@@ -16,7 +16,6 @@ export default function Search ({query = '', responsive = true}) {
 
     const handleChange = e => {
         const value = e.target.value;
-        setShowResults(true)
         setLoading(true);
         setSearch(value);
         suggest(value)
@@ -41,10 +40,19 @@ export default function Search ({query = '', responsive = true}) {
 
     return (
         <>
-        <form ref={ref} method="GET" className="d-flex w-100" role="search" action="/search">
+        <form ref={ref} method="GET" className="d-flex w-100 mb-0" role="search" action="/search">
             <div className="input-group">
                 <div className={'position-relative'} style={{flex: '1 1 auto'}}>
-                    <input onClick={() => setShowResults(true)} onChange={handleChange} className="form-control rounded-5 rounded-end radius-end-0" type="search" placeholder="Search" aria-label="Search" name="q" value={search}/>
+                    <input
+                        onClick={() => setShowResults(true)}
+                        onChange={handleChange}
+                        className="form-control rounded-5 rounded-end radius-end-0 border border-secondary"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                        name="q"
+                        value={search}
+                    />
                     {
                         (loading && search.trim()) &&
                         <div className="position-absolute top-50 right-0 translate-middle" >

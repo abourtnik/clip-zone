@@ -17,13 +17,12 @@ enum VideoStatus : int {
     }
 
     public static function getActive(): array {
-        return self::get(Arr::where(self::cases(), fn ($value, $key) => $value->name !== self::DRAFT->name));
-    }
-
-    private static function get (array $data) : array {
-        return Arr::map(Arr::pluck($data, 'name', 'value'), function (string $value, int $key) {
-            return ucfirst(strtolower($value));
-        });
+        return [
+            self::PUBLIC->value => ucfirst(strtolower(self::PUBLIC->name)),
+            self::PRIVATE->value => ucfirst(strtolower(self::PRIVATE->name)),
+            self::PLANNED->value => ucfirst(strtolower(self::PLANNED->name)),
+            self::UNLISTED->value => ucfirst(strtolower(self::UNLISTED->name)),
+        ];
     }
 
     public static function validStatus () : array {
@@ -34,5 +33,11 @@ enum VideoStatus : int {
             self::PLANNED->value,
             self::UNLISTED->value,
         ];
+    }
+
+    private static function get (array $data) : array {
+        return Arr::map(Arr::pluck($data, 'name', 'value'), function (string $value, int $key) {
+            return ucfirst(strtolower($value));
+        });
     }
 }

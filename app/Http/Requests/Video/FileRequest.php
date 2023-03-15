@@ -29,7 +29,7 @@ class FileRequest extends FormRequest
                 'file',
                 'required',
                 'mimetypes:'.implode(',', VideoType::acceptedMimeTypes()),
-                'max:15360' // 15mo
+                'max:204800' // 200mo
             ],
             'duration' => 'required|numeric'
         ];

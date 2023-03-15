@@ -53,10 +53,10 @@ return [
 
     'playlist' => [
         'title' => [
-            'max' => 40
+            'max' => 150
         ],
         'description' => [
-            'min' => 5000,
+            'max' => 5000,
         ],
     ],
 

@@ -1,6 +1,6 @@
 export default function Video ({video}) {
     return (
-        <article className="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+        <article className="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
             <div className="position-relative">
                 <a href={video.route}>
                     <div className="position-relative">

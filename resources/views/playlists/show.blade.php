@@ -3,8 +3,8 @@
 @section('title', $playlist->title)
 
 @section('content')
-    <div class="row">
-        <div class="col-3">
+    <div class="row justify-content-center">
+        <div class="col-sm-6 col-md-6 col-lg-5 col-xl-4 col-xxl-3 mb-4 mb-sm-0" style="max-width: 380px">
             <div x-data="{favorite: {{$favorite_by_auth_user ? 'true' : 'false'}}}" class="bg-secondary text-white rounded-4 py-4 px-3" style="background: linear-gradient(to bottom, rgba(89,69,61,0.800) 0%, rgba(89,69,61,0.298) 33%, rgba(89,69,61,0.800) 100%);">
                 <img class="img-fluid w-100 rounded-4" src="{{$playlist->videos->first()->thumbnail_url}}" alt="{{$playlist->title}}" style="width: 360px; height: 202px;object-fit: cover;">
                 <h2 class="h4 my-3">{{$playlist->title}}</h2>
@@ -50,7 +50,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-9">
+        <div class="col-sm-6 col-md-6 col-lg-7 col-xl-8 col-xxl-9">
             @if($playlist->hidden_videos_count && (Auth::guest() || Auth::user()?->isNot($playlist->user)))
                 <div class="alert alert-info alert-dismissible">
                     <strong>{{ $playlist->hidden_videos_count }} unavailable video(s) is hidden</strong>

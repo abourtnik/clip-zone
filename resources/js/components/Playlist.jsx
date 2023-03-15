@@ -1,9 +1,12 @@
-import { useState, useCallback } from 'preact/hooks';
+import { useState, useCallback, useRef } from 'preact/hooks';
 import {debounce} from "../functions";
 import {Cross, Bars} from './Icon'
 import { ReactSortable } from "react-sortablejs";
+import {useClickOutside} from '../hooks'
 
 export default function Playlist ({initial = []}) {
+
+    const ref = useRef(null)
 
     const [search, setSearch] = useState('');
     const [data, setData] = useState([]);
@@ -11,9 +14,12 @@ export default function Playlist ({initial = []}) {
     const [videos, setVideos] = useState(initial.length ? JSON.parse(initial) : initial);
     const [showSuggestions, setShowSuggestions] = useState(false);
 
+    useClickOutside(ref, () => setShowSuggestions(false))
+
     const handleChange = e => {
         const value = e.target.value;
         setSearch(value);
+        setLoading(true);
         suggest(value)
     };
 
@@ -55,14 +61,29 @@ export default function Playlist ({initial = []}) {
                 <h5 className="text-primary">Videos { videos.length > 0 && '• ' + videos.length}</h5>
                 <hr/>
                 <div className={'position-relative'}>
-                    <form method="GET" className="d-flex w-100" role="search" action="/search">
-                        <div className="input-group">
-                            <input onChange={handleChange} className="form-control rounded-5" type="search" placeholder="Search Videos" aria-label="Search" name="q" value={search}/>
-                        </div>
+                    <form ref={ref} method="GET" className="d-flex w-100 position-relative" role="search" action="/search">
+                        <input
+                            onChange={handleChange}
+                            className="form-control rounded-5"
+                            type="search"
+                            placeholder="Search Videos"
+                            aria-label="Search"
+                            name="q"
+                            value={search}
+                            onClick={() => setShowSuggestions(true)}
+                        />
+                        {
+                            (loading && search.trim()) &&
+                            <div className="position-absolute top-50 right-0 translate-middle" >
+                                <div className={'spinner-border spinner-border-sm'} role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        }
                     </form>
                     {
-                        (search.trim() && !loading) &&
-                        <div className={'position-absolute shadow-lg  left-0 w-100 bg-white shadow-lg border border-1 pt-3 overflow-auto ' + (showSuggestions ? '' : ' d-none')} style={{top:'39px',zIndex:3, maxHeight: '557px'}}>
+                        (showSuggestions && search.trim() && !loading) &&
+                        <div className={'position-absolute shadow-lg  left-0 w-100 bg-white shadow-lg border border-1 pt-3 overflow-auto'} style={{top:'39px',zIndex:3, maxHeight: '557px'}}>
                             {
                                 data.length ?
                                     <ul className={'list-group list-group-flush mb-0'}>

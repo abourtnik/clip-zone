@@ -11,6 +11,7 @@
         "lab404/laravel-impersonate": "^1.7",
         "laravel/framework": "^9.19",
         "laravel/tinker": "^2.7",
+        "league/flysystem-aws-s3-v3": "^3.0",
         "mews/purifier": "^3.3",
         "psr/simple-cache": "^2.0",
         "pusher/pusher-php-server": "^7.2",

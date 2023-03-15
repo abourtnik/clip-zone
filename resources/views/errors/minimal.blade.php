@@ -46,6 +46,6 @@
             </div>
         </main>
         @include('layouts.menus.responsive')
-        @include('users.videos.modals.create')
+        @include('users.videos.modals.upload')
     </body>
 </html>

@@ -13,10 +13,10 @@
         @endif
     </div>
     <div class="w-100">
-        <div class="col-10 offset-1">
+        <div class="col-12 col-sm-10 offset-sm-1">
             <div class="border-bottom">
-                <div class="d-flex justify-content-between align-items-center py-4">
-                    <div class="d-flex align-items-center">
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center py-4">
+                    <div class="d-flex align-items-center mb-4 mb-sm-0">
                         <img style="width: 100px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
                         <div class="ml-4">
                             <div>{{$user->username}}</div>
@@ -76,7 +76,7 @@
                     </li>
                 </ul>
             </div>
-            <div class="tab-content">
+            <div class="tab-content px-3 px-sm-0">
                 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     @if($user->pinned_video)
                         <div class="row mt-4">
@@ -133,7 +133,7 @@
                     @endif
                 </div>
                 <div class="tab-pane " id="playlists" role="tabpanel" aria-labelledby="playlists-tab">
-                    @if($user->playlists_count)
+                    @if($user->playlists->count())
                         <div class="row gx-3 gy-4 mt-0">
                             @each('playlists.card', $user->playlists, 'playlist')
                         </div>

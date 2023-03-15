@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\VideoStatus;
 use App\Filters\SearchFilters;
 use App\Http\Resources\VideoResource;
 use App\Models\Playlist;
@@ -109,7 +110,7 @@ class SearchController extends Controller
         $match = '%'.$q.'%';
 
         return VideoResource::collection(
-            Video::where(fn($q) => $q->active()->orWhere('user_id' , Auth::user()->id))
+            Video::where(fn($q) => $q->active()->orWhere(fn($q) => $q->where('user_id' , Auth::user()->id))->whereNotIn('status', [VideoStatus::DRAFT, VideoStatus::BANNED]))
                 ->whereNotIn('id', $except_ids)
                 ->where(fn($query) => $query->where('title', 'LIKE', $match)->orWhere('description', 'LIKE', $match))
                 ->with('user')

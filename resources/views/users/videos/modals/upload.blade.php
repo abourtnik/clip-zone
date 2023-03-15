@@ -17,7 +17,7 @@
                         @drop="uploadFile($event.target.files[0])"
                         @change="uploadFile($event.target.files[0])"
                     >
-                    <div class="text-center align-items-center d-flex flex-column w-50 mx-auto">
+                    <div class="text-center align-items-center d-flex flex-column w-100 mx-auto">
                         <div class="rounded-circle bg-light-dark p-5 mb-4">
                             <i class="fa-solid fa-upload fa-3x" ></i>
                         </div>
@@ -29,6 +29,9 @@
                         <button class="btn btn-primary mt-4 text-uppercase">
                             Select file
                         </button>
+                        <div class="text-sm text-muted mt-3">
+                            Accepted formats : <strong>{{implode(', ', \App\Enums\VideoType::acceptedFormats())}}</strong> - Max file size : <strong>100 Mo</strong>
+                        </div>
                     </div>
                 </div>
                 <div x-show.important="isUpload && !error" class="text-center align-items-center d-flex flex-column w-50 mx-auto p-3">

@@ -36,7 +36,7 @@ class UserController
                 },
                 'pinned_video' => fn($q) => $q->withCount('views'),
                 'reports' => fn($q) => $q->where('user_id', Auth::id())
-            ])->loadCount('subscribers', 'videos_views', 'videos', 'playlists')
+            ])->loadCount('subscribers', 'videos_views', 'videos')
         ]);
 
     }

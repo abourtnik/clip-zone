@@ -9,11 +9,66 @@
             </a>
         </div>
         <div class="d-flex align-items-center d-md-none gap-3" x-show.important="!search">
-            <div class="d-flex gap-4 align-items-center" >
+            <div class="d-flex gap-4 align-items-center">
                 <button @click="search = true" class="nav-link d-flex align-items-center bg-transparent">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
                 @auth
+                    <div x-data="{unread_notifications: {{$unread_notifications}}}">
+                        <button type="button" class="nav-link bg-transparent position-relative" data-bs-toggle="offcanvas" data-bs-target="#responsive-notifications">
+                            <i class="fa-solid fa-bell"></i>
+                            <span x-show="unread_notifications > 0" class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger text-sm">
+                                    <span x-show="unread_notifications > 99">99 +</span>
+                                    <span x-show="unread_notifications <= 99" x-text="unread_notifications"></span>
+                                    <span class="visually-hidden">unread messages</span>
+                                </span>
+                        </button>
+                        <div class="offcanvas offcanvas-end" id="responsive-notifications">
+                            <div class="offcanvas-header bg-light border d-flex justify-content-between align-items-center">
+                                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Notifications <span x-show="unread_notifications > 0">(<span x-text="unread_notifications"></span>)</span></h5>
+                                <div class="d-flex gap-3 align-items-center">
+                                    <a x-show="unread_notifications > 0" class="btn-link text-primary text-decoration-none text-sm fw-bold" href="{{route('user.notifications.read-all')}}">Mark all as read</a>
+                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                            </div>
+                            <div class="offcanvas-body px-0 pt-0 overflow-auto" style="min-height: 500px">
+                                @if($notifications->count())
+                                    <ul class="list-group list-group-flush overflow-auto">
+                                        @foreach($notifications as $notification)
+                                            <a href="{{$notification->url}}" x-data="{is_read: {{$notification->is_read ? 'true': 'false'}}}" class="text-decoration-none text-black list-group-item notification d-flex align-items-center justify-content-between">
+                                                <div class="w-75">
+                                                    <p class="mb-0 text-sm">{!! $notification->message !!}</p>
+                                                    <p class="text-muted text-sm mb-0 mt-2">{{$notification->created_at->diffForHumans()}}</p>
+                                                </div>
+                                                <span x-show="!is_read" class="bg-primary rounded-circle" style="width: 10px;height: 10px"></span>
+                                                <button
+                                                    x-show="!is_read"
+                                                    @click="is_read = true;unread_notifications--"
+                                                    class="bg-success bg-opacity-25 rounded-4 btn-sm ajax-button"
+                                                    type="button"
+                                                    type="button"
+                                                    data-bs-toggle="tooltip"
+                                                    data-bs-title="Mark as read"
+                                                    data-url="{{route('user.notifications.read', $notification)}}"
+                                                >
+                                                    <i class="fa-solid fa-check"></i>
+                                                </button>
+                                            </a>
+                                        @endforeach
+                                    </ul>
+                                @else
+                                    <div class="d-flex flex-column justify-content-center align-items-center p-5">
+                                        <i class="fa-solid fa-bell-slash fa-2x"></i>
+                                        <h5 class="mt-3 fs-6">Your notifications live here</h5>
+                                        <p class="text-muted text-center text-sm">Subscribe to your favorite channels to get notified about their latest videos.</p>
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="bg-light border w-100 text-center py-2">
+                                <a class="btn-link text-primary text-decoration-none text-sm fw-bold" href="{{route('user.notifications.index')}}">See All Notifications</a>
+                            </div>
+                        </div>
+                    </div>
                     <a x-show.important="!search" class="nav-link d-flex align-items-center" href="{{route('user.index')}}">
                         <strong class="d-none d-lg-block">{{auth()->user()->username}}</strong>
                         <img style="width: 40px" class="rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
@@ -40,7 +95,7 @@
             </button>
             <search-bar class="w-100" query="{{request()->get('q')}}"></search-bar>
         </div>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <div class="collapse navbar-collapse">
             <div class="d-flex justify-content-between align-items-center w-100">
                 <a style="width: 240px" class="navbar-brand text-center text-danger fw-bold" href="{{route('pages.home')}}">
                     {{config('app.name')}}

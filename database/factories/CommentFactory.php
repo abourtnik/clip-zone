@@ -23,7 +23,7 @@ class CommentFactory extends Factory
         $user = User::inRandomOrder()->first();
 
         return [
-            'content' => fake()->realText(5000),
+            'content' => fake()->realText(config('validation.comment.content.max')),
             'user_id' => $user->id,
             'ip' => fake()->ipv4(),
             'created_at' => $date,
