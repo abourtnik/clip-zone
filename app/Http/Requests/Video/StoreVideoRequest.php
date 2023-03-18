@@ -78,19 +78,6 @@ class StoreVideoRequest extends FormRequest
     }
 
     /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'allow_comments' => $this->request->has('allow_comments'),
-            'show_likes' => $this->request->has('show_likes'),
-        ]);
-    }
-
-    /**
      * Get the error messages for the defined validation rules.
      *
      * @return array<string, string>

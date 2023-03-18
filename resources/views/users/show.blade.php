@@ -6,18 +6,41 @@
 @section('style', 'margin-top: 0 !important')
 
 @section('content')
-    <div class="position-relative">
+    <div class="position-relative" x-data="{upload:false}" @mouseover="upload=true" @mouseleave="upload=false">
         <img class="w-100" style="height: 250px; object-fit: cover;" src="{{$user->banner_url}}" alt="{{$user->username}} banner">
         @if($user->website)
             <a href="//{{$user->website}}" class="position-absolute bottom-0 right-0 me-2 mb-2 p-1 text-white bg-dark bg-opacity-25 text-decoration-none fw-bold" rel="external nofollow" target="_blank">{{$user->website}}</a>
         @endif
+        @if(Auth::user()->is($user))
+            <a href="{{route('user.edit')}}"
+                x-show.important="upload"
+                x-transition.duration.500ms
+                class="position-absolute top-0 right-0 me-2 mt-2 p-2 text-white bg-dark bg-opacity-25 text-decoration-none fw-bold rounded-5"
+            >
+                <i class="fa-solid fa-2x fa-camera"></i>
+            </a>
+        @endauth
     </div>
     <div class="w-100">
         <div class="col-12 col-sm-10 offset-sm-1">
             <div class="border-bottom">
                 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center py-4">
                     <div class="d-flex align-items-center mb-4 mb-sm-0">
-                        <img style="width: 100px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
+                        <div class="d-flex align-items-center gap-4" x-data="{ upload: false }">
+                            <div @mouseover="upload=true" @mouseleave="upload=false"  class="rounded-circle position-relative overflow-hidden" style="width: 110px">
+                                <img style="width: 100px;height: 100px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
+                                @if(Auth::user()->is($user))
+                                    <a href="{{route('user.edit')}}"
+                                       x-show.important="upload"
+                                       x-transition.duration.500ms
+                                       x-transition.scale
+                                       class="position-absolute top-50 start-50 translate-middle p-2 rounded-5 bg-dark bg-opacity-75 text-decoration-none text-center text-white"
+                                    >
+                                        <i class="fa-solid fa-camera"></i>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
                         <div class="ml-4">
                             <div>{{$user->username}}</div>
                             <div class="text-muted text-sm">
@@ -30,7 +53,7 @@
                     </div>
                     @if(Auth::check() && Auth::user()->isNot($user))
                         <subscribe-button
-                            @if(!Auth()->user()->isSubscribeTo($user)) is-subscribe @endif
+                            @if(!$is_subscribed) is-subscribe @endif
                             user="{{$user->id}}">
                         </subscribe-button>
                     @elseif(!Auth::check())

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Notifications\Channels\DatabaseChannel as IlluminateDatabaseChannel;
 use App\Notifications\Channels\DatabaseChannel;
 
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register() : void
     {
         //
     }
@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot() :void
     {
         // Notifications
         $this->app->instance(IlluminateDatabaseChannel::class, new DatabaseChannel());
@@ -69,20 +69,22 @@ class AppServiceProvider extends ServiceProvider
             'contact.show',
             'errors::*'
         ], function($view) {
-            $view->with('categories', Category::where('in_menu', true)->ordered()->get());
-            $view->with(
-                'subscriptions',
-                Auth::user()?->subscriptions()
-                    ->withCount([
-                        'videos as new_videos' => fn($query) => $query->active()
-                            ->where('publication_date', '>', DB::raw('subscriptions.read_at')),
-                        'subscribers'
-                    ])
-                    ->latest('subscribe_at')
-                    ->get()
-            );
-            $view->with('report_reasons', ReportReason::get());
-            $view->with('favorite_playlists', Auth::user()?->favorites_playlist()->latest('added_at')->get());
+            if (!Str::contains($view->getName(), ['partials', 'modals', 'types'])) {
+                $view->with('categories', Category::where('in_menu', true)->ordered()->get());
+                $view->with(
+                    'subscriptions',
+                    Auth::user()?->subscriptions()
+                        ->withCount([
+                            'videos as new_videos' => fn($query) => $query->active()
+                                ->where('publication_date', '>', DB::raw('subscriptions.read_at')),
+                            'subscribers'
+                        ])
+                        ->latest('subscribe_at')
+                        ->get()
+                );
+                $view->with('report_reasons', ReportReason::get());
+                $view->with('favorite_playlists', Auth::user()?->favorites_playlist()->latest('added_at')->get());
+            }
         });
 
         // Notifications
@@ -92,14 +94,17 @@ class AppServiceProvider extends ServiceProvider
             'auth.*',
             'videos.show',
             'users.*',
+            'admin.*',
             'playlists.show',
             'playlists.manage',
             'subscription.*',
             'contact.show',
             'errors::*'
         ], function($view) {
-            $view->with('notifications', Auth::user()?->notifications()->latest()->limit(20)->get());
-            $view->with('unread_notifications', Auth::user()?->notifications()->unread()->count());
+            if (!Str::contains($view->getName(), ['partials', 'modals', 'types'])) {
+                $view->with('notifications', Auth::user()?->notifications()->latest()->limit(20)->get());
+                $view->with('unread_notifications', Auth::user()?->notifications()->unread()->count());
+            }
         });
     }
 }

@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Activity;
 use App\Models\Comment;
+use App\Notifications\UserNotification;
 
 class CommentObserver
 {
@@ -16,6 +17,14 @@ class CommentObserver
     public function creating(Comment $comment) : void
     {
         $comment->ip = request()->getClientIp();
+
+        if ($comment->user->isNot($comment->video->user)) {
+
+            $comment->video->user->notify(new UserNotification(
+                'You have new comment on your video !',
+                route('video.show', $comment->video)
+            ));
+        }
     }
 
     /**

@@ -193,7 +193,7 @@ class Video extends Model implements Likeable, Reportable
     protected function realStatus(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->is_active ? VideoStatus::PUBLIC : $this->status
+            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now())) ? VideoStatus::PUBLIC : $this->status
         );
     }
 

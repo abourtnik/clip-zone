@@ -133,6 +133,7 @@
         <div class="card shadow">
             <div class="card-body d-flex justify-content-center align-items-center">
                 <div class="my-3 text-center">
+                    <i class="fa-solid fa-flag fa-2x"></i>
                     <h5 class="my-3">You haven't submitted any reports.</h5>
                 </div>
             </div>

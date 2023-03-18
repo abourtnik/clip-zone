@@ -10,7 +10,7 @@
         </a>
         @auth
             <subscribe-button
-                @if(!Auth()->user()->isSubscribeTo($user)) is-subscribe @endif
+                is-subscribe
                 user="{{$user->id}}"
                 size="sm"
                 class="mx-auto mb-2 position-relative"

@@ -3,7 +3,7 @@
 @section('title', 'Channel dashboard')
 
 @section('content')
-    <form class="mb-4 d-flex gap-3 align-items-end" method="GET">
+    <form class="mb-4 d-flex flex-wrap gap-3 align-items-end" method="GET">
         <div class="col-12 col-sm">
             <label for="date_start" class="form-label fw-bold">Date start</label>
             <input
@@ -37,7 +37,7 @@
         <div class="col-12 col-sm-4 col-md-4 col-xl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
-                    <h5 class="card-title text-center text-primary">Uploaded videos</h5>
+                    <h5 class="card-title text-center text-primary">Videos</h5>
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-video fa-2x"></i>
@@ -300,7 +300,7 @@
                                                 </a>
                                                 <div>
                                                     <a href="{{$comment->user->route}}" class="text-decoration-none">{{$comment->user->username}}</a>
-                                                    <x-expand-item max="180">
+                                                    <x-expand-item max="180" class="d-block">
                                                         {{$comment->content}}
                                                     </x-expand-item>
                                                 </div>

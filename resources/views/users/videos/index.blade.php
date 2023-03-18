@@ -77,7 +77,7 @@
                 <tbody>
                 @forelse($videos as $video)
                     <tr class="bg-light">
-                        <td class="d-flex gap-3">
+                        <td class="d-block d-xxl-flex gap-3">
                             <a href="{{$video->route}}">
                                 @if($video->is_draft)
                                     <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="width: 120px;height: 68px">
@@ -169,52 +169,54 @@
                             @endif
                         </td>
                         <td class="align-middle">
-                            @if($video->is_draft)
-                                <a href="{{route('user.videos.create', $video)}}" class="btn btn-primary btn-sm" title="Edit draft">
-                                    <i class="fa-solid fa-pen"></i>
-                                </a>
-                            @else
-                                <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm" title="Edit video">
-                                    <i class="fa-solid fa-pen"></i>
-                                </a>
-                            @endif
-                            <button
-                                type="button"
-                                title="Delete video"
-                                class="btn btn-danger btn-sm"
-                                data-bs-toggle="modal"
-                                data-bs-target="#delete_video"
-                                data-title="{{$video->title}}"
-                                data-infos="{{trans_choice('views', $video->views_count)}} • {{$video->created_at->format('d F Y')}}"
-                                data-poster="{{$video->thumbnail_url}}"
-                                data-route="{{route('user.videos.destroy', $video)}}"
-                                data-download="{{route('video.download', $video)}}"
-                                data-alt="{{$video->title}} Thumbnail"
-                                data-comments="{{trans_choice('comments', $video->comments_count)}}"
-                                data-likes="{{trans_choice('likes', $video->likes_count)}}"
-                                data-dislikes="{{trans_choice('dislikes', $video->dislikes_count)}}"
-                                data-elements='{{json_encode(['title' => '', 'infos' => '', 'poster' => 'src', 'route' => 'action', 'download' => 'href', 'alt' => 'alt', 'comments' => '', 'likes' => '', 'dislikes' => ''])}}'
-                            >
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                            @if(!$video->is_draft)
-                                <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="Video statistics">
-                                    <i class="fa-solid fa-chart-simple"></i>
-                                </a>
-                            @endif
-                            @if($video->is_public && $video->is_pinned)
-                                <form action="{{route('user.videos.unpin', $video)}}" method="POST" class="d-inline-block">
-                                    <button class="btn btn-secondary btn-sm" title="Unpin video" type="submit">
-                                        <i class="fa-solid fa-link-slash"></i>
-                                    </button>
-                                </form>
-                            @elseif ($video->is_public && !$video->is_pinned)
-                                <form action="{{route('user.videos.pin', $video)}}" method="POST" class="d-inline-block">
-                                    <button class="btn btn-secondary btn-sm" title="Pin video" type="submit">
-                                        <i class="fa-solid fa-thumbtack"></i>
-                                    </button>
-                                </form>
-                            @endif
+                            <div class="d-flex gap-1">
+                                @if($video->is_draft)
+                                    <a href="{{route('user.videos.create', $video)}}" class="btn btn-primary btn-sm" title="Edit draft">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                @else
+                                    <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm" title="Edit video">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+                                @endif
+                                <button
+                                    type="button"
+                                    title="Delete video"
+                                    class="btn btn-danger btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#delete_video"
+                                    data-title="{{$video->title}}"
+                                    data-infos="{{trans_choice('views', $video->views_count)}} • {{$video->created_at->format('d F Y')}}"
+                                    data-poster="{{$video->thumbnail_url}}"
+                                    data-route="{{route('user.videos.destroy', $video)}}"
+                                    data-download="{{route('video.download', $video)}}"
+                                    data-alt="{{$video->title}} Thumbnail"
+                                    data-comments="{{trans_choice('comments', $video->comments_count)}}"
+                                    data-likes="{{trans_choice('likes', $video->likes_count)}}"
+                                    data-dislikes="{{trans_choice('dislikes', $video->dislikes_count)}}"
+                                    data-elements='{{json_encode(['title' => '', 'infos' => '', 'poster' => 'src', 'route' => 'action', 'download' => 'href', 'alt' => 'alt', 'comments' => '', 'likes' => '', 'dislikes' => ''])}}'
+                                >
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                @if(!$video->is_draft)
+                                    <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="Video statistics">
+                                        <i class="fa-solid fa-chart-simple"></i>
+                                    </a>
+                                @endif
+                                @if($video->is_public && $video->is_pinned)
+                                    <form action="{{route('user.videos.unpin', $video)}}" method="POST" class="d-inline-block">
+                                        <button class="btn btn-secondary btn-sm" title="Unpin video" type="submit">
+                                            <i class="fa-solid fa-link-slash"></i>
+                                        </button>
+                                    </form>
+                                @elseif ($video->is_public && !$video->is_pinned)
+                                    <form action="{{route('user.videos.pin', $video)}}" method="POST" class="d-inline-block">
+                                        <button class="btn btn-secondary btn-sm" title="Pin video" type="submit">
+                                            <i class="fa-solid fa-thumbtack"></i>
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
                         </td>
                     </tr>
                 @empty

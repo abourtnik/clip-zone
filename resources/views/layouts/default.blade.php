@@ -33,8 +33,8 @@
 <body>
     <main class="h-100 overflow-auto position-relative">
         @include('layouts.menus.header')
-        <div class="admin-content d-flex">
-            @include('layouts.menus.front')
+        <div class="d-flex">
+            @include('layouts.menus.sidebars.front')
             <div id="main-container" class="container-fluid my-3 @yield('class')" style="@yield('style')">
                 @yield('content')
             </div>
@@ -53,7 +53,6 @@
             </div>
         </div>
     </main>
-    @include('layouts.menus.responsive')
     @include('users.videos.modals.upload')
     @include('modals.report')
     @stack('scripts')

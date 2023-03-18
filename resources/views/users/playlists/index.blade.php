@@ -92,20 +92,23 @@
                             </div>
                         </td>
                         <td class="align-middle">
-                            <a href="{{route('user.playlists.edit', $playlist)}}" class="btn btn-primary btn-sm" title="Edit Playlist">
-                                <i class="fa-solid fa-pen"></i>
-                            </a>
-                            <button
-                                type="button"
-                                title="Delete video"
-                                class="btn btn-danger btn-sm"
-                                data-bs-toggle="modal"
-                                data-bs-target="#delete_playlist"
-                                data-title="{{$playlist->title}}"
-                                data-route="{{route('user.playlists.destroy', $playlist)}}"
-                            >
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
+                            <div class="d-flex gap-1">
+                                <a href="{{route('user.playlists.edit', $playlist)}}" class="btn btn-primary btn-sm" title="Edit Playlist">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <button
+                                    type="button"
+                                    title="Delete video"
+                                    class="btn btn-danger btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#delete_playlist"
+                                    data-title="{{$playlist->title}}"
+                                    data-route="{{route('user.playlists.destroy', $playlist)}}"
+                                >
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+
                         </td>
                     </tr>
                 @empty

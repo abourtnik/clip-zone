@@ -21,7 +21,7 @@
         @method('PUT')
         @csrf
         <div class="row">
-            <div class="col-xl-8 order-last order-xl-first">
+            <div class="col-xl-7 col-xxl-8 order-last order-xl-first">
                 <div class="card shadow-soft">
                     <div class="card-body" style="min-height: 875px">
                         <h5 class="text-primary">Details</h5>
@@ -106,7 +106,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 order-first order-xl-last mb-4 mb-xl-0">
+            <div class="col-xl-5 col-xxl-4 order-first order-xl-last mb-4 mb-xl-0">
                 <div class="card shadow-soft">
                     <div class="card-body">
                         <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
@@ -167,18 +167,35 @@
                         </div>
                         <h6 class="text-primary mt-4">Thumbnail</h6>
                         <hr class="mt-2">
-                        <div class="input-file">
-                            <label for="thumbnail" class="rounded">
-                                <i class="fas fa-upload"></i>
-                                <div class="mt-2">Update Video Poster</div>
-                            </label>
-                            <input type="file" name="thumbnail" id="thumbnail">
+                        <div x-data="{ upload: false }" @mouseover="upload=true" @mouseleave="upload=false"  class="border border-secondary position-relative overflow-hidden">
+                            <img id="thumbnail" class="img-fluid" src="{{$video->thumbnail_url}}" alt="thumbnail image">
+                            <div x-show.important="upload"
+                                 x-transition.duration.500ms
+                                 x-transition.scale
+                                 class="position-absolute bottom-0 top-50 start-50 translate-middle w-50 text-center d-flex flex-column gap-3 align-items-center justify-content-center text-white"
+                                 style="z-index: 2"
+                            >
+                                <i class="fa-solid fa-2x fa-upload"></i>
+                                <div class="fw-bold">Update video poster</div>
+                            </div>
+                            <input
+                                style="z-index: 3"
+                                class="position-absolute bottom-0 left-0 right-0 top-0 opacity-0 cursor-pointer w-100"
+                                type="file"
+                                name="thumbnail"
+                                @change="document.getElementById('thumbnail').setAttribute('src', URL.createObjectURL($event.target.files[0]))"
+                            />
+                            <div style="z-index: 1" x-show.important="upload" class="position-absolute bg-dark bg-opacity-75 bottom-0 left-0 right-0 top-0 w-100"></div>
                         </div>
-                        <div class="form-text">Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> - Max file size :  <strong>5 Mo</strong></div>
+                        <div class="form-text text-sm">
+                            <button class="btn-link" type="button" data-bs-toggle="popover" data-bs-title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">About thummbnail</button>
+                            <div>Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> • Max file size :  <strong>2 Mo</strong></div>
+                        </div>
                         <h6 class="text-primary mt-4">Comments and ratings</h6>
                         <hr class="mt-2">
                         <div class="d-flex flex-column gap-1">
                             <div class="form-check form-switch">
+                                <input type="hidden" value="0" name="allow_comments">
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
@@ -192,6 +209,7 @@
                                 </label>
                             </div>
                             <div class="form-check form-switch">
+                                <input type="hidden" value="0" name="show_likes">
                                 <input
                                     class="form-check-input"
                                     type="checkbox"

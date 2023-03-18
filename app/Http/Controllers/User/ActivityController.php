@@ -34,6 +34,7 @@ class ActivityController extends Controller
                                 'likeable' => function (MorphTo $morphTo) {
                                     $morphTo->morphWith([
                                         Video::class,
+                                        Comment::class => ['video']
                                     ]);
                                 }
                             ],

@@ -46,7 +46,6 @@
                                                     @click="is_read = true;unread_notifications--"
                                                     class="bg-success bg-opacity-25 rounded-4 btn-sm ajax-button"
                                                     type="button"
-                                                    type="button"
                                                     data-bs-toggle="tooltip"
                                                     data-bs-title="Mark as read"
                                                     data-url="{{route('user.notifications.read', $notification)}}"

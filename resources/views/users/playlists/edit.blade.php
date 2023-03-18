@@ -21,7 +21,7 @@
         @method('PUT')
         @csrf
         <div class="row">
-            <div class="col-xl-7 order-last order-xl-first">
+            <div class="col-xl-6 col-xxl-7 mb-4 mb-xl-0">
                 <div class="card shadow-soft">
                     <div class="card-body">
                         <h5 class="text-primary">Details</h5>
@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-5 order-first order-xl-last mb-4 mb-xl-0">
+            <div class="col-xl-6 col-xxl-5">
                 <playlist-videos initial="{{$videos}}"/>
             </div>
         </div>

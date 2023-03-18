@@ -73,19 +73,7 @@ class UpdateUserRequest extends FormRequest
                 'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
                 'max:'.config('validation.user.website.max'),
             ],
-            'show_subscribers' => 'sometimes|boolean'
+            'show_subscribers' => 'sometimes|nullable|boolean'
         ];
-    }
-
-    /**
-     * Prepare the data for validation.
-     *
-     * @return void
-     */
-    protected function prepareForValidation(): void
-    {
-        $this->merge([
-            'show_subscribers' => $this->request->has('show_subscribers')
-        ]);
     }
 }

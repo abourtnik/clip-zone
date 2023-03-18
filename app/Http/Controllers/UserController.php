@@ -11,14 +11,10 @@ class UserController
 {
     public function show (User $user) : View {
 
-        if (Auth::check() && Auth::user()->isSubscribeTo($user)) {
+        $isSubscribed = Auth::user()?->isSubscribeTo($user);
 
-            Subscription::where([
-                'user_id' => $user->id,
-                'subscriber_id' => Auth::user()->id,
-            ])->update([
-                'read_at' => now()
-            ]);
+        if ($isSubscribed){
+            $this->updateReadDate($user);
         }
 
         return view('users.show', [
@@ -36,9 +32,18 @@ class UserController
                 },
                 'pinned_video' => fn($q) => $q->withCount('views'),
                 'reports' => fn($q) => $q->where('user_id', Auth::id())
-            ])->loadCount('subscribers', 'videos_views', 'videos')
+            ])->loadCount('subscribers', 'videos_views', 'videos'),
+            'is_subscribed' => $isSubscribed
         ]);
+    }
 
+    private function updateReadDate (User $user) : void {
+        Subscription::where([
+            'user_id' => $user->id,
+            'subscriber_id' => Auth::user()->id,
+        ])->update([
+            'read_at' => now()
+        ]);
     }
 
 }

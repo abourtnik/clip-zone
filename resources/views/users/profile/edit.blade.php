@@ -146,13 +146,14 @@
                         <div class="row">
                             <div class="col-12 mb-3">
                                 <div class="form-check form-switch">
+                                    <input type="hidden" value="0" name="show_subscribers">
                                     <input
                                         class="form-check-input"
                                         type="checkbox"
                                         id="show_subscribers"
                                         value="1"
                                         name="show_subscribers"
-                                        @if(old('show_subscribers', $user->show_subscribers)) checked @endif
+                                        @checked(old('show_subscribers', $user->show_subscribers))
                                     >
                                     <label class="form-check-label" for="show_subscribers">
                                         Show subscribers count

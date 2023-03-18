@@ -102,20 +102,20 @@ Route::controller(ContactController::class)->name('contact.')->group(function ()
 
 // LOGIN
 Route::controller(LoginController::class)->group(function () {
-    Route::get('/login', 'show')->name('login');
-    Route::post('/login', 'login')->name('login.perform');
+    Route::get('/login', 'show')->name('login')->middleware('guest');
+    Route::post('/login', 'login')->name('login.perform')->middleware('guest');
     Route::get('/logout','logout')->name('logout');
 });
 
 // REGISTER
-Route::controller(RegistrationController::class)->group(function () {
+Route::controller(RegistrationController::class)->middleware('guest')->group(function () {
     Route::get('/register', 'show')->name('registration');
     Route::post('/register', 'register')->name('registration.perform');
     Route::get('/register/verify/{id}/{token}', 'confirm')->name('registration.confirm');
 });
 
 // PASSWORD RESET
-Route::controller(PasswordController::class)->group(function () {
+Route::controller(PasswordController::class)->middleware('guest')->group(function () {
     Route::get('/forgot-password', 'forgot')->name('password.forgot');
     Route::post('/forgot-password', 'email')->name('password.email');
     Route::get('/reset-password/{id}/{token}', 'reset')->name('password.reset');

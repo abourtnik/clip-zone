@@ -20,7 +20,7 @@
     <form action="{{ route('user.videos.store', $video) }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row">
-            <div class="col-xl-8 order-last order-xl-first">
+            <div class="col-xl-7 col-xxl-8 order-last order-xl-first">
                 <div class="card shadow-soft">
                     <div class="card-body" style="min-height: 912px">
                         <h5 class="text-primary">Details</h5>
@@ -113,7 +113,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 order-first order-xl-last mb-4 mb-xl-0">
+            <div class="col-xl-5 col-xxl-4 order-first order-xl-last mb-4 mb-xl-0">
                 <div class="card shadow-soft">
                     <div class="card-body">
                         <video controls class="w-100 border" controlsList="nodownload">
@@ -185,6 +185,7 @@
                         <hr class="mt-2">
                         <div class="d-flex flex-column gap-1">
                             <div class="form-check form-switch">
+                                <input type="hidden" value="0" name="allow_comments">
                                 <input
                                     class="form-check-input"
                                     type="checkbox"
@@ -198,6 +199,7 @@
                                 </label>
                             </div>
                             <div class="form-check form-switch">
+                                <input type="hidden" value="0" name="show_likes">
                                 <input
                                     class="form-check-input"
                                     type="checkbox"

@@ -25,9 +25,9 @@
 <body>
     <main class="h-100 overflow-auto">
         @include('layouts.menus.header')
-        <div class="admin-content d-flex">
-            @include('layouts.menus.back', ['type' => 'user'])
-            <div id="main-container" class="container-fluid my-3 @yield('class')" style="@yield('style')">
+        <div class="d-flex">
+            @include('layouts.menus.sidebars.back', ['type' => 'user'])
+            <div id="main-container" class="container-fluid overflow-auto my-3 @yield('class')" style="@yield('style')">
                 @yield('content')
             </div>
         </div>

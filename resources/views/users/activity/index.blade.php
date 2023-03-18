@@ -39,17 +39,27 @@
             <div class="card card-body">
                 <h5 class="text-primary">Activity</h5>
                 <hr>
-                @forelse($activity_log as $date => $log)
-                    <div class="row mt-2 justify-content-center">
-                        <div class="col-12 mt-2">
-                            <h5 class="mb-3">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
-                            @foreach($log as $activity)
-                                @include('users.activity.types.'. $activity->type)
-                            @endforeach
+                @if($activity_log || $filters)
+                    @forelse($activity_log as $date => $log)
+                        <div class="row mt-2 justify-content-center">
+                            <div class="col-12 mt-2">
+                                <h5 class="mb-3">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
+                                @foreach($log as $activity)
+                                    @include('users.activity.types.'. $activity->type)
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                   {{-- {{ $activity_log->links() }}--}}
-                @empty
+                    @empty
+                        <div class="card">
+                            <div class="card-body d-flex justify-content-center align-items-center">
+                                <div class="my-3 text-center">
+                                    <i class="fa-solid fa-bars-staggered fa-2x my-3"></i>
+                                    <p class="fw-bold">No matching activity for selected filters</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endforelse
+                @else
                     <div class="card">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <div class="my-3 text-center">
@@ -63,7 +73,7 @@
                             </div>
                         </div>
                     </div>
-                @endforelse
+                @endif
             </div>
         </div>
         <div class="col-xl-4 order-first order-xl-last mb-3 mb-xl-0">
