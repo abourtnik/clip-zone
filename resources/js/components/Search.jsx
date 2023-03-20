@@ -41,7 +41,7 @@ export default function Search ({query = '', responsive = true}) {
     return (
         <>
         <form ref={ref} method="GET" className="d-flex w-100 mb-0" role="search" action="/search">
-            <div className="input-group">
+            <div className="input-group flex-nowrap">
                 <div className={'position-relative'} style={{flex: '1 1 auto'}}>
                     <input
                         onClick={() => setShowResults(true)}

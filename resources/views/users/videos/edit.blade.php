@@ -188,7 +188,6 @@
                             <div style="z-index: 1" x-show.important="upload" class="position-absolute bg-dark bg-opacity-75 bottom-0 left-0 right-0 top-0 w-100"></div>
                         </div>
                         <div class="form-text text-sm">
-                            <button class="btn-link" type="button" data-bs-toggle="popover" data-bs-title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">About thummbnail</button>
                             <div>Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> • Max file size :  <strong>2 Mo</strong></div>
                         </div>
                         <h6 class="text-primary mt-4">Comments and ratings</h6>

@@ -20,36 +20,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')->group(function () {
+
+/**
+ * -------------------- PRIVATE --------------------
+ */
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    // SUBSCRIBE
     Route::post("subscribe/{user}", [ProfileController::class, 'subscribe'])
         ->name('subscribe')
         ->can('subscribe', 'user')
         ->missing(fn() => abort(404, 'User not found'));
 
-    // Interactions
+    // INTERACTIONS
     Route::name('interactions.')->controller(InteractionController::class)->group(function () {
         Route::get('/interactions', 'list')->name('list');
         Route::post('/like', 'like')->name('like');
         Route::post('/dislike', 'dislike')->name('dislike');
     });
 
-    // Upload
-    Route::post('/videos/upload', [VideoUserController::class, 'upload'])->name('videos.upload');
-
-    // Notifications
-    Route::get('/{notification}/read', [NotificationController::class, 'read'])
-        ->name('notifications.read')
-        ->missing(fn() => abort(404, 'Notification not found'));
-});
-
-// SEARCH
-Route::get("search", [SearchController::class, 'search'])->name('search');
-Route::post("search-videos", [SearchController::class, 'searchVideos'])->name('search-videos');
-
-// COMMENTS
-Route::prefix('comments')->name('comments.')->controller(CommentController::class)->group(function () {
-    Route::get('/', 'list')->name('list');
-    Route::middleware('auth')->group(function () {
+    // COMMENTS
+    Route::prefix('comments')->name('comments.')->controller(CommentController::class)->group(function () {
         Route::get('/{comment}/replies', 'replies')->name('replies');
         Route::post('/', 'store')->name('store');
         Route::put('/{comment}', 'update')->name('update')->can('update', 'comment');
@@ -57,7 +49,29 @@ Route::prefix('comments')->name('comments.')->controller(CommentController::clas
         Route::post('/{comment}/pin', 'pin')->name('pin')->can('pin', 'comment');
         Route::post('/{comment}/unpin', 'unpin')->name('unpin')->can('pin', 'comment');
     });
+
+    // NOTIFICATIONS
+    Route::name('notifications.')->prefix('notifications')->controller(NotificationController::class)->group(function () {
+        Route::get('/{notification}/read', 'read')
+            ->name('read')
+            ->missing(fn() => abort(404, 'Notification not found'));
+        Route::delete('/{notification}/remove', 'remove')
+            ->name('remove')
+            ->missing(fn() => abort(404, 'Notification not found'));;
+    });
+
+    // UPLOAD
+    Route::post('/videos/upload', [VideoUserController::class, 'upload'])->name('videos.upload');
 });
+
+
+/**
+ * -------------------- PUBLIC --------------------
+*/
+
+// SEARCH
+Route::get("search", [SearchController::class, 'search'])->name('search');
+Route::post("search-videos", [SearchController::class, 'searchVideos'])->name('search-videos');
 
 // VIDEOS
 Route::prefix('videos')->name('videos.')->controller(VideoController::class)->group(function () {
@@ -66,3 +80,6 @@ Route::prefix('videos')->name('videos.')->controller(VideoController::class)->gr
     Route::get('/category/{category}', 'category')->name('category');
     Route::get('/user/{user}', 'user')->name('user');
 });
+
+// COMMENTS
+Route::get("comments", [CommentController::class, 'list'])->name('comments.list');

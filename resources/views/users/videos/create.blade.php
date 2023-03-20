@@ -180,7 +180,7 @@
                             <input type="file" name="thumbnail" id="thumbnail" required>
                         </div>
                         <div class="form-text">Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> -
-                            Max file size : <strong>5 Mo</strong></div>
+                            Max file size : <strong>2 Mo</strong></div>
                         <h6 class="text-primary mt-4">Comments and ratings</h6>
                         <hr class="mt-2">
                         <div class="d-flex flex-column gap-1">

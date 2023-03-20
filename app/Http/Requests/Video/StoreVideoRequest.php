@@ -45,7 +45,8 @@ class StoreVideoRequest extends FormRequest
                 'file',
                 'required',
                 'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
-                'max:5120' // 5mo
+                'max:2048', // 2mo
+                Rule::dimensions()->minWidth(1024)->minHeight(576)
             ],
             'status' => [
                 'required',

@@ -4,6 +4,8 @@ namespace App\Notifications;
 
 use App\Models\User;
 use Illuminate\Notifications\Notification;
+use Illuminate\Notifications\Messages\BroadcastMessage;
+
 
 class UserNotification extends Notification
 {
@@ -30,7 +32,7 @@ class UserNotification extends Notification
      */
     public function via(User $notifiable) : array
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
 
     /**
@@ -45,5 +47,14 @@ class UserNotification extends Notification
             'message' => $this->message,
             'url' => $this->url
         ];
+    }
+
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+        return (new BroadcastMessage([
+            'message' => $this->message,
+            'url' => $this->url,
+            'html' => view('')->render()
+        ]))->onConnection('sync');
     }
 }

@@ -32,7 +32,7 @@
         <main class="h-100 overflow-auto">
             @include('layouts.menus.header')
             <div class="admin-content d-flex">
-                @include('layouts.menus.front')
+                @include('layouts.menus.sidebars.front')
                 <div id="main-container" class="container-fluid my-3 @yield('class')" style="@yield('style')">
                     <div class="h-full">
                         <div class="d-flex justify-content-center align-items-center">
@@ -45,7 +45,6 @@
                 </div>
             </div>
         </main>
-        @include('layouts.menus.responsive')
         @include('users.videos.modals.upload')
     </body>
 </html>

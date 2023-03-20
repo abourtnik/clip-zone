@@ -8,7 +8,7 @@
             <h2>My Reports</h2>
         </div>
         <hr>
-        <form class="my-4 d-flex gap-3 align-items-end" method="GET">
+        <form class="my-4 d-flex gap-3 align-items-end flex-wrap" method="GET">
             <div class="col">
                 <label for="search" class="form-label fw-bold">Search</label>
                 <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">

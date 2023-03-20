@@ -163,7 +163,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center" href="{{route('user.index')}}">
-                                <img style="width: 42px" class="rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
+                                <img style="width: 42px;height: 42px" class="rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
                             </a>
                         </li>
                         @impersonating($guard = null)

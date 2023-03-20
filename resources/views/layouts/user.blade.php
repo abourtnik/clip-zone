@@ -34,4 +34,9 @@
     </main>
     @include('users.videos.modals.upload')
 </body>
+<script>
+    window.User = {
+        id: {{auth()->user()->id}}
+    }
+</script>
 </html>

@@ -47,14 +47,16 @@ class UpdateUserRequest extends FormRequest
                 'nullable',
                 'file',
                 'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
-                'max:5120' // 5mo
+                'max:2048', // 2mo
+                Rule::dimensions()->minWidth(98)->minHeight(98)
             ],
             'banner' => [
                 'sometimes',
                 'nullable',
                 'file',
                 'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
-                'max:5120' // 5mo
+                'max:2048', // 2mo
+                Rule::dimensions()->minWidth(1024)->minHeight(576)
             ],
             'description' => [
                 'sometimes',
@@ -74,6 +76,21 @@ class UpdateUserRequest extends FormRequest
                 'max:'.config('validation.user.website.max'),
             ],
             'show_subscribers' => 'sometimes|nullable|boolean'
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages() : array
+    {
+        return [
+            'avatar.max' => 'The avatar file is too large. Its size should not exceed 2 MB.',
+            'avatar.dimensions' => 'The avatar image must be at least :min_width x :min_height pixels',
+            'banner.max' => 'The banner file is too large. Its size should not exceed 2 MB.',
+            'banner.dimensions' => 'The banner image must be at least :min_width x :min_height pixels'
         ];
     }
 }

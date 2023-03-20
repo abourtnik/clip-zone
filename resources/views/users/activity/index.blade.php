@@ -7,7 +7,7 @@
         <h2>My Activity</h2>
     </div>
     <hr>
-    <form class="my-4 d-flex gap-3 align-items-end" method="GET">
+    <form class="my-4 d-flex gap-3 align-items-end flex-wrap" method="GET">
         <div class="col">
             <label for="type" class="form-label fw-bold">Type</label>
             <select name="type" class="form-select" aria-label="Default select example">

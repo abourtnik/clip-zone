@@ -56,5 +56,11 @@
     @include('users.videos.modals.upload')
     @include('modals.report')
     @stack('scripts')
+    <script>
+        window.User = {
+            id: {{auth()->user()?->id ?? 'null'}}
+        }
+    </script>
+
 </body>
 </html>
