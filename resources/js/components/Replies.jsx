@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'preact/hooks';
 import {usePaginateFetch} from "../hooks";
-import Comment from "./Comment";
+import Comment from "./Comments/Comment";
 import {Comment as Skeleton} from "./Skeletons";
 import {useInView} from "react-intersection-observer";
-import CommentsForm from "./CommentsForm";
+import CommentsForm from "./Comments/Form";
 
 export default function Replies ({target, video}) {
 

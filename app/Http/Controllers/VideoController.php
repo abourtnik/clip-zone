@@ -76,7 +76,8 @@ class VideoController
                     'dislikes',
                     'comments',
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
+                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
+                    'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ]),
             'videos' => Video::where('id', '!=', $video->id)
                 ->active()

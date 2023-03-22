@@ -1,87 +1,60 @@
-import {useRef, useState, useEffect, useCallback} from 'preact/hooks';
+import {useState, useEffect, useCallback} from 'preact/hooks';
 import { memo } from 'preact/compat';
-import {useToggle} from "../hooks";
 
-import Interaction from "./Interaction";
+import Interaction from "../Interaction";
 import ReplyForm from "./ReplyForm";
-import {ThumbsDownSolid, ThumbsUpSolid, Ellipsis, Pin, Pen, Flag} from "./Icon";
-import Button from './Button'
+import {ThumbsDownSolid, ThumbsUpSolid, Ellipsis, Pin, Pen, Flag} from "../Icon";
+import Edit from './Edit'
 
-import ConfirmDelete from './Comments/ConfirmDelete'
+import ConfirmDelete from './ConfirmDelete'
+import {jsonFetch} from "../../hooks";
 
-const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pin}) => {
+const Comment = memo(({comment, auth, canReply, remove, update, pin}) => {
 
     const [onEdit, setOnEdit] = useState(false);
     const [showReply, setShowReply] = useState(false);
     const [replies, setReplies] = useState(comment.replies);
     const [showReplies, setShowReplies] = useState(false);
-    const [expand, setExpand] = useToggle(false);
-    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
         [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
     }, [])
 
-    const reply = async (data) => {
 
-        const response = await fetch('/api/comments', {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
+    const reply = useCallback(async (data) => {
+        return jsonFetch(`/api/comments` , {
             method: 'POST',
-            credentials: 'include',
             body: JSON.stringify({
                 ...data,
                 video_id: parseInt(comment.video.id),
                 parent_id: comment.id
             })
-        });
-
-        const new_reply = await response.json();
-
-        setReplies(replies => [new_reply.data, ...replies]);
-        setShowReplies(true);
-        setShowReply(false);
-
-        document.getElementById('content-' + comment.id).value = '';
-    }
+        }).then(comment => {
+            setReplies(replies => [comment, ...replies]);
+            setShowReplies(true);
+            setShowReply(false);
+            document.getElementById('content-' + comment.id).value = '';
+        }).catch(e => e)
+    }, []);
 
     const deleteReply = useCallback (async (reply) => {
-
-        const response = await fetch(`/api/comments/${reply.id}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
+        return jsonFetch(`/api/comments/${reply.id}` , {
             method: 'DELETE',
-            credentials: 'include'
-        });
-
-        setReplies(replies => replies.filter(r => r.id !== reply.id))
+        }).then(() => {
+            setReplies(replies => replies.filter(r => r.id !== reply.id))
+        }).catch(e => e);
     }, []);
 
     const updateReply = useCallback (async (reply, content) => {
-
-        const response = await fetch(`/api/comments/${reply.id}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
+        return jsonFetch(`/api/comments/${reply.id}` , {
             method: 'PUT',
             body: JSON.stringify({
                 content: content,
             }),
-            credentials: 'include'
-        });
-
-        const updated_reply = await response.json();
-
-        setReplies(replies => replies.map(r => r.id === reply.id ? updated_reply.data : r))
+        }).then(updated_reply => {
+            setReplies(replies => replies.map(r => r.id === reply.id ? updated_reply : r))
+        })
     }, []);
 
     let attributes =  {
@@ -95,20 +68,10 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
         })
     }
 
-    const update = async (comment) => {
-        setLoading(true);
-        await updateComment(comment, textarea.current.value)
-        setOnEdit(false);
-        setLoading(false);
-    }
-
-
     const showRepliesText = (show, length) => {
         const count = length > 1 ? replies.length + ' replies' : 'reply';
         return (show ? 'Hide ' : 'Show ') + count;
     }
-
-    const textarea = useRef(null)
 
     return (
         <article className="d-flex mb-3 gap-2">
@@ -159,43 +122,36 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                                         </li>
                                     }
                                     {
-                                        comment.can_delete && <ConfirmDelete comment={comment} onDelete={deleteComment}/>
+                                        comment.can_delete && <ConfirmDelete comment={comment} onDelete={remove}/>
                                     }
                                     {
                                         comment.can_report &&
-                                        <li>
-                                            <button
-                                                className="dropdown-item d-flex align-items-center gap-3"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#report"
-                                                data-id={comment.id}
-                                                data-type={comment.class}
-                                            >
-                                                <Flag />
-                                                Report
-                                            </button>
-                                        </li>
+                                            <li>
+                                                {
+                                                    comment.reported_at ?
+                                                        <div className="dropdown-item d-flex align-items-center gap-2 mb-0 text-sm py-2">
+                                                            <Flag/>
+                                                            <span>Reported {comment.reported_at}</span>
+                                                        </div>
+                                                        :
+                                                        <button
+                                                            className="dropdown-item d-flex align-items-center gap-3"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#report"
+                                                            data-id={comment.id}
+                                                            data-type={comment.class}
+                                                        >
+                                                            <Flag/>
+                                                            Report
+                                                        </button>
+                                                }
+                                            </li>
                                     }
                                 </ul>
                             </div>
                         }
                     </div>
-                    {
-                        onEdit ?
-                            <div className={'my-3'}>
-                                <textarea className="form-control" rows="3" name="content" ref={textarea} required>{comment.content}</textarea>
-                                <div className={'d-flex gap-1 mt-2'}>
-                                    <Button loading={loading} onClick={() => update(comment)}>
-                                        Save
-                                    </Button>
-                                    <button disabled={loading} onClick={() => setOnEdit(false)} className={'btn btn-secondary btn-sm'}>Cancel</button>
-                                </div>
-                            </div>
-                            : <div className={comment.is_long ? 'my-2' : 'mt-2 mb-3'} style={{whiteSpace: 'pre-line'}}>
-                                <div className={'text-sm'}>{expand ? comment.content : comment.short_content}</div>
-                                {comment.is_long && <button onClick={setExpand} className={'text-primary bg-transparent ps-0 text-sm mt-1'}>{expand ? 'Show less': 'Read more'}</button>}
-                            </div>
-                    }
+                    <Edit comment={comment} update={update} setOnEdit={setOnEdit} onEdit={onEdit}/>
                     <div className="d-flex align-items-center gap-2 mt-1">
                         <div className="d-flex align-items-center gap-2">
                             {
@@ -272,8 +228,8 @@ const Comment = memo(({comment, auth, canReply, deleteComment, updateComment, pi
                                     comment={comment}
                                     auth={auth}
                                     canReply={false}
-                                    deleteComment={deleteReply}
-                                    updateComment={updateReply}
+                                    remove={deleteReply}
+                                    update={updateReply}
                                 />
                             )
                         }

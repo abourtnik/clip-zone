@@ -2,7 +2,7 @@ import { useState, useCallback, useRef } from 'preact/hooks';
 import {debounce} from "../functions";
 import {Cross, Bars} from './Icon'
 import { ReactSortable } from "react-sortablejs";
-import {useClickOutside} from '../hooks'
+import {jsonFetch, useClickOutside} from '../hooks'
 
 export default function Playlist ({initial = []}) {
 
@@ -27,23 +27,14 @@ export default function Playlist ({initial = []}) {
 
         setShowSuggestions(true);
 
-        const response = await fetch('/api/search-videos?q=' + value, {
+        jsonFetch(`/api/search-videos?q=${value}`, {
             method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
             body : JSON.stringify({
                 'except_ids' : videos.map(v => v.id)
             })
-        });
-
-        const data = await response.json();
-
-        setData(data.data);
-        setLoading(false)
-
+        }).then(() => {
+            setData(data.data);
+        }).catch(e => e).finally(() =>  setLoading(false));
     }, 300), [videos]);
 
     const addVideo = (video) => {

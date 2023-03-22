@@ -55,7 +55,8 @@ class CommentResource extends JsonResource
                     'username' => $this->video->user->username,
                     'avatar' => $this->video->user->avatar_url,
                 ];
-            })
+            }),
+            'reported_at' => $this->when(Auth::user()?->can('report', $this->resource), fn() => $this->reports->first()?->created_at->diffForHumans()),
         ];
     }
 }

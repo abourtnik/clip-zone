@@ -56,17 +56,19 @@
                             <i class="fa-regular fa-bookmark"></i>&nbsp;
                             Save
                         </button>
-                        @if($video->user->isNot(Auth::user()) && $video->reports->count())
-                            <div class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 align-items-center gap-2 mb-0 text-sm">
-                                <i class="fa-regular fa-flag"></i>
-                                <span>Reported {{$video->reports->first()->created_at->diffForHumans()}}</span>
-                            </div>
-                        @elseif($video->user->isNot(Auth::user()))
-                            <button class="btn btn-secondary btn-sm rounded-4 px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
-                                <i class="fa-regular fa-flag"></i>&nbsp;
-                                Report
-                            </button>
-                        @endif
+                        @can('report', $video)
+                            @if($video->reported_by_auth_user)
+                                <div class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm">
+                                    <i class="fa-regular fa-flag"></i>
+                                    <span>Reported {{$video->reports->first()->created_at->diffForHumans()}}</span>
+                                </div>
+                            @else
+                                <button class="btn btn-secondary btn-sm rounded-4 px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
+                                    <i class="fa-regular fa-flag"></i>&nbsp;
+                                    Report
+                                </button>
+                            @endif
+                        @endcan
                     </div>
                 @else
                     <div class="d-flex gap-2 align-items-center">

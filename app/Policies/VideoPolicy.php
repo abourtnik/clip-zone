@@ -102,4 +102,18 @@ class VideoPolicy
             ? Response::allow()
             : Response::denyWithStatus(404);
     }
+
+    /**
+     * Determine whether the user can report video.
+     *
+     * @param  User $user
+     * @param  Video $video
+     * @return Response|bool
+     */
+    public function report(User $user, Video $video) : Response|bool
+    {
+        return $video->user()->isNot($user)
+            ? Response::allow()
+            : Response::denyWithStatus(403);
+    }
 }

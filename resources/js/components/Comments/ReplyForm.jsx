@@ -1,5 +1,5 @@
 import {useState} from "preact/hooks";
-import Button from './Button'
+import Button from '../Button'
 
 export default function ReplyForm ({setShowReply, comment, reply}) {
 
@@ -13,8 +13,9 @@ export default function ReplyForm ({setShowReply, comment, reply}) {
         const data = Object.fromEntries(formData.entries());
 
         setLoading(true);
-        await reply(data)
-        setLoading(false);
+        reply(data).catch(e => e).finally(() => {
+            setLoading(false);
+        });
     }
 
     return (

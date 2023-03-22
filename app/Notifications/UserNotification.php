@@ -53,8 +53,7 @@ class UserNotification extends Notification
     {
         return (new BroadcastMessage([
             'message' => $this->message,
-            'url' => $this->url,
-            'html' => view('')->render()
+            'url' => $this->url
         ]))->onConnection('sync');
     }
 }

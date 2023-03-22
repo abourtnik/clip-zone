@@ -1,7 +1,8 @@
 import {useState} from "preact/hooks";
-import Button from './Button'
+import Button from '../Button'
+import { memo } from 'preact/compat';
 
-export default function CommentsForm ({auth, addComment, placeholder = 'Add a comment...', label = 'Comment'}) {
+const CommentForm = memo(({auth, add, placeholder = 'Add a comment...', label = 'Comment'}) => {
 
     const [loading, setLoading] = useState(false);
 
@@ -13,7 +14,7 @@ export default function CommentsForm ({auth, addComment, placeholder = 'Add a co
         const data = Object.fromEntries(formData.entries());
 
         setLoading(true);
-        await addComment(data)
+        await add(data)
         setLoading(false);
     }
 
@@ -41,4 +42,6 @@ export default function CommentsForm ({auth, addComment, placeholder = 'Add a co
             }
         </>
     )
-}
+});
+
+export default CommentForm

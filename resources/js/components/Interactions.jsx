@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'preact/hooks';
-import {usePaginateFetch} from "../hooks";
+import {jsonFetch, usePaginateFetch} from "../hooks";
 import {ThumbsDownRegular, ThumbsUpRegular } from "./Icon";
 import {useInView} from "react-intersection-observer";
 import {Interaction as Skeleton} from "./Skeletons";
@@ -34,11 +34,11 @@ export default function Interactions ({target}) {
             setFilter(type)
             setInteractions([]);
             setPrimaryLoading(true);
-            const response = await fetch(`/api/interactions?video_id=${target}&filter=${type}&search=${search}`);
-            const data = await response.json()
-            setPrimaryLoading(false);
-            setInteractions(data.data)
-            setCount(data.meta.total)
+            jsonFetch(`/api/interactions?video_id=${target}&filter=${type}&search=${search}`).then(data => {
+                setPrimaryLoading(false);
+                setInteractions(data.data)
+                setCount(data.meta.total)
+            }).catch(e => e)
         }
     }
 
@@ -51,11 +51,11 @@ export default function Interactions ({target}) {
     const searching = useCallback(debounce(async value => {
         setInteractions([]);
         setPrimaryLoading(true);
-        const response = await fetch(`/api/interactions?video_id=${target}&filter=${filter}&search=${value}`);
-        const data = await response.json()
-        setPrimaryLoading(false);
-        setInteractions(data.data)
-        setCount(data.meta.total)
+        jsonFetch(`/api/interactions?video_id=${target}&filter=${filter}&search=${value}`).then(data => {
+            setPrimaryLoading(false);
+            setInteractions(data.data)
+            setCount(data.meta.total)
+        }).catch(e => e)
     }, 300), []);
 
     return (

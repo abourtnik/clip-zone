@@ -1,11 +1,13 @@
 import {useState, useEffect, useCallback} from 'preact/hooks';
-import Comment from "./Comment";
-import CommentsForm from "./CommentsForm";
+import {memo} from 'preact/compat';
+import Comment from "./Comments/Comment";
+import CommentsForm from "./Comments/Form";
 import {usePaginateFetch} from "../hooks";
 import {Comment as Skeleton} from "./Skeletons";
 import {useInView} from "react-intersection-observer";
+import {jsonFetch} from '../hooks'
 
-export default function Comments ({target, auth, defaultSort}) {
+const Comments = memo(({target, auth, defaultSort}) => {
 
     const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments?video_id=${target}&sort=${defaultSort}`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
@@ -15,39 +17,55 @@ export default function Comments ({target, auth, defaultSort}) {
     const {ref,inView} = useInView();
 
     useEffect( async () => {
-        await load()
-        setPrimaryLoading(false);
+        load().then(() => setPrimaryLoading(false)).catch(e => e)
     }, []);
 
     useEffect( async () => {
         if (inView && !loading) {
-            await load()
+            load().then(() => setPrimaryLoading(false)).catch(e => e)
         }
     }, [inView]);
 
-    const addComment = async (data) => {
-
-        const response = await fetch(`/api/comments`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
+    const add = useCallback(async (data) => {
+       return jsonFetch(`/api/comments` , {
             method: 'POST',
-            credentials: 'include',
             body: JSON.stringify({
                 ...data,
                 video_id: parseInt(target)
             })
-        });
+        }).then(comment => {
+            setComments(comments => [comment, ...comments]);
+            setCount(count => count + 1);
+            document.getElementById('content').value = '';
+        }).catch(e => e)
+    }, []);
 
-        const comment = await response.json();
+    const update = useCallback(async (comment, content) => {
+        return jsonFetch(`/api/comments/${comment.id}` , {
+            method: 'PUT',
+            body: JSON.stringify({
+                content: content,
+            }),
+        }).then(updated_comment => {
+            setComments(comments => comments.map(c => c.id === comment.id ? updated_comment : c))
+        })
+    },[]);
 
-        setComments(comments => [comment.data, ...comments]);
-        setCount(count => count + 1);
+    const remove = useCallback(async (comment) => {
+        return jsonFetch(`/api/comments/${comment.id}` , {
+            method: 'DELETE',
+        }).then(() => {
+            setComments(comments => comments.filter(c => c.id !== comment.id))
+            setCount(count => count - 1);
+        }).catch(e => e);
+    }, []);
 
-        document.getElementById('content').value = '';
-    }
+    const pin = useCallback(async (comment, action= 'pin') => {
+        return jsonFetch(`/api/comments/${comment.id}/${action}`, {
+            method: 'POST'
+        }).then( async () => await reload(selectedSort))
+            .catch(e => e)
+    }, []);
 
     const sort = async (type) => {
         if (type !== selectedSort) {
@@ -58,64 +76,12 @@ export default function Comments ({target, auth, defaultSort}) {
 
     const reload = async (type) => {
         setPrimaryLoading(true);
-        const response = await fetch(`/api/comments?video_id=${target}&sort=${type}`);
-        const data = await response.json()
-        setPrimaryLoading(false);
-        setComments(data.data)
-        setNext(data.links.next)
+        jsonFetch(`/api/comments?video_id=${target}&sort=${type}`).then(data => {
+            setPrimaryLoading(false);
+            setComments(data.data)
+            setNext(data.links.next)
+        }).catch(e => e)
     }
-
-    const deleteComment = useCallback(async (comment) => {
-
-        const response = await fetch(`/api/comments/${comment.id}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            method: 'DELETE',
-            credentials: 'include'
-        });
-
-        setComments(comments => comments.filter(c => c.id !== comment.id))
-        setCount(count => count - 1);
-    }, []);
-
-    const updateComment = useCallback(async (comment, content) => {
-
-        const response = await fetch(`/api/comments/${comment.id}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            method: 'PUT',
-            body: JSON.stringify({
-                content: content,
-            }),
-            credentials: 'include'
-        });
-
-        const updated_comment = await response.json();
-
-        setComments(comments => comments.map(c => c.id === comment.id ? updated_comment.data : c))
-    },[]);
-
-    const pin = useCallback(async (comment, action= 'pin') => {
-
-        const response = await fetch(`/api/comments/${comment.id}/${action}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            },
-            method: 'POST',
-            credentials: 'include',
-        });
-
-        await reload(selectedSort)
-
-    }, []);
 
     const activeButton = (type) => selectedSort === type ? 'primary ' : 'outline-primary ';
 
@@ -128,7 +94,7 @@ export default function Comments ({target, auth, defaultSort}) {
                     <button onClick={() => sort('newest')} className={'btn btn-' + activeButton('newest') + 'btn-sm'}>Newest first</button>
                 </div>
             </div>
-            <CommentsForm auth={auth} addComment={addComment}/>
+            <CommentsForm auth={auth} add={add}/>
             {
                 (primaryLoading) ?
                     <div className="d-flex flex-column gap-2">
@@ -139,8 +105,8 @@ export default function Comments ({target, auth, defaultSort}) {
                         comment={comment}
                         auth={auth}
                         canReply={true}
-                        deleteComment={deleteComment}
-                        updateComment={updateComment}
+                        remove={remove}
+                        update={update}
                         pin={pin}
                     />)
             }
@@ -152,4 +118,6 @@ export default function Comments ({target, auth, defaultSort}) {
             }
         </div>
     )
-}
+})
+
+export default Comments;

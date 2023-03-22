@@ -8,12 +8,10 @@ use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Video;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Activity;
 
 class CommentController extends Controller
 {
@@ -57,7 +55,7 @@ class CommentController extends Controller
                                 'likes',
                                 'dislikes',
                                 'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                                'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
+                                'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                             ])
                             ->latest();
                     },
@@ -67,7 +65,7 @@ class CommentController extends Controller
                     'dislikes',
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                    'replies as author_replies' => fn ($query) => $query->where('user_id', $video->user->id)
+                    'replies as author_replies' => fn ($query) => $query->where('user_id', $video->user->id),
                 ])
                 ->when($video->pinned_comment, fn($query) => $query->orderByRaw('id <> ' .$video->pinned_comment->id))
                 ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC')->latest())
@@ -122,24 +120,27 @@ class CommentController extends Controller
         return new CommentResource($comment);
     }
 
-    public function delete(Comment $comment): JsonResponse
+    public function delete(Comment $comment): Response
     {
         $comment->delete();
-        return response()->json(null, 204);
+        return response()->noContent();
     }
 
-    public function pin(Comment $comment)
+    public function pin(Comment $comment): Response
     {
-        throw new \Error('rr');
         $comment->video->update([
             'pinned_comment_id' => $comment->id
         ]);
+
+        return response()->noContent();
     }
 
-    public function unpin(Comment $comment)
+    public function unpin(Comment $comment): Response
     {
         $comment->video->update([
             'pinned_comment_id' => null
         ]);
+
+        return response()->noContent();
     }
 }

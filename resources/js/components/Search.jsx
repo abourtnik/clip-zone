@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef } from 'preact/hooks';
 import {debounce} from "../functions";
 import {Search as SearchIcon} from  './Icon'
-import {useClickOutside} from '../hooks'
+import {jsonFetch, useClickOutside} from '../hooks'
 
 export default function Search ({query = '', responsive = true}) {
 
@@ -22,17 +22,9 @@ export default function Search ({query = '', responsive = true}) {
     };
 
     const suggest = useCallback(debounce(async value => {
-
-        const response = await fetch('/api/search?q=' + value, {
-            headers: {
-                'Accept': 'application/json'
-            },
-        });
-
-        const data = await response.json();
-        setData(data);
-        setLoading(false)
-
+        jsonFetch(`/api/search?q=${value}`).then(() => {
+            setData(data);
+        }).catch(e => e).finally(() => setLoading(false));
     }, 300), []);
 
     const width = responsive ? 'w-100 start-0' : 'w-35 rounded-4';
