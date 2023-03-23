@@ -53,7 +53,6 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
     Route::get('/video/file/{video:uuid}', 'file')->name('file');
     Route::get('/video/download/{video:uuid}', 'download')->name('download')->can('download', 'video');
-    Route::post('/save', 'save')->name('save')->middleware('auth');
 });
 
 // PLAYLISTS
@@ -160,7 +159,6 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     // Reports
     Route::controller(ReportController::class)->prefix('report')->name('reports.')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::post('/', 'report')->name('report');
         Route::post('/{report}/cancel', 'cancel')->name('cancel');
     });
 

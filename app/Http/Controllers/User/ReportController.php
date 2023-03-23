@@ -14,6 +14,7 @@ use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
@@ -41,7 +42,7 @@ class ReportController extends Controller
         ]);
     }
 
-    public function report (ReportRequest $request) : RedirectResponse {
+    public function report (ReportRequest $request) : Response {
 
         $validated = $request->safe()->merge([
             'reportable_type' => $request->get('type'),
@@ -50,7 +51,7 @@ class ReportController extends Controller
 
         Auth::user()->user_reports()->create($validated);
 
-        return redirect()->back();
+        return response()->noContent(201);
     }
 
     public function cancel (Report $report) : RedirectResponse {

@@ -4,6 +4,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
 use App\Http\Controllers\VideoController;
@@ -62,6 +63,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // UPLOAD
     Route::post('/videos/upload', [VideoUserController::class, 'upload'])->name('videos.upload');
+
+    // REPORT
+    Route::post('/report', [ReportController::class, 'report'])->name('report');
+
+    // PLAYLIST
+    Route::post('/save', [VideoUserController::class, 'save'])->name('save');
+
 });
 
 

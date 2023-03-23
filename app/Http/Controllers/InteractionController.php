@@ -2,22 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Interaction\InteractionRequest;
 use App\Http\Resources\InteractionsResource;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rule;
 
 class InteractionController extends Controller
 {
-    private function perform (Request $request, $status) : JsonResponse {
-
-        $request->validate([
-            'id' => 'required|numeric',
-            'model' => ['required', Rule::in(['App\\Models\\Video', 'App\\Models\\Comment'])]
-        ]);
+    private function perform (InteractionRequest $request, $status) : JsonResponse {
 
         list('model' => $model, 'id' => $id) = $request->only('model', 'id');
 
@@ -46,12 +41,12 @@ class InteractionController extends Controller
 
     }
 
-    public function like(Request $request): JsonResponse
+    public function like(InteractionRequest $request): JsonResponse
     {
         return $this->perform($request, true);
     }
 
-    public function dislike(Request $request): JsonResponse
+    public function dislike(InteractionRequest $request): JsonResponse
     {
         return $this->perform($request, false);
     }

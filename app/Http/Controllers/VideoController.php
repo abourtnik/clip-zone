@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Video\SaveRequest;
 use App\Http\Resources\VideoResource;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Video;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -122,16 +120,5 @@ class VideoController
                 ->when($sort === 'popular', fn($query) => $query->orderByRaw('views_count DESC'))
                 ->paginate(24)
         );
-    }
-
-    public function save (SaveRequest $request): JsonResponse {
-
-        $video = Video::findOrFail($request->get('video_id'));
-
-        $playlists = $request->get('playlists');
-
-        $video->playlists()->sync($playlists);
-
-        return response()->json(null, 201);
     }
 }
