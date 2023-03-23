@@ -62,13 +62,13 @@ class ReportRequest extends FormRequest
                    $exist = (new $model)
                        ->where($attribute, $value)
                        ->where('user_id', '!=', Auth::user()->id)
-                       ->where(function ($query) {
-                            $query->whereIn('status', [VideoStatus::PUBLIC, VideoStatus::UNLISTED])
+                       ->when($this->type == Video::class, fn($q) => $q->where(function ($query) {
+                           $query->whereIn('status', [VideoStatus::PUBLIC, VideoStatus::UNLISTED])
                                ->orWhere(function($query) {
                                    $query->where('status', VideoStatus::PLANNED)
                                        ->where('scheduled_date', '<=', now());
                                });
-                        })->whereDoesntHave('reports', fn($query) => $query->where([
+                        }))->whereDoesntHave('reports', fn($query) => $query->where([
                            'reportable_type' => $model,
                            'reportable_id' => $value,
                            'user_id' => Auth::user()->id

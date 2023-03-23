@@ -32,7 +32,7 @@ export default function Playlist ({initial = []}) {
             body : JSON.stringify({
                 'except_ids' : videos.map(v => v.id)
             })
-        }).then(() => {
+        }).then(data => {
             setData(data.data);
         }).catch(e => e).finally(() =>  setLoading(false));
     }, 300), [videos]);

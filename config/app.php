@@ -143,6 +143,8 @@ return [
         // 'store'  => 'redis',
     ],
 
+    'statistics_enabled' => env('STATISTICS_ENABLED', false),
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

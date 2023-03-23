@@ -59,15 +59,7 @@ class AppServiceProvider extends ServiceProvider
 
         // Menu Request
         View::composer([
-            'pages.*',
-            'auth.*',
-            'videos.show',
-            'users.show',
-            'playlists.show',
-            'playlists.manage',
-            'subscription.*',
-            'contact.show',
-            'errors::*'
+            'layouts.menus.sidebars.*',
         ], function($view) {
             if (!Str::contains($view->getName(), ['partials', 'modals', 'types'])) {
                 $view->with('categories', Category::where('in_menu', true)->ordered()->get());
@@ -88,18 +80,8 @@ class AppServiceProvider extends ServiceProvider
         });
 
         // Notifications
-
         View::composer([
-            'pages.*',
-            'auth.*',
-            'videos.show',
-            'users.*',
-            'admin.*',
-            'playlists.show',
-            'playlists.manage',
-            'subscription.*',
-            'contact.show',
-            'errors::*'
+            'layouts.menus.header',
         ], function($view) {
             if (!Str::contains($view->getName(), ['partials', 'modals', 'types'])) {
                 $view->with('notifications', Auth::user()?->notifications()->latest()->limit(20)->get());

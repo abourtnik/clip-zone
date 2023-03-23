@@ -22,7 +22,7 @@ export default function Search ({query = '', responsive = true}) {
     };
 
     const suggest = useCallback(debounce(async value => {
-        jsonFetch(`/api/search?q=${value}`).then(() => {
+        jsonFetch(`/api/search?q=${value}`).then(data => {
             setData(data);
         }).catch(e => e).finally(() => setLoading(false));
     }, 300), []);

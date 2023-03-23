@@ -179,3 +179,19 @@ input[type="search"]::-webkit-search-results-decoration {
     border-width: 16px;
     margin-left: -16px;
 }
+
+@media (min-width: 768px) {
+    #responsive-sidebar {
+        transform: none;
+        visibility: visible;
+        width: $sidebar-width;
+        margin-top: 56px;
+        height: calc(100vh - 56px);
+    }
+}
+
+.dot {
+    width: 30px;
+    height: 30px;
+    padding: 10px;
+}

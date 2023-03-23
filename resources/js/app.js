@@ -4,7 +4,6 @@ import '@fortawesome/fontawesome-free/js/all.js';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
-import 'htmx.org';
 
 import Alpine from 'alpinejs'
 
@@ -55,17 +54,22 @@ document.querySelectorAll('.select-multiple').forEach((el)=>{
     });
 });
 
+if (document.querySelector('meta[name="user_id"]')?.getAttribute('content')) {
+    window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: import.meta.env.VITE_PUSHER_APP_KEY,
+        cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+        forceTLS: true
+    });
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: true
-});
+    window.User = {
+        id: document.querySelector('meta[name="user_id"]').getAttribute('content')
+    }
 
-window.Echo.private('App.Models.User.' + User.id).notification(notification => {
-    console.log(notification);
-});
+    window.Echo.private('App.Models.User.' + User.id).notification(notification => {
+        console.log(notification);
+    });
+}
 
 
 

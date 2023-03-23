@@ -20,7 +20,6 @@
         "bootstrap": "^5.2.3",
         "chart.js": "^4.1.1",
         "cropperjs": "^1.5.13",
-        "htmx.org": "^1.8.6",
         "moment": "^2.29.4",
         "preact": "^10.11.2",
         "preact-custom-element": "^4.2.1",

@@ -34,12 +34,20 @@
                             </div>
                         </td>
                         <td class="align-middle">
-                            @if(!$notification->is_read)
-                                <a class="btn btn-primary btn-sm" href="{{route('user.notifications.read', $notification)}}">Mark as read</a>
-                            @else
-                                <a class="btn btn-primary btn-sm" href="{{route('user.notifications.unread', $notification)}}">Mark as unread</a>
-                            @endif
-                                <a class="btn btn-danger btn-sm" href="{{route('user.notifications.remove', $notification)}}">Remove</a>
+                            <div class="d-flex gap-1">
+                                @if(!$notification->is_read)
+                                    <a class="btn btn-primary btn-sm" href="{{route('user.notifications.read', $notification)}}">Mark as read</a>
+                                @else
+                                    <a class="btn btn-primary btn-sm" href="{{route('user.notifications.unread', $notification)}}">Mark as unread</a>
+                                @endif
+                                <form method="POST" action="{{route('user.notifications.remove', $notification)}}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm d-flex align-items-center gap-1">
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty

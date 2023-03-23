@@ -5,7 +5,6 @@ use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ReportController;
-use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
@@ -49,16 +48,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{comment}', 'delete')->name('delete')->can('delete', 'comment');
         Route::post('/{comment}/pin', 'pin')->name('pin')->can('pin', 'comment');
         Route::post('/{comment}/unpin', 'unpin')->name('unpin')->can('pin', 'comment');
-    });
-
-    // NOTIFICATIONS
-    Route::name('notifications.')->prefix('notifications')->controller(NotificationController::class)->group(function () {
-        Route::get('/{notification}/read', 'read')
-            ->name('read')
-            ->missing(fn() => abort(404, 'Notification not found'));
-        Route::delete('/{notification}/remove', 'remove')
-            ->name('remove')
-            ->missing(fn() => abort(404, 'Notification not found'));;
     });
 
     // UPLOAD
