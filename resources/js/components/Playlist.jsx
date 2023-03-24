@@ -81,7 +81,7 @@ export default function Playlist ({initial = []}) {
                                         {
                                             data.map(result => (
                                                 <li style={{cursor: 'pointer'}} className={'list-group-item p-0'} onClick={() => addVideo(result)}>
-                                                    <div className="d-flex align-items-start gap-2 justify-content-start px-3 py-2 result">
+                                                    <div className="d-flex align-items-start gap-2 justify-content-start px-3 py-2 hover-primary">
                                                         <div className={'position-relative'}>
                                                             <img style={{width:'150px', height: '84px'}} src={result.thumbnail} alt=""/>
                                                             <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">

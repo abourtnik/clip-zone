@@ -69,7 +69,7 @@ export default function Search ({query = '', responsive = true}) {
                                     data.items.map(result => (
                                         <li>
                                             <a href={result.url}
-                                               className="d-flex align-items-center gap-2 justify-content-start text-decoration-none px-3 py-2 result">
+                                               className="d-flex align-items-center gap-2 justify-content-start text-decoration-none px-3 py-2 hover-primary">
 
                                                 <div className={'pe-2'}>
                                                     <SearchIcon/>
@@ -80,7 +80,7 @@ export default function Search ({query = '', responsive = true}) {
                                     ))
                                 }
                                 <li className={'text-center border-top d-flex align-items-center'}>
-                                    <a className={'text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold result py-2'} href={data.route}>
+                                    <a className={'text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold hover-primary py-2'} href={data.route}>
                                         See {data.total} result{data.total > 1 && 's'}
                                     </a>
                                 </li>

@@ -166,7 +166,7 @@ const Comment = memo(({comment, auth, canReply, remove, update, pin}) => {
                                     :
                                     <div className="d-flex justify-content-between bg-light-dark border border-secondary rounded-4">
                                         <button
-                                            className="interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
+                                            className="hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
                                             data-bs-toggle="popover"
                                             data-bs-placement="left"
                                             data-bs-title="Like this comment ?"
@@ -179,7 +179,7 @@ const Comment = memo(({comment, auth, canReply, remove, update, pin}) => {
                                         </button>
                                         <div className="vr"></div>
                                         <button
-                                            className="interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
+                                            className="hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
                                             data-bs-toggle="popover"
                                             data-bs-placement="right"
                                             data-bs-title="Don't like this comment ?"

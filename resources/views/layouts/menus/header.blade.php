@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md bg-white border border-start-0 px-2 sticky-top" style="height: 56px">
+<nav class="navbar navbar-expand-md bg-white border border-start-0 px-2 sticky-top header">
     <div class="container-fluid" x-data="{search:false}">
         <div class="d-flex align-items-center gap-3" x-show.important="!search">
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsive-sidebar">
@@ -35,7 +35,7 @@
                                 @if($notifications->count())
                                     <ul class="list-group list-group-flush overflow-auto">
                                         @foreach($notifications as $notification)
-                                            <a href="{{$notification->url}}" x-data="{is_read: {{$notification->is_read ? 'true': 'false'}}}" class="text-decoration-none text-black list-group-item notification d-flex align-items-center justify-content-between">
+                                            <a href="{{$notification->url}}" x-data="{is_read: {{$notification->is_read ? 'true': 'false'}}}" class="text-decoration-none text-black list-group-item hover-primary d-flex align-items-center justify-content-between">
                                                 <div class="w-75">
                                                     <p class="mb-0 text-sm">{!! $notification->message !!}</p>
                                                     <p class="text-muted text-sm mb-0 mt-2">{{$notification->created_at->diffForHumans()}}</p>

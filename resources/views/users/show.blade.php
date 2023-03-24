@@ -11,7 +11,7 @@
         @if($user->website)
             <a href="//{{$user->website}}" class="position-absolute bottom-0 right-0 me-2 mb-2 p-1 text-white bg-dark bg-opacity-25 text-decoration-none fw-bold" rel="external nofollow" target="_blank">{{$user->website}}</a>
         @endif
-        @if(Auth::user()->is($user))
+        @if(Auth::user()?->is($user))
             <a href="{{route('user.edit')}}"
                 x-show.important="upload"
                 x-transition.duration.500ms
@@ -29,7 +29,7 @@
                         <div class="d-flex align-items-center gap-4" x-data="{ upload: false }">
                             <div @mouseover="upload=true" @mouseleave="upload=false"  class="rounded-circle position-relative overflow-hidden" style="width: 110px">
                                 <img style="width: 100px;height: 100px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
-                                @if(Auth::user()->is($user))
+                                @if(Auth::user()?->is($user))
                                     <a href="{{route('user.edit')}}"
                                        x-show.important="upload"
                                        x-transition.duration.500ms

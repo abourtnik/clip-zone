@@ -39,7 +39,7 @@ export default function Interaction ({model, target, count, active, showCount = 
         <div className={'d-flex justify-content-between bg-light-dark border border-secondary rounded-4'}>
             <button
                 onClick={() => handleClick('like')}
-                className={'interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 px-3 rounded-5 rounded-end ' + (liked ? 'text-success' : 'text-black')}
+                className={'hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 px-3 rounded-5 rounded-end ' + (liked ? 'text-success' : 'text-black')}
                 data-bs-toggle="tooltip"
                 data-bs-title="I like this"
                 data-bs-placement="bottom"
@@ -51,7 +51,7 @@ export default function Interaction ({model, target, count, active, showCount = 
             <div className="vr"></div>
             <button
                 onClick={() => handleClick('dislike')}
-                className={'interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 px-3 rounded-5 rounded-start ' + (disliked ? 'text-danger' : 'text-black')}
+                className={'hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 px-3 rounded-5 rounded-start ' + (disliked ? 'text-danger' : 'text-black')}
                 data-bs-toggle="tooltip"
                 data-bs-title="I dislike this"
                 data-bs-placement="bottom"

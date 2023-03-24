@@ -74,7 +74,7 @@
                     <div class="d-flex gap-2 align-items-center">
                         <div class="d-flex justify-content-between bg-light-dark border border-secondary rounded-4">
                             <button
-                                class="interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
+                                class="hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
                                 data-bs-toggle="popover"
                                 data-bs-placement="left"
                                 data-bs-title="Like this video ?"
@@ -89,7 +89,7 @@
                             </button>
                             <div class="vr"></div>
                             <button
-                                class="interaction-button d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
+                                class="hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
                                 data-bs-title="Don't like this video ?"

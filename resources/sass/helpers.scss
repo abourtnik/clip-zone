@@ -1,0 +1,48 @@
+@for $i from 1 through 20 {
+    .w-#{$i*5} {
+        width: ($i*5%);
+    }
+}
+
+.bg-light-dark {
+    background-color: #E5E5E5 !important;
+}
+
+.hover-primary:hover {
+    background-color: #e6eff4;
+}
+
+.hover-grey:hover {
+    background-color: lightgrey;
+}
+
+.without-caret::after {
+    display: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.dot {
+    width: 30px;
+    height: 30px;
+    padding: 10px;
+}
+
+.radius-end-0 {
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}
+
+.radius-start-0 {
+    border-bottom-left-radius: 0px !important;
+    border-top-left-radius: 0px !important;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+}
