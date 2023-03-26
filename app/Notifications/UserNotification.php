@@ -2,8 +2,10 @@
 
 namespace App\Notifications;
 
+use App\Http\Resources\NotificationResource;
 use App\Models\User;
 use Illuminate\Notifications\Notification;
+use App\Models\Notification as NotificationModel;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 
 
@@ -49,11 +51,15 @@ class UserNotification extends Notification
         ];
     }
 
-    public function toBroadcast(object $notifiable): BroadcastMessage
+    public function toBroadcast(User $notifiable): BroadcastMessage
     {
-        return (new BroadcastMessage([
-            'message' => $this->message,
-            'url' => $this->url
-        ]))->onConnection('sync');
+        $notification = NotificationModel::where('user_id', $notifiable->id)
+            ->oldest()
+            ->get()
+            ->last();
+
+        return (new BroadcastMessage(
+            (new NotificationResource($notification))->resolve()
+        ))->onConnection('sync');
     }
 }

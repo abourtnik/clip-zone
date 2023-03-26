@@ -25,8 +25,7 @@
                 <div class="w-75 border p-4 bg-light text-center">
                     <i class="fa-solid fa-history fa-7x mb-3"></i>
                     <h2>Your watch history is empty</h2>
-                    <p class="text-muted">Some text</p>
-                    <a href="{{route('pages.home')}}" class="btn btn-outline-primary">
+                    <a href="{{route('pages.home')}}" class="btn btn-primary">
                         See videos
                     </a>
                 </div>

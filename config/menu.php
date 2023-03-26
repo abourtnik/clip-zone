@@ -30,6 +30,7 @@ return [
                     'title' => 'Your videos',
                     'icon' => 'video',
                     'route' => 'user.videos.index',
+                    'new_tab' => true,
                 ],
                 [
                     'title' => 'Liked videos',

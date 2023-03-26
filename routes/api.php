@@ -5,6 +5,7 @@ use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ReportController;
+use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
@@ -58,6 +59,22 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // PLAYLIST
     Route::post('/save', [VideoUserController::class, 'save'])->name('save');
+
+    // NOTIFICATIONS
+    Route::controller(NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
+        Route::get('/{notification}/read', 'read')
+            ->name('read')
+            ->missing(fn() => abort(404, 'Notification not found'))
+            ->can('read', 'notification');
+        Route::get('/{notification}/unread', 'unread')->name('unread')
+            ->missing(fn() => abort(404, 'Notification not found'))
+            ->can('unread', 'notification');
+        Route::delete('/{notification}/delete', 'delete')
+            ->name('remove')
+            ->missing(fn() => abort(404, 'Notification not found'))
+            ->can('delete', 'notification');
+        Route::get('/read-all', 'readAll')->name('read-all');
+    });
 
 });
 

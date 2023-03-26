@@ -54,7 +54,7 @@ const Comment = memo(({comment, auth, canReply, remove, update, pin}) => {
             }),
         }).then(updated_reply => {
             setReplies(replies => replies.map(r => r.id === reply.id ? updated_reply : r))
-        })
+        }).catch(e => e);
     }, []);
 
     let attributes =  {

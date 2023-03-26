@@ -1,28 +1,38 @@
 import '../sass/app.scss';
 import '@fortawesome/fontawesome-free/js/all.js';
 
-import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
+// Libs
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
-
 import Alpine from 'alpinejs'
+import TomSelect from "tom-select";
+import 'htmx.org';
 
+// Components
 import './components/index.js'
 
-import TomSelect from "tom-select";
-
-window.Pusher = Pusher;
 window.bootstrap = bootstrap;
-
 window.Alpine = Alpine
 
 Alpine.start()
 
+new bootstrap.Tooltip(document.body, {
+    selector: '[data-bs-toggle="tooltip"]'
+});
+
 const popovers = [...document.querySelectorAll('[data-bs-toggle="popover"]')]
 popovers.map(element => new bootstrap.Popover(element))
 
-const tooltips = [...document.querySelectorAll('[data-bs-toggle="tooltip"]')];
-tooltips.map(element => new bootstrap.Tooltip(element))
+document.querySelectorAll('.select-multiple').forEach((element)=>{
+    new TomSelect(element,{
+        plugins: {
+            remove_button:{
+                title:'Remove this item',
+            }
+        }
+    });
+});
+
+// Ajax Button
 
 const ajaxButtons = [...document.querySelectorAll('.ajax-button')];
 ajaxButtons.map(element => element.addEventListener('click', async e => {
@@ -43,33 +53,3 @@ ajaxButtons.map(element => element.addEventListener('click', async e => {
     });
 
 }))
-
-document.querySelectorAll('.select-multiple').forEach((el)=>{
-    new TomSelect(el,{
-        plugins: {
-            remove_button:{
-                title:'Remove this item',
-            }
-        }
-    });
-});
-
-if (document.querySelector('meta[name="user_id"]')?.getAttribute('content')) {
-    window.Echo = new Echo({
-        broadcaster: 'pusher',
-        key: import.meta.env.VITE_PUSHER_APP_KEY,
-        cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-        forceTLS: true
-    });
-
-    window.User = {
-        id: document.querySelector('meta[name="user_id"]').getAttribute('content')
-    }
-
-    window.Echo.private('App.Models.User.' + User.id).notification(notification => {
-        console.log(notification);
-    });
-}
-
-
-

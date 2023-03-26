@@ -1,6 +1,14 @@
+// WIDTH
 @for $i from 1 through 20 {
     .w-#{$i*5} {
         width: ($i*5%);
+    }
+}
+
+// TOP
+@for $i from 1 through 20 {
+    .top-#{$i*5} {
+        top: ($i*5%);
     }
 }
 

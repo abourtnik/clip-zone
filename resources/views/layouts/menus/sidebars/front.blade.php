@@ -9,7 +9,7 @@
                 @unless($loop->index === 1 && !Auth::check())
                     <ul class="nav nav-pills flex-column text-center">
                         @foreach($submenu as $menu)
-                            <x-sidebar-item route="{{route($menu['route'])}}">
+                            <x-sidebar-item route="{{route($menu['route'])}}" newTab="{{$menu['new_tab'] ?? false}}">
                                 <i style="width: 24px" class="fa-solid fa-{{$menu['icon']}}"></i>
                                 <span class="text-sm">{{$menu['title']}}</span>
                             </x-sidebar-item>

@@ -10,6 +10,7 @@ import LineChart from "./LineChart";
 import Replies from "./Replies";
 import UserVideos from "./UserVideos";
 import Playlist from "./Playlist";
+import Notifications from "./Notifications";
 
 register(Subscribe, 'subscribe-button');
 register(Interaction, 'interaction-button', [], { shadow: false });
@@ -21,5 +22,6 @@ register(LineChart, 'line-chart', [], { shadow: false });
 register(Replies, 'replies-area', [], { shadow: false });
 register(UserVideos, 'user-videos', [], { shadow: false });
 register(Playlist, 'playlist-videos', [], { shadow: false });
+register(Notifications, 'site-notifications', [], { shadow: false });
 
 

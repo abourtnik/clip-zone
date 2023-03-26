@@ -165,10 +165,6 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     // Notifications
     Route::controller(NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('/{notification}/read', 'read')->name('read');
-        Route::get('/{notification}/unread', 'unread')->name('unread');
-        Route::delete('/{notification}/remove', 'remove')->name('remove');
-        Route::get('/read-all', 'readAll')->name('read-all');
     });
 
     Route::get('/subscribers', [ProfileController::class, 'subscribers'])->name('subscribers');

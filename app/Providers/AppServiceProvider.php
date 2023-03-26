@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Enums\ReportReason;
+use App\Http\Resources\NotificationResource;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -60,6 +61,7 @@ class AppServiceProvider extends ServiceProvider
         // Menu Request
         View::composer([
             'layouts.menus.sidebars.*',
+            'subscription.index',
         ], function($view) {
             if (!Str::contains($view->getName(), ['partials', 'modals', 'types'])) {
                 $view->with('categories', Category::where('in_menu', true)->ordered()->get());
@@ -85,6 +87,12 @@ class AppServiceProvider extends ServiceProvider
         ], function($view) {
             if (!Str::contains($view->getName(), ['partials', 'modals', 'types'])) {
                 $view->with('notifications', Auth::user()?->notifications()->latest()->limit(20)->get());
+                $view->with(
+                    'json_notifications',
+                    NotificationResource::collection(
+                        Auth::user()?->notifications()->latest()->limit(20)->get() ?? []
+                    )->toJson(),
+                );
                 $view->with('unread_notifications', Auth::user()?->notifications()->unread()->count());
             }
         });

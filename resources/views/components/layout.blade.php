@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="@yield('description')"/>
     <meta name="language" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
-    <meta name="copyright" content="//youtube.antonbourtnik.fr" />
+    <meta name="copyright" content="{{config('app.url')}}" />
     <meta name="author" content="Anton Bourtnik" />
 
     <meta name="theme-color" content="#FF6174" />
@@ -44,6 +44,7 @@
             @include('layouts.menus.sidebars.'.$sidebar, ['type' => $type ?? null])
             <div id="main-container" class="container-fluid my-3 @yield('class')" style="@yield('style')">
                 @yield('content')
+                {{$slot}}
             </div>
         </div>
         <div class="toast-container pe-4 end-0 position-fixed" style="top:68px;">

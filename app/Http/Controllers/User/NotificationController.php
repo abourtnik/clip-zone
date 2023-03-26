@@ -5,7 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
@@ -18,37 +18,36 @@ class NotificationController extends Controller
         ]);
     }
 
-    public function read (Notification $notification) : RedirectResponse {
-
+    public function read (Notification $notification) : Response {
         $notification->update([
             'read_at' => now()
         ]);
 
-        return redirect()->back();
+        return response()->noContent();
     }
 
-    public function unread (Notification $notification) : RedirectResponse {
+    public function unread (Notification $notification) : Response {
 
         $notification->update([
             'read_at' => null
         ]);
 
-        return redirect()->back();
+        return response()->noContent();
     }
 
-    public function remove (Notification $notification) : RedirectResponse {
+    public function delete (Notification $notification) : Response {
 
         $notification->delete();
 
-        return redirect()->back();
+        return response()->noContent();
     }
 
-    public function readAll () : RedirectResponse {
+    public function readAll () : Response {
 
         Notification::where('user_id', Auth::user()->id)->update([
             'read_at' => now()
         ]);
 
-        return redirect()->back();
+        return response()->noContent();
     }
 }
