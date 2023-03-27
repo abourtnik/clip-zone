@@ -200,9 +200,22 @@
                     </div>
                 @endif
             </div>
-            <hr>
+            <hr class="d-none d-lg-block">
             @if($video->allow_comments)
-                <div id="comments_area"></div>
+                <div class="d-none d-lg-block" id="comments_area"></div>
+                <div class="d-block d-lg-none">
+                    <div class="d-flex align-items-center justify-content-between py-3 border-top border-bottom my-3" data-bs-toggle="offcanvas" data-bs-target="#comments-offcanvas">
+                        <span>Comments • {{$video->comments_count}}</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </div>
+                    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="comments-offcanvas" aria-labelledby="offcanvasTopLabel" style="min-height: 650px;">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasTopLabel">Video Comments</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div id="offcanvas-body" class="offcanvas-body"></div>
+                    </div>
+                </div>
             @else
                 <div class="alert alert-primary text-center">
                     <strong>Comments are turned off</strong>
@@ -229,5 +242,14 @@
         });
 
         observer.observe(document.getElementById('comments_area'));
+
+        const commentsOffcanvas = document.getElementById('comments-offcanvas')
+        let opened = false;
+        commentsOffcanvas.addEventListener('show.bs.offcanvas', event => {
+            if(!opened) {
+                document.getElementById('offcanvas-body').innerHTML ="<comments-area target='{{$video->id}}' auth='{{auth()->user()?->id}}' default-sort='{{$video->default_comments_sort}}' />";
+            }
+            opened = true;
+        })
     </script>
 @endPushIf

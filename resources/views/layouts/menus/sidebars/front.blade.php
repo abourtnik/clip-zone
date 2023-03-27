@@ -4,7 +4,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body px-0 pt-0">
-        <nav class="flex-column flex-shrink-0 bg-white d-flex overflow-auto">
+        <nav class="flex-column flex-shrink-0 bg-white d-flex overflow-auto h-100">
             @foreach(config('menu.front.top') as $submenu)
                 @unless($loop->index === 1 && !Auth::check())
                     <ul class="nav nav-pills flex-column text-center">
@@ -124,14 +124,18 @@
                     </x-sidebar-item>
                 @endforeach
             </ul>
-            <hr class="w-90">
-            <div class="mb-3 ps-4">
+            <div class="ps-4">
+                <hr class="w-90">
                 <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">Terms of Service •</a>
                 <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('contact.show')}}">Contact</a>
                 <div class="d-flex align-items-center gap-2 mt-2">
                     <small class="text-muted">© {{now()->format('Y')}}</small>
                     <a class="text-sm fw-bold text-decoration-none" href="https://antonbourtnik.fr">Anton Bourtnik</a>
                 </div>
+                <a class="btn bg-dark text-white btn-sm mt-2" href="{{route('contact.show')}}">
+                    <i class="fa-brands fa-github mr-2"></i>
+                    <span>Github</span>
+                </a>
             </div>
         </nav>
     </div>
