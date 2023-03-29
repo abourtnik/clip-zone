@@ -247,7 +247,6 @@
                         <div class="text-center my-3">
                             <i class="fa-solid fa-user-slash fa-2x"></i>
                             <h5 class="my-3">No subscriber yet</h5>
-                            <small class="text-muted">Some description</small>
                         </div>
                     @endif
                 </div>
@@ -336,7 +335,6 @@
                         <div class="text-center my-3">
                             <i class="fa-solid fa-comment-slash fa-2x"></i>
                             <h5 class="my-3">No comments yet</h5>
-                            <small class="text-muted">Some description</small>
                         </div>
                     @endif
                 </div>
@@ -416,7 +414,6 @@
                         <div class="text-center my-3">
                             <i class="fa-solid fa-eye-slash fa-2x"></i>
                             <h5 class="my-3">No interactions yet</h5>
-                            <small class="text-muted">Some description</small>
                         </div>
                     @endif
                 </div>

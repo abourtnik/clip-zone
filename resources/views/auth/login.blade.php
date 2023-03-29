@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="h-full">
-        <div class="row align-items-center h-75">
+        <div class="row align-items-center h-75 mt-5">
             <div class="col-12 col-sm-10 offset-sm-1 col-xxl-8 offset-xxl-2 border border-1 bg-light">
                 <div class="row">
                     <div class="col-6 d-none d-lg-flex px-0 border-end border-gray-200 d-flex justify-content-center align-items-center bg-white">
@@ -48,11 +48,11 @@
                             <div class="mt-4 mb-3 text-muted text-center">
                                 <div class="d-flex justify-content-center">
                                     <p class="mr-2">Do not have an account ?</p>
-                                    <a href="{{route('registration')}}" class="font-weight-bold">
+                                    <a href="{{route('registration')}}" class="font-weight-bold text-decoration-none">
                                         <strong>Sign Up</strong>
                                     </a>
                                 </div>
-                                <a href="{{route('password.forgot')}}" class="text-muted text-decoration-none">Forgot password ?</a>
+                                <a href="{{route('password.forgot')}}" class="text-muted text-decoration-none">Forgot your password ?</a>
                             </div>
                         </form>
                     </div>

@@ -1,5 +1,5 @@
 <div class="offcanvas offcanvas-start fixed overflow-auto" id="responsive-sidebar" data-bs-keyboard="false" data-bs-backdrop="true" data-bs-scroll="true" aria-modal="true" role="dialog">
-    <div class="offcanvas-header d-flex d-md-none">
+    <div class="offcanvas-header d-flex d-md-none bg-light border py-2">
         <h5 class="offcanvas-title text-danger fw-bold">{{config('app.name')}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -130,9 +130,9 @@
                 <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('contact.show')}}">Contact</a>
                 <div class="d-flex align-items-center gap-2 mt-2">
                     <small class="text-muted">© {{now()->format('Y')}}</small>
-                    <a class="text-sm fw-bold text-decoration-none" href="https://antonbourtnik.fr">Anton Bourtnik</a>
+                    <a class="text-sm fw-bold text-decoration-none" href="https://antonbourtnik.fr" target="_blank">Anton Bourtnik</a>
                 </div>
-                <a class="btn bg-dark text-white btn-sm mt-2" href="{{route('contact.show')}}">
+                <a class="btn bg-dark text-white btn-sm mt-2" href="https://github.com/abourtnik/youtube-clone" target="_blank">
                     <i class="fa-brands fa-github mr-2"></i>
                     <span>Github</span>
                 </a>

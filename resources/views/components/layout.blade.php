@@ -60,9 +60,10 @@
                 </div>
             </div>
         </div>
-        @include('users.videos.modals.upload')
-        @if ($attributes->has('report'))
+        @if (Auth::check())
+            <site-notifications initial="{{$json_notifications}}"></site-notifications>
             @include('modals.report')
+            @include('users.videos.modals.upload')
         @endif
     </main>
     @stack('scripts')

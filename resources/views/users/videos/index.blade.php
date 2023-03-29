@@ -239,7 +239,9 @@
                 <div class="my-3 text-center">
                     <i class="fa-solid fa-upload fa-2x"></i>
                     <h5 class="my-3">Import your first video</h5>
-                    <div class="text-muted my-3">Some description</div>
+                    <div class="text-muted my-3">
+                        Ready to share your talents with the world ?
+                    </div>
                     <button class="btn btn-success btn" data-bs-toggle="modal" data-bs-target="#video_create">
                         <i class="fa-solid fa-plus"></i>
                         Import

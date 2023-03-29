@@ -1,48 +1,17 @@
-// Notifications
-
-.notifications {
-    border-top: 1px solid var(--bs-border-color) !important;
-    left: inherit !important;
-    right: -27px !important;
-    top: 56px !important;
-    min-width: 400px;
-}
-
-.notifications:after, .notifications:before {
-    bottom: 100%;
-    left: 90%;
-    border: solid transparent;
-    content: "";
-    height: 0;
-    width: 0;
-    position: absolute;
-    pointer-events: none;
-}
-
-.notifications:after {
-    border-color: rgba(248, 248, 248, 0);
-    border-bottom-color: #F8F8F8;
-    border-width: 15px;
-    margin-left: -15px;
-}
-
-.notifications:before {
-    border-color: rgba(222, 226, 230, 0);
-    border-bottom-color: var(--bs-border-color);
-    border-width: 16px;
-    margin-left: -16px;
-}
-
 // Logo
 
-@media (max-width: 370px) {
+.navbar-brand {
+ width: 240px;
+}
+
+@media (max-width: 550px) {
     .navbar-brand {
-        display: none;
+        width: auto;
     }
 }
 
-@media (max-width: 450px) {
-    .navbar-brand-auth {
+@media (max-width: 400px) {
+    .navbar-brand {
         display: none;
     }
 }

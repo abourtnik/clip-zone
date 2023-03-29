@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="h-full">
-        <div class="row align-items-center h-100">
+        <div class="row align-items-center h-100 mt-5">
             <div class="col-12 col-sm-10 offset-sm-1 border border-1 bg-light">
                 <div class="row">
                     <div class="col-6 d-none d-xl-flex flex-column px-0 border-end border-gray-200 d-flex justify-content-center align-items-center bg-white">

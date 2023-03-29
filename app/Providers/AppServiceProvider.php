@@ -58,43 +58,46 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        // Menu Request
+        // SIDEBAR
         View::composer([
             'layouts.menus.sidebars.*',
             'subscription.index',
         ], function($view) {
-            if (!Str::contains($view->getName(), ['partials', 'modals', 'types'])) {
-                $view->with('categories', Category::where('in_menu', true)->ordered()->get());
-                $view->with(
-                    'subscriptions',
-                    Auth::user()?->subscriptions()
-                        ->withCount([
-                            'videos as new_videos' => fn($query) => $query->active()
-                                ->where('publication_date', '>', DB::raw('subscriptions.read_at')),
-                            'subscribers'
-                        ])
-                        ->latest('subscribe_at')
-                        ->get()
-                );
-                $view->with('report_reasons', ReportReason::get());
-                $view->with('favorite_playlists', Auth::user()?->favorites_playlist()->latest('added_at')->get());
-            }
+            $view->with('categories', Category::where('in_menu', true)->ordered()->get());
+            $view->with(
+                'subscriptions',
+                Auth::user()?->subscriptions()
+                    ->withCount([
+                        'videos as new_videos' => fn($query) => $query->active()
+                            ->where('publication_date', '>', DB::raw('subscriptions.read_at')),
+                        'subscribers'
+                    ])
+                    ->latest('subscribe_at')
+                    ->get()
+            );
+            $view->with('favorite_playlists', Auth::user()?->favorites_playlist()->latest('added_at')->get());
         });
 
-        // Notifications
-        View::composer([
-            'layouts.menus.header',
-        ], function($view) {
+        // NOTIFICATIONS
+        View::composer('layouts.menus.header', function($view) {
+            $view->with('unread_notifications', Auth::user()?->notifications()->unread()->count());
+        });
+
+        View::composer('components.layout', function($view) {
             if (!Str::contains($view->getName(), ['partials', 'modals', 'types'])) {
-                $view->with('notifications', Auth::user()?->notifications()->latest()->limit(20)->get());
                 $view->with(
                     'json_notifications',
                     NotificationResource::collection(
                         Auth::user()?->notifications()->latest()->limit(20)->get() ?? []
                     )->toJson(),
                 );
-                $view->with('unread_notifications', Auth::user()?->notifications()->unread()->count());
             }
         });
+
+        // Reports
+        View::composer('modals.report', function($view) {
+            $view->with('report_reasons', ReportReason::get());
+        });
+
     }
 }

@@ -4,14 +4,14 @@
 
 @section('content')
     <div class="h-full">
-        <div class="row align-items-center h-100">
+        <div class="row align-items-center h-100 mt-5">
             <div class="col-12 col-sm-10 offset-sm-1 col-xxl-8 offset-xxl-2 border border-1 bg-light">
                 <div class="row">
                     <div class="col-6 d-none d-xl-flex px-0 border-end border-gray-200 d-flex justify-content-center align-items-center bg-white">
                         <img class="img-fluid" src="{{asset('images/pages/register.jpg')}}" alt="Register">
                     </div>
                     <div class="col-12 col-xl-6 p-5">
-                        <h1 class="h3 mb-5 fw-normal text-center">Create an Account !</h1>
+                        <h1 class="h3 mb-5 fw-normal text-center">Create your Account !</h1>
                         <form method="POST" action="{{route('registration.perform')}}">
                             @csrf
                             <div class="form-group form-floating mb-3">
@@ -87,7 +87,7 @@
                             <div class="form-check my-4">
                                 <input @class(['form-check-input', 'is-invalid' => $errors->has('cgu')]) type="checkbox" id="cgu" name="cgu">
                                 <label class="form-check-label" for="cgu">
-                                    I agree all statements in <a href="{{route('pages.terms')}}">Terms of service</a>
+                                    I agree all statements in <a href="{{route('pages.terms')}}" class="text-decoration-none">Terms of service</a>
                                 </label>
                                 @error('cgu')
                                 <div class="invalid-feedback">
@@ -95,10 +95,10 @@
                                 </div>
                                 @enderror
                             </div>
-                            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
+                            <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
                             <div class="mt-4 mb-3 text-muted text-center d-flex justify-content-center">
                                 <p class="mr-2">Already have an account ?</p>
-                                <a href="{{route('login')}}" class="font-weight-bold">
+                                <a href="{{route('login')}}" class="font-weight-bold text-decoration-none">
                                     <strong>Sign In</strong>
                                 </a>
                             </div>

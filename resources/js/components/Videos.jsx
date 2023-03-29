@@ -45,10 +45,11 @@ export default function Videos ({url, skeletons = 12}) {
                                 }
                             </> :
                             <div className="h-full">
-                                <div className="d-flex justify-content-center align-items-center">
-                                    <div className="w-100 border p-4 bg-light text-center bg-white">
+                                <div className="row mt-5">
+                                    <div className="col-10 offset-1 border p-4 bg-light text-center bg-light">
                                         <i className="fa-solid fa-video-slash fa-7x mb-3"></i>
-                                        <h4>No videos found</h4>
+                                        <h2>No videos found</h2>
+                                        <p className="text-muted">Sorry, no videos are available yet. Please check back later for updates.</p>
                                     </div>
                                 </div>
                             </div>

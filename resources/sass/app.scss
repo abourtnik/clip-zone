@@ -42,6 +42,7 @@ body {
         width: $sidebar-width;
         margin-top: $header-height;
         height: calc(100vh - $header-height);
+        z-index: 500;
     }
 }
 
@@ -75,4 +76,15 @@ body {
 .user-tabs.active {
     font-weight: bold;
     border-bottom: 4px solid $primary;
+}
+
+// SUGGESTED VIDEOS
+
+.suggested_video img {
+    height: 94px;
+
+    @media (max-width: 576px) {
+        height: inherit;
+        max-width: 100%;
+    }
 }

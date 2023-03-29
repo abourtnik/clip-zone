@@ -42,7 +42,7 @@ class LoginController
             return redirect()->route('user.index');
         }
 
-        return back()->with('error', 'The provided credentials do not match our records')->onlyInput('username');
+        return back()->with('error', 'Invalid login credentials. Please try again or reset your password. <br><a class="text-danger fw-bold text-decoration-none" href="/contact">Contact</a> our support team for help.')->onlyInput('username');
     }
 
     /**

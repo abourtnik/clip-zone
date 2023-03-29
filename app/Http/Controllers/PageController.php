@@ -52,7 +52,7 @@ class PageController
         ]);
     }
 
-    public function terms () {
+    public function terms (): View {
         return view('pages.terms');
     }
 }
