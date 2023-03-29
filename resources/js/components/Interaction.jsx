@@ -32,33 +32,37 @@ export default function Interaction ({model, target, count, active, showCount = 
                 'model': model,
                 'id': target,
             })
-        })
+        }).catch(e => e)
     }
 
     return (
-        <div className={'d-flex justify-content-between bg-light-dark border border-secondary rounded-4'}>
+        <div className={'d-flex justify-content-between bg-light-dark rounded-4'}>
             <button
                 onClick={() => handleClick('like')}
-                className={'hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 px-3 rounded-5 rounded-end ' + (liked ? 'text-success' : 'text-black')}
+                className={'hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-end ' + (liked ? 'text-success' : 'text-black') + (!showCount || counterLike === 0 ? ' py-2' : '')}
                 data-bs-toggle="tooltip"
                 data-bs-title="I like this"
                 data-bs-placement="bottom"
                 data-bs-trigger="hover"
             >
-                {liked ? <ThumbsUpRegular width={'16px'}/> : <ThumbsUpSolid width={'16px'}/>}
-                { (showCount && counterLike > 0) && <span className={''}>{counterLike}</span>}
+                <div className={'d-flex gap-1'}>
+                    {liked ? <ThumbsUpRegular width={'14px'}/> : <ThumbsUpSolid width={'14px'}/>}
+                    { (showCount && counterLike > 0) && <span className={'ml-1'}>{counterLike}</span>}
+                </div>
             </button>
-            <div className="vr"></div>
+            <div className="vr h-75 my-auto"></div>
             <button
                 onClick={() => handleClick('dislike')}
-                className={'hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 px-3 rounded-5 rounded-start ' + (disliked ? 'text-danger' : 'text-black')}
+                className={'hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-start ' + (disliked ? 'text-danger' : 'text-black')}
                 data-bs-toggle="tooltip"
                 data-bs-title="I dislike this"
                 data-bs-placement="bottom"
                 data-bs-trigger="hover"
             >
-                {disliked ? <ThumbsDownRegular width={'16px'}/> : <ThumbsDownSolid width={'16px'}/>}
-                { (showCount && counterDislike > 0) && <span className={''}>{counterDislike}</span>}
+                <div className={'d-flex gap-1'}>
+                    {disliked ? <ThumbsDownRegular width={'14px'}/> : <ThumbsDownSolid width={'14px'}/>}
+                    { (showCount && counterDislike > 0) && <span className={'ml-1'}>{counterDislike}</span>}
+                </div>
             </button>
         </div>
     )

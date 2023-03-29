@@ -23,6 +23,7 @@ const Notifications = memo(({initial}) => {
         window.Echo.private('App.Models.User.' + document.querySelector('meta[name="user_id"]').getAttribute('content')).notification(notification => {
             setNotifications(notifications => [notification, ...notifications]);
             document.getElementById('bell').classList.add('fa-shake')
+            document.getElementById('notifications_count').innerText = unread + 1;
             setTimeout(() => {
                 document.getElementById('bell').classList.remove('fa-shake')
             }, 1000)

@@ -41,7 +41,7 @@
                             model="{{get_class($video)}}"
                             target="{{$video->id}}"
                             count="{{ json_encode(['likes_count' => $video->likes_count, 'dislikes_count' => $video->dislikes_count ])}}"
-                            @if(!$video->show_likes) show-count="false" @endif
+                            @if(!$video->show_likes) show-count @endif
                         >
                         </interaction-button>
                         <button class="btn btn-info rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
@@ -72,9 +72,9 @@
                     </div>
                 @else
                     <div class="d-flex gap-2 align-items-center">
-                        <div class="d-flex justify-content-between bg-light-dark border border-secondary rounded-4">
+                        <div class="d-flex justify-content-between bg-light-dark rounded-4">
                             <button
-                                class="hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
+                                @class(['hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end'])
                                 data-bs-toggle="popover"
                                 data-bs-placement="left"
                                 data-bs-title="Like this video ?"
@@ -84,12 +84,12 @@
                             >
                                 <i class="fa-regular fa-thumbs-up"></i>
                                 @if($video->show_likes && $video->likes_count)
-                                    <span>{{$video->likes_count}}</span>
+                                    <span class="ml-1">{{$video->likes_count}}</span>
                                 @endif
                             </button>
-                            <div class="vr"></div>
+                            <div class="vr h-75 my-auto"></div>
                             <button
-                                class="hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
+                                class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
                                 data-bs-title="Don't like this video ?"
@@ -99,7 +99,7 @@
                             >
                                 <i class="fa-regular fa-thumbs-down"></i>
                                 @if($video->show_likes && $video->dislikes_count)
-                                    <span>{{$video->dislikes_count}}</span>
+                                    <span class="ml-1">{{$video->dislikes_count}}</span>
                                 @endif
                             </button>
                         </div>

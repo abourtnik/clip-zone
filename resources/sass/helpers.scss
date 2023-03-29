@@ -8,7 +8,7 @@
 // TOP
 @for $i from 1 through 20 {
     .top-#{$i*5} {
-        top: ($i*5%);
+        top: ($i*5%) !important;
     }
 }
 

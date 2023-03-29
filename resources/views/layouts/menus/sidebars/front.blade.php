@@ -1,7 +1,15 @@
 <div class="offcanvas offcanvas-start fixed overflow-auto" id="responsive-sidebar" data-bs-keyboard="false" data-bs-backdrop="true" data-bs-scroll="true" aria-modal="true" role="dialog">
-    <div class="offcanvas-header d-flex d-md-none bg-light border py-2">
-        <h5 class="offcanvas-title text-danger fw-bold">{{config('app.name')}}</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    <div class="offcanvas-header d-flex justify-content-between align-items-center d-md-none bg-light border py-2">
+        <h5 class="offcanvas-title text-danger fw-bold">
+            {{config('app.name')}}
+        </h5>
+        <div class="d-flex gap-2 align-items-center">
+            <button class="btn btn-success btn-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#video_create">
+                <i class="fa-solid fa-video-camera"></i>
+                <span>Create</span>
+            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
     </div>
     <div class="offcanvas-body px-0 pt-0">
         <nav class="flex-column flex-shrink-0 bg-white d-flex overflow-auto h-100">
@@ -28,7 +36,7 @@
                         <x-sidebar-item route="{{$playlist->route}}" class="justify-content-between">
                             <div class="d-flex align-items-center gap-4">
                                 <i class="fa-solid fa-list"></i>
-                                <span class="text-sm">{{Str::limit($playlist->title, 25)}}</span>
+                                <span class="text-sm">{{Str::limit($playlist->title, 22)}}</span>
                             </div>
                         </x-sidebar-item>
                     @endforeach
@@ -43,7 +51,7 @@
                             @foreach($favorite_playlists->slice(7) as $playlist)
                                 <x-sidebar-item route="{{$playlist->route}}" class="justify-content-between">
                                     <i class="fa-solid fa-list"></i>
-                                    <span class="text-sm">{{Str::limit($playlist->title, 25)}}</span>
+                                    <span class="text-sm">{{Str::limit($playlist->title, 22)}}</span>
                                 </x-sidebar-item>
                             @endforeach
                             <li class="nav-item">

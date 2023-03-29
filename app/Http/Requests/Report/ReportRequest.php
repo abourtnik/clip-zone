@@ -61,7 +61,8 @@ class ReportRequest extends FormRequest
                 function (string $attribute, mixed $value, Closure $fail) use ($model) {
                    $exist = (new $model)
                        ->where($attribute, $value)
-                       ->where('user_id', '!=', Auth::user()->id)
+                       ->when(in_array($this->type, [Video::class, Comment::class]), fn($q) => $q->where('user_id', '!=', Auth::user()->id))
+                       ->when($this->type == User::class, fn($q) => $q->where('id', '!=', Auth::user()->id))
                        ->when($this->type == Video::class, fn($q) => $q->where(function ($query) {
                            $query->whereIn('status', [VideoStatus::PUBLIC, VideoStatus::UNLISTED])
                                ->orWhere(function($query) {

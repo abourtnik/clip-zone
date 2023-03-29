@@ -15,9 +15,9 @@
                 <div class="fw-bold">0 Results</div>
             @endif
         </div>
-        <form class="my-4 d-flex gap-3 align-items-end" method="GET" x-show.important="filters">
+        <form class="my-4 d-flex flex-wrap gap-3 align-items-end" method="GET" x-show.important="filters">
             <input type="hidden" name="q" value="{{$search}}">
-            <div class="col">
+            <div class="col-6 col-sm">
                 <label for="type" class="form-label fw-bold">Type</label>
                 <select name="type" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
@@ -26,7 +26,7 @@
                     <option @selected(($filters['type'] ?? null) === 'playlists') value="playlists">Playlists</option>
                 </select>
             </div>
-            <div class="col">
+            <div class="col-6 col-sm">
                 <label for="date" class="form-label fw-bold">Upload Date</label>
                 <select name="date" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
@@ -35,7 +35,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col">
+            <div class="col-6 col-sm">
                 <label for="duration" class="form-label fw-bold">Duration</label>
                 <select name="duration" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
@@ -44,7 +44,6 @@
                     @endforeach
                 </select>
             </div>
-
             <div class="btn-group">
                 <button type="submit" class="btn btn-outline-secondary" title="Search">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -56,21 +55,23 @@
         </form>
         <hr>
     </div>
-    <div class="container">
-        @if($results->count())
-            @foreach($results as $result)
-                @include('search.'.$result->type, [$result->type => $result])
-            @endforeach
-            {{ $results->links() }}
-        @else
-            <div class="d-flex justify-content-center align-items-center h-100">
-                <div class="w-50 border p-4 bg-light text-center">
-                    <i class="fa-solid fa-database fa-7x mb-3"></i>
-                    <h2>No results found</h2>
-                    <div class="text-muted">Try different keywords or remove search filters</div>
+    <div class="row">
+        <div class="col-12 col-xl-10 offset-xl-1 col-xxl-8 offset-xxl-2">
+            @if($results->count())
+                @foreach($results as $result)
+                    @include('search.'.$result->type, [$result->type => $result])
+                @endforeach
+                {{ $results->links() }}
+            @else
+                <div class="d-flex justify-content-center align-items-center h-100">
+                    <div class="w-50 border p-4 bg-light text-center">
+                        <i class="fa-solid fa-database fa-7x mb-3"></i>
+                        <h2>No results found</h2>
+                        <div class="text-muted">Try different keywords or remove search filters</div>
+                    </div>
                 </div>
-            </div>
-        @endif
+            @endif
+        </div>
     </div>
 @endsection
 

@@ -41,78 +41,67 @@ return [
         ],
     ],
     'user' => [
-        'top' => [
-            [
-                'title' => 'Dashboard',
-                'icon' => 'chart-line',
-                'route' => 'user.index',
-            ],
-            [
-                'title' => 'Videos',
-                'icon' => 'video',
-                'route' => 'user.videos.index',
-            ],
-            [
-                'title' => 'Playlists',
-                'icon' => 'rectangle-list',
-                'route' => 'user.playlists.index',
-            ],
-            [
-                'title' => 'Subscribers',
-                'icon' => 'users',
-                'route' => 'user.subscribers',
-            ],
-            [
-                'title' => 'Comments',
-                'icon' => 'comments',
-                'route' => 'user.comments.index',
-            ],
-            [
-                'title' => 'Activity',
-                'icon' => 'bars-staggered',
-                'route' => 'user.activity.index',
-            ],
-            [
-                'title' => 'Reports',
-                'icon' => 'flag',
-                'route' => 'user.reports.index',
-            ]
+        [
+            'title' => 'Dashboard',
+            'icon' => 'chart-line',
+            'route' => 'user.index',
         ],
-        'bottom' => [
-            [
-                'title' => 'My channel',
-                'icon' => 'user-cog',
-                'route' => 'user.edit',
-            ]
+        [
+            'title' => 'Videos',
+            'icon' => 'video',
+            'route' => 'user.videos.index',
+        ],
+        [
+            'title' => 'Playlists',
+            'icon' => 'rectangle-list',
+            'route' => 'user.playlists.index',
+        ],
+        [
+            'title' => 'Subscribers',
+            'icon' => 'users',
+            'route' => 'user.subscribers',
+        ],
+        [
+            'title' => 'Comments',
+            'icon' => 'comments',
+            'route' => 'user.comments.index',
+        ],
+        [
+            'title' => 'Activity',
+            'icon' => 'bars-staggered',
+            'route' => 'user.activity.index',
+        ],
+        [
+            'title' => 'Reports',
+            'icon' => 'flag',
+            'route' => 'user.reports.index',
         ]
     ],
     'admin' => [
-        'top' => [
-            [
-                'title' => 'Dashboard',
-                'icon' => 'chart-line',
-                'route' => 'admin.index',
-            ],
-            [
-                'title' => 'Users',
-                'icon' => 'users',
-                'route' => 'admin.users.index',
-            ],
-            [
-                'title' => 'Videos',
-                'icon' => 'video',
-                'route' => 'admin.videos.index',
-            ],
-            [
-                'title' => 'Comments',
-                'icon' => 'comment',
-                'route' => 'admin.comments.index',
-            ],
-            [
-                'title' => 'Reports',
-                'icon' => 'flag',
-                'route' => 'admin.reports.index',
-            ]
+        [
+            'title' => 'Dashboard',
+            'icon' => 'chart-line',
+            'route' => 'admin.index',
+        ],
+        [
+            'title' => 'Users',
+            'icon' => 'users',
+            'route' => 'admin.users.index',
+        ],
+        [
+            'title' => 'Videos',
+            'icon' => 'video',
+            'route' => 'admin.videos.index',
+        ],
+        [
+            'title' => 'Comments',
+            'icon' => 'comment',
+            'route' => 'admin.comments.index',
+        ],
+        [
+            'title' => 'Reports',
+            'icon' => 'flag',
+            'route' => 'admin.reports.index',
         ]
     ]
 ];

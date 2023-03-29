@@ -27,7 +27,7 @@ class CommentPolicy
     {
         return ($video->is_active && $video->allow_comments) || $video->user()->is($user)
             ? Response::allow()
-            : Response::denyWithStatus(404, 'This video is private');
+            : Response::denyWithStatus(404, !$video->is_active ? 'This video is private' : 'Comments are turned off');
     }
 
     /**
@@ -63,9 +63,9 @@ class CommentPolicy
      */
     public function create(User $user, Video $video): Response|bool
     {
-        return $video->is_active || $video->user()->is($user)
+        return ($video->is_active && $video->allow_comments) || $video->user()->is($user)
             ? Response::allow()
-            : Response::denyWithStatus(404, 'This video is private');
+            : Response::denyWithStatus(404, !$video->is_active ? 'This video is private' : 'Comments are turned off');
     }
 
 

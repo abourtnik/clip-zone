@@ -24,13 +24,13 @@
                 </li>
                 <li class="nav-item align-items-center">
                     <button class="btn nav-link bg-transparent btn-sm d-flex align-items-center gap-2 position-relative" data-bs-toggle="offcanvas" data-bs-target="#notifications">
-                        <i class="fa-solid fa-bell"></i>
+                        <i id="bell" class="fa-solid fa-bell"></i>
                         @if($unread_notifications)
                             <span class="position-absolute top-10 start-100 translate-middle badge rounded-pill bg-danger text-sm">
                                 @if($unread_notifications > 99)
-                                    <span>99 +</span>
+                                    <span id="notifications_count">99 +</span>
                                 @else
-                                    <span>{{$unread_notifications}}</span>
+                                    <span id="notifications_count">{{$unread_notifications}}</span>
                                 @endif
                             </span>
                         @endif
