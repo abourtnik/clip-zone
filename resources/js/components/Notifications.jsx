@@ -52,7 +52,7 @@ const Notifications = memo(({initial}) => {
                         Notifications { unread > 0 && <span>({unread})</span> }
                     </h5>
                     <div className="d-flex gap-1 align-items-center">
-                        <button className="btn btn-link btn-primary bg-transparent text-sm text-decoration-none" onClick={() => readAll()}>Mark all as read</button>
+                        {unread > 0 && <button className="btn btn-link btn-primary bg-transparent text-sm text-decoration-none" onClick={() => readAll()}>Mark all as read</button>}
                         <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                 </div>

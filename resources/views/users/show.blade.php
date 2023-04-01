@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="position-relative" x-data="{upload:false}" @mouseover="upload=true" @mouseleave="upload=false">
-        <img class="w-100" style="height: 250px; object-fit: cover;" src="{{$user->banner_url}}" alt="{{$user->username}} banner">
+        <img class="w-100" style="height: 270px; object-fit: cover;" src="{{$user->banner_url}}" alt="{{$user->username}} banner">
         @if($user->website)
             <a href="//{{$user->website}}" class="position-absolute bottom-0 right-0 me-2 mb-2 p-1 text-white bg-dark bg-opacity-25 text-decoration-none fw-bold" rel="external nofollow" target="_blank">{{$user->website}}</a>
         @endif

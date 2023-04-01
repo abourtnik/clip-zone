@@ -69,7 +69,7 @@ class SearchController extends Controller
 
         $match = '%'.$q.'%';
 
-        $videos = Video::select(['id', 'uuid', 'title', 'thumbnail'])
+        $videos = Video::select(['id', 'uuid', 'title'])
             ->active()
             ->where(function($query) use ($match) {
                 $query->where('title', 'LIKE', $match)->orWhere('description', 'LIKE', $match);
@@ -80,10 +80,9 @@ class SearchController extends Controller
                 'category' => 'Video',
                 'title' => Str::limit($video->title, 68),
                 'url' => $video->route,
-                'image' => $video->thumbnail_url,
             ]);
 
-        $users = User::select(['id', 'username', 'avatar'])
+        $users = User::select(['id', 'username'])
             ->active()
             ->where('username', 'LIKE' , $match)
             ->withCount('subscribers')
@@ -93,12 +92,23 @@ class SearchController extends Controller
                 'category' => 'User',
                 'title' => $user->username,
                 'url' => $user->route,
-                'image' => $user->avatar_url
+            ]);
+
+        $playlists = Playlist::select(['id', 'uuid', 'title'])
+            ->active()
+            ->where('title', 'LIKE' , $match)
+            ->withCount('videos')
+            ->orderBy('videos_count', 'desc')
+            ->get()
+            ->map(fn($playlist) => [
+                'category' => 'Playlist',
+                'title' => Str::limit($playlist->title, 68),
+                'url' => $playlist->route,
             ]);
 
         return response()->json([
-            'total' => $users->concat($videos)->count(),
-            'items' => $users->concat($videos)->slice(0, 15)->toArray(),
+            'total' => $users->concat($videos)->concat($playlists)->count(),
+            'items' => $users->concat($videos)->concat($playlists)->slice(0, 15)->toArray(),
             'route' => route('search.index'). '?q=' .$q,
         ]);
 

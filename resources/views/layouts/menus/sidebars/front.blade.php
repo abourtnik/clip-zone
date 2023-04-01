@@ -36,7 +36,7 @@
                         <x-sidebar-item route="{{$playlist->route}}" class="justify-content-between">
                             <div class="d-flex align-items-center gap-4">
                                 <i class="fa-solid fa-list"></i>
-                                <span class="text-sm">{{Str::limit($playlist->title, 22)}}</span>
+                                <span class="text-sm">{{Str::limit($playlist->title, 20)}}</span>
                             </div>
                         </x-sidebar-item>
                     @endforeach
@@ -51,7 +51,7 @@
                             @foreach($favorite_playlists->slice(7) as $playlist)
                                 <x-sidebar-item route="{{$playlist->route}}" class="justify-content-between">
                                     <i class="fa-solid fa-list"></i>
-                                    <span class="text-sm">{{Str::limit($playlist->title, 22)}}</span>
+                                    <span class="text-sm">{{Str::limit($playlist->title, 20)}}</span>
                                 </x-sidebar-item>
                             @endforeach
                             <li class="nav-item">

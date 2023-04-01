@@ -22,7 +22,7 @@
         @csrf
         <div class="row">
             <div class="col-xl-7 col-xxl-8 order-last order-xl-first">
-                <div class="card shadow-soft">
+                <div class="card shadow-soft h-100">
                     <div class="card-body" style="min-height: 875px">
                         <h5 class="text-primary">Details</h5>
                         <hr>
@@ -167,26 +167,7 @@
                         </div>
                         <h6 class="text-primary mt-4">Thumbnail</h6>
                         <hr class="mt-2">
-                        <div x-data="{ upload: false }" @mouseover="upload=true" @mouseleave="upload=false"  class="border border-secondary position-relative overflow-hidden">
-                            <img id="thumbnail" class="img-fluid" src="{{$video->thumbnail_url}}" alt="thumbnail image">
-                            <div x-show.important="upload"
-                                 x-transition.duration.500ms
-                                 x-transition.scale
-                                 class="position-absolute bottom-0 top-50 start-50 translate-middle w-50 text-center d-flex flex-column gap-3 align-items-center justify-content-center text-white"
-                                 style="z-index: 2"
-                            >
-                                <i class="fa-solid fa-2x fa-upload"></i>
-                                <div class="fw-bold">Update video poster</div>
-                            </div>
-                            <input
-                                style="z-index: 3"
-                                class="position-absolute bottom-0 left-0 right-0 top-0 opacity-0 cursor-pointer w-100"
-                                type="file"
-                                name="thumbnail"
-                                @change="document.getElementById('thumbnail').setAttribute('src', URL.createObjectURL($event.target.files[0]))"
-                            />
-                            <div style="z-index: 1" x-show.important="upload" class="position-absolute bg-dark bg-opacity-75 bottom-0 left-0 right-0 top-0 w-100"></div>
-                        </div>
+                        <image-upload source="{{$video->thumbnail_url}}" name="thumbnail" width="640" height="360" ratio="16/9" area="0.9" resizeable="true"></image-upload>
                         <div class="form-text text-sm">
                             <div>Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> • Max file size :  <strong>2 Mo</strong></div>
                         </div>
@@ -242,6 +223,7 @@
             </div>
         </div>
     </form>
+    @include('users.partials.crop')
 @endsection
 
 <script>

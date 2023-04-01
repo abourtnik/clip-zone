@@ -23,14 +23,15 @@
                         </div>
                         <strong class="mb-1">Drag and drop video file to upload</strong>
                         <div class="text-muted">Your video will be private until you publish them.</div>
-                        <div class="text-danger fw-bold mt-3" x-show="error">
+                        <div class="alert alert-danger alert-dismissible fade show mt-3 mb-0" x-show="error">
                             <span x-text="error"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                         <button class="btn btn-primary mt-4 text-uppercase">
                             Select file
                         </button>
                         <div class="text-sm text-muted mt-3">
-                            Accepted formats : <strong>{{implode(', ', \App\Enums\VideoType::acceptedFormats())}}</strong> - Max file size : <strong>100 Mo</strong>
+                            Accepted formats : <strong>{{implode(', ', \App\Enums\VideoType::acceptedFormats())}}</strong> - Max file size : <strong>200 Mo</strong>
                         </div>
                     </div>
                 </div>
@@ -66,13 +67,31 @@
             error: null,
             controller: null,
             async uploadFile (file) {
+
+                this.error = null;
+
+                document.querySelector('input[name="file"]').value = '';
+
                 if(!file) {
                     return;
                 }
-                const duration = await this.getVideoDuration(file);
-                this.controller = new AbortController();
+
+                if(!['video/mp4', 'video/webm', 'audio/ogg'].includes(file.type)) {
+                    this.error = `The file type is invalid (${file.type}). Allowed types are "video/mp4", "video/webm", "audio/ogg"`;
+                    return;
+                }
+
+                if(file.size > 209715200) { // 200 mo
+                    this.error = `Your file is too large (${Math.round((file.size / 1000000) * 100) / 100} MB) Its size should not exceed 200 MB.`;
+                    return;
+                }
+
                 this.isUpload = true;
-                this.error = null;
+
+                const duration = await this.getVideoDuration(file);
+
+                this.controller = new AbortController();
+
                 const data = new FormData()
                 data.append('file', file)
                 data.append('duration', duration)
@@ -87,10 +106,7 @@
                 }).then(response => {
                     return response.json()
                 }).then(data => {
-                    console.log('here')
-                    console.log(data)
                     if(data?.message){
-                        console.log(data.message)
                         this.error = data.message;
                     }else {
                         window.location.replace(data.route);
@@ -98,10 +114,7 @@
                     .catch(error => {
                         document.getElementById('file').value = null;
                         if(error.code !== 20) {
-                            console.log('error')
-                            console.error(error)
-                            console.log(error.code)
-                            this.error = 'An error has occurred';
+                            this.error = 'Whoops! An error occurred. Please try again later.';
                         }
                     })
                     .finally(() => {

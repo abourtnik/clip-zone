@@ -217,7 +217,7 @@
                                 <tr>
                                     <td class="align-middle">
                                         <a href="{{$subscriber->route}}" class="d-flex align-items-center gap-2 text-decoration-none">
-                                            <img class="rounded" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 50px;">
+                                            <img class="rounded-circle" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 45px;">
                                             <span>{{$subscriber->username}}</span>
                                         </a>
                                     </td>
@@ -293,9 +293,9 @@
                                             </div>
                                         </td>
                                         <td class="align-middle">
-                                            <div class="d-flex gap-2">
+                                            <div class="d-flex gap-3 align-items-center">
                                                 <a href="{{$comment->user->route}}">
-                                                    <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
+                                                    <img class="rounded-circle" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 45px;">
                                                 </a>
                                                 <div>
                                                     <a href="{{$comment->user->route}}" class="text-decoration-none">{{$comment->user->username}}</a>
@@ -378,7 +378,7 @@
                                     </td>
                                     <td class="align-middle">
                                         <a href="{{$interaction->user->route}}" class="d-flex align-items-center gap-2 text-decoration-none">
-                                            <img class="rounded" src="{{$interaction->user->avatar_url}}" alt="{{$interaction->user->username}} avatar" style="width: 50px;">
+                                            <img class="rounded-circle" src="{{$interaction->user->avatar_url}}" alt="{{$interaction->user->username}} avatar" style="width: 45px;">
                                             <span>{{$interaction->user->username}}</span>
                                         </a>
                                     </td>

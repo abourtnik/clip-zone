@@ -21,7 +21,7 @@
         @csrf
         <div class="row">
             <div class="col-xl-7 col-xxl-8 order-last order-xl-first">
-                <div class="card shadow-soft">
+                <div class="card shadow-soft h-100">
                     <div class="card-body" style="min-height: 912px">
                         <h5 class="text-primary">Details</h5>
                         <hr>
@@ -114,7 +114,7 @@
                 </div>
             </div>
             <div class="col-xl-5 col-xxl-4 order-first order-xl-last mb-4 mb-xl-0">
-                <div class="card shadow-soft">
+                <div class="card shadow-soft h-100">
                     <div class="card-body">
                         <video controls class="w-100 border" controlsList="nodownload">
                             <source src="{{route('video.file', $video)}}" type="{{$video->mimetype}}">
@@ -172,13 +172,7 @@
                         </div>
                         <h6 class="text-primary mt-4">Thumbnail</h6>
                         <hr class="mt-2">
-                        <div class="input-file">
-                            <label for="thumbnail" class="rounded">
-                                <i class="fas fa-upload"></i>
-                                <div class="mt-2">Update Video Poster</div>
-                            </label>
-                            <input type="file" name="thumbnail" id="thumbnail" required>
-                        </div>
+                        <image-upload name="thumbnail" width="640" height="360" ratio="16/9" area="0.9"></image-upload>
                         <div class="form-text">Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> -
                             Max file size : <strong>2 Mo</strong></div>
                         <h6 class="text-primary mt-4">Comments and ratings</h6>
@@ -229,6 +223,7 @@
             </div>
         </div>
     </form>
+    @include('users.partials.crop')
 @endsection
 
 <script>

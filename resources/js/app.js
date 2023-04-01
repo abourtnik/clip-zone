@@ -6,12 +6,14 @@ import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
 import Alpine from 'alpinejs'
 import TomSelect from "tom-select";
 import 'htmx.org';
+import Cropper from 'cropperjs';
 
 // Components
 import './components/index.js'
 
 window.bootstrap = bootstrap;
 window.Alpine = Alpine
+window.Cropper = Cropper
 
 Alpine.start()
 

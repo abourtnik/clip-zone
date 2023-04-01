@@ -47,7 +47,7 @@ export default function Playlist ({initial = []}) {
     }
 
     return (
-        <div className="card shadow-soft">
+        <div className="card shadow-soft h-100">
             <div className="card-body">
                 <h5 className="text-primary">Videos { videos.length > 0 && '• ' + videos.length}</h5>
                 <hr/>

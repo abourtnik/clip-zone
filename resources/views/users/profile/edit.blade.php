@@ -34,31 +34,7 @@
                     <div class="card-body">
                         @method('PUT')
                         @csrf
-                        <div class="d-flex justify-content-start mb-3">
-                            <div class="d-flex align-items-center gap-4" x-data="{ upload: false }">
-                                <div @mouseover="upload=true" @mouseleave="upload=false"  class="border border-secondary rounded-circle position-relative overflow-hidden" style="width: 110px">
-                                    <img style="height: 100px" id="avatar" class="img-fluid" :class="upload && 'opacity-75'" src="{{$user->avatar_url}}" alt="user avatar">
-                                    <div x-show.important="upload"
-                                         x-transition.duration.500ms
-                                         x-transition.scale
-                                         class="position-absolute bottom-0 left-0 right-0 w-100 bg-light text-center border-top border-1 py-1 border-secondary"
-                                    >
-                                        <i class="fa-solid fa-upload"></i>
-                                    </div>
-                                    <input
-                                        class="position-absolute bottom-0 left-0 right-0 top-0 opacity-0 cursor-pointer"
-                                        type="file"
-                                        name="avatar"
-                                        accept="image/*"
-                                        @change="document.getElementById('avatar').setAttribute('src', URL.createObjectURL($event.target.files[0]))"
-                                    />
-                                </div>
-                                <div class="d-flex flex-column gap-2">
-                                    <div class="text-muted">Member since {{$user->created_at->longAbsoluteDiffForHumans()}}</div>
-                                    <div class="badge bg-secondary w-75">Standard account</div>
-                                </div>
-                            </div>
-                        </div>
+                        <image-upload source="{{$user->avatar_url}}" name="avatar" width="98" height="98" ratio="1" class="d-block w-25"></image-upload>
                         <hr>
                         <div class="row">
                             <div class="col-12 col-sm-4 mb-3">
@@ -110,27 +86,8 @@
                     <div class="card-body">
                         @method('PUT')
                         @csrf
-                        <div x-data="{ upload: false }" @mouseover="upload=true" @mouseleave="upload=false"  class="border border-secondary position-relative overflow-hidden">
-                            <img id="banner" class="img-fluid" src="{{$user->banner_url}}" alt="banner image">
-                            <div x-show.important="upload"
-                                 x-transition.duration.500ms
-                                 x-transition.scale
-                                 class="position-absolute bottom-0 top-50 start-50 translate-middle w-50 text-center d-flex flex-column gap-3 align-items-center justify-content-center text-white"
-                                 style="z-index: 2"
-                            >
-                                <i class="fa-solid fa-2x fa-upload"></i>
-                                <div class="fw-bold">Update banner</div>
-                            </div>
-                            <input
-                                style="z-index: 3"
-                                class="position-absolute bottom-0 left-0 right-0 top-0 opacity-0 cursor-pointer w-100"
-                                type="file"
-                                name="banner"
-                                @change="document.getElementById('banner').setAttribute('src', URL.createObjectURL($event.target.files[0]))"
-                            />
-                            <div style="z-index: 1" x-show.important="upload" class="position-absolute bg-dark bg-opacity-75 bottom-0 left-0 right-0 top-0 w-100"></div>
-                        </div>
-                        <div class="row">
+                        <image-upload source="{{$user->banner_url}}" name="banner" width="1024" height="175" area="0.1" resizeable={{false}}></image-upload>
+                        <div class="row mt-3">
                             <div class="col-12 col-sm-6 mb-3">
                                 <label for="website" class="form-label">Website</label>
                                 <input
@@ -252,4 +209,5 @@
         </div>
     </div>
     @include('users.profile.modals.delete_account', $user)
+    @include('users.partials.crop')
 @endsection
