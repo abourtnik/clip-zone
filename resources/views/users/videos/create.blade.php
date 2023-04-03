@@ -172,7 +172,7 @@
                         </div>
                         <h6 class="text-primary mt-4">Thumbnail</h6>
                         <hr class="mt-2">
-                        <image-upload name="thumbnail" width="640" height="360" ratio="16/9" area="0.9"></image-upload>
+                        <image-upload name="thumbnail"></image-upload>
                         <div class="form-text">Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> -
                             Max file size : <strong>2 Mo</strong></div>
                         <h6 class="text-primary mt-4">Comments and ratings</h6>

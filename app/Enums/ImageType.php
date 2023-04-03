@@ -6,6 +6,7 @@ enum ImageType : string {
 
     case PNG = 'image/png';
     case JPEG = 'image/jpeg';
+    case JPG = 'image/jpg';
     case WEBP = 'image/webp';
 
     public static function get(): array {

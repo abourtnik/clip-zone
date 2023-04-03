@@ -56,7 +56,6 @@ class UpdateUserRequest extends FormRequest
                 'file',
                 'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
                 'max:2048', // 2mo
-                Rule::dimensions()->minWidth(1024)->minHeight(576)
             ],
             'description' => [
                 'sometimes',

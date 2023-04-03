@@ -167,7 +167,7 @@
                         </div>
                         <h6 class="text-primary mt-4">Thumbnail</h6>
                         <hr class="mt-2">
-                        <image-upload source="{{$video->thumbnail_url}}" name="thumbnail" width="640" height="360" ratio="16/9" area="0.9" resizeable="true"></image-upload>
+                        <image-upload source="{{$video->thumbnail_url}}" name="thumbnail"></image-upload>
                         <div class="form-text text-sm">
                             <div>Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> • Max file size :  <strong>2 Mo</strong></div>
                         </div>

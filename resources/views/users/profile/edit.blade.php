@@ -34,7 +34,13 @@
                     <div class="card-body">
                         @method('PUT')
                         @csrf
-                        <image-upload source="{{$user->avatar_url}}" name="avatar" width="98" height="98" ratio="1" class="d-block w-25"></image-upload>
+                        <div class="d-flex align-items-center gap-2">
+                            <image-upload source="{{$user->avatar_url}}" name="avatar" style="width: 150px; height: 150px"></image-upload>
+                            <div class="d-flex flex-column gap-2">
+                                <div class="text-muted">Member since {{$user->created_at->longAbsoluteDiffForHumans()}}</div>
+                                <div class="badge bg-secondary">Standard account</div>
+                            </div>
+                        </div>
                         <hr>
                         <div class="row">
                             <div class="col-12 col-sm-4 mb-3">
@@ -86,7 +92,7 @@
                     <div class="card-body">
                         @method('PUT')
                         @csrf
-                        <image-upload source="{{$user->banner_url}}" name="banner" width="1024" height="175" area="0.1" resizeable={{false}}></image-upload>
+                        <image-upload source="{{$user->banner_url}}" name="banner"></image-upload>
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6 mb-3">
                                 <label for="website" class="form-label">Website</label>

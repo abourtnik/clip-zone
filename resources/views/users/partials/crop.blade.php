@@ -21,32 +21,28 @@
 <script>
     document.getElementById('crop').addEventListener('shown.bs.modal', event => {
 
+        const config = JSON.parse(event.relatedTarget.dataset.config);
+
         const croppedImage = document.getElementById('cropped_image');
         const name = event.relatedTarget.dataset.name;
         const input = document.querySelector(`input[name="${name}"]`);
 
-        const width = event.relatedTarget.dataset.width;
-        const height = event.relatedTarget.dataset.height;
-        const cropArea = event.relatedTarget.dataset.area;
-        const aspectRatio = event.relatedTarget.dataset.ratio ?? null;
-        const resizeable = event.relatedTarget.dataset.resizeable;
-
         window.cropper = new Cropper(croppedImage, {
-            aspectRatio: aspectRatio,
-            minCropBoxWidth: width,
-            minCropBoxHeight: height,
+            aspectRatio: config.aspectRatio,
+            minCropBoxWidth: config.minWidth,
+            minCropBoxHeight: config.minHeight,
             viewMode: 2,
             modal: true,
             background: true,
             center: true,
             autoCrop: true,
-            autoCropArea: cropArea,
+            autoCropArea: config.cropArea,
             dragMode: 'move',
             responsive: true,
-            cropBoxResizable: resizeable,
+            cropBoxResizable: config.resizeable,
             guides : false,
             ready : () => {
-                if(event.relatedTarget.dataset.name === 'avatar') {
+                if(config.rounded) {
                     document.querySelector('.cropper-view-box').style.borderRadius = '50%';
                     document.querySelector('.cropper-face').style.borderRadius = '50%';
                 }
@@ -55,8 +51,8 @@
 
         document.getElementById('crop_button').addEventListener('click', e => {
             const canvas = window.cropper.getCroppedCanvas({
-                minWidth: width,
-                minHeight: height,
+                width: config.width,
+                height: config.height,
             });
 
             document.querySelector(`image-upload[name="${name}"]`).setAttribute('source', canvas.toDataURL());

@@ -1,6 +1,11 @@
 import { useState, useRef } from 'preact/hooks';
+import images from "../images";
 
-export default function ImageUpload ({source = null, name, width, height, ratio = null, area = 1.0}) {
+const MB = 1048576;
+
+export default function ImageUpload ({source = null, name}) {
+
+    const config = images[name];
 
     const [hover, setHover] = useState(false);
 
@@ -11,8 +16,14 @@ export default function ImageUpload ({source = null, name, width, height, ratio 
 
         const file = event.target.files[0];
 
-        if(file.size > 2097152) {
-            document.getElementById('toast-message').innerText = `Your ${name} is too large (${Math.round((file.size / 1000000) * 100) / 100} MB) Its size should not exceed 2 MB.`;
+        if(!images.accepted_format.includes(file.type)) {
+            document.getElementById('toast-message').innerText = `The file type is invalid (${file.type}). Allowed types are ${images.accepted_format.join(', ')}`;
+            new bootstrap.Toast(document.getElementById('toast')).show()
+            return;
+        }
+
+        if(file.size > (config.maxSize * MB)) {
+            document.getElementById('toast-message').innerText = `Your ${name} file is too large (${Math.round((file.size / 1000000) * 100) / 100} MB) The uploading file should not exceed ${config.maxSize} MB.`;
             new bootstrap.Toast(document.getElementById('toast')).show()
             return;
         }
@@ -23,8 +34,8 @@ export default function ImageUpload ({source = null, name, width, height, ratio 
 
         image.onload = function() {
 
-            if (this.width < width || this.height < height) {
-                document.getElementById('toast-message').innerText = `Your ${name} is too small (${this.width} x ${this.height}). The ${name} image must be at least ${width} x ${height} pixels`;
+            if (this.width < config.minWidth || this.height < config.minHeight) {
+                document.getElementById('toast-message').innerText = `Your ${name} file is too small (${this.width} x ${this.height}). The ${name} image must be at least ${config.minWidth} x ${config.minHeight} pixels`;
                 new bootstrap.Toast(document.getElementById('toast')).show()
             } else {
                 document.getElementById('cropped_image').setAttribute('src', URL.createObjectURL(file));
@@ -39,8 +50,8 @@ export default function ImageUpload ({source = null, name, width, height, ratio 
         <>
             {
                 source ?
-                   <div className={"position-relative overflow-hidden" + (name === 'avatar' ? ' rounded-circle border border-secondary' : '')}>
-                        <img className="img-fluid" alt={name + ' image'} src={source} />
+                   <div className={"position-relative overflow-hidden" + (config.rounded ? ' rounded-circle border border-secondary' : '')}>
+                        <img className="img-fluid w-100" alt={name + ' image'} src={source} />
                         <div
                             className={"position-absolute w-100 text-center text-white start-50 " + (hover ? 'opacity-100 top-50' : 'opacity-0 top-75')}
                             style="z-index: 2;transition: all 0.3s ease-in-out 0s;transform: translate(-50%, -50%);"
@@ -77,11 +88,7 @@ export default function ImageUpload ({source = null, name, width, height, ratio 
                 data-bs-toggle="modal"
                 data-bs-target="#crop"
                 data-name={name}
-                data-width={width}
-                data-height={height}
-                data-ratio={ratio}
-                data-area={area}
-                data-resizeable={name !== 'banner'}
+                data-config={JSON.stringify(images[name])}
             >
             </button>
         </>
