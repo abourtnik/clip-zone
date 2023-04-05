@@ -15,12 +15,16 @@ use App\Http\Requests\Video\StoreVideoRequest;
 use App\Http\Requests\Video\UpdateVideoRequest;
 use App\Models\Category;
 use App\Models\Video;
+use FFMpeg\FFProbe;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
+use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 
 class VideoController extends Controller
 {
@@ -168,24 +172,55 @@ class VideoController extends Controller
         return redirect()->route('user.videos.index');
     }
 
-    public function upload (FileRequest $request) : JsonResponse {
+    public function upload (FileRequest $request, FileReceiver $receiver) : JsonResponse|UploadMissingFileException {
 
-        $file = $request->file('file');
+        if (!$receiver->isUploaded()) {
+            throw new UploadMissingFileException();
+        }
 
-        $validated = $request->safe()->merge([
-            'uuid' => (string) Str::uuid(),
-            'title' => Str::replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName()),
-            'original_file_name' => $file->getClientOriginalName(),
-            'file' => $file->store('/', 'videos'),
-            'mimetype' => $file->getMimeType(),
-            'duration' => floor($request->get('duration')),
-            'status' => VideoStatus::DRAFT,
-        ])->toArray();
+        $save = $receiver->receive();
 
-        $video = Auth::user()->videos()->create($validated);
+        if ($save->isFinished()) {
+
+            $file = $save->getFile();
+
+            // Store file
+            $name = $file->store('/','videos');
+
+            // Remove chunk files
+            //unlink($save->getFile()->getPathname());
+
+            // Get file duration
+
+            $ffprobe = FFProbe::create([
+                'ffprobe.binaries' => Storage::disk('local')->path('bin/ffprobe')
+            ]);
+
+            $duration = $ffprobe
+                ->format(Storage::disk('videos')->path($name))
+                ->get('duration');
+
+            $validated = $request->safe()->merge([
+                'uuid' => (string) Str::uuid(),
+                'title' => Str::replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName()),
+                'original_file_name' => $file->getClientOriginalName(),
+                'file' => $name,
+                'mimetype' => $file->getMimeType(),
+                'duration' => round($duration),
+                'status' => VideoStatus::DRAFT,
+            ])->toArray();
+
+            $video = Auth::user()->videos()->create($validated);
+
+            return response()->json([
+                'route' => route('user.videos.create', $video)
+            ]);
+        }
+
+        $handler = $save->handler();
 
         return response()->json([
-            'route' => route('user.videos.create', $video)
+            "done" => $handler->getPercentageDone()
         ]);
     }
 

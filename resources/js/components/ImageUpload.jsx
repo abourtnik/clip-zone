@@ -1,11 +1,11 @@
 import { useState, useRef } from 'preact/hooks';
-import images from "../images";
+import configuration from "../config";
 
 const MB = 1048576;
 
 export default function ImageUpload ({source = null, name}) {
 
-    const config = images[name];
+    const config = configuration[name];
 
     const [hover, setHover] = useState(false);
 
@@ -16,8 +16,10 @@ export default function ImageUpload ({source = null, name}) {
 
         const file = event.target.files[0];
 
-        if(!images.accepted_format.includes(file.type)) {
-            document.getElementById('toast-message').innerText = `The file type is invalid (${file.type}). Allowed types are ${images.accepted_format.join(', ')}`;
+        input.current.value = '';
+
+        if(!configuration.accepted_format.includes(file.type)) {
+            document.getElementById('toast-message').innerText = `The file type is invalid (${file.type}). Allowed types are ${configuration.accepted_format.join(', ')}`;
             new bootstrap.Toast(document.getElementById('toast')).show()
             return;
         }
@@ -27,8 +29,6 @@ export default function ImageUpload ({source = null, name}) {
             new bootstrap.Toast(document.getElementById('toast')).show()
             return;
         }
-
-        input.current.value = '';
 
         const image = new Image();
 
@@ -88,7 +88,7 @@ export default function ImageUpload ({source = null, name}) {
                 data-bs-toggle="modal"
                 data-bs-target="#crop"
                 data-name={name}
-                data-config={JSON.stringify(images[name])}
+                data-config={JSON.stringify(config)}
             >
             </button>
         </>

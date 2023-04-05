@@ -12,6 +12,7 @@ import UserVideos from "./UserVideos";
 import Playlist from "./Playlist";
 import Notifications from "./Notifications";
 import ImageUpload from "./ImageUpload";
+import VideoUpload from "./VideoUpload";
 
 register(Subscribe, 'subscribe-button');
 register(Interaction, 'interaction-button', [], { shadow: false });
@@ -25,5 +26,6 @@ register(UserVideos, 'user-videos', [], { shadow: false });
 register(Playlist, 'playlist-videos', [], { shadow: false });
 register(Notifications, 'site-notifications', [], { shadow: false });
 register(ImageUpload, 'image-upload', ['source'], { shadow: false });
+register(VideoUpload, 'video-upload', [], { shadow: false });
 
 

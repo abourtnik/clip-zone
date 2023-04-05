@@ -4,6 +4,8 @@ namespace App\Http\Requests\Video;
 
 use App\Enums\VideoType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class FileRequest extends FormRequest
 {
@@ -28,10 +30,10 @@ class FileRequest extends FormRequest
             'file' => [
                 'file',
                 'required',
-                'mimetypes:'.implode(',', VideoType::acceptedMimeTypes()),
-                'max:204800' // 200mo
-            ],
-            'duration' => 'required|numeric'
+                // file mimetype only available on first chunk other chunk mimetype are application/octet-stream
+                Rule::when($this->get('resumableChunkNumber') == 1, 'mimetypes:'.implode(',', VideoType::acceptedMimeTypes())),
+                'max:10240' // Chunk size 10mo
+            ]
         ];
     }
 }

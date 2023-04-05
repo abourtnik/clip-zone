@@ -28,6 +28,7 @@
         "react-intersection-observer": "^9.4.1",
         "react-popper": "^2.3.0",
         "react-sortablejs": "^6.1.4",
+        "resumablejs": "^1.1.0",
         "sortablejs": "^1.15.0",
         "tom-select": "^2.2.2"
     }

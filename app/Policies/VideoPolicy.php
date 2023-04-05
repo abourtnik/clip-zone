@@ -116,4 +116,17 @@ class VideoPolicy
             ? Response::allow()
             : Response::denyWithStatus(403);
     }
+
+    /**
+     * Determine whether the user can upload video.
+     *
+     * @param  User $user
+     * @return Response|bool
+     */
+    public function upload(User $user) : Response|bool
+    {
+        return $user->videos()->whereDate('created_at', today())->count() < 15
+            ? Response::allow()
+            : Response::denyWithStatus(403, 'Sorry ! You are limited to upload 15 videos per day. Please try again tomorrow.');
+    }
 }

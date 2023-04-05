@@ -25,12 +25,16 @@ export default {
     thumbnail: {
         maxSize: 2,
         rounded: false,
-        minWidth: 720,
-        minHeight: 404,
+        minWidth: 640,
+        minHeight: 360,
         width: 720,
         height: 404,
         cropArea : 0.9,
         aspectRatio : 16/9,
         resizeable : true
+    },
+    video:  {
+        maxSize: 1000,
+        accepted_format : ['video/mp4', 'video/webm', 'audio/ogg'],
     }
 }

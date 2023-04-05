@@ -170,7 +170,7 @@
                                 </div>
                             </div>
                         </div>
-                        <h6 class="text-primary mt-4">Thumbnail</h6>
+                        <h6 class="text-primary mt-4">Thumbnail *</h6>
                         <hr class="mt-2">
                         <image-upload name="thumbnail"></image-upload>
                         <div class="form-text">Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> -

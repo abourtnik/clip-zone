@@ -9,6 +9,7 @@ use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
+use App\Models\Video;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +53,9 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // UPLOAD
-    Route::post('/videos/upload', [VideoUserController::class, 'upload'])->name('videos.upload');
+    Route::post('/videos/upload', [VideoUserController::class, 'upload'])
+        ->name('videos.upload')
+        ->can('upload', Video::class);
 
     // REPORT
     Route::post('/report', [ReportController::class, 'report'])->name('report');
