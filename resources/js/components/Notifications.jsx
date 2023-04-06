@@ -23,16 +23,28 @@ const Notifications = memo(({initial}) => {
         window.Echo.private('App.Models.User.' + document.querySelector('meta[name="user_id"]').getAttribute('content')).notification(notification => {
             setNotifications(notifications => [notification, ...notifications]);
             document.getElementById('bell').classList.add('fa-shake')
-            document.getElementById('notifications_count').innerText = unread + 1;
             setTimeout(() => {
                 document.getElementById('bell').classList.remove('fa-shake')
             }, 1000)
         });
     }, []);
 
+    useEffect(() => {
+
+        const unread = notifications.filter(notification => !notification.is_read).length;
+
+        if (unread) {
+            document.getElementById('notifications_count').classList.remove('d-none')
+            document.querySelector('#notifications_count span').innerText = unread;
+        } else {
+            document.getElementById('notifications_count').classList.add('d-none')
+        }
+
+    }, [notifications]);
+
     const read = useCallback (async (notification) => {
         return jsonFetch(`/api/notifications/${notification.ID}/read`).then(() => {
-            setNotifications(notifications => notifications.map(n => n.ID === notification.ID ? {...n, is_read: true} : n))
+            setNotifications(notifications => notifications.map(n => n.ID === notification.ID ? {...n, is_read: true} : n));
         }).catch(e => e);
     }, []);
 

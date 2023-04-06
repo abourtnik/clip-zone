@@ -2,7 +2,13 @@
     <div class="position-relative">
         <a href="{{$playlist->route}}">
             <div class="position-relative">
-                <img class="img-fluid w-100 rounded-4" src="{{$playlist->videos->first()->thumbnail_url}}" alt="{{$playlist->title}}" style="width: 360px; height: 202px;object-fit: cover;">
+                @if($playlist->thumbnail_url)
+                    <img class="img-fluid w-100 rounded-4" src="{{$playlist->thumbnail_url}}" alt="{{$playlist->title}}" style="width: 360px; height: 202px;object-fit: cover;">
+                @else
+                    <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="height: 202px;">
+                        <i class="fa-solid fa-image fa-2x"></i>
+                    </div>
+                @endif
                 <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded">
                     {{trans_choice('videos', $playlist->videos_count)}}
                 </small>

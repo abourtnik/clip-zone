@@ -57,6 +57,8 @@ export default function VideoUpload ({endpoint}) {
             setChunkTypeFromFile : file.type
         });
 
+        window.resumable = resumable;
+
         resumable.addFile(file)
 
         resumable.on('fileAdded', function (file) {
@@ -81,7 +83,7 @@ export default function VideoUpload ({endpoint}) {
     }
 
     const cancel = () => {
-        resumable.cancel();
+        window.resumable.cancel();
         setLoading(false);
     }
 

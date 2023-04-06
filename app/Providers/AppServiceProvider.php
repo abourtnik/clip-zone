@@ -62,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer([
             'layouts.menus.sidebars.*',
             'subscription.index',
+            'subscription.manage',
         ], function($view) {
             $view->with('categories', Category::where('in_menu', true)->ordered()->get());
             $view->with(
@@ -70,7 +71,8 @@ class AppServiceProvider extends ServiceProvider
                     ->withCount([
                         'videos as new_videos' => fn($query) => $query->active()
                             ->where('publication_date', '>', DB::raw('subscriptions.read_at')),
-                        'subscribers'
+                        'subscribers',
+                        'videos'
                     ])
                     ->latest('subscribe_at')
                     ->get()

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\VideoPublished;
+use App\Listeners\SendVideoNotification;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Interaction;
@@ -32,6 +34,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         Login::class => [
             SuccessfulLogin::class,
+        ],
+        VideoPublished::class => [
+            SendVideoNotification::class,
         ]
     ];
 

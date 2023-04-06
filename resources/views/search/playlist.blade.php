@@ -1,7 +1,13 @@
 <article class="d-flex flex-column flex-sm-row mb-3 position-relative gap-3">
     <a href="{{$playlist->route}}">
         <div class="position-relative">
-            <img src="{{$playlist->thumbnail}}" alt="{{$playlist->title}}" style="height: 200px">
+            @if($playlist->thumbnail)
+                <img src="{{$playlist->thumbnail}}" alt="{{$playlist->title}}" >
+            @else
+                <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="height: 200px;width: 300px">
+                    <i class="fa-solid fa-image fa-2x"></i>
+                </div>
+            @endif
             <small class="position-absolute bottom-0 right-0 p-2 fs-6 text-white bg-dark">
                 Playlist
             </small>

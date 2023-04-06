@@ -6,7 +6,9 @@
     <div class="row justify-content-center">
         <div class="col-sm-6 col-md-6 col-lg-5 col-xl-4 col-xxl-3 mb-4 mb-sm-0" style="max-width: 380px">
             <div x-data="{favorite: {{$favorite_by_auth_user ? 'true' : 'false'}}}" class="bg-secondary text-white rounded-4 py-4 px-3" style="background: linear-gradient(to bottom, rgba(89,69,61,0.800) 0%, rgba(89,69,61,0.298) 33%, rgba(89,69,61,0.800) 100%);">
-                <img class="img-fluid w-100 rounded-4" src="{{$playlist->videos->first()->thumbnail_url}}" alt="{{$playlist->title}}" style="width: 360px; height: 202px;object-fit: cover;">
+                @if($playlist->thumbnail)
+                <img class="img-fluid w-100 rounded-4" src="{{$playlist->thumbnail}}" alt="{{$playlist->title}}" style="width: 360px; height: 202px;object-fit: cover;">
+                @endif
                 <h2 class="h4 my-3">{{$playlist->title}}</h2>
                 <div class="mt-3">by <a class="text-decoration-none text-white fw-bold " href="{{$playlist->user->route}}">{{$playlist->user->username}}</a> </div>
                 <span class="badge bg-{{$playlist->status->color()}} my-3">
@@ -57,12 +59,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            @foreach($playlist->videos as $key => $video)
+            @forelse($playlist->videos as $key => $video)
                 <div class="d-flex gap-3 align-items-center">
                     <span>{{$key + 1}}</span>
                     @include('videos.card-secondary', $video)
                 </div>
-            @endforeach
+            @empty
+                <div class="alert alert-info">
+                    This playlist does not contain any videos at the moment.
+                </div>
+            @endforelse
         </div>
     </div>
 @endsection

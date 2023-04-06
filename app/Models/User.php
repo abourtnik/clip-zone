@@ -36,7 +36,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
 {
     use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate;
 
-    protected $guarded = ['id'];
+    protected $guarded = ['id', 'is_admin'];
 
     protected $hidden = [
         'password',
@@ -255,7 +255,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
      */
     public function scopeActive(Builder $query): void
     {
-        $query->whereNotNull(['email_verified_at'])->whereNull(['is_admin', 'banned_at']);
+        $query->whereNotNull(['email_verified_at'])->whereNull(['banned_at']);
     }
 
     public function scopeFilter(Builder $query, $filters)

@@ -43,7 +43,7 @@ class Playlist extends Model
     protected function thumbnail(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->videos()->first()->thumbnail_url
+            get: fn () => $this->videos()->first()?->thumbnail_url
         );
     }
 
