@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\VideoPublished;
 use App\Notifications\UserNotification;
 
-class SendVideoNotification
+class SendVideoPublishedNotification
 {
     /**
      * Create the event listener.

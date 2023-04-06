@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\VideoStatus;
+use App\Events\VideoBanned;
 use App\Filters\VideoFilters;
 use App\Jobs\Export;
 use App\Models\Category;
@@ -36,6 +37,8 @@ class VideoController
            'status' => VideoStatus::BANNED,
            'banned_at' => now()
         ]);
+
+        VideoBanned::dispatch($video);
 
         return redirect()->route('admin.videos.index');
     }

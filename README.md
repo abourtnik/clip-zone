@@ -1,22 +1,29 @@
-# TODO
+<h1 align="center">
+  <a href="https://www.emojisworld.fr">
+    <img src="https://www.emojisworld.fr/img/logo.png" alt="ClipZone logo" height="200">
+  </a>
+  <br>
+    ClipZone
+  <br>
+</h1>
 
-## Primary
-
-- Use hook for fetch request
-- Validate thumbnail and avatar width and height
-- Responsive
-- Banned video can be update to public by author
-- Filter videos on trend and home
-
-## Secondary
-
-- optimize comment system
+<h3 align="center">Open Source Youtube Clone  </h3>
 
 
-### Admin
+## Technical detail
 
-- Signal comment - video - user
-- Protected download
-- Notifications
+* Backend : PHP 8.1, Laravel 9 , MySQL
+* Frontend : Preact, Alpine JS, Boostrap 5.2
 
+## Contributing
 
+We encourage you to contribute to ClipZone !!
+
+Trying to report a possible security vulnerability in ClipZone ? Consider using email :
+**contact@antonbourtnik.fr** with clear description of security vulnerability.
+
+## License
+ClipZone is made available under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
+
+## Credits
+ClipZone is created and maintained by [Anton Bourtnik](https://github.com/abourtnik)

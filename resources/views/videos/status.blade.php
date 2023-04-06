@@ -19,12 +19,12 @@
         Draft
     </span>
 @elseif($video->is_banned)
-    <span class="badge bg-primary">
+    <span class="badge bg-danger">
         <i class="fa-solid fa-ban"></i>&nbsp;
         Banned {{$video->banned_at->diffForHumans()}}
     </span>
 @else
-    <span class="badge bg-danger">
+    <span class="badge bg-primary">
         <i class="fa-solid fa-lock"></i>&nbsp;
         Private
     </span>

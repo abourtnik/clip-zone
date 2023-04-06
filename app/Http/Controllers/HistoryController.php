@@ -19,7 +19,7 @@ class HistoryController extends Controller
                     ->groupBy('video_id'), 'b', function ($join) {
                         $join->on('views.video_id', '=', 'b.video_id')->on('views.id', '=', 'b.id');
             })
-            ->with(['video' => fn($q) => $q->with('user')])
+            ->with(['video' => fn($q) => $q->with('user')->withCount('views')])
             ->latest('view_at')
             ->get()
             ->groupBy(fn ($item) => Carbon::parse($item->view_at)->format('Y-m-d'))

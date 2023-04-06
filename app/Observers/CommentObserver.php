@@ -42,6 +42,9 @@ class CommentObserver
         $comment->replies_interactions()->delete();
         $comment->replies()->delete();
 
+        // Remove video reports
+        $comment->reports()->delete();
+
         // Remove activity for this comment
         Activity::forSubject($comment)->delete();
     }

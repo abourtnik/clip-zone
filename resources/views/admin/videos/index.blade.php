@@ -185,12 +185,6 @@
                         data-infos="{{trans_choice('views', $video->views_count)}} • {{$video->created_at->format('d F Y')}}"
                         data-poster="{{$video->thumbnail_url}}"
                         data-route="{{route('admin.videos.ban', $video)}}"
-                        data-download="{{route('video.download', $video)}}"
-                        data-alt="{{$video->title}} Thumbnail"
-                        data-comments="{{trans_choice('comments', $video->comments_count)}}"
-                        data-likes="{{trans_choice('likes', $video->likes_count)}}"
-                        data-dislikes="{{trans_choice('dislikes', $video->dislikes_count)}}"
-                        data-elements='{{json_encode(['title' => '', 'infos' => '', 'poster' => 'src', 'route' => 'action', 'download' => 'href', 'alt' => 'alt', 'comments' => '', 'likes' => '', 'dislikes' => ''])}}'
                     >
                         <i class="fa-solid fa-ban"></i>
                     </button>

@@ -47,7 +47,7 @@ class VideoPolicy
     {
         return $video->is_active || $video->user()->is($user)
             ? Response::allow()
-            : Response::denyWithStatus(404, 'This video is private');
+            : Response::denyWithStatus(404, $video->is_banned ? 'This video was banned' : 'This video is private');
     }
 
     /**
@@ -84,9 +84,9 @@ class VideoPolicy
      */
     public function update(User $user, Video $video) : Response|bool
     {
-        return $video->user()->is($user)
+        return $video->user()->is($user) && !$video->is_banned
             ? Response::allow()
-            : Response::denyWithStatus(404);
+            : Response::denyWithStatus(403, 'You are not authorized to edit this video');
     }
 
     /**

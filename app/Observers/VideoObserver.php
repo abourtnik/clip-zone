@@ -36,6 +36,9 @@ class VideoObserver
         // Remove video comments interaction
         $video->comment_interactions()->delete();
 
+        // Remove video reports
+        $video->reports()->delete();
+
         Image::deleteIf($video->file, 'videos');
         Image::deleteIf($video->thumbnail, 'thumbnails');
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\VideoStatus;
+use App\Events\UserBanned;
 use App\Filters\UserFilters;
 use App\Jobs\Export;
 use App\Models\User;
@@ -45,6 +46,8 @@ class UserController
                 'banned_at' => now(),
             ]);
         }
+
+        UserBanned::dispatch($user);
 
         return redirect()->route('admin.users.index');
     }

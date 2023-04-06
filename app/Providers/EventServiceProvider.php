@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\UserBanned;
+use App\Events\VideoBanned;
 use App\Events\VideoPublished;
-use App\Listeners\SendVideoNotification;
+use App\Listeners\SendUserBannedNotification;
+use App\Listeners\SendVideoBannedNotification;
+use App\Listeners\SendVideoPublishedNotification;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Interaction;
@@ -36,7 +40,13 @@ class EventServiceProvider extends ServiceProvider
             SuccessfulLogin::class,
         ],
         VideoPublished::class => [
-            SendVideoNotification::class,
+            SendVideoPublishedNotification::class,
+        ],
+        VideoBanned::class => [
+            SendVideoBannedNotification::class,
+        ],
+        UserBanned::class => [
+            SendUserBannedNotification::class,
         ]
     ];
 

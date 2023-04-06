@@ -170,15 +170,17 @@
                         </td>
                         <td class="align-middle">
                             <div class="d-flex gap-1">
-                                @if($video->is_draft)
-                                    <a href="{{route('user.videos.create', $video)}}" class="btn btn-primary btn-sm" title="Edit draft">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </a>
-                                @else
-                                    <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm" title="Edit video">
-                                        <i class="fa-solid fa-pen"></i>
-                                    </a>
-                                @endif
+                                @can('update', $video)
+                                    @if($video->is_draft)
+                                        <a href="{{route('user.videos.create', $video)}}" class="btn btn-primary btn-sm" title="Edit draft">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                    @else
+                                        <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm" title="Edit video">
+                                            <i class="fa-solid fa-pen"></i>
+                                        </a>
+                                    @endif
+                                @endcan
                                 <button
                                     type="button"
                                     title="Delete video"
