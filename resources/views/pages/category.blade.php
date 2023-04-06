@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', $category->title)
+@section('title', $category->title . ' videos')
 
 @section('class', 'px-0')
 @section('style', 'margin-top: 0 !important')

@@ -64,9 +64,8 @@
                 {{ $results->links() }}
             @else
                 <div class="d-flex justify-content-center align-items-center h-100">
-                    <div class="w-50 border p-4 bg-light text-center">
-                        <i class="fa-solid fa-database fa-7x mb-3"></i>
-                        <h2>No results found</h2>
+                    <div class="w-100 border p-4 bg-light text-center">
+                        <h2>No results found {{ $search ? 'for "'. $search . '"' : '' }}</h2>
                         <div class="text-muted">Try different keywords or remove search filters</div>
                     </div>
                 </div>

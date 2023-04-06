@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
-    <title>@yield('title') - {{config('app.name')}}</title>
+    <title>@yield('title') | {{config('app.name')}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="@yield('description')"/>
     <meta name="language" content="{{ str_replace('_', '-', app()->getLocale()) }}" />

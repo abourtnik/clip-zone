@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Discover')
+@section('title', 'Discover new channels')
 
 @section('content')
     @if($users->count())

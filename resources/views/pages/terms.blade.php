@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', 'Terms')
+@section('title', 'Terms of services')
 
 @section('content')
     <div class="row align-items-center h-75 mt-5">
