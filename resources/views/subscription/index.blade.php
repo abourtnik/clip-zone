@@ -33,8 +33,8 @@
         @endif
     @else
         <div class="h-full">
-            <div class="d-flex justify-content-center align-items-center h-75 mt-5">
-                <div class="w-75 border p-4 bg-light text-center">
+            <div class="row mt-5">
+                <div class="col-10 offset-1 border p-4 bg-light text-center bg-light">
                     <i class="fa-brands fa-youtube fa-7x mb-3"></i>
                     <h2>Don’t miss new videos</h2>
                     <p class="text-muted">Sign In to see updates from your favorite YouTube channels</p>

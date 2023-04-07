@@ -3,7 +3,7 @@
 # You have received new message from {{ $name }} !
 
 @component('mail::panel')
-    {{ $message }}
+    {!! nl2br($message) !!}
 @endcomponent
 
 @endcomponent

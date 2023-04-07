@@ -23,7 +23,7 @@
     </div>
     <div class="w-100">
         <div class="col-12 col-sm-10 offset-sm-1">
-            <div class="border-bottom">
+            <div>
                 <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center py-4">
                     <div class="d-flex align-items-center mb-4 mb-sm-0">
                         <div class="d-flex align-items-center gap-4" x-data="{ upload: false }">
@@ -76,7 +76,7 @@
                         </div>
                     @endif
                 </div>
-                <ul class="nav" role="tablist">
+                <ul class="nav mx-3 mx-sm-0 border-bottom" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link user-tabs active" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
                             Home

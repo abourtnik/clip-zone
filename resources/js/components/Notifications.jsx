@@ -58,13 +58,18 @@ const Notifications = memo(({initial}) => {
 
     return (
         <>
-            <div className="offcanvas offcanvas-end" tabIndex="-1" id="notifications" aria-labelledby="notifications" data-bs-backdrop="true">
+            <div className="offcanvas offcanvas-end" tabIndex="-1" id="notifications" aria-labelledby="notifications" data-bs-backdrop="true" style={{width: '350px'}}>
                 <div className="offcanvas-header bg-light border d-flex justify-content-between align-items-center py-2">
-                    <h5 className="offcanvas-title">
+                    <h6 className="offcanvas-title">
                         Notifications { unread > 0 && <span>({unread})</span> }
-                    </h5>
+                    </h6>
                     <div className="d-flex gap-1 align-items-center">
-                        {unread > 0 && <button className="btn btn-link btn-primary bg-transparent text-sm text-decoration-none" onClick={() => readAll()}>Mark all as read</button>}
+                        {
+                            unread > 0 &&
+                            <button className="btn btn-primary btn-sm text-decoration-none" onClick={() => readAll()}>
+                                <small>Mark all as read</small>
+                            </button>
+                        }
                         <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                     </div>
                 </div>

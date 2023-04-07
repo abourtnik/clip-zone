@@ -1,13 +1,13 @@
 <h1 align="center">
-  <a href="https://www.emojisworld.fr">
-    <img src="https://www.emojisworld.fr/img/logo.png" alt="ClipZone logo" height="200">
+  <a href="https://www.clip-zone.com">
+    <img src="https://www.clip-zone.com/images/logo.png" alt="ClipZone logo" height="200">
   </a>
   <br>
     ClipZone
   <br>
 </h1>
 
-<h3 align="center">Open Source Youtube Clone  </h3>
+<h3 align="center">Open Source Youtube Clone</h3>
 
 
 ## Technical detail

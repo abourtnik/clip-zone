@@ -32,7 +32,7 @@
     @endauth
 
     @if ($attributes->get('statistics', false) && config('app.statistics_enabled'))
-        <script async defer data-website-id="null" src=""></script>
+        <script async defer data-website-id="32676102-17e3-4534-9023-f3aa1eb8300a" src="https://stats.antonbourtnik.fr/umami.js"></script>
     @endif
 
     @vite(['resources/js/app.js'])

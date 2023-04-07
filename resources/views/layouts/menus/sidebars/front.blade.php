@@ -1,13 +1,15 @@
 <div class="offcanvas offcanvas-start fixed overflow-auto" id="responsive-sidebar" data-bs-keyboard="false" data-bs-backdrop="true" data-bs-scroll="true" aria-modal="true" role="dialog">
     <div class="offcanvas-header d-flex justify-content-between align-items-center d-md-none bg-light border py-2">
-        <h5 class="offcanvas-title text-danger fw-bold">
+        <a href="{{route('pages.home')}}" class="offcanvas-title h5 text-danger fw-bold text-decoration-none">
             {{config('app.name')}}
-        </h5>
+        </a>
         <div class="d-flex gap-2 align-items-center">
+            @auth()
             <button class="btn btn-success btn-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#video_create">
                 <i class="fa-solid fa-video-camera"></i>
                 <span>Create</span>
             </button>
+            @endauth
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
     </div>

@@ -9,11 +9,13 @@
             @each('subscription.partials.user', $users, 'user')
         </div>
     @else
-        <div class="d-flex justify-content-center align-items-center h-75 mt-5">
-            <div class="w-75 border p-4 bg-light text-center">
-                <i class="fa-solid fa-user-slash fa-7x mb-3"></i>
-                <h2>No user to subscribe</h2>
-                <p class="text-muted">Sorry, no users to subscribe are available yet. Please check back later for updates.</p>
+        <div class="h-full">
+            <div class="row mt-5">
+                <div class="col-10 offset-1 border p-4 bg-light text-center bg-light">
+                    <i class="fa-solid fa-user-slash fa-7x mb-3"></i>
+                    <h2>No user to subscribe</h2>
+                    <p class="text-muted">Sorry, no users to subscribe are available yet. Please check back later for updates.</p>
+                </div>
             </div>
         </div>
     @endif

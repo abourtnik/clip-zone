@@ -30,9 +30,9 @@
                         <strong>Draft</strong>
                     </div>
                 @endif
-                <h4 class="mb-0">{{$video->title}}</h4>
+                <h1 class="mb-0 h5">{{$video->title}}</h1>
             </div>
-            <div class="mt-4 d-flex flex-column flex-xxl-row gap-3 justify-content-between align-items-start align-items-xxl-center">
+            <div class="mt-3 d-flex flex-column flex-xxl-row gap-3 justify-content-between align-items-start align-items-xxl-center">
                 <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date?->format('d F Y') ?? $video->created_at->format('d F Y')}}</div>
                 @auth
                     <div class="d-flex flex-wrap gap-2 align-items-center">
@@ -200,7 +200,7 @@
                     </div>
                 @endif
             </div>
-            <hr class="d-none d-lg-block">
+            <hr class="d-none d-lg-block mt-4">
             @if($video->allow_comments)
                 <div class="d-none d-lg-block" id="comments_area"></div>
                 <div class="d-block d-lg-none">

@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row align-items-center h-75 mt-5">
-        <div class="col-12 col-sm-10 offset-sm-1 border border-1 bg-light py-4 px-5">
+        <div class="col-10 offset-1 border border-1 bg-light py-4 px-3 px-sm-5">
             <h1 class="mb-3">Terms of services</h1>
             <p>{{config('app.name')}} agrees to furnish services to the Subscriber subject to the following Terms of Service. Use of {{config('app.name')}}'s service constitutes acceptance and agreement to {{config('app.name')}}'s Terms of Service.</p>
             <p>{{config('app.name')}} reserves the right to modify the Terms of Service without notice.</p>

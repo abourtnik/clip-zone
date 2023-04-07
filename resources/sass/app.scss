@@ -36,6 +36,10 @@ body {
     }
 }
 
+#responsive-sidebar {
+    width: 300px;
+}
+
 @media (min-width: 768px) {
     #responsive-sidebar {
         transform: none;
