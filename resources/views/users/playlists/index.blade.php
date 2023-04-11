@@ -63,7 +63,13 @@
                     <tr class="bg-light">
                         <td class="d-flex gap-3">
                             <a href="{{$playlist->route}}">
-                                <img src="{{$playlist->videos()->first()->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
+                                @if($playlist->thumbnail)
+                                    <img src="{{$playlist->thumbnail}}" alt="{{$playlist->title}} thumbnail" style="width: 120px;height: 68px">
+                                @else
+                                    <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="width: 120px;height: 68px">
+                                        <i class="fa-solid fa-image fa-2x"></i>
+                                    </div>
+                                @endif
                             </a>
                             <div>
                                 <div>{{Str::limit($playlist->title, 100), '...'}}</div>

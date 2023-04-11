@@ -81,17 +81,17 @@
                 <playlist-videos initial="{{$videos}}"/>
             </div>
         </div>
-        <div class="d-flex justify-content-between mt-3">
-            <a href="{{route('user.videos.index')}}" class="btn btn-secondary">
+        <div class="d-flex flex-column flex-sm-row flex-column-reverse justify-content-sm-between gap-2 mt-3">
+            <a href="{{route('user.playlists.index')}}" class="btn btn-secondary">
                 Cancel
             </a>
-            <div class="d-flex gap-2">
-                <button value="save" type="submit" name="action" class="btn btn-primary d-flex align-items-center gap-2">
-                    <i class="fa-solid fa-pen"></i>
+            <div class="d-flex flex-column flex-sm-row gap-2">
+                <button value="save" type="submit" name="action" class="btn btn-primary d-flex align-items-center justify-content-center gap-2">
+                    <i class="fa-solid fa-pen d-none d-sm-block"></i>
                     <span>Update & Continue Editing</span>
                 </button>
-                <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
-                    <i class="fa-solid fa-pen"></i>
+                <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center gap-2">
+                    <i class="fa-solid fa-pen d-none d-sm-block"></i>
                     <span>Update Playlist</span>
                 </button>
             </div>

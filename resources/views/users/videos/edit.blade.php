@@ -64,7 +64,7 @@
                         <h5 class="text-primary mt-3">Secondary</h5>
                         <hr>
                         <div class="row">
-                            <div class="col-4 mb-3">
+                            <div class="col-12 col-sm-4 mb-3">
                                 <label for="category" class="form-label">Category</label>
                                 <select class="form-control" name="category_id" id="category">
                                     <option value="" selected>--- Select Category ---</option>
@@ -73,7 +73,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-4 mb-3">
+                            <div class="col-12 col-sm-4 mb-3">
                                 <label for="language" class="form-label">Video language</label>
                                 <select class="form-control" name="language" id="language">
                                     <option value="" selected>--- Select Language ---</option>
@@ -82,7 +82,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-4">
+                            <div class="col-12 col-sm-4">
                                 <label for="default_comments_sort" class="form-label">Default comments sort</label>
                                 <select class="form-control" name="default_comments_sort" id="default_comments_sort">
                                     @foreach(['top', 'newest'] as $option)
@@ -207,17 +207,17 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-between mt-3">
+        <div class="d-flex flex-column flex-sm-row flex-column-reverse justify-content-sm-between gap-2 mt-3">
             <a href="{{route('user.videos.index')}}" class="btn btn-secondary">
                 Cancel
             </a>
-            <div class="d-flex gap-2">
-                <button value="save" type="submit" name="action" class="btn btn-primary d-flex align-items-center gap-2">
-                    <i class="fa-solid fa-pen"></i>
+            <div class="d-flex flex-column flex-sm-row gap-2">
+                <button value="save" type="submit" name="action" class="btn btn-primary d-flex align-items-center justify-content-center gap-2">
+                    <i class="fa-solid fa-pen d-none d-sm-block"></i>
                     <span>Update & Continue Editing</span>
                 </button>
-                <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
-                    <i class="fa-solid fa-pen"></i>
+                <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-center gap-2">
+                    <i class="fa-solid fa-pen d-none d-sm-block"></i>
                     <span>Update Video</span>
                 </button>
             </div>

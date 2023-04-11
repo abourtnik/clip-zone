@@ -279,7 +279,6 @@
                                     <th scope="col" style="width: 20%">Video</th>
                                     <th scope="col" style="width: 55%">Comment</th>
                                     <th scope="col" style="width: 12%">Replies</th>
-                                    <th scope="col" style="width: 13%">Date</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -298,7 +297,10 @@
                                                     <img class="rounded-circle" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 45px;">
                                                 </a>
                                                 <div>
-                                                    <a href="{{$comment->user->route}}" class="text-decoration-none">{{$comment->user->username}}</a>
+                                                    <div class="d-flex align-items-center">
+                                                        <a href="{{$comment->user->route}}" class="text-decoration-none text-sm">{{$comment->user->username}}</a>
+                                                        <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
+                                                    </div>
                                                     <x-expand-item max="180" class="d-block">
                                                         {{$comment->content}}
                                                     </x-expand-item>
@@ -315,9 +317,6 @@
                                                     No replies
                                                 </div>
                                             @endif
-                                        </td>
-                                        <td class="align-middle">
-                                            <small data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">{{$comment->created_at->diffForHumans()}}</small>
                                         </td>
                                     </tr>
                                 @empty
