@@ -1,4 +1,4 @@
-.PHONY: help, exec, start, stop, optimize
+.PHONY: help, exec, start, stop, optimize, deploy, install
 .DEFAULT_GOAL=help
 
 help: ## Show help options
@@ -19,3 +19,13 @@ stop: ## Stop dev server
 
 optimize: ## Clear application cache
 	docker exec -it php_container php artisan optimize
+
+install: ## Clear application cache
+	php artisan migrate
+	composer install --optimize-autoloader --no-dev
+	npm install
+	npm run build
+	php artisan cache:clear
+
+deploy: ## Clear application cache
+	ssh anton@51.178.29.115 -p 5789 -A 'cd /home/anton/www/clip-zone.com && git pull origin main && make install'
