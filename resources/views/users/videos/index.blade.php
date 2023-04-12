@@ -6,50 +6,46 @@
     @if($videos->total() || $filters)
         {{ Breadcrumbs::render('videos') }}
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h2>My Videos</h2>
-            <div>
-                <button class="btn btn-success d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#video_create">
-                    <i class="fa-solid fa-upload"></i>
-                    &nbsp;<span class="d-none d-sm-block">Import new video</span>
-                </button>
-            </div>
+            <h2 class="mb-0">My Videos</h2>
+            <button class="btn btn-success d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#video_create">
+                <i class="fa-solid fa-upload"></i>
+                &nbsp;<span>Import new video</span>
+            </button>
         </div>
         <hr>
-        <form class="my-4 d-flex flex-column flex-xl-row gap-3 align-items-center align-items-xl-end" method="GET">
-            <div class="row w-100">
-                <div class="col-12 col-sm-4 col-xl">
-                    <label for="search" class="form-label fw-bold">Search</label>
-                    <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
-                </div>
-                <div class="col-12 col-sm-4 col-xl">
-                    <label for="status" class="form-label fw-bold">Status</label>
-                    <select name="status" class="form-select" aria-label="Default select example">
-                        <option selected value="">All</option>
-                        @foreach($status as $id => $name)
-                            <option @selected(($filters['status'] ?? null) === (string) $id) value="{{$id}}">{{$name}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-12 col-sm-4 col-xl">
-                    <label for="category" class="form-label fw-bold">Category</label>
-                    <select name="category" class="form-select" aria-label="Default select example">
-                        <option selected value="">All</option>
-                        <option @selected(($filters['category'] ?? null) === 'without') value="without">Without category</option>
-                        @foreach($categories as $category)
-                            <option @selected(($filters['category'] ?? null) === (string) $category->id) value="{{$category->id}}">{{$category->title}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-12 col-sm-6 col-xl">
-                    <label for="publication_date_start" class="form-label fw-bold">Publication date start</label>
-                    <input type="datetime-local" name="date[]" class="form-control" id="publication_date_start" value="{{$filters['date'][0] ?? null}}">
-                </div>
-                <div class="col-12 col-sm-6 col-xl">
-                    <label for="publication_date_end" class="form-label fw-bold">Publication date end</label>
-                    <input type="datetime-local" name="date[]" class="form-control" id="publication_date_end" value="{{$filters['date'][1] ?? null}}">
-                </div>
+        <form class="mb-4 row align-items-end gx-2 gy-2" method="GET">
+            <div class="col-12 col-sm-12 col-md-12 col-lg-4 col-xl col-xxl-3">
+                <label for="search" class="form-label fw-bold">Search</label>
+                <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
             </div>
-            <div class="btn-group">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
+                <label for="status" class="form-label fw-bold">Status</label>
+                <select name="status" class="form-select" aria-label="Default select example">
+                    <option selected value="">All</option>
+                    @foreach($status as $id => $name)
+                        <option @selected(($filters['status'] ?? null) === (string) $id) value="{{$id}}">{{$name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
+                <label for="category" class="form-label fw-bold">Category</label>
+                <select name="category" class="form-select" aria-label="Default select example">
+                    <option selected value="">All</option>
+                    <option @selected(($filters['category'] ?? null) === 'without') value="without">Without category</option>
+                    @foreach($categories as $category)
+                        <option @selected(($filters['category'] ?? null) === (string) $category->id) value="{{$category->id}}">{{$category->title}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl">
+                <label for="publication_date_start" class="form-label fw-bold">Publication date start</label>
+                <input type="datetime-local" name="date[]" class="form-control" id="publication_date_start" value="{{$filters['date'][0] ?? null}}">
+            </div>
+            <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl">
+                <label for="publication_date_end" class="form-label fw-bold">Publication date end</label>
+                <input type="datetime-local" name="date[]" class="form-control" id="publication_date_end" value="{{$filters['date'][1] ?? null}}">
+            </div>
+            <div class="btn-group col-auto">
                 <button type="submit" class="btn btn-outline-secondary" title="Search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
@@ -207,12 +203,14 @@
                                 @endif
                                 @if($video->is_public && $video->is_pinned)
                                     <form action="{{route('user.videos.unpin', $video)}}" method="POST" class="d-inline-block">
+                                        @csrf
                                         <button class="btn btn-secondary btn-sm" title="Unpin video" type="submit">
                                             <i class="fa-solid fa-link-slash"></i>
                                         </button>
                                     </form>
                                 @elseif ($video->is_public && !$video->is_pinned)
                                     <form action="{{route('user.videos.pin', $video)}}" method="POST" class="d-inline-block">
+                                        @csrf
                                         <button class="btn btn-secondary btn-sm" title="Pin video" type="submit">
                                             <i class="fa-solid fa-thumbtack"></i>
                                         </button>

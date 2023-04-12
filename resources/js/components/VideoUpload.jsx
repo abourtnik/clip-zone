@@ -44,7 +44,7 @@ export default function VideoUpload ({endpoint}) {
             query:{
                 _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
             },
-            chunkSize: 10 * 1024 * 1024, // 10MB
+            chunkSize: 10 * 1000 * 1000, // 10MB
             forceChunkSize: true,
             headers: {
                 'Accept': 'application/json',
@@ -53,7 +53,7 @@ export default function VideoUpload ({endpoint}) {
             method: 'multipart',
             simultaneousUploads: 1,
             testChunks: false,
-            permanentErrors: [400, 401, 403, 404, 409, 415, 422, 500, 501],
+            permanentErrors: [400, 401, 403, 404, 409, 413, 415, 422, 500, 501],
             setChunkTypeFromFile : file.type
         });
 

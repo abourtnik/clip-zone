@@ -116,9 +116,11 @@
             <div class="col-xl-5 col-xxl-4 order-first order-xl-last mb-4 mb-xl-0">
                 <div class="card shadow-soft h-100">
                     <div class="card-body">
-                        <video controls class="w-100 border" controlsList="nodownload">
-                            <source src="{{route('video.file', $video)}}" type="{{$video->mimetype}}">
-                        </video>
+                        <div class="ratio ratio-16x9">
+                            <video controls class="w-100 border" controlsList="nodownload">
+                                <source src="{{route('video.file', $video)}}" type="{{$video->mimetype}}">
+                            </video>
+                        <div>
                         <div class="bg-light mt-2 px-3 py-2 d-flex flex-column gap-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>

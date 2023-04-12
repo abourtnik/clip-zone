@@ -4,16 +4,16 @@
 
 @section('content')
     @if($comments->total() || $filters)
-        <div class="d-flex justify-content-between align-items-center my-3">
-            <h2>My Comments</h2>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <h2 class="mb-0">My Comments</h2>
         </div>
         <hr>
-        <form class="my-4 d-flex gap-3 align-items-end flex-wrap" method="GET">
-            <div class="col">
+        <form class="mb-4 row align-items-end gx-2 gy-2" method="GET">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl col-xxl-3">
                 <label for="search" class="form-label fw-bold">Search</label>
                 <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
             </div>
-            <div class="col">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
                 <label for="video" class="form-label fw-bold">Video</label>
                 <select name="video" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
@@ -22,7 +22,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
                 <label for="user" class="form-label fw-bold">User</label>
                 <select name="user" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
@@ -31,15 +31,15 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
                 <label for="comment_date_start" class="form-label fw-bold">Comment date start</label>
                 <input type="datetime-local" name="date[]" class="form-control" id="comment_date_start" value="{{$filters['date'][0] ?? null}}">
             </div>
-            <div class="col">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
                 <label for="comment_date_end" class="form-label fw-bold">Comment date end</label>
                 <input type="datetime-local" name="date[]" class="form-control" id="comment_date_end" value="{{$filters['date'][1] ?? null}}">
             </div>
-            <div class="col">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
                 <label for="replies" class="form-label fw-bold">Replies</label>
                 <select name="replies" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
@@ -48,7 +48,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="btn-group">
+            <div class="btn-group col-auto">
                 <button type="submit" class="btn btn-outline-secondary" title="Search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>

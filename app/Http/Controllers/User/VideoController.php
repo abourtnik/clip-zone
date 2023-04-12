@@ -92,7 +92,7 @@ class VideoController extends Controller
                 DB::raw("(COUNT(*)) as count"),
                 DB::raw("DATE(view_at) as date")
             )
-                ->oldest('view_at')
+                ->oldest('date')
                 ->groupBy('date')
                 ->get()
                 ->toArray()

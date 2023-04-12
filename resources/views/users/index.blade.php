@@ -364,7 +364,6 @@
                                 <th scope="col">Video</th>
                                 <th scope="col">User</th>
                                 <th scope="col">Interaction</th>
-                                <th scope="col">Date</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -378,7 +377,10 @@
                                     <td class="align-middle">
                                         <a href="{{$interaction->user->route}}" class="d-flex align-items-center gap-2 text-decoration-none">
                                             <img class="rounded-circle" src="{{$interaction->user->avatar_url}}" alt="{{$interaction->user->username}} avatar" style="width: 45px;">
-                                            <span>{{$interaction->user->username}}</span>
+                                            <div class="d-flex flex-column text-sm">
+                                                <span>{{$interaction->user->username}}</span>
+                                                <span class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$interaction->perform_at->format('d F Y - H:i')}}">{{$interaction->perform_at->diffForHumans()}}</span>
+                                            </div>
                                         </a>
                                     </td>
                                     <td class="align-middle">
@@ -391,11 +393,6 @@
                                                 <i class="fa-solid fa-thumbs-down"></i>
                                             </div>
                                         @endif
-                                    </td>
-                                    <td class="align-middle">
-                                        <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$interaction->perform_at->format('d F Y - H:i')}}">
-                                            {{$interaction->perform_at->diffForHumans()}}
-                                        </div>
                                     </td>
                                 </tr>
                                 @empty

@@ -5,9 +5,11 @@
 @section('content')
     <div class="row">
         <div class="col-lg-7 col-xl-8 col-xxl-9">
-            <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
-                <source src="{{route('video.file', $video)}}" type="{{$video->mimetype}}">
-            </video>
+            <div class="ratio ratio-16x9">
+                <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
+                    <source src="{{route('video.file', $video)}}" type="{{$video->mimetype}}">
+                </video>
+            </div>
             <div class="mt-3 d-flex align-items-center gap-3">
                 @if($video->is_planned)
                     <div class="d-flex alert alert-warning px-2 py-1 align-items-center gap-2 mb-0">

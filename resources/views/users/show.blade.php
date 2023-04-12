@@ -104,9 +104,11 @@
                     @if($user->pinned_video)
                         <div class="row mt-4">
                             <div class="d-flex">
-                                <video controls class="w-50 h-100 border" controlsList="nodownload" poster="{{$user->pinned_video->thumbnail_url}}">
-                                    <source src="{{$user->pinned_video->file_url}}" type="{{$user->pinned_video->mimetype}}">
-                                </video>
+                                <div class="ratio w-50 ratio-16x9">
+                                    <video controls class="border" controlsList="nodownload" poster="{{$user->pinned_video->thumbnail_url}}">
+                                        <source src="{{$user->pinned_video->file_url}}" type="{{$user->pinned_video->mimetype}}">
+                                    </video>
+                                </div>
                                 <div class="ml-4">
                                     <a href="{{$user->pinned_video->route}}" class="text-decoration-none text-black fw-bold">{{$user->pinned_video->title}}</a>
                                     <div class="text-muted text-sm my-2">{{trans_choice('views', $user->pinned_video->views_count)}} • {{$user->pinned_video->created_at->diffForHumans()}}</div>

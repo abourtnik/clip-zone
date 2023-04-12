@@ -138,14 +138,15 @@
                 <hr class="w-90">
                 <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">Terms of Service •</a>
                 <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('contact.show')}}">Contact</a>
-                <div class="d-flex align-items-center gap-2 mt-2">
-                    <small class="text-muted">© {{now()->format('Y')}}</small>
-                    <a class="text-sm fw-bold text-decoration-none" href="https://antonbourtnik.fr" target="_blank">Anton Bourtnik</a>
+                <div class="mt-2 text-muted d-flex flex-column gap-1">
+                    <small>Copyright © {{now()->format('Y')}} {{config('app.name')}}</small>
+                    <small>All Rights Reserved</small>
                 </div>
                 <a class="btn bg-dark text-white btn-sm mt-2" href="https://github.com/abourtnik/youtube-clone" target="_blank">
                     <i class="fa-brands fa-github mr-2"></i>
                     <span>Github</span>
                 </a>
+                <a class="text-sm fw-bold text-decoration-none d-block mt-2" href="https://antonbourtnik.fr" target="_blank">Anton Bourtnik</a>
             </div>
         </nav>
     </div>

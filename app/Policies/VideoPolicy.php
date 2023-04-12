@@ -59,9 +59,23 @@ class VideoPolicy
      */
     public function download(User $user, Video $video): Response|bool
     {
-        return $video->user()->is($user)
+        return $video->is_active || $video->user()->is($user)
             ? Response::allow()
-            : Response::denyWithStatus(403, 'You can only download your videos');
+            : Response::denyWithStatus(403, 'This video is private');
+    }
+
+    /**
+     * Determine whether the user can see video file.
+     *
+     * @param User|null $user
+     * @param Video $video
+     * @return Response|bool
+     */
+    public function file(?User $user, Video $video): Response|bool
+    {
+        return $video->is_active || $video->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(403, 'This video is private');
     }
 
     /**

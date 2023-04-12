@@ -51,8 +51,14 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
         ->name('show')
         ->can('show', 'video')
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
-    Route::get('/video/file/{video:uuid}', 'file')->name('file');
-    Route::get('/video/download/{video:uuid}', 'download')->name('download')->can('download', 'video');
+    Route::get('/video/file/{video:uuid}', 'file')
+        ->name('file')
+        ->can('file', 'video')
+        ->missing(fn(Request $request) => abort(404, 'Video not found'));
+    Route::get('/video/download/{video:uuid}', 'download')
+        ->name('download')
+        ->can('download', 'video')
+        ->missing(fn(Request $request) => abort(404, 'Video not found'));
 });
 
 // PLAYLISTS

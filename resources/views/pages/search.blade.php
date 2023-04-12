@@ -15,9 +15,9 @@
                 <div class="fw-bold">0 Results</div>
             @endif
         </div>
-        <form class="my-4 d-flex flex-wrap gap-3 align-items-end" method="GET" x-show.important="filters">
+        <form class="my-4 row align-items-end gx-2 gy-2" method="GET" x-show.important="filters">
             <input type="hidden" name="q" value="{{$search}}">
-            <div class="col-6 col-sm">
+            <div class="col-12 col-lg">
                 <label for="type" class="form-label fw-bold">Type</label>
                 <select name="type" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
@@ -26,7 +26,7 @@
                     <option @selected(($filters['type'] ?? null) === 'playlists') value="playlists">Playlists</option>
                 </select>
             </div>
-            <div class="col-6 col-sm">
+            <div class="col-12 col-sm-6 col-lg">
                 <label for="date" class="form-label fw-bold">Upload Date</label>
                 <select name="date" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
@@ -35,7 +35,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-6 col-sm">
+            <div class="col-12 col-sm-6 col-lg">
                 <label for="duration" class="form-label fw-bold">Duration</label>
                 <select name="duration" class="form-select" aria-label="Default select example">
                     <option selected value="">All</option>
@@ -44,7 +44,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="btn-group">
+            <div class="btn-group col-auto">
                 <button type="submit" class="btn btn-outline-secondary" title="Search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>

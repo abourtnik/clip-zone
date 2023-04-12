@@ -8,20 +8,20 @@
             <h2>My Subscribers</h2>
         </div>
         <hr>
-        <form class="my-4 d-flex gap-3 align-items-end" method="GET">
-            <div class="col">
+        <form class="mb-4 row align-items-end gx-2 gy-2" method="GET">
+            <div class="col-12 col-lg">
                 <label for="search" class="form-label fw-bold">Search</label>
                 <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
             </div>
-            <div class="col">
+            <div class="col-12 col-sm-6 col-lg">
                 <label for="subscription_date_start" class="form-label fw-bold">Subscription date start</label>
                 <input type="datetime-local" name="date[]" class="form-control" id="subscription_date_start" value="{{$filters['date'][0] ?? null}}">
             </div>
-            <div class="col">
+            <div class="col-12 col-sm-6 col-lg">
                 <label for="subscription_date_end" class="form-label fw-bold">Subscription date end</label>
                 <input type="datetime-local" name="date[]" class="form-control" id="subscription_date_end" value="{{$filters['date'][1] ?? null}}">
             </div>
-            <div class="btn-group">
+            <div class="btn-group col-auto">
                 <button type="submit" class="btn btn-outline-secondary" title="Search">
                     <i class="fa-solid fa-magnifying-glass"></i>
                 </button>
