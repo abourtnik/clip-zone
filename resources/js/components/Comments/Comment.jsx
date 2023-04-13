@@ -9,7 +9,7 @@ import Edit from './Edit'
 import ConfirmDelete from './ConfirmDelete'
 import {jsonFetch} from "../../hooks";
 
-const Comment = memo(({comment, auth, canReply, remove, update, pin}) => {
+const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
 
     const [onEdit, setOnEdit] = useState(false);
     const [showReply, setShowReply] = useState(false);
@@ -58,7 +58,7 @@ const Comment = memo(({comment, auth, canReply, remove, update, pin}) => {
     }, []);
 
     let attributes =  {
-        ...(!auth && {
+        ...(!user && {
             'data-bs-toggle': "popover",
             'data-bs-placement': "right",
             'data-bs-title': "Want to reply to this comment ?",
@@ -97,7 +97,7 @@ const Comment = memo(({comment, auth, canReply, remove, update, pin}) => {
                             {comment.is_updated && <><span>•</span> <small className="text-muted fw-semibold">Modified</small></>}
                         </div>
                         {
-                            auth &&
+                            user &&
                             <div className={'dropdown'}>
                                 <button className={'bg-transparent btn-sm dropdown-toggle without-caret'} type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                                     <Ellipsis/>
@@ -155,13 +155,13 @@ const Comment = memo(({comment, auth, canReply, remove, update, pin}) => {
                     <div className="d-flex align-items-center gap-2 mt-1">
                         <div className="d-flex align-items-center gap-2">
                             {
-                                auth ?
+                                user ?
                                     <Interaction
                                         active={JSON.stringify({'like': comment.liked_by_auth_user, 'dislike': comment.disliked_by_auth_user})}
                                         model={comment.model}
                                         target={comment.id}
                                         count={JSON.stringify({'likes_count' : comment.likes_count, 'dislikes_count' : comment.dislikes_count})}
-                                        auth={auth}
+                                        auth={user}
                                     />
                                     :
                                     <div className="d-flex justify-content-between bg-light-dark border border-secondary rounded-4">
@@ -197,13 +197,13 @@ const Comment = memo(({comment, auth, canReply, remove, update, pin}) => {
                             canReply && <button
                                 className="btn btn-sm text-info"
                                 {...attributes}
-                                onClick={() => auth && setShowReply(true)}
+                                onClick={() => user && setShowReply(true)}
                             >
                                 Reply
                             </button>
                         }
                     </div>
-                    {showReply && <ReplyForm setShowReply={setShowReply} comment={comment} reply={reply}/>}
+                    {showReply && <ReplyForm setShowReply={setShowReply} comment={comment} reply={reply} user={user}/>}
                     {
                         replies.length > 0 &&
                         <button className={'btn btn-sm text-primary my-1 mt-2 ps-0 fw-bold d-flex align-items-center gap-2'} onClick={() => setShowReplies(showReplies => !showReplies)}>
@@ -226,7 +226,7 @@ const Comment = memo(({comment, auth, canReply, remove, update, pin}) => {
                                 <Comment
                                     key={comment.id}
                                     comment={comment}
-                                    auth={auth}
+                                    user={user}
                                     canReply={false}
                                     remove={deleteReply}
                                     update={updateReply}

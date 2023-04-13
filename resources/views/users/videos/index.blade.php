@@ -201,21 +201,22 @@
                                         <i class="fa-solid fa-chart-simple"></i>
                                     </a>
                                 @endif
-                                @if($video->is_public && $video->is_pinned)
+                                @can('unpin', $video)
                                     <form action="{{route('user.videos.unpin', $video)}}" method="POST" class="d-inline-block">
                                         @csrf
                                         <button class="btn btn-secondary btn-sm" title="Unpin video" type="submit">
                                             <i class="fa-solid fa-link-slash"></i>
                                         </button>
                                     </form>
-                                @elseif ($video->is_public && !$video->is_pinned)
+                                @endcan
+                                @can('pin', $video)
                                     <form action="{{route('user.videos.pin', $video)}}" method="POST" class="d-inline-block">
                                         @csrf
                                         <button class="btn btn-secondary btn-sm" title="Pin video" type="submit">
                                             <i class="fa-solid fa-thumbtack"></i>
                                         </button>
                                     </form>
-                                @endif
+                                @endcan
                             </div>
                         </td>
                     </tr>

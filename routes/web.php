@@ -141,8 +141,14 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
 
     // Videos
     Route::controller(VideoUserController::class)->prefix('videos')->name('videos.')->group(function () {
-        Route::post('/{video}/pin', 'pin')->name('pin');
-        Route::post('/{video}/unpin', 'unpin')->name('unpin');
+        Route::post('/{video}/pin', 'pin')
+            ->name('pin')
+            ->can('pin', 'video')
+            ->missing(fn(Request $request) => abort(404, 'Video not found'));
+        Route::post('/{video}/unpin', 'unpin')
+            ->name('unpin')
+            ->can('unpin', 'video')
+            ->missing(fn(Request $request) => abort(404, 'Video not found'));
         Route::get('{video}/create', 'create')->name('create');
         Route::post('{video}/store', 'store')->name('store');
     });

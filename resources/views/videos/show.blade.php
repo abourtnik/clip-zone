@@ -237,7 +237,7 @@
         const observer = new IntersectionObserver((entries) => {
             for (const entry of entries) {
                 if(entry.isIntersecting) {
-                    document.getElementById('comments_area').innerHTML ="<comments-area target='{{$video->id}}' auth='{{auth()->user()?->id}}' default-sort='{{$video->default_comments_sort}}' />";
+                    document.getElementById('comments_area').innerHTML ="<comments-area target='{{$video->id}}' auth='{{auth()->user()?->setAppends(['avatar_url'])->setVisible(['avatar_url', 'username'])}}' default-sort='{{$video->default_comments_sort}}' />";
                     observer.unobserve(entry.target)
                 }
             }

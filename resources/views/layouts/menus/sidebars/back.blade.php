@@ -29,7 +29,7 @@
                         aria-current="page"
                     >
                         <img style="width: 40px" class="rounded-circle" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
-                        <span class="text-sm">{{auth()->user()->username}}</span>
+                        <span class="text-sm fw-bold">{{auth()->user()->username}}</span>
                     </a>
                 </li>
             </ul>

@@ -31,7 +31,7 @@ class VideoPolicy
      */
     public function view(User $user, Video $video): Response|bool
     {
-        return $video->user()->is($user) || $user->is_admin
+        return ($video->user()->is($user) && !$video->is_draft) || $user->is_admin
             ? Response::allow()
             : Response::denyWithStatus(404);
     }
@@ -142,5 +142,33 @@ class VideoPolicy
         return $user->videos()->whereDate('created_at', today())->count() < 15
             ? Response::allow()
             : Response::denyWithStatus(403, 'Sorry ! You are limited to upload 15 videos per day. Please try again tomorrow.');
+    }
+
+    /**
+     * Determine whether the user can pin video.
+     *
+     * @param User $user
+     * @param Video $video
+     * @return Response|bool
+     */
+    public function pin(User $user, Video $video): Response|bool
+    {
+        return $video->user->is($user) && $video->is_public && !$video->is_pinned
+            ? Response::allow()
+            : Response::denyWithStatus(403);
+    }
+
+    /**
+     * Determine whether the user can unpin video.
+     *
+     * @param User $user
+     * @param Video $video
+     * @return Response|bool
+     */
+    public function unpin(User $user, Video $video): Response|bool
+    {
+        return $video->user->is($user) && $video->is_public && $video->is_pinned
+            ? Response::allow()
+            : Response::denyWithStatus(403);
     }
 }

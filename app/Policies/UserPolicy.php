@@ -37,4 +37,18 @@ class UserPolicy
             ? Response::allow()
             : Response::denyWithStatus(403, 'You can\'t subscribe yourself');
     }
+
+    /**
+     * Determine whether the user can report other user.
+     *
+     * @param User $user
+     * @param User $model
+     * @return Response|bool
+     */
+    public function report (User $user, User $model): Response|bool
+    {
+        return $user->isNot($model)
+            ? Response::allow()
+            : Response::denyWithStatus(403, 'You can\'t report yourself');
+    }
 }

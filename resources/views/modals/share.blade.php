@@ -6,27 +6,35 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex flex-wrap gap-2 align-items-center">
-                    <a href="mailto:?body={{$video->route}}" class="rounded-circle p-3 border" style="background-color: #888888;padding: 0.7rem !important;">
-                        <i class="fa-regular fa-envelope fa-2x text-white"></i>
+                <img class="img-fluid rounded img-thumbnail mb-3" src="{{$video->thumbnail_url}}" alt="{{$video->title}} Thumbnail">
+                <div class="d-flex flex-wrap" style="row-gap: 1rem !important;">
+                    <a href="mailto:?body={{$video->route}}" class="fa-stack fa-2x" style="font-size: 1.6em">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #888888;"></i>
+                        <i class="fa-regular fa-envelope fa-stack-1x fa-inverse"></i>
                     </a>
-                    <a target="_blank"  href="https://www.facebook.com/share.php?u={{$video->route}}" class="rounded-circle p-3 border" style="background-color: #3A5997;padding: 0.7rem !important;">
-                        <i class="fa-brands fa-facebook fa-2x text-white"></i>
+                    <a target="_blank" href="https://www.facebook.com/share.php?u={{$video->route}}" class="fa-stack fa-2x" style="font-size: 1.6em">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #3A5997;"></i>
+                        <i class="fa-brands fa-facebook fa-stack-1x fa-inverse"></i>
                     </a>
-                    <a target="_blank" href="https://api.whatsapp.com/send/?text={{$video->route}}&type=custom_url&app_absent=0" class="rounded-circle p-3 border" style="background-color: #22D365;padding: 0.7rem !important;">
-                        <i class="fa-brands fa-whatsapp fa-2x text-white"></i>
+                    <a target="_blank" href="https://api.whatsapp.com/send/?text={{$video->route}}&type=custom_url&app_absent=0" class="fa-stack fa-2x" style="font-size: 1.6em">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #22D365;"></i>
+                        <i class="fa-brands fa-whatsapp fa-stack-1x fa-inverse"></i>
                     </a>
-                    <a target="_blank" href="https://twitter.com/share?text={{$video->title}}&url={{$video->route}}" class="rounded-circle p-3 border" style="background-color: #1EA1F1;padding: 0.7rem !important;">
-                        <i class="fa-brands fa-twitter fa-2x text-white"></i>
+                    <a target="_blank" href="https://twitter.com/share?text={{$video->title}}&url={{$video->route}}" class="fa-stack fa-2x" style="font-size: 1.6em">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #1EA1F1;"></i>
+                        <i class="fa-brands fa-twitter fa-stack-1x fa-inverse"></i>
                     </a>
-                    <a target="_blank" href="https://www.linkedin.com/sharing/share-offsite/?url={{$video->route}}" class="rounded-circle p-3 border" style="background-color: #0277B5;padding: 0.7rem !important;">
-                        <i class="fa-brands fa-linkedin fa-2x text-white"></i>
+                    <a target="_blank" href="https://www.linkedin.com/sharing/share-offsite/?url={{$video->route}}" class="fa-stack fa-2x" style="font-size: 1.6em">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #0277B5;"></i>
+                        <i class="fa-brands fa-linkedin fa-stack-1x fa-inverse"></i>
                     </a>
-                    <a target="_blank" href="" class="rounded-circle p-3 border" style="background-color: #4680C2;padding: 0.7rem !important;">
-                        <i class="fa-brands fa-vk fa-2x text-white"></i>
+                    <a target="_blank" href="" class="fa-stack fa-2x" style="font-size: 1.6em">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #4680C2;"></i>
+                        <i class="fa-brands fa-vk fa-stack-1x fa-inverse"></i>
                     </a>
-                    <a target="_blank" href="https://www.pinterest.fr/pin/create/button/?description=test&url={{$video->route}}" class="rounded-circle p-3 border" style="background-color: #BC091C;padding: 0.7rem !important;">
-                        <i class="fa-brands fa-pinterest fa-2x text-white"></i>
+                    <a target="_blank" href="https://www.pinterest.fr/pin/create/button/?description=test&url={{$video->route}}" class="fa-stack fa-2x" style="font-size: 1.6em">
+                        <i class="fa fa-circle fa-stack-2x" style="color: #BC091C;"></i>
+                        <i class="fa-brands fa-pinterest fa-stack-1x fa-inverse"></i>
                     </a>
                 </div>
                 <hr>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\VideoStatus;
 use App\Models\Interfaces\Likeable;
 use App\Models\Interfaces\Reportable;
 use App\Models\Traits\HasReport;
@@ -127,7 +128,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     }
 
     public function pinned_video () : HasOne {
-        return $this->hasOne(Video::class, 'id', 'pinned_video_id');
+        return $this->hasOne(Video::class, 'id', 'pinned_video_id')->where('status', VideoStatus::PUBLIC);
     }
 
     public function activity () : HasMany {

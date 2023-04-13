@@ -56,7 +56,7 @@
         <hr>
     </div>
     <div class="row">
-        <div class="col-12 col-xl-10 offset-xl-1 col-xxl-8 offset-xxl-2">
+        <div class="col-12 col-xl-10 offset-xl-1">
             @if($results->count())
                 @foreach($results as $result)
                     @include('search.'.$result->type, [$result->type => $result])

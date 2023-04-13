@@ -103,25 +103,26 @@
                 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     @if($user->pinned_video)
                         <div class="row mt-4">
-                            <div class="d-flex">
-                                <div class="ratio w-50 ratio-16x9">
+                            <div class="col-12 col-xl-6">
+                                <div class="ratio ratio-16x9">
                                     <video controls class="border" controlsList="nodownload" poster="{{$user->pinned_video->thumbnail_url}}">
                                         <source src="{{$user->pinned_video->file_url}}" type="{{$user->pinned_video->mimetype}}">
                                     </video>
                                 </div>
-                                <div class="ml-4">
-                                    <a href="{{$user->pinned_video->route}}" class="text-decoration-none text-black fw-bold">{{$user->pinned_video->title}}</a>
-                                    <div class="text-muted text-sm my-2">{{trans_choice('views', $user->pinned_video->views_count)}} • {{$user->pinned_video->created_at->diffForHumans()}}</div>
-                                    <div>
-                                        {!! nl2br(e($user->pinned_video->short_description)) !!}
-                                        @if($user->pinned_video->description_is_long)
-                                            <a class="mt-2 d-block text-decoration-none fw-bold" href="{{$user->pinned_video->route}}">Read more</a>
-                                        @endif
-                                    </div>
+                            </div>
+                            <div class="col-12 col-xl-6 mt-3 m-xl-0">
+                                <a href="{{$user->pinned_video->route}}" class="text-decoration-none text-black fw-bold">{{$user->pinned_video->title}}</a>
+                                <div class="text-muted text-sm my-2">{{trans_choice('views', $user->pinned_video->views_count)}} • {{$user->pinned_video->created_at->diffForHumans()}}</div>
+                                <div class="text-sm">
+                                    <p>{!! nl2br($user->pinned_video->short_description) !!}</p>
+                                    @if($user->pinned_video->description_is_long)
+                                        <a class="mt-2 d-block text-decoration-none fw-bold" href="{{$user->pinned_video->route}}">Read more</a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                         <hr>
+                        <h2 class="h5 mb-3">Videos</h2>
                         <user-videos
                             user="{{$user->id}}"
                             videos="{{$user->videos_count}}"
@@ -198,17 +199,19 @@
                                     @endif
                                     @auth
                                     <li class="list-group-item ps-0">
-                                        @if($user->reports->count())
-                                            <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">
-                                                <i class="fa-regular fa-flag"></i>
-                                                <span>Reported {{$user->reports->first()->created_at->diffForHumans()}}</span>
-                                            </div>
-                                        @else
-                                            <button class="btn btn-secondary rounded-4 btn-sm px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$user->id}}" data-type="{{\App\Models\User::class}}">
-                                                <i class="fa-regular fa-flag"></i>&nbsp;
-                                                Report
-                                            </button>
-                                        @endif
+                                        @can('report', $user)
+                                            @if($user->reports->count())
+                                                <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">
+                                                    <i class="fa-regular fa-flag"></i>
+                                                    <span>Reported {{$user->reports->first()->created_at->diffForHumans()}}</span>
+                                                </div>
+                                            @else
+                                                <button class="btn btn-secondary rounded-4 btn-sm px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$user->id}}" data-type="{{\App\Models\User::class}}">
+                                                    <i class="fa-regular fa-flag"></i>&nbsp;
+                                                    Report
+                                                </button>
+                                            @endif
+                                        @endcan
                                     </li>
                                     @endauth
                                 </ul>
