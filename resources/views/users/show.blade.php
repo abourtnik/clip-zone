@@ -102,15 +102,15 @@
             <div class="tab-content px-3 px-sm-0">
                 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     @if($user->pinned_video)
-                        <div class="row mt-4">
-                            <div class="col-12 col-xl-6">
-                                <div class="ratio ratio-16x9">
-                                    <video controls class="border" controlsList="nodownload" poster="{{$user->pinned_video->thumbnail_url}}">
+                        <div class="row mt-4 card flex-row">
+                            <div class="col-12 col-xl-6 px-0">
+                                <div class="ratio ratio-16x9 h-100">
+                                    <video controls class="radius-top rounded-xl-start" controlsList="nodownload" poster="{{$user->pinned_video->thumbnail_url}}">
                                         <source src="{{$user->pinned_video->file_url}}" type="{{$user->pinned_video->mimetype}}">
                                     </video>
                                 </div>
                             </div>
-                            <div class="col-12 col-xl-6 mt-3 m-xl-0">
+                            <div class="col-12 col-xl-6 mt-3 m-xl-0 p-3">
                                 <a href="{{$user->pinned_video->route}}" class="text-decoration-none text-black fw-bold">{{$user->pinned_video->title}}</a>
                                 <div class="text-muted text-sm my-2">{{trans_choice('views', $user->pinned_video->views_count)}} • {{$user->pinned_video->created_at->diffForHumans()}}</div>
                                 <div class="text-sm">

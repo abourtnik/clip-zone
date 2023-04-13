@@ -20,7 +20,7 @@
                                     @change="($event.target.checked) ? playlists.push(event.target.value) : playlists = playlists.filter(id => id != $event.target.value)"
                                 >
                                 <label class="form-check-label" for="playlist-{{$playlist->id}}">
-                                    {{Str::limit($playlist->title, 60)}}
+                                    {{Str::limit($playlist->title, 90)}}
                                 </label>
                             </div>
                             <i class="fa-solid fa-{{$playlist->status->icon()}}"></i>&nbsp;

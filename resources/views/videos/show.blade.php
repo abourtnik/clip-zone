@@ -249,7 +249,7 @@
         let opened = false;
         commentsOffcanvas.addEventListener('show.bs.offcanvas', event => {
             if(!opened) {
-                document.getElementById('offcanvas-body').innerHTML ="<comments-area target='{{$video->id}}' auth='{{auth()->user()?->id}}' default-sort='{{$video->default_comments_sort}}' />";
+                document.getElementById('offcanvas-body').innerHTML ="<comments-area target='{{$video->id}}' auth='{{auth()->user()?->setAppends(['avatar_url'])->setVisible(['avatar_url', 'username'])}}' default-sort='{{$video->default_comments_sort}}' />";
             }
             opened = true;
         })
