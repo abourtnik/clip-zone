@@ -38,7 +38,7 @@
                                 value="{{old('title', $video->title)}}"
                                 x-ref="title"
                                 @keyup="count = $refs.title.value.length">
-                            <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center justify-content-end">
                                 <div class="form-text">
                                     <span x-text="count"></span> / <span>{{config('validation.video.title.max')}}</span>
                                 </div>
@@ -55,7 +55,7 @@
                                 x-ref="description"
                                 @keyup="count = $refs.description.value.length"
                             >{{old('description', $video->description)}}</textarea>
-                            <div class="d-flex align-items-center justify-content-end">
+                            <div class="d-flex flex-wrap align-items-center justify-content-end">
                                 <div class="form-text">
                                     <span x-text="count"></span> / <span>{{config('validation.video.description.max')}}</span>
                                 </div>

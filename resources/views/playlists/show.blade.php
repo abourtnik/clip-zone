@@ -5,7 +5,8 @@
 @section('content')
     <div class="row justify-content-center">
         <div class="col-sm-6 col-md-6 col-lg-5 col-xl-4 col-xxl-3 mb-4 mb-sm-0" style="max-width: 380px">
-            <div x-data="{favorite: {{$favorite_by_auth_user ? 'true' : 'false'}}}" class="bg-secondary text-white rounded-4 py-4 px-3" style="background: linear-gradient(to bottom, rgba(89,69,61,0.800) 0%, rgba(89,69,61,0.298) 33%, rgba(89,69,61,0.800) 100%);">
+            <div x-data="{favorite: {{$favorite_by_auth_user ? 'true' : 'false'}}}" class="bg-secondary text-white rounded-4 py-4 px-3" style="background: linear-gradient(to right, #c31432, #240b36);
+">
                 @if($playlist->thumbnail)
                 <img class="img-fluid w-100 rounded-4" src="{{$playlist->thumbnail}}" alt="{{$playlist->title}}" style="width: 360px; height: 202px;object-fit: cover;">
                 @endif

@@ -18,7 +18,8 @@ window.Cropper = Cropper
 Alpine.start()
 
 new bootstrap.Tooltip(document.body, {
-    selector: '[data-bs-toggle="tooltip"]'
+    selector: '[data-bs-toggle="tooltip"]',
+    trigger: 'hover'
 });
 
 const popovers = [...document.querySelectorAll('[data-bs-toggle="popover"]')]

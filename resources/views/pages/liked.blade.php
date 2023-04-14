@@ -14,15 +14,17 @@
             @endforeach
         </div>
     @empty
-        <div class="h-full">
-            <div class="d-flex justify-content-center align-items-center h-75 mt-5">
-                <div class="w-75 border p-4 bg-light text-center">
-                    <i class="fa-solid fa-thumbs-up fa-7x mb-3"></i>
-                    <h2>Your like videos history is empty</h2>
-                    <p class="text-muted">Start like videos</p>
-                    <a href="{{route('pages.home')}}" class="btn btn-primary rounded-5 text-uppercase">
-                        See videos
-                    </a>
+        <div class="col-12 col-md-10 offset-md-1">
+            <div class="h-full card shadow">
+                <div class="card-body">
+                    <div class="text-center">
+                        <i class="fa-solid fa-thumbs-up fa-4x mb-3"></i>
+                        <h5 class="my-3">Your like videos history is empty</h5>
+                        <p class="text-muted">Start like videos</p>
+                        <a href="{{route('pages.home')}}" class="btn btn-primary rounded-5 text-uppercase">
+                            See videos
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

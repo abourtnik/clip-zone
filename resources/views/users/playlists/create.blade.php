@@ -20,7 +20,7 @@
     <form action="{{ route('user.playlists.store') }}" method="POST">
         @csrf
         <div class="row">
-            <div class="col-xl-6 order-last order-xl-first">
+            <div class="col-xl-6 mb-4 mb-xl-0">
                 <div class="card shadow-soft">
                     <div class="card-body">
                         <h5 class="text-primary">Details</h5>
@@ -38,7 +38,7 @@
                                 x-ref="title"
                                 @keyup="count = $refs.title.value.length"
                             >
-                            <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between">
                                 <div class="form-text">A catchy title can help you hook viewers.</div>
                                 <div class="form-text">
                                     <span x-text="count"></span> / <span>{{config('validation.playlist.title.max')}}</span>
@@ -56,8 +56,9 @@
                                 x-ref="description"
                                 @keyup="count = $refs.description.value.length"
                             >{{old('description')}}</textarea>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="form-text">Writing descriptions with keywords can help viewers find your
+                            <div class="d-flex flex-wrap align-items-center justify-content-between">
+                                <div class="form-text">
+                                    Writing descriptions with keywords can help viewers find your
                                     videos more easily through search.
                                 </div>
                                 <div class="form-text">
@@ -76,7 +77,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6 order-first order-xl-last mb-4 mb-xl-0">
+            <div class="col-xl-6">
                 <playlist-videos initial="{{$videos}}"/>
             </div>
         </div>

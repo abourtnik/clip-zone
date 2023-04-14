@@ -125,14 +125,14 @@ export default function Playlist ({initial = []}) {
                                                 <div className={'handle'} style={{cursor: 'move'}}>
                                                     <Bars/>
                                                 </div>
-                                                <div className={'d-flex w-100 align-items-start gap-2'}>
-                                                    <div className={'position-relative'}>
-                                                        <img style={{width:'150px', height: '84px'}} src={video.thumbnail} alt=""/>
+                                                <div className={'d-flex flex-column flex-sm-row align-items-start gap-2 '}>
+                                                    <div className={'position-relative col-12 col-sm-6 col-lg-5 col-xl-4'}>
+                                                        <img className={'img-fluid'} src={video.thumbnail} alt=""/>
                                                         <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                                                             {video.duration}
                                                         </small>
                                                     </div>
-                                                    <div>
+                                                    <div className={'px-3 col-12 col-sm-6 col-lg-7 col-xl-8'}>
                                                         <div className={'text-black text-lowercase text-sm'}>{video.title}</div>
                                                         <div className={'text-muted text-lowercase text-sm'}>{video.user.username} • {video.views}</div>
                                                     </div>

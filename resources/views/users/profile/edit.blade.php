@@ -29,7 +29,7 @@
             <p class="text-muted">Update you account profile informations and email address.</p>
         </div>
         <div class="col-12 col-xl-8">
-            <div class="card shadow-soft">
+            <div class="card shadow-soft my-3">
                 <form action="{{ route('user.update') }}" method="POST" enctype="multipart/form-data">
                     <div class="card-body">
                         @method('PUT')
@@ -87,7 +87,7 @@
             <p class="text-muted">Update you channel informations</p>
         </div>
         <div class="col-12 col-xl-8">
-            <div class="card shadow-soft">
+            <div class="card shadow-soft my-3">
                 <form action="{{ route('user.update') }}" method="POST" enctype="multipart/form-data">
                     <div class="card-body">
                         @method('PUT')

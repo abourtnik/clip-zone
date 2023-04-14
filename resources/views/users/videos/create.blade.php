@@ -38,7 +38,7 @@
                                 x-ref="title"
                                 @keyup="count = $refs.title.value.length"
                             >
-                            <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between">
                                 <div class="form-text">A catchy title can help you hook viewers.</div>
                                 <div class="form-text">
                                     <span x-text="count"></span> / <span>{{config('validation.video.title.max')}}</span>
@@ -56,7 +56,7 @@
                                 x-ref="description"
                                 @keyup="count = $refs.description.value.length"
                             >{{old('description')}}</textarea>
-                            <div class="d-flex align-items-center justify-content-between">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between">
                                 <div class="form-text">Writing descriptions with keywords can help viewers find your
                                     videos more easily through search.
                                 </div>
@@ -123,15 +123,15 @@
                         </div>
                         <div class="bg-light mt-2 px-3 py-2 d-flex flex-column gap-3">
                             <div class="d-flex justify-content-between align-items-center">
-                                <div>
+                                <div class="col-11">
                                     <small class="text-muted fw-bold mb-2">Video Link</small>
-                                    <a class="text-decoration-none d-block text-sm w-75" href="{{$video->route}}">{{$video->route}}</a>
+                                    <a class="text-decoration-none d-block text-sm" href="{{$video->route}}">{{$video->route}}</a>
                                 </div>
                                 <button
                                     x-data
                                     @click="navigator.clipboard.writeText($event.currentTarget.dataset.link)"
                                     type="button"
-                                    class="btn btn-sm btn-light"
+                                    class="btn btn-sm btn-light col-1"
                                     title="Copy video link"
                                     data-link="{{$video->route}}"
                                     data-bs-toggle="tooltip"

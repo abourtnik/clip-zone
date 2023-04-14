@@ -8,7 +8,7 @@
                     <i class="fa-solid fa-thumbs-down"></i>
                 @endif
             </div>
-            <div class="d-flex gap-3 justify-content-between w-100">
+            <div class="d-flex gap-3 justify-content-between w-100 flex-wrap">
                 <div class="w-75">
                     <div class="d-flex flex-column flex-sm-row gap-4">
                         @if($activity->getExtraProperty('status'))

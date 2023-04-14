@@ -9,7 +9,7 @@
             <h2>My Playlists</h2>
             <a href="{{route('user.playlists.create')}}" class="btn btn-success d-flex align-items-center gap-1">
                 <i class="fa-solid fa-plus"></i>
-                <span class="d-none d-sm-block">Create new playlist</span>
+                <span>Create new playlist</span>
             </a>
         </div>
         <hr>
