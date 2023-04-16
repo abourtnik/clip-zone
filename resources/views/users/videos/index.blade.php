@@ -58,7 +58,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th scope="col" class="w-40">Video</th>
+                    <th scope="col" class="w-40" style="min-width: 360px">Video</th>
                     <th scope="col">Visibility</th>
                     <th scope="col" style="min-width: 150px;">Date</th>
                     <th scope="col">Views</th>

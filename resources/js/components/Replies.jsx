@@ -84,7 +84,7 @@ export default function Replies ({target, video, auth}) {
    return (
         <div className="mb-4">
             <div className="mb-3 d-flex align-items-center justify-content-between">
-                <div>{count} {count > 1 ? 'Reply' : 'Replies'}</div>
+                <div>{count} {count > 1 ? 'Replies' : 'Reply'}</div>
                 <div className={'d-flex gap-2 align-items-center'}>
                     <button onClick={() => sort('top')} className={'btn btn-' + activeButton('top') + 'btn-sm'}>Top Replies</button>
                     <button onClick={() => sort('recent')} className={'btn btn-' + activeButton('recent') + 'btn-sm'}>Newest replies</button>
