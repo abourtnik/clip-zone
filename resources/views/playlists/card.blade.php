@@ -2,8 +2,8 @@
     <div class="position-relative">
         <a href="{{$playlist->route}}">
             <div class="position-relative">
-                @if($playlist->thumbnail_url)
-                    <img class="img-fluid w-100 rounded-4" src="{{$playlist->thumbnail_url}}" alt="{{$playlist->title}}" style="width: 360px; height: 202px;object-fit: cover;">
+                @if($playlist->thumbnail)
+                    <img class="img-fluid w-100 rounded-4" src="{{$playlist->thumbnail}}" alt="{{$playlist->title}} Thumbnail" style="width: 360px; height: 202px;object-fit: cover;">
                 @else
                     <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="height: 202px;">
                         <i class="fa-solid fa-image fa-2x"></i>

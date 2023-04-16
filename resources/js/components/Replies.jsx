@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'preact/hooks';
+import { useState, useEffect, useCallback } from 'preact/hooks';
 import {usePaginateFetch} from "../hooks";
 import Comment from "./Comments/Comment";
 import {Comment as Skeleton} from "./Skeletons";
 import {useInView} from "react-intersection-observer";
 import CommentsForm from "./Comments/Form";
+import {jsonFetch} from '../hooks'
 
-export default function Replies ({target, video}) {
+export default function Replies ({target, video, auth}) {
+
+    const user = JSON.parse(auth);
 
     const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments/${target}/replies`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
@@ -25,74 +28,55 @@ export default function Replies ({target, video}) {
         }
     }, [inView]);
 
-    const reply = async (data) => {
-
-        const response = await fetch('/api/comments', {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
+    const reply = useCallback(async (data) => {
+        return jsonFetch(`/api/comments` , {
             method: 'POST',
-            credentials: 'include',
             body: JSON.stringify({
                 ...data,
                 video_id: video,
                 parent_id: target
             })
-        });
+        }).then(comment => {
+            setComments(comments => [comment, ...comments]);
+            setCount(count => count + 1);
+            document.getElementById('content').value = '';
+        }).catch(e => e)
+    }, []);
 
-        const comment = await response.json();
-
-        setComments(comments => [comment.data, ...comments]);
-        setCount(count => count + 1);
-
-        document.getElementById('content').value = '';
-    }
-
-    const deleteComment = async (comment) => {
-
-        const response = await fetch(`/api/comments/${comment.id}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
+    const remove = useCallback(async (comment) => {
+        return jsonFetch(`/api/comments/${comment.id}` , {
             method: 'DELETE',
-            credentials: 'include'
-        });
+        }).then(() => {
+            setComments(comments => comments.filter(c => c.id !== comment.id))
+            setCount(count => count - 1);
+        }).catch(e => e);
+    }, []);
 
-        setComments(comments => comments.filter(c => c.id !== comment.id))
-        setCount(count => count - 1);
-    }
-
-    const updateComment = async (comment, content) => {
-
-        const response = await fetch(`/api/comments/${comment.id}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
+    const update = useCallback(async (comment, content) => {
+        return jsonFetch(`/api/comments/${comment.id}` , {
             method: 'PUT',
             body: JSON.stringify({
                 content: content,
             }),
-            credentials: 'include'
-        });
-
-        const updated_comment = await response.json();
-
-        setComments(comments => comments.map(c => c.id === comment.id ? updated_comment.data : c))
-    };
+        }).then(updated_comment => {
+            setComments(comments => comments.map(c => c.id === comment.id ? updated_comment : c))
+        })
+    },[]);
 
     const sort = async (type) => {
         if (type !== selectedSort) {
             setSelectedSort(type)
-            setPrimaryLoading(true);
-            const response = await fetch(`/api/comments/${target}/replies?sort=${type}`);
-            const data = await response.json()
+            await reload(type)
+        }
+    }
+
+    const reload = async (type) => {
+        setPrimaryLoading(true);
+        jsonFetch(`/api/comments/${target}/replies?sort=${type}`).then(data => {
             setPrimaryLoading(false);
             setComments(data.data)
             setNext(data.links.next)
-        }
+        }).catch(e => e)
     }
 
     const activeButton = (type) => selectedSort === type ? 'primary ' : 'outline-primary ';
@@ -100,19 +84,26 @@ export default function Replies ({target, video}) {
    return (
         <div className="mb-4">
             <div className="mb-3 d-flex align-items-center justify-content-between">
-                <div>{count} Replie{count > 1 && 's'}</div>
+                <div>{count} {count > 1 ? 'Reply' : 'Replies'}</div>
                 <div className={'d-flex gap-2 align-items-center'}>
                     <button onClick={() => sort('top')} className={'btn btn-' + activeButton('top') + 'btn-sm'}>Top Replies</button>
                     <button onClick={() => sort('recent')} className={'btn btn-' + activeButton('recent') + 'btn-sm'}>Newest replies</button>
                 </div>
             </div>
-            <CommentsForm auth={true} addComment={reply} placeholder={'Add a reply...'} label={'Write reply'}/>
+            <CommentsForm user={user} add={reply} placeholder={'Add a reply...'} label={'Write reply'}/>
             {
                 (primaryLoading) ?
                     <div className="d-flex flex-column gap-2">
                         {[...Array(4).keys()].map(i => <Skeleton key={i}/>)}
                     </div>
-                    : comments.map(comment => <Comment key={comment.id} comment={comment} auth={true} canReply={false} deleteComment={deleteComment} updateComment={updateComment}/>)
+                    : comments.map(comment => <Comment
+                        key={comment.id}
+                        comment={comment}
+                        user={user}
+                        canReply={false}
+                        remove={remove}
+                        update={update}
+                    />)
             }
             {
                 hasMore &&

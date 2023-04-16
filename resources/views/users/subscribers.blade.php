@@ -35,9 +35,9 @@
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
                     <th scope="col">Channel</th>
-                    <th scope="col">Date of subscription</th>
-                    <th scope="col">Subscribers count</th>
-                    <th scope="col">Registration date</th>
+                    <th scope="col" style="min-width: 174px;">Date of subscription</th>
+                    <th scope="col" style="min-width: 159px;">Subscribers count</th>
+                    <th scope="col" style="min-width: 151px;">Registration date</th>
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
@@ -56,9 +56,15 @@
                             </div>
                         </td>
                         <td class="align-middle">
-                            {{trans_choice('subscribers', $subscriber->subscribers_count)}}
+                            <span class="text-sm">
+                                 {{trans_choice('subscribers', $subscriber->subscribers_count)}}
+                            </span>
                         </td>
-                        <td class="align-middle">{{$subscriber->created_at->format('d F Y - H:i')}}</td>
+                        <td class="align-middle">
+                            <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscriber->created_at->format('d F Y - H:i')}}">
+                                {{$subscriber->created_at->diffForHumans()}}
+                            </div>
+                        </td>
                         <td class="align-middle">
                             <subscribe-button
                                 @if(!$subscriber->is_subscribe_to_current_user) is-subscribe @endif

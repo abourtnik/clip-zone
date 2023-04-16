@@ -5,6 +5,13 @@
     }
 }
 
+// HEIGHT
+@for $i from 1 through 20 {
+    .h-#{$i*5} {
+        height: ($i*5%);
+    }
+}
+
 // TOP
 @for $i from 1 through 20 {
     .top-#{$i*5} {

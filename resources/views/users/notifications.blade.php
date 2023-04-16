@@ -12,33 +12,33 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th scope="col">Notification</th>
-                    <th scope="col" style="width: 10%">Date</th>
-                    <th scope="col" style="width: 20%">Action</th>
+                    <th scope="col" style="min-width: 200px;">Notification</th>
+                    <th scope="col" class="w-10" style="min-width: 115px">Date</th>
+                    <th scope="col" class="w-20" style="min-width: 183px">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                     @forelse($user_notifications as $notification)
                         <tr class="bg-light" id="notification-{{$notification->id}}" x-data="{is_read:{{$notification->is_read ? 'true' : 'false'}}}">
-                            <td>
+                            <td class="align-middle">
                                 <a href="{{$notification->url}}" class="d-flex align-items-center gap-3 text-decoration-none text-black">
-                                   <span x-show="!is_read" class="bg-primary rounded-circle" style="width: 10px;height: 10px"></span>
+                                   <span x-show="!is_read" class="bg-primary rounded-circle dot p-1" style="width: 10px;height: 10px"></span>
                                     <x-expand-item>
                                         {!! $notification->message !!}
                                     </x-expand-item>
                                 </a>
                             </td>
                             <td class="align-middle">
-                                <div data-bs-toggle="tooltip" data-bs-title="{{$notification->created_at->format('d F Y - H:i')}}">
+                                <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$notification->created_at->format('d F Y - H:i')}}">
                                     {{$notification->created_at->diffForHumans()}}
                                 </div>
                             </td>
                             <td class="align-middle">
                                 <div class="d-flex gap-1">
-                                    <button x-show="!is_read"  @click="is_read=true" hx-get="{{route('notifications.read', $notification)}}" class="btn btn-primary btn-sm" type="button">
+                                    <button x-show="!is_read" @click="is_read=true" hx-get="{{route('notifications.read', $notification)}}" class="btn btn-primary btn-sm" type="button">
                                         Mark as read
                                     </button>
-                                    <button x-show="is_read"  @click="is_read=false" hx-get="{{route('notifications.unread', $notification)}}" class="btn btn-primary btn-sm" type="button">
+                                    <button x-show="is_read" @click="is_read=false" hx-get="{{route('notifications.unread', $notification)}}" class="btn btn-primary btn-sm" type="button">
                                         Mark as unread
                                     </button>
                                     <button @click="document.getElementById('notification-{{$notification->id}}').remove()" hx-delete="{{route('notifications.remove', $notification)}}" hx-headers='{{json_encode(['Accept' =>'application/json', 'X-CSRF-TOKEN' => csrf_token() ])}}' class="btn btn-danger btn-sm" type="button">

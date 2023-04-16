@@ -19,6 +19,6 @@
         const button = event.relatedTarget
         const id = button.dataset.id;
         const video = button.dataset.video;
-        document.querySelector('.modal-body').innerHTML = `<replies-area target="${id}" video="${video}"/>`;
+        document.querySelector('.modal-body').innerHTML = `<replies-area target="${id}" video="${video}" auth="{{auth()->user()?->setAppends(['avatar_url'])->setVisible(['avatar_url', 'username'])}}"/>`;
     })
 </script>

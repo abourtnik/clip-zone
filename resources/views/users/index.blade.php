@@ -116,12 +116,12 @@
                             <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col" style="width: 35%">Video</th>
-                                <th scope="col" style="width: 15%">Status</th>
-                                <th scope="col" style="width: 10%">Views</th>
-                                <th scope="col" style="width: 10%">Comments</th>
-                                <th scope="col" style="width: 20%">Interactions</th>
-                                <th scope="col" style="width: 10%">Actions</th>
+                                <th scope="col" class="w-35" style="min-width: 250px">Video</th>
+                                <th scope="col" class="w-15" >Status</th>
+                                <th scope="col" class="w-10">Views</th>
+                                <th scope="col" class="w-10">Comments</th>
+                                <th scope="col" class="w-20">Interactions</th>
+                                <th scope="col" class="w-10">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -208,7 +208,7 @@
                             <thead>
                             <tr>
                                 <th scope="col">Channel</th>
-                                <th scope="col">Date</th>
+                                <th scope="col" style="min-width: 100px;">Date</th>
                                 <th scope="col">Subscribers</th>
                             </tr>
                             </thead>
@@ -276,9 +276,9 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col" style="width: 20%">Video</th>
-                                    <th scope="col" style="width: 55%">Comment</th>
-                                    <th scope="col" style="width: 12%">Replies</th>
+                                    <th scope="col" class="w-20" >Video</th>
+                                    <th scope="col" class="w-55" style="min-width: 260px">Comment</th>
+                                    <th scope="col" class="w-10">Replies</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -362,7 +362,7 @@
                             <thead>
                             <tr>
                                 <th scope="col">Video</th>
-                                <th scope="col">User</th>
+                                <th scope="col" style="min-width: 150px;">User</th>
                                 <th scope="col">Interaction</th>
                             </tr>
                             </thead>

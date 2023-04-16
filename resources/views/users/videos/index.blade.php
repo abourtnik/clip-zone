@@ -58,11 +58,9 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th scope="col" style="width: 40%">Video</th>
+                    <th scope="col" class="w-40">Video</th>
                     <th scope="col">Visibility</th>
-                    <th scope="col" class="">
-                        Date
-                    </th>
+                    <th scope="col" style="min-width: 150px;">Date</th>
                     <th scope="col">Views</th>
                     <th scope="col">Category</th>
                     <th scope="col">Comments</th>
@@ -73,7 +71,7 @@
                 <tbody>
                 @forelse($videos as $video)
                     <tr class="bg-light">
-                        <td class="d-block d-xxl-flex gap-3">
+                        <td class="d-flex gap-3">
                             <a href="{{$video->route}}">
                                 @if($video->is_draft)
                                     <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="width: 120px;height: 68px">

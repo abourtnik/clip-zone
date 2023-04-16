@@ -61,11 +61,11 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th style="width: 10%">Type</th>
-                    <th class="w-35">Content</th>
+                    <th class="w-10">Type</th>
+                    <th class="w-35" style="min-width: 350px;">Content</th>
                     <th class="w-35">Reason</th>
                     <th>Status</th>
-                    <th>Date</th>
+                    <th style="min-width: 89px;">Date</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -103,17 +103,15 @@
                         </td>
                         <td class="align-middle">
                             @if($report->is_pending)
-                                <div class="d-flex align-items-center gap-2">
-                                    <button
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#cancel-report"
-                                        data-route="{{route('user.reports.cancel', $report)}}"
-                                        class="btn btn-sm btn-primary"
-                                    >
-                                        <i class="fa-solid fa-ban"></i>&nbsp;
-                                        Cancel
-                                    </button>
-                                </div>
+                                <button
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#cancel-report"
+                                    data-route="{{route('user.reports.cancel', $report)}}"
+                                    class="btn btn-sm btn-primary d-flex align-items-center gap-1"
+                                >
+                                    <i class="fa-solid fa-ban"></i>&nbsp;
+                                    <span>Cancel</span>
+                                </button>
                             @endif
                         </td>
                     </tr>

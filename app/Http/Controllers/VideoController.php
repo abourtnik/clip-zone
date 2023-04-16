@@ -9,6 +9,7 @@ use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -97,12 +98,9 @@ class VideoController
         return Storage::disk('videos')->download($video->file);
     }
 
-    public function file (Video $video)
+    public function file (Video $video) : Response
     {
-        return Storage::disk('videos')->response(
-            path: $video->file,
-            headers: ['Content-Type' => $video->mimetype]
-        );
+       return response()->noContent();
     }
 
     public function user (User $user, Request $request) : ResourceCollection {

@@ -62,8 +62,8 @@
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
                     <th class="w-25">Video</th>
-                    <th class="w-50">Comment</th>
-                    <th>Replies</th>
+                    <th class="w-50" style="min-width: 305px">Comment</th>
+                    <th style="min-width: 127px">Replies</th>
                     <th>Interactions</th>
                     <th>Action</th>
                 </tr>

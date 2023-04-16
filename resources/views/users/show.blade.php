@@ -83,7 +83,7 @@
                         </a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link user-tabs" data-bs-toggle="tab" data-bs-target="#videos" type="button" role="tab" aria-controls="videos" aria-selected="false">
+                        <a id="videos_link" class="nav-link user-tabs" data-bs-toggle="tab" data-bs-target="#videos" type="button" role="tab" aria-controls="videos" aria-selected="false">
                             Videos
                         </a>
                     </li>
@@ -102,7 +102,7 @@
             <div class="tab-content px-3 px-sm-0">
                 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     @if($user->pinned_video)
-                        <div class="row mt-4 card flex-row">
+                        <div class="row mt-4 mx-0 card flex-row">
                             <div class="col-12 col-xl-6 px-0">
                                 <div class="ratio ratio-16x9 h-100">
                                     <video controls class="radius-top rounded-xl-start" controlsList="nodownload" poster="{{$user->pinned_video->thumbnail_url}}">
@@ -121,32 +121,45 @@
                                 </div>
                             </div>
                         </div>
+                    @endif
+                    @if($user->videos_count)
                         <hr>
-                        <h2 class="h5 mb-3">Videos</h2>
-                        <user-videos
-                            user="{{$user->id}}"
-                            videos="{{$user->videos_count}}"
-                            show-sort>
-                        </user-videos>
-                    @elseif($user->videos_count)
-                        <div class="mt-4">
-                            <user-videos
-                                user="{{$user->id}}"
-                                videos="{{$user->videos_count}}"
-                                show-sort
-                                exclude-pinned>
-                            </user-videos>
+                        <div class="my-4 d-flex gap-3 align-items-center">
+                            <h5 class="mb-0">Videos</h5>
+                            <button
+                                class="link-primary bg-transparent text-decoration-none d-flex align-items-center gap-2 hover-primary"
+                                onclick="new bootstrap.Tab('#videos_link').show()"
+                            >
+                                <i class="fa-solid fa-play"></i>
+                                See All
+                            </button>
                         </div>
-                    @else
-                        <div class="d-flex align-items-center justify-content-center h-75 mt-4">
-                            <div class="w-100 border p-4 bg-light text-center bg-white">
-                                <i class="fa-solid fa-video-slash fa-5x mb-3"></i>
-                                <p class="text-muted">This user has no videos</p>
-                            </div>
+                        <div class="row g-3">
+                            @foreach($user->videos as $video)
+                                @include('videos.card.card-3', $video)
+                            @endforeach
                         </div>
                     @endif
+                    @if($user->playlists_count)
+                        <hr>
+                        @foreach($user->playlists as $playlist)
+                            <div class="mb-1 d-flex gap-3 align-items-center">
+                                <h5 class="mb-0">{{Str::limit($playlist->title, 80)}}</h5>
+                                <a class="link-primary bg-transparent text-decoration-none d-flex align-items-center gap-2 hover-primary" href="{{$playlist->route}}">
+                                    <i class="fa-solid fa-play"></i>
+                                    See All
+                                </a>
+                            </div>
+                            <p class="text-muted text-sm">{{Str::limit($playlist->description, 200)}}</p>
+                            <div class="row g-3">
+                                @foreach($playlist->videos as $video)
+                                    @include('videos.card.card-3', $video)
+                                @endforeach
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
-                <div class="tab-pane " id="videos" role="tabpanel" aria-labelledby="videos-tab">
+                <div class="tab-pane" id="videos" role="tabpanel" aria-labelledby="videos-tab">
                     @if($user->videos->count())
                         <user-videos user="{{$user->id}}" videos="{{$user->videos_count}}"  exclude-pinned></user-videos>
                     @else
@@ -158,7 +171,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="tab-pane " id="playlists" role="tabpanel" aria-labelledby="playlists-tab">
+                <div class="tab-pane" id="playlists" role="tabpanel" aria-labelledby="playlists-tab">
                     @if($user->playlists->count())
                         <div class="row gx-3 gy-4 mt-0">
                             @each('playlists.card', $user->playlists, 'playlist')

@@ -23,16 +23,24 @@ class UserController
                     $q->with('user')
                         ->withCount('views')
                         ->active()
-                        ->latest('publication_date');
+                        ->latest('publication_date')
+                        ->limit(8);
                 },
                 'playlists' => function ($q) {
                     $q->withCount('videos')
+                        ->with([
+                            'videos' => fn($q) => $q->active()
+                                ->withCount('views')
+                                ->with('user')
+                                ->limit(8)
+                        ])
                         ->active()
-                        ->latest('created_at');
+                        ->latest('created_at')
+                        ->limit(6);
                 },
                 'pinned_video' => fn($q) => $q->withCount('views'),
                 'reports' => fn($q) => $q->where('user_id', Auth::id())
-            ])->loadCount('subscribers', 'videos_views', 'videos'),
+            ])->loadCount('subscribers', 'videos_views', 'videos', 'playlists'),
             'is_subscribed' => $isSubscribed
         ]);
     }

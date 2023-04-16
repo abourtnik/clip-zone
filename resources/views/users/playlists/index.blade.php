@@ -48,10 +48,10 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th scope="col" style="width: 40%">Playlist</th>
+                    <th scope="col" class="w-40" style="min-width: 370px;">Playlist</th>
                     <th scope="col">Visibility</th>
-                    <th scope="col">Created</th>
-                    <th scope="col">Updated</th>
+                    <th scope="col" style="min-width: 120px;">Created</th>
+                    <th scope="col" style="min-width: 120px;">Updated</th>
                     <th scope="col">Videos count</th>
                     <th scope="col">Actions</th>
                 </tr>
