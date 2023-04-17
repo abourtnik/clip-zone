@@ -111,7 +111,7 @@
                     <div class="card-body">
                         <div class="ratio ratio-16x9">
                             <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
-                                <source src="{{route('video.file', $video)}}" type="{{$video->mimetype}}">
+                                <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
                             </video>
                         </div>
                         <div class="bg-light mt-2 px-3 py-2 d-flex flex-column gap-3">

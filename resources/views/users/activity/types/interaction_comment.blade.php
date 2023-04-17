@@ -18,7 +18,7 @@
                         @endif
                         <a href="{{$activity->subject->likeable->video->route}}" class="text-decoration-none text-sm">{{$activity->subject->likeable->video->title}}</a>
                         <a href="{{$activity->subject->likeable->video->route}}">
-                            <img src="{{$activity->subject->likeable->video->thumbnail_url}}" alt="{{$activity->subject->likeable->video->title}}" style="width: 120px;height: 68px">
+                            @include('users.videos.partials.thumbnail', ['video' => $activity->subject->likeable->video])
                         </a>
                     </div>
                     <hr>

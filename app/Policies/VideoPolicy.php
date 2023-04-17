@@ -79,6 +79,20 @@ class VideoPolicy
     }
 
     /**
+     * Determine whether the user can see video thumbnail.
+     *
+     * @param User|null $user
+     * @param Video $video
+     * @return Response|bool
+     */
+    public function thumbnail(?User $user, Video $video): Response|bool
+    {
+        return $video->is_active || $video->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(403, 'This video is private');
+    }
+
+    /**
      * Determine whether the user can create the model.
      *
      * @param  User $user

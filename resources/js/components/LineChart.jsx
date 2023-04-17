@@ -21,6 +21,7 @@ export default function LineChart({data}) {
 
     const options = {
         responsive: true,
+        maintainAspectRatio : false,
         scales: {
             y: {
                 min: 0,

@@ -37,7 +37,7 @@ class ProfileController
                     $query
                         ->filter($videoFilter)
                         ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
-                        ->orderBy('publication_date', 'desc')
+                        ->orderBy('created_at', 'desc')
                         ->limit(5);
                 },
                 'subscribers' => function ($query) use ($subscriberFilters) {

@@ -24,11 +24,11 @@
 }
 
 .hover-primary:hover {
-    background-color: #e6eff4;
+    background-color: #e6eff4 !important;
 }
 
 .hover-grey:hover {
-    background-color: lightgrey;
+    background-color: lightgrey !important;
 }
 
 .without-caret::after {

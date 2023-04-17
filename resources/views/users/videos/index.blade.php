@@ -73,13 +73,7 @@
                     <tr class="bg-light">
                         <td class="d-flex gap-3">
                             <a href="{{$video->route}}">
-                                @if($video->is_draft)
-                                    <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="width: 120px;height: 68px">
-                                        <i class="fa-solid fa-image fa-2x"></i>
-                                    </div>
-                                @else
-                                    <img src="{{$video->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
-                                @endif
+                                @include('users.videos.partials.thumbnail')
                             </a>
                             <div>
                                 <div>{{Str::limit($video->title, 100), '...'}}</div>

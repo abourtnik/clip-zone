@@ -106,7 +106,7 @@
                             <div class="col-12 col-xl-6 px-0">
                                 <div class="ratio ratio-16x9 h-100">
                                     <video controls class="radius-top rounded-xl-start" controlsList="nodownload" poster="{{$user->pinned_video->thumbnail_url}}">
-                                        <source src="{{route('video.file', $user->pinned_video)}}" type="{{$user->pinned_video->mimetype}}">
+                                        <source src="{{$user->pinned_video->file_url}}" type="{{$user->pinned_video->mimetype}}">
                                     </video>
                                 </div>
                             </div>
@@ -121,9 +121,9 @@
                                 </div>
                             </div>
                         </div>
+                        <hr>
                     @endif
                     @if($user->videos_count)
-                        <hr>
                         <div class="my-4 d-flex gap-3 align-items-center">
                             <h5 class="mb-0">Videos</h5>
                             <button

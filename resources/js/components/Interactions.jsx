@@ -88,20 +88,22 @@ export default function Interactions ({target}) {
                                     <ul className="list-group">
                                         {
                                             interactions.map(interaction => (
-                                                <li className="list-group-item d-flex justify-content-between align-items-center">
-                                                    <div className={'d-flex align-items-center gap-4'}>
+                                                <li className="list-group-item d-flex flex-wrap justify-content-between align-items-center">
+                                                    <div className={'d-flex align-items-center gap-2 gap-sm-4'}>
                                                         <div className={'badge bg-' + (interaction.status ? 'success' : 'danger')}>
                                                             {interaction.status ? <ThumbsUpRegular/> : <ThumbsDownRegular/>}
                                                         </div>
-                                                        <a href={interaction.user.route} className="d-flex align-items-center gap-2 text-decoration-none">
-                                                            <img className="rounded" src={interaction.user.avatar} alt={interaction.user.username + ' avatar'} style="width: 40px;"/>
-                                                            <span className={'text-sm'}>{interaction.user.username}</span>
-                                                        </a>
+                                                        <div className={'d-flex align-items-center gap-2 ap-sm-4'}>
+                                                            <a href={interaction.user.route} className="d-flex align-items-center gap-2 text-decoration-none">
+                                                                <img className="rounded" src={interaction.user.avatar} alt={interaction.user.username + ' avatar'} style="width: 40px;"/>
+                                                            </a>
+                                                            <div className={'d-flex flex-column'}>
+                                                                <span className={'text-sm'}>{interaction.user.username}</span>
+                                                                <div className={'text-muted text-sm'}>{interaction.perform_at}</div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className={'d-flex align-items-center gap-4'}>
-                                                        <div className={'text-muted text-sm'}>{interaction.perform_at}</div>
-                                                        <Subscribe isSubscribe={interaction.user.is_subscribe} user={interaction.user.id} size={'sm'}/>
-                                                    </div>
+                                                    <Subscribe isSubscribe={interaction.user.is_subscribe} user={interaction.user.id} size={'sm'}/>
                                                 </li>
                                             ))
                                         }

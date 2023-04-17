@@ -77,14 +77,14 @@ class Video extends Model implements Likeable, Reportable
     protected function fileUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => asset('storage/videos/'. $this->file)
+            get: fn () => route('video.file', $this)
         );
     }
 
     protected function thumbnailUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () =>  $this->thumbnail ? asset('storage/thumbnails/'. $this->thumbnail) : null
+            get: fn () =>  $this->thumbnail ? route('video.thumbnail', $this) : null
         );
     }
 

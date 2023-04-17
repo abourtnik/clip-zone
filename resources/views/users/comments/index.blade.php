@@ -63,7 +63,7 @@
                 <tr style="border-top: 3px solid #0D6EFD;">
                     <th class="w-25">Video</th>
                     <th class="w-50" style="min-width: 370px">Comment</th>
-                    <th style="min-width: 127px">Replies</th>
+                    <th style="min-width: 140px">Replies</th>
                     <th>Interactions</th>
                     <th>Action</th>
                 </tr>
@@ -74,7 +74,7 @@
                         <td class="">
                             <div class="d-flex gap-3 align-items-center">
                                 <a href="{{route('video.show', $comment->video)}}">
-                                    <img src="{{$comment->video->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
+                                    @include('users.videos.partials.thumbnail', ['video' => $comment->video])
                                 </a>
                                 <small>{{Str::limit($comment->video->title, 100), '...'}}</small>
                             </div>

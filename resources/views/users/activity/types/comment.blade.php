@@ -10,7 +10,7 @@
                         <strong>Commented</strong>
                         <a href="{{$activity->subject->video->route}}" class="text-decoration-none text-sm">{{$activity->subject->video->title}}</a>
                         <a href="{{$activity->subject->video->route}}">
-                            <img class="" src="{{$activity->subject->video->thumbnail_url}}" alt="{{$activity->subject->video->title}}" style="width: 120px;height: 68px">
+                            @include('users.videos.partials.thumbnail', ['video' => $activity->subject->video])
                         </a>
                     </div>
                     <hr class="my-3">

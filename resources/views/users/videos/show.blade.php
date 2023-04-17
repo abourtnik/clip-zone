@@ -5,12 +5,12 @@
 @section('content')
     {{ Breadcrumbs::render('show_video', $video) }}
     <div class="row">
-        <div class="col-xl-9 order-last order-xl-first">
-            <div class="card shadow border-primary" style="min-height: 678px">
+        <div class="col-xl-9 order-last order-xl-first mt-2 mt-xl-0">
+            <div class="card shadow border-primary h-100">
                 <div class="card-body">
                     <h4 class="card-title text-center text-primary mb-3">Views Evolution</h4>
                     @if($views)
-                        <line-chart data="{{json_encode($views)}}" />
+                        <line-chart class="d-block" style="height: 547px" data="{{json_encode($views)}}" />
                     @else
                         <div class="d-flex flex-column justify-content-center align-items-center" style="height: 600px">
                             <i class="fa-solid fa-eye-slash fa-2x"></i>
@@ -22,9 +22,9 @@
             </div>
         </div>
         <div class="col-xl-3 order-first order-xl-last">
-            <div class="row">
+            <div class="row g-2">
                 <div class="col-12 col-sm-6 col-xl-12">
-                    <div class="card shadow border-primary mb-2">
+                    <div class="card shadow border-primary">
                         <div class="card-body">
                             <h5 class="card-title text-center text-primary">Uploaded</h5>
                             <hr>
@@ -36,7 +36,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-xl-12">
-                    <div class="card shadow border-primary mb-2">
+                    <div class="card shadow border-primary">
                         <div class="card-body">
                             <h5 class="card-title text-center text-primary">Views</h5>
                             <hr>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-xl-12">
-                    <div class="card shadow border-primary mb-2">
+                    <div class="card shadow border-primary h-100">
                         <div class="card-body">
                             <h5 class="card-title text-center text-primary">Comments</h5>
                             <hr>
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-sm-6 col-xl-12">
-                    <div class="card shadow border-primary mb-2">
+                    <div class="card shadow border-primary">
                         <div class="card-body text-center">
                             <h5 class="card-title text-center text-primary">Interactions</h5>
                             <hr>

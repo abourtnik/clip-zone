@@ -7,7 +7,7 @@
         <div class="col-lg-7 col-xl-8 col-xxl-9">
             <div class="ratio ratio-16x9">
                 <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
-                    <source src="{{route('video.file', $video)}}" type="{{$video->mimetype}}">
+                    <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
                 </video>
             </div>
             <div class="mt-3 d-flex align-items-center gap-3">

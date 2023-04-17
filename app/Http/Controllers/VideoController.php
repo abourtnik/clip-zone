@@ -100,7 +100,12 @@ class VideoController
 
     public function file (Video $video) : Response
     {
-       return response()->noContent();
+        return response()->noContent(200);
+    }
+
+    public function thumbnail (Video $video) : Response
+    {
+        return response()->noContent(200);
     }
 
     public function user (User $user, Request $request) : ResourceCollection {

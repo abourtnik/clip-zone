@@ -55,6 +55,10 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
         ->name('file')
         ->can('file', 'video')
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
+    Route::get('/video/thumbnail/{video:thumbnail}', 'thumbnail')
+        ->name('thumbnail')
+        ->can('thumbnail', 'video')
+        ->missing(fn(Request $request) => abort(404, 'Video not found'));
     Route::get('/video/download/{video:uuid}', 'download')
         ->name('download')
         ->can('download', 'video')

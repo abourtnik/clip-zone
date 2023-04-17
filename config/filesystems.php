@@ -66,13 +66,17 @@ return [
 
         'videos' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/videos'),
+            'root' => storage_path('app/videos'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'private',
             'throw' => false,
         ],
 
         'thumbnails' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/thumbnails'),
+            'root' => storage_path('app/thumbnails'),
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'private',
             'throw' => false,
         ],
 
@@ -93,7 +97,6 @@ return [
             'root' => storage_path('app/public/categories'),
             'throw' => false,
         ]
-
     ],
 
     /*
