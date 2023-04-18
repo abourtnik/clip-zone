@@ -31,7 +31,7 @@ class VideoFactory extends Factory
             'mimetype' => 'video/mp4',
             'status' => fake()->randomElement([VideoStatus::PUBLIC->value, VideoStatus::PRIVATE->value, VideoStatus::UNLISTED->value]),
             'publication_date' => fake()->dateTimeBetween('-1 year'),
-            'category_id' => Category::inRandomOrder()->first()->id,
+            'category_id' => Category::inRandomOrder()->first()?->id,
             'language' => fake()->randomElement(array_keys(Languages::get())),
             'allow_comments' => fake()->boolean(90),
             'default_comments_sort' => fake()->randomElement(['top', 'newest']),

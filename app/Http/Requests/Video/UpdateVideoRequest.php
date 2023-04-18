@@ -53,6 +53,7 @@ class UpdateVideoRequest extends FormRequest
             ],
             'scheduled_date' => [
                 Rule::excludeIf($this->status != VideoStatus::PLANNED->value),
+                'required',
                 'date',
                 'after:now'
             ],
