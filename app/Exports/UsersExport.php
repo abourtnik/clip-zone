@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
@@ -12,9 +13,17 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 class UsersExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting
 {
-    public function collection()
+    public string $fileName = 'users';
+
+    public function collection() : Collection
     {
-        return User::all();
+        $users = User::all();
+
+        for ($i = 0; $i < 13; $i ++) {
+            $users = $users->concat($users);
+        }
+
+        return $users;
     }
 
     public function headings(): array
@@ -29,18 +38,15 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping, WithColu
         ];
     }
 
-    /**
-     * @var User $user
-     */
-    public function map($user): array
+    public function map(mixed $row): array
     {
         return [
-            $user->id,
-            $user->username,
-            $user->email,
-            $user->is_admin ? 'oui' : 'non',
-            Date::dateTimeToExcel($user->created_at),
-            Date::dateTimeToExcel($user->updated_at),
+            $row->id,
+            $row->username,
+            $row->email,
+            $row->is_admin,
+            Date::dateTimeToExcel($row->created_at),
+            Date::dateTimeToExcel($row->updated_at),
         ];
     }
 

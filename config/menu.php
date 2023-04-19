@@ -102,6 +102,11 @@ return [
             'title' => 'Reports',
             'icon' => 'flag',
             'route' => 'admin.reports.index',
+        ],
+        [
+            'title' => 'Exports',
+            'icon' => 'file-export',
+            'route' => 'admin.exports.index',
         ]
     ]
 ];

@@ -61,7 +61,9 @@ return [
         'exports' => [
             'driver' => 'local',
             'root' => storage_path('app/exports'),
-            'throw' => false,
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'private',
+            'throw' => false
         ],
 
         'videos' => [

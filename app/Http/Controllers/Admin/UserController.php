@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\VideoStatus;
 use App\Events\UserBanned;
+use App\Exports\UsersExport;
 use App\Filters\UserFilters;
 use App\Jobs\Export;
 use App\Models\User;
@@ -60,7 +61,7 @@ class UserController
     }
 
     public function export (): RedirectResponse {
-        Export::dispatch(User::class, Auth::user());
-        return redirect()->route('admin.users.index')->withSuccess('Votre export a bien été pris en compte. Vous recevrez une <strong>notification</strong> quand celui-ci sera disponible.');
+        Export::dispatch(Auth::user(), UsersExport::class);
+        return redirect()->route('admin.users.index')->withSuccess('Your export has been queued. you will receive a notification when it is completed.');
     }
 }

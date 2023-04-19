@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Admin\CommentController as CommentAdminController;
 use App\Http\Controllers\Admin\UserController as UserAdminController;
 use App\Http\Controllers\Admin\VideoController as VideoAdminController;
@@ -194,12 +194,6 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
 
     Route::get('/download/{model}', [AdminController::class, 'download'])->name('download');
 
-    // Articles
-    Route::controller(ArticleController::class)->prefix('articles')->name('articles.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/export', 'export')->name('export');
-    });
-
     // Users
     Route::controller(UserAdminController::class)->prefix('users')->name('users.')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -212,7 +206,6 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
     Route::controller(VideoAdminController::class)->prefix('videos')->name('videos.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/{video}/ban', 'ban')->name('ban');
-        Route::get('/export', 'export')->name('export');
     });
 
     // Comments
@@ -226,5 +219,14 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/{report}/accept', 'accept')->name('accept');
         Route::post('/{report}/reject', 'reject')->name('reject');
+    });
+
+    // Exports
+    Route::controller(ExportController::class)->prefix('exports')->name('exports.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{export}/download', 'download')
+            ->name('download')
+            ->can('download', 'export')
+            ->missing(fn(Request $request) => abort(404, 'Export not found'));
     });
 });

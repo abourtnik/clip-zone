@@ -5,6 +5,10 @@
 @section('content')
     <div class="d-flex justify-content-between align-items-center my-3">
         <h2>Users</h2>
+        <a class="btn btn-outline-success" href="{{route('admin.users.export')}}">
+            <i class="fa-solid fa-file-export"></i>
+            Export
+        </a>
     </div>
     <hr>
     <form class="my-4 d-flex gap-3 align-items-end" method="GET">

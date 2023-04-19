@@ -2,14 +2,15 @@
 
 namespace App\Jobs;
 
+use App\Enums\ExportStatus;
+use App\Events\ExportFinished;
 use App\Models\User;
-use App\Notifications\UserNotification;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Excel as BaseExcel;
 
@@ -24,18 +25,18 @@ class Export implements ShouldQueue
      */
     public int $timeout = 120;
 
-    private string $model;
-    private User $user;
+    public User $user;
+    private string $export;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(string $model, User $user)
+    public function __construct(User $user, string $export)
     {
-        $this->model = $model;
         $this->user = $user;
+        $this->export = $export;
     }
 
     /**
@@ -43,14 +44,19 @@ class Export implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle() : void
     {
-        $model = new $this->model();
-        $table = $model->getTable();
-        $class = 'App\Exports\\'.ucfirst($table).'Export';
+        $class = new $this->export();
+        $fileName = $class->fileName.'-'.Carbon::now()->timestamp.'.csv';
 
-        $this->user->notify(new UserNotification($table));
+        $export = \App\Models\Export::create([
+            'file' => $fileName
+        ]);
 
-        Excel::store(new $class(), $table.'.csv', 'exports', BaseExcel::CSV);
+        Excel::store($class, $fileName, 'exports', BaseExcel::CSV);
+
+        $export->update(['status' => ExportStatus::COMPLETED]);
+
+        ExportFinished::dispatch($this->user, $export);
     }
 }

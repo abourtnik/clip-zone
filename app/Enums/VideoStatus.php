@@ -5,6 +5,7 @@ namespace App\Enums;
 use Illuminate\Support\Arr;
 
 enum VideoStatus : int {
+
     case PUBLIC = 0;
     case PRIVATE = 1;
     case PLANNED = 2;

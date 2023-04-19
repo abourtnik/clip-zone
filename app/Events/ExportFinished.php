@@ -2,8 +2,10 @@
 
 namespace App\Events;
 
-use Illuminate\Broadcasting\Channel;
+use App\Models\Export;
+use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
@@ -12,15 +14,18 @@ class ExportFinished implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public User $user;
+    public Export $export;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(User $user, Export $export)
     {
-        //
+        $this->user = $user;
+        $this->export = $export;
     }
 
     /**
@@ -30,6 +35,6 @@ class ExportFinished implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('exports');
+        return new PrivateChannel('exports');
     }
 }

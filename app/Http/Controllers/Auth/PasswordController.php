@@ -9,6 +9,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class PasswordController
 {
@@ -19,7 +20,13 @@ class PasswordController
     public function email (Request $request) : RedirectResponse {
 
         $request->validate([
-            'email' => 'required|email|exists:users,email',
+            'email' => [
+                'required',
+                'email',
+                Rule::exists('users', 'email')->where(function ($query) {
+                    return $query->whereNull('banned_at');
+                })
+            ]
         ]);
 
         $user = User::where('email', $request->get('email'))->first();

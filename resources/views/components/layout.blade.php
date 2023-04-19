@@ -43,8 +43,8 @@
         <div class="d-flex">
             @include('layouts.menus.sidebars.'.$sidebar, ['type' => $type ?? null])
             <div id="main-container" class="container-fluid my-3 overflow-auto @yield('class')" style="@yield('style')">
-                @yield('content')
                 {{$slot}}
+                @yield('content')
             </div>
         </div>
         <div class="toast-container pe-4 end-0 position-fixed" style="top:68px;">
