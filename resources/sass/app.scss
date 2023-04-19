@@ -2,6 +2,7 @@
 @import "bootstrap";
 @import "helpers";
 @import "header";
+@import "video";
 @import "tom-select/dist/scss/tom-select.bootstrap5";
 @import "cropperjs/dist/cropper.min.css";
 
@@ -81,15 +82,4 @@ body {
 .user-tabs.active {
     font-weight: bold;
     border-bottom: 4px solid $primary;
-}
-
-// SUGGESTED VIDEOS
-
-.suggested_video img {
-    height: 94px;
-
-    @media (max-width: 576px) {
-        height: inherit;
-        max-width: 100%;
-    }
 }

@@ -1,15 +1,15 @@
-<article class="col-sm-6 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
-    <div class="position-relative h-100 card">
+<article class="col">
+    <div class="position-relative h-100 video-card">
         <a href="{{$video->route}}">
             <div class="position-relative">
-                <img class="img-fluid w-100 rounded-top" src="{{$video->thumbnail_url}}" alt="{{$video->title}}">
+                <img class="img-fluid rounded w-100 video-thumbnail" src="{{$video->thumbnail_url}}" alt="{{$video->title}}">
                 <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                     {{$video->duration}}
                 </small>
             </div>
             <span style="position: absolute;inset: 0;"></span>
         </a>
-        <div class="d-flex mt-2 p-2">
+        <div class="d-flex mt-2 p-2 pt-sm-1 pb-sm-0 px-sm-0">
             <a href="{{$video->user->route}}" style=";height: 36px;" class="position-relative" title={{$video->user->username}}>
                 <img class="rounded-circle" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar"  style="width: 36px">
             </a>

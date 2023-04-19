@@ -42,7 +42,7 @@
         @include('layouts.menus.header')
         <div class="d-flex">
             @include('layouts.menus.sidebars.'.$sidebar, ['type' => $type ?? null])
-            <div id="main-container" class="container-fluid my-3 overflow-auto @yield('class')" style="@yield('style')">
+            <div id="main-container" class="container-fluid my-3 @yield('class')" style="@yield('style')">
                 {{$slot}}
                 @yield('content')
             </div>

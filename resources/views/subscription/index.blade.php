@@ -2,6 +2,8 @@
 
 @section('title', 'Subscriptions')
 
+@section('class', 'px-0 px-sm-2')
+
 @section('content')
     @auth
         @if(!$subscriptions->count())
@@ -11,17 +13,19 @@
             </div>
         @else
             @forelse($sorted_videos as $date => $videos)
-                <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
-                    @if($loop->index === 0)
-                        <a href="{{route('subscription.manage')}}" class="btn btn-primary btn-sm">
-                            <i class="fa-solid fa-users"></i>
-                            Manage
-                        </a>
-                    @endif
+                <div class="px-2 px-sm-0">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
+                        @if($loop->index === 0)
+                            <a href="{{route('subscription.manage')}}" class="btn btn-primary btn-sm">
+                                <i class="fa-solid fa-users"></i>
+                                Manage
+                            </a>
+                        @endif
+                    </div>
+                    <hr>
                 </div>
-                <hr>
-                <div class="row gx-3 gy-4">
+                <div class="row gx-3 gy-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
                     @each('videos.card', $videos, 'video')
                 </div>
             @empty

@@ -224,7 +224,7 @@
                 </div>
             @endif
         </div>
-        <div class="col-lg-5 col-xl-4 col-xxl-3">
+        <div class="col-lg-5 col-xl-4 col-xxl-3 px-0 p-sm-2">
             @each('videos.card-secondary',  $videos, 'video')
         </div>
     </div>

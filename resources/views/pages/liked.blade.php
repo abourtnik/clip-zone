@@ -2,13 +2,17 @@
 
 @section('title', 'Liked videos')
 
+@section('class', 'px-0 px-sm-2')
+
 @section('content')
     @forelse($data as $date => $interactions)
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
+        <div class="px-2 px-sm-0">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
+            </div>
+            <hr>
         </div>
-        <hr>
-        <div class="row gx-3 gy-4 mb-5">
+        <div class="row gx-3 gy-4 mb-5 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
             @foreach($interactions as $interaction)
                 @include('videos.card', ['video' => $interaction->likeable])
             @endforeach

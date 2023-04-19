@@ -2,19 +2,23 @@
 
 @section('title', 'History')
 
+@section('class', 'px-0 px-sm-2')
+
 @section('content')
     @forelse($data as $date => $views)
-        <div class="d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
-            @if($loop->index === 0)
-                <a href="{{route('history.clear')}}" class="btn btn-danger btn-sm">
-                    <i class="fa-solid fa-trash"></i>
-                    Clear watch history
-                </a>
-            @endif
+        <div class="px-2 px-sm-0">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
+                @if($loop->index === 0)
+                    <a href="{{route('history.clear')}}" class="btn btn-danger btn-sm">
+                        <i class="fa-solid fa-trash"></i>
+                        Clear watch history
+                    </a>
+                @endif
+            </div>
+            <hr>
         </div>
-        <hr>
-        <div class="row gx-3 gy-4 mb-5">
+        <div class="row gx-3 gy-4 mb-5 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
             @foreach($views as $view)
                 @include('videos.card', ['video' => $view->video])
             @endforeach

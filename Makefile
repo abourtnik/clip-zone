@@ -25,6 +25,7 @@ install: ## Install application
 	composer install --optimize-autoloader --no-dev
 	npm install
 	npm run build
+	php artisan optimize
 	php artisan cache:clear
 
 deploy: ## Deploy application

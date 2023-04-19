@@ -1,0 +1,28 @@
+// Card
+
+.video-card {
+    @media (max-width: map-get($grid-breakpoints, "sm")) {
+        background-color: white;
+        border-bottom: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+    }
+
+    .video-thumbnail {
+        @media (max-width: map-get($grid-breakpoints, "sm")) {
+            border-radius: 0 !important;
+        }
+    }
+}
+
+// SUGGESTED VIDEOS
+
+.suggested_video {
+    img {
+        height: 94px;
+        @media (max-width: map-get($grid-breakpoints, "sm")) {
+            height: inherit;
+            max-width: 100%;
+        }
+    }
+}
+
+
