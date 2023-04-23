@@ -103,7 +103,7 @@
     </div>
     <div class="row mb-4">
         <div class="col-xl-7 mb-4 mb-xl-0">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-video"></i>
                     <h5 class="card-title mb-0">
@@ -194,7 +194,7 @@
             </div>
         </div>
         <div class="col-xl-5">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-user"></i>
                     <h5 class="card-title mb-0">
@@ -263,7 +263,7 @@
     </div>
     <div class="row mb-4">
         <div class="col-xl-7 mb-4 mb-xl-0">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-comment"></i>
                     <h5 class="card-title mb-0">
@@ -348,7 +348,7 @@
             </div>
         </div>
         <div class="col-xl-5">
-            <div class="card">
+            <div class="card h-100">
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-thumbs-up"></i>
                     <h5 class="card-title mb-0">

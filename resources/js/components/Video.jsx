@@ -1,10 +1,20 @@
+import {useState} from 'preact/hooks';
+
 export default function Video ({video}) {
+
+    const [loading, setLoading] = useState(true)
+
+    const imageLoad = () => {
+        setLoading(false);
+    }
+
     return (
         <article className="col">
             <div className="position-relative h-100 video-card">
                 <a href={video.route}>
                     <div className="position-relative">
-                        <img className="img-fluid rounded w-100 video-thumbnail" src={video.thumbnail} alt={video.title}/>
+                        {loading && <div className="bg-light-dark rounded w-100" style="height: 200px"></div>}
+                        <img className={'img-fluid rounded-4 w-100 video-thumbnail ' + (loading ? 'd-none' : 'd-block')} src={video.thumbnail} alt={video.title} onLoad={imageLoad}/>
                         <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                             {video.duration}
                         </small>

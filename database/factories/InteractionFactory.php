@@ -21,8 +21,19 @@ class InteractionFactory extends Factory
     {
         return [
             'status' => fake()->boolean(),
-            'user_id' => User::inRandomOrder()->first()->id,
             'perform_at' => fake()->dateTimeBetween('-1 year'),
         ];
+    }
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->sequence(
+            fn ($sequence) => ['user_id' => fake()->unique($sequence->index === 0)->randomElement(User::pluck('id'))]
+        );
     }
 }

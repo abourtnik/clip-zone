@@ -26,7 +26,7 @@ export default function Videos ({url, skeletons = 12}) {
         <>
         {
             (primaryLoading) ?
-                <div className="row gx-3 gy-5 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
+                <div className="row gx-3 gy-3 gy-sm-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4">
                     {[...Array(parseInt(skeletons)).keys()].map(i => <Skeleton key={i}/>)}
                 </div>
                 :
@@ -34,12 +34,12 @@ export default function Videos ({url, skeletons = 12}) {
                     {
                         (videos.length) ?
                             <>
-                                <div className="row gx-3 gy-3 gy-sm-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
+                                <div className="row gx-3 gy-3 gy-sm-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4">
                                     {videos.map(video => <Video key={video.id} video={video}/>)}
                                 </div>
                                 {
                                     hasMore &&
-                                    <div ref={ref} className="row gx-3 gy-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
+                                    <div ref={ref} className="row gx-3 gy-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-4 my-3">
                                         {[...Array(12).keys()].map(i => <Skeleton key={i}/>)}
                                     </div>
                                 }

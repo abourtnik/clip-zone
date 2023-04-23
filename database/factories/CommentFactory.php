@@ -20,11 +20,10 @@ class CommentFactory extends Factory
     public function definition() : array
     {
         $date = fake()->dateTimeBetween('-1 year');
-        $user = User::inRandomOrder()->first();
 
         return [
             'content' => fake()->realText(config('validation.comment.content.max')),
-            'user_id' => $user->id,
+            'user_id' => User::inRandomOrder()->first()->id,
             'ip' => fake()->ipv4(),
             'created_at' => $date,
             'updated_at' => $date,

@@ -21,14 +21,14 @@ class UserFactory extends Factory
         $date = fake()->dateTimeBetween('-1 year');
 
         return [
-            'username' => fake()->userName(),
+            'username' => fake()->unique()->userName(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => 'password',
             'last_login_at' => now(),
             'last_login_ip' => fake()->ipv4(),
             'remember_token' => Str::random(10),
-            'avatar' => fake()->randomElement(array_merge(array_map(fn($i) => 'default-' .$i . '.png', range(1, 10)), [null])),
+            'avatar' => fake()->optional(90)->randomElement(array_map(fn($i) => 'default-' .$i . '.png', range(1, 10))),
             'description' => fake()->realText(config('validation.user.description.max')),
             'country' => fake()->countryCode(),
             'website' => fake()->domainName(),

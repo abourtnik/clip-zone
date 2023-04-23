@@ -103,9 +103,11 @@ class VideoController
         return response()->noContent(200);
     }
 
-    public function thumbnail (Video $video) : Response
+    public function thumbnail (Video $video): Response
     {
-        return response()->noContent(200);
+        $file = Storage::disk('thumbnails')->get($video->thumbnail);
+
+        return response($file)->header('Content-Type', Storage::disk('thumbnails')->mimeType($video->thumbnail));
     }
 
     public function user (User $user, Request $request) : ResourceCollection {

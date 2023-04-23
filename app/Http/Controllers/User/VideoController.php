@@ -138,7 +138,9 @@ class VideoController extends Controller
 
         $video->update($validated);
 
-        $video->playlists()->sync($request->get('playlists'));
+        $video->playlists()
+            ->wherePivotIn('playlist_id', Auth::user()->playlists()->pluck('id')->toArray())
+            ->sync($request->get('playlists'));
 
         if ($request->get('action') === 'save') {
             return redirect(route('user.videos.edit', $video));
@@ -151,7 +153,7 @@ class VideoController extends Controller
 
         $video->delete();
 
-        return redirect()->route('user.videos.index');
+        return redirect()->back();
     }
 
     public function pin (Video $video) : RedirectResponse
@@ -160,7 +162,7 @@ class VideoController extends Controller
             'pinned_video_id' => $video->id
         ]);
 
-        return redirect()->route('user.videos.index');
+        return redirect()->back();
     }
 
     public function unpin(Video $video): RedirectResponse
@@ -169,7 +171,7 @@ class VideoController extends Controller
             'pinned_video_id' => null
         ]);
 
-        return redirect()->route('user.videos.index');
+        return redirect()->back();
     }
 
     public function upload (FileRequest $request, FileReceiver $receiver) : JsonResponse|UploadMissingFileException {

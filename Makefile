@@ -1,4 +1,4 @@
-.PHONY: help, exec, start, stop, optimize, deploy, install, test
+.PHONY: help, exec, start, stop, optimize, deploy, install, test, logs
 .DEFAULT_GOAL=help
 
 help: ## Show help options
@@ -33,3 +33,6 @@ deploy: ## Deploy application
 
 test: ## Run test
 	docker exec -it php_container php artisan test
+
+logs: ## See last logs
+	docker exec -it php_container tail -f storage/logs/laravel.log

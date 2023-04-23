@@ -56,18 +56,28 @@
         </div>
         <div class="col-md-12 col-lg-7 col-xl-8 col-xxl-8">
             <div class="card card-body">
-                @if($playlist->hidden_videos_count && (Auth::guest() || Auth::user()?->isNot($playlist->user)))
-                    <div class="alert alert-info alert-dismissible">
-                        <strong>{{ $playlist->hidden_videos_count }} unavailable video(s) is hidden</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
                 @if($playlist->videos->count())
                     <ul class="list-group list-group-flush">
                         @foreach($playlist->videos as $key => $video)
                             <div class="d-flex gap-3 align-items-center list-group-item list-group-item-action">
                                 <span>{{$key + 1}}</span>
-                                @include('videos.card-secondary', $video)
+                                @if($video->user->is(Auth::user()) || $video->is_public)
+                                    @include('videos.card-secondary', $video)
+                                @else
+                                    <div class="row w-100 align-items-center">
+                                        <div class="col-12 col-sm-4 col-xxl-3">
+                                            <div class="bg-secondary text-white d-flex justify-content-center align-items-center w-100" style="height: 94px">
+                                                <i class="fa-solid fa-lock fa-2x"></i>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-sm-8 col-xxl-9">
+                                            <div class='alert alert-secondary mb-0 text-center'>
+                                                <div class='text-sm fw-bold'>This video is private</div>
+                                                <div class='text-sm'>The author update video status to private</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         @endforeach
                     </ul>

@@ -3,11 +3,11 @@
 namespace Database\Factories;
 
 use App\Enums\PlaylistStatus;
-use App\Models\Report;
+use App\Models\Playlist;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Report>
+ * @extends Factory<Playlist>
  */
 class PlaylistFactory extends Factory
 {
@@ -22,7 +22,7 @@ class PlaylistFactory extends Factory
 
         return [
             'uuid' => fake()->uuid(),
-            'title' => fake()->realText(config('validation.playlist.title.max')),
+            'title' => fake()->text(rand(5, config('validation.playlist.title.max'))),
             'description' => fake()->realText(config('validation.playlist.description.max')),
             'status' => fake()->randomElement([PlaylistStatus::PUBLIC->value, PlaylistStatus::PRIVATE->value, PlaylistStatus::UNLISTED->value]),
             'created_at' => $date,

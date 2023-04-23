@@ -47,6 +47,6 @@ class CommentController extends Controller
 
         $comment->delete();
 
-        return redirect()->route('user.comments.index');
+        return redirect()->back();
     }
 }

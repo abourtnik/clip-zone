@@ -27,13 +27,26 @@ class FileRequest extends FormRequest
     public function rules() : array
     {
         return [
+            'resumableTotalSize' => 'required|integer|max:1000000000', // 1GB,
             'file' => [
-                'file',
                 'required',
+                'file',
                 // file mimetype only available on first chunk other chunk mimetype are application/octet-stream
                 Rule::when($this->get('resumableChunkNumber') == 1, 'mimetypes:'.implode(',', VideoType::acceptedMimeTypes())),
                 'max:10240' // Chunk size 10mo
             ]
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'resumableTotalSize.max' => 'The file must not be greater than 1 GB',
         ];
     }
 }

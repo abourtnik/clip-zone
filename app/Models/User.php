@@ -5,27 +5,28 @@ namespace App\Models;
 use App\Enums\VideoStatus;
 use App\Models\Interfaces\Likeable;
 use App\Models\Interfaces\Reportable;
+use App\Models\Pivots\FavoritePlaylist;
+use App\Models\Pivots\Subscription;
 use App\Models\Traits\HasReport;
 use App\Notifications\PasswordUpdate;
-use App\Notifications\VerifyEmail;
 use App\Notifications\ResetPassword;
+use App\Notifications\VerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Lab404\Impersonate\Models\Impersonate;
-
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
-use Symfony\Component\Intl\Countries;
-use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Lab404\Impersonate\Models\Impersonate;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Symfony\Component\Intl\Countries;
 
 /**
  * App\Models\User

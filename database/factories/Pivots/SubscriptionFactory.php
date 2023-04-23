@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Pivots;
 
+use App\Models\Pivots\Subscription;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-
-use App\Models\Subscription;
 
 /**
  * @extends Factory<Subscription>
@@ -22,7 +22,19 @@ class SubscriptionFactory extends Factory
 
         return [
             'subscribe_at' => $date,
-            'read_at' => $date,
+            'read_at' => null
         ];
+    }
+
+    /**
+     * Configure the model factory.
+     *
+     * @return $this
+     */
+    public function configure()
+    {
+        return $this->sequence(
+            fn ($sequence) => ['user_id' => fake()->unique($sequence->index === 0)->randomElement(User::pluck('id'))]
+        );
     }
 }

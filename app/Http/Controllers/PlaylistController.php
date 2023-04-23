@@ -14,13 +14,11 @@ class PlaylistController
         return view('playlists.show', [
             'playlist' => $playlist
                 ->load([
-                    'videos' => fn($q) => $q->when($playlist->user()->isNot(Auth::user()), fn($q) => $q->active()->orWhere('status', VideoStatus::UNLISTED))
-                        ->withCount('views')
+                    'videos' => fn($q) => $q->withCount('views')
                         ->with('user')
                 ])
                 ->loadCount([
-                    'videos',
-                    'videos as hidden_videos_count' => fn($q) => $q->notActive(),
+                    'videos'
                 ]),
             'favorite_by_auth_user' => Auth::user()?->favorites_playlist()->where('playlist_id', $playlist->id)->exists()
         ]);

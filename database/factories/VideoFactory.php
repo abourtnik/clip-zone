@@ -22,8 +22,8 @@ class VideoFactory extends Factory
     {
         return [
             'uuid' => fake()->uuid(),
-            'title' => fake()->realText(config('validation.video.title.max')),
-            'description' => fake()->realText(config('validation.video.description.max')),
+            'title' => fake()->text(rand(5, config('validation.video.title.max'))),
+            'description' => fake()->realTextBetween(100, config('validation.video.description.max')),
             'file' => 'default.webm',
             'original_file_name' => fake()->word() . '.avi',
             'thumbnail' => 'default-'.fake()->numberBetween(1, 12).'.png',

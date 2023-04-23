@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Subscription;
+use App\Models\Pivots\Subscription;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +40,12 @@ class UserController
                 },
                 'pinned_video' => fn($q) => $q->withCount('views'),
                 'reports' => fn($q) => $q->where('user_id', Auth::id())
-            ])->loadCount('subscribers', 'videos_views', 'videos', 'playlists'),
+            ])->loadCount([
+                'subscribers',
+                'videos_views',
+                'videos' => fn($q) => $q->active(),
+                'playlists'
+            ]),
             'is_subscribed' => $isSubscribed
         ]);
     }
