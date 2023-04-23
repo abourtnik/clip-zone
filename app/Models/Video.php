@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class Video extends Model implements Likeable, Reportable
@@ -91,14 +92,14 @@ class Video extends Model implements Likeable, Reportable
     protected function isActive(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now())) || $this->status === VideoStatus::UNLISTED
+            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now()))
         );
     }
 
     protected function isPublic(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now()))
+            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now())) || $this->status === VideoStatus::UNLISTED
         );
     }
 
@@ -234,6 +235,22 @@ class Video extends Model implements Likeable, Reportable
             ->orWhere(function($query) {
                 $query->where('status', VideoStatus::PLANNED)
                     ->where('scheduled_date', '<=', now());
+            });
+    }
+
+    /**
+     * Scope a query to only include public videos.
+     *
+     * @param QueryBuilder|EloquentBuilder $query
+     * @return QueryBuilder|EloquentBuilder
+     */
+    public function scopePublic(QueryBuilder|EloquentBuilder $query, $includeAuthVideo = false): QueryBuilder|EloquentBuilder
+    {
+        return $query->whereIn('status', [VideoStatus::PUBLIC, VideoStatus::UNLISTED])
+            ->orWhere(function($query) use ($includeAuthVideo) {
+                $query->where('status', VideoStatus::PLANNED)
+                    ->where('scheduled_date', '<=', now())
+                    ->when($includeAuthVideo, fn($q) => $q->orWhere('user_id', Auth::id()));
             });
     }
 

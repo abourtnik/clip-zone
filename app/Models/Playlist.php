@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\PlaylistStatus;
+use App\Models\Pivots\FavoritePlaylist;
+use App\Models\Pivots\PlaylistVideo;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,7 +29,9 @@ class Playlist extends Model
 
     public function videos() : BelongsToMany
     {
-        return $this->belongsToMany(Video::class, 'playlist_has_videos')->orderByPivot('position', 'asc');
+        return $this->belongsToMany(Video::class, 'playlist_has_videos')
+            ->using(PlaylistVideo::class)
+            ->orderByPivot('position', 'asc');
     }
 
     public function users () : BelongsToMany {
@@ -43,7 +47,7 @@ class Playlist extends Model
     protected function thumbnail(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->videos()->first()?->thumbnail_url
+            get: fn () => $this->videos()->public(true)->first()?->thumbnail_url
         );
     }
 

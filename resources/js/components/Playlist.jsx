@@ -1,6 +1,6 @@
 import { useState, useCallback, useRef } from 'preact/hooks';
 import {debounce} from "../functions";
-import {Cross, Bars} from './Icon'
+import {Cross, Bars, Image} from './Icon'
 import { ReactSortable } from "react-sortablejs";
 import {jsonFetch, useClickOutside} from '../hooks'
 
@@ -121,20 +121,43 @@ export default function Playlist ({initial = []}) {
                                 {
                                     videos.map(video => (
                                         <li className={'list-group-item p-0'}>
-                                            <div className="d-flex align-items-center gap-3 justify-content-between px-3 py-2">
-                                                <div className={'handle'} style={{cursor: 'move'}}>
-                                                    <Bars/>
-                                                </div>
-                                                <div className={'d-flex flex-column flex-sm-row align-items-start gap-2 '}>
-                                                    <div className={'position-relative col-12 col-sm-6 col-lg-5 col-xl-4'}>
-                                                        <img className={'img-fluid'} src={video.thumbnail} alt=""/>
-                                                        <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
-                                                            {video.duration}
-                                                        </small>
+                                            <div className="d-flex align-items-center justify-content-between gap-3 px-3 py-2">
+                                                <div className={'d-flex align-items-center gap-3 d-flex  w-100'}>
+                                                    <div className={'handle'} style={{cursor: 'move'}}>
+                                                        <Bars/>
                                                     </div>
-                                                    <div className={'px-3 col-12 col-sm-6 col-lg-7 col-xl-8'}>
-                                                        <div className={'text-black text-lowercase text-sm'}>{video.title}</div>
-                                                        <div className={'text-muted text-lowercase text-sm'}>{video.user.username} • {video.views}</div>
+                                                    <div className={'d-flex flex-column flex-sm-row gap-2 w-100 align-items-center'}>
+                                                        {
+                                                            video.is_private ?
+                                                                <>
+                                                                    <div className={'col-12 col-sm-6 col-lg-5 col-xl-4'}>
+                                                                        <div
+                                                                            className="bg-secondary text-white d-flex justify-content-center align-items-center w-100"
+                                                                            style="height: 100px">
+                                                                            <i className="fa-solid fa-lock fa-2x"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={'px-0 px-sm-3 col-12 col-sm-6 col-lg-7 col-xl-8'}>
+                                                                        <div className='alert alert-secondary mb-0'>
+                                                                            <div className={'text-sm fw-bold text-center'}>This video is private</div>
+                                                                            <div className={'text-sm'}>The author update video status to private</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </>
+                                                                :
+                                                                <>
+                                                                    <div className={'position-relative col-12 col-sm-6 col-lg-5 col-xl-4'}>
+                                                                        <img className={'img-fluid'} src={video.thumbnail} alt=""/>
+                                                                        <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
+                                                                            {video.duration}
+                                                                        </small>
+                                                                    </div>
+                                                                    <div className={'px-3 col-12 col-sm-6 col-lg-7 col-xl-8'}>
+                                                                        <div className={'text-black text-lowercase text-sm'}>{video.title}</div>
+                                                                        <div className={'text-muted text-lowercase text-sm'}>{video.user.username} • {video.views}</div>
+                                                                    </div>
+                                                                </>
+                                                        }
                                                     </div>
                                                 </div>
                                                 <button

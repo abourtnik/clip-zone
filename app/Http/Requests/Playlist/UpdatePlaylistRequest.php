@@ -3,10 +3,7 @@
 namespace App\Http\Requests\Playlist;
 
 use App\Enums\PlaylistStatus;
-use App\Models\Video;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Enum;
 
@@ -48,9 +45,7 @@ class UpdatePlaylistRequest extends FormRequest
             'videos' => 'required|array',
             'videos.*' => [
                 'numeric',
-                Rule::exists('videos', 'id')->where(function (Builder $query){
-                    return (new Video)->scopeActive($query)->orWhere('user_id', Auth::user()->id);
-                })
+                Rule::exists('videos', 'id')
             ]
         ];
     }

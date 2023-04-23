@@ -45,7 +45,7 @@ class VideoPolicy
      */
     public function show(?User $user, Video $video): Response|bool
     {
-        return $video->is_active || $video->user()->is($user)
+        return $video->is_public || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(404, $video->is_banned ? 'This video was banned' : 'This video is private');
     }
@@ -59,7 +59,7 @@ class VideoPolicy
      */
     public function download(User $user, Video $video): Response|bool
     {
-        return $video->is_active || $video->user()->is($user)
+        return $video->is_public || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(403, 'This video is private');
     }
@@ -73,7 +73,7 @@ class VideoPolicy
      */
     public function file(?User $user, Video $video): Response|bool
     {
-        return $video->is_active || $video->user()->is($user)
+        return $video->is_public || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(403, 'This video is private');
     }
@@ -87,7 +87,7 @@ class VideoPolicy
      */
     public function thumbnail(?User $user, Video $video): Response|bool
     {
-        return $video->is_active || $video->user()->is($user)
+        return $video->is_public || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(403, 'This video is private');
     }
@@ -167,7 +167,7 @@ class VideoPolicy
      */
     public function pin(User $user, Video $video): Response|bool
     {
-        return $video->user->is($user) && $video->is_public && !$video->is_pinned
+        return $video->user->is($user) && $video->is_active && !$video->is_pinned
             ? Response::allow()
             : Response::denyWithStatus(403);
     }
@@ -181,7 +181,7 @@ class VideoPolicy
      */
     public function unpin(User $user, Video $video): Response|bool
     {
-        return $video->user->is($user) && $video->is_public && $video->is_pinned
+        return $video->user->is($user) && $video->is_active && $video->is_pinned
             ? Response::allow()
             : Response::denyWithStatus(403);
     }

@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Lab404\Impersonate\Models\Impersonate;
@@ -129,7 +130,9 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     }
 
     public function pinned_video () : HasOne {
-        return $this->hasOne(Video::class, 'id', 'pinned_video_id')->where('status', VideoStatus::PUBLIC);
+        return $this->hasOne(Video::class, 'id', 'pinned_video_id')
+            ->where('status', VideoStatus::PUBLIC)
+            ->orWhere('user_id', Auth::id());
     }
 
     public function activity () : HasMany {
