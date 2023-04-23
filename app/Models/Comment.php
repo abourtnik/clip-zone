@@ -129,7 +129,7 @@ class Comment extends Model implements Likeable, Reportable
      * @param QueryBuilder|EloquentBuilder $query
      * @return QueryBuilder|EloquentBuilder
      */
-    public function scopeActive(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
+    public function scopePublic(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
     {
         return $query->whereNull('banned_at');
     }

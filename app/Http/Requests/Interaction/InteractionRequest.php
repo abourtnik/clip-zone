@@ -39,7 +39,7 @@ class InteractionRequest extends FormRequest
                 'required',
                 'numeric',
                 Rule::exists((new $model())->getTable(), 'id')->where(function ($query) use ($model) {
-                    return (new $model)->scopeActive($query)->orWhere('user_id', Auth::user()->id);
+                    return (new $model)->scopePublic($query)->orWhere('user_id', Auth::user()->id);
                 })
             ],
         ];

@@ -31,7 +31,7 @@ class CommentController extends Controller
         $video_id = $request->get('video_id');
 
         $video = Video::findOrFail($video_id)->loadCount([
-            'comments' => fn($q) => $q->active()
+            'comments' => fn($q) => $q->public()
         ]);
 
         $this->authorize('list', [Comment::class, $video]);
@@ -39,13 +39,14 @@ class CommentController extends Controller
         return (CommentResource::collection(
             $video
                 ->comments()
-                ->active()
+                ->public()
                 ->whereNull('parent_id')
                 ->with([
                     'user',
                     'video' => fn($q) => $q->with(['user', 'pinned_comment']),
                     'replies' => function($q) {
                         return $q
+                            ->public()
                             ->with([
                                 'user',
                                 'video' => fn($q) => $q->with('user'),

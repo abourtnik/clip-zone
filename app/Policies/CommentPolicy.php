@@ -25,9 +25,9 @@ class CommentPolicy
 
     public function list(?User $user, Video $video) : Response|bool
     {
-        return ($video->is_active && $video->allow_comments) || $video->user()->is($user)
+        return ($video->is_public && $video->allow_comments) || $video->user()->is($user)
             ? Response::allow()
-            : Response::denyWithStatus(404, !$video->is_active ? 'This video is private' : 'Comments are turned off');
+            : Response::denyWithStatus(404, !$video->is_public ? 'This video is private' : 'Comments are turned off');
     }
 
     /**
@@ -63,9 +63,9 @@ class CommentPolicy
      */
     public function create(User $user, Video $video): Response|bool
     {
-        return ($video->is_active && $video->allow_comments) || $video->user()->is($user)
+        return ($video->is_public && $video->allow_comments) || $video->user()->is($user)
             ? Response::allow()
-            : Response::denyWithStatus(404, !$video->is_active ? 'This video is private' : 'Comments are turned off');
+            : Response::denyWithStatus(404, !$video->is_public ? 'This video is private' : 'Comments are turned off');
     }
 
 
@@ -79,7 +79,7 @@ class CommentPolicy
      */
     public function update(User $user, Comment $comment) : Response|bool
     {
-        return ($comment->user->is($user) && $comment->video->is_active) || ($comment->video->user()->is($user) && $comment->user->is($user))
+        return ($comment->user->is($user) && $comment->video->is_public) || ($comment->video->user()->is($user) && $comment->user->is($user))
             ? Response::allow()
             : Response::denyWithStatus(404, 'This video is private');
     }
@@ -93,7 +93,7 @@ class CommentPolicy
      */
     public function delete(User $user, Comment $comment): Response|bool
     {
-        return ($comment->user->is($user) && $comment->video->is_active) || $comment->video->user()->is($user)
+        return ($comment->user->is($user) && $comment->video->is_public) || $comment->video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(403);
     }
