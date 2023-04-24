@@ -41,12 +41,26 @@ class UserFactory extends Factory
     /**
      * Indicate that the model's email address should be unverified.
      *
-     * @return static
+     * @return Factory
      */
-    public function unverified()
+    public function unverified() : Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     * Indicate that the comment is banned.
+     *
+     * @return Factory
+     */
+    public function banned() : Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'banned_at' => now(),
+            ];
+        });
     }
 }

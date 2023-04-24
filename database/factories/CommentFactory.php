@@ -29,4 +29,18 @@ class CommentFactory extends Factory
             'updated_at' => $date,
         ];
     }
+
+    /**
+     * Indicate that the comment is banned.
+     *
+     * @return Factory
+     */
+    public function banned() : Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'banned_at' => now(),
+            ];
+        });
+    }
 }

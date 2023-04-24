@@ -32,7 +32,8 @@ deploy: ## Deploy application
 	ssh anton@51.178.29.115 -p 5789 -A 'cd /home/anton/www/clip-zone.com && git pull origin main && make install'
 
 test: ## Run test
-	docker exec -it php_container php artisan test
+	docker exec -it php_container php artisan test --stop-on-failure
+
 
 logs: ## See last logs
 	docker exec -it php_container tail -f storage/logs/laravel.log

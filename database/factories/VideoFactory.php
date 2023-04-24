@@ -38,4 +38,18 @@ class VideoFactory extends Factory
             'show_likes' => fake()->boolean(90),
         ];
     }
+
+    /**
+     * Indicate that the comment is banned.
+     *
+     * @return Factory
+     */
+    public function banned() : Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'banned_at' => now(),
+            ];
+        });
+    }
 }

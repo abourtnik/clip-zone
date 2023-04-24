@@ -36,14 +36,14 @@ class DatabaseSeeder extends Seeder
                         Interaction::factory(rand(0, 5))->createQuietly(['likeable_type' => Comment::class, 'likeable_id' => $comment->id]);
                     });
                     Interaction::factory(rand(0, 10))->create(['likeable_type' => Comment::class, 'likeable_id' => $comment->id]);
-                    Report::factory(rand(0, 1))->create(['reportable_type' => Comment::class, 'reportable_id' => $comment->id]);
+                    Report::factory(fake()->optional(0.1,  0)->numberBetween(1, 1))->create(['reportable_type' => Comment::class, 'reportable_id' => $comment->id]);
                 });
                 Interaction::factory(rand(0, 20))->create(['likeable_type' => Video::class, 'likeable_id' => $video->id]);
                 View::factory(rand(0, 30))->create(['video_id' => $video->id]);
-                Report::factory(rand(0, 1))->create(['reportable_type' => Video::class, 'reportable_id' => $video->id]);
+                Report::factory(fake()->optional( 0.1,  0)->numberBetween(1, 1))->create(['reportable_type' => Video::class, 'reportable_id' => $video->id]);
             });
-            Report::factory(rand(0, 1))->create(['reportable_type' => User::class, 'reportable_id' => $user->id]);
-            Subscription::factory(rand(0, 49))->create(['subscriber_id' => $user->id]);
+            Report::factory(fake()->optional( 0.1, 0)->numberBetween(1, 1))->create(['reportable_type' => User::class, 'reportable_id' => $user->id]);
+            Subscription::factory(rand(0, 20))->create(['subscriber_id' => $user->id]);
             Playlist::factory(rand(0, 5))->create(['user_id' => $user->id])->each(function($playlist) {
                 PlaylistVideo::factory(rand(1, 4))->create(['playlist_id' => $playlist->id]);
             });
