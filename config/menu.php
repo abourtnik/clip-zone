@@ -107,6 +107,12 @@ return [
             'title' => 'Exports',
             'icon' => 'file-export',
             'route' => 'admin.exports.index',
+        ],
+        [
+            'title' => 'Logs',
+            'icon' => 'file-lines',
+            'route' => 'admin.logs',
+            'new_tab' => true,
         ]
     ]
 ];

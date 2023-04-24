@@ -229,4 +229,7 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
             ->can('download', 'export')
             ->missing(fn(Request $request) => abort(404, 'Export not found'));
     });
+
+    // Logs
+    Route::get('/logs', fn() => redirect('logs'))->name('logs');
 });

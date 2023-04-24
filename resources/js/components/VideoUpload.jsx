@@ -130,16 +130,18 @@ export default function VideoUpload ({endpoint}) {
                     <div className="text-primary fw-bold">Dont quit or reload page please</div>
                     {
                         loading &&
-                        <div className="progress w-100 mt-4">
-                            <div className="progress-bar progress-bar-striped progress-bar-animated"
-                                 role="progressbar"
-                                 aria-valuenow={progress}
-                                 aria-valuemin="0"
-                                 aria-valuemax="100"
-                                 style={{width: progress + '%'}}
-                            >
-                                {progress + '%'}
+                        <div className={'w-100'}>
+                            <div className="progress w-100 mt-4 border">
+                                <div className="progress-bar progress-bar-striped progress-bar-animated"
+                                     role="progressbar"
+                                     aria-valuenow={progress}
+                                     aria-valuemin="0"
+                                     aria-valuemax="100"
+                                     style={{width: progress + '%'}}
+                                >
+                                </div>
                             </div>
+                            <div className={'mt-1 fw-bold'}>{progress + '%'}</div>
                         </div>
                     }
                     <button className="btn btn-secondary mt-4 text-uppercase" onClick={cancel}>

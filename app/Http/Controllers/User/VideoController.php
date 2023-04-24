@@ -174,6 +174,9 @@ class VideoController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * @throws UploadMissingFileException
+     */
     public function upload (FileRequest $request, FileReceiver $receiver) : JsonResponse|UploadMissingFileException {
 
         if (!$receiver->isUploaded()) {
@@ -188,9 +191,6 @@ class VideoController extends Controller
 
             // Store file
             $name = $file->store('/','videos');
-
-            // Remove chunk files
-            //unlink($save->getFile()->getPathname());
 
             // Get file duration
 
@@ -213,6 +213,9 @@ class VideoController extends Controller
             ])->toArray();
 
             $video = Auth::user()->videos()->create($validated);
+
+            // Remove chunk files
+            unlink($save->getFile()->getPathname());
 
             return response()->json([
                 'route' => route('user.videos.create', $video)

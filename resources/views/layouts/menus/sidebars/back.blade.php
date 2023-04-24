@@ -15,7 +15,7 @@
         <nav class="flex-column flex-shrink-0 bg-white d-flex overflow-auto h-100">
             <ul class="nav nav-pills flex-column mb-auto text-center">
                 @foreach(config('menu.'.$type) as $menu)
-                    <x-sidebar-item route="{{route($menu['route'])}}">
+                    <x-sidebar-item route="{{route($menu['route'])}}" newTab="{{$menu['new_tab'] ?? false}}">
                         <i style="width: 24px" class="fa-solid fa-{{$menu['icon']}}"></i>
                         <span class="text-sm">{{$menu['title']}}</span>
                     </x-sidebar-item>
