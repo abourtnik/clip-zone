@@ -31,7 +31,7 @@ class VideoResource extends JsonResource
                     'avatar' => $this->user->avatar_url,
                     'route' => $this->user->route
                 ],
-                'publication_date' => $this->publication_date->diffForHumans(),
+                'publication_date' => $this->publication_date?->diffForHumans(),
             ])
         ];
     }
