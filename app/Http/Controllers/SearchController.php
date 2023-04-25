@@ -53,6 +53,7 @@ class SearchController extends Controller
         $playlists = in_array($type, ['playlists', null]) ? Playlist::active()
             ->where('title', 'LIKE' , $match)
             ->withCount('videos')
+            ->having('videos_count', '>', 0)
             ->latest('created_at')
             ->get() : collect();
 
@@ -98,6 +99,7 @@ class SearchController extends Controller
             ->active()
             ->where('title', 'LIKE' , $match)
             ->withCount('videos')
+            ->having('videos_count', '>', 0)
             ->orderBy('videos_count', 'desc')
             ->get()
             ->map(fn($playlist) => [

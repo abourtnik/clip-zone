@@ -21,7 +21,7 @@ optimize: ## Clear application cache
 	docker exec -it php_container php artisan optimize
 
 install: ## Install application
-	php artisan migrate
+	php artisan migrate --force
 	composer install --optimize-autoloader --no-dev
 	npm install
 	npm run build

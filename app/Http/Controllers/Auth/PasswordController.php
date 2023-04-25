@@ -51,7 +51,14 @@ class PasswordController
 
     public function reset (string $id, string $token) : View|RedirectResponse {
 
-        $this->checkToken($id, $token);
+        $reset = PasswordReset::where([
+            'user_id' => $id,
+            'token' => $token
+        ])->latest()->first();
+
+        if (!$reset || $reset->is_expired) {
+            return redirect(route('login'))->with('error', 'This link is expired or invalid');
+        }
 
         return view('auth.password.reset', [
             'id' => $id,
@@ -65,29 +72,22 @@ class PasswordController
             'password' => 'required|min:6|confirmed',
         ]);
 
-        $user = $this->checkToken($request->get('id'), $request->get('token'));
-
-        $user->updatePassword($request->get('password'));
-
-        PasswordReset::where([
-            'user_id' => $request->get('id'),
-        ])->delete();
-
-        return redirect(route('login'))->with('success', 'Your password has been reset successfully');
-
-    }
-
-    private function checkToken (string $user_id, string $token): RedirectResponse|User {
-
         $reset = PasswordReset::where([
-            'user_id' => $user_id,
-            'token' => $token
+            'user_id' => $request->get('id'),
+            'token' => $request->get('token')
         ])->latest()->first();
 
         if (!$reset || $reset->is_expired) {
             return redirect(route('login'))->with('error', 'This link is expired or invalid');
         }
 
-        return $reset->user;
+        $reset->user->updatePassword($request->get('password'));
+
+        PasswordReset::where([
+            'user_id' => $request->get('id'),
+        ])->delete();
+
+        return redirect(route('login'))->with('success', 'Your password has been reset successfully !');
+
     }
 }

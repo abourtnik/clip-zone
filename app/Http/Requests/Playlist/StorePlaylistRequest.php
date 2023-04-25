@@ -44,7 +44,7 @@ class StorePlaylistRequest extends FormRequest
                 'required',
                 new Enum(PlaylistStatus::class)
             ],
-            'videos' => 'required|array',
+            'videos' => 'nullable|array',
             'videos.*' => [
                 'numeric',
                 Rule::exists('videos', 'id')->where(function (Builder $query){

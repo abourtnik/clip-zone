@@ -20,6 +20,8 @@ class VideoFactory extends Factory
      */
     public function definition() : array
     {
+        $date = fake()->dateTimeBetween('-1 year');
+
         return [
             'uuid' => fake()->uuid(),
             'title' => fake()->text(rand(5, config('validation.video.title.max'))),
@@ -30,12 +32,14 @@ class VideoFactory extends Factory
             'duration' => fake()->numberBetween(5, 4000),
             'mimetype' => 'video/mp4',
             'status' => fake()->randomElement([VideoStatus::PUBLIC->value, VideoStatus::PRIVATE->value, VideoStatus::UNLISTED->value]),
-            'publication_date' => fake()->dateTimeBetween('-1 year'),
+            'publication_date' => $date,
             'category_id' => Category::inRandomOrder()->first()?->id,
             'language' => fake()->randomElement(array_keys(Languages::get())),
             'allow_comments' => fake()->boolean(90),
             'default_comments_sort' => fake()->randomElement(['top', 'newest']),
             'show_likes' => fake()->boolean(90),
+            'created_at' => $date,
+            'updated_at' => $date
         ];
     }
 

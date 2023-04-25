@@ -214,8 +214,8 @@
             </div>
         </div>
         <div class="d-flex justify-content-between mt-3">
-            <a href="{{route('user.videos.index')}}" class="btn btn-secondary">
-                Cancel
+            <a href="{{route('user.videos.index')}}" class="btn btn-primary">
+                Complete Later
             </a>
             <div class="d-flex gap-2">
                 <button type="submit" class="btn btn-success">

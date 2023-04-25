@@ -52,7 +52,7 @@ class PlaylistController extends Controller
             'user_id' => Auth::user()->id
         ])->toArray();
 
-        $videos = $request->get('videos');
+        $videos = $request->get('videos', []);
 
         $playlist = Playlist::create($validated);
 
@@ -86,7 +86,7 @@ class PlaylistController extends Controller
 
         $videos = [];
 
-        foreach ($request->get('videos') as $key => $value) {
+        foreach ($request->get('videos', []) as $key => $value) {
             $videos[$value] = ['position' => $key];
         }
 

@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class="col-xl-3 order-first order-xl-last">
-            <div class="row g-2">
+            <div class="row g-2 h-100">
                 <div class="col-12 col-sm-6 col-xl-12">
                     <div class="card shadow border-primary">
                         <div class="card-body">

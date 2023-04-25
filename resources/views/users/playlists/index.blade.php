@@ -107,6 +107,8 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#delete_playlist"
                                     data-title="{{$playlist->title}}"
+                                    data-thumbnail="{{$playlist->thumbnail}}"
+                                    data-infos="{{trans_choice('videos', $playlist->videos_count) . ' • ' . $playlist->created_at->diffForHumans()}}"
                                     data-route="{{route('user.playlists.destroy', $playlist)}}"
                                 >
                                     <i class="fa-solid fa-trash"></i>
