@@ -146,7 +146,6 @@
                     <i class="fa-brands fa-github mr-2"></i>
                     <span>Github</span>
                 </a>
-                <a class="text-sm fw-bold text-decoration-none d-block mt-2" href="https://antonbourtnik.fr" target="_blank">Anton Bourtnik</a>
             </div>
         </nav>
     </div>
