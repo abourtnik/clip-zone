@@ -22,11 +22,11 @@ class DatabaseSeeder extends Seeder
 
         if (app()->isProduction()) {
             $this->call([
-                LocalSeeder::class,
+                ProductionSeeder::class,
             ]);
         } else {
             $this->call([
-                ProductionSeeder::class,
+                LocalSeeder::class,
             ]);
         }
     }
