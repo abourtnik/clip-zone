@@ -142,10 +142,6 @@
                     <small>Copyright © {{now()->format('Y')}} {{config('app.name')}}</small>
                     <small>All Rights Reserved</small>
                 </div>
-                <a class="btn bg-dark text-white btn-sm mt-2" href="https://github.com/abourtnik/youtube-clone" target="_blank">
-                    <i class="fa-brands fa-github mr-2"></i>
-                    <span>Github</span>
-                </a>
             </div>
         </nav>
     </div>
