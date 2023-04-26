@@ -123,7 +123,7 @@ export default function Playlist ({initial = []}) {
                                         <li className={'list-group-item p-0'}>
                                             <div className="d-flex align-items-center justify-content-between gap-3 px-3 py-2">
                                                 <div className={'d-flex align-items-center gap-3 d-flex  w-100'}>
-                                                    <div className={'handle'} style={{cursor: 'move'}}>
+                                                    <div className={'handle cursor-move'}>
                                                         <Bars/>
                                                     </div>
                                                     <div className={'d-flex flex-column flex-sm-row gap-2 w-100 align-items-center'}>

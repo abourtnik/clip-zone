@@ -7,6 +7,7 @@ import Alpine from 'alpinejs'
 import TomSelect from "tom-select";
 import 'htmx.org';
 import Cropper from 'cropperjs';
+import Sortable from 'sortablejs';
 
 // Components
 import './components/index.js'
@@ -14,6 +15,7 @@ import './components/index.js'
 window.bootstrap = bootstrap;
 window.Alpine = Alpine
 window.Cropper = Cropper
+window.Sortable = Sortable
 
 Alpine.start()
 

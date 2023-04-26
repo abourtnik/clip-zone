@@ -104,6 +104,11 @@ return [
             'route' => 'admin.reports.index',
         ],
         [
+            'title' => 'Categories',
+            'icon' => 'folder',
+            'route' => 'admin.categories.index',
+        ],
+        [
             'title' => 'Exports',
             'icon' => 'file-export',
             'route' => 'admin.exports.index',

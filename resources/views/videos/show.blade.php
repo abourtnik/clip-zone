@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-lg-7 col-xl-8 col-xxl-9 px-0 px-lg-3">
             <div class="ratio ratio-16x9">
-                <video controls class="w-100" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
+                <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
                     <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
                 </video>
             </div>
@@ -131,7 +131,7 @@
                 <div class="d-flex gap-3 justify-content-between align-items-center">
                     <div class="d-flex gap-3">
                         <a href="{{$video->user->route}}">
-                            <img class="rounded" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar" style="width: 48px;height: 48px;">
+                            <img class="rounded-circle" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar" style="width: 48px;height: 48px;">
                         </a>
                         <div class="d-flex flex-column">
                             <a href="{{$video->user->route}}" class="text-decoration-none">{{$video->user->username}}</a>

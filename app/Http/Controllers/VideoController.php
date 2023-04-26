@@ -83,7 +83,7 @@ class VideoController
                 ->with(['user'])
                 ->withCount(['views'])
                 ->inRandomOrder()
-                ->limit(12)
+                ->limit(8)
                 ->get(),
             'user_playlists' => Auth::user()?->load([
                 'playlists' => fn($q) => $q->withCount([

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CommentController as CommentAdminController;
 use App\Http\Controllers\Admin\UserController as UserAdminController;
 use App\Http\Controllers\Admin\VideoController as VideoAdminController;
 use App\Http\Controllers\Admin\ReportController as ReportAdminController;
+use App\Http\Controllers\Admin\CategoryController as CategoryAdminController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordController;
@@ -219,6 +220,12 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/{report}/accept', 'accept')->name('accept');
         Route::post('/{report}/reject', 'reject')->name('reject');
+    });
+
+    // Categories
+    Route::controller(CategoryAdminController::class)->prefix('categories')->name('categories.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/organize', 'organize')->name('organize');
     });
 
     // Exports

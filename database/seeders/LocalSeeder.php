@@ -25,7 +25,7 @@ class LocalSeeder extends Seeder
      */
     public function run() : void
     {
-        User::factory(50)->create()->each(function($user) {
+        User::factory(20)->create()->each(function($user) {
             Video::factory(rand(0, 20))->create(['user_id' => $user->id])->each(function ($video) {
                 Comment::factory(rand(0, 10))->createQuietly(['video_id' => $video->id])->each(function ($comment) use ($video) {
                     Comment::factory(rand(0, 5))->createQuietly(['parent_id' => $comment->id, 'video_id' => $video->id])->each(function ($comment) use ($video) {
@@ -40,8 +40,8 @@ class LocalSeeder extends Seeder
             });
             Report::factory(fake()->optional( 0.1, 0)->numberBetween(1, 1))->create(['reportable_type' => User::class, 'reportable_id' => $user->id]);
             Subscription::factory(rand(0, 20))->create(['subscriber_id' => $user->id]);
-            Playlist::factory(rand(0, 5))->create(['user_id' => $user->id])->each(function($playlist) {
-                PlaylistVideo::factory(rand(1, 4))->create(['playlist_id' => $playlist->id]);
+            Playlist::factory(rand(0, 1))->create(['user_id' => $user->id])->each(function($playlist) {
+                PlaylistVideo::factory(rand(0, 4))->create(['playlist_id' => $playlist->id]);
             });
         });
     }

@@ -2,6 +2,7 @@
 
 use App\Models\Video;
 use App\Models\Playlist;
+use App\Models\Category;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
@@ -41,4 +42,21 @@ Breadcrumbs::for('create_playlist', function (BreadcrumbTrail $trail) {
 Breadcrumbs::for('edit_playlist', function (BreadcrumbTrail $trail, Playlist $playlist) {
     $trail->parent('playlists');
     $trail->push($playlist->title, route('user.playlists.edit', $playlist));
+});
+
+// CATEGORIES
+Breadcrumbs::for('categories', function (BreadcrumbTrail $trail) {
+    $trail->push('Categories', route('admin.categories.index'));
+});
+
+// Categories > Create Category
+Breadcrumbs::for('create_category', function (BreadcrumbTrail $trail) {
+    $trail->parent('categories');
+    $trail->push('Create new category', route('admin.categories.create'));
+});
+
+// Categories > Update Category [Category]
+Breadcrumbs::for('edit_category', function (BreadcrumbTrail $trail, Category $category) {
+    $trail->parent('categories');
+    $trail->push($category->title, route('admin.categories.edit', $category));
 });

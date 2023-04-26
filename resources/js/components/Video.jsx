@@ -13,7 +13,14 @@ export default function Video ({video}) {
             <div className="position-relative h-100 video-card">
                 <a href={video.route}>
                     <div className="position-relative">
-                        {loading && <div className="bg-light-dark rounded w-100" style="height: 200px"></div>}
+                        {
+                            loading &&
+                            <div className="bg-light-dark rounded w-100 d-flex align-items-center justify-content-center text-dark" style="height: 200px">
+                                <div className="spinner-border spinner-border-sm" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            </div>
+                        }
                         <img className={'img-fluid rounded-4 w-100 video-thumbnail ' + (loading ? 'd-none' : 'd-block')} src={video.thumbnail} alt={video.title} onLoad={imageLoad}/>
                         <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                             {video.duration}

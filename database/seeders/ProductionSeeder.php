@@ -16,7 +16,9 @@ class ProductionSeeder extends Seeder
     {
         User::factory(10)->create([
             'password' => Str::random(),
-            'avatar' => null
+            'avatar' => null,
+            'show_subscribers' => true,
+            'country' => null
         ]);
     }
 }
