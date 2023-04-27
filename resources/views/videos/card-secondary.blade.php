@@ -1,7 +1,7 @@
 <article class="d-flex flex-wrap flex-sm-nowrap mb-2 position-relative gap-2 suggested_video video-card">
     <a href="{{$video->route}}">
         <div class="position-relative">
-            <img class="rounded-2 video-thumbnail" src="{{$video->thumbnail_url}}" alt="{{$video->title}}">
+            <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" imgClass="rounded-2 video-thumbnail"/>
             <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                 {{$video->duration}}
             </small>

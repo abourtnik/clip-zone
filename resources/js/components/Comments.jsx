@@ -90,7 +90,9 @@ const Comments = memo(({target, auth, defaultSort}) => {
     return (
         <div className="mb-4">
             <div className="mb-3 d-flex align-items-center justify-content-between">
-                <div>{count} Comment{count > 1 && 's'}</div>
+                {
+                    primaryLoading ? <div>Loading ...</div> : <div>{count} Comment{count > 1 && 's'}</div>
+                }
                 <div className={'d-flex gap-2 align-items-center'}>
                     <button onClick={() => sort('top')} className={'btn btn-' + activeButton('top') + 'btn-sm'}>Top Comments</button>
                     <button onClick={() => sort('newest')} className={'btn btn-' + activeButton('newest') + 'btn-sm'}>Newest first</button>

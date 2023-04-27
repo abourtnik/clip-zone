@@ -2,7 +2,7 @@
     <div class="position-relative h-100 video-card">
         <a href="{{$video->route}}">
             <div class="position-relative">
-                <img class="img-fluid rounded w-100 video-thumbnail" src="{{$video->thumbnail_url}}" alt="{{$video->title}}">
+                <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" imgClass="img-fluid rounded w-100 video-thumbnail"/>
                 <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                     {{$video->duration}}
                 </small>

@@ -1,7 +1,7 @@
 <article class="d-flex flex-column position-relative col-12 col-sm-6 col-md-6 col-lg-4 col-xxl-3">
     <a href="{{$video->route}}">
         <div class="position-relative">
-            <img class="rounded-2 img-fluid" src="{{$video->thumbnail_url}}" alt="{{$video->title}}">
+            <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" imgClass="rounded-2 img-fluid"/>
             <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                 {{$video->duration}}
             </small>

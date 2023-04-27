@@ -1,7 +1,7 @@
 <article class="d-flex flex-column flex-sm-row mb-3 position-relative card">
     <a href="{{$video->route}}" class="col-12 col-sm-6 col-lg-5 col-xl-4">
         <div class="position-relative h-100">
-            <img class="img-fluid w-100 h-100" src="{{$video->thumbnail_url}}" alt="{{$video->title}}" style="object-fit: cover">
+            <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" imgClass="img-fluid w-100 h-100"/>
             <small class="position-absolute bottom-0 right-0 p-1 text-white bg-dark">
                 {{$video->duration}}
             </small>

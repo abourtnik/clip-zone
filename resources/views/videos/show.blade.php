@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-lg-7 col-xl-8 col-xxl-9 px-0 px-lg-3">
             <div class="ratio ratio-16x9">
-                <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
+                <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}" autoplay>
                     <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
                 </video>
             </div>
@@ -134,7 +134,7 @@
                             <img class="rounded-circle" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar" style="width: 48px;height: 48px;">
                         </a>
                         <div class="d-flex flex-column">
-                            <a href="{{$video->user->route}}" class="text-decoration-none">{{$video->user->username}}</a>
+                            <a href="{{$video->user->route}}" class="text-decoration-none fw-bold">{{$video->user->username}}</a>
                             @if($video->user->show_subscribers)
                                 <small class="text-muted d-block">{{trans_choice('subscribers', $video->user->subscribers_count)}}</small>
                             @endif
@@ -187,7 +187,7 @@
                 @else
                     <div class="my-4 card">
                         <div class="card-body">
-                            <div class="alert alert-primary mb-0 fw-bold">No description provided</div>
+                            <div class="text-muted mb-0">No description provided</div>
                         </div>
                     </div>
                 @endif
