@@ -17,6 +17,6 @@
     document.getElementById('video_likes').addEventListener('show.bs.modal', event => {
         const button = event.relatedTarget
         const id = button.dataset.id;
-        document.getElementById('interactions-body').innerHTML =`<interactions-area target=${id} />`;
+        document.getElementById('interactions-body').innerHTML = `<interactions-area target=${id} />`;
     })
 </script>

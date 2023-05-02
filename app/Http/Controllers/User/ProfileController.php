@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Events\UserSubscribed;
 use App\Filters\CommentFilters;
 use App\Filters\InteractionFilters;
 use App\Filters\SubscriberFilters;
@@ -141,7 +142,8 @@ class ProfileController
     }
 
     public function subscribe (User $user) : JsonResponse {
-        Auth::user()->subscriptions()->toggle($user);
+        $subscription = Auth::user()->subscriptions()->toggle($user);
+        UserSubscribed::dispatchIf($subscription['attached'], $user, Auth::user());
         return response()->json();
     }
 

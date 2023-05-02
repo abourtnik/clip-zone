@@ -6,6 +6,7 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\NotificationController;
+use App\Http\Controllers\User\PlaylistController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
 use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
@@ -61,7 +62,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/report', [ReportController::class, 'report'])->name('report');
 
     // PLAYLIST
-    Route::post('/save', [VideoUserController::class, 'save'])->name('save');
+    Route::controller(PlaylistController::class)->prefix('playlists')->name('playlists.')->group(function () {
+        Route::get('/{video}', 'list')->name('list');
+        Route::post('/save', 'save')->name('save');
+    });
 
     // NOTIFICATIONS
     Route::controller(NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {

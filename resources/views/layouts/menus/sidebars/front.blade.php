@@ -13,7 +13,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
     </div>
-    <div class="offcanvas-body px-0 pt-0">
+    <div class="offcanvas-body px-0 py-0">
         <nav class="flex-column flex-shrink-0 bg-white d-flex overflow-auto h-100">
             @foreach(config('menu.front.top') as $submenu)
                 @unless($loop->index === 1 && !Auth::check())
@@ -38,7 +38,7 @@
                         <x-sidebar-item route="{{$playlist->route}}" class="justify-content-between">
                             <div class="d-flex align-items-center gap-4">
                                 <i class="fa-solid fa-list"></i>
-                                <span class="text-sm">{{Str::limit($playlist->title, 20)}}</span>
+                                <span class="text-sm text-nowrap">{{Str::limit($playlist->title, 20)}}</span>
                             </div>
                         </x-sidebar-item>
                     @endforeach
@@ -53,7 +53,7 @@
                             @foreach($favorite_playlists->slice(7) as $playlist)
                                 <x-sidebar-item route="{{$playlist->route}}" class="justify-content-between">
                                     <i class="fa-solid fa-list"></i>
-                                    <span class="text-sm">{{Str::limit($playlist->title, 20)}}</span>
+                                    <span class="text-sm text-nowrap">{{Str::limit($playlist->title, 20)}}</span>
                                 </x-sidebar-item>
                             @endforeach
                             <li class="nav-item">
@@ -77,7 +77,7 @@
                         <x-sidebar-item route="{{$user->route}}" class="justify-content-between">
                             <div class="d-flex align-items-center gap-4">
                                 <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
-                                <span class="text-sm">{{$user->username}}</span>
+                                <span class="text-sm text-nowrap">{{Str::limit($user->username, 20)}}</span>
                             </div>
                             @if($user->new_videos)
                                 <span class="bg-primary rounded-circle" style="width: 8px;height: 8px"></span>
@@ -96,7 +96,7 @@
                                 <x-sidebar-item route="{{$user->route}}" class="justify-content-between">
                                     <div class="d-flex align-items-center gap-4">
                                         <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
-                                        <span class="text-sm">{{$user->username}}</span>
+                                        <span class="text-sm text-nowrap">{{Str::limit($user->username, 20)}}</span>
                                     </div>
                                     @if($user->new_videos)
                                         <span class="bg-primary rounded-circle" style="width: 8px;height: 8px"></span>
@@ -134,7 +134,7 @@
                     </x-sidebar-item>
                 @endforeach
             </ul>
-            <div class="ps-4">
+            <div class="ps-4 pb-2">
                 <hr class="w-90">
                 <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">Terms of Service •</a>
                 <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('contact.show')}}">Contact</a>

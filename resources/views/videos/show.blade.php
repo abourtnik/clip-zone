@@ -57,7 +57,7 @@
                                 <i class="fa-solid fa-download"></i>&nbsp;
                                 Download
                             </a>
-                            <button class="btn btn-warning btn-sm rounded-4 px-4" title="Save video" data-bs-toggle="modal" data-bs-target="#save">
+                            <button class="btn btn-warning btn-sm rounded-4 px-4" title="Save video" data-bs-toggle="modal" data-bs-target="#save" data-id="{{$video->id}}">
                                 <i class="fa-regular fa-bookmark"></i>&nbsp;
                                 Save
                             </button>
@@ -79,7 +79,7 @@
                         <div class="d-flex gap-2 align-items-center">
                             <div class="d-flex justify-content-between bg-light-dark rounded-4">
                                 <button
-                                    @class(['hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end'])
+                                    class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
                                     data-bs-toggle="popover"
                                     data-bs-placement="left"
                                     data-bs-title="Like this video ?"
@@ -259,3 +259,22 @@
         })
     </script>
 @endPushIf
+
+@push('scripts')
+    <script>
+        const video = document.querySelector("video");
+
+        const volume = JSON.parse(localStorage.getItem('volume')) || {value: 0.5, muted: false};
+
+        video.volume = volume.value;
+        video.muted = volume.muted;
+
+        video.onvolumechange = (event) => {
+            localStorage.setItem("volume", JSON.stringify({
+                value: event.target.volume.toFixed(2),
+                muted: event.target.muted
+            }));
+        };
+
+    </script>
+@endpush

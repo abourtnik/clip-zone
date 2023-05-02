@@ -36,16 +36,22 @@
             @endforelse
         @endif
     @else
-        <div class="col-12 col-md-10 offset-md-1">
-            <div class="h-full card shadow">
-                <div class="card-body">
-                    <div class="text-center">
-                        <i class="fa-brands fa-youtube fa-4x mb-3"></i>
-                        <h5 class="my-3">Don’t miss new videos</h5>
-                        <p class="text-muted">Sign In to see updates from your favorite YouTube channels</p>
-                        <a href="{{route('login')}}" class="btn btn-outline-primary rounded-5 text-uppercase">
-                            Sign in
-                        </a>
+        <div class="h-full">
+            <div class="row align-items-center h-75 mt-5">
+                <div class="col-10 offset-1 col-xxl-8 offset-xxl-2 border border-1 bg-light">
+                    <div class="row">
+                        <div class="col-6 d-none d-lg-flex px-0 border-end border-gray-200 d-flex justify-content-center align-items-center bg-white">
+                            <img class="img-fluid" src="{{asset('images/pages/subscriptions.jpg')}}" alt="Subscriptions">
+                        </div>
+                        <div class="col-12 col-lg-6 py-5 px-3 px-sm-5 d-flex align-items-center justify-content-center text-center">
+                            <div>
+                                <h1 class="h3 mb-3 fw-normal">Don’t miss new videos</h1>
+                                <p class="text-muted">Sign In to see updates from your favorite channels</p>
+                                <a href="{{route('login')}}" class="btn btn-outline-primary rounded-5 text-uppercase">
+                                    Sign in
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

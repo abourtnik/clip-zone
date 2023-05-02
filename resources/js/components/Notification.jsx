@@ -1,6 +1,5 @@
 import {useState} from 'preact/hooks';
 import {memo} from 'preact/compat';
-import {Check} from './Icon'
 
 const Notification = memo(({notification, read}) => {
 
@@ -31,13 +30,17 @@ const Notification = memo(({notification, read}) => {
                 <>
                     <span className="bg-primary rounded-circle" style="width: 12px;height: 10px"/>
                     <button
-                        className="btn bg-success bg-opacity-25 rounded-circle p-2 btn-sm position-relative border"
+                        className="btn bg-success bg-opacity-25 rounded-circle p-2 btn-sm position-relative border border-1 d-flex align-items-center justify-content-center fw-bold"
                         type="button"
                         onClick={handleRead}
                         data-bs-toggle="tooltip"
                         data-bs-title="Mark as read"
                     >
-                        {loading ? <span className="spinner-border spinner-border-sm text-primary" style={{width:'16px'}} role="status" aria-hidden="true"></span> : <Check/>}
+                        {
+                            loading ?
+                                <span className="spinner-border spinner-border-sm text-primary" role="status" aria-hidden="true"></span>
+                                : <i className="fa-solid fa-check"></i>
+                        }
                     </button>
                 </>
             }

@@ -14,6 +14,7 @@ import Notifications from "./Notifications";
 import ImageUpload from "./ImageUpload";
 import VideoUpload from "./VideoUpload";
 import ImageLoaded from "./ImageLoaded";
+import Save from "./Save";
 
 register(Subscribe, 'subscribe-button');
 register(Interaction, 'interaction-button', [], { shadow: false });
@@ -29,5 +30,6 @@ register(Notifications, 'site-notifications', [], { shadow: false });
 register(ImageUpload, 'image-upload', ['source'], { shadow: false });
 register(VideoUpload, 'video-upload', [], { shadow: false });
 register(ImageLoaded, 'image-loaded', [], { shadow: false });
+register(Save, 'save-video', [], { shadow: false });
 
 

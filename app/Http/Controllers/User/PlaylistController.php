@@ -7,11 +7,15 @@ use App\Filters\PlaylistFilters;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Playlist\StorePlaylistRequest;
 use App\Http\Requests\Playlist\UpdatePlaylistRequest;
+use App\Http\Requests\Video\SaveRequest;
+use App\Http\Resources\PlaylistResource;
 use App\Http\Resources\VideoResource;
 use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -32,6 +36,16 @@ class PlaylistController extends Controller
         ]);
     }
 
+    public function list(Video $video): ResourceCollection {
+        return PlaylistResource::collection(
+            Playlist::where('user_id', Auth::user()->id)
+                ->withCount([
+                    'videos as has_video' => fn($q) => $q->where('video_id', $video->id)
+                ])
+                ->paginate(20)
+        );
+    }
+
     public function create(): View {
         return view('users.playlists.create', [
             'status' => PlaylistStatus::get(),
@@ -45,7 +59,7 @@ class PlaylistController extends Controller
         ]);
     }
 
-    public function store(StorePlaylistRequest $request): RedirectResponse {
+    public function store(StorePlaylistRequest $request): RedirectResponse|PlaylistResource {
 
         $validated = $request->safe()->merge([
             'uuid' => (string) Str::uuid(),
@@ -60,6 +74,10 @@ class PlaylistController extends Controller
             $playlist->videos()->attach([
                 $id => ['position' => $key]
             ]);
+        }
+
+        if ($request->ajax()) {
+            return new PlaylistResource($playlist);
         }
 
         return redirect()->route('user.playlists.index');
@@ -108,6 +126,17 @@ class PlaylistController extends Controller
         $playlist->delete();
 
         return redirect()->route('user.playlists.index');
+    }
+
+    public function save (SaveRequest $request): JsonResponse {
+
+        $video = Video::findOrFail($request->get('video_id'));
+
+        $playlists = $request->get('playlists', []);
+
+        $video->playlists()->sync($playlists);
+
+        return response()->json(null, 201);
     }
 
 }

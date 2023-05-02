@@ -72,9 +72,9 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-end">
-                        <button type="submit" class="btn btn-secondary">
+                        <button type="submit" class="btn btn-primary">
                             <i class="fa-solid fa-user-edit"></i>
-                            Update
+                            Update Profile
                         </button>
                     </div>
                 </form>
@@ -148,9 +148,9 @@
                             <i class="fa-solid fa-eye"></i>&nbsp;
                             Show my channel
                         </a>
-                        <button type="submit" class="btn btn-secondary">
+                        <button type="submit" class="btn btn-primary">
                             <i class="fa-solid fa-user-edit"></i>
-                            Update
+                            Update Channel
                         </button>
                     </div>
                 </form>

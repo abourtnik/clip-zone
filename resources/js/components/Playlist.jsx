@@ -1,6 +1,5 @@
 import { useState, useCallback, useRef } from 'preact/hooks';
 import {debounce} from "../functions";
-import {Cross, Bars, Image} from './Icon'
 import { ReactSortable } from "react-sortablejs";
 import {jsonFetch, useClickOutside} from '../hooks'
 
@@ -124,7 +123,7 @@ export default function Playlist ({initial = []}) {
                                             <div className="d-flex align-items-center justify-content-between gap-3 px-3 py-2">
                                                 <div className={'d-flex align-items-center gap-3 d-flex  w-100'}>
                                                     <div className={'handle cursor-move'}>
-                                                        <Bars/>
+                                                        <i className="fa-solid fa-bars"></i>
                                                     </div>
                                                     <div className={'d-flex flex-column flex-sm-row gap-2 w-100 align-items-center'}>
                                                         {
@@ -167,7 +166,7 @@ export default function Playlist ({initial = []}) {
                                                     data-bs-title="Remove"
                                                     onClick={() => remove(video)}
                                                 >
-                                                    <Cross/>
+                                                    <i className="fa-solid fa-xmark"></i>
                                                 </button>
                                             </div>
                                             <input type="hidden" name={'videos[]'} value={video.id}/>

@@ -40,7 +40,7 @@ class RegisterUserRequest extends FormRequest
             'password' => [
                 'required',
                 'confirmed',
-                Password::min(config('validation.user.password.max'))
+                Password::min(config('validation.user.password.min'))
             ],
             'cgu' => ['accepted']
         ];

@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-12 mt-3">
                             <label for="status" class="form-label">Visibility</label>
-                            <select class="form-control" name="status" id="status" required @change="update">
+                            <select class="form-control" name="status" id="status" required>
                                 @foreach($status as $id => $name)
                                     <option @selected(old('status', $playlist->status->value) == $id) value="{{$id}}">{{$name}}</option>
                                 @endforeach

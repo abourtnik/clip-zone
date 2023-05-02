@@ -3,7 +3,6 @@ import { memo } from 'preact/compat';
 
 import Interaction from "../Interaction";
 import ReplyForm from "./ReplyForm";
-import {ThumbsDownSolid, ThumbsUpSolid, Ellipsis, Pin, Pen, Flag} from "../Icon";
 import Edit from './Edit'
 
 import ConfirmDelete from './ConfirmDelete'
@@ -83,7 +82,7 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                     {
                         comment.is_pinned &&
                         <div className={'d-flex align-items-center gap-2 mb-3 badge rounded-pill text-bg-primary'} style='width:fit-content'>
-                            <Pin/>
+                            <i className="fa-solid fa-thumbtack"></i>
                             <span className={'text-white'}>Pinned by {comment.author.username} </span>
                         </div>
                     }
@@ -100,14 +99,14 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                             user &&
                             <div className={'dropdown'}>
                                 <button className={'bg-transparent btn-sm dropdown-toggle without-caret'} type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
-                                    <Ellipsis/>
+                                    <i className="fa-solid fa-ellipsis-vertical"></i>
                                 </button>
                                 <ul className="dropdown-menu">
                                     {
                                         comment.can_pin &&
                                         <li>
                                             <button onClick={() => pin(comment, comment.is_pinned ? 'unpin' : 'pin')} className="dropdown-item d-flex align-items-center gap-3" >
-                                                <Pin width={'12px'}/>
+                                                <i className="fa-solid fa-thumbtack"></i>
                                                 {comment.is_pinned ? 'Unpin' : 'Pin'}
                                             </button>
                                         </li>
@@ -116,7 +115,7 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                                         comment.can_update &&
                                         <li>
                                             <button className="dropdown-item d-flex align-items-center gap-3" onClick={() => setOnEdit(onEdit => !onEdit)}>
-                                                <Pen />
+                                                <i className="fa-solid fa-pen"></i>
                                                 Edit
                                             </button>
                                         </li>
@@ -130,7 +129,7 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                                                 {
                                                     comment.reported_at ?
                                                         <div className="dropdown-item d-flex align-items-center gap-2 mb-0 text-sm py-2">
-                                                            <Flag/>
+                                                            <i className="fa-solid fa-flag"></i>
                                                             <span>Reported {comment.reported_at}</span>
                                                         </div>
                                                         :
@@ -141,7 +140,7 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                                                             data-id={comment.id}
                                                             data-type={comment.class}
                                                         >
-                                                            <Flag/>
+                                                            <i className="fa-solid fa-flag"></i>
                                                             Report
                                                         </button>
                                                 }
@@ -164,9 +163,9 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                                         auth={user}
                                     />
                                     :
-                                    <div className="d-flex justify-content-between bg-light-dark border border-secondary rounded-4">
+                                    <div className="d-flex justify-content-between bg-light-dark rounded-4">
                                         <button
-                                            className="hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
+                                            className="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end d-fl"
                                             data-bs-toggle="popover"
                                             data-bs-placement="left"
                                             data-bs-title="Like this comment ?"
@@ -174,12 +173,14 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                                             data-bs-html="true"
                                             data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
                                         >
-                                            <ThumbsUpSolid/>
-                                            {comment.likes_count > 0 && <span>{comment.likes_count}</span>}
+                                            <div className={'d-flex gap-2 align-items-center'}>
+                                                <i className="fa-regular fa-thumbs-up"></i>
+                                                {comment.likes_count > 0 && <span>{comment.likes_count}</span>}
+                                            </div>
                                         </button>
                                         <div className="vr"></div>
                                         <button
-                                            className="hover-grey d-flex gap-2 align-items-center btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
+                                            className="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
                                             data-bs-toggle="popover"
                                             data-bs-placement="right"
                                             data-bs-title="Don't like this comment ?"
@@ -187,8 +188,10 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                                             data-bs-html="true"
                                             data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
                                         >
-                                            <ThumbsDownSolid/>
-                                            {comment.dislikes_count > 0 && <span>{comment.dislikes_count}</span>}
+                                            <div className={'d-flex gap-2 align-items-center'}>
+                                                <i className="fa-regular fa-thumbs-down"></i>
+                                                {comment.dislikes_count > 0 && <span>{comment.dislikes_count}</span>}
+                                            </div>
                                         </button>
                                     </div>
                             }

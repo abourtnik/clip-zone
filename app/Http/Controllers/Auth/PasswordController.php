@@ -69,7 +69,7 @@ class PasswordController
     public function update (Request $request) : RedirectResponse
     {
         $request->validate([
-            'password' => 'required|min:6|confirmed',
+            'password' => 'required|min:'.config('validation.user.password.min').'|confirmed',
         ]);
 
         $reset = PasswordReset::where([

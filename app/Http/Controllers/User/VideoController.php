@@ -10,7 +10,6 @@ use App\Filters\VideoFilters;
 use App\Helpers\Image;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\FileRequest;
-use App\Http\Requests\Video\SaveRequest;
 use App\Http\Requests\Video\StoreVideoRequest;
 use App\Http\Requests\Video\UpdateVideoRequest;
 use App\Models\Category;
@@ -237,16 +236,5 @@ class VideoController extends Controller
         return response()->json([
             "done" => $handler->getPercentageDone()
         ]);
-    }
-
-    public function save (SaveRequest $request): JsonResponse {
-
-        $video = Video::findOrFail($request->get('video_id'));
-
-        $playlists = $request->get('playlists', []);
-
-        $video->playlists()->sync($playlists);
-
-        return response()->json(null, 201);
     }
 }

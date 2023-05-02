@@ -110,7 +110,7 @@
                 <div class="card shadow-soft">
                     <div class="card-body">
                         <div class="ratio ratio-16x9">
-                            <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}">
+                            <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}" onloadstart="this.volume=0.5">
                                 <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
                             </video>
                         </div>

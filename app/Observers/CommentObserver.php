@@ -35,11 +35,11 @@ class CommentObserver
      */
     public function deleting(Comment $comment) : void
     {
-        // Remove interaction for this comment
-        $comment->interactions()->delete();
+        // Remove interaction for this comment with call interaction deleting observer
+        $comment->interactions()->each(fn ($interaction) => $interaction->delete());
 
-        // Remove replies and replies interactions
-        $comment->replies_interactions()->delete();
+        // Remove replies and replies interactions with call interaction deleting observer
+        $comment->replies_interactions()->each(fn ($interaction) => $interaction->delete());
         $comment->replies()->delete();
 
         // Remove video reports

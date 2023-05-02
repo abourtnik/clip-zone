@@ -1,6 +1,5 @@
 import { useState, useCallback, useRef } from 'preact/hooks';
 import {debounce} from "../functions";
-import {Search as SearchIcon} from  './Icon'
 import {jsonFetch, useClickOutside} from '../hooks'
 
 export default function Search ({query = '', responsive = true}) {
@@ -55,7 +54,7 @@ export default function Search ({query = '', responsive = true}) {
                     }
                 </div>
                 <button className="btn btn-outline-secondary rounded-5 rounded-start radius-start-0 px-4" type="submit">
-                    <SearchIcon/>
+                    <i className="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>
         </form>
@@ -71,7 +70,7 @@ export default function Search ({query = '', responsive = true}) {
                                             <a href={result.url}
                                                className="d-flex align-items-center gap-2 justify-content-start text-decoration-none px-3 py-2 hover-primary">
                                                 <div className={'pe-2'}>
-                                                    <SearchIcon/>
+                                                    <i className="fa-solid fa-magnifying-glass"></i>
                                                 </div>
                                                 <div className={'text-black text-lowercase ' + textSize}>{result.title}</div>
                                             </a>

@@ -1,5 +1,4 @@
 import '../sass/app.scss';
-import '@fortawesome/fontawesome-free/js/all.js';
 
 // Libs
 import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';

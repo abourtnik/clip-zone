@@ -6,6 +6,7 @@ use App\Http\Resources\VideoResource;
 use App\Models\Category;
 use App\Models\User;
 use App\Models\Video;
+use App\Services\VideoService;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -16,6 +17,11 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class VideoController
 {
+
+    public function __construct(private readonly VideoService $videoService)
+    {
+    }
+
     public function home () : ResourceCollection {
         return VideoResource::collection(
             Video::active()
@@ -78,18 +84,7 @@ class VideoController
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                     'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ]),
-            'videos' => Video::where('id', '!=', $video->id)
-                ->active()
-                ->with(['user'])
-                ->withCount(['views'])
-                ->inRandomOrder()
-                ->limit(8)
-                ->get(),
-            'user_playlists' => Auth::user()?->load([
-                'playlists' => fn($q) => $q->withCount([
-                    'videos as has_video' => fn($q) => $q->where('video_id', $video->id)
-                ])
-            ])->playlists
+            'videos' => $this->videoService->getSuggestedVideos($video)
         ]);
     }
 

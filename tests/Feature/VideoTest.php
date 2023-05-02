@@ -9,6 +9,7 @@ use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class VideoTest extends TestCase
@@ -21,6 +22,8 @@ class VideoTest extends TestCase
     public function setUp() : void
     {
         parent::setUp();
+
+        Storage::fake('thumbnails');
 
         $this->user = User::factory()->create();
 

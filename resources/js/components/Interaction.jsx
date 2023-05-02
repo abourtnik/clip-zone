@@ -1,5 +1,4 @@
 import { useState } from 'preact/hooks';
-import {ThumbsUpSolid, ThumbsUpRegular, ThumbsDownSolid, ThumbsDownRegular} from './Icon'
 import {jsonFetch} from '../hooks'
 
 export default function Interaction ({model, target, count, active, showCount = true}) {
@@ -45,8 +44,8 @@ export default function Interaction ({model, target, count, active, showCount = 
                 data-bs-placement="bottom"
                 data-bs-trigger="hover"
             >
-                <div className={'d-flex gap-1'}>
-                    {liked ? <ThumbsUpRegular width={'14px'}/> : <ThumbsUpSolid width={'14px'}/>}
+                <div className={'d-flex gap-1 align-items-center'}>
+                    {liked ? <i className="fa-solid fa-thumbs-up"></i> : <i className="fa-regular fa-thumbs-up"></i>}
                     { (showCount && counterLike > 0) && <span className={'ml-1'}>{counterLike}</span>}
                 </div>
             </button>
@@ -59,8 +58,8 @@ export default function Interaction ({model, target, count, active, showCount = 
                 data-bs-placement="bottom"
                 data-bs-trigger="hover"
             >
-                <div className={'d-flex gap-1'}>
-                    {disliked ? <ThumbsDownRegular width={'14px'}/> : <ThumbsDownSolid width={'14px'}/>}
+                <div className={'d-flex gap-1  align-items-center'}>
+                    {disliked ? <i className="fa-solid fa-thumbs-down"></i> : <i className="fa-regular fa-thumbs-down"></i>}
                     { (showCount && counterDislike > 0) && <span className={'ml-1'}>{counterDislike}</span>}
                 </div>
             </button>

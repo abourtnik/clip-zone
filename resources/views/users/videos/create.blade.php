@@ -117,7 +117,7 @@
                 <div class="card shadow-soft h-100">
                     <div class="card-body">
                         <div class="ratio ratio-16x9">
-                            <video controls class="w-100 border" controlsList="nodownload">
+                            <video controls class="w-100 border" controlsList="nodownload" onloadstart="this.volume=0.5">
                                 <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
                             </video>
                         </div>

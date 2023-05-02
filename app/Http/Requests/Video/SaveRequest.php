@@ -42,7 +42,7 @@ class SaveRequest extends FormRequest
                         ->orWhere(function($query) {
                             $query->where('status', VideoStatus::PLANNED)
                                 ->where('scheduled_date', '<=', now());
-                        });
+                        })->orWhere('user_id', Auth::user()->id);
                 }),
             ],
             'playlists' => 'array',

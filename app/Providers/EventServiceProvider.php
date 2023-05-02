@@ -3,13 +3,9 @@
 namespace App\Providers;
 
 use App\Events\ExportFinished;
-use App\Events\UserBanned;
-use App\Events\VideoBanned;
-use App\Events\VideoPublished;
 use App\Listeners\SendExportFinishedNotification;
-use App\Listeners\SendUserBannedNotification;
-use App\Listeners\SendVideoBannedNotification;
-use App\Listeners\SendVideoPublishedNotification;
+use App\Listeners\UserEventSubscriber;
+use App\Listeners\VideoEventSubscriber;
 use App\Models\Category;
 use App\Models\Comment;
 use App\Models\Interaction;
@@ -41,18 +37,14 @@ class EventServiceProvider extends ServiceProvider
         Login::class => [
             SuccessfulLogin::class,
         ],
-        VideoPublished::class => [
-            SendVideoPublishedNotification::class,
-        ],
-        VideoBanned::class => [
-            SendVideoBannedNotification::class,
-        ],
-        UserBanned::class => [
-            SendUserBannedNotification::class,
-        ],
         ExportFinished::class => [
             SendExportFinishedNotification::class,
         ]
+    ];
+
+    protected $subscribe = [
+        UserEventSubscriber::class,
+        VideoEventSubscriber::class,
     ];
 
     /**

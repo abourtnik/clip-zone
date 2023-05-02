@@ -49,7 +49,6 @@ class RegistrationController
 
         Auth::login($user);
 
-        return redirect()->route('user.index');
-
+        return redirect()->route('pages.home');
     }
 }

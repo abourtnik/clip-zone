@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'preact/hooks';
 import {jsonFetch, usePaginateFetch} from "../hooks";
-import {ThumbsDownRegular, ThumbsUpRegular } from "./Icon";
 import {useInView} from "react-intersection-observer";
 import {Interaction as Skeleton} from "./Skeletons";
 import Subscribe from "./Subscribe";
@@ -62,13 +61,13 @@ export default function Interactions ({target}) {
         <div style="height: 450px;">
             <div className={'d-flex gap-2 align-items-center'}>
                 <button onClick={() => filtering('all')} className={'btn btn-' + activeButton('all') + 'btn-sm'}>All</button>
-                <button onClick={() => filtering('up')} className={'d-flex align-items-center gap-1 btn btn-' + activeButton('up') + 'btn-sm'}>
+                <button onClick={() => filtering('up')} className={'d-flex align-items-center gap-2 btn btn-' + activeButton('up') + 'btn-sm'}>
                     <span>Only</span>
-                    <ThumbsUpRegular/>
+                    <i className="fa-solid fa-thumbs-up"></i>
                 </button>
-                <button onClick={() => filtering('down')} className={'d-flex align-items-center gap-1 btn btn-' + activeButton('down') + 'btn-sm'}>
-                    Only
-                    <ThumbsDownRegular/>
+                <button onClick={() => filtering('down')} className={'d-flex align-items-center gap-2 btn btn-' + activeButton('down') + 'btn-sm'}>
+                    <span>Only</span>
+                    <i className="fa-solid fa-thumbs-down"></i>
                 </button>
                 <input onChange={handleChange} type="text" className={'form-control form-control-sm'} placeholder="Search user" aria-label="Search"/>
             </div>
@@ -90,8 +89,8 @@ export default function Interactions ({target}) {
                                             interactions.map(interaction => (
                                                 <li className="list-group-item d-flex flex-wrap justify-content-between align-items-center">
                                                     <div className={'d-flex align-items-center gap-2 gap-sm-4'}>
-                                                        <div className={'badge bg-' + (interaction.status ? 'success' : 'danger')}>
-                                                            {interaction.status ? <ThumbsUpRegular/> : <ThumbsDownRegular/>}
+                                                        <div className={'p-2 badge bg-' + (interaction.status ? 'success' : 'danger')}>
+                                                            {interaction.status ? <i className="fa-solid fa-thumbs-up"></i> : <i className="fa-solid fa-thumbs-down"></i>}
                                                         </div>
                                                         <div className={'d-flex align-items-center gap-2 ap-sm-4'}>
                                                             <a href={interaction.user.route} className="d-flex align-items-center gap-2 text-decoration-none">

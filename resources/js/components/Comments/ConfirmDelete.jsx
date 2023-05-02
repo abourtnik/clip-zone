@@ -1,5 +1,4 @@
 import { useState } from 'preact/hooks';
-import {Trash} from "../Icon";
 
 export default function ConfirmDelete ({onDelete, comment}) {
 
@@ -10,15 +9,15 @@ export default function ConfirmDelete ({onDelete, comment}) {
             {
                 confirmDelete ?
                     <div className="dropdown-item d-flex gap-3">
-                        <button className={'d-flex align-items-center gap-2 text-danger p-0 bg-transparent'} onClick={() => onDelete(comment)}>
-                            <Trash />
-                            Confirm delete ?
+                        <button className={'d-flex align-items-center gap-2 btn btn-sm btn-danger'} onClick={() => onDelete(comment)}>
+                            <i className="fa-solid fa-trash-can"></i>
+                            <span>Confirm delete ?</span>
                         </button>
-                        <button className={'text-primary fw-bold bg-transparent'} onClick={() => setConfirmDelete(false)}>Cancel</button>
+                        <button className={'btn btn-sm btn-primary fw-bold'} onClick={() => setConfirmDelete(false)}>Cancel</button>
                     </div>
                     :
                     <button className="dropdown-item d-flex align-items-center gap-3" onClick={() => setConfirmDelete(true)}>
-                        <Trash />
+                        <i className="fa-solid fa-trash-can"></i>
                         Remove
                     </button>
             }
