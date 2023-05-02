@@ -101,73 +101,74 @@
             </div>
             <div class="tab-content px-3 px-sm-0">
                 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    @if($user->pinned_video)
-                        <div class="row mt-4 mx-0 card flex-row">
-                            <div class="col-12 col-xl-6 px-0">
-                                <div class="ratio ratio-16x9 h-100">
-                                    <video controls class="radius-top rounded-xl-start" controlsList="nodownload" poster="{{$user->pinned_video->thumbnail_url}}">
-                                        <source src="{{$user->pinned_video->file_url}}" type="{{$user->pinned_video->mimetype}}">
-                                    </video>
+                    @if(!$user->videos_count && !$user->playlists_count)
+                        <div class="alert alert-primary mt-4">Channel without content</div>
+                    @else
+                        @if($user->pinned_video)
+                            <div class="row mt-4 mx-0 card flex-row">
+                                <div class="col-12 col-xl-6 px-0">
+                                    <div class="ratio ratio-16x9 h-100">
+                                        <video controls class="radius-top rounded-xl-start" controlsList="nodownload" poster="{{$user->pinned_video->thumbnail_url}}">
+                                            <source src="{{$user->pinned_video->file_url}}" type="{{$user->pinned_video->mimetype}}">
+                                        </video>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-xl-6 mt-3 m-xl-0 p-3">
+                                    <a href="{{$user->pinned_video->route}}" class="text-decoration-none text-black fw-bold">{{$user->pinned_video->title}}</a>
+                                    <div class="text-muted text-sm my-2">{{trans_choice('views', $user->pinned_video->views_count)}} • {{$user->pinned_video->created_at->diffForHumans()}}</div>
+                                    <div class="text-sm">
+                                        <p>{!! nl2br($user->pinned_video->short_description) !!}</p>
+                                        @if($user->pinned_video->description_is_long)
+                                            <a class="mt-2 d-block text-decoration-none fw-bold" href="{{$user->pinned_video->route}}">Read more</a>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-xl-6 mt-3 m-xl-0 p-3">
-                                <a href="{{$user->pinned_video->route}}" class="text-decoration-none text-black fw-bold">{{$user->pinned_video->title}}</a>
-                                <div class="text-muted text-sm my-2">{{trans_choice('views', $user->pinned_video->views_count)}} • {{$user->pinned_video->created_at->diffForHumans()}}</div>
-                                <div class="text-sm">
-                                    <p>{!! nl2br($user->pinned_video->short_description) !!}</p>
-                                    @if($user->pinned_video->description_is_long)
-                                        <a class="mt-2 d-block text-decoration-none fw-bold" href="{{$user->pinned_video->route}}">Read more</a>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                    @endif
-                    @if($user->videos_count)
-                        <div class="my-4 d-flex gap-3 align-items-center">
-                            <h5 class="mb-0">Videos</h5>
-                            <button
-                                class="link-primary bg-transparent text-decoration-none d-flex align-items-center gap-2 hover-primary"
-                                onclick="new bootstrap.Tab('#videos_link').show()"
-                            >
-                                <i class="fa-solid fa-play"></i>
-                                See All
-                            </button>
-                        </div>
-                        <div class="row g-3">
-                            @foreach($user->videos as $video)
-                                @include('videos.card.card-3', $video)
-                            @endforeach
-                        </div>
-                    @endif
-                    @if($user->playlists_count)
-                        <hr>
-                        @foreach($user->playlists as $playlist)
-                            <div class="mb-1 d-flex gap-3 align-items-center">
-                                <h5 class="mb-0">{{Str::limit($playlist->title, 80)}}</h5>
-                                <a class="link-primary bg-transparent text-decoration-none d-flex align-items-center gap-2 hover-primary" href="{{$playlist->route}}">
+                            <hr>
+                        @endif
+                        @if($user->videos_count)
+                            <div class="my-4 d-flex gap-3 align-items-center">
+                                <h5 class="mb-0">Videos</h5>
+                                <button
+                                    class="link-primary bg-transparent text-decoration-none d-flex align-items-center gap-2 hover-primary"
+                                    onclick="new bootstrap.Tab('#videos_link').show()"
+                                >
                                     <i class="fa-solid fa-play"></i>
                                     See All
-                                </a>
+                                </button>
                             </div>
-                            <p class="text-muted text-sm">{{Str::limit($playlist->description, 200)}}</p>
                             <div class="row g-3">
-                                @foreach($playlist->videos as $video)
+                                @foreach($user->videos as $video)
                                     @include('videos.card.card-3', $video)
                                 @endforeach
                             </div>
-                        @endforeach
+                        @endif
+                        @if($user->playlists_count)
+                            <hr>
+                            @foreach($user->playlists as $playlist)
+                                <div class="mb-1 d-flex gap-3 align-items-center">
+                                    <h5 class="mb-0">{{Str::limit($playlist->title, 80)}}</h5>
+                                    <a class="link-primary bg-transparent text-decoration-none d-flex align-items-center gap-2 hover-primary" href="{{$playlist->route}}">
+                                        <i class="fa-solid fa-play"></i>
+                                        See All
+                                    </a>
+                                </div>
+                                <p class="text-muted text-sm">{{Str::limit($playlist->description, 200)}}</p>
+                                <div class="row g-3">
+                                    @foreach($playlist->videos as $video)
+                                        @include('videos.card.card-3', $video)
+                                    @endforeach
+                                </div>
+                            @endforeach
+                        @endif
                     @endif
                 </div>
                 <div class="tab-pane" id="videos" role="tabpanel" aria-labelledby="videos-tab">
                     @if($user->videos->count())
                         <user-videos user="{{$user->id}}" videos="{{$user->videos_count}}"  exclude-pinned></user-videos>
                     @else
-                        <div class="d-flex align-items-center justify-content-center h-75 mt-4">
-                            <div class="w-100 border p-4 bg-light text-center bg-white">
-                                <i class="fa-solid fa-video-slash fa-5x mb-3"></i>
-                                <p class="text-muted">This user has no videos</p>
-                            </div>
+                        <div class="alert alert-primary mt-4">
+                            This user has no videos
                         </div>
                     @endif
                 </div>
@@ -177,11 +178,8 @@
                             @each('playlists.card', $user->playlists, 'playlist')
                         </div>
                     @else
-                        <div class="d-flex align-items-center justify-content-center h-75 mt-4">
-                            <div class="w-100 border p-4 bg-light text-center bg-white">
-                                <i class="fa-solid fa-video-slash fa-5x mb-3"></i>
-                                <p class="text-muted">This user has no playlists</p>
-                            </div>
+                        <div class="alert alert-primary mt-4">
+                            This user has no playlists
                         </div>
                     @endif
                 </div>

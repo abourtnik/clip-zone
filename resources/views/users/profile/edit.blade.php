@@ -144,13 +144,13 @@
                         </div>
                     </div>
                     <div class="card-footer d-flex justify-content-between">
-                        <a class="btn btn-success" href="{{$user->route}}">
-                            <i class="fa-solid fa-eye"></i>&nbsp;
-                            Show my channel
+                        <a class="btn btn-success d-flex align-items-center gap-2" href="{{$user->route}}">
+                            <i class="fa-solid fa-eye d-none d-sm-block"></i>
+                            <span>Show my channel</span>
                         </a>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa-solid fa-user-edit"></i>
-                            Update Channel
+                        <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
+                            <i class="fa-solid fa-user-edit d-none d-sm-block"></i>
+                            <span>Update Channel</span>
                         </button>
                     </div>
                 </form>

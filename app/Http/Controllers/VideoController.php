@@ -69,6 +69,8 @@ class VideoController
             ]);
         }
 
+        $suggestedVideos = $this->videoService->getSuggestedVideos($video);
+
         return view('videos.show', [
             'video' => $video
                 ->load([
@@ -84,7 +86,8 @@ class VideoController
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                     'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ]),
-            'videos' => $this->videoService->getSuggestedVideos($video)
+            'videos' => $suggestedVideos,
+            'nextVideoUrl' => route('video.show', $suggestedVideos->random())
         ]);
     }
 

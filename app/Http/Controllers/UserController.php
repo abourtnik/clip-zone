@@ -44,7 +44,7 @@ class UserController
                 'subscribers',
                 'videos_views',
                 'videos' => fn($q) => $q->active(),
-                'playlists'
+                'playlists' => fn($q) => $q->active()
             ]),
             'is_subscribed' => $isSubscribed
         ]);

@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-lg-7 col-xl-8 col-xxl-9 px-0 px-lg-3">
             <div class="ratio ratio-16x9">
-                <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}" autoplay>
+                <video controls class="w-100 border border-2" controlsList="nodownload" poster="{{$video->thumbnail_url}}" autoplay>
                     <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
                 </video>
             </div>
@@ -213,9 +213,9 @@
                             <span>Comments • {{$video->comments_count}}</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </div>
-                        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="comments-offcanvas" aria-labelledby="offcanvasTopLabel" style="min-height: 650px;">
-                            <div class="offcanvas-header">
-                                <h5 class="offcanvas-title" id="offcanvasTopLabel">Video Comments</h5>
+                        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="comments-offcanvas" style="min-height: 650px;">
+                            <div class="offcanvas-header bg-light border d-flex justify-content-between align-items-center">
+                                <h5 class="offcanvas-title">Comments</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
                             <div id="offcanvas-body" class="offcanvas-body"></div>
@@ -228,8 +228,22 @@
                 @endif
             </div>
         </div>
-        <div class="col-lg-5 col-xl-4 col-xxl-3 px-0 p-sm-2">
-            @each('videos.card-secondary',  $videos, 'video')
+        <div class="col-lg-5 col-xl-4 col-xxl-3 px-0 px-sm-2">
+            <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
+                <a href="{{$nextVideoUrl}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
+                    <i class="fa-solid fa-forward-step"></i>
+                    <span>Next Video</span>
+                </a>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="autoplay">
+                    <label class="form-check-label" for="autoplay">Autoplay</label>
+                </div>
+            </div>
+            <hr>
+            <div>
+                @each('videos.card-secondary',  $videos, 'video')
+            </div>
+
         </div>
     </div>
     @include('modals.share')
@@ -262,6 +276,9 @@
 
 @push('scripts')
     <script>
+
+        // Volume
+
         const video = document.querySelector("video");
 
         const volume = JSON.parse(localStorage.getItem('volume')) || {value: 0.5, muted: false};
@@ -276,5 +293,21 @@
             }));
         };
 
+        // Autoplay
+
+        let autoplay = ((localStorage.getItem('autoplay') || false)  === 'true');
+
+        document.getElementById('autoplay').checked = autoplay;
+
+        document.getElementById('autoplay').addEventListener('change', (event) => {
+            localStorage.setItem("autoplay", event.currentTarget.checked);
+            autoplay = event.currentTarget.checked;
+        })
+
+        video.addEventListener('ended', (event) => {
+            if(autoplay) {
+                window.location.replace('{{$nextVideoUrl}}');
+            }
+        }, false);
     </script>
 @endpush

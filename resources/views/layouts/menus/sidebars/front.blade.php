@@ -75,7 +75,7 @@
                 <ul class="nav nav-pills flex-column text-center" x-data="{ open: false }">
                     @foreach($subscriptions->slice(0, 7) as $user)
                         <x-sidebar-item route="{{$user->route}}" class="justify-content-between">
-                            <div class="d-flex align-items-center gap-4">
+                            <div class="d-flex align-items-center gap-3">
                                 <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
                                 <span class="text-sm text-nowrap">{{Str::limit($user->username, 20)}}</span>
                             </div>
@@ -94,7 +94,7 @@
                         <div x-show="open">
                             @foreach($subscriptions->slice(7) as $user)
                                 <x-sidebar-item route="{{$user->route}}" class="justify-content-between">
-                                    <div class="d-flex align-items-center gap-4">
+                                    <div class="d-flex align-items-center gap-3">
                                         <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
                                         <span class="text-sm text-nowrap">{{Str::limit($user->username, 20)}}</span>
                                     </div>
