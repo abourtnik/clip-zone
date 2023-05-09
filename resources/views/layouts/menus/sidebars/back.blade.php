@@ -32,6 +32,18 @@
                         <span class="text-sm fw-bold">{{auth()->user()->username}}</span>
                     </a>
                 </li>
+                @if($type === 'user' && auth()->user()->is_admin)
+                    <li class="nav-item">
+                        <a
+                            class="nav-link rounded-0 d-flex align-items-center gap-4 bg-danger bg-opacity-75 text-white border-top py-3"
+                            href="{{route('admin.index')}}"
+                            aria-current="page"
+                        >
+                            <i style="width: 24px" class="fa-solid fa-toolbox"></i>
+                            <span class="text-sm fw-bold">Admin</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
         </nav>
     </div>
