@@ -1,4 +1,4 @@
-.PHONY: help, exec, start, stop, optimize, deploy, install, test, logs
+.PHONY: help, exec, start, stop, optimize, deploy, install, test, logs, init
 .DEFAULT_GOAL=help
 
 help: ## Show help options
@@ -27,6 +27,16 @@ install: ## Install application
 	npm run build
 	php artisan optimize
 	php artisan cache:clear
+
+init: ## Init application
+	docker-compose up -d
+	docker exec -it php_container npm install
+	docker exec -it php_container php composer install
+	docker exec -it php_container php artisan key:generate
+	docker exec -it php_container php artisan storage:link
+	docker exec -it php_container php artisan migrate
+	docker exec -it php_container php artisan optimize
+	docker exec -it php_container php artisan cache:clear
 
 deploy: ## Deploy application
 	ssh anton@51.178.29.115 -p 5789 -A 'cd /home/anton/www/clip-zone.com && git pull origin main && make install'

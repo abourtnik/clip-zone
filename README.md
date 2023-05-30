@@ -15,6 +15,21 @@
 * Backend : PHP 8.1, Laravel 9 , MySQL
 * Frontend : Preact, Alpine JS, Boostrap 5.2
 
+## Installation
+
+* Clone project
+* Copy .env.example file to .env on the root folder.
+* Open your .env file and change field correspond to your configuration.
+* Run `make init` command on the root folder
+
+Then go to `http://localhost:8080/`
+
+## Run seeder
+
+```shell
+make reset
+```
+
 ## Contributing
 
 We encourage you to contribute to ClipZone !!
@@ -27,3 +42,5 @@ ClipZone is made available under the [MIT License](http://www.opensource.org/lic
 
 ## Credits
 ClipZone is created and maintained by [Anton Bourtnik](https://github.com/abourtnik)
+
+// Limit number of notification for prevent spam
