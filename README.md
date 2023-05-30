@@ -42,5 +42,3 @@ ClipZone is made available under the [MIT License](http://www.opensource.org/lic
 
 ## Credits
 ClipZone is created and maintained by [Anton Bourtnik](https://github.com/abourtnik)
-
-// Limit number of notification for prevent spam
