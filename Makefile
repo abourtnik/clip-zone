@@ -32,13 +32,14 @@ init: ## Init application
 	cp .env.example .env
 	docker-compose up -d
 	docker exec -it php_container npm install
-	docker exec -it php_container php composer install
+	docker exec -it php_container composer install
 	docker exec -it php_container php artisan key:generate
 	docker exec -it php_container php artisan storage:link
 	docker exec -it php_container php artisan db:create
 	docker exec -it php_container php artisan migrate
 	docker exec -it php_container php artisan optimize
 	docker exec -it php_container php artisan cache:clear
+	docker exec -it php_container npm run dev
 
 deploy: ## Deploy application
 	ssh anton@51.178.29.115 -p 5789 -A 'cd /home/anton/www/clip-zone.com && git pull origin main && make install'

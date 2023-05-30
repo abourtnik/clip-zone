@@ -18,11 +18,9 @@
 ## Installation
 
 * Clone project
-* Copy .env.example file to .env on the root folder.
-* Open your .env file and change field correspond to your configuration.
 * Run `make init` command on the root folder
 
-Then go to `http://localhost:8080/`
+Then go to `http://localhost:8080`
 
 ## Run seeder
 

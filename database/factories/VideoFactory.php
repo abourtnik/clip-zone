@@ -28,7 +28,7 @@ class VideoFactory extends Factory
             'description' => fake()->realTextBetween(100, config('validation.video.description.max')),
             'file' => 'default.webm',
             'original_file_name' => fake()->word() . '.avi',
-            'thumbnail' => 'default-'.fake()->numberBetween(1, 12).'.png',
+            'thumbnail' => null,
             'duration' => fake()->numberBetween(5, 4000),
             'mimetype' => 'video/mp4',
             'status' => fake()->randomElement([VideoStatus::PUBLIC->value, VideoStatus::PRIVATE->value, VideoStatus::UNLISTED->value]),

@@ -204,7 +204,7 @@ class VideoController extends Controller
             // Get file duration
 
             $ffprobe = FFProbe::create([
-                'ffprobe.binaries' => Storage::disk('local')->path('bin/ffprobe')
+                'ffprobe.binaries' => storage_path('bin/ffprobe')
             ]);
 
             $duration = $ffprobe
