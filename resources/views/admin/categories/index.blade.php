@@ -24,7 +24,7 @@
             </tr>
             </thead>
             <tbody>
-            @forelse($categories as $category)
+            @forelse($all_categories as $category)
                 <tr class="bg-light">
                     <td class="align-middle">
                         <small>{{$category->title}}</small>
@@ -53,5 +53,5 @@
             </tbody>
         </table>
     </div>
-    @include('admin.categories.modals.organise', ['categories' => $active_categories])
+    @include('admin.categories.modals.organise', ['categories' => $categories])
 @endsection

@@ -1,10 +1,11 @@
 import { useState, useRef } from 'preact/hooks';
 import configuration from "../config";
 import Resumable from 'resumablejs'
+import {formatSizeUnits} from "../functions";
 
 const MB = 1048576;
 
-export default function VideoUpload ({endpoint}) {
+export default function VideoUpload ({endpoint, maxsize}) {
 
     const config = configuration['video'];
 
@@ -32,8 +33,8 @@ export default function VideoUpload ({endpoint}) {
             return;
         }
 
-        if(file.size > (config.maxSize * MB)) {
-            setError(`Your ${name} file is too large (${(file.size / MB / 1000).toFixed(2)} GB) The uploading file should not exceed ${config.maxSize / 1000} GB.`)
+        if(file.size > maxsize) {
+            setError(`Your ${name} file is too large (${formatSizeUnits(file.size)}) The uploading file should not exceed ${formatSizeUnits(maxsize)}.`)
             return;
         }
 

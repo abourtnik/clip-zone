@@ -34,12 +34,46 @@
                     <div class="card-body">
                         @method('PUT')
                         @csrf
-                        <div class="d-flex align-items-center gap-2">
-                            <image-upload source="{{$user->avatar_url}}" name="avatar" style="width: 150px; height: 150px"></image-upload>
-                            <div class="d-flex flex-column gap-2">
-                                <div class="text-muted">Member since {{$user->created_at->longAbsoluteDiffForHumans()}}</div>
-                                <div class="badge bg-secondary">Standard account</div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex align-items-center gap-5">
+                                <image-upload source="{{$user->avatar_url}}" name="avatar" style="width: 150px; height: 150px"></image-upload>
+                                <div class="d-flex flex-column gap-2">
+                                    <div class="text-muted">Member since {{$user->created_at->longAbsoluteDiffForHumans()}}</div>
+                                    @if($user->is_premium)
+                                        <div class="badge bg-warning">
+                                            <i class="fa-solid fa-star"></i>
+                                            <span>Premium account</span>
+                                        </div>
+                                    @else
+                                        <div class="badge bg-secondary">Standard account</div>
+                                    @endif
+                                </div>
                             </div>
+                            @if($subscription)
+                                <div class="alert alert-info w-50">
+                                    <h6 class="text-center fw-bold">My subscription</h6>
+                                    <hr>
+                                    @if($subscription->is_active)
+                                        <p class="fw-bold">You are currently subscribed</p>
+                                        <p>Your next bank debit will be on : <strong>{{ $subscription->next_payment->format('d F Y') }}</strong></p>
+                                        <a class="btn btn-primary" href="{{$billing_profile_url}}">
+                                            Manage my subscription
+                                        </a>
+                                    @else
+                                        <p class="fw-bold">You have canceled your subscription.</p>
+                                        <p>It will be automatically suspended after the : <strong>{{ $subscription->next_payment->format('d F Y') }}</strong>.</p>
+                                        <a class="btn btn-primary" href="{{$billing_profile_url}}">
+                                            Reactivate my subscription
+                                        </a>
+                                    @endif
+                                </div>
+                            @else
+                                <a class="btn btn-warning text-white fw-bold d-flex align-items-center gap-2" href="{{route('pages.premium')}}">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span>Become premium</span>
+                                </a>
+                                <div></div>
+                            @endif
                         </div>
                         <hr>
                         <div class="row">

@@ -144,6 +144,10 @@
                                 <small class="text-muted fw-bold mb-2">Original file name</small>
                                 <div class="text-sm">{{$video->original_file_name}}</div>
                             </div>
+                            <div>
+                                <small class="text-muted fw-bold mb-2">File size</small>
+                                <div class="text-sm">{{$video->formated_size}}</div>
+                            </div>
                         </div>
                         <h6 class="text-primary mt-4">Visibility</h6>
                         <hr class="mt-2">

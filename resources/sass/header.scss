@@ -15,3 +15,9 @@
         display: none;
     }
 }
+
+@media (max-width: 470px) {
+    .navbar-brand.is-premium {
+        display: none;
+    }
+}

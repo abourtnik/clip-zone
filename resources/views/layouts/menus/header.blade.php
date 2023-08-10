@@ -4,8 +4,8 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsive-sidebar">
                 <span class="navbar-toggler-icon" style="width: 1.2em;height: 1.2em;"></span>
             </button>
-            <a class="navbar-brand text-danger fw-bold text-md-center" href="{{route('pages.home')}}">
-                {{config('app.name')}}
+            <a @class(['navbar-brand text-danger fw-bold text-md-center', 'is-premium' => Auth::user()?->is_premium]) href="{{route('pages.home')}}">
+                {{config('app.name')}} @if(Auth::user()?->is_premium) <span class="text-warning">Premium</span> @endif
             </a>
         </div>
         <search-bar class="w-35 d-none d-md-block" responsive query="{{request()->get('q')}}"></search-bar>
@@ -18,8 +18,8 @@
             @auth
                 <li class="nav-item align-items-center d-none d-lg-flex">
                     <button class="btn btn-success btn-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#video_create">
-                        <i class="fa-solid fa-video-camera"></i>
-                        <span class="d-none d-xl-inline">Create</span>
+                        <i class="fa-solid fa-upload"></i>
+                        <span class="d-none d-xl-inline">Upload</span>
                     </button>
                 </li>
                 <li class="nav-item align-items-center">
@@ -35,7 +35,7 @@
                     </button>
                 </li>
                 <li class="nav-item">
-                    <a class="" href="{{route('user.index')}}">
+                    <a href="{{route('user.index')}}">
                         <img style="width: 42px;height: 42px" class="rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
                     </a>
                 </li>

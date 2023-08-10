@@ -1,4 +1,4 @@
-.PHONY: help, exec, start, stop, optimize, deploy, install, test, logs, init
+.PHONY: help, exec, start, stop, optimize, deploy, install, test, logs, init, stripe
 .DEFAULT_GOAL=help
 
 help: ## Show help options
@@ -47,6 +47,8 @@ deploy: ## Deploy application
 test: ## Run test
 	docker exec -it php_container php artisan test --stop-on-failure
 
-
 logs: ## See last logs
 	docker exec -it php_container tail -f storage/logs/laravel.log
+
+stripe: ## See Stripe Webhook logs
+	docker logs -f stripe_container

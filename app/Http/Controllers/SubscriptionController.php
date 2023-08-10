@@ -46,6 +46,7 @@ class SubscriptionController extends Controller
                 ->where('show_subscribers', true)
                 ->withCount('subscribers')
                 ->when(Auth::check(), fn($query) => $query->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray()))
+                ->orderBy('premium_end', 'asc')
                 ->orderBy('subscribers_count', 'desc')
                 ->get()
         ]);

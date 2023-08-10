@@ -218,6 +218,7 @@ class VideoController extends Controller
                 'file' => $name,
                 'mimetype' => $file->getMimeType(),
                 'duration' => round($duration),
+                'size' => $file->getSize(),
                 'status' => VideoStatus::DRAFT,
             ])->toArray();
 

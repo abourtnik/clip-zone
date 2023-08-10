@@ -75,6 +75,11 @@ return [
             'title' => 'Reports',
             'icon' => 'flag',
             'route' => 'user.reports.index',
+        ],
+        [
+            'title' => 'Invoices',
+            'icon' => 'receipt',
+            'route' => 'user.invoices.index',
         ]
     ],
     'admin' => [
@@ -112,6 +117,11 @@ return [
             'title' => 'Exports',
             'icon' => 'file-export',
             'route' => 'admin.exports.index',
+        ],
+        [
+            'title' => 'Plans',
+            'icon' => 'toolbox',
+            'route' => 'admin.plans.index',
         ],
         [
             'title' => 'Logs',

@@ -2,10 +2,12 @@
 
 namespace App\Policies;
 
+use App\Helpers\Number;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class VideoPolicy
 {
@@ -153,9 +155,24 @@ class VideoPolicy
      */
     public function upload(User $user) : Response|bool
     {
-        return $user->videos()->whereDate('created_at', today())->count() < 15
-            ? Response::allow()
-            : Response::denyWithStatus(403, 'Sorry ! You are limited to upload 15 videos per day. Please try again tomorrow.');
+        if ($user->is_premium) {
+            return Response::allow();
+        }
+
+        if ($user->videos()->count() >= config('plans.free.max_uploads')) {
+            return Response::denyWithStatus(403, 'Sorry ! You are limited to upload maximum ' .config('plans.free.max_uploads'). ' videos with free plan. Upgrade to Premium to upload more videos.');
+        }
+
+        $user_space = Auth::user()->videos()->sum('size');
+
+        if ($user_space + request()->get('resumableTotalSize') > config('plans.free.max_videos_storage')) {
+            return Response::denyWithStatus(
+                403,
+                'Sorry ! Your space is limited to '.Number::formatSizeUnits(config('plans.free.max_videos_storage')).' with free plan. (Available space : '. Number::formatSizeUnits(config('plans.'.Auth::user()->plan.'.max_videos_storage') - $user_space) .'). Upgrade to Premium plan to increase your space storage.'
+            );
+        }
+
+        return Response::allow();
     }
 
     /**

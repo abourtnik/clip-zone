@@ -24,7 +24,9 @@ class IsBanned
 
             $request->session()->regenerateToken();
 
-            return redirect()->route('login')->with('error', 'Your account has been suspended for violating our <a target="_blank" class="text-danger fw-bold" href="/terms">Terms of Service</a>');
+            return redirect()
+                ->route('login')
+                ->with('error', 'Your account has been suspended for violating our <a target="_blank" class="text-danger fw-bold" href="/terms">Terms of Service</a>');
         }
 
         return $next($request);

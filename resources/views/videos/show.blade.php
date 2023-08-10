@@ -53,10 +53,26 @@
                                 <i class="fa-solid fa-share"></i>&nbsp;
                                 Share
                             </button>
-                            <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4 btn-sm px-3" title="Download video">
-                                <i class="fa-solid fa-download"></i>&nbsp;
-                                Download
-                            </a>
+                            @if(Auth::user()->is_premium)
+                                <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4 btn-sm px-3" title="Download video">
+                                    <i class="fa-solid fa-download"></i>&nbsp;
+                                    Download
+                                </a>
+                            @else
+                                <button
+                                    class="btn btn-primary rounded-4 btn-sm px-3"
+                                    title="Download video"
+                                    data-bs-toggle="popover"
+                                    data-bs-placement="right"
+                                    data-bs-title="Want to download this video ?"
+                                    data-bs-trigger="focus"
+                                    data-bs-html="true"
+                                    data-bs-content="Upgrade to Premium for download videos.<hr><a href='/premium' class='btn btn-warning btn-sm text-white fw-bold'><i class='fa-solid fa-star'></i>&nbsp;Upgrade to Premium</a>"
+                                >
+                                    <i class="fa-solid fa-download"></i>&nbsp;
+                                    Download
+                                </button>
+                            @endif
                             <button class="btn btn-warning btn-sm rounded-4 px-4" title="Save video" data-bs-toggle="modal" data-bs-target="#save" data-id="{{$video->id}}">
                                 <i class="fa-regular fa-bookmark"></i>&nbsp;
                                 Save

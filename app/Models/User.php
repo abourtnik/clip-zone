@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Lab404\Impersonate\Models\Impersonate;
+use Laravel\Cashier\Billable;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Symfony\Component\Intl\Countries;
@@ -37,7 +38,7 @@ use Symfony\Component\Intl\Countries;
 
 class User extends Authenticatable implements MustVerifyEmail, Reportable
 {
-    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate;
+    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable;
 
     protected $guarded = ['id', 'is_admin'];
 
@@ -49,7 +50,8 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'banned_at' => 'datetime',
-        'last_login_at' => 'datetime'
+        'last_login_at' => 'datetime',
+        'premium_end' => 'datetime'
     ];
 
     /**
@@ -248,6 +250,20 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         );
     }
 
+    protected function isPremium(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->premium_end?->isFuture()
+        );
+    }
+
+    protected function plan(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->is_premium ? 'premium' : 'free'
+        );
+    }
+
     /**
      * -------------------- SCOPES --------------------
      */
@@ -363,5 +379,13 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     public function canBeImpersonated()
     {
         return !$this->is_admin;
+    }
+
+    /**
+     * Get the customer name that should be synced to Stripe.
+     */
+    public function stripeName(): string
+    {
+        return $this->username;
     }
 }

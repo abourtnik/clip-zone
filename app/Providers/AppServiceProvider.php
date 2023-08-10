@@ -6,6 +6,7 @@ use App\Enums\ReportReason;
 use App\Http\Resources\NotificationResource;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
@@ -16,6 +17,8 @@ use Illuminate\Notifications\Channels\DatabaseChannel as IlluminateDatabaseChann
 use App\Notifications\Channels\DatabaseChannel;
 
 use Illuminate\Support\Str;
+use Laravel\Cashier\Cashier;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register() : void
     {
-        //
+        Cashier::ignoreMigrations();
     }
 
     /**
@@ -64,7 +67,7 @@ class AppServiceProvider extends ServiceProvider
             'subscription.index',
             'subscription.manage',
         ], function($view) {
-            $view->with('categories', Category::where('in_menu', true)->ordered()->get());
+            $view->with('categories', Cache::rememberForever('categories', fn() => Category::where('in_menu', true)->ordered()->get()));
             $view->with(
                 'subscriptions',
                 Auth::user()?->subscriptions()
@@ -100,6 +103,19 @@ class AppServiceProvider extends ServiceProvider
         View::composer('modals.report', function($view) {
             $view->with('report_reasons', ReportReason::get());
         });
+
+        // Upload limit
+        View::composer('users.videos.modals.upload', function($view) {
+            $view->with('user_space', Auth::user()->videos()->sum('size'));
+        });
+
+
+        Cashier::calculateTaxes();
+
+        Blade::directive('size', function ($expression) {
+            return "<?php echo \App\Helpers\Number::formatSizeUnits($expression) ?>";
+        });
+
 
     }
 }

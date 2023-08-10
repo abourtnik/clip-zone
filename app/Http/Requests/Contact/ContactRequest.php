@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Contact;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class ContactRequest extends FormRequest
 {
@@ -36,6 +38,7 @@ class ContactRequest extends FormRequest
                 'min:'.config('validation.contact.message.min'),
                 'max:'.config('validation.contact.message.max'),
             ],
+            'website' => Rule::in([null])
         ];
     }
 }

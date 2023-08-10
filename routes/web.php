@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UserController as UserAdminController;
 use App\Http\Controllers\Admin\VideoController as VideoAdminController;
 use App\Http\Controllers\Admin\ReportController as ReportAdminController;
 use App\Http\Controllers\Admin\CategoryController as CategoryAdminController;
+use App\Http\Controllers\Admin\PlanController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\PasswordController;
@@ -20,6 +21,9 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\PremiumController;
+
+use App\Http\Controllers\StripeWebhookController;
 
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ActivityController;
@@ -27,7 +31,10 @@ use App\Http\Controllers\User\PlaylistController as PlaylistUserController;;
 use App\Http\Controllers\User\CommentController as CommentUserController;
 use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\NotificationController;
+use App\Http\Controllers\User\InvoiceController;
 use App\Http\Controllers\User\VideoController as VideoUserController;
+
+use Laravel\Cashier\Http\Middleware\VerifyWebhookSignature;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +51,18 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/liked', 'liked')->name('liked');
     });
+    Route::get('/premium', 'premium')->name('premium');
+});
+
+// PREMIUM
+
+Route::post('stripe-webhook', [StripeWebhookController::class, 'index'])
+    ->middleware(VerifyWebhookSignature::class)
+    ->name('stripe_webhook');
+
+Route::name('premium.')->middleware(['auth', 'not_premium'])->controller(PremiumController::class)->group(function () {
+    Route::get('/subscribe/{plan}', 'subscribe')
+        ->name('subscribe');
 });
 
 // VIDEOS
@@ -62,6 +81,7 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
     Route::get('/video/download/{video:uuid}', 'download')
         ->name('download')
+        ->middleware('premium')
         ->can('download', 'video')
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
 });
@@ -179,6 +199,15 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
         Route::post('/{report}/cancel', 'cancel')->name('cancel');
     });
 
+    // Invoices
+    Route::controller(InvoiceController::class)->prefix('invoice')->name('invoices.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/{transaction}', 'show')
+            ->name('show')
+            ->can('show', 'transaction')
+            ->missing(fn(Request $request) => abort(404, 'Invoice not found'));;
+    });
+
     // Notifications
     Route::controller(NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -226,6 +255,11 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
     Route::controller(CategoryAdminController::class)->prefix('categories')->name('categories.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/organize', 'organize')->name('organize');
+    });
+
+    // Plans
+    Route::controller(PlanController::class)->prefix('plan')->name('plans.')->group(function () {
+        Route::get('/', 'index')->name('index');
     });
 
     // Exports

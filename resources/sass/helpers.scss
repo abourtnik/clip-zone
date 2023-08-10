@@ -19,6 +19,27 @@
     }
 }
 
+// Bottom
+@for $i from 1 through 20 {
+    .bottom-#{$i*5} {
+        bottom: ($i*5%) !important;
+    }
+}
+
+// Right
+@for $i from 1 through 20 {
+    .right-#{$i*5} {
+        right: ($i*5%) !important;
+    }
+}
+
+// LEFT
+@for $i from 1 through 20 {
+    .left-#{$i*5} {
+        left: ($i*5%) !important;
+    }
+}
+
 .bg-light-dark {
     background-color: #E5E5E5 !important;
 }

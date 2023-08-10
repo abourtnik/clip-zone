@@ -1,13 +1,17 @@
 <div class="offcanvas offcanvas-start fixed overflow-auto" id="responsive-sidebar" data-bs-keyboard="false" data-bs-backdrop="true" data-bs-scroll="true" aria-modal="true" role="dialog">
-    <div class="offcanvas-header d-flex justify-content-between align-items-center d-md-none bg-light border py-2">
-        <a href="{{route('pages.home')}}" class="offcanvas-title h5 text-danger fw-bold text-decoration-none">
-            {{config('app.name')}}
+    <div @class(["offcanvas-header d-flex align-items-center d-md-none bg-light border py-1", 'd-flex gap-2' => Auth::user()?->is_premium, 'justify-content-between' => !Auth::user()?->is_premium])>
+        <a
+            href="{{route('pages.home')}}"
+            @class(['offcanvas-title text-danger fw-bold text-decoration-none d-flex gap-2', 'h6' => Auth::user()?->is_premium, 'h5' => !Auth::user()?->is_premium])
+        >
+            <span>{{config('app.name')}}</span>
+             @if(Auth::user()?->is_premium) <span class="text-warning">Premium</span> @endif
         </a>
         <div class="d-flex gap-2 align-items-center">
             @auth()
             <button class="btn btn-success btn-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#video_create">
-                <i class="fa-solid fa-video-camera"></i>
-                <span>Create</span>
+                <i class="fa-solid fa-upload"></i>
+                <span>Upload</span>
             </button>
             @endauth
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -134,8 +138,17 @@
                     </x-sidebar-item>
                 @endforeach
             </ul>
-            <div class="ps-4 pb-2">
+            @if(!Auth::user()?->is_premium)
                 <hr class="w-90">
+                <ul class="nav nav-pills flex-column text-center">
+                    <x-sidebar-item route="{{route('pages.premium')}}" class="fw-bold bg-warning" color="white">
+                        <i style="width: 24px" class="fa-solid fa-star"></i>
+                        <span class="text-sm">Premium</span>
+                    </x-sidebar-item>
+                </ul>
+            @endif
+            <hr class="w-90">
+            <div class="ps-4 pb-2">
                 <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">Terms of Service •</a>
                 <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('contact.show')}}">Contact</a>
                 <div class="mt-2 text-muted d-flex flex-column gap-1">

@@ -5,8 +5,8 @@
         </a>
         <div class="d-flex gap-2 align-items-center">
             <button class="btn btn-success btn-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#video_create">
-                <i class="fa-solid fa-video-camera"></i>
-                <span>Create</span>
+                <i class="fa-solid fa-upload"></i>
+                <span>Upload</span>
             </button>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>

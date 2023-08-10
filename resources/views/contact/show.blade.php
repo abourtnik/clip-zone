@@ -49,6 +49,7 @@
                             </div>
                             @enderror
                         </div>
+                        <input type="text" name="website" id="website" class="d-none">
                     </div>
                     <div class="mb-3" x-data="{ count: 0 }" x-init="count = $refs.message.value.length">
                         <label for="message" class="form-label">Your message</label>

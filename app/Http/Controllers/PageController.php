@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Plan;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
@@ -54,5 +56,12 @@ class PageController
 
     public function terms (): View {
         return view('pages.terms');
+    }
+
+    public function premium (Request $request): View {
+        return view('pages.premium', [
+            'plans' => Plan::query()->orderBy('duration')->get(),
+            'success' => $request->has('success')
+        ]);
     }
 }

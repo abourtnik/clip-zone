@@ -10,6 +10,7 @@ use App\Filters\VideoFilters;
 use App\Filters\ViewFilters;
 use App\Helpers\Image;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
@@ -87,6 +88,8 @@ class ProfileController
     public function edit(): View {
         return view('users.profile.edit', [
             'user' => Auth::user(),
+            'subscription' => Subscription::where('user_id', Auth::user()->id)->first(),
+            'billing_profile_url' => Auth::user()->stripe_id ? Auth::user()->billingPortalUrl(route('user.edit')) : null,
             'countries' => Countries::getNames()
         ]);
     }
