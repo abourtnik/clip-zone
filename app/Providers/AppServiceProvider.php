@@ -66,6 +66,7 @@ class AppServiceProvider extends ServiceProvider
             'layouts.menus.sidebars.*',
             'subscription.index',
             'subscription.manage',
+            'admin.categories.index'
         ], function($view) {
             $view->with('categories', Cache::rememberForever('categories', fn() => Category::where('in_menu', true)->ordered()->get()));
             $view->with(
@@ -106,7 +107,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Upload limit
         View::composer('users.videos.modals.upload', function($view) {
-            $view->with('user_space', Auth::user()->videos()->sum('size'));
+            $view->with('available_uploads', config('plans.free.max_uploads') - Auth::user()->videos()->count());
+            $view->with('available_space', config('plans.'.Auth::user()->plan.'.max_videos_storage') - Auth::user()->videos()->sum('size'));
         });
 
 

@@ -14,13 +14,19 @@
                     <h5 class="alert-heading text-center fw-bold">Your upload limits</h5>
                     <hr>
                     @if(!Auth::user()->is_premium)
-                        <span>Available uploads : <strong>{{config('plans.free.max_uploads') - Auth::user()->videos()->count()}}</strong></span> •
+                        <span>Available uploads :
+                            <strong> {{ ($available_uploads > 0) ? $available_uploads : 0  }}</strong>
+                        </span> •
                     @else
                         <span>Available uploads : <strong>Unlimited</strong></span> •
                     @endif
-                    <span>Max file size : <strong>@size(config('plans.'.Auth::user()->plan.'.max_file_size'))</strong></span> •
+                    <span>Max file size :
+                        <strong>@size(config('plans.'.Auth::user()->plan.'.max_file_size'))</strong>
+                    </span> •
                     @if(!Auth::user()->is_premium)
-                        <span>Available space : <strong>@size(config('plans.'.Auth::user()->plan.'.max_videos_storage') - $user_space)</strong></span>
+                        <span>Available space :
+                            <strong>@size(($available_space > 0) ? $available_space : 0)</strong>
+                        </span>
                     @else
                         <span>Available space : <strong>Unlimited</strong></span>
                     @endif
