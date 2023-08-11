@@ -66,7 +66,7 @@
                                 </li>
                             </ul>
                             <div class="card-body text-center py-3">
-                                @if(Auth::user()->is_premium)
+                                @if(Auth::user()?->is_premium)
                                     <div class="alert alert-success">
                                         You already have an active subscription until <strong>{{Auth::user()->premium_end->format('d F Y')}}</strong>
                                     </div>
