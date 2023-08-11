@@ -146,7 +146,7 @@
                             </div>
                             <div>
                                 <small class="text-muted fw-bold mb-2">File size</small>
-                                <div class="text-sm">{{$video->formated_size}}</div>
+                                <div class="text-sm">@size($video->size)</div>
                             </div>
                         </div>
                         <h6 class="text-primary mt-4">Visibility</h6>
