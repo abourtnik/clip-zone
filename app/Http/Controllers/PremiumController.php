@@ -9,13 +9,15 @@ class PremiumController extends Controller
 {
     public function subscribe (Plan $plan)  {
         return Auth::user()->newSubscription($plan->id, $plan->stripe_id)
-            ->trialDays(config('plans.trial_period.period'))
             ->checkout([
                 'success_url' => route('pages.home', ['success' => true]),
                 'cancel_url' => route('pages.premium'),
                 'billing_address_collection' => 'required',
                 'automatic_tax' => [
                     'enabled' => true
+                ],
+                'subscription_data' => [
+                    'trial_period_days' => config('plans.trial_period.period')
                 ]
         ]);
     }
