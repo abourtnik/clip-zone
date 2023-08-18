@@ -7,7 +7,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
 
-class Created extends Notification
+class Welcome extends Notification
 {
     /**
      * Get the notification's channels.
@@ -41,7 +41,7 @@ class Created extends Notification
     {
         return (new MailMessage)
             ->subject(Lang::get('Welcome to ' .config('app.name'). ' Premium !'))
-            ->markdown('mails.premium.created', [
+            ->markdown('mails.premium.welcome', [
                 'notifiable' => $notifiable,
             ]);
     }

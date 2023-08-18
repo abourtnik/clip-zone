@@ -18,11 +18,13 @@ return new class extends Migration
     {
         Schema::create('premium_subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedTinyInteger('status')->default(0);
+            $table->string('stripe_status');
             $table->timestamp('next_payment')->nullable();
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Plan::class)->nullable()->constrained()->nullOnDelete();
             $table->string('stripe_id')->nullable()->index()->unique();
+            $table->timestamp('trial_ends_at')->nullable();
+            $table->timestamp('ends_at')->nullable();
             $table->timestamps();
         });
     }

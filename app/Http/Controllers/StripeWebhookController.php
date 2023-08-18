@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\SubscriptionStatus;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\Transaction;
 use App\Models\User;
-use App\Notifications\Premium\Created;
 use App\Notifications\Premium\Invoice;
+use App\Notifications\Premium\Welcome;
 use App\Services\InvoiceService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -26,7 +25,7 @@ class StripeWebhookController extends Controller
         Log::channel('stripe')->info($request->get('type'));
 
         return match ($request->get('type')) {
-            'invoice.paid' => $this->onInvoicePaid($request->get('data')['object']),
+            'invoice.payment_succeeded' => $this->onInvoicePaid($request->get('data')['object']),
             'charge.refunded' => $this->onRefund($request->get('data')['object']),
             'customer.subscription.created' => $this->onSubscriptionCreated($request->get('data')['object']),
             'customer.subscription.updated' => $this->onSubscriptionUpdated($request->get('data')['object']),
@@ -37,32 +36,39 @@ class StripeWebhookController extends Controller
 
     public function onInvoicePaid (array $data) : Response  {
 
-        $user = $this->getUserFromStripeId($data['customer']);
-        $subscription = Subscription::where('stripe_id', $data['subscription'])->firstOrFail();
+        if ($data['amount_paid'] !== 0) {
 
-        $transaction = Transaction::create([
-            'stripe_id' => $data['payment_intent'],
-            'amount' => $data['amount_paid'],
-            'tax' => $data['vat'] ?? 0,
-            'fee' => $data['fee'] ?? 0,
-            'date' => Carbon::createFromTimestamp($data['created']),
-            'user_id' => $user->id,
-            'subscription_id' => $subscription->id,
-            'name' => $data['customer_name'],
-            'address' => $data['customer_address']['line1'],
-            'city' => $data['customer_address']['city'],
-            'postal_code' => $data['customer_address']['postal_code'],
-            'country' => $data['customer_address']['country'],
-        ]);
+            $user = $this->getUserFromStripeId($data['customer']);
+            $subscription = Subscription::where('stripe_id', $data['subscription'])->firstOrFail();
 
-        $this->invoiceService->generate($transaction);
+            $transaction = Transaction::create([
+                'stripe_id' => $data['payment_intent'],
+                'amount' => $data['amount_paid'],
+                'tax' => $data['tax'] ?? 0,
+                'fee' => $data['application_fee'] ?? 0,
+                'date' => Carbon::createFromTimestamp($data['created']),
+                'user_id' => $user->id,
+                'subscription_id' => $subscription->id,
+                'name' => $data['customer_name'],
+                'address' => $data['customer_address']['line1'] . ' ' .$data['customer_address']['line2'],
+                'city' => $data['customer_address']['city'],
+                'postal_code' => $data['customer_address']['postal_code'],
+                'country' => $data['customer_address']['country'],
+                'vat_id' => $data['customer_tax_ids'] ? $data['customer_tax_ids'][0]['value'] : null,
+            ]);
 
-        $user->notify(new Invoice($transaction));
+            $this->invoiceService->generate($transaction);
+
+            $user->notify(new Invoice($transaction));
+        }
+
 
         return response()->noContent();
     }
 
     public function onRefund (array $data) : Response  {
+
+        Log::channel('stripe')->info('---- onRefund ----');
 
         return response()->noContent();
     }
@@ -73,14 +79,15 @@ class StripeWebhookController extends Controller
         $plan = $this->getPlanFromStripeId($data['plan']['id']);
 
         Subscription::create([
-            'status' => SubscriptionStatus::ACTIVE,
             'next_payment' => Carbon::createFromTimestamp($data['current_period_end']),
+            'stripe_status' => $data['status'],
             'user_id' => $user->id,
             'plan_id' => $plan->id,
             'stripe_id' => $data['id'],
+            'trial_ends_at' => Carbon::createFromTimestamp($data['trial_end'])
         ]);
 
-        $user->notify(new Created());
+        $user->notify(new Welcome());
 
         return response()->noContent();
     }
@@ -88,18 +95,22 @@ class StripeWebhookController extends Controller
     public function onSubscriptionUpdated (array $data) : Response  {
 
         $subscription = Subscription::where('stripe_id', $data['id'])->firstOrFail();
-        $user = $this->getUserFromStripeId($data['customer']);
+
+        $subscription->update([
+            'status' => $data['status']
+        ]);
 
         if ($data['cancel_at_period_end']) {
-            $subscription->update(['status' => SubscriptionStatus::INACTIVE]);
+            $subscription->update([
+                'ends_at' => $subscription->on_trial
+                    ? $subscription->trial_ends_at
+                    : Carbon::createFromTimestamp($data['cancel_at_period_end'])
+            ]);
         } else {
             $subscription->update([
-                'status' => SubscriptionStatus::ACTIVE,
-                'next_payment' => Carbon::createFromTimestamp($data['current_period_end'])
+                'next_payment' => Carbon::createFromTimestamp($data['current_period_end']),
+                'ends_at' => null
             ]);
-            $user->update(([
-                'premium_end' => Carbon::createFromTimestamp($data['current_period_end'])
-            ]));
         }
 
         return response()->noContent();

@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row align-items-center h-75 mt-5">
-        <div class="col-10 offset-1 border border-1 bg-light py-4 px-3 px-sm-4" x-data="{duration : 'daily'}">
+        <div class="col-10 offset-1 border border-1 bg-light py-4 px-3 px-sm-4" x-data="{plan : 1}">
             @if (session('error'))
                 <div class="alert alert-danger">
                     {!! session('error') !!}
@@ -15,6 +15,7 @@
                 <span class="text-warning">Premium</span>
             </h1>
             <h2 class="my-5 text-center">Unleash the full potential of your creative journey with our premium plan</h2>
+            <h3 class="my-5 text-center">{{config('plans.trial_period.period')}} days trial • Then {{$plans->where('id', 1)->first()->price}} € / {{$plans->where('id', 1)->first()->period}} • Cancel anytime </h3>
             <div class="row">
                 <div class="col-12 col-lg-6 col-xl-5 mb-3 mb-lg-0">
                     <div class="mb-3">
@@ -25,9 +26,9 @@
                                 <div class="d-flex gap-2 mb-3">
                                     @foreach($plans as $plan)
                                         <button
-                                            :class="duration === '{{$plan->name}}' ? 'btn-primary' : 'btn-outline-primary'"
+                                            :class="plan === {{$plan->id}} ? 'btn-primary' : 'btn-outline-primary'"
                                             class="btn w-100"
-                                            @click="duration = '{{$plan->name}}'"
+                                            @click="plan = {{$plan->id}}"
                                         >
                                             {{Str::ucfirst($plan->name)}}
                                         </button>
@@ -38,9 +39,9 @@
                         </div>
                     </div>
                     @foreach($plans as $plan)
-                        <div class="card shadow" x-show="duration === '{{$plan->name}}'">
+                        <div class="card shadow" x-show="plan === {{$plan->id}}">
                             <div class="card-body">
-                                <h5 class="card-title fs-1 text-primary text-center">{{$plan->price}} € / {{\Carbon\CarbonInterval::days($plan->duration)->forHumans(['join' => fn($a) => explode(' ', $a[0])[1]])}}</h5>
+                                <h5 class="card-title fs-1 text-primary text-center">{{$plan->price}} € / {{$plan->period}}</h5>
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex align-items-center gap-4 py-3">
@@ -68,11 +69,12 @@
                             <div class="card-body text-center py-3">
                                 @if(Auth::user()?->is_premium)
                                     <div class="alert alert-success">
-                                        You already have an active subscription until <strong>{{Auth::user()->premium_end->format('d F Y')}}</strong>
+                                        You already have an active subscription
                                     </div>
                                 @else
                                     <a href="{{route('premium.subscribe', $plan)}}" class="btn btn-primary fs-5 w-100">Start Trial</a>
                                     <div class="text-sm text-muted mt-3">
+                                        <p class="fw-bold">Billing starts on {{now()->add('days', config('plans.trial_period.period'))->format('j F Y')}}, the end of your trial, and will renew automatically every {{$plan->period}}.</p>
                                         You will be charged automatically at the end of each period.
                                         Payments won't be refunded for partial billing periods. Cancel anytime from your account.
                                     </div>
@@ -83,7 +85,46 @@
                     @endforeach
                 </div>
                 <div class="col-12 col-lg-6 col-xl-7">
-                    <div class="card h-100">
+                    <div class="card card-body bg-light mb-3 h-50">
+                        <div class="d-flex gap-2 step">
+                            <div class="progression">
+                                <div class="icon bg-success">
+                                    <i class="fa fa-gift text-white"></i>
+                                </div>
+                                <div class="line">
+                                    <div class="half-line bg-success"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="fw-bold mb-1">Today: Free trial for {{config('plans.trial_period.period')}} days. Cancel anytime.</p>
+                                <small class="text-muted text-sm">Start your free trial of {{config('app.name')}} Premium and enjoy all premium features.</small>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 step">
+                            <div class="progression">
+                                <div class="icon bg-white border border-secondary">
+                                    <i class="far fa-bell"></i>
+                                </div>
+                                <div class="line"></div>
+                            </div>
+                            <div>
+                                <p class="fw-bold mb-1">{{now()->add('days', config('plans.trial_period.email_reminder'))->format('j F Y')}}</p>
+                                <small class="text-muted">We'll send you a reminder email {{config('plans.trial_period.email_reminder')}} days before your {{config('app.name')}} Premium trial ends.</small>
+                            </div>
+                        </div>
+                        <div class="d-flex gap-2 step">
+                            <div class="progression">
+                                <div class="icon bg-white border border-secondary">
+                                    <i class="fa fa-star text-warning"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="fw-bold mb-1">{{now()->add('days', config('plans.trial_period.period'))->format('j F Y')}}</p>
+                                <small class="text-muted">Your subscription begins unless you canceled it during the trial period.</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card h-50">
                         <div class="card-header text-center h5">
                             Plans comparison
                         </div>
@@ -138,5 +179,4 @@
             </div>
         </div>
     </div>
-    @includeWhen($success, 'modals.premium')
 @endsection

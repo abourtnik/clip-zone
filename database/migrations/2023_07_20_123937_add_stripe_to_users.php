@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('stripe_id')->nullable()->index()->unique();
-            $table->timestamp('premium_end')->nullable();
         });
     }
 
@@ -27,7 +26,7 @@ return new class extends Migration
     public function down() : void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['stripe_id', 'premium_end']);
+            $table->dropColumn(['stripe_id']);
         });
     }
 };

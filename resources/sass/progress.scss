@@ -1,0 +1,28 @@
+.step {
+    .progression {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .icon {
+        display: flex;
+        border-radius: 50%;
+        height: 32px;
+        justify-content: center;
+        align-items: center;
+        width: 32px;
+    }
+
+    .line {
+        background-color: rgba(43,59,74,.3);
+        flex-grow: 1;
+        height: 80px;
+        width: 4px;
+    }
+
+    .half-line {
+        border-radius: 0 0 12px 12px;
+        height: 50%;
+    }
+}

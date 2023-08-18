@@ -49,21 +49,31 @@
                                     @endif
                                 </div>
                             </div>
-                            @if($subscription)
+                            @if($user->premium_subscription)
                                 <div class="alert alert-info w-50">
                                     <h6 class="text-center fw-bold">My subscription</h6>
                                     <hr>
-                                    @if($subscription->is_active)
-                                        <p class="fw-bold">You are currently subscribed</p>
-                                        <p>Your next bank debit will be on : <strong>{{ $subscription->next_payment->format('d F Y') }}</strong></p>
-                                        <a class="btn btn-primary" href="{{$billing_profile_url}}">
-                                            Manage my subscription
-                                        </a>
-                                    @else
+                                    @if($user->premium_subscription->is_cancel)
                                         <p class="fw-bold">You have canceled your subscription.</p>
-                                        <p>It will be automatically suspended after the : <strong>{{ $subscription->next_payment->format('d F Y') }}</strong>.</p>
+                                        @if($user->premium_subscription->ends_at->isPast())
+                                            <p>Canceled : <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong> </p>
+                                        @else
+                                            <p>It will be automatically suspended after the : <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong>.</p>
+                                        @endif
                                         <a class="btn btn-primary" href="{{$billing_profile_url}}">
                                             Reactivate my subscription
+                                        </a>
+                                    @elseif($user->premium_subscription->on_trial)
+                                        <p>You are currently on trial period until {{$user->premium_subscription->trial_ends_at->format('d F Y')}}</p>
+                                        <p>After this date your are billing {{$user->premium_subscription->plan->price}}  € / {{$user->premium_subscription->plan->period}}</strong></p>
+                                        <a class="btn btn-primary" href="{{$billing_profile_url}}">
+                                            Cancel my subscription
+                                        </a>
+                                    @else
+                                        <p class="fw-bold">You are currently subscribed : {{$user->premium_subscription->plan->price}}  € / {{$user->premium_subscription->plan->period}}</p>
+                                        <p>Your next bank debit will be on : <strong>{{ $user->premium_subscription->next_payment->format('d F Y') }}</strong></p>
+                                        <a class="btn btn-primary" href="{{$billing_profile_url}}">
+                                            Manage my subscription
                                         </a>
                                     @endif
                                 </div>

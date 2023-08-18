@@ -87,8 +87,7 @@ class ProfileController
 
     public function edit(): View {
         return view('users.profile.edit', [
-            'user' => Auth::user(),
-            'subscription' => Subscription::where('user_id', Auth::user()->id)->first(),
+            'user' => Auth::user()->load('premium_subscription'),
             'billing_profile_url' => Auth::user()->stripe_id ? Auth::user()->billingPortalUrl(route('user.edit')) : null,
             'countries' => Countries::getNames()
         ]);

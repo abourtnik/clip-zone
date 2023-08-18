@@ -37,6 +37,13 @@ class Transaction extends Model
         );
     }
 
+    protected function amountWithoutTax(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->amount - $this->tax
+        );
+    }
+
     protected function route(): Attribute
     {
         return Attribute::make(

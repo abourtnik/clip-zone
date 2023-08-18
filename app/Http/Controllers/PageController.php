@@ -13,8 +13,10 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class PageController
 {
-    public function home(): View {
-        return view('pages.home');
+    public function home(Request $request): View {
+        return view('pages.home', [
+            'success' => $request->has('success')
+        ]);
     }
 
     public function trend(): View {
@@ -58,10 +60,9 @@ class PageController
         return view('pages.terms');
     }
 
-    public function premium (Request $request): View {
+    public function premium (): View {
         return view('pages.premium', [
-            'plans' => Plan::query()->orderBy('duration')->get(),
-            'success' => $request->has('success')
+            'plans' => Plan::query()->orderBy('duration')->get()
         ]);
     }
 }

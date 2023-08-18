@@ -20,7 +20,7 @@ class IsNotPremium
         if(Auth::user()?->is_premium){
             return redirect()
                 ->route('pages.premium')
-                ->with('error', 'You already have an active subscription until <strong>' .Auth::user()->premium_end->format('d F Y').'</strong>');
+                ->with('error', 'You already have an active premium subscription');
         }
 
         return $next($request);

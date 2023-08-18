@@ -19,8 +19,8 @@ return new class extends Migration
             $table->id();
             $table->string('stripe_id')->index()->unique();
             $table->unsignedInteger('amount')->comment('amount in centimes');
-            $table->float('tax');
-            $table->float('fee')->comment('stripe fee for transaction');
+            $table->unsignedInteger('tax')->comment('tax in centimes');;
+            $table->unsignedInteger('fee')->comment('stripe fee for transaction');
             $table->timestamp('date');
             $table->foreignIdFor(User::class)->nullable()->constrained()->nullOnDelete();
             $table->unsignedBigInteger('subscription_id');
@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('postal_code');
             $table->string('country');
+            $table->string('vat_id')->nullable();
 
             $table->foreign('subscription_id')->references('id')->on('premium_subscriptions');
         });

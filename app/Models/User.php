@@ -29,6 +29,7 @@ use Laravel\Cashier\Billable;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Symfony\Component\Intl\Countries;
+use App\Models\Subscription as PremiumSubscription;
 
 /**
  * App\Models\User
@@ -50,8 +51,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'banned_at' => 'datetime',
-        'last_login_at' => 'datetime',
-        'premium_end' => 'datetime'
+        'last_login_at' => 'datetime'
     ];
 
     /**
@@ -164,6 +164,10 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         return $this->hasMany(Notification::class);
     }
 
+    public function premium_subscription () : HasOne {
+        return $this->hasOne(PremiumSubscription::class);
+    }
+
     /**
      * -------------------- ATTRIBUTES --------------------
      */
@@ -253,7 +257,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     protected function isPremium(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->premium_end?->isFuture()
+            get: fn () => !is_null($this->premium_subscription) && $this->premium_subscription->is_active
         );
     }
 

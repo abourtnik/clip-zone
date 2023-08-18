@@ -118,6 +118,8 @@ class AppServiceProvider extends ServiceProvider
             return "<?php echo \App\Helpers\Number::formatSizeUnits($expression) ?>";
         });
 
-
+        Blade::directive('money', function ($centimes) {
+            return "<?php echo number_format($centimes / 100, 2) . ' €' ?>";
+        });
     }
 }

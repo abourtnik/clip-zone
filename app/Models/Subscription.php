@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\SubscriptionStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -17,8 +16,9 @@ class Subscription extends Model
     protected $table = 'premium_subscriptions';
 
     protected $casts = [
-        'status' => SubscriptionStatus::class,
-        'next_payment' => 'datetime'
+        'next_payment' => 'datetime',
+        'trial_ends_at' => 'datetime',
+        'ends_at' => 'datetime',
     ];
 
     public function user() : BelongsTo
@@ -34,7 +34,21 @@ class Subscription extends Model
     protected function isActive(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status === SubscriptionStatus::ACTIVE
+            get: fn () => !$this->is_cancel || $this->ends_at?->isFuture()
+        );
+    }
+
+    protected function onTrial(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->trial_ends_at?->isFuture()
+        );
+    }
+
+    protected function isCancel(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => !is_null($this->ends_at)
         );
     }
 }
