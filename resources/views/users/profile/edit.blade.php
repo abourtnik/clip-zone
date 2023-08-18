@@ -34,8 +34,8 @@
                     <div class="card-body">
                         @method('PUT')
                         @csrf
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="d-flex align-items-center gap-5">
+                        <div @class(["d-flex justify-content-between align-items-center", "flex-column" => $user->premium_subscription, 'flex-column flex-lg-row' => !$user->premium_subscription])>
+                            <div class="d-flex align-items-center justify-content-start gap-5">
                                 <image-upload source="{{$user->avatar_url}}" name="avatar" style="width: 150px; height: 150px"></image-upload>
                                 <div class="d-flex flex-column gap-2">
                                     <div class="text-muted">Member since {{$user->created_at->longAbsoluteDiffForHumans()}}</div>
@@ -50,7 +50,8 @@
                                 </div>
                             </div>
                             @if($user->premium_subscription)
-                                <div class="alert alert-info w-50">
+                                <hr class="w-100">
+                                <div class="alert alert-info w-100">
                                     <h6 class="text-center fw-bold">My subscription</h6>
                                     <hr>
                                     @if($user->premium_subscription->is_cancel)
@@ -78,6 +79,7 @@
                                     @endif
                                 </div>
                             @else
+                                <hr class="w-100 d-block d-lg-none">
                                 <a class="btn btn-warning text-white fw-bold d-flex align-items-center gap-2" href="{{route('pages.premium')}}">
                                     <i class="fa-solid fa-star"></i>
                                     <span>Become premium</span>
