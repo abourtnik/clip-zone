@@ -24,6 +24,8 @@ class StripeWebhookController extends Controller
     {
         Log::channel('stripe')->info($request->get('type'));
 
+        $request->headers->set('Accept', 'application/json');
+
         return match ($request->get('type')) {
             'invoice.payment_succeeded' => $this->onInvoicePaid($request->get('data')['object']),
             'charge.refunded' => $this->onRefund($request->get('data')['object']),
