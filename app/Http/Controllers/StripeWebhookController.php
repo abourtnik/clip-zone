@@ -99,7 +99,7 @@ class StripeWebhookController extends Controller
         $subscription = Subscription::where('stripe_id', $data['id'])->firstOrFail();
 
         $subscription->update([
-            'status' => $data['status']
+            'stripe_status' => $data['status']
         ]);
 
         if ($data['cancel_at_period_end']) {
