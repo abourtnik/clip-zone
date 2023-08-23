@@ -21,15 +21,18 @@ class OAuthController
 
     public function callback(string $service): RedirectResponse {
 
-        $user = Socialite::driver($service)->user();
+        $route = match (Auth::check()) {
+            true => 'user.edit',
+            false => 'login'
+        };
+
+        try {
+            $user = Socialite::driver($service)->user();
+        } catch (\Exception $e) {
+            return redirect()->route($route);
+        }
 
         if (!$user->getEmail()) {
-
-            $route = match (Auth::check()) {
-                true => 'user.edit',
-                false => 'login'
-            };
-
             return redirect()->route($route)->with(['error' => 'Please agree to give your email']);
         }
 
