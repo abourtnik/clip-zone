@@ -103,6 +103,15 @@
                                 </a>
                             </div>
                         </form>
+                        <hr>
+                        <a class="btn w-100 text-white text-center position-relative mb-2" href="{{route('oauth.connect', ['service' => 'facebook'])}}" style="background-color: #47639e">
+                            <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle"></i>
+                            <span>Register with Facebook</span>
+                        </a>
+                        <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.connect', ['service' => 'google'])}}" style="background-color: #dd4b39">
+                            <i class="fa-brands fa-google position-absolute top-50 left-5 translate-middle"></i>
+                            <span>Register with Google</span>
+                        </a>
                     </div>
                 </div>
             </div>

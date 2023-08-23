@@ -51,4 +51,18 @@ class UserPolicy
             ? Response::allow()
             : Response::denyWithStatus(403, 'You can\'t report yourself');
     }
+
+    /**
+     * Determine whether admin can ban user.
+     *
+     * @param User $user
+     * @param User $model
+     * @return Response|bool
+     */
+    public function ban (User $user, User $model): Response|bool
+    {
+        return !$model->is_premium
+            ? Response::allow()
+            : Response::denyWithStatus(403, 'You can\'t ban premium user');
+    }
 }

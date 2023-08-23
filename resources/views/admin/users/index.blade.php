@@ -28,7 +28,7 @@
             <label for="status" class="form-label fw-bold">Status</label>
             <select name="status" class="form-select" aria-label="Default select example">
                 <option selected value="">All</option>
-                @foreach(['banned' => 'Banned', 'not_confirmed' => 'Not confirmed'] as $id => $label)
+                @foreach(['banned' => 'Banned', 'not_confirmed' => 'Not confirmed', 'premium' => 'Premium'] as $id => $label)
                     <option @selected(($filters['status'] ?? null) === $id) value="{{$id}}">{{$label}}</option>
                 @endforeach
             </select>
@@ -66,8 +66,13 @@
                             <img class="rounded" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar" style="width: 50px;">
                         </a>
                         <div>
-                            <a href="{{$user->route}}" class="text-decoration-none">{{$user->username}}</a>
-                            <x-expand-item max="150">
+                            <div class="d-flex gap-2 align-items-center">
+                                <a href="{{$user->route}}" class="text-decoration-none">{{$user->username}}</a>
+                                @if($user->is_premium)
+                                    <i class="fa-solid fa-star text-warning"></i>
+                                @endif
+                            </div>
+                            <x-expand-item max="100">
                                 {{$user->description}}
                             </x-expand-item>
                         </div>
@@ -109,7 +114,7 @@
                             <div class="badge bg-warning">
                                 {{$user->banned_at->diffForHumans()}}
                             </div>
-                        @else
+                        @elseif(!$user->is_premium)
                             <button
                                 class="btn btn-danger btn-sm"
                                 title="Ban user"

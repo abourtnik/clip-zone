@@ -121,7 +121,7 @@ class ProfileController
 
         $user->update($validated);
 
-        return redirect()->route('user.edit');
+        return redirect()->route('user.edit')->with(['status' => 'Your profile information has been updated successfully !']);
     }
 
     public function updatePassword(Request $request): RedirectResponse {
@@ -149,7 +149,16 @@ class ProfileController
         return response()->json();
     }
 
-    public function delete(): RedirectResponse {
+    public function delete(Request $request): RedirectResponse {
+
+        $request->validate([
+            'current_password' => 'required',
+        ]);
+
+        // Match The Current Password
+        if(!Hash::check($request->get('current_password'), Auth::user()->password)){
+            return back()->with("error", "Current Password doesn't match !");
+        }
 
         User::find(Auth::id())->delete();
         Auth::logout();

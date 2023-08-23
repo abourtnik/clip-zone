@@ -33,10 +33,6 @@ class LoginController
                 return back()->with('error', 'Your email is not verified. Please check your mailbox')->onlyInput('username');
             }
 
-            if ($user->is_banned) {
-                return back()->with('error', 'Your account has been suspended for violating our <a target="_blank" class="text-danger fw-bold" href="/terms">Terms of Service</a>')->onlyInput('username');
-            }
-
             Auth::login($user, $remember);
 
             return redirect()->intended(route('user.index'));

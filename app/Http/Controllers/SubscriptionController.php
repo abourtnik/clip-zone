@@ -44,7 +44,8 @@ class SubscriptionController extends Controller
         return view('subscription.discover', [
             'users' => User::active()
                 ->where('show_subscribers', true)
-                ->withCount('subscribers')
+                ->withCount(['subscribers', 'videos'])
+                ->having('videos_count', '>', 0)
                 ->when(Auth::check(), fn($query) => $query->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray()))
                 ->orderBy('subscribers_count', 'desc')
                 ->get()

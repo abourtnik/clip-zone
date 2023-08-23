@@ -205,6 +205,40 @@
     </div>
     <div class="row align-items-start my-3">
         <div class="col-12 col-xl-4">
+            <h2>Social Connection</h2>
+            <p class="text-muted">Link your account to a social network to use as a sign-in method</p>
+        </div>
+        <div class="col-12 col-xl-8">
+            <div class="card shadow-soft my-3">
+                <div class="card-body d-flex gap-2">
+                    @if($user->facebook_id)
+                        <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.unlink', ['service' => 'facebook'])}}" style="background-color: #47639e">
+                            <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle"></i>
+                            <span>Unlink your Facebook account</span>
+                        </a>
+                    @else
+                        <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.connect', ['service' => 'facebook'])}}" style="background-color: #47639e">
+                            <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle"></i>
+                            <span>Link your Facebook account</span>
+                        </a>
+                    @endif
+                    @if($user->google_id)
+                        <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.unlink', ['service' => 'google'])}}" style="background-color: #dd4b39">
+                            <i class="fa-brands fa-google position-absolute top-50 left-5 translate-middle"></i>
+                            <span>Unlink your Google account</span>
+                        </a>
+                    @else
+                        <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.connect', ['service' => 'google'])}}" style="background-color: #dd4b39">
+                            <i class="fa-brands fa-google position-absolute top-50 left-5 translate-middle"></i>
+                            <span>Link your Google account</span>
+                        </a>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-start my-3">
+        <div class="col-12 col-xl-4">
             <h2>Update Password</h2>
             <p class="text-muted">Ensure your account using a long, random password to stay secure.</p>
         </div>
@@ -216,17 +250,17 @@
                         <div class="row">
                             <div class="col-12 col-sm-6 mb-3">
                                 <label for="current_password" class="form-label">Current password</label>
-                                <input type="password" class="form-control" id="current_password" name="current_password">
+                                <input type="password" class="form-control" id="current_password" name="current_password" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12 col-sm-6 mb-3">
                                 <label for="new_password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="new_password" name="new_password">
+                                <input type="password" class="form-control" id="new_password" name="new_password" required>
                             </div>
                             <div class="col-12 col-sm-6 mb-3">
                                 <label for="new_password_confirmation" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation">
+                                <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" required>
                             </div>
                         </div>
                     </div>

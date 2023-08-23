@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\CategoryController as CategoryAdminController;
 use App\Http\Controllers\Admin\PlanController;
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\OAuthController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegistrationController;
 
@@ -137,6 +138,20 @@ Route::controller(LoginController::class)->group(function () {
     Route::get('/logout','logout')->name('logout');
 });
 
+// OAUTH
+Route::controller(OAuthController::class)->name('oauth.')->prefix('oauth')->group(function () {
+    Route::get('/connect/{service}', 'connect')
+        ->name('connect')
+        ->whereIn('service', array_keys(config('services')));
+    Route::get('/callback/{service}', 'callback')
+        ->name('callback')
+        ->whereIn('service', array_keys(config('services')));
+    Route::get('/unlink/{service}', 'unlink')
+        ->name('unlink')
+        ->middleware('auth')
+        ->whereIn('service', array_keys(config('services')));
+});
+
 // REGISTER
 Route::controller(RegistrationController::class)->middleware('guest')->group(function () {
     Route::get('/register', 'show')->name('registration');
@@ -227,7 +242,9 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
     // Users
     Route::controller(UserAdminController::class)->prefix('users')->name('users.')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::post('/{user}/ban', 'ban')->name('ban');
+        Route::post('/{user}/ban', 'ban')
+            ->name('ban')
+            ->can('ban', 'user');
         Route::post('/{user}/confirm', 'confirm')->name('confirm');
         Route::get('/export', 'export')->name('export');
     });
