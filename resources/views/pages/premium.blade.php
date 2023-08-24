@@ -67,9 +67,9 @@
                                 </li>
                             </ul>
                             <div class="card-body text-center py-3">
-                                @if(Auth::user()?->is_premium)
+                                @if(Auth::user()?->premium_subscription)
                                     <div class="alert alert-success">
-                                        You already have an active subscription
+                                        You already have an subscription, please manage it on your <a href="{{route('user.edit')}}">account</a>.
                                     </div>
                                 @else
                                     <a href="{{route('premium.subscribe', $plan)}}" class="btn btn-primary fs-5 w-100">Start Trial</a>
@@ -79,7 +79,6 @@
                                         Payments won't be refunded for partial billing periods. Cancel anytime from your account.
                                     </div>
                                 @endif
-
                             </div>
                         </div>
                     @endforeach

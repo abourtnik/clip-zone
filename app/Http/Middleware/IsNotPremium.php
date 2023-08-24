@@ -17,10 +17,10 @@ class IsNotPremium
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Auth::user()?->is_premium){
+        if(Auth::user()?->premium_subscription){
             return redirect()
                 ->route('pages.premium')
-                ->with('error', 'You already have an active premium subscription');
+                ->with('error', "You already have an subscription, please manage it on your <a href=".route('user.edit').">account</a>.");
         }
 
         return $next($request);
