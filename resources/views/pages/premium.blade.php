@@ -15,7 +15,13 @@
                 <span class="text-warning">Premium</span>
             </h1>
             <h2 class="my-5 text-center">Unleash the full potential of your creative journey with our premium plan</h2>
-            <h3 class="my-5 text-center">{{config('plans.trial_period.period')}} days trial • Then {{$plans->where('id', 1)->first()->price}} € / {{$plans->where('id', 1)->first()->period}} • Cancel anytime </h3>
+            <h3 class="my-5 text-center">
+                <span>{{config('plans.trial_period.period')}} days trial • Then</span>
+                @foreach($plans as $plan)
+                    <span x-show="plan === {{$plan->id}}">{{$plan->price}} € / {{$plan->period}} </span>
+                @endforeach
+                <span>• Cancel anytime</span>
+            </h3>
             <div class="row">
                 <div class="col-12 col-lg-6 col-xl-5 mb-3 mb-lg-0">
                     <div class="mb-3">
