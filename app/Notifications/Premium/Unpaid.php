@@ -5,7 +5,6 @@ namespace App\Notifications\Premium;
 use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Lang;
 
 class Unpaid extends Notification
@@ -63,7 +62,7 @@ class Unpaid extends Notification
             ->subject(Lang::get('Your last payment of '.null. ' to ' .config('app.name'). ' was unsuccessful '))
             ->markdown('mails.premium.unpaid', [
                 'notifiable' => $notifiable,
-                'url' => Auth::user()->billingPortalUrl(route('user.edit')),
+                'url' => $notifiable->billingPortalUrl(route('user.edit')),
                 'amount' => $this->amount
             ]);
     }
