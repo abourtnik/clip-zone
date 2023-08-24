@@ -7,6 +7,7 @@ use App\Models\Subscription;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Notifications\Premium\Invoice;
+use App\Notifications\Premium\Unpaid;
 use App\Notifications\Premium\Welcome;
 use App\Services\InvoiceService;
 use Carbon\Carbon;
@@ -28,7 +29,7 @@ class StripeWebhookController extends Controller
 
         return match ($request->get('type')) {
             'invoice.payment_succeeded' => $this->onInvoicePaid($request->get('data')['object']),
-            'charge.refunded' => $this->onRefund($request->get('data')['object']),
+            'invoice.payment_failed' => $this->onInvoiceUnPaid($request->get('data')['object']),
             'customer.subscription.created' => $this->onSubscriptionCreated($request->get('data')['object']),
             'customer.subscription.updated' => $this->onSubscriptionUpdated($request->get('data')['object']),
             'customer.subscription.deleted' => $this->onSubscriptionDeleted($request->get('data')['object']),
@@ -68,9 +69,11 @@ class StripeWebhookController extends Controller
         return response()->noContent();
     }
 
-    public function onRefund (array $data) : Response  {
+    public function onInvoiceUnPaid (array $data) : Response  {
 
-        Log::channel('stripe')->info('---- onRefund ----');
+        $user = $this->getUserFromStripeId($data['customer']);
+
+        $user->notify(new Unpaid($data['amount_due']));
 
         return response()->noContent();
     }
@@ -127,11 +130,11 @@ class StripeWebhookController extends Controller
 
     }
 
-    private function getUserFromStripeId ($id) : User {
+    private function getUserFromStripeId (string $id) : User {
         return User::where('stripe_id', $id)->firstOrFail();
     }
 
-    private function getPlanFromStripeId ($id) : Plan {
+    private function getPlanFromStripeId (string $id) : Plan {
         return Plan::where('stripe_id', $id)->firstOrFail();
     }
 }

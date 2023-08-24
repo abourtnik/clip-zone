@@ -52,13 +52,24 @@
                             @if($user->premium_subscription)
                                 <hr class="w-100">
                                 <div class="alert alert-info w-100">
-                                    <h6 class="text-center fw-bold">My subscription</h6>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="fw-bold">My subscription : {{$user->premium_subscription->plan->price}}  € / {{$user->premium_subscription->plan->period}}</div>
+                                        <div>
+                                            <span>Status :</span>
+                                            <strong @class(['text-danger' => !$user->premium_subscription->is_active, 'text-success' => $user->premium_subscription->is_active ])>
+                                                {{$user->premium_subscription->status}}
+                                            </strong>
+                                        </div>
+                                    </div>
                                     <hr>
                                     @if($user->premium_subscription->is_cancel)
-                                        <p class="fw-bold">You have canceled your subscription.</p>
-                                        @if($user->premium_subscription->ends_at->isPast())
-                                            <p>Canceled : <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong> </p>
-                                        @else
+                                        <p>
+                                            You have canceled your subscription
+                                            @if($user->premium_subscription->ends_at->isPast())
+                                                <span>the <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong></span>
+                                            @endif
+                                        </p>
+                                        @if($user->premium_subscription->ends_at->isFuture())
                                             <p>It will be automatically suspended after the : <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong>.</p>
                                         @endif
                                         <a class="btn btn-primary" href="{{$billing_profile_url}}">
@@ -66,12 +77,16 @@
                                         </a>
                                     @elseif($user->premium_subscription->on_trial)
                                         <p>You are currently on trial period until {{$user->premium_subscription->trial_ends_at->format('d F Y')}}</p>
-                                        <p>After this date your are billing {{$user->premium_subscription->plan->price}}  € / {{$user->premium_subscription->plan->period}}</strong></p>
                                         <a class="btn btn-primary" href="{{$billing_profile_url}}">
                                             Cancel my subscription
                                         </a>
+                                    @elseif($user->premium_subscription->is_unpaid)
+                                        <p class="text-danger fw-bold">Your last payment the <strong>{{$user->premium_subscription->next_payment->subDay()->format('d F Y')}}</strong> was unsuccessful.</p>
+                                        <p class="text-danger fw-bold">Please update your payment method to continue to profit premium features.</p>
+                                        <a class="btn btn-primary" href="{{$billing_profile_url}}">
+                                            Update payment information
+                                        </a>
                                     @else
-                                        <p class="fw-bold">You are currently subscribed : {{$user->premium_subscription->plan->price}}  € / {{$user->premium_subscription->plan->period}}</p>
                                         <p>Your next bank debit will be on : <strong>{{ $user->premium_subscription->next_payment->format('d F Y') }}</strong></p>
                                         <a class="btn btn-primary" href="{{$billing_profile_url}}">
                                             Manage my subscription

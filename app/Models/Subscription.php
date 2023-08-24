@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Stripe\Subscription as StripeSubscription;
 
 class Subscription extends Model
 {
@@ -34,7 +35,7 @@ class Subscription extends Model
     protected function isActive(): Attribute
     {
         return Attribute::make(
-            get: fn () => !$this->is_cancel || $this->ends_at?->isFuture()
+            get: fn () => (!$this->is_cancel || $this->ends_at?->isFuture()) && !$this->is_unpaid
         );
     }
 
@@ -49,6 +50,25 @@ class Subscription extends Model
     {
         return Attribute::make(
             get: fn () => !is_null($this->ends_at)
+        );
+    }
+
+    protected function isUnpaid(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->stripe_status === StripeSubscription::STATUS_PAST_DUE
+        );
+    }
+
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => match($this->stripe_status) {
+                StripeSubscription::STATUS_ACTIVE => 'Active',
+                StripeSubscription::STATUS_TRIALING => 'In trial period',
+                StripeSubscription::STATUS_PAST_DUE => 'Unpaid',
+                StripeSubscription::STATUS_CANCELED => 'Canceled',
+            }
         );
     }
 }
