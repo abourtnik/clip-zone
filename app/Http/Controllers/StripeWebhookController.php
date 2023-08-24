@@ -109,7 +109,7 @@ class StripeWebhookController extends Controller
             $subscription->update([
                 'ends_at' => $subscription->on_trial
                     ? $subscription->trial_ends_at
-                    : Carbon::createFromTimestamp($data['cancel_at_period_end'])
+                    : Carbon::createFromTimestamp($data['current_period_end'])
             ]);
         } else {
             $subscription->update([
