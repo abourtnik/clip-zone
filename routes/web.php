@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\VideoController as VideoAdminController;
 use App\Http\Controllers\Admin\ReportController as ReportAdminController;
 use App\Http\Controllers\Admin\CategoryController as CategoryAdminController;
 use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\InvoiceController as InvoiceAdminController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OAuthController;
@@ -276,6 +277,11 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
 
     // Plans
     Route::controller(PlanController::class)->prefix('plan')->name('plans.')->group(function () {
+        Route::get('/', 'index')->name('index');
+    });
+
+    // Invoices
+    Route::controller(InvoiceAdminController::class)->prefix('invoice')->name('invoices.')->group(function () {
         Route::get('/', 'index')->name('index');
     });
 

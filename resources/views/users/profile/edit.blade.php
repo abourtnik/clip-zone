@@ -213,23 +213,23 @@
                 <div class="card-body d-flex gap-2">
                     @if($user->facebook_id)
                         <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.unlink', ['service' => 'facebook'])}}" style="background-color: #47639e">
-                            <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle"></i>
+                            <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle d-none d-sm-block"></i>
                             <span>Unlink your Facebook account</span>
                         </a>
                     @else
                         <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.connect', ['service' => 'facebook'])}}" style="background-color: #47639e">
-                            <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle"></i>
+                            <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle d-none d-sm-block"></i>
                             <span>Link your Facebook account</span>
                         </a>
                     @endif
                     @if($user->google_id)
                         <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.unlink', ['service' => 'google'])}}" style="background-color: #dd4b39">
-                            <i class="fa-brands fa-google position-absolute top-50 left-5 translate-middle"></i>
+                            <i class="fa-brands fa-google position-absolute top-50 left-5 translate-middle d-none d-sm-block"></i>
                             <span>Unlink your Google account</span>
                         </a>
                     @else
                         <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.connect', ['service' => 'google'])}}" style="background-color: #dd4b39">
-                            <i class="fa-brands fa-google position-absolute top-50 left-5 translate-middle"></i>
+                            <i class="fa-brands fa-google position-absolute top-50 left-5 translate-middle d-none d-sm-block"></i>
                             <span>Link your Google account</span>
                         </a>
                     @endif

@@ -26,7 +26,7 @@
                 <div>{{$transaction->name}}</div>
                 <div>{{$transaction->address}}</div>
                 <div>{{$transaction->city}}</div>
-                <div>{{$transaction->country}}</div>
+                <div>{{\Symfony\Component\Intl\Countries::getName($transaction->country)}}</div>
                 @if($transaction->vat_id)
                     <div>{{$transaction->vat_id}}</div>
                 @endif

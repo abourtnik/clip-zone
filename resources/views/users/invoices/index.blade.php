@@ -12,23 +12,23 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th scope="col" class="w-40" style="min-width: 370px;">Date</th>
-                    <th scope="col">Description</th>
+                    <th scope="col" style="min-width: 300px;">Date</th>
+                    <th scope="col" style="min-width: 300px;">Description</th>
                     <th scope="col" style="min-width: 120px;">Price</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($invoices as $invoice)
-                    <tr class="">
-                        <td class="d-flex gap-3">
+                    <tr>
+                        <td class="align-middle">
                             {{$invoice->date->format('d F Y')}}
                         </td>
                         <td class="align-middle">
                             Premium account {{$invoice->date->format('d F Y')}}
                         </td>
                         <td class="align-middle">
-                            {{$invoice->formated_amount}} €
+                            @money($invoice->amount)
                         </td>
                         <td class="align-middle">
                             <div class="d-flex gap-1">

@@ -124,6 +124,11 @@ return [
             'route' => 'admin.plans.index',
         ],
         [
+            'title' => 'Invoices',
+            'icon' => 'receipt',
+            'route' => 'admin.invoices.index',
+        ],
+        [
             'title' => 'Logs',
             'icon' => 'file-lines',
             'route' => 'admin.logs',

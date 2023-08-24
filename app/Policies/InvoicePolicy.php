@@ -12,6 +12,21 @@ class InvoicePolicy
     use HandlesAuthorization;
 
     /**
+     * Perform pre-authorization checks.
+     *
+     * @param  User  $user
+     * @param  string  $ability
+     * @return void|bool
+     */
+    public function before(User $user, string $ability)
+    {
+        if ($user->is_admin) {
+            return true;
+        }
+    }
+
+
+    /**
      * Determine whether the user can view invoice.
      *
      * @param  User $user
