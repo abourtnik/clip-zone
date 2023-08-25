@@ -50,12 +50,14 @@
                         <span>Copy</span>
                     </button>
                 </div>
-                <div class="input-group mb-3 w-50">
-                    <div class="input-group-text d-flex align-items-center gap-2">
-                        <input class="form-check-input mt-0" type="checkbox" aria-label="Checkbox for following text input" x-model="enabled">
-                        <label for="link" class="form-label mb-0">Start at :</label>
+                <div class="col-12 col-sm-6">
+                    <div class="input-group mb-3 ">
+                        <div class="input-group-text d-flex align-items-center gap-2">
+                            <input class="form-check-input mt-0" type="checkbox" aria-label="Checkbox for following text input" x-model="enabled">
+                            <label for="link" class="form-label mb-0">Start at :</label>
+                        </div>
+                        <input type="time" id="time" class="form-control disabled" aria-label="Text input with checkbox" value="00:01" :disabled="!enabled" x-model="time">
                     </div>
-                    <input type="time" id="time" class="form-control disabled" aria-label="Text input with checkbox" value="00:01" :disabled="!enabled" x-model="time">
                 </div>
             </div>
             <div class="modal-footer">
