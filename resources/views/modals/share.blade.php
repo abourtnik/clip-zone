@@ -5,7 +5,7 @@
                 <h5 class="modal-title">Share Video</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" x-data="startAt('{{$video->route}}')">
                 <img class="img-fluid rounded img-thumbnail mb-3" src="{{$video->thumbnail_url}}" alt="{{$video->title}} Thumbnail">
                 <div class="d-flex flex-wrap" style="row-gap: 1rem !important;">
                     <a href="mailto:?body={{$video->route}}" class="fa-stack fa-2x" style="font-size: 1.6em">
@@ -40,20 +40,22 @@
                 <hr>
                 <label for="link" class="form-label">Video Link</label>
                 <div class="mb-3 input-group">
-                    <input type="text" class="form-control" readonly id="link" value="{{$video->route}}">
+                    <input type="text" class="form-control" readonly id="link" x-model="link">
                     <button
                         class="btn btn-primary"
                         type="button"
-                        x-data
-                        @click="navigator.clipboard.writeText($event.currentTarget.dataset.link)"
+                        @click="navigator.clipboard.writeText(link)"
                         title="Copy video link"
-                        data-link="{{$video->route}}"
-                        data-bs-toggle="tooltip"
-                        data-bs-title="Link copied !"
-                        data-bs-trigger="click"
                     >
-                        Copy
+                        <span>Copy</span>
                     </button>
+                </div>
+                <div class="input-group mb-3 w-50">
+                    <div class="input-group-text d-flex align-items-center gap-2">
+                        <input class="form-check-input mt-0" type="checkbox" aria-label="Checkbox for following text input" x-model="enabled">
+                        <label for="link" class="form-label mb-0">Start at :</label>
+                    </div>
+                    <input type="time" id="time" class="form-control disabled" aria-label="Text input with checkbox" value="00:01" :disabled="!enabled" x-model="time">
                 </div>
             </div>
             <div class="modal-footer">
@@ -62,3 +64,31 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('startAt', (initial) => ({
+            link : initial,
+            enabled: false,
+            time: '00:01',
+            init() {
+                this.$watch('time', value => {
+                    if(value) {
+                        this.link = initial + '?t=' + this.getSeconds(value)
+                    } else {
+                        this.link = initial
+                    }
+                });
+                this.$watch('enabled', value => {
+                   if(this.time) {
+                       this.link = initial + (value ? '?t=' + this.getSeconds(this.time) : '')
+                   }
+                })
+            },
+            getSeconds(time) {
+                const a = time.split(':')
+                return (+a[0]) * 60 + (+a[1]);
+            }
+        }));
+    })
+</script>

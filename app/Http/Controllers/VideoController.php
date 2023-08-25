@@ -87,7 +87,8 @@ class VideoController
                     'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ]),
             'videos' => $suggestedVideos,
-            'nextVideoUrl' => route('video.show', $suggestedVideos->random())
+            'nextVideoUrl' => route('video.show', $suggestedVideos->random()),
+            't' => $request->query('t', 0),
         ]);
     }
 

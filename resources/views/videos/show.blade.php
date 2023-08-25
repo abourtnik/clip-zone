@@ -9,7 +9,7 @@
         <div class="col-lg-7 col-xl-8 col-xxl-9 px-0 px-lg-3">
             <div class="ratio ratio-16x9">
                 <video controls class="w-100 border border-2" controlsList="nodownload" poster="{{$video->thumbnail_url}}" autoplay>
-                    <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
+                    <source src="{{$video->file_url}}#t={{$t}}" type="{{$video->mimetype}}">
                 </video>
             </div>
             <div class="px-3 px-lg-0">
