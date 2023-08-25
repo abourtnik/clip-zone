@@ -124,10 +124,9 @@ class StripeWebhookController extends Controller
 
     public function onSubscriptionDeleted (array $data) : Response  {
 
-        Log::channel('stripe')->info('---- onSubscriptionDeleted ----');
+        Subscription::where('stripe_id', $data['id'])->delete();
 
         return response()->noContent();
-
     }
 
     private function getUserFromStripeId (string $id) : User {
