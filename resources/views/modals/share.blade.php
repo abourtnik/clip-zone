@@ -50,7 +50,7 @@
                         <span>Copy</span>
                     </button>
                 </div>
-                <div class="col-12 col-sm-6">
+                <div class="col-10 col-sm-6">
                     <div class="input-group mb-3 ">
                         <div class="input-group-text d-flex align-items-center gap-2">
                             <input class="form-check-input mt-0" type="checkbox" aria-label="Checkbox for following text input" x-model="enabled">
