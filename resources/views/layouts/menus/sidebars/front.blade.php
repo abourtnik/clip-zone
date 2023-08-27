@@ -1,5 +1,5 @@
-<div class="offcanvas offcanvas-start fixed overflow-auto" id="responsive-sidebar" data-bs-keyboard="false" data-bs-backdrop="true" data-bs-scroll="true" aria-modal="true" role="dialog">
-    <div @class(["offcanvas-header d-flex align-items-center d-md-none bg-light border py-1", 'd-flex gap-2' => Auth::user()?->is_premium, 'justify-content-between' => !Auth::user()?->is_premium])>
+<div @class(["offcanvas offcanvas-start fixed overflow-auto", 'show_sidebar' => $show_sidebar ]) id="responsive-sidebar" data-bs-keyboard="false" data-bs-backdrop="true" data-bs-scroll="true" aria-modal="true" role="dialog">
+    <div @class(["offcanvas-header d-flex align-items-center bg-light border py-1", 'd-md-none' => $show_sidebar, 'd-flex gap-2' => Auth::user()?->is_premium, 'justify-content-between' => !Auth::user()?->is_premium])>
         <a
             href="{{route('pages.home')}}"
             @class(['offcanvas-title text-danger fw-bold text-decoration-none d-flex gap-2', 'h6' => Auth::user()?->is_premium, 'h5' => !Auth::user()?->is_premium])

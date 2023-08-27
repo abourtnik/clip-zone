@@ -111,6 +111,11 @@ class AppServiceProvider extends ServiceProvider
             $view->with('available_space', config('plans.'.Auth::user()->plan.'.max_videos_storage') - Auth::user()->videos()->sum('size'));
         });
 
+        // SHOW SIDEBAR
+        View::composer(['layouts.menus.sidebars.*' , 'layouts.menus.header'], function($view) {
+            $view->with('show_sidebar', request()->route()->getName() !== 'video.show');
+        });
+
 
         Cashier::calculateTaxes();
 

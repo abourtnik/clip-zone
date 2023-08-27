@@ -2,13 +2,13 @@
 
 @section('title', $video->title)
 
-@section('class', 'mt-0 mt-lg-3')
+@section('class', 'mt-0 mt-lg-3 ms-0')
 
 @section('content')
     <div class="row">
-        <div class="col-lg-7 col-xl-8 col-xxl-9 px-0 px-lg-3">
+        <div class="col-lg-8 col-xl-8 col-xxl-8 offset-xxl-1 px-0 px-lg-3">
             <div class="ratio ratio-16x9">
-                <video controls class="w-100 border border-2" controlsList="nodownload" poster="{{$video->thumbnail_url}}" autoplay>
+                <video controls class="w-100 border border-1 rounded" controlsList="nodownload" poster="{{$video->thumbnail_url}}" autoplay>
                     <source src="{{$video->file_url}}#t={{$t}}" type="{{$video->mimetype}}">
                 </video>
             </div>
@@ -244,7 +244,7 @@
                 @endif
             </div>
         </div>
-        <div class="col-lg-5 col-xl-4 col-xxl-3 px-0 px-sm-2">
+        <div class="col-lg-4 col-xl-4 col-xxl-3 px-0 px-sm-2">
             <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
                 <a href="{{$nextVideoUrl}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
                     <i class="fa-solid fa-forward-step"></i>

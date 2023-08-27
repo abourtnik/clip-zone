@@ -18,10 +18,8 @@ window.Sortable = Sortable
 
 Alpine.start()
 
-new bootstrap.Tooltip(document.body, {
-    selector: '[data-bs-toggle="tooltip"]',
-    trigger: 'hover'
-});
+const tooltips = [...document.querySelectorAll('[data-bs-toggle="tooltip"]')]
+tooltips.map(element => new bootstrap.Tooltip(element))
 
 const popovers = [...document.querySelectorAll('[data-bs-toggle="popover"]')]
 popovers.map(element => new bootstrap.Popover(element))

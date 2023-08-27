@@ -1,12 +1,12 @@
 // Logo
 
-.navbar-brand {
+.navbar-brand.show_sidebar {
  width: 240px;
 }
 
 @media (max-width: 550px) {
     .navbar-brand {
-        width: auto;
+        width: auto !important;
     }
 }
 

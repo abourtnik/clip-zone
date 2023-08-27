@@ -44,7 +44,7 @@ body {
 }
 
 @media (min-width: 768px) {
-    #responsive-sidebar {
+    #responsive-sidebar.show_sidebar {
         transform: none;
         visibility: visible;
         width: $sidebar-width;

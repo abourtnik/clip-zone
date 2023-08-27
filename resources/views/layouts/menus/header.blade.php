@@ -1,15 +1,15 @@
-<nav class="navbar navbar-expand-md bg-white border border-start-0 px-2 sticky-top header"  x-data="{search:false}">
+<nav @class(["navbar bg-white border border-start-0 px-2 sticky-top header", 'navbar-expand-md' => $show_sidebar])  x-data="{search:false}">
     <div class="container-fluid" x-show.important="!search">
-        <div class="gap-3 gap-md-0 d-flex align-items-center justify-content-start justify-content-md-center">
+        <div @class(["gap-3 d-flex align-items-center justify-content-start", "gap-md-0 justify-content-md-center" => $show_sidebar ])>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsive-sidebar">
                 <span class="navbar-toggler-icon" style="width: 1.2em;height: 1.2em;"></span>
             </button>
-            <a @class(['navbar-brand text-danger fw-bold text-md-center', 'is-premium' => Auth::user()?->is_premium]) href="{{route('pages.home')}}">
+            <a @class(['navbar-brand text-danger fw-bold', 'is-premium' => Auth::user()?->is_premium, 'text-md-center show_sidebar' => $show_sidebar]) href="{{route('pages.home')}}">
                 {{config('app.name')}} @if(Auth::user()?->is_premium) <span class="text-warning">Premium</span> @endif
             </a>
         </div>
         <search-bar class="w-35 d-none d-md-block" responsive query="{{request()->get('q')}}"></search-bar>
-        <ul @class(['navbar-nav flex-row d-flex align-items-center', 'gap-1' => Auth::guest(), 'gap-4 gap-md-3' => Auth::check()]) href="{{route('pages.home')}}">
+        <ul @class(['navbar-nav flex-row d-flex align-items-center', 'gap-1' => Auth::guest(), 'gap-4' => Auth::check(), 'gap-md-3' => $show_sidebar]) href="{{route('pages.home')}}">
             <li class="nav-item d-block d-md-none">
                 <button @click="search = true" class="bg-transparent nav-link text-black mr-2">
                     <i class="fa-solid fa-magnifying-glass"></i>

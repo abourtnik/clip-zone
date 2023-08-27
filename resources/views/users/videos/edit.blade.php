@@ -128,7 +128,8 @@
                                     title="Copy video link"
                                     data-link="{{$video->route}}"
                                     data-bs-toggle="tooltip"
-                                    data-bs-title="Copy video link"
+                                    data-bs-trigger="click"
+                                    data-bs-title="Link copied !"
                                 >
                                     <i class="fa-regular fa-copy"></i>
                                 </button>

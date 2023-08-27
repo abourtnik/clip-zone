@@ -46,6 +46,9 @@
                         type="button"
                         @click="navigator.clipboard.writeText(link)"
                         title="Copy video link"
+                        data-bs-toggle="tooltip"
+                        data-bs-trigger="click"
+                        data-bs-title="Link copied !"
                     >
                         <span>Copy</span>
                     </button>
