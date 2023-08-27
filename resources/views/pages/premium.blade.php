@@ -2,6 +2,8 @@
 
 @section('title', 'Premium')
 
+@section('class', 'ms-0')
+
 @section('content')
     <div class="row align-items-center h-75 mt-5">
         <div class="col-10 offset-1 border border-1 bg-light py-4 px-3 px-sm-4" x-data="{plan : 1}">
