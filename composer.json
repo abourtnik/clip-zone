@@ -8,6 +8,7 @@
         "php": "^8.0.2|^8.1",
         "barryvdh/laravel-dompdf": "^2.0",
         "diglactic/laravel-breadcrumbs": "^8.0",
+        "doctrine/dbal": "^3.6",
         "fakerphp/faker": "^1.9.1",
         "guzzlehttp/guzzle": "^7.2",
         "lab404/laravel-impersonate": "^1.7",
