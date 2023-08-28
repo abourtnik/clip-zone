@@ -17,14 +17,14 @@
                 <a href="{{$video->route}}" class="d-block fw-bold position-relative text-decoration-none text-black text-sm mb-1 overflow-hidden" title="{{$video->title}}" style="max-height: 40px">
                     {{Str::limit($video->title, 50)}}
                 </a>
-                <div class="d-flex flex-wrap gap-1 align-items-center text-muted text-sm">
-                    <a href="{{$video->user->route}}" class="d-block text-muted position-relative text-decoration-none" title="{{$video->user->username}}">
-                        {{$video->user->username}}
-                    </a>
-                    <span>•</span>
-                    <span>{{$video->created_at->diffForHumans()}}</span>
+                <a href="{{$video->user->route}}" class="d-block text-muted position-relative text-decoration-none text-sm" title="{{$video->user->username}}">
+                    {{$video->user->username}}
+                </a>
+                <div class="text-sm d-flex flex-wrap gap-1 align-items-center text-muted">
+                    <div>{{trans_choice('views', $video->views_count)}}</div>
+                    <div>•</div>
+                    <div>{{$video->created_at->diffForHumans()}}</div>
                 </div>
-                <small class="text-muted text-sm">{{trans_choice('views', $video->views_count)}}</small>
             </div>
         </div>
     </div>
