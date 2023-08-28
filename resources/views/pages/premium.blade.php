@@ -115,7 +115,7 @@
                                 <div class="line"></div>
                             </div>
                             <div>
-                                <p class="fw-bold mb-1">{{now()->add('days', config('plans.trial_period.email_reminder'))->format('j F Y')}}</p>
+                                <p class="fw-bold mb-1">{{now()->add('days', config('plans.trial_period.period'))->sub('days', config('plans.trial_period.email_reminder'))->format('j F Y')}}</p>
                                 <small class="text-muted">We'll send you a reminder email {{config('plans.trial_period.email_reminder')}} days before your {{config('app.name')}} Premium trial ends.</small>
                             </div>
                         </div>

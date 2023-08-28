@@ -12,7 +12,7 @@ return [
         'max_videos_storage' => null
     ],
     'trial_period' => [
-        'period' => 2, // days,
-        'email_reminder' => 1 // days
+        'period' => 30, // days,
+        'email_reminder' => 7 // days
     ]
 ];

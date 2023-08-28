@@ -15,7 +15,7 @@ class Plan extends Model
 
     public function period() : Attribute {
         return Attribute::make(
-            get: fn () => CarbonInterval::days($this->duration)->forHumans(['join' => fn($a) => explode(' ', $a[0])[1]])
+            get: fn () => $this->duration === 1 ? 'month' : 'year'
         );
     }
 }

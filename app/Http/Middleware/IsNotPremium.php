@@ -20,7 +20,7 @@ class IsNotPremium
         if(Auth::user()?->premium_subscription){
             return redirect()
                 ->route('pages.premium')
-                ->with('error', "You already have an subscription, please manage it on your <a href=".route('user.edit').">account</a>.");
+                ->with('error', "You already have an subscription, you can manage it on your <a href=".route('user.edit').">account</a>.");
         }
 
         return $next($request);

@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-lg-8 col-xl-8 col-xxl-8 offset-xxl-1 px-0 px-lg-3">
             <div class="ratio ratio-16x9">
-                <video controls class="w-100 border border-1 rounded" controlsList="nodownload" poster="{{$video->thumbnail_url}}" autoplay>
+                <video controls class="w-100 border border-1 rounded" controlsList="nodownload" poster="{{$video->thumbnail_url}}" autoplay oncontextmenu="return false;">
                     <source src="{{$video->file_url}}#t={{$t}}" type="{{$video->mimetype}}">
                 </video>
             </div>

@@ -113,7 +113,7 @@ class AppServiceProvider extends ServiceProvider
 
         // SHOW SIDEBAR
         View::composer(['layouts.menus.sidebars.*' , 'layouts.menus.header'], function($view) {
-            $view->with('show_sidebar', !in_array(request()->route()->getName(), ['video.show', 'pages.premium']));
+            $view->with('show_sidebar', !in_array(request()->route()?->getName(), ['video.show', 'pages.premium']));
         });
 
 

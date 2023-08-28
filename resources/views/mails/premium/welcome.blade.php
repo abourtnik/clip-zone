@@ -1,13 +1,15 @@
 @component('mail::message')
 
-# Hello {{$notifiable->username}} !
+# Hello {{$notifiable->username}},
 
-Thank you for subscription to {{config('app.name')}} Premium.
+Thank you for subscription to **{{config('app.name')}} Premium** ! Your {{config('plans.trial_period.period')}} days trial begins immediately and will end on {{$notifiable->premium_subscription->trial_ends_at->format('M. d, Y')}}. Your payment method will be charged {{$notifiable->premium_subscription->plan->name}} beginning **{{$notifiable->premium_subscription->trial_ends_at->format('M. d, Y')}}**.
 
-You will now be able to access to all premium features.
+You can manage and cancel your subscription at any time by going to your {{config('app.name')}} <a class="text-decoration-none" href="{{route('user.edit')}}">account</a>.
 
-@component('mail::button', ['url' => route('pages.home')])
-    Discover {{config('app.name')}} Premium
+@component('mail::subcopy')
+You can cancel your {{config('app.name')}} Premium subscription at any time. If you cancel your subscription, you retain access to {{config('app.name')}} Premium until the end of the billing period. No partial refund will be given.
+
+Need help ? Contact our <a href="{{route('contact.show')}}">support</a>. Please don't reply to this email.
 @endcomponent
 
 Regards, {{ config('app.name') }}
