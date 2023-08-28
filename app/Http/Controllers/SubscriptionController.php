@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use Illuminate\Database\Eloquent\Builder;
 
 class SubscriptionController extends Controller
 {
@@ -44,10 +45,16 @@ class SubscriptionController extends Controller
         return view('subscription.discover', [
             'users' => User::active()
                 ->where('show_subscribers', true)
-                ->withCount(['subscribers', 'videos'])
+                ->withCount([
+                    'subscribers',
+                    'videos',
+                    'premium_subscription' => fn(Builder $query) => $query->active()
+                ])
                 ->having('videos_count', '>', 0)
                 ->when(Auth::check(), fn($query) => $query->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray()))
+                ->orderBy('premium_subscription_count', 'desc')
                 ->orderBy('subscribers_count', 'desc')
+                ->orderBy('created_at', 'asc')
                 ->get()
         ]);
     }

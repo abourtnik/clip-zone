@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -70,5 +72,21 @@ class Subscription extends Model
                 StripeSubscription::STATUS_CANCELED => 'Canceled',
             }
         );
+    }
+
+    /**
+     * -------------------- SCOPES --------------------
+     */
+
+    /**
+     * Scope a query to only include active subscriptions.
+     *
+     * @param  Builder $query
+     * @return void
+     */
+    public function scopeActive(Builder $query): void
+    {
+        $query->whereNull('ends_at')
+            ->orWhere('ends_at', '>', Carbon::now());
     }
 }
