@@ -8,7 +8,7 @@
         </div>
         <span style="position: absolute;inset: 0;"></span>
     </a>
-    <div class="p-2 pt-sm-1 pb-sm-0 px-sm-0">
+    <div class="p-2 p-sm-0">
         <div class="d-flex gap-2">
             <a href="{{$video->user->route}}" style=";height: 36px;" class="position-relative d-block d-sm-none" title={{$video->user->username}}>
                 <img class="rounded-circle" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar"  style="width: 36px">
