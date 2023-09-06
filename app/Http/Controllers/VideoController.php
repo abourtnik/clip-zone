@@ -111,7 +111,7 @@ class VideoController
 
     public function user (User $user, Request $request) : ResourceCollection {
 
-        $sort = $request->get('sort', 'recent');
+        $sort = $request->get('sort', 'latest');
         $excludePinned = $request->exists('excludePinned');
 
         return VideoResource::collection(
@@ -120,8 +120,9 @@ class VideoController
                 ->when($excludePinned, fn($query) => $query->where('id', '!=', $user->pinned_video->id))
                 ->withCount('views')
                 ->with('user')
-                ->when($sort === 'recent', fn($query) => $query->latest('created_at'))
+                ->when($sort === 'latest', fn($query) => $query->latest('created_at'))
                 ->when($sort === 'popular', fn($query) => $query->orderByRaw('views_count DESC'))
+                ->when($sort === 'oldest', fn($query) => $query->oldest('created_at'))
                 ->paginate(24)
         );
     }

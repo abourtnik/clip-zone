@@ -114,7 +114,7 @@
                                 <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
                             </video>
                         </div>
-                        <div class="bg-light mt-2 px-3 py-2 d-flex flex-column gap-3">
+                        <div class="bg-light border mt-2 px-3 py-2 d-flex flex-column gap-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     <small class="text-muted fw-bold mb-2">Video Link</small>
@@ -141,6 +141,25 @@
                             <div>
                                 <small class="text-muted fw-bold mb-2">File size</small>
                                 <div class="text-sm">@size($video->size)</div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <small class="text-muted fw-bold mb-2">Video ID</small>
+                                    <div class="text-sm">{{$video->uuid}}</div>
+                                </div>
+                                <button
+                                    x-data
+                                    @click="navigator.clipboard.writeText($event.currentTarget.dataset.link)"
+                                    type="button"
+                                    class="btn btn-sm btn-light"
+                                    title="Copy video ID"
+                                    data-link="{{$video->uuid}}"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-trigger="click"
+                                    data-bs-title="ID copied !"
+                                >
+                                    <i class="fa-regular fa-copy"></i>
+                                </button>
                             </div>
                         </div>
                         <h6 class="text-primary mt-4">Visibility</h6>
@@ -206,7 +225,7 @@
                                     @checked(old('show_likes', $video->show_likes))
                                 >
                                 <label class="form-check-label" for="show_likes">
-                                    Show likes and dislikes count on video
+                                    Show how many viewers like this video
                                 </label>
                             </div>
                         </div>
