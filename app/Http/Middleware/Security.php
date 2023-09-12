@@ -24,7 +24,7 @@ class Security
 
         foreach ($this->except as $except) {
             if (!$request->is($except)) {
-                $response->headers->set('X-Frame-Options', 'SAMEORIGIN always');
+                $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
             }
         }
 
