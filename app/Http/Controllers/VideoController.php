@@ -110,8 +110,10 @@ class VideoController
         return response($file)->header('Content-Type', Storage::disk('thumbnails')->mimeType($video->thumbnail));
     }
 
-    public function embed (Video $video): View
+    public function embed (Video $video, Request $request): View
     {
+        $request->headers->remove('X-Frame-Options');
+
         return view(match ($video->real_status) {
             VideoStatus::PUBLIC => 'videos.embed.public',
             VideoStatus::UNLISTED => 'videos.embed.public',
