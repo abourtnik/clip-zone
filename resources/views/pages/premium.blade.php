@@ -1,6 +1,7 @@
 @extends('layouts.default')
 
 @section('title', 'Premium')
+@section('description', 'Unleash the full potential of your creative journey with our premium plan. 30 days trial • Then 5 € / month • Cancel anytime')
 
 @section('class', 'ms-0')
 

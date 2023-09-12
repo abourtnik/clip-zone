@@ -57,7 +57,6 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
 });
 
 // PREMIUM
-
 Route::post('stripe-webhook', [StripeWebhookController::class, 'index'])
     ->middleware(VerifyWebhookSignature::class)
     ->name('stripe_webhook');
@@ -86,6 +85,9 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
         ->middleware('premium')
         ->can('download', 'video')
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
+    Route::get('/embed/{video:uuid}', 'embed')
+        ->name('embed')
+        ->missing(fn (Request $request) => response()->view('videos.embed.missing'));
 });
 
 // PLAYLISTS

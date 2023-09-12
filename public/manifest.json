@@ -1,7 +1,7 @@
 {
     "start_url": "/",
-    "name": "Youtube Clone",
-    "short_name": "YC",
+    "name": "ClipZone",
+    "short_name": "CZ",
     "icons": [
         {
             "src": "/images/icons/android-chrome-192x192.png",

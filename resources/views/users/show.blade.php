@@ -1,6 +1,7 @@
 @extends('layouts.default')
 
 @section('title', $user->username)
+@section('description', Str::limit($user->description, 155))
 
 @section('class', 'px-0')
 @section('style', 'margin-top: 0 !important')

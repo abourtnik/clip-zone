@@ -1,6 +1,7 @@
 @extends('layouts.default')
 
 @section('title', 'Trending')
+@section('description', 'The pulse of what&#39;s trending on '.config('app.name').'. Check out the latest music videos, trailers, comedy clips, and everything else that people are watching right now.')
 
 @section('class', 'px-0 px-sm-2 mt-0 mt-sm-3')
 

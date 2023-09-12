@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\VideoStatus;
 use App\Http\Resources\VideoResource;
 use App\Models\Category;
 use App\Models\User;
@@ -107,6 +108,19 @@ class VideoController
         $file = Storage::disk('thumbnails')->get($video->thumbnail);
 
         return response($file)->header('Content-Type', Storage::disk('thumbnails')->mimeType($video->thumbnail));
+    }
+
+    public function embed (Video $video): View
+    {
+        return view(match ($video->real_status) {
+            VideoStatus::PUBLIC => 'videos.embed.public',
+            VideoStatus::UNLISTED => 'videos.embed.public',
+            VideoStatus::PRIVATE => 'videos.embed.private',
+            VideoStatus::BANNED => 'videos.embed.banned',
+            default => 'videos.embed.missing'
+        },[
+            'video' => $video
+        ]);
     }
 
     public function user (User $user, Request $request) : ResourceCollection {
