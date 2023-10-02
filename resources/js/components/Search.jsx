@@ -16,6 +16,7 @@ export default function Search ({query = '', responsive = true}) {
 
     const handleChange = e => {
         const value = e.target.value;
+        setSelectedIndex(null);
         setLoading(true);
         setSearch(value);
         suggest(value)
