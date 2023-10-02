@@ -52,6 +52,10 @@
     background-color: lightgrey !important;
 }
 
+.selected {
+    background-color: #e6eff4 !important;
+}
+
 .without-caret::after {
     display: none;
 }

@@ -7,9 +7,10 @@ export default function Search ({query = '', responsive = true}) {
     const ref = useRef(null)
 
     const [search, setSearch] = useState(query);
-    const [data, setData] = useState([]);
+    const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [showResults, setShowResults] = useState(false);
+    const [selectedIndex, setSelectedIndex] = useState(null);
 
     useClickOutside(ref, () => setShowResults(false))
 
@@ -20,9 +21,57 @@ export default function Search ({query = '', responsive = true}) {
         suggest(value)
     };
 
+    const handleKeys = (e) => {
+        switch (e.key) {
+            case 'ArrowDown':
+                setSelectedIndex(i => {
+
+                    if (!results.total){
+                        return null;
+                    }
+
+                    if(i === null) {
+                        return 0
+                    }
+                    else if (results.total === i) {
+                        return null
+                    }
+                    else {
+                        return  i + 1
+                    }
+                })
+                break;
+            case 'ArrowUp':
+                setSelectedIndex(i => {
+
+                    if (!results.total){
+                        return null;
+                    }
+
+                    if(i === null) {
+                        return results.total
+                    }
+                    else if (i === 0) {
+                        return null
+                    }
+                    else {
+                        return  i - 1
+                    }
+                })
+                break;
+        }
+    }
+
+    const handleSubmit = (e) => {
+        if (selectedIndex && selectedIndex !== results.total) {
+            e.preventDefault()
+            window.location.href = results.items[selectedIndex].url;
+        }
+    }
+
     const suggest = useCallback(debounce(async value => {
-        jsonFetch(`/api/search?q=${value}`).then(data => {
-            setData(data);
+        jsonFetch(`/api/search?q=${value}`).then(results => {
+            setResults(results);
         }).catch(e => e).finally(() => setLoading(false));
     }, 300), []);
 
@@ -31,7 +80,7 @@ export default function Search ({query = '', responsive = true}) {
 
     return (
         <>
-        <form ref={ref} method="GET" className="d-flex w-100 mb-0" role="search" action="/search">
+        <form ref={ref} method="GET" className="d-flex w-100 mb-0" role="search" action="/search" onSubmit={handleSubmit}>
             <div className="input-group flex-nowrap">
                 <div className={'position-relative'} style={{flex: '1 1 auto'}}>
                     <input
@@ -43,6 +92,7 @@ export default function Search ({query = '', responsive = true}) {
                         aria-label="Search"
                         name="q"
                         value={search}
+                        onKeyDown={handleKeys}
                     />
                     {
                         (loading && search.trim()) &&
@@ -60,15 +110,17 @@ export default function Search ({query = '', responsive = true}) {
         </form>
         {
             (showResults && search.trim() && !loading) &&
-                <div className={'position-absolute ' + width + ' bg-white shadow-lg border border-1 pt-3'} style={{top:'53px'}}>
+                <div className={'position-absolute ' + width + ' bg-white shadow-lg border border-1 pt-3 rounded-top rounded-bottom'} style={{top:'53px'}}>
                     {
-                        data.total ?
+                        results.total ?
                             <ul className={'list-unstyled mb-0'}>
                                 {
-                                    data.items.map(result => (
-                                        <li>
-                                            <a href={result.url}
-                                               className="d-flex align-items-center gap-2 justify-content-start text-decoration-none px-3 py-2 hover-primary">
+                                    results.items.map((result, key) => (
+                                        <li key={key}>
+                                            <a
+                                                href={result.url}
+                                                className={"d-flex align-items-center gap-2 justify-content-start text-decoration-none px-3 py-2 hover-primary " + (selectedIndex === key ? 'selected' : null)}
+                                            >
                                                 <div className={'pe-2'}>
                                                     <i className="fa-solid fa-magnifying-glass"></i>
                                                 </div>
@@ -77,9 +129,9 @@ export default function Search ({query = '', responsive = true}) {
                                         </li>
                                     ))
                                 }
-                                <li className={'text-center border-top d-flex align-items-center'}>
-                                    <a className={'text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold hover-primary py-2'} href={data.route}>
-                                        See {data.total} result{data.total > 1 && 's'}
+                                <li className={'text-center border-top d-flex align-items-center rounded-bottom'}>
+                                    <a className={"text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold hover-primary py-2 rounded-bottom " + (selectedIndex === results.total ? 'selected' : null)} href={results.route}>
+                                        See {results.total} result{results.total > 1 && 's'}
                                     </a>
                                 </li>
                             </ul>
