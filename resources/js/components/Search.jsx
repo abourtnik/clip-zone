@@ -33,7 +33,7 @@ export default function Search ({query = '', responsive = true}) {
                     if(i === null) {
                         return 0
                     }
-                    else if (results.total === i) {
+                    else if (results.items.length === i) {
                         return null
                     }
                     else {
@@ -49,7 +49,7 @@ export default function Search ({query = '', responsive = true}) {
                     }
 
                     if(i === null) {
-                        return results.total
+                        return results.items.length
                     }
                     else if (i === 0) {
                         return null
@@ -63,7 +63,7 @@ export default function Search ({query = '', responsive = true}) {
     }
 
     const handleSubmit = (e) => {
-        if (selectedIndex && selectedIndex !== results.total) {
+        if (selectedIndex !== null && selectedIndex !== results.items.length) {
             e.preventDefault()
             window.location.href = results.items[selectedIndex].url;
         }
@@ -130,7 +130,7 @@ export default function Search ({query = '', responsive = true}) {
                                     ))
                                 }
                                 <li className={'text-center border-top d-flex align-items-center rounded-bottom'}>
-                                    <a className={"text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold hover-primary py-2 rounded-bottom " + (selectedIndex === results.total ? 'selected' : null)} href={results.route}>
+                                    <a className={"text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold hover-primary py-2 rounded-bottom " + (selectedIndex === results.items.length ? 'selected' : null)} href={results.route}>
                                         See {results.total} result{results.total > 1 && 's'}
                                     </a>
                                 </li>
