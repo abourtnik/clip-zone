@@ -9,7 +9,7 @@
             </a>
         </div>
         <search-bar class="w-35 d-none d-md-block" responsive query="{{request()->get('q')}}"></search-bar>
-        <ul @class(['navbar-nav flex-row d-flex align-items-center', 'gap-1' => Auth::guest(), 'gap-4' => Auth::check(), 'gap-md-3' => $show_sidebar]) href="{{route('pages.home')}}">
+        <ul @class(['navbar-nav flex-row d-flex align-items-center', 'gap-1' => Auth::guest(), 'gap-4' => Auth::check()]) href="{{route('pages.home')}}">
             <li class="nav-item d-block d-md-none">
                 <button @click="search = true" class="bg-transparent nav-link text-black mr-2">
                     <i class="fa-solid fa-magnifying-glass"></i>
@@ -55,12 +55,12 @@
                 @else
                     <li class="nav-item">
                         <a class="btn bg-transparent text-primary" href="{{route('login')}}">
-                            Sign In
+                            {{ __('Sign In') }}
                         </a>
                     </li>
                     <li class="nav-item ml-1 d-flex align-items-center">
                         <a class="btn btn-sm btn-primary d-flex gap-2 align-items-center" href="{{route('registration')}}">
-                            <span>Register</span>
+                            <span>{{ __('Register') }}</span>
                         </a>
                     </li>
                 @endauth

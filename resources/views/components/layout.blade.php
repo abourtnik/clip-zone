@@ -67,5 +67,8 @@
         @endif
     </main>
     @stack('scripts')
+    <script>
+        const LANG = '{{app()->getLocale()}}'
+    </script>
 </body>
 </html>

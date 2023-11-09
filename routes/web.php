@@ -26,6 +26,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PremiumController;
 
 use App\Http\Controllers\StripeWebhookController;
+use App\Http\Controllers\LangController;
 
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ActivityController;
@@ -65,6 +66,9 @@ Route::name('premium.')->middleware(['auth', 'not_premium'])->controller(Premium
     Route::get('/subscribe/{plan}', 'subscribe')
         ->name('subscribe');
 });
+
+// Lang
+Route::post('update-locale', [LangController::class, 'update'])->name('lang.update');
 
 // VIDEOS
 Route::controller(VideoController::class)->name('video.')->group(function () {

@@ -1,0 +1,20 @@
+{
+    "subscribers": "[0,1] :count abonné|[2,*] :count abonnés",
+    "videos": "[0,1] :count video|[2,*] :count videos",
+    "comments": "[0,1] :count commentaire|[2,*] :count commentaires",
+    "replies": "[0,1] :count réponse|[2,*] :count réponses",
+    "views": "[0,1] :count vue|[2,*] :count vues",
+    "results": "[0,1] :count resultat|[2,*] :count resultats",
+    "likes": "[0,1] :count like|[2,*] :count likes",
+    "dislikes": "[0,1] :count dislike|[2,*] :count dislikes",
+    "reports": "[0,1] :count signalement|[2,*] :count signalements",
+    "sign_in": "[0,1] :count signalement|[2,*] :count signalements",
+    "Sign In": "Se connecter",
+    "Register": "S'inscrire",
+    "Home": "Accueil",
+    "Trend": "Tendances",
+    "Subscriptions": "Abonnements",
+    "Discover channels": "Découvrir les chaînes",
+    "Top Comments": "Top des commentaires",
+    "Drag and drop video file to upload": "Glissez-déposez le fichier vidéo que vous souhaitez mettre en ligne"
+}
