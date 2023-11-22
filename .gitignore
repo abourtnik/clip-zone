@@ -17,6 +17,7 @@ yarn-error.log
 
 # Local data
 mariadb_data
+minio_data
 
 # Folder view configuration files
 .DS_Store

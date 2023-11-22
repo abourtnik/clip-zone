@@ -9,9 +9,18 @@
     <div class="row">
         <div class="col-lg-8 col-xl-8 col-xxl-8 offset-xxl-1 px-0 px-lg-3">
             <div class="ratio ratio-16x9">
-                <video controls class="w-100 border border-1 rounded" controlsList="nodownload" poster="{{$video->thumbnail_url}}" autoplay oncontextmenu="return false;">
-                    <source src="{{$video->file_url}}#t={{$t}}" type="{{$video->mimetype}}">
-                </video>
+                @if($video->isUploading)
+                    <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
+                        <div class="text-center">
+                            <div class="mb-2">Your video is processing ...</div>
+                            <div class="text-muted text-sm">You will receive a notification once the processing is complete.</div>
+                        </div>
+                    </div>
+                @else
+                    <video controls class="w-100 border border-1 rounded" controlsList="nodownload" poster="{{$video->thumbnail_url}}" oncontextmenu="return false;">
+                        <source src="{{$video->file_url}}#t={{$t}}" type="{{$video->mimetype}}">
+                    </video>
+                @endif
             </div>
             <div class="px-3 px-lg-0">
                 <div class="mt-3 d-flex align-items-center gap-3">
@@ -245,6 +254,7 @@
                 @endif
             </div>
         </div>
+        @if($nextVideoUrl)
         <div class="col-lg-4 col-xl-4 col-xxl-3 px-0 px-sm-2">
             <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
                 <a href="{{$nextVideoUrl}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
@@ -260,8 +270,8 @@
             <div>
                 @each('videos.card-secondary',  $videos, 'video')
             </div>
-
         </div>
+        @endif
     </div>
     @include('modals.share')
     @includeWhen(Auth::check(), 'modals.save')

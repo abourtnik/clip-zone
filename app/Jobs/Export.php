@@ -5,6 +5,7 @@ namespace App\Jobs;
 use App\Enums\ExportStatus;
 use App\Events\ExportFinished;
 use App\Models\User;
+use App\Models\Export as ExportModel;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -53,7 +54,7 @@ class Export implements ShouldQueue
             'file' => $fileName
         ]);
 
-        Excel::store($class, $fileName, 'exports', BaseExcel::CSV);
+        Excel::store($class, ExportModel::EXPORT_FOLDER.'/'.$fileName, null, BaseExcel::CSV);
 
         $export->update(['status' => ExportStatus::COMPLETED]);
 

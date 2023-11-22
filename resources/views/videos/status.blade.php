@@ -1,4 +1,9 @@
-@if($video->is_unlisted)
+@if($video->is_uploading)
+    <span class="badge bg-secondary">
+        <i class="fa-solid fa-hourglass-half"></i>&nbsp;
+        Processing
+    </span>
+@elseif($video->is_unlisted)
     <span class="badge bg-info">
         <i class="fa-solid fa-eye-slash"></i>&nbsp;
         Unlisted

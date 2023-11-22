@@ -17,10 +17,19 @@ class Export extends Model
         'status' => ExportStatus::class,
     ];
 
+    public const EXPORT_FOLDER = 'exports';
+
     protected function isCompleted(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->status === ExportStatus::COMPLETED
+        );
+    }
+
+    protected function path(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => self::EXPORT_FOLDER.'/'.$this->file
         );
     }
 }

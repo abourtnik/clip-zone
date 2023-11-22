@@ -10,7 +10,6 @@ use App\Filters\VideoFilters;
 use App\Filters\ViewFilters;
 use App\Helpers\Image;
 use App\Http\Requests\UpdateUserRequest;
-use App\Models\Subscription;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
@@ -115,8 +114,8 @@ class ProfileController
         $user = auth()->user();
 
         $validated = $request->safe()->merge([
-            'avatar' => Image::storeAndDelete($request->file('avatar'), $user->avatar, 'avatars'),
-            'banner' => Image::storeAndDelete($request->file('banner'), $user->banner, 'banners'),
+            'avatar' => Image::storeAndDelete($request->file('avatar'), $user->avatar, User::AVATAR_FOLDER),
+            'banner' => Image::storeAndDelete($request->file('banner'), $user->banner, User::BANNER_FOLDER),
         ])->toArray();
 
         $user->update($validated);

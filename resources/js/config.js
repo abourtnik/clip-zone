@@ -34,7 +34,6 @@ export default {
         resizeable : true
     },
     video:  {
-        maxSize: 1000,
         accepted_format : ['video/mp4', 'video/webm', 'audio/ogg'],
     }
 }

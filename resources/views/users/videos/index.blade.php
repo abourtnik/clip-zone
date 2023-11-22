@@ -96,7 +96,7 @@
                             @endif
                         </td>
                         <td class="align-middle">
-                            @if(!$video->is_draft)
+                            @if($video->is_created)
                                 @if($video->views_count)
                                     <a href="{{route('user.videos.show', $video)}}" class="badge bg-info text-decoration-none">
                                         {{trans_choice('views', $video->views_count)}}
@@ -109,7 +109,7 @@
                             @endif
                         </td>
                         <td class="align-middle">
-                            @if(!$video->is_draft)
+                            @if($video->is_created)
                                 @if($video->category)
                                     <div class="badge bg-primary">
                                         {{$video->category->title}}
@@ -122,7 +122,7 @@
                             @endif
                         </td>
                         <td class="align-middle">
-                            @if(!$video->is_draft)
+                            @if($video->is_created)
                                 @if($video->comments_count)
                                     <a href="{{route('user.comments.index') .'?video='.$video->id}}" class="badge bg-info text-decoration-none">
                                         {{trans_choice('comments', $video->comments_count)}}
@@ -140,7 +140,7 @@
                             @endif
                         </td>
                         <td class="align-middle">
-                            @if(!$video->is_draft)
+                            @if($video->is_created)
                                 @include('users.partials.interactions', ['item' => $video])
                                 <div class="d-flex align-items-center gap-1">
                                     @if($video->interactions_count)
@@ -188,7 +188,7 @@
                                 >
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
-                                @if(!$video->is_draft)
+                                @if($video->is_created)
                                     <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="Video statistics">
                                         <i class="fa-solid fa-chart-simple"></i>
                                     </a>

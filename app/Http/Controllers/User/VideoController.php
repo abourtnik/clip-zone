@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\FileRequest;
 use App\Http\Requests\Video\StoreVideoRequest;
 use App\Http\Requests\Video\UpdateVideoRequest;
+use App\Jobs\UploadToS3;
 use App\Models\Category;
 use App\Models\Video;
 use FFMpeg\FFProbe;
@@ -49,7 +50,12 @@ class VideoController extends Controller
         ]);
     }
 
-    public function create(Video $video): View {
+    public function create(Video $video): View|RedirectResponse {
+
+        if (!$video->isDraft) {
+            return redirect()->route('user.videos.edit', $video);
+        }
+
         return view('users.videos.create', [
             'video' => $video,
             'status' => VideoStatus::getActive(),
@@ -64,7 +70,7 @@ class VideoController extends Controller
 
     public function store(StoreVideoRequest $request, Video $video): RedirectResponse {
         $validated = $request->safe()->merge([
-            'thumbnail' =>  $request->file('thumbnail')->store('/', 'thumbnails'),
+            'thumbnail' =>  Image::storeAndDelete($request->file('thumbnail'), null, Video::THUMBNAIL_FOLDER),
             'scheduled_date' => $request->get('scheduled_date'),
             'publication_date' => match((int) $request->get('status')) {
                 VideoStatus::PUBLIC->value => now(),
@@ -133,7 +139,7 @@ class VideoController extends Controller
         // Publication date is the first date that video become public, this data never be updated after first publication
 
         $validated = $request->safe()->merge([
-            'thumbnail' => Image::storeAndDelete($request->file('thumbnail'), $video->thumbnail, 'thumbnails'),
+            'thumbnail' => Image::storeAndDelete($request->file('thumbnail'), $video->thumbnail, Video::THUMBNAIL_FOLDER),
             'scheduled_date' => match((int) $request->get('status')) {
                 VideoStatus::PLANNED->value => $request->get('scheduled_date'),
                 default => null,
@@ -198,8 +204,8 @@ class VideoController extends Controller
 
             $file = $save->getFile();
 
-            // Store file
-            $name = $file->store('/','videos');
+            // Store file locally
+            $path = $file->store(Video::VIDEO_FOLDER, 'local');
 
             // Get file duration
 
@@ -208,14 +214,14 @@ class VideoController extends Controller
             ]);
 
             $duration = $ffprobe
-                ->format(Storage::disk('videos')->path($name))
+                ->format(Storage::disk('local')->path($path))
                 ->get('duration');
 
             $validated = $request->safe()->merge([
                 'uuid' => (string) Str::uuid(),
                 'title' => Str::replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName()),
                 'original_file_name' => $file->getClientOriginalName(),
-                'file' => $name,
+                'file' => $file->hashName(),
                 'mimetype' => $file->getMimeType(),
                 'duration' => round($duration),
                 'size' => $file->getSize(),
@@ -223,6 +229,14 @@ class VideoController extends Controller
             ])->toArray();
 
             $video = Auth::user()->videos()->create($validated);
+
+            if (config('filesystems.default') === 's3') {
+                UploadToS3::dispatch($path, $video);
+            } else {
+                $video->update([
+                    'uploaded_at' => now()
+                ]);
+            }
 
             // Remove chunk files
             unlink($save->getFile()->getPathname());

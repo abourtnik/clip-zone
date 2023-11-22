@@ -46,67 +46,15 @@ return [
 
         's3' => [
             'driver' => 's3',
-            'key' => env('SCALEWAY_ACCESS_KEY_ID'),
-            'secret' => env('SCALEWAY_SECRET_ACCESS_KEY'),
-            'region' => env('SCALEWAY_DEFAULT_REGION'),
-            'bucket' => env('SCALEWAY_BUCKET'),
-            //'url' => env('SCALEWAY_URL'),
-            'endpoint' => env('SCALEWAY_ENDPOINT'),
-            'use_path_style_endpoint' => env('SCALEWAY_USE_PATH_STYLE_ENDPOINT', false),
-            //'scheme' => 'http',
-            //'visibility' => 'private',
-            'throw' => false,
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'region' => env('AWS_DEFAULT_REGION'),
+            'bucket' => env('AWS_BUCKET'),
+            'url' => env('AWS_URL'),
+            'endpoint' => env('AWS_ENDPOINT'),
+            'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => true,
         ],
-
-        'exports' => [
-            'driver' => 'local',
-            'root' => storage_path('app/exports'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'private',
-            'throw' => false
-        ],
-
-        'videos' => [
-            'driver' => 'local',
-            'root' => storage_path('app/videos'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'private',
-            'throw' => false,
-        ],
-
-        'thumbnails' => [
-            'driver' => 'local',
-            'root' => storage_path('app/thumbnails'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'private',
-            'throw' => false,
-        ],
-
-        'avatars' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/avatars'),
-            'throw' => false,
-        ],
-
-        'banners' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/banners'),
-            'throw' => false,
-        ],
-
-        'categories' => [
-            'driver' => 'local',
-            'root' => storage_path('app/public/categories'),
-            'throw' => false,
-        ],
-
-        'invoices' => [
-            'driver' => 'local',
-            'root' => storage_path('app/invoices'),
-            'url' => env('APP_URL').'/storage',
-            'visibility' => 'private',
-            'throw' => false,
-        ]
     ],
 
     /*
@@ -121,7 +69,9 @@ return [
     */
 
     'links' => [
-        public_path('storage') => storage_path('app/public'),
+        public_path('storage/avatars') => storage_path('app/avatars'),
+        public_path('storage/banners') => storage_path('app/banners'),
+        public_path('storage/categories') => storage_path('app/categories'),
     ],
 
 ];

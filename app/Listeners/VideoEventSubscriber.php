@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\VideoBanned;
 use App\Events\VideoPublished;
+use App\Events\VideoUploaded;
 use App\Notifications\BannedVideo;
 use App\Notifications\UserNotification;
 use Illuminate\Events\Dispatcher;
@@ -32,6 +33,17 @@ class VideoEventSubscriber
     }
 
     /**
+     * Handle video uploaded events.
+     */
+    public function sendVideoUploadedNotification(VideoUploaded $event): void {
+
+        $event->video->user->notify(new UserNotification(
+            'Your video : ' .$event->video->title. ' was uploaded.',
+            $event->video->is_draft ? route('user.videos.create', $event->video) : route('user.videos.edit', $event->video)
+        ));
+    }
+
+    /**
      * Register the listeners for the subscriber.
      *
      * @return array<string, string>
@@ -41,6 +53,7 @@ class VideoEventSubscriber
         return [
             VideoPublished::class => 'sendVideoPublishedNotification',
             VideoBanned::class => 'sendVideoBannedNotification',
+            VideoUploaded::class => 'sendVideoUploadedNotification',
         ];
     }
 }

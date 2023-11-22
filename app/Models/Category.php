@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
@@ -14,6 +15,8 @@ class Category extends Model implements Sortable
 
     protected $guarded = ['id'];
 
+    public const IMAGE_FOLDER = 'categories';
+
     public function videos () : HasMany {
         return $this->hasMany(Video::class);
     }
@@ -21,7 +24,7 @@ class Category extends Model implements Sortable
     protected function backgroundUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->background ? asset('storage/categories/'. $this->background) : '/images/default_banner.jpg'
+            get: fn () => $this->background ? Storage::url(self::IMAGE_FOLDER.'/'.$this->background) : '/images/default_banner.jpg'
         );
     }
 

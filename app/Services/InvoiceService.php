@@ -13,6 +13,6 @@ class InvoiceService {
             'transaction' => $transaction
         ]);
 
-        return $pdf->save($transaction->invoice_path, 'invoices');
+        return $pdf->save($transaction->invoice_path, config('filesystems.default'));
     }
 }

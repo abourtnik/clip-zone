@@ -117,9 +117,18 @@
                 <div class="card shadow-soft h-100">
                     <div class="card-body">
                         <div class="ratio ratio-16x9">
-                            <video controls class="w-100 border" controlsList="nodownload" onloadstart="this.volume=0.5">
-                                <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
-                            </video>
+                            @if($video->is_uploading)
+                                <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
+                                    <div class="text-center">
+                                        <div class="mb-2">Your video is processing ...</div>
+                                        <div class="text-muted text-sm">You will receive a notification once the processing is complete.</div>
+                                    </div>
+                                </div>
+                            @else
+                                <video controls class="w-100 border" controlsList="nodownload" onloadstart="this.volume=0.5">
+                                    <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
+                                </video>
+                            @endif
                         </div>
                         <div class="bg-light border mt-2 px-3 py-2 d-flex flex-column gap-3">
                             <div class="d-flex justify-content-between align-items-center">

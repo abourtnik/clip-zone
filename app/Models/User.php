@@ -23,6 +23,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Cashier\Billable;
@@ -53,6 +54,9 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         'banned_at' => 'datetime',
         'last_login_at' => 'datetime'
     ];
+
+    public const AVATAR_FOLDER = 'avatars';
+    public const BANNER_FOLDER = 'banners';
 
     /**
      * -------------------- RELATIONS --------------------
@@ -174,13 +178,13 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
 
     public function avatarUrl() : Attribute {
         return Attribute::make(
-            get: fn () => $this->avatar ? asset('storage/avatars/'. $this->avatar) : '/images/default_men.png'
+            get: fn () => $this->avatar ? Storage::url(self::AVATAR_FOLDER.'/'.$this->avatar) : '/images/default_men.png'
         );
     }
 
     public function bannerUrl() : Attribute {
         return Attribute::make(
-            get: fn () => $this->banner ? asset('storage/banners/'. $this->banner) : '/images/default_banner.jpg'
+            get: fn () => $this->banner ? Storage::url(self::BANNER_FOLDER.'/'.$this->banner) : '/images/default_banner.jpg'
         );
     }
 

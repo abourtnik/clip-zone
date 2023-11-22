@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class VideoController
 {
-
     public function __construct(private readonly VideoService $videoService)
     {
     }
@@ -88,7 +87,7 @@ class VideoController
                     'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ]),
             'videos' => $suggestedVideos,
-            'nextVideoUrl' => route('video.show', $suggestedVideos->random()),
+            'nextVideoUrl' => $suggestedVideos->count() ? route('video.show', $suggestedVideos->random()) : null,
             't' => $request->query('t', 0),
         ]);
     }
@@ -98,16 +97,14 @@ class VideoController
         return Storage::disk('videos')->download($video->file);
     }
 
-    public function file (Video $video) : Response
-    {
-        return response()->noContent(200);
-    }
+    public function file (Video $video) : void {}
 
     public function thumbnail (Video $video): Response
     {
-        $file = Storage::disk('thumbnails')->get($video->thumbnail);
+        $path = Video::THUMBNAIL_FOLDER.'/'.$video->thumbnail;
+        $file = Storage::get($path);
 
-        return response($file)->header('Content-Type', Storage::disk('thumbnails')->mimeType($video->thumbnail));
+        return response($file)->header('Content-Type', Storage::mimeType($path));
     }
 
     public function embed (Video $video): View
