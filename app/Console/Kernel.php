@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\DeleteUnconfirmedUsers;
 use App\Console\Commands\SendTrialsEnd;
 use App\Console\Commands\SendVideoPublishedEvent;
 use Illuminate\Console\Scheduling\Schedule;
@@ -19,6 +20,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command(SendVideoPublishedEvent::class)->everyMinute();
         $schedule->command(SendTrialsEnd::class)->dailyAt('12:00');
+        $schedule->command(DeleteUnconfirmedUsers::class)->dailyAt('1:00');
     }
 
     /**
