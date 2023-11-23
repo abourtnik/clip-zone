@@ -82,7 +82,6 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
     Route::get('/video/download/{video:uuid}', 'download')
         ->name('download')
-        ->middleware('premium')
         ->can('download', 'video')
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
     Route::get('/embed/{video:uuid}', 'embed')

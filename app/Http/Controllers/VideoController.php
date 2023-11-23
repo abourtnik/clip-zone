@@ -94,7 +94,7 @@ class VideoController
 
     public function download (Video $video): StreamedResponse
     {
-        return Storage::disk('videos')->download($video->file);
+        return Storage::download(Video::VIDEO_FOLDER .'/'. $video->file);
     }
 
     public function file (Video $video) : void {}
