@@ -39,7 +39,7 @@ class VideoObserver
         // Remove video reports
         $video->reports()->delete();
 
-        Image::deleteIf($video->file, 'videos');
-        Image::deleteIf($video->thumbnail, 'thumbnails');
+        Image::deleteIf($video->file, Video::VIDEO_FOLDER);
+        Image::deleteIf($video->thumbnail, Video::THUMBNAIL_FOLDER);
     }
 }

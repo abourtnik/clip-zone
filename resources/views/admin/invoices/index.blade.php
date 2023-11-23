@@ -23,7 +23,7 @@
             @foreach($invoices as $invoice)
                 <tr class="bg-light">
                     <td class="align-middle">
-                        {{$invoice->date->diffForHUmans()}}
+                        <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$invoice->date->format('d F Y - H:i')}}">&nbsp;• {{$invoice->date->diffForHumans()}}</small>
                     </td>
                     <td class="align-middle">
                         @money($invoice->amount)

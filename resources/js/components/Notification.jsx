@@ -19,7 +19,7 @@ const Notification = memo(({notification, read}) => {
             <a href={notification.url} className="text-decoration-none text-black w-100 align-items-center">
                 <div className="position-relative d-flex align-items-center justify-content-between">
                     <div>
-                        <p className="mb-0 text-sm">{notification.message}</p>
+                        <p className="mb-0 text-sm text-break">{notification.message}</p>
                         <p className="text-muted text-sm mb-0 mt-2">{notification.created_at}</p>
                     </div>
                 </div>

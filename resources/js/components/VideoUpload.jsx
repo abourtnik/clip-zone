@@ -119,7 +119,7 @@ export default function VideoUpload ({endpoint, maxsize}) {
             }
             {
                 error &&
-                <div className={"alert w-90 mx-auto alert-danger mb-3"}>
+                <div className={"alert w-90 mx-auto alert-danger mb-3 text-center"}>
                     <strong className={'text-sm'}>{error}</strong>
                 </div>
             }

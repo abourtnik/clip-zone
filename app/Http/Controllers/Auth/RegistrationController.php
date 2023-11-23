@@ -36,11 +36,11 @@ class RegistrationController
         $user = User::where(['id' => $id, 'confirmation_token' => $token])->first();
 
         if (!$user) {
-            return redirect(route('login'))->with('error', 'This link is invalid');
+            return redirect(route('login'))->with('error', 'Sorry this link is invalid');
         }
 
         if ($user->created_at->addMinutes(Config::get('auth.verification.expire', 60))->lt(now())) {
-            return redirect(route('login'))->with('error', 'This link is expired');
+            return redirect(route('login'))->with('error', 'Sorry the link is expired');
         }
 
         if (!$user->hasVerifiedEmail()) {

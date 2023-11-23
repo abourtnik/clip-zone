@@ -37,7 +37,7 @@
                                        x-transition.scale
                                        class="position-absolute top-50 start-50 translate-middle p-2 rounded-5 bg-dark bg-opacity-75 text-decoration-none text-center text-white"
                                     >
-                                        <i class="fa-solid fa-camera"></i>
+                                        <i class="fa-solid fa-camera fa-2x" style="font-size: 25px"></i>
                                     </a>
                                 @endif
                             </div>
