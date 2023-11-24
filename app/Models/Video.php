@@ -41,6 +41,7 @@ class Video extends Model implements Likeable, Reportable
 
     public const THUMBNAIL_FOLDER = 'thumbnails';
     public const VIDEO_FOLDER = 'videos';
+    public const CHUNK_FOLDER = 'chunks';
 
     /**
      * -------------------- RELATIONS --------------------

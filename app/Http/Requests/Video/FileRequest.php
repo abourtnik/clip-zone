@@ -29,6 +29,7 @@ class FileRequest extends FormRequest
     public function rules() : array
     {
         return [
+            'resumableFilename' => 'required|max:100',
             'resumableTotalSize' => 'required|integer|max:'.config('plans.'.Auth::user()->plan.'.max_file_size'),
             'file' => [
                 'required',
@@ -52,6 +53,7 @@ class FileRequest extends FormRequest
 
         return [
             'resumableTotalSize.max' => 'Your file file is too large ('.$fileSize.') The uploading file should not exceed ' .$maxSize,
+            'resumableFilename.max' => 'Your file name does not exceed 100 characters',
         ];
     }
 }

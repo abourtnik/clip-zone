@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::table('videos', function (Blueprint $table) {
             $table->timestamp('uploaded_at')->nullable();
+            $table->string('file')->nullable()->change();
+            $table->string('duration')->nullable()->change();
         });
     }
 
@@ -27,6 +29,8 @@ return new class extends Migration
     {
         Schema::table('videos', function (Blueprint $table) {
             $table->dropColumn(['uploaded_at']);
+            $table->string('file')->nullable(false)->change();
+            $table->string('duration')->nullable(false)->change();
         });
     }
 };
