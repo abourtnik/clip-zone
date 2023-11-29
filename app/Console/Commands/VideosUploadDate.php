@@ -28,7 +28,7 @@ class VideosUploadDate extends Command
      */
     public function handle() : int
     {
-        $videos = Video::all();
+        $videos = Video::whereNull('uploaded_at')->get();
 
         foreach ($videos as $video) {
             $video->update([
