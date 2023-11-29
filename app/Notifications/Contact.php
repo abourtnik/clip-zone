@@ -65,7 +65,8 @@ class Contact extends Notification
             ->replyTo($this->email, $this->name)
             ->markdown('mails.contact', [
                 'name' => $this->name,
-                'message' => $this->message
+                'message' => $this->message,
+                'ip' => request()->ip()
             ]);
     }
 }
