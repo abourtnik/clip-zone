@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Laravel\Cashier\Cashier;
 
 class StripeWebhookController extends Controller
 {
@@ -44,11 +45,16 @@ class StripeWebhookController extends Controller
             $user = $this->getUserFromStripeId($data['customer']);
             $subscription = Subscription::where('stripe_id', $data['subscription'])->firstOrFail();
 
+            // Get Stripe Fee
+            $charge = Cashier::stripe()->charges->retrieve($data['charge'],
+                ['expand' => ['balance_transaction']]
+            );
+
             $transaction = Transaction::create([
                 'stripe_id' => $data['payment_intent'],
                 'amount' => $data['amount_paid'],
                 'tax' => $data['tax'] ?? 0,
-                'fee' => $data['application_fee'] ?? 0,
+                'fee' => $charge->balance_transaction->fee,
                 'date' => Carbon::createFromTimestamp($data['created']),
                 'user_id' => $user->id,
                 'subscription_id' => $subscription->id,
