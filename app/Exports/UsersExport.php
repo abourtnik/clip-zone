@@ -17,13 +17,7 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping, WithColu
 
     public function collection() : Collection
     {
-        $users = User::all();
-
-        for ($i = 0; $i < 13; $i ++) {
-            $users = $users->concat($users);
-        }
-
-        return $users;
+        return User::all();
     }
 
     public function headings(): array

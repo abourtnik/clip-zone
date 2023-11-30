@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Export;
 
 use App\Models\Export;
 use App\Models\User;
@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ExportFinished implements ShouldBroadcast
+class ExportFail implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

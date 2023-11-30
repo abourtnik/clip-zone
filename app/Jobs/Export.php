@@ -3,17 +3,19 @@
 namespace App\Jobs;
 
 use App\Enums\ExportStatus;
-use App\Events\ExportFinished;
-use App\Models\User;
+use App\Events\Export\ExportFail;
+use App\Events\Export\ExportFinished;
 use App\Models\Export as ExportModel;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Excel as BaseExcel;
+use Maatwebsite\Excel\Facades\Excel;
+use Throwable;
 
 class Export implements ShouldQueue
 {
@@ -27,16 +29,18 @@ class Export implements ShouldQueue
     public int $timeout = 120;
 
     public User $user;
-    private string $export;
+    private string $exportType;
+    private ExportModel $export;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(User $user, string $export)
+    public function __construct(User $user, string $exportType, ExportModel $export)
     {
         $this->user = $user;
+        $this->exportType = $exportType;
         $this->export = $export;
     }
 
@@ -47,17 +51,25 @@ class Export implements ShouldQueue
      */
     public function handle() : void
     {
-        $class = new $this->export();
+        $class = new $this->exportType();
         $fileName = $class->fileName.'-'.Carbon::now()->timestamp.'.csv';
-
-        $export = \App\Models\Export::create([
-            'file' => $fileName
-        ]);
 
         Excel::store($class, ExportModel::EXPORT_FOLDER.'/'.$fileName, null, BaseExcel::CSV);
 
-        $export->update(['status' => ExportStatus::COMPLETED]);
+        $this->export->update(['status' => ExportStatus::COMPLETED]);
 
-        ExportFinished::dispatch($this->user, $export);
+        ExportFinished::dispatch($this->user, $this->export);
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @param Throwable  $exception
+     * @return void
+     */
+    public function failed(Throwable $exception) : void
+    {
+        $this->export->update(['status' => ExportStatus::ERROR]);
+        ExportFail::dispatch($this->user, $this->export);
     }
 }

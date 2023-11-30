@@ -32,7 +32,7 @@ enum ExportStatus : int {
         {
             self::PENDING => 'clock',
             self::COMPLETED => 'check',
-            self::ERROR => 'x-mark',
+            self::ERROR => 'circle-exclamation',
         };
     }
 

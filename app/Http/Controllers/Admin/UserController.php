@@ -6,12 +6,11 @@ use App\Enums\VideoStatus;
 use App\Events\UserBanned;
 use App\Exports\UsersExport;
 use App\Filters\UserFilters;
-use App\Jobs\Export;
 use App\Models\User;
+use App\Services\ExportService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class UserController
 {
@@ -60,8 +59,10 @@ class UserController
         return redirect()->route('admin.users.index');
     }
 
-    public function export (): RedirectResponse {
-        Export::dispatch(Auth::user(), UsersExport::class);
+    public function export (ExportService $exportService): RedirectResponse {
+
+        $exportService->generate(UsersExport::class);
+
         return redirect()->route('admin.users.index')->withSuccess('Your export has been queued. you will receive a notification when it is completed.');
     }
 }
