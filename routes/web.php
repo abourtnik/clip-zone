@@ -228,6 +228,7 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     // Notifications
     Route::controller(NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('{notification}/click', 'click')->name('click');
     });
 
     Route::get('/subscribers', [ProfileController::class, 'subscribers'])->name('subscribers');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +17,15 @@ class NotificationController extends Controller
                 ->latest()
                 ->paginate(15)
         ]);
+    }
+
+    public function click (Notification $notification) : RedirectResponse {
+
+        $notification->update([
+            'read_at' => now()
+        ]);
+
+        return redirect($notification->url);
     }
 
     public function read (Notification $notification) : Response {

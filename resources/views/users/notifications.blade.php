@@ -21,7 +21,7 @@
                     @forelse($user_notifications as $notification)
                         <tr class="bg-light" id="notification-{{$notification->id}}" x-data="{is_read:{{$notification->is_read ? 'true' : 'false'}}}">
                             <td class="align-middle">
-                                <a href="{{$notification->url}}" class="d-flex align-items-center gap-3 text-decoration-none text-black">
+                                <a href="{{route('user.notifications.click', $notification)}}" class="d-flex align-items-center gap-3 text-decoration-none text-black">
                                    <span x-show="!is_read" class="bg-primary rounded-circle dot p-1" style="width: 10px;height: 10px"></span>
                                     <x-expand-item>
                                         {!! $notification->message !!}
