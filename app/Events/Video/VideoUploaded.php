@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Video;
 
 use App\Models\Video;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -8,7 +8,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class VideoPublished
+class VideoUploaded
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Enums\VideoStatus;
-use App\Events\VideoPublished;
+use App\Events\Video\VideoPublished;
 use App\Helpers\Image;
 use App\Models\Video;
 

@@ -9,7 +9,16 @@
     <div class="row">
         <div class="col-lg-8 col-xl-8 col-xxl-8 offset-xxl-1 px-0 px-lg-3">
             <div class="ratio ratio-16x9">
-                @if($video->isUploading)
+                @if($video->is_failed)
+                    <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
+                        <div class="text-center">
+                            <div class="mb-2 text-danger fw-bold">The processing of your video failed.</div>
+                            <div class="text-muted">
+                                Try to re-upload your file, if the problem persist please contact your support.<hr><a target='_blank' href='/contact' class='btn btn-primary btn-sm'>Contact support</a>
+                            </div>
+                        </div>
+                    </div>
+                @elseif($video->is_uploading)
                     <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
                         <div class="text-center">
                             <div class="mb-2">Your video is processing ...</div>
@@ -255,22 +264,22 @@
             </div>
         </div>
         @if($nextVideoUrl)
-        <div class="col-lg-4 col-xl-4 col-xxl-3 px-0 px-sm-2">
-            <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
-                <a href="{{$nextVideoUrl}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
-                    <i class="fa-solid fa-forward-step"></i>
-                    <span>Next Video</span>
-                </a>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="autoplay">
-                    <label class="form-check-label" for="autoplay">Autoplay</label>
+            <div class="col-lg-4 col-xl-4 col-xxl-3 px-0 px-sm-2">
+                <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
+                    <a href="{{$nextVideoUrl}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-forward-step"></i>
+                        <span>Next Video</span>
+                    </a>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="autoplay">
+                        <label class="form-check-label" for="autoplay">Autoplay</label>
+                    </div>
+                </div>
+                <hr>
+                <div>
+                    @each('videos.card-secondary',  $videos, 'video')
                 </div>
             </div>
-            <hr>
-            <div>
-                @each('videos.card-secondary',  $videos, 'video')
-            </div>
-        </div>
         @endif
     </div>
     @include('modals.share')

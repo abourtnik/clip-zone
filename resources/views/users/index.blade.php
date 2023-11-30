@@ -152,9 +152,17 @@
                                             @include('users.partials.interactions', ['item' => $video])
                                         </td>
                                         <td class="align-middle text-center">
-                                            <a href="{{route('user.videos.edit', $video)}}">
-                                                <i class="fa-solid fa-pen"></i>
-                                            </a>
+                                            @can('update', $video)
+                                                @if($video->is_draft)
+                                                    <a href="{{route('user.videos.create', $video)}}" title="Edit draft">
+                                                        <i class="fa-solid fa-pen"></i>
+                                                    </a>
+                                                @else
+                                                    <a href="{{route('user.videos.edit', $video)}}" title="Edit video">
+                                                        <i class="fa-solid fa-pen"></i>
+                                                    </a>
+                                                @endif
+                                            @endcan
                                         </td>
                                     </tr>
                                 @empty

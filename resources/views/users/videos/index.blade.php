@@ -59,7 +59,7 @@
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
                     <th scope="col" class="w-40" style="min-width: 360px">Video</th>
-                    <th scope="col">Visibility</th>
+                    <th scope="col">Status</th>
                     <th scope="col" style="min-width: 150px;">Date</th>
                     <th scope="col">Views</th>
                     <th scope="col">Category</th>
@@ -84,7 +84,7 @@
                             @include('videos.status')
                         </td>
                         <td class="align-middle">
-                            @if($video->is_private || $video->is_unlisted || $video->is_draft)
+                            @if($video->is_private || $video->is_unlisted || $video->is_draft|| $video->is_failed)
                                 <small>{{$video->created_at->format('d F Y H:i')}}</small>
                                 <div class="text-sm text-muted">Uploaded</div>
                             @elseif($video->is_planned)

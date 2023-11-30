@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\VideoStatus;
-use App\Events\VideoPublished;
+use App\Events\Video\VideoPublished;
 use App\Models\Video;
 use Illuminate\Console\Command;
 

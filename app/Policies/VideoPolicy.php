@@ -114,7 +114,7 @@ class VideoPolicy
      */
     public function update(User $user, Video $video) : Response|bool
     {
-        return $video->user()->is($user) && !$video->is_banned
+        return $video->user()->is($user) && !$video->is_banned && !$video->is_failed
             ? Response::allow()
             : Response::denyWithStatus(403, 'You are not authorized to edit this video');
     }

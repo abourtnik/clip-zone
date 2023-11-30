@@ -124,7 +124,7 @@ class Video extends Model implements Likeable, Reportable
     protected function isCreated(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status !== VideoStatus::DRAFT && !$this->is_uploading
+            get: fn () => !in_array($this->status, [VideoStatus::DRAFT, VideoStatus::FAILED]) && !$this->is_uploading
         );
     }
 
@@ -172,6 +172,14 @@ class Video extends Model implements Likeable, Reportable
     {
         return Attribute::make(
             get: fn () => is_null($this->uploaded_at)
+
+        );
+    }
+
+    protected function isFailed(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status === VideoStatus::FAILED
 
         );
     }
@@ -297,7 +305,7 @@ class Video extends Model implements Likeable, Reportable
      */
     public function scopeNotActive(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
     {
-        return $query->whereIn('status', [VideoStatus::PRIVATE, VideoStatus::BANNED, VideoStatus::DRAFT])
+        return $query->whereIn('status', [VideoStatus::PRIVATE, VideoStatus::BANNED, VideoStatus::DRAFT, VideoStatus::FAILED])
             ->orWhere(function($query) {
                 $query->where('status', VideoStatus::PLANNED)
                     ->where('scheduled_date', '>', now());

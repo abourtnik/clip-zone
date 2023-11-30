@@ -1,4 +1,17 @@
-@if($video->is_uploading)
+@if($video->is_failed)
+    <button
+        class="badge bg-danger"
+        data-bs-toggle="popover"
+        data-bs-placement="right"
+        data-bs-title="The processing of your video failed."
+        data-bs-trigger="focus"
+        data-bs-html="true"
+        data-bs-content="Try to re-upload your file, if the problem persist please contact your support.<hr><a target='_blank' href='/contact' class='btn btn-primary btn-sm'>Contact support</a>"
+    >
+        <i class="fa-solid fa-circle-exclamation"></i>&nbsp;
+        Failed
+    </button>
+@elseif($video->is_uploading)
     <span class="badge bg-secondary">
         <i class="fa-solid fa-hourglass-half"></i>&nbsp;
         Processing

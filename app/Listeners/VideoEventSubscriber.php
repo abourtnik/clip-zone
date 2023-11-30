@@ -2,9 +2,10 @@
 
 namespace App\Listeners;
 
-use App\Events\VideoBanned;
-use App\Events\VideoPublished;
-use App\Events\VideoUploaded;
+use App\Events\Video\VideoBanned;
+use App\Events\Video\VideoError;
+use App\Events\Video\VideoPublished;
+use App\Events\Video\VideoUploaded;
 use App\Notifications\BannedVideo;
 use App\Notifications\UserNotification;
 use Illuminate\Events\Dispatcher;
@@ -38,8 +39,19 @@ class VideoEventSubscriber
     public function sendVideoUploadedNotification(VideoUploaded $event): void {
 
         $event->video->user->notify(new UserNotification(
-            'Your video : ' .$event->video->title. ' was uploaded.',
+            'Your video : ' .$event->video->title. ' was successfully processed.',
             $event->video->is_draft ? route('user.videos.create', $event->video) : route('user.videos.edit', $event->video)
+        ));
+    }
+
+    /**
+     * Handle video error events.
+     */
+    public function sendVideoErrorNotification(VideoError $event): void {
+
+        $event->video->user->notify(new UserNotification(
+            'The processing of your video : ' .$event->video->title. ' failed !',
+            route('user.videos.index')
         ));
     }
 
@@ -54,6 +66,7 @@ class VideoEventSubscriber
             VideoPublished::class => 'sendVideoPublishedNotification',
             VideoBanned::class => 'sendVideoBannedNotification',
             VideoUploaded::class => 'sendVideoUploadedNotification',
+            VideoError::class => 'sendVideoErrorNotification',
         ];
     }
 }

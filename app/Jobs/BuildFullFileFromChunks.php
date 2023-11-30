@@ -2,8 +2,11 @@
 
 namespace App\Jobs;
 
-use App\Events\VideoUploaded;
+use App\Enums\VideoStatus;
+use App\Events\Video\VideoError;
+use App\Events\Video\VideoUploaded;
 use App\Models\Video;
+use App\Services\FileMerger;
 use FFMpeg\FFProbe;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,7 +14,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use App\Services\FileMerger;
+use Throwable;
 
 class BuildFullFileFromChunks implements ShouldQueue
 {
@@ -124,5 +127,17 @@ class BuildFullFileFromChunks implements ShouldQueue
         $video->update([
             'uploaded_at' => now()
         ]);
+    }
+
+    /**
+     * Handle a job failure.
+     *
+     * @param Throwable  $exception
+     * @return void
+     */
+    public function failed(Throwable $exception) : void
+    {
+        $this->video->update(['status' => VideoStatus::FAILED]);
+        VideoError::dispatch($this->video);
     }
 }
