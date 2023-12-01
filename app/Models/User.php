@@ -226,7 +226,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     protected function isActive(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->hasVerifiedEmail()
+            get: fn () => $this->hasVerifiedEmail() && !$this->is_banned
         );
     }
 

@@ -97,16 +97,16 @@
                                 Save
                             </button>
                             @can('report', $video)
-                                @if($video->reported_by_auth_user)
+                                <button class="btn btn-secondary btn-sm rounded-4 px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
+                                    <i class="fa-regular fa-flag"></i>&nbsp;
+                                    Report
+                                </button>
+                            @else
+                                @if($video->reportByAuthUser)
                                     <div class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm">
                                         <i class="fa-regular fa-flag"></i>
-                                        <span>Reported {{$video->reports->first()->created_at->diffForHumans()}}</span>
+                                        <span>Reported {{$video->reportByAuthUser->created_at->diffForHumans()}}</span>
                                     </div>
-                                @else
-                                    <button class="btn btn-secondary btn-sm rounded-4 px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
-                                        <i class="fa-regular fa-flag"></i>&nbsp;
-                                        Report
-                                    </button>
                                 @endif
                             @endcan
                         </div>

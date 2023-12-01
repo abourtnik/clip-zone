@@ -123,29 +123,26 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                                     {
                                         comment.can_delete && <ConfirmDelete comment={comment} onDelete={remove}/>
                                     }
-                                    {
-                                        comment.can_report &&
-                                            <li>
-                                                {
-                                                    comment.reported_at ?
-                                                        <div className="dropdown-item d-flex align-items-center gap-2 mb-0 text-sm py-2">
-                                                            <i className="fa-solid fa-flag"></i>
-                                                            <span>Reported {comment.reported_at}</span>
-                                                        </div>
-                                                        :
-                                                        <button
-                                                            className="dropdown-item d-flex align-items-center gap-3"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#report"
-                                                            data-id={comment.id}
-                                                            data-type={comment.class}
-                                                        >
-                                                            <i className="fa-solid fa-flag"></i>
-                                                            Report
-                                                        </button>
-                                                }
-                                            </li>
-                                    }
+                                    <li>
+                                        {
+                                            comment.can_report ?
+                                                <button
+                                                    className="dropdown-item d-flex align-items-center gap-3"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#report"
+                                                    data-id={comment.id}
+                                                    data-type={comment.class}
+                                                >
+                                                    <i className="fa-solid fa-flag"></i>
+                                                    Report
+                                                </button> :
+                                                comment.reported_at &&
+                                                <div className="dropdown-item d-flex align-items-center gap-2 mb-0 text-sm py-2">
+                                                    <i className="fa-solid fa-flag"></i>
+                                                    <span>Reported {comment.reported_at}</span>
+                                                </div>
+                                        }
+                                    </li>
                                 </ul>
                             </div>
                         }
@@ -213,7 +210,7 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                             {
                                 comment.is_author_reply &&
                                 <>
-                                    <img style="width: 24px;" src={comment.author.avatar} alt={comment.author.username + ' avatar'}/>
+                                    <img className="rounded-circle img-fluid" src={comment.author.avatar} alt={comment.author.username + ' avatar'} style="width: 30px;"/>
                                     <span>•</span>
                                 </>
                             }

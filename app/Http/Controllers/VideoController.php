@@ -75,7 +75,7 @@ class VideoController
             'video' => $video
                 ->load([
                     'user' => fn($q) => $q->withCount('subscribers'),
-                    'reports' => fn($q) => $q->where('user_id', Auth::id())
+                    'reportByAuthUser'
                 ])
                 ->loadCount([
                     'views',
@@ -84,7 +84,6 @@ class VideoController
                     'comments',
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                    'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ]),
             'videos' => $suggestedVideos,
             'nextVideoUrl' => $suggestedVideos->count() ? route('video.show', $suggestedVideos->random()) : null,

@@ -212,16 +212,16 @@
                                     @auth
                                     <li class="list-group-item ps-0">
                                         @can('report', $user)
-                                            @if($user->reports->count())
+                                            <button class="btn btn-secondary rounded-4 btn-sm px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$user->id}}" data-type="{{\App\Models\User::class}}">
+                                                <i class="fa-regular fa-flag"></i>&nbsp;
+                                                Report
+                                            </button>
+                                        @else
+                                            @if($user->reportByAuthUser)
                                                 <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">
                                                     <i class="fa-regular fa-flag"></i>
-                                                    <span>Reported {{$user->reports->first()->created_at->diffForHumans()}}</span>
+                                                    <span>Reported {{$user->reportByAuthUser->created_at->diffForHumans()}}</span>
                                                 </div>
-                                            @else
-                                                <button class="btn btn-secondary rounded-4 btn-sm px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$user->id}}" data-type="{{\App\Models\User::class}}">
-                                                    <i class="fa-regular fa-flag"></i>&nbsp;
-                                                    Report
-                                                </button>
                                             @endif
                                         @endcan
                                     </li>

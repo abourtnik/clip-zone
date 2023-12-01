@@ -39,7 +39,7 @@ class UserController
                         ->limit(6);
                 },
                 'pinned_video' => fn($q) => $q->withCount('views'),
-                'reports' => fn($q) => $q->where('user_id', Auth::id())
+                'reportByAuthUser'
             ])->loadCount([
                 'subscribers',
                 'videos_views',

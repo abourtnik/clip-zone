@@ -142,9 +142,9 @@ class VideoPolicy
      */
     public function report(User $user, Video $video) : Response|bool
     {
-        return $video->user()->isNot($user)
+        return $video->user()->isNot($user) && $video->is_public && !$video->isReportedByUser($user)
             ? Response::allow()
-            : Response::denyWithStatus(403);
+            : Response::denyWithStatus(403, 'You are not authorized to report this video');
     }
 
     /**

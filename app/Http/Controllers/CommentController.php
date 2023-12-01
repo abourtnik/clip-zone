@@ -51,7 +51,7 @@ class CommentController extends Controller
                                 'user',
                                 'video' => fn($q) => $q->with('user'),
                                 'replies',
-                                'reports' => fn($q) => $q->where('user_id', Auth::id())
+                                'reportByAuthUser',
                             ])
                             ->withCount([
                                 'likes',
@@ -61,7 +61,7 @@ class CommentController extends Controller
                             ])
                             ->latest();
                     },
-                    'reports' => fn($q) => $q->where('user_id', Auth::id())
+                    'reportByAuthUser'
                 ])
                 ->withCount([
                     'likes',
