@@ -107,8 +107,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Upload limit
         View::composer('users.videos.modals.upload', function($view) {
-            $view->with('available_uploads', config('plans.free.max_uploads') - Auth::user()->videos()->count());
-            $view->with('available_space', config('plans.'.Auth::user()->plan.'.max_videos_storage') - Auth::user()->videos()->sum('size'));
+            $view->with('available_uploads', config('plans.free.max_uploads') - Auth::user()->uploaded_videos);
+            $view->with('available_space', config('plans.'.Auth::user()->plan.'.max_videos_storage') - Auth::user()->uploaded_videos_size);
         });
 
         // SHOW SIDEBAR

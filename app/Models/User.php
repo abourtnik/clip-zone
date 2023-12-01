@@ -272,6 +272,24 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         );
     }
 
+    protected function uploadedVideos(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->videos()
+                ->valid()
+                ->count()
+        );
+    }
+
+    protected function uploadedVideosSize(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->videos()
+                ->valid()
+                ->sum('size')
+        );
+    }
+
     /**
      * -------------------- SCOPES --------------------
      */
