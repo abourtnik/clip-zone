@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Listeners\ExportEventSubscriber;
-use App\Listeners\JobEventsSubscriber;
+use App\Listeners\BackgroundEventSubscriber;
 use App\Listeners\SendEmailVerificationNotification;
 use App\Listeners\SuccessfulLogin;
 use App\Listeners\UserEventSubscriber;
@@ -43,7 +43,7 @@ class EventServiceProvider extends ServiceProvider
         UserEventSubscriber::class,
         VideoEventSubscriber::class,
         ExportEventSubscriber::class,
-        JobEventsSubscriber::class
+        BackgroundEventSubscriber::class
     ];
 
     /**

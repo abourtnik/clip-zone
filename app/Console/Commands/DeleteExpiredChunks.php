@@ -30,9 +30,11 @@ class DeleteExpiredChunks extends Command
      */
     public function handle() : int
     {
-        $folders = Storage::disk('local')->directories(Video::CHUNK_FOLDER);
+        $folders = Storage::disk('local2')->directories(Video::CHUNK_FOLDER);
 
         $now = now();
+
+        $count = 0;
 
         foreach ($folders as $folder) {
 
@@ -40,10 +42,13 @@ class DeleteExpiredChunks extends Command
 
             $date = Carbon::createFromTimestampMs($name);
 
-            if ($date->addDays(1)->lt($now)) {
+            if ($date->addHours(1)->lt($now)) {
                 Storage::disk('local')->deleteDirectory($folder);
+                $count ++;
             }
         }
+
+        $this->info(now()->format('Y-m-d H:i:s',).' - Delete ' .$count. ' chunks path');
 
         return Command::SUCCESS;
     }

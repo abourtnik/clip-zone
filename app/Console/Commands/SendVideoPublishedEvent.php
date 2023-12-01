@@ -37,6 +37,7 @@ class SendVideoPublishedEvent extends Command
 
         foreach ($videos as $video) {
             VideoPublished::dispatch($video);
+            $this->info(now()->format('Y-m-d H:i:s',).' - Video : ' .$video->title. ' ('.$video->id.') published.');
         }
 
         return Command::SUCCESS;

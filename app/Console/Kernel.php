@@ -19,10 +19,20 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule) : void
     {
-        $schedule->command(SendVideoPublishedEvent::class)->everyMinute();
-        $schedule->command(SendTrialsEnd::class)->dailyAt('12:00');
-        $schedule->command(DeleteUnconfirmedUsers::class)->dailyAt('1:00');
-        $schedule->command(DeleteExpiredChunks::class)->dailyAt('2:00');
+        $LOG_PATH = storage_path('logs/cron.log');
+
+        $schedule->command(SendVideoPublishedEvent::class)
+            ->everyMinute()
+            ->appendOutputTo($LOG_PATH);
+        $schedule->command(SendTrialsEnd::class)
+            ->dailyAt('12:00')
+            ->appendOutputTo($LOG_PATH);
+        $schedule->command(DeleteUnconfirmedUsers::class)
+            ->dailyAt('1:00')
+            ->appendOutputTo($LOG_PATH);
+        $schedule->command(DeleteExpiredChunks::class)
+            ->dailyAt('2:00')
+            ->appendOutputTo($LOG_PATH);
     }
 
     /**
