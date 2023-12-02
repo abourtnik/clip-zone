@@ -12,6 +12,7 @@ use App\Helpers\Image;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Models\Video;
+use App\Notifications\DeleteAccount;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\JsonResponse;
@@ -159,8 +160,11 @@ class ProfileController
             return back()->with("error", "Current Password doesn't match !");
         }
 
+        Auth::user()->notify(new DeleteAccount());
+
         User::find(Auth::id())->delete();
         Auth::logout();
+
         return redirect()->route('pages.home');
     }
 
