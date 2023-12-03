@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ReportController as ReportAdminController;
 use App\Http\Controllers\Admin\CategoryController as CategoryAdminController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\InvoiceController as InvoiceAdminController;
+use App\Http\Controllers\Admin\SpamController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OAuthController;
@@ -294,6 +295,12 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
             ->name('download')
             ->can('download', 'export')
             ->missing(fn(Request $request) => abort(404, 'Export not found'));
+    });
+
+    // Spam
+    Route::controller(SpamController::class)->prefix('spam')->name('spams.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::put('/update', 'update')->name('update');
     });
 
     // Logs

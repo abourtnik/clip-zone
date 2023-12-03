@@ -37,3 +37,6 @@ Thumbs.db
 # Compiled C++ files
 *.out
 
+# Spams
+storage/app/words.txt
+

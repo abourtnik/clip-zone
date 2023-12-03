@@ -129,6 +129,11 @@ return [
             'route' => 'admin.invoices.index',
         ],
         [
+            'title' => 'Spam',
+            'icon' => 'envelope',
+            'route' => 'admin.spams.index',
+        ],
+        [
             'title' => 'Logs',
             'icon' => 'file-lines',
             'route' => 'admin.logs',
