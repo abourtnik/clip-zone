@@ -56,7 +56,10 @@ class Export implements ShouldQueue
 
         Excel::store($class, ExportModel::EXPORT_FOLDER.'/'.$fileName, null, BaseExcel::CSV);
 
-        $this->export->update(['status' => ExportStatus::COMPLETED]);
+        $this->export->update([
+            'file' => $fileName,
+            'status' => ExportStatus::COMPLETED
+        ]);
 
         ExportFinished::dispatch($this->user, $this->export);
     }
