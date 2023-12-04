@@ -77,7 +77,8 @@
                             </a>
                             <div>
                                 <div>{{Str::limit($video->title, 100), '...'}}</div>
-                                <small class="text-muted">{{Str::limit($video->description, 190), '...'}}</small>
+                                <small class="text-muted">{{Str::limit($video->description, 75), '...'}}</small>
+                                <div class="badge bg-primary">{{$video->duration}} - @size($video->size)</div>
                             </div>
                         </td>
                         <td class="align-middle">
