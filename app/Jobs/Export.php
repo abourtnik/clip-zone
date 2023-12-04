@@ -59,7 +59,7 @@ class Export implements ShouldQueue
 
         $this->export->update([
             'file' => $fileName,
-            'status' => ExportStatus::COMPLETEDD
+            'status' => ExportStatus::COMPLETED
         ]);
 
         Log::info('test log supervisor');

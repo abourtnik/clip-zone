@@ -29,7 +29,7 @@ class DeleteUnconfirmedUsers extends Command
      */
     public function handle() : int
     {
-        $count = User::whereNull('email_verified_at2')
+        $count = User::whereNull('email_verified_at')
             ->where('created_at', '<', now()->subMinutes(Config::get('auth.verification.expire', 60)))
             ->delete();
 

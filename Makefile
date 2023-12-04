@@ -23,6 +23,7 @@ optimize: ## Clear application cache
 install: ## Install application
 	composer install --optimize-autoloader --no-dev
 	php artisan migrate --force
+	php artisan queue:restart
 	npm install
 	npm run build
 	php artisan optimize
