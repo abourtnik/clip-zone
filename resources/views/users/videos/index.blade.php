@@ -75,10 +75,10 @@
                             <a href="{{$video->route}}">
                                 @include('users.videos.partials.thumbnail')
                             </a>
-                            <div>
+                            <div class="d-flex flex-column align-items-start gap-2">
                                 <div>{{Str::limit($video->title, 100), '...'}}</div>
-                                <small class="text-muted">{{Str::limit($video->description, 75), '...'}}</small>
-                                <div class="badge bg-primary">{{$video->duration}} - @size($video->size)</div>
+                                <div class="text-muted text-sm">{{Str::limit($video->description, 75), '...'}}</div>
+                                <div class="badge bg-primary w-auto">{{$video->duration}} - @size($video->size)</div>
                             </div>
                         </td>
                         <td class="align-middle">
@@ -194,19 +194,18 @@
                                         <i class="fa-solid fa-chart-simple"></i>
                                     </a>
                                 @endif
-                                @can('unpin', $video)
-                                    <form action="{{route('user.videos.unpin', $video)}}" method="POST" class="d-inline-block">
-                                        @csrf
-                                        <button class="btn btn-secondary btn-sm" title="Unpin video" type="submit">
-                                            <i class="fa-solid fa-link-slash"></i>
-                                        </button>
-                                    </form>
-                                @endcan
                                 @can('pin', $video)
                                     <form action="{{route('user.videos.pin', $video)}}" method="POST" class="d-inline-block">
                                         @csrf
                                         <button class="btn btn-secondary btn-sm" title="Pin video" type="submit">
                                             <i class="fa-solid fa-thumbtack"></i>
+                                        </button>
+                                    </form>
+                                @elsecan('unpin', $video)
+                                    <form action="{{route('user.videos.unpin', $video)}}" method="POST" class="d-inline-block">
+                                        @csrf
+                                        <button class="btn btn-secondary btn-sm" title="Unpin video" type="submit">
+                                            <i class="fa-solid fa-link-slash"></i>
                                         </button>
                                     </form>
                                 @endcan

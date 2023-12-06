@@ -106,19 +106,26 @@
                         <div class="alert alert-primary mt-4">Channel without content</div>
                     @else
                         @if($user->pinned_video)
-                            <div class="row mt-4 mx-0 card flex-row">
-                                <div class="col-12 col-xl-6 px-0">
-                                    <div class="ratio ratio-16x9 h-100">
-                                        <video controls class="radius-top rounded-xl-start" controlsList="nodownload" poster="{{$user->pinned_video->thumbnail_url}}">
+                            <div class="row mt-4 mx-0 flex-row">
+                                <div class="col-12 col-xl-7 col-xxl-5 px-0">
+                                    <div class="ratio ratio-16x9">
+                                        <video
+                                            controls
+                                            class="radius-top rounded-xl-start"
+                                            controlsList="nodownload"
+                                            poster="{{$user->pinned_video->thumbnail_url}}"
+                                            oncontextmenu="return false;"
+                                            autoplay
+                                        >
                                             <source src="{{$user->pinned_video->file_url}}" type="{{$user->pinned_video->mimetype}}">
                                         </video>
                                     </div>
                                 </div>
-                                <div class="col-12 col-xl-6 mt-3 m-xl-0 p-3">
+                                <div class="col-12 col-xl-5 col-xxl-7 mt-3 m-xl-0">
                                     <a href="{{$user->pinned_video->route}}" class="text-decoration-none text-black fw-bold">{{$user->pinned_video->title}}</a>
                                     <div class="text-muted text-sm my-2">{{trans_choice('views', $user->pinned_video->views_count)}} • {{$user->pinned_video->created_at->diffForHumans()}}</div>
                                     <div class="text-sm">
-                                        <p>{!! nl2br($user->pinned_video->short_description) !!}</p>
+                                        <p class="mb-0">{!! nl2br($user->pinned_video->short_description) !!}</p>
                                         @if($user->pinned_video->description_is_long)
                                             <a class="mt-2 d-block text-decoration-none fw-bold" href="{{$user->pinned_video->route}}">Read more</a>
                                         @endif

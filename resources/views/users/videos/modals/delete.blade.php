@@ -10,6 +10,9 @@
                     <div class="row g-0">
                         <div class="col-4">
                             <img src="" class="img-fluid rounded-start h-100 video_poster video_alt" alt="" style="object-fit: cover;">
+                            <div id="default-thumbnail" class="bg-secondary text-white d-flex justify-content-center align-items-center d-none w-100 h-100">
+                                <i class="fa-solid fa-image fa-2x"></i>
+                            </div>
                         </div>
                         <div class="col-8">
                             <div class="card-body">
@@ -65,6 +68,12 @@
 
             const element = document.querySelector('.video_' + className);
             const value = button.dataset[className];
+
+            if(className === 'poster' && !value) {
+                element.classList.add('d-none')
+                document.getElementById('default-thumbnail').classList.add('d-block')
+                document.getElementById('default-thumbnail').classList.remove('d-none')
+            }
 
             if (attribute) {
                 element.setAttribute(attribute, value);

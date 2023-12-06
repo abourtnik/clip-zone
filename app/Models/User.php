@@ -137,8 +137,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
 
     public function pinned_video () : HasOne {
         return $this->hasOne(Video::class, 'id', 'pinned_video_id')
-            ->where('status', VideoStatus::PUBLIC)
-            ->orWhere('user_id', Auth::id());
+            ->active();
     }
 
     public function activity () : HasMany {

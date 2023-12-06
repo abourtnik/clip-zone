@@ -202,7 +202,7 @@ class Video extends Model implements Likeable, Reportable
     {
         $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
 
-        $a = clean(preg_replace($url, '<a href="$0" target="_blank" title="$0" rel="external nofollow">$0</a>', Str::limit($this->description, 247)));
+        $a = clean(preg_replace($url, '<a href="$0" target="_blank" title="$0" rel="external nofollow">$0</a>', Str::limit($this->description, 200)));
 
         return Attribute::make(
             get: fn () => $a
