@@ -30,7 +30,7 @@ class DeleteExpiredChunks extends Command
      */
     public function handle() : int
     {
-        $folders = Storage::disk('local2')->directories(Video::CHUNK_FOLDER);
+        $folders = Storage::disk('local')->directories(Video::CHUNK_FOLDER);
 
         $now = now();
 
