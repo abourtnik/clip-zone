@@ -161,8 +161,15 @@ export default function Playlist ({initial = []}) {
                                                                         </small>
                                                                     </div>
                                                                     <div className={'px-3 col-12 col-sm-6 col-lg-7 col-xl-8'}>
-                                                                        <div className={'text-black text-lowercase text-sm'}>{video.title}</div>
-                                                                        <div className={'text-muted text-lowercase text-sm'}>{video.user.username} • {video.views}</div>
+                                                                        <div className={'text-black fw-bold text-sm mb-1'}>
+                                                                            {video.title}
+                                                                        </div>
+                                                                        <div className={'text-muted text-sm'}>
+                                                                            {video.user.username}
+                                                                        </div>
+                                                                        <div className={'text-muted text-sm'}>
+                                                                            {video.views} • {video.publication_date}
+                                                                        </div>
                                                                     </div>
                                                                 </>
                                                         }

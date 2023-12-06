@@ -160,6 +160,7 @@
                                         @include('videos.card.card-3', $video)
                                     @endforeach
                                 </div>
+                                <hr>
                             @endforeach
                         @endif
                     @endif
