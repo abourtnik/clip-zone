@@ -18,7 +18,7 @@
                 <a href="{{$video->user->route}}" class="position-relative text-decoration-none">
                     <small>{{$video->user->username}}</small>
                 </a>
-                <small class="text-muted d-block">{{trans_choice('views', $video->views_count)}} • {{$video->created_at->diffForHumans()}}</small>
+                <small class="text-muted d-block">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date->diffForHumans()}}</small>
             </div>
         </div>
     </div>

@@ -123,9 +123,21 @@ class SearchController extends Controller
         $match = '%'.$q.'%';
 
         return VideoResource::collection(
-            Video::where(fn($q) => $q->active()->orWhere(fn($q) => $q->where('user_id' , Auth::user()->id))->whereNotIn('status', [VideoStatus::DRAFT, VideoStatus::BANNED]))
+                Video::where(
+                    fn($q) => $q
+                        ->active()
+                        ->orWhere(fn($q) => $q
+                            ->where('user_id' , Auth::user()->id)
+                            ->whereNotNull('uploaded_at'))
+                            ->whereNotIn('status', [VideoStatus::DRAFT, VideoStatus::BANNED, VideoStatus::FAILED])
+                )
                 ->whereNotIn('id', $except_ids)
-                ->where(fn($query) => $query->where('title', 'LIKE', $match)->orWhere('description', 'LIKE', $match))
+                ->where(
+                    fn($query) => $query
+                        ->where('title', 'LIKE', $match)
+                        ->orWhere('description', 'LIKE', $match)
+                        ->orWhereRelation('user', 'username', 'LIKE', $match)
+                )
                 ->with('user')
                 ->withCount('views')
                 ->latest('publication_date')

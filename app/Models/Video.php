@@ -314,7 +314,7 @@ class Video extends Model implements Likeable, Reportable
     }
 
     /**
-     * Scope a query to only include not active videos.
+     * Scope a query to only include valid videos.
      *
      * @param QueryBuilder|EloquentBuilder $query
      * @return QueryBuilder|EloquentBuilder

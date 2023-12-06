@@ -18,7 +18,7 @@
             </a>
             <span>•</span>
             <span>
-                {{$video->created_at->diffForHumans()}}
+                {{$video->publication_date->diffForHumans()}}
             </span>
         </div>
         <small class="text-muted text-sm">{{trans_choice('views', $video->views_count)}}</small>
