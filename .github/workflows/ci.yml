@@ -19,7 +19,7 @@ jobs:
         with:
           php-version: '8.1'
       - name: Prepare The Environment
-        run: cp .env.example .env
+        run: cp .env.ci .env
       - name: Create Database
         run: |
             sudo systemctl start mysql
