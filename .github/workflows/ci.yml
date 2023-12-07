@@ -10,9 +10,19 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: install
-        run: composer install --optimize-autoloader --no-dev
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
 
-      - name: test
-        run: php artisan test --stop-on-failure
+      - name: Run composer install
+        run: composer install -n --prefer-dist
+
+      - name: Prepare Laravel Application
+          run: |
+            cp .env.example .env
+            php artisan key:generate
+
+      - name: Run Test
+          run: php artisan test --stop-on-failure
 
