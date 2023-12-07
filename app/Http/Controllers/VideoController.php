@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\VideoStatus;
+use App\Events\Video\VideoViewed;
 use App\Http\Resources\VideoResource;
 use App\Models\Category;
 use App\Models\User;
@@ -55,19 +56,7 @@ class VideoController
 
     public function show (Video $video, Request $request) : View {
 
-        $limit = ['unit' => 'minutes', 'value' => 1];
-
-        $ip_views_count = $video->views()->where('ip' , $request->ip())
-            ->whereBetween('view_at', [now()->sub($limit['unit'], 1), now()])
-            ->limit($limit['value'])
-            ->count();
-
-        if ($ip_views_count < $limit['value']) {
-            $video->views()->create([
-                'ip' => $request->ip(),
-                'user_id' => Auth::user()?->id
-            ]);
-        }
+        event(new VideoViewed($video));
 
         $suggestedVideos = $this->videoService->getSuggestedVideos($video);
 
