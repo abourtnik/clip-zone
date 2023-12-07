@@ -20,8 +20,6 @@ class LoginTest extends TestCase
     {
         $response = $this->get(route('login'));
 
-        dd($response);
-
         $response->assertViewIs('auth.login');
     }
 
