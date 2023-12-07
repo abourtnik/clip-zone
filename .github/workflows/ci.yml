@@ -10,5 +10,5 @@ jobs:
     steps:
       - uses: actions/checkout@master
       - name: test
-        run: make test
+        run: php artisan test --stop-on-failure
 
