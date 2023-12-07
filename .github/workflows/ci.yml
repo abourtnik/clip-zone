@@ -19,7 +19,7 @@ jobs:
         with:
           php-version: '8.1'
       - name: Prepare The Environment
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        run: cp .env.example .env
       - name: Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: Generate Application Key
