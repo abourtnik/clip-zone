@@ -24,4 +24,4 @@ jobs:
             php artisan key:generate
 
       - name: Run Test
-        run: php artisan test --stop-on-failure
+        run: php artisan test --stop-on-failure --env=testing
