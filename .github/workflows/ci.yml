@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+
+      - name: install
+        run: make install
+
       - name: test
         run: php artisan test --stop-on-failure
 
