@@ -11,6 +11,7 @@ jobs:
       APP_URL: "http://127.0.0.1:8000"
       DB_USERNAME: root
       DB_PASSWORD: root
+      DB_DATABASE: my-database
       MAIL_MAILER: log
     steps:
       - uses: actions/checkout@v3
