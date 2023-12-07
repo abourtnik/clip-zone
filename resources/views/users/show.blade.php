@@ -111,7 +111,7 @@
                                     <div class="ratio ratio-16x9">
                                         <video
                                             controls
-                                            class="radius-top rounded-xl-start"
+                                            class="rounded-2"
                                             controlsList="nodownload"
                                             poster="{{$user->pinned_video->thumbnail_url}}"
                                             oncontextmenu="return false;"

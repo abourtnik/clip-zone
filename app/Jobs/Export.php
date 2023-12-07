@@ -13,7 +13,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Excel as BaseExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use Throwable;
@@ -61,8 +60,6 @@ class Export implements ShouldQueue
             'file' => $fileName,
             'status' => ExportStatus::COMPLETED
         ]);
-
-        Log::info('test log supervisor');
 
         ExportFinished::dispatch($this->user, $this->export);
     }
