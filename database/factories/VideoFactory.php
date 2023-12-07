@@ -39,7 +39,8 @@ class VideoFactory extends Factory
             'default_comments_sort' => fake()->randomElement(['top', 'newest']),
             'show_likes' => fake()->boolean(90),
             'created_at' => $date,
-            'updated_at' => $date
+            'updated_at' => $date,
+            'uploaded_at' => $date
         ];
     }
 

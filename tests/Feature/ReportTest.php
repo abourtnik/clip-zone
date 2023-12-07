@@ -71,7 +71,7 @@ class ReportTest extends TestCase
         ])->post(route('report'), [
             'reason' => ReportReason::ABUSIVE->value,
             'type' => Video::class,
-            'id' => 1
+            'id' => 999
         ]);
 
         $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -95,8 +95,9 @@ class ReportTest extends TestCase
             'id' => $video->id
         ]);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrorFor('id');
+        // Policy
+
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function test_report_with_own_comment(): void
@@ -120,8 +121,7 @@ class ReportTest extends TestCase
             'id' => $comment->id
         ]);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrorFor('id');
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function test_report_with_own_user(): void
@@ -134,8 +134,7 @@ class ReportTest extends TestCase
             'id' => $this->user->id
         ]);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrorFor('id');
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function test_report_with_private_video(): void
@@ -154,8 +153,7 @@ class ReportTest extends TestCase
             'id' => $video->id
         ]);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrorFor('id');
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function test_report_with_planned_video(): void
@@ -174,8 +172,7 @@ class ReportTest extends TestCase
             'id' => $video->id
         ]);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrorFor('id');
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function test_report_with_banned_comment(): void
@@ -199,8 +196,7 @@ class ReportTest extends TestCase
             'id' => $comment->id
         ]);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrorFor('id');
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function test_report_with_banned_user(): void
@@ -215,8 +211,7 @@ class ReportTest extends TestCase
             'id' => $user->id
         ]);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrorFor('id');
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function test_report_with_already_report_video(): void
@@ -241,8 +236,7 @@ class ReportTest extends TestCase
             'id' => $video->id
         ]);
 
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $response->assertJsonValidationErrorFor('id');
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     public function test_report_success(): void
