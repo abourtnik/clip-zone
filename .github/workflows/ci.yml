@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@master
 
       - name: install
-        run: make install
+        run: make init
 
       - name: test
         run: php artisan test --stop-on-failure
