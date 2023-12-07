@@ -141,7 +141,7 @@ class VideoController extends Controller
                 default => null,
             },
             'publication_date' => $video->publication_date?->isPast() ? $video->publication_date : match((int) $request->get('status')) {
-                VideoStatus::PUBLIC->value => null,
+                VideoStatus::PUBLIC->value => now(),
                 VideoStatus::PLANNED->value => $request->get('scheduled_date'),
                 default => null,
              }
