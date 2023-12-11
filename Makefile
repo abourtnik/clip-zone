@@ -43,7 +43,9 @@ init: ## Init application
 	docker exec -it php_container npm run dev
 
 deploy: ## Deploy application
-	ssh anton@51.178.29.115 -p 5789 -A 'cd /home/anton/www/clip-zone.com && git pull origin main && make install'
+	cd /home/anton/www/clip-zone.com
+	git pull origin main
+	make install
 
 test: ## Run test
 	# php artisan cache clear
