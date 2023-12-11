@@ -57,7 +57,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('upload', function (Request $request) {
-            return Limit::perMinute(70)->by($request->user()->id . $request->get('resumableIdentifier'))
+            return Limit::perMinute(100)->by($request->user()->id . $request->get('resumableIdentifier'))
                 ->response(fn(Request $request, array $headers) => $this->response($request, $headers));
         });
     }

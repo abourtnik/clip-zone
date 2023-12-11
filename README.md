@@ -11,7 +11,7 @@
 
 <p align="center">
 <a href="https://github.com/abourtnik/clip-zoneactions">
-<img src="https://github.com/abourtnik/clip-zone/actions/workflows/ci-cd.yml/badge.svg" alt="Build Status">
+<img src="https://github.com/abourtnik/clip-zone/actions/workflows/CI-CD.yml/badge.svg" alt="Build Status">
 </a>
 </p>
 
