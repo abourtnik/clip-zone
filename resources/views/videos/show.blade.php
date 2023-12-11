@@ -26,7 +26,15 @@
                         </div>
                     </div>
                 @else
-                    <video controls class="w-100 border border-1 rounded" controlsList="nodownload" poster="{{$video->thumbnail_url}}" oncontextmenu="return false;" autoplay>
+                    <video
+                        controls
+                        class="w-100 border border-1 rounded"
+                        controlsList="nodownload"
+                        poster="{{$video->thumbnail_url}}"
+                        oncontextmenu="return false;"
+                        autoplay
+                        playsinline
+                    >
                         <source src="{{$video->file_url}}#t={{$t}}" type="{{$video->mimetype}}">
                     </video>
                 @endif

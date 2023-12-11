@@ -116,6 +116,7 @@
                                             poster="{{$user->pinned_video->thumbnail_url}}"
                                             oncontextmenu="return false;"
                                             autoplay
+                                            playsinline
                                         >
                                             <source src="{{$user->pinned_video->file_url}}" type="{{$user->pinned_video->mimetype}}">
                                         </video>
