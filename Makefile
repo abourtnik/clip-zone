@@ -43,7 +43,6 @@ init: ## Init application
 	docker exec -it php_container npm run dev
 
 deploy: ## Deploy application
-	cd /home/anton/www/clip-zone.com
 	git pull origin main
 	make install
 

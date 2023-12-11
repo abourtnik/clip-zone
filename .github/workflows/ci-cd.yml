@@ -37,4 +37,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
-          script: make deploy
+          script: |
+            cd /home/anton/www/clip-zone.com
+            git pull origin main
+            make install
