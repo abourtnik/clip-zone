@@ -28,6 +28,7 @@ jobs:
     needs: test
     if: success()
     runs-on: ubuntu-latest
+    environment: production
     steps:
       - name: Deploy updates
         uses: appleboy/ssh-action@v1.0.0
