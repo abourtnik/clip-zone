@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 class LoginController
 {
     public function show(): View {
-        return view('auth.login');
+        return view('auth.login2');
     }
 
     public function login (Request $request) : RedirectResponse {
