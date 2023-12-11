@@ -9,6 +9,11 @@
 
 <h3 align="center">Open Source Youtube Clone</h3>
 
+<p align="center">
+<a href="https://github.com/abourtnik/clip-zoneactions">
+<img src="https://github.com/abourtnik/clip-zone/actions/workflows/ci-cd.yml/badge.svg" alt="Build Status">
+</a>
+</p>
 
 ## Technical detail
 
