@@ -17,7 +17,7 @@
     <meta property="og:url" content="{{url()->full()}}" />
     <meta property="og:title" content="@yield('title') - {{config('app.name')}}" />
     <meta property="og:description" content="@yield('description')" />
-    <meta property="og:image" content="{{asset('images/logo.png')}}" />
+    <meta property="og:image" content="@yield('image', asset('images/logo.png'))" />
     <meta property="og:language" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
 
     <link rel="shortcut icon" href="{{asset('favicon.ico')}}">

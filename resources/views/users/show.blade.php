@@ -2,6 +2,7 @@
 
 @section('title', $user->username)
 @section('description', Str::limit($user->description, 155))
+@section('image', asset($user->avatar_url))
 
 @section('class', 'px-0')
 @section('style', 'margin-top: 0 !important')
@@ -183,7 +184,7 @@
                     @endif
                 </div>
                 <div class="tab-pane" id="playlists" role="tabpanel" aria-labelledby="playlists-tab">
-                    @if($user->playlists->count())
+                    @if($user->playlists_count)
                         <div class="row gx-3 gy-4 mt-0">
                             @each('playlists.card', $user->playlists, 'playlist')
                         </div>

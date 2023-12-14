@@ -1,18 +1,17 @@
-<h1 align="center">
-  <a href="https://www.clip-zone.com">
-    <img src="https://www.clip-zone.com/images/logo.png" alt="ClipZone logo" height="200">
-  </a>
-  <br>
-    ClipZone
-  <br>
-</h1>
+ClipZone
+=====
 
-<h3 align="center">Open Source Youtube Clone</h3>
-
-<p align="center">
 <a href="https://github.com/abourtnik/clip-zoneactions">
 <img src="https://github.com/abourtnik/clip-zone/actions/workflows/CI-CD.yml/badge.svg" alt="Build Status">
 </a>
+<a href="https://www.paypal.com/donate/?hosted_button_id=P4KH8VMKM6XMJ">
+<img src="https://img.shields.io/badge/Donate-blue?logo=paypal" alt="Donate Paypal">
+</a>
+
+Open Source Youtube Clone
+
+<p align="center">
+    <img src="https://www.clip-zone.com/images/logo.png" alt="ClipZone logo" height="200">
 </p>
 
 ## Technical detail

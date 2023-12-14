@@ -59,6 +59,7 @@ class CommentController extends Controller
                                 'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                                 'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                             ])
+                            ->orderByRaw('likes_count - dislikes_count DESC')
                             ->latest();
                     },
                     'reportByAuthUser'

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Enums\ReportReason;
 use App\Http\Resources\NotificationResource;
 use App\Models\Category;
+use App\Services\YoutubeService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
     public function register() : void
     {
         Cashier::ignoreMigrations();
+
+        $this->app->singleton(YoutubeService::class, fn() => new YoutubeService(config('services.youtube.api_key')));
     }
 
     /**

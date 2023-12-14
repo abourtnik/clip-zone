@@ -155,10 +155,16 @@
                     <small>Copyright © {{now()->format('Y')}} {{config('app.name')}}</small>
                     <small>All Rights Reserved</small>
                 </div>
-                <a class="btn bg-dark text-white btn-sm mt-2" href="https://github.com/abourtnik/clip-zone" target="_blank">
-                    <i class="fa-brands fa-github mr-2"></i>
-                    <span>Github</span>
-                </a>
+                <div class="d-flex align-items-center gap-2 mt-2">
+                    <a class="btn bg-dark text-white btn-sm mt-2" href="https://github.com/abourtnik/clip-zone" target="_blank">
+                        <i class="fa-brands fa-github mr-2"></i>
+                        <span>Github</span>
+                    </a>
+                    <a class="btn text-white btn-sm mt-2" href="https://www.paypal.com/donate/?hosted_button_id=P4KH8VMKM6XMJ" target="_blank" style="background-color: #0079C1">
+                        <i class="fa-brands fa-paypal mr-2"></i>
+                        <span>Donate</span>
+                    </a>
+                </div>
                 <a class="text-sm fw-bold text-decoration-none d-block mt-2" href="https://antonbourtnik.fr" target="_blank">Anton Bourtnik</a>
             </div>
         </nav>
