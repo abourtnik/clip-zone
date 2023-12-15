@@ -1,4 +1,4 @@
-<article class="d-flex flex-wrap flex-sm-nowrap mb-2 position-relative gap-2 suggested_video video-card">
+<article @class(["d-flex flex-wrap flex-sm-nowrap position-relative gap-2 suggested_video", "mb-2 video-card" => !isset($playlist_video)])>
     <a href="{{$video->route}}">
         <div class="position-relative">
             <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" imgClass="rounded-2 video-thumbnail"/>
