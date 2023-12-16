@@ -9,12 +9,13 @@ class VideoService {
 
     public function getSuggestedVideos($parentVideo): Collection
     {
-        $user_videos = Video::where('id', '!=', $parentVideo->id)
+        $user_videos = Video::whereNot('id', $parentVideo->id)
             ->where('user_id', $parentVideo->user->id)
             ->active()
             ->with(['user'])
             ->withCount(['views'])
             ->when($parentVideo->category, fn($q) => $q->orderByRaw("FIELD(category_id, ".$parentVideo->category->id.") DESC"))
+            ->inRandomOrder()
             ->orderBy('views_count', 'desc')
             ->limit(3)
             ->get();
@@ -25,6 +26,7 @@ class VideoService {
                 ->active()
                 ->with(['user'])
                 ->withCount(['views'])
+                ->inRandomOrder()
                 ->orderBy('views_count', 'desc')
                 ->limit(6 - $user_videos->count())
                 ->get();
@@ -36,8 +38,8 @@ class VideoService {
             ->active()
             ->with(['user'])
             ->withCount(['views'])
-            ->orderBy('views_count', 'desc')
             ->inRandomOrder()
+            ->orderBy('views_count', 'desc')
             ->limit(9 - ($user_videos->count() + $category_videos->count()))
             ->get();
 
