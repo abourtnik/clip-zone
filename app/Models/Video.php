@@ -20,10 +20,11 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Video extends Model implements Likeable, Reportable
 {
-    use HasFactory, HasLike, HasReport;
+    use HasFactory, HasLike, HasReport, HasEagerLimit;
 
     protected $guarded = ['id'];
 

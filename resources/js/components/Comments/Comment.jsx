@@ -87,7 +87,7 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                         </div>
                     }
                     <div className="d-flex justify-content-between align-items-center">
-                        <div className={'d-flex align-items-center gap-1'}>
+                        <div className={'d-flex flex-wrap align-items-center gap-1'}>
                             <a href={comment.user.route} className={'text-decoration-none text-sm' + (comment.user.is_author ? ' badge rounded-pill text-bg-secondary' : '') }>
                                 {comment.user.username}
                             </a>
@@ -214,6 +214,7 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                                     <span>•</span>
                                 </>
                             }
+                            <i className={'fa-solid fa-' + (showReplies ? 'chevron-up' : 'chevron-down')}></i>
                             {showRepliesText(showReplies, replies.length)}
                         </button>
                     }

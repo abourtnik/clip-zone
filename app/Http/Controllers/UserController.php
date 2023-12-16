@@ -28,12 +28,12 @@ class UserController
                 },
                 'playlists' => function ($q) {
                     $q->withCount('videos')
-                        ->with([
-                            'videos' => fn($q) => $q->active()
+                      ->withWhereHas('videos', function($q) {
+                            $q->active()
                                 ->withCount('views')
                                 ->with('user')
-                                ->limit(8)
-                        ])
+                                ->limit(8);
+                            })
                         ->active()
                         ->latest('updated_at')
                         ->limit(6);
