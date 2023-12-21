@@ -9,47 +9,58 @@ use App\Services\YoutubeService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SyncComments extends Command
 {
+
+    private YoutubeService $youtubeService;
+
+    public function __construct(YoutubeService $youtubeService)
+    {
+        parent::__construct();
+        $this->youtubeService = $youtubeService;
+    }
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'comments:sync {id : ClipZone video id} {youtubeId : Youtube video id}';
+    protected $signature = 'comments:sync';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Get comments from Youtube for specific video';
+    protected $description = 'Synchronize comments from Youtube';
 
     /**
      * Execute the console command.
      *
-     * @param YoutubeService $youtubeService
      * @return int
      */
-    public function handle(YoutubeService $youtubeService) : int
+    public function handle() : int
     {
-        list('id' => $id, 'youtubeId' => $youtubeId) = $this->arguments();
+        $videos = Video::whereNotNull('youtube_id')->get();
 
-        $video = Video::findOrFail($id);
+        foreach ($videos as $video) {
 
-        $video->comments->each->delete();
+            $this->info('Sync comments for video : ' .$video->title. ' ...');
 
-        $data = $youtubeService->getComments($youtubeId);
+            $video->comments->each->delete();
 
-        $this->saveComments($data['items'], $video, null);
+            $data = $this->youtubeService->getComments($video->youtube_id);
+
+            $this->saveComments($data['items'], $video, null);
+        }
 
         return Command::SUCCESS;
     }
 
     private function saveComments (array $items, Video $video, ?Comment $parent) {
-
-        $usedUsers = [];
 
         $count = count($items);
 
@@ -61,11 +72,13 @@ class SyncComments extends Command
 
             $date = Carbon::create($comment['publishedAt']);
 
-            $users = $this->getUsers([$video->user_id], $date)->diff($usedUsers);
-
-            $userId = $users->random();
-
-            $usedUsers[] = $userId;
+            // Author of video is author of comment
+            if ($comment['channelId'] === $comment['authorChannelId']['value']) {
+                $userId = $video->user_id;
+            } else {
+                $user = $this->importUser($comment['authorChannelId']['value']);
+                $userId = $user->id;
+            }
 
             $savedComment = Comment::withoutEvents(function () use ($video, $comment, $userId, $date, $parent) {
                 $data = [
@@ -85,7 +98,7 @@ class SyncComments extends Command
 
             // Add Comment interaction
             $this->generateInteraction($savedComment, $randomCount, $date);
-            $randomCount = rand($randomCount - 5, $randomCount - 1);
+            $randomCount = $randomCount - rand(1, 5);
 
             $replies = $item['replies']['comments'] ?? [];
 
@@ -123,8 +136,76 @@ class SyncComments extends Command
 
             $comment->interactions()->create([
                 'user_id' => $userId,
-                'status' => fake()->boolean(93),
+                'status' => fake()->boolean(96),
                 'perform_at' => fake()->dateTimeBetween($afterDate)
+            ]);
+        }
+    }
+
+    private function importUser (string $youtubeChannelId) : User {
+
+        $this->info($youtubeChannelId);
+
+        $data = $this->youtubeService->getChannelInfo($youtubeChannelId);
+
+        $channel = $data['items'][0]['snippet'];
+
+        $user = User::where('username' , $channel['title'])->first();
+
+        if ($user) {
+            $user->update([
+                'description' => $channel['description'] ?: null,
+                'created_at' => Carbon::create($channel['publishedAt']),
+                'country' => $channel['country'] ?? null,
+            ]);
+
+            return $user;
+
+        } else {
+
+            // Save avatar
+
+            try {
+                $contentAvatar = file_get_contents($channel['thumbnails']['medium']['url']);
+            }
+            catch (\Exception $e){
+                $this->info('error get avatar : '. $e->getMessage());
+            }
+
+            if ($contentAvatar ?? null) {
+                $avatarName = Str::random(40) . '.jpg';
+                Storage::put(User::AVATAR_FOLDER . '/' . $avatarName, $contentAvatar);
+            }
+
+            // Save Banner
+            if ($data['items'][0]['brandingSettings']['image']['bannerExternalUrl'] ?? null) {
+
+                $url = $data['items'][0]['brandingSettings']['image']['bannerExternalUrl'] . '=w2120-fcrop64=1,00005a57ffffa5a8-k-c0xffffffff-no-nd-rj';
+
+                try {
+                    $contentBanner = file_get_contents($url);
+                }
+                catch (\Exception $e){
+                    $this->info('error get banner : '. $e->getMessage());
+                }
+
+                if ($contentBanner ?? null) {
+                    $bannerName = Str::random(40) . '.jpg';
+                    Storage::put(User::BANNER_FOLDER . '/' .$bannerName, $contentBanner);
+                }
+            }
+
+            return User::create([
+                'username' => $channel['title'],
+                'email' => fake()->unique()->safeEmail(),
+                'password' => Str::random(),
+                'email_verified_at' => Carbon::create($channel['publishedAt'])->addSeconds(rand(10, 300)),
+                'avatar' => $avatarName ?? null,
+                'banner' => $bannerName ?? null,
+                'description' => $channel['description'] ?: null,
+                'country' => $channel['country'] ?? null,
+                'show_subscribers' => true,
+                'created_at' => Carbon::create($channel['publishedAt']),
             ]);
         }
     }

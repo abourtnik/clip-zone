@@ -57,27 +57,29 @@
         <div class="col-md-12 col-lg-7 col-xl-8 col-xxl-8">
             <div class="card card-body p-0">
                 @if($playlist->videos_count)
-                    <ul class="list-group list-group-flush">
-                        @foreach($playlist->videos as $key => $video)
-                            <div class="d-flex gap-3 align-items-center list-group-item list-group-item-action px-2 px-sm-3 py-3 py-sm-3">
-                                @if($video->user->is(Auth::user()) || $video->is_public)
-                                    @include('videos.card-secondary', ['video' => $video, 'playlist_video' => true])
-                                @else
-                                    <div class="w-100 align-items-center">
-                                        <div class="col-12">
-                                            <div class="bg-secondary text-white d-flex flex-column justify-content-center align-items-center w-100 gap-2" style="height: 100px">
-                                                <i class="fa-solid fa-lock fa-1x"></i>
-                                                <div class="text-center text-sm">
-                                                    <div class='text-sm fw-bold'>This video is private</div>
-                                                    <div class='text-sm'>The author update video status to private</div>
+                    <div class="overflow-auto" style="height: 700px">
+                        <ul class="list-group list-group-flush">
+                            @foreach($playlist->videos as $key => $video)
+                                <div class="d-flex gap-3 align-items-center list-group-item list-group-item-action px-2 px-sm-3 py-3 py-sm-3">
+                                    @if($video->user->is(Auth::user()) || $video->is_public)
+                                        @include('videos.card-secondary', ['video' => $video, 'playlist_video' => true])
+                                    @else
+                                        <div class="w-100 align-items-center">
+                                            <div class="col-12">
+                                                <div class="bg-secondary text-white d-flex flex-column justify-content-center align-items-center w-100 gap-2" style="height: 100px">
+                                                    <i class="fa-solid fa-lock fa-1x"></i>
+                                                    <div class="text-center text-sm">
+                                                        <div class='text-sm fw-bold'>This video is private</div>
+                                                        <div class='text-sm'>The author update video status to private</div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                @endif
-                            </div>
-                        @endforeach
-                    </ul>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </ul>
+                    </div>
                 @else
                     <div class="alert alert-info">
                         This playlist does not contain any videos at the moment.

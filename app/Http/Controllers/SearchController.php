@@ -33,9 +33,12 @@ class SearchController extends Controller
 
         $videos = in_array($type, ['videos', null]) ? Video::active()
             ->filter($filters)
-            ->where(function($query) use ($match) {
-                $query->where('title', 'LIKE', $match)->orWhere('description', 'LIKE', $match);
-            })
+            ->where(
+                fn($query) => $query
+                    ->where('title', 'LIKE', $match)
+                    ->orWhere('description', 'LIKE', $match)
+                    ->orWhereRelation('user', 'username', 'LIKE', $match)
+            )
             ->with('user')
             ->latest('publication_date')
             ->withCount('views')

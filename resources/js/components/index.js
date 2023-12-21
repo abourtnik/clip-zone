@@ -29,7 +29,7 @@ register(Playlist, 'playlist-videos', [], { shadow: false });
 register(Notifications, 'site-notifications', [], { shadow: false });
 register(ImageUpload, 'image-upload', ['source'], { shadow: false });
 register(VideoUpload, 'video-upload', [], { shadow: false });
-register(ImageLoaded, 'image-loaded', [], { shadow: false });
+register(ImageLoaded, 'image-loaded', ['hover'], { shadow: false });
 register(Save, 'save-video', [], { shadow: false });
 
 

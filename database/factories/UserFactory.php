@@ -18,7 +18,7 @@ class UserFactory extends Factory
      */
     public function definition() : array
     {
-        $date = fake()->dateTimeBetween('-14 years');
+        $date = fake()->dateTimeBetween('-20 years');
 
         return [
             'username' => fake()->unique()->userName(),

@@ -1,7 +1,7 @@
 import {useState} from "preact/hooks";
 import Button from '../Button'
 
-export default function ReplyForm ({setShowReply, comment, reply, user}) {
+export default function ReplyForm ({setShowReply, comment, reply}) {
 
     const [loading, setLoading] = useState(false);
 
@@ -21,7 +21,7 @@ export default function ReplyForm ({setShowReply, comment, reply, user}) {
     return (
         <form className={'mt-3'} onSubmit={handleSubmit}>
             <div className={'d-flex align-items-start gap-2'}>
-                <img className={'rounded-circle img-fluid'} src={user.avatar_url} alt={user.username + ' avatar'} style="width: 35px;"/>
+                <img className={'rounded-circle img-fluid'} src={window.USER.avatar} alt={'user avatar'} style="width: 35px;"/>
                 <div className="mb-2 w-100">
                     <label htmlFor={"content-" + comment.id} className="form-label d-none"></label>
                     <textarea className="form-control" id={"content-" + comment.id} rows="3" name="content" placeholder="Add a reply ..." required maxLength={5000}></textarea>

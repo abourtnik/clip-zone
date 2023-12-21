@@ -6,9 +6,7 @@ import {useInView} from "react-intersection-observer";
 import CommentsForm from "./Comments/Form";
 import {jsonFetch} from '../hooks'
 
-export default function Replies ({target, video, auth}) {
-
-    const user = JSON.parse(auth);
+export default function Replies ({target, video}) {
 
     const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments/${target}/replies`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
@@ -39,7 +37,7 @@ export default function Replies ({target, video, auth}) {
         }).then(comment => {
             setComments(comments => [comment, ...comments]);
             setCount(count => count + 1);
-            document.getElementById('content').value = '';
+            document.getElementById('message-content').value = '';
         }).catch(e => e)
     }, []);
 
@@ -90,7 +88,7 @@ export default function Replies ({target, video, auth}) {
                     <button onClick={() => sort('recent')} className={'btn btn-' + activeButton('recent') + 'btn-sm'}>Newest replies</button>
                 </div>
             </div>
-            <CommentsForm user={user} add={reply} placeholder={'Add a reply...'} label={'Write reply'}/>
+            <CommentsForm add={reply} placeholder={'Add a reply...'} label={'Write reply'}/>
             {
                 (primaryLoading) ?
                     <div className="d-flex flex-column gap-2">
@@ -99,8 +97,6 @@ export default function Replies ({target, video, auth}) {
                     : comments.map(comment => <Comment
                         key={comment.id}
                         comment={comment}
-                        user={user}
-                        canReply={false}
                         remove={remove}
                         update={update}
                     />)

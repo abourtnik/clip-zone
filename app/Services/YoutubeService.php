@@ -22,7 +22,18 @@ class YoutubeService
             'part' => 'snippet,replies',
             'videoId' => $videoID,
             'order' => 'relevance',
-            'maxResults' => 20
+            'maxResults' => 100
+        ]);
+
+        return $response->json();
+    }
+
+    public function getChannelInfo(string $channelId) : array|null
+    {
+        $response = Http::get(self::API_ENDPOINT. '/channels', [
+            'key' => $this->apiKey,
+            'part' => 'snippet,brandingSettings',
+            'id' => $channelId,
         ]);
 
         return $response->json();

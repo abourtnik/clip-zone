@@ -184,7 +184,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="">
+                    <div>
                         @if(!Auth::check())
                             <button
                                 type="button"
@@ -285,7 +285,7 @@
                     </div>
                 </div>
                 <hr>
-                <div>
+                <div class="px-3 px-sm-0 pt-3 pt-sm-0">
                     @each('videos.card-secondary',  $videos, 'video')
                 </div>
             </div>
@@ -300,8 +300,8 @@
         const observer = new IntersectionObserver((entries) => {
             for (const entry of entries) {
                 if(entry.isIntersecting) {
-                    document.getElementById('comments_area').innerHTML ="<comments-area target='{{$video->id}}' auth='{{auth()->user()?->setAppends(['avatar_url'])->setVisible(['avatar_url', 'username'])}}' default-sort='{{$video->default_comments_sort}}' />";
-                    observer.unobserve(entry.target)
+                    document.getElementById('comments_area').innerHTML ="<comments-area target='{{$video->id}}' default-sort='{{$video->default_comments_sort}}' />";
+                    observer.unobserve(entry.target);
                 }
             }
         });
@@ -312,7 +312,7 @@
         let opened = false;
         commentsOffcanvas.addEventListener('show.bs.offcanvas', event => {
             if(!opened) {
-                document.getElementById('offcanvas-body').innerHTML ="<comments-area target='{{$video->id}}' auth='{{auth()->user()?->setAppends(['avatar_url'])->setVisible(['avatar_url', 'username'])}}' default-sort='{{$video->default_comments_sort}}' />";
+                document.getElementById('offcanvas-body').innerHTML ="<comments-area target='{{$video->id}}' default-sort='{{$video->default_comments_sort}}' />";
             }
             opened = true;
         })
@@ -354,5 +354,20 @@
                 window.location.replace('{{$nextVideoUrl}}');
             }
         }, false);
+
+        // TimeCode
+
+        function time (timecode) {
+
+            video.currentTime = timecode;
+            video.play()
+
+            video.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center'
+            })
+        }
+
     </script>
 @endpush

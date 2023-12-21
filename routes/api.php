@@ -53,15 +53,13 @@ Route::middleware('auth:sanctum')->group(function () {
         });
 
         // COMMENTS
-        Route::prefix('comments')->name('comments.')
-            ->controller(CommentController::class)->group(function () {
-                Route::get('/{comment}/replies', 'replies')->name('replies');
-                Route::post('/', 'store')->name('store');
-                Route::put('/{comment}', 'update')->name('update')->can('update', 'comment');
-                Route::delete('/{comment}', 'delete')->name('delete')->can('delete', 'comment');
-                Route::post('/{comment}/pin', 'pin')->name('pin')->can('pin', 'comment');
-                Route::post('/{comment}/unpin', 'unpin')->name('unpin')->can('pin', 'comment');
-            });
+        Route::prefix('comments')->name('comments.')->controller(CommentController::class)->group(function () {
+            Route::post('/', 'store')->name('store');
+            Route::put('/{comment}', 'update')->name('update')->can('update', 'comment');
+            Route::delete('/{comment}', 'delete')->name('delete')->can('delete', 'comment');
+            Route::post('/{comment}/pin', 'pin')->name('pin')->can('pin', 'comment');
+            Route::post('/{comment}/unpin', 'unpin')->name('unpin')->can('pin', 'comment');
+        });
 
         // REPORT
         Route::post('/report', [ReportController::class, 'report'])->name('report');
@@ -102,7 +100,7 @@ Route::middleware('throttle:api')->group(function () {
     Route::get("search", [SearchController::class, 'search'])->name('search');
     Route::post("search-videos", [SearchController::class, 'searchVideos'])->name('search-videos');
 
-// VIDEOS
+    // VIDEOS
     Route::prefix('videos')->name('videos.')->controller(VideoController::class)->group(function () {
         Route::get('/home', 'home')->name('home');
         Route::get('/trend', 'trend')->name('trend');
@@ -110,7 +108,9 @@ Route::middleware('throttle:api')->group(function () {
         Route::get('/user/{user}', 'user')->name('user');
     });
 
-// COMMENTS
-    Route::get("comments", [CommentController::class, 'list'])->name('comments.list');
-
+    // COMMENTS
+    Route::prefix('comments')->name('comments.')->controller(CommentController::class)->group(function () {
+        Route::get("/", [CommentController::class, 'list'])->name('comments.list');
+        Route::get('/{comment}/replies', 'replies')->name('replies');
+    });
 });

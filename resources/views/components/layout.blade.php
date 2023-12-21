@@ -66,5 +66,8 @@
         @endif
     </main>
     @stack('scripts')
+    <script>
+        window.USER = {!! Auth::check() ? Auth::user()->json  : 'null' !!}
+    </script>
 </body>
 </html>

@@ -147,9 +147,9 @@
                                     See All
                                 </button>
                             </div>
-                            <div class="row g-3">
+                            <div class="row gx-3 gy-3 gy-sm-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4">
                                 @foreach($user->videos as $video)
-                                    @include('videos.card.card-3', $video)
+                                    @include('videos.card', ['video' => $video])
                                 @endforeach
                             </div>
                         @endif
@@ -164,9 +164,9 @@
                                     </a>
                                 </div>
                                 <p class="text-muted text-sm">{{Str::limit($playlist->description, 200)}}</p>
-                                <div class="row g-3">
+                                <div class="row gx-3 gy-3 gy-sm-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4">
                                     @foreach($playlist->videos as $video)
-                                        @include('videos.card.card-3', $video)
+                                        @include('videos.card', ['video' => $video])
                                     @endforeach
                                 </div>
                                 <hr>

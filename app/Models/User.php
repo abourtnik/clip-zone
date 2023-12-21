@@ -177,13 +177,13 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
 
     public function avatarUrl() : Attribute {
         return Attribute::make(
-            get: fn () => $this->avatar ? Storage::url(self::AVATAR_FOLDER.'/'.$this->avatar) : '/images/default_men.png'
+            get: fn () => $this->avatar ? Storage::url(self::AVATAR_FOLDER.'/'.$this->avatar) : asset('/images/default_men.png')
         );
     }
 
     public function bannerUrl() : Attribute {
         return Attribute::make(
-            get: fn () => $this->banner ? Storage::url(self::BANNER_FOLDER.'/'.$this->banner) : '/images/default_banner.jpg'
+            get: fn () => $this->banner ? Storage::url(self::BANNER_FOLDER.'/'.$this->banner) : asset('/images/default_banner.jpg')
         );
     }
 
@@ -286,6 +286,16 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
             get: fn () => $this->videos()
                 ->valid()
                 ->sum('size')
+        );
+    }
+
+    protected function json(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => collect([
+                'id' => $this->id,
+                'avatar' => $this->avatar_url]
+            )->toJson()
         );
     }
 

@@ -2,7 +2,7 @@
 
 @section('title', 'Subscriptions')
 
-@section('class', 'px-0 px-sm-2')
+@section('class', 'px-3')
 
 @section('content')
     @auth

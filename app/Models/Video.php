@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\VideoStatus;
 use App\Enums\Languages;
+use App\Helpers\Parser;
 use App\Models\Interfaces\Reportable;
 use App\Models\Traits\HasLike;
 use App\Models\Interfaces\Likeable;
@@ -201,21 +202,15 @@ class Video extends Model implements Likeable, Reportable
 
     protected function shortDescription(): Attribute
     {
-        $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
-
-        $a = clean(preg_replace($url, '<a href="$0" target="_blank" title="$0" rel="external nofollow">$0</a>', Str::limit($this->description, 200)));
-
         return Attribute::make(
-            get: fn () => $a
+            get: fn () => Parser::applyParsers(Str::limit($this->description, 200), ['links', 'timecodes'])
         );
     }
 
     protected function parsedDescription(): Attribute
     {
-        $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
-
         return Attribute::make(
-            get: fn () => clean(preg_replace($url, '<a href="$0" target="_blank" title="$0" rel="external nofollow" target="_blank">$0</a>', $this->description))
+            get: fn () => Parser::applyParsers($this->description, ['links', 'timecodes'])
         );
     }
 
