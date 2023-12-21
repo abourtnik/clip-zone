@@ -17,6 +17,7 @@ class UserController
     public function index (UserFilters $filters) : View {
         return view('admin.users.index', [
             'users' => User::filter($filters)
+                ->with('premium_subscription')
                 ->withCount([
                     'subscribers',
                     'videos',

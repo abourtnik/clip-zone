@@ -46,7 +46,7 @@ class Parser
                 return $carry + $times[$index] * pow(60, $index);
             }  , 0);
 
-            return "<button onclick='time($timecode)' class='btn btn-link btn-sm p-0 text-decoration-none' data-timecode='$timecode'>{$matches[0]}</button>";
+            return "<button style='vertical-align: inherit' onclick='time($timecode)' class='btn btn-link btn-sm p-0 text-decoration-none' data-timecode='$timecode'>{$matches[0]}</button>";
 
         }, $string);
     }
