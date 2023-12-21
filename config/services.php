@@ -25,6 +25,6 @@ return [
         'redirect' => env('APP_URL') . '/oauth/callback/facebook',
     ],
     'youtube' => [
-        'api_key' => env('YOUTUBE_API_KEY'),
+        'api_key' => env('YOUTUBE_API_KEY', ''),
     ]
 ];
