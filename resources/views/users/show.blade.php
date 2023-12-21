@@ -219,23 +219,36 @@
                                             <a rel="external nofollow" target="_blank" href="//{{$user->website}}">Website</a>
                                         </li>
                                     @endif
-                                    @auth
                                     <li class="list-group-item ps-0">
-                                        @can('report', $user)
-                                            <button class="btn btn-secondary rounded-4 btn-sm px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$user->id}}" data-type="{{\App\Models\User::class}}">
+                                        @auth
+                                            @can('report', $user)
+                                                <button class="btn btn-secondary rounded-4 btn-sm px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$user->id}}" data-type="{{\App\Models\User::class}}">
+                                                    <i class="fa-regular fa-flag"></i>&nbsp;
+                                                    Report
+                                                </button>
+                                            @else
+                                                @if($user->reportByAuthUser)
+                                                    <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">
+                                                        <i class="fa-regular fa-flag"></i>
+                                                        <span>Reported {{$user->reportByAuthUser->created_at->diffForHumans()}}</span>
+                                                    </div>
+                                                @endif
+                                            @endcan
+                                        @else
+                                            <button
+                                                class="btn btn-secondary rounded-4 btn-sm px-3"
+                                                data-bs-toggle="popover"
+                                                data-bs-placement="right"
+                                                data-bs-title="Need to report the user?"
+                                                data-bs-trigger="focus"
+                                                data-bs-html="true"
+                                                data-bs-content="Sign in to report inappropriate content.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                            >
                                                 <i class="fa-regular fa-flag"></i>&nbsp;
                                                 Report
                                             </button>
-                                        @else
-                                            @if($user->reportByAuthUser)
-                                                <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">
-                                                    <i class="fa-regular fa-flag"></i>
-                                                    <span>Reported {{$user->reportByAuthUser->created_at->diffForHumans()}}</span>
-                                                </div>
-                                            @endif
-                                        @endcan
+                                        @endauth
                                     </li>
-                                    @endauth
                                 </ul>
                             </div>
                         </div>
