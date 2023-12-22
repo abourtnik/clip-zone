@@ -203,7 +203,7 @@ class SyncComments extends Command
 
             return User::create([
                 'username' => $channel['title'],
-                'email' => fake()->unique()->safeEmail(),
+                'email' => Str::lower($channel['title']) . '@youtube.com',
                 'password' => Str::random(),
                 'email_verified_at' => Carbon::create($channel['publishedAt'])->addSeconds(rand(10, 300)),
                 'avatar' => $avatarName ?? null,
