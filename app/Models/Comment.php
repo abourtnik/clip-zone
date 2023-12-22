@@ -34,6 +34,8 @@ class Comment extends Model implements Likeable, Reportable
         'banned_at'
     ];
 
+    public const SHORT_CONTENT_LIMIT = 500;
+
     use HasFactory;
 
     /**
@@ -69,7 +71,7 @@ class Comment extends Model implements Likeable, Reportable
     protected function isLong(): Attribute
     {
         return Attribute::make(
-            get: fn () => Str::length($this->content) > 780
+            get: fn () => Str::length($this->content) > self::SHORT_CONTENT_LIMIT
         );
     }
 
@@ -104,7 +106,7 @@ class Comment extends Model implements Likeable, Reportable
     protected function shortContent(): Attribute
     {
         return Attribute::make(
-            get: fn () => Parser::applyParsers(Str::limit($this->content, 780), ['links', 'timecodes'])
+            get: fn () => Parser::applyParsers(Str::limit($this->content, self::SHORT_CONTENT_LIMIT), ['links', 'timecodes'])
         );
     }
 

@@ -28,7 +28,7 @@ class SyncComments extends Command
      *
      * @var string
      */
-    protected $signature = 'comments:sync';
+    protected $signature = 'comments:sync {from?} {to?}';
 
     /**
      * The console command description.
@@ -44,7 +44,13 @@ class SyncComments extends Command
      */
     public function handle() : int
     {
-        $videos = Video::whereNotNull('youtube_id')->get();
+        list('from' => $from, 'to' => $to) = $this->arguments();
+
+        $videos = Video::query()
+            ->whereNotNull('youtube_id')
+            ->when($from, fn($query) => $query->where('id', '>=' , $from))
+            ->when($to, fn($query) => $query->where('id', '<=' , $to))
+            ->get();
 
         foreach ($videos as $video) {
 
