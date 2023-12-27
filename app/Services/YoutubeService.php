@@ -38,4 +38,15 @@ class YoutubeService
 
         return $response->json();
     }
+
+    public function getVideo(string $videoId) : array|null
+    {
+        $response = Http::get(self::API_ENDPOINT. '/videos', [
+            'key' => $this->apiKey,
+            'part' => 'statistics',
+            'id' => $videoId,
+        ]);
+
+        return $response->json();
+    }
 }

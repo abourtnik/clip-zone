@@ -2,28 +2,36 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Comment;
 use App\Models\User;
 use App\Models\Video;
+use App\Services\YoutubeService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
 class SyncVideosInteractions extends Command
 {
+    private YoutubeService $youtubeService;
+
+    public function __construct(YoutubeService $youtubeService)
+    {
+        parent::__construct();
+        $this->youtubeService = $youtubeService;
+    }
+
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'interactions:sync {id : ClipZone video id} {count : Interaction number}';
+    protected $signature = 'interactions:sync {from?} {to?}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Generate interactions for specific video';
+    protected $description = 'Synchronize likes from Youtube';
 
     /**
      * Execute the console command.
@@ -32,27 +40,26 @@ class SyncVideosInteractions extends Command
      */
     public function handle() : int
     {
-        list('id' => $id, 'count' => $count) = $this->arguments();
+        list('from' => $from, 'to' => $to) = $this->arguments();
 
-        $video = Video::findOrFail($id);
+        $videos = Video::query()
+            ->whereNotNull('youtube_id')
+            ->when($from, fn($query) => $query->where('id', '>=' , $from))
+            ->when($to, fn($query) => $query->where('id', '<=' , $to))
+            ->get();
 
-        $video->interactions()->delete();
+        foreach ($videos as $video) {
 
-        $usedUsers = [];
+            // $this->info('Sync interactions for video : ' .$video->title. ' ...');
+            //$video->interactions->each->delete();
 
-        for ($i = $count; $i > 0; $i--) {
+            $data = $this->youtubeService->getVideo($video->youtube_id);
 
-            $users = $this->getUsers([], $video->publication_date)->diff($usedUsers);
+            $count = round($data['items'][0]['statistics']['likeCount'] / 8000);
 
-            $userId = $users->random();
+            $this->info($count. ' likes for : '. $video->title);
 
-            $usedUsers[] = $userId;
-
-            $video->interactions()->create([
-                'user_id' => $userId,
-                'status' => fake()->boolean(93),
-                'perform_at' => fake()->dateTimeBetween($video->publication_date)
-            ]);
+            $this->generateInteraction($video, $count);
         }
 
         return Command::SUCCESS;
@@ -71,23 +78,27 @@ class SyncVideosInteractions extends Command
             ->pluck('id');
     }
 
-    private function generateInteraction(Comment $comment, int $count, Carbon $afterDate) {
+    private function generateInteraction(Video $video, int $count) {
 
-        $usedUsers = [];
+        $users = $this->getUsers([], $video->publication_date);
 
-        for ($i = $count; $i > 0; $i--) {
+        if ($users->count() < $count) {
+            $this->error('Not enough users');
+        }
 
-            $users = $this->getUsers([], $afterDate)->diff($usedUsers);
+        return;
 
-            $userId = $users->random();
+        for ($i = 0; $i < $count; $i++) {
 
-            $usedUsers[] = $userId;
+            $id = $users->get($i);
 
-            $comment->interactions()->create([
+            /*
+            $video->interactions()->create([
                 'user_id' => $userId,
-                'status' => fake()->boolean(93),
+                'status' => fake()->boolean(95),
                 'perform_at' => fake()->dateTimeBetween($afterDate)
             ]);
+            */
         }
     }
 }

@@ -48,6 +48,7 @@ class SyncComments extends Command
 
         $videos = Video::query()
             ->whereNotNull('youtube_id')
+            ->where('allow_comments', true)
             ->when($from, fn($query) => $query->where('id', '>=' , $from))
             ->when($to, fn($query) => $query->where('id', '<=' , $to))
             ->get();
