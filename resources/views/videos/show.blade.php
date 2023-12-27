@@ -235,25 +235,27 @@
                         </div>
                     </div>
                 @endif
-                <div class="d-flex gap-2 align-items-center">
-                    @if($video->category)
-                        <a href="{{$video->category->route}}" class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0 text-decoration-none">
-                            <i class="fa-solid fa-{{$video->category->icon}}"></i>
-                            <strong>{{$video->category->title}}</strong>
-                        </a>
-                    @endif
-                    @if($video->language)
-                        <div class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0">
-                            <i class="fa-solid fa-language"></i>
-                            <strong>{{$video->language->name}}</strong>
-                        </div>
-                    @endif
-                </div>
+                @if($video->category || $video->language)
+                    <div class="d-flex gap-2 align-items-center">
+                        @if($video->category)
+                            <a href="{{$video->category->route}}" class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0 text-decoration-none">
+                                <i class="fa-solid fa-{{$video->category->icon}}"></i>
+                                <strong>{{$video->category->title}}</strong>
+                            </a>
+                        @endif
+                        @if($video->language)
+                            <div class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0">
+                                <i class="fa-solid fa-language"></i>
+                                <strong>{{$video->language->name}}</strong>
+                            </div>
+                        @endif
+                    </div>
+                @endif
                 <hr class="d-none d-lg-block mt-4">
                 @if($video->allow_comments)
                     <div class="d-none d-lg-block" id="comments_area"></div>
-                    <div class="d-block d-lg-none">
-                        <div class="d-flex align-items-center justify-content-between py-3 border-top border-bottom my-3" data-bs-toggle="offcanvas" data-bs-target="#comments-offcanvas">
+                    <div class="d-block d-lg-none card my-4">
+                        <div class="d-flex align-items-center justify-content-between card-body" data-bs-toggle="offcanvas" data-bs-target="#comments-offcanvas">
                             <span>Comments • {{$video->comments_count}}</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </div>
@@ -266,12 +268,13 @@
                         </div>
                     </div>
                 @else
-                    <div class="alert alert-primary text-center">
+                    <div class="alert alert-primary text-center my-4 my-lg-0">
                         <strong>Comments are turned off</strong>
                     </div>
                 @endif
             </div>
         </div>
+        <hr class="d-block d-lg-none">
         @if($nextVideoUrl)
             <div class="col-lg-4 col-xl-4 col-xxl-3 px-0 px-sm-2">
                 <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
