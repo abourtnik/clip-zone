@@ -55,7 +55,14 @@ class SyncVideosInteractions extends Command
 
             $data = $this->youtubeService->getVideo($video->youtube_id);
 
-            $count = round($data['items'][0]['statistics']['likeCount'] / 8000);
+            $likeCount =  $data['items'][0]['statistics']['likeCount'] ?? null;
+
+            if (is_null($likeCount)) {
+                $this->info('Likes are not public : ' .$video->title);
+                continue;
+            }
+
+            $count = round($likeCount / 8000);
 
             $this->info($count. ' likes for : '. $video->title);
 
