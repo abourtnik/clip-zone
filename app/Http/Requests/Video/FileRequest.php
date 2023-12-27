@@ -7,7 +7,7 @@ use App\Helpers\Number;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-
+use Closure;
 
 class FileRequest extends FormRequest
 {
@@ -29,7 +29,14 @@ class FileRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'resumableFilename' => 'required|max:100',
+            'resumableFilename' => [
+                'required',
+                function (string $attribute, string $value, Closure $fail) {
+                    if (mb_strlen(pathinfo($value, PATHINFO_FILENAME), 'UTF-8') > 100) {
+                        $fail("Your file name does not exceed 100 characters");
+                    }
+                },
+            ],
             'resumableTotalSize' => 'required|integer|max:'.config('plans.'.Auth::user()->plan.'.max_file_size'),
             'file' => [
                 'required',
