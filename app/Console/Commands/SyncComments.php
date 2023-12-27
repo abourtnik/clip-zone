@@ -124,7 +124,6 @@ class SyncComments extends Command
             ->where('created_at', '<', $createdBefore)
             ->whereNotIn('id', [6, 7, 9, 10, 12, 14, 15, 16, 19, 20, 21, 23])
             ->inRandomOrder()
-            //->limit(5)
             ->get()
             ->pluck('id');
     }

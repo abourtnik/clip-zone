@@ -50,8 +50,8 @@ class SyncVideosInteractions extends Command
 
         foreach ($videos as $video) {
 
-            // $this->info('Sync interactions for video : ' .$video->title. ' ...');
-            //$video->interactions->each->delete();
+            $this->info('Sync interactions for video : ' .$video->title. ' ...');
+            $video->interactions->each->delete();
 
             $data = $this->youtubeService->getVideo($video->youtube_id);
 
@@ -62,7 +62,7 @@ class SyncVideosInteractions extends Command
                 continue;
             }
 
-            $count = round($likeCount / 8000);
+            $count = round($likeCount / 10000);
 
             $this->info($count. ' likes for : '. $video->title);
 
@@ -80,32 +80,26 @@ class SyncVideosInteractions extends Command
             ->where('created_at', '<', $createdBefore)
             ->whereNotIn('id', [6, 7, 9, 10, 12, 14, 15, 16, 19, 20, 21, 23])
             ->inRandomOrder()
-            //->limit(5)
             ->get()
             ->pluck('id');
     }
 
     private function generateInteraction(Video $video, int $count) {
 
+        $interactionsCount = $count;
+
         $users = $this->getUsers([], $video->publication_date);
 
         if ($users->count() < $count) {
-            $this->error('Not enough users');
+            $interactionsCount = $users->count();
         }
 
-        return;
-
-        for ($i = 0; $i < $count; $i++) {
-
-            $id = $users->get($i);
-
-            /*
+        for ($i = 0; $i < $interactionsCount; $i++) {
             $video->interactions()->create([
-                'user_id' => $userId,
+                'user_id' => $users->get($i),
                 'status' => fake()->boolean(95),
-                'perform_at' => fake()->dateTimeBetween($afterDate)
+                'perform_at' => fake()->dateTimeBetween($video->publication_date)
             ]);
-            */
         }
     }
 }
