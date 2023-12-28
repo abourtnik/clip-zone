@@ -29,11 +29,11 @@ class VideosSize extends Command
      */
     public function handle() : int
     {
-        $files = Storage::disk('videos')->files();
+        $files = Storage::files('videos');
 
         foreach ($files as  $file) {
             Video::where('file', $file)->update([
-                'size' => Storage::disk('videos')->size($file)
+                'size' => Storage::size($file)
             ]);
         }
 

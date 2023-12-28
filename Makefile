@@ -23,6 +23,7 @@ optimize: ## Clear application cache
 install: ## Install application
 	composer install --optimize-autoloader --no-dev
 	php artisan migrate --force
+	php artisan queue:restart
 	npm install
 	npm run build
 	php artisan optimize
@@ -42,10 +43,12 @@ init: ## Init application
 	docker exec -it php_container npm run dev
 
 deploy: ## Deploy application
-	ssh anton@51.178.29.115 -p 5789 -A 'cd /home/anton/www/clip-zone.com && git pull origin main && make install'
+	git pull origin main
+	make install
 
 test: ## Run test
-	docker exec -it php_container php artisan test --stop-on-failure
+	# php artisan cache clear
+	docker exec -it php_container php artisan test --stop-on-failure --env=testing
 
 logs: ## See last logs
 	docker exec -it php_container tail -f storage/logs/laravel.log

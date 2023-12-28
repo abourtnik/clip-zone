@@ -2,6 +2,7 @@
 
 @section('title', $user->username)
 @section('description', Str::limit($user->description, 155))
+@section('image', asset($user->avatar_url))
 
 @section('class', 'px-0')
 @section('style', 'margin-top: 0 !important')
@@ -37,7 +38,7 @@
                                        x-transition.scale
                                        class="position-absolute top-50 start-50 translate-middle p-2 rounded-5 bg-dark bg-opacity-75 text-decoration-none text-center text-white"
                                     >
-                                        <i class="fa-solid fa-camera"></i>
+                                        <i class="fa-solid fa-camera fa-2x" style="font-size: 25px"></i>
                                     </a>
                                 @endif
                             </div>
@@ -106,19 +107,27 @@
                         <div class="alert alert-primary mt-4">Channel without content</div>
                     @else
                         @if($user->pinned_video)
-                            <div class="row mt-4 mx-0 card flex-row">
-                                <div class="col-12 col-xl-6 px-0">
-                                    <div class="ratio ratio-16x9 h-100">
-                                        <video controls class="radius-top rounded-xl-start" controlsList="nodownload" poster="{{$user->pinned_video->thumbnail_url}}">
+                            <div class="row mt-4 mx-0 flex-row">
+                                <div class="col-12 col-xl-7 col-xxl-5 px-0">
+                                    <div class="ratio ratio-16x9">
+                                        <video
+                                            controls
+                                            class="rounded-2"
+                                            controlsList="nodownload"
+                                            poster="{{$user->pinned_video->thumbnail_url}}"
+                                            oncontextmenu="return false;"
+                                            autoplay
+                                            playsinline
+                                        >
                                             <source src="{{$user->pinned_video->file_url}}" type="{{$user->pinned_video->mimetype}}">
                                         </video>
                                     </div>
                                 </div>
-                                <div class="col-12 col-xl-6 mt-3 m-xl-0 p-3">
+                                <div class="col-12 col-xl-5 col-xxl-7 mt-3 m-xl-0">
                                     <a href="{{$user->pinned_video->route}}" class="text-decoration-none text-black fw-bold">{{$user->pinned_video->title}}</a>
                                     <div class="text-muted text-sm my-2">{{trans_choice('views', $user->pinned_video->views_count)}} • {{$user->pinned_video->created_at->diffForHumans()}}</div>
                                     <div class="text-sm">
-                                        <p>{!! nl2br($user->pinned_video->short_description) !!}</p>
+                                        <p class="mb-0">{!! nl2br($user->pinned_video->short_description) !!}</p>
                                         @if($user->pinned_video->description_is_long)
                                             <a class="mt-2 d-block text-decoration-none fw-bold" href="{{$user->pinned_video->route}}">Read more</a>
                                         @endif
@@ -138,9 +147,9 @@
                                     See All
                                 </button>
                             </div>
-                            <div class="row g-3">
+                            <div class="row gx-3 gy-3 gy-sm-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4">
                                 @foreach($user->videos as $video)
-                                    @include('videos.card.card-3', $video)
+                                    @include('videos.card', ['video' => $video])
                                 @endforeach
                             </div>
                         @endif
@@ -155,11 +164,12 @@
                                     </a>
                                 </div>
                                 <p class="text-muted text-sm">{{Str::limit($playlist->description, 200)}}</p>
-                                <div class="row g-3">
+                                <div class="row gx-3 gy-3 gy-sm-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4">
                                     @foreach($playlist->videos as $video)
-                                        @include('videos.card.card-3', $video)
+                                        @include('videos.card', ['video' => $video])
                                     @endforeach
                                 </div>
+                                <hr>
                             @endforeach
                         @endif
                     @endif
@@ -174,7 +184,7 @@
                     @endif
                 </div>
                 <div class="tab-pane" id="playlists" role="tabpanel" aria-labelledby="playlists-tab">
-                    @if($user->playlists->count())
+                    @if($user->playlists_count)
                         <div class="row gx-3 gy-4 mt-0">
                             @each('playlists.card', $user->playlists, 'playlist')
                         </div>
@@ -209,23 +219,36 @@
                                             <a rel="external nofollow" target="_blank" href="//{{$user->website}}">Website</a>
                                         </li>
                                     @endif
-                                    @auth
                                     <li class="list-group-item ps-0">
-                                        @can('report', $user)
-                                            @if($user->reports->count())
-                                                <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">
-                                                    <i class="fa-regular fa-flag"></i>
-                                                    <span>Reported {{$user->reports->first()->created_at->diffForHumans()}}</span>
-                                                </div>
-                                            @else
+                                        @auth
+                                            @can('report', $user)
                                                 <button class="btn btn-secondary rounded-4 btn-sm px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$user->id}}" data-type="{{\App\Models\User::class}}">
                                                     <i class="fa-regular fa-flag"></i>&nbsp;
                                                     Report
                                                 </button>
-                                            @endif
-                                        @endcan
+                                            @else
+                                                @if($user->reportByAuthUser)
+                                                    <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">
+                                                        <i class="fa-regular fa-flag"></i>
+                                                        <span>Reported {{$user->reportByAuthUser->created_at->diffForHumans()}}</span>
+                                                    </div>
+                                                @endif
+                                            @endcan
+                                        @else
+                                            <button
+                                                class="btn btn-secondary rounded-4 btn-sm px-3"
+                                                data-bs-toggle="popover"
+                                                data-bs-placement="right"
+                                                data-bs-title="Need to report the user?"
+                                                data-bs-trigger="focus"
+                                                data-bs-html="true"
+                                                data-bs-content="Sign in to report inappropriate content.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                            >
+                                                <i class="fa-regular fa-flag"></i>&nbsp;
+                                                Report
+                                            </button>
+                                        @endauth
                                     </li>
-                                    @endauth
                                 </ul>
                             </div>
                         </div>

@@ -36,7 +36,8 @@ class CreateUser extends Command
             'avatar' => null,
             'show_subscribers' => true,
             'country' => null,
-            'description' => null
+            'description' => null,
+            'website' => null
         ]);
 
         return Command::SUCCESS;

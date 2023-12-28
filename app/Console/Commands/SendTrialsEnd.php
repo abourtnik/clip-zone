@@ -38,6 +38,7 @@ class SendTrialsEnd extends Command
 
         foreach ($subscriptions as $subscription) {
             $subscription->user->notify(new TrialEnd());
+            $this->info(now()->format('Y-m-d H:i:s',).' - Notify ' .$subscription->user->name. '('.$subscription->user->id.') trials end.');
         }
 
         return Command::SUCCESS;

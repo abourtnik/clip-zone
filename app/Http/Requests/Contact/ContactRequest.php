@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Contact;
 
+use App\Services\SpamService;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-
 
 class ContactRequest extends FormRequest
 {
@@ -23,7 +23,7 @@ class ContactRequest extends FormRequest
      *
      * @return array
      */
-    public function rules() : array
+    public function rules(SpamService $spamService) : array
     {
         return [
             'name' => [
@@ -37,6 +37,11 @@ class ContactRequest extends FormRequest
                 'string',
                 'min:'.config('validation.contact.message.min'),
                 'max:'.config('validation.contact.message.max'),
+                function ($attribute, $value, $fail) use ($spamService) {
+                    if ($spamService->checkIfSpam($value)) {
+                        $fail('Spam detected');
+                    }
+                },
             ],
             'website' => Rule::in([null])
         ];

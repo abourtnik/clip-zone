@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Enums\ReportReason;
 use App\Http\Resources\NotificationResource;
 use App\Models\Category;
+use App\Services\YoutubeService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
     public function register() : void
     {
         Cashier::ignoreMigrations();
+
+        $this->app->singleton(YoutubeService::class, fn() => new YoutubeService(config('services.youtube.api_key')));
     }
 
     /**
@@ -107,8 +110,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Upload limit
         View::composer('users.videos.modals.upload', function($view) {
-            $view->with('available_uploads', config('plans.free.max_uploads') - Auth::user()->videos()->count());
-            $view->with('available_space', config('plans.'.Auth::user()->plan.'.max_videos_storage') - Auth::user()->videos()->sum('size'));
+            $view->with('available_uploads', config('plans.free.max_uploads') - Auth::user()->uploaded_videos);
+            $view->with('available_space', config('plans.'.Auth::user()->plan.'.max_videos_storage') - Auth::user()->uploaded_videos_size);
         });
 
         // SHOW SIDEBAR

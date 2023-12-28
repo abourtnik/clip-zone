@@ -86,7 +86,7 @@ class OAuthController
             if ($socialUser->getAvatar()) {
 
                 $fileName = Str::of(uniqid())->pipe('md5') . '.png';
-                Storage::disk('avatars')->put($fileName, file_get_contents($socialUser->getAvatar()));
+                Storage::put(User::AVATAR_FOLDER.'/'.$fileName, file_get_contents($socialUser->getAvatar()));
 
                 $user->update([
                     'avatar' => $fileName

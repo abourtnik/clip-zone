@@ -33,7 +33,7 @@ class VideoPolicy
      */
     public function view(User $user, Video $video): Response|bool
     {
-        return ($video->user()->is($user) && !$video->is_draft) || $user->is_admin
+        return ($video->user()->is($user) && $video->is_created) || $user->is_admin
             ? Response::allow()
             : Response::denyWithStatus(404);
     }
@@ -61,9 +61,9 @@ class VideoPolicy
      */
     public function download(User $user, Video $video): Response|bool
     {
-        return $video->is_public || $video->user()->is($user)
+        return ($video->is_public && $user->is_premium) || $video->user()->is($user)
             ? Response::allow()
-            : Response::denyWithStatus(403, 'This video is private');
+            : Response::denyWithStatus(403, 'You are not authorized to download this video');
     }
 
     /**
@@ -114,7 +114,7 @@ class VideoPolicy
      */
     public function update(User $user, Video $video) : Response|bool
     {
-        return $video->user()->is($user) && !$video->is_banned
+        return $video->user()->is($user) && !$video->is_banned && !$video->is_failed
             ? Response::allow()
             : Response::denyWithStatus(403, 'You are not authorized to edit this video');
     }
@@ -142,9 +142,9 @@ class VideoPolicy
      */
     public function report(User $user, Video $video) : Response|bool
     {
-        return $video->user()->isNot($user)
+        return $video->user()->isNot($user) && $video->is_public && !$video->isReportedByUser($user)
             ? Response::allow()
-            : Response::denyWithStatus(403);
+            : Response::denyWithStatus(403, 'You are not authorized to report this video');
     }
 
     /**
@@ -159,11 +159,11 @@ class VideoPolicy
             return Response::allow();
         }
 
-        if ($user->videos()->count() >= config('plans.free.max_uploads')) {
+        if ($user->uploaded_videos >= config('plans.free.max_uploads')) {
             return Response::denyWithStatus(403, 'Sorry ! You are limited to upload maximum ' .config('plans.free.max_uploads'). ' videos with free plan. Upgrade to Premium to upload more videos.');
         }
 
-        $user_space = Auth::user()->videos()->sum('size');
+        $user_space = Auth::user()->uploaded_videos_size;
 
         if ($user_space + request()->get('resumableTotalSize') > config('plans.free.max_videos_storage')) {
             return Response::denyWithStatus(

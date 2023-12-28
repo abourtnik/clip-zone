@@ -6,20 +6,20 @@ import ReplyForm from "./ReplyForm";
 import Edit from './Edit'
 
 import ConfirmDelete from './ConfirmDelete'
-import {jsonFetch} from "../../hooks";
+import {jsonFetch, usePaginateFetch} from "../../hooks";
 
-const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
+const Comment = memo(({comment, remove, update, pin}) => {
 
     const [onEdit, setOnEdit] = useState(false);
     const [showReply, setShowReply] = useState(false);
-    const [replies, setReplies] = useState(comment.replies);
+    const {items: replies, setItems: setReplies, load, loading, count: repliesCount, setCount, hasMore} =
+        usePaginateFetch(`/api/comments/${comment.id}/replies`, comment?.replies?.data ?? [], comment?.replies?.meta.total, comment?.replies?.links.next)
     const [showReplies, setShowReplies] = useState(false);
 
     useEffect(() => {
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
         [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
     }, [])
-
 
     const reply = useCallback(async (data) => {
         return jsonFetch(`/api/comments` , {
@@ -33,7 +33,8 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
             setReplies(replies => [comment, ...replies]);
             setShowReplies(true);
             setShowReply(false);
-            document.getElementById('content-' + comment.id).value = '';
+            setCount(c => c + 1)
+            document.getElementById('message-content-' + comment.id).value = '';
         }).catch(e => e)
     }, []);
 
@@ -42,6 +43,7 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
             method: 'DELETE',
         }).then(() => {
             setReplies(replies => replies.filter(r => r.id !== reply.id))
+            setCount(c => c - 1)
         }).catch(e => e);
     }, []);
 
@@ -56,19 +58,8 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
         }).catch(e => e);
     }, []);
 
-    let attributes =  {
-        ...(!user && {
-            'data-bs-toggle': "popover",
-            'data-bs-placement': "right",
-            'data-bs-title': "Want to reply to this comment ?",
-            'data-bs-trigger': "focus",
-            'data-bs-html': "true",
-            'data-bs-content': "Sign in for reply.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>",
-        })
-    }
-
     const showRepliesText = (show, length) => {
-        const count = length > 1 ? replies.length + ' replies' : 'reply';
+        const count = length > 1 ? length + ' replies' : 'reply';
         return (show ? 'Hide ' : 'Show ') + count;
     }
 
@@ -87,7 +78,7 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                         </div>
                     }
                     <div className="d-flex justify-content-between align-items-center">
-                        <div className={'d-flex align-items-center gap-1'}>
+                        <div className={'d-flex flex-wrap align-items-center gap-1'}>
                             <a href={comment.user.route} className={'text-decoration-none text-sm' + (comment.user.is_author ? ' badge rounded-pill text-bg-secondary' : '') }>
                                 {comment.user.username}
                             </a>
@@ -96,7 +87,6 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                             {comment.is_updated && <><span>•</span> <small className="text-muted fw-semibold">Modified</small></>}
                         </div>
                         {
-                            user &&
                             <div className={'dropdown'}>
                                 <button className={'bg-transparent btn-sm dropdown-toggle without-caret'} type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
                                     <i className="fa-solid fa-ellipsis-vertical"></i>
@@ -123,29 +113,41 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                                     {
                                         comment.can_delete && <ConfirmDelete comment={comment} onDelete={remove}/>
                                     }
-                                    {
-                                        comment.can_report &&
-                                            <li>
-                                                {
-                                                    comment.reported_at ?
-                                                        <div className="dropdown-item d-flex align-items-center gap-2 mb-0 text-sm py-2">
-                                                            <i className="fa-solid fa-flag"></i>
-                                                            <span>Reported {comment.reported_at}</span>
-                                                        </div>
-                                                        :
-                                                        <button
-                                                            className="dropdown-item d-flex align-items-center gap-3"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#report"
-                                                            data-id={comment.id}
-                                                            data-type={comment.class}
-                                                        >
-                                                            <i className="fa-solid fa-flag"></i>
-                                                            Report
-                                                        </button>
-                                                }
-                                            </li>
-                                    }
+                                    <li>
+                                        {
+                                            window.USER ?
+                                                comment.can_report ?
+                                                    <button
+                                                        className="dropdown-item d-flex align-items-center gap-3"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#report"
+                                                        data-id={comment.id}
+                                                        data-type={comment.class}
+                                                    >
+                                                        <i className="fa-solid fa-flag"></i>
+                                                        Report
+                                                    </button>
+                                                    :
+                                                    comment.reported_at &&
+                                                    <div className="dropdown-item d-flex align-items-center gap-2 mb-0 text-sm py-2">
+                                                        <i className="fa-solid fa-flag"></i>
+                                                        <span>Reported {comment.reported_at}</span>
+                                                    </div>
+                                                :
+                                                <button
+                                                    className="dropdown-item d-flex align-items-center gap-3"
+                                                    data-bs-toggle="popover"
+                                                    data-bs-placement="left"
+                                                    data-bs-title="Need to report the comment?"
+                                                    data-bs-trigger="focus"
+                                                    data-bs-html="true"
+                                                    data-bs-content="Sign in to report inappropriate content.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                                >
+                                                    <i className="fa-solid fa-flag"></i>
+                                                    Report
+                                                </button>
+                                        }
+                                    </li>
                                 </ul>
                             </div>
                         }
@@ -154,13 +156,12 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                     <div className="d-flex align-items-center gap-2 mt-1">
                         <div className="d-flex align-items-center gap-2">
                             {
-                                user ?
+                                window.USER ?
                                     <Interaction
                                         active={JSON.stringify({'like': comment.liked_by_auth_user, 'dislike': comment.disliked_by_auth_user})}
-                                        model={comment.model}
+                                        model={comment.class}
                                         target={comment.id}
                                         count={JSON.stringify({'likes_count' : comment.likes_count, 'dislikes_count' : comment.dislikes_count})}
-                                        auth={user}
                                     />
                                     :
                                     <div className="d-flex justify-content-between bg-light-dark rounded-4">
@@ -197,27 +198,40 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                             }
                         </div>
                         {
-                            canReply && <button
-                                className="btn btn-sm text-info"
-                                {...attributes}
-                                onClick={() => user && setShowReply(true)}
-                            >
-                                Reply
-                            </button>
+                            !comment.is_reply ?
+                                window.USER ?
+                                    <button
+                                        className="btn btn-sm text-info"
+                                        onClick={() => setShowReply(true)}
+                                    >
+                                        Reply
+                                    </button> :
+                                    <button
+                                        className="btn btn-sm text-info"
+                                        data-bs-toggle="popover"
+                                        data-bs-placement="right"
+                                        data-bs-title="Want to reply to this comment ?"
+                                        data-bs-trigger="focus"
+                                        data-bs-html="true"
+                                        data-bs-content="Sign in for reply.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                    >
+                                        Reply
+                                    </button> : null
                         }
                     </div>
-                    {showReply && <ReplyForm setShowReply={setShowReply} comment={comment} reply={reply} user={user}/>}
+                    {showReply && <ReplyForm setShowReply={setShowReply} comment={comment} reply={reply}/>}
                     {
-                        replies.length > 0 &&
+                        repliesCount > 0 &&
                         <button className={'btn btn-sm text-primary my-1 mt-2 ps-0 fw-bold d-flex align-items-center gap-2'} onClick={() => setShowReplies(showReplies => !showReplies)}>
+                            <i className={'fa-solid fa-' + (showReplies ? 'chevron-up' : 'chevron-down')}></i>
                             {
                                 comment.is_author_reply &&
                                 <>
-                                    <img style="width: 24px;" src={comment.author.avatar} alt={comment.author.username + ' avatar'}/>
+                                    <img className="rounded-circle img-fluid" src={comment.author.avatar} alt={comment.author.username + ' avatar'} style="width: 30px;"/>
                                     <span>•</span>
                                 </>
                             }
-                            {showRepliesText(showReplies, replies.length)}
+                            {showRepliesText(showReplies, repliesCount)}
                         </button>
                     }
                 </div>
@@ -229,12 +243,30 @@ const Comment = memo(({comment, user, canReply, remove, update, pin}) => {
                                 <Comment
                                     key={comment.id}
                                     comment={comment}
-                                    user={user}
-                                    canReply={false}
                                     remove={deleteReply}
                                     update={updateReply}
                                 />
                             )
+                        }
+                        {
+                            hasMore &&
+                            <div className={'w-100 d-flex justify-content-end'}>
+                                <button className={'btn btn-sm text-primary fw-bold d-flex align-items-center gap-2'} onClick={() => load()}>
+                                    {
+                                        loading ?
+                                            <div className={'d-flex gap-2 align-items-center'}>
+                                                <div className="spinner-border spinner-border-sm" role="status">
+                                                    <span className="visually-hidden">Loading...</span>
+                                                </div>
+                                                <span>Loading ....</span>
+                                            </div> :
+                                            <>
+                                                <i className="fa-regular fa-plus"></i>
+                                                <span>Show more responses</span>
+                                            </>
+                                    }
+                                </button>
+                            </div>
                         }
                     </div>
                 }

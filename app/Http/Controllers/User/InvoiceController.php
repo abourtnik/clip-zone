@@ -19,7 +19,7 @@ class InvoiceController
 
     public function show(Transaction $transaction) : Response {
 
-        $file = Storage::disk('invoices')->get($transaction->invoice_path);
+        $file = Storage::get($transaction->invoice_path);
 
         return response($file)
             ->header('Content-Type', 'application/pdf');

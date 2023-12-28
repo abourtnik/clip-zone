@@ -18,7 +18,7 @@ class UserObserver
         $user->videos_comments_interactions()->delete();
         $user->videos_interactions()->delete();
 
-        Image::deleteIf($user->avatar, 'avatars');
-        Image::deleteIf($user->banner, 'banners');
+        Image::deleteIf($user->avatar, User::AVATAR_FOLDER);
+        Image::deleteIf($user->banner, User::BANNER_FOLDER);
     }
 }

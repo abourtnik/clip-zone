@@ -1,31 +1,27 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\Video;
 
-use App\Models\Export;
-use App\Models\User;
+use App\Models\Video;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ExportFinished implements ShouldBroadcast
+class VideoBanned
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public User $user;
-    public Export $export;
+    public Video $video;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user, Export $export)
+    public function __construct(Video $video)
     {
-        $this->user = $user;
-        $this->export = $export;
+        $this->video = $video;
     }
 
     /**
@@ -35,6 +31,6 @@ class ExportFinished implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('exports');
+        return new PrivateChannel('channel-name');
     }
 }

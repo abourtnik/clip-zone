@@ -12,18 +12,15 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\FileRequest;
 use App\Http\Requests\Video\StoreVideoRequest;
 use App\Http\Requests\Video\UpdateVideoRequest;
+use App\Jobs\BuildFullFileFromChunks;
 use App\Models\Category;
 use App\Models\Video;
-use FFMpeg\FFProbe;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
-use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 
 class VideoController extends Controller
 {
@@ -38,7 +35,7 @@ class VideoController extends Controller
                 'videos' => function ($query) use ($filters) {
                     $query
                         ->filter($filters)
-                        ->with('category:id,title')
+                        ->with(['category:id,title', 'user:id'])
                         ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
                         ->latest('updated_at');
                 }
@@ -49,7 +46,12 @@ class VideoController extends Controller
         ]);
     }
 
-    public function create(Video $video): View {
+    public function create(Video $video): View|RedirectResponse {
+
+        if (!$video->isDraft) {
+            return redirect()->route('user.videos.edit', $video);
+        }
+
         return view('users.videos.create', [
             'video' => $video,
             'status' => VideoStatus::getActive(),
@@ -64,7 +66,7 @@ class VideoController extends Controller
 
     public function store(StoreVideoRequest $request, Video $video): RedirectResponse {
         $validated = $request->safe()->merge([
-            'thumbnail' =>  $request->file('thumbnail')->store('/', 'thumbnails'),
+            'thumbnail' =>  Image::storeAndDelete($request->file('thumbnail'), null, Video::THUMBNAIL_FOLDER),
             'scheduled_date' => $request->get('scheduled_date'),
             'publication_date' => match((int) $request->get('status')) {
                 VideoStatus::PUBLIC->value => now(),
@@ -133,7 +135,7 @@ class VideoController extends Controller
         // Publication date is the first date that video become public, this data never be updated after first publication
 
         $validated = $request->safe()->merge([
-            'thumbnail' => Image::storeAndDelete($request->file('thumbnail'), $video->thumbnail, 'thumbnails'),
+            'thumbnail' => Image::storeAndDelete($request->file('thumbnail'), $video->thumbnail, Video::THUMBNAIL_FOLDER),
             'scheduled_date' => match((int) $request->get('status')) {
                 VideoStatus::PLANNED->value => $request->get('scheduled_date'),
                 default => null,
@@ -183,59 +185,39 @@ class VideoController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * @throws UploadMissingFileException
-     */
-    public function upload (FileRequest $request, FileReceiver $receiver) : JsonResponse|UploadMissingFileException {
+    public function upload (FileRequest $request): JsonResponse {
 
-        if (!$receiver->isUploaded()) {
-            throw new UploadMissingFileException();
-        }
+        $folder = $request->get('resumableIdentifier');
 
-        $save = $receiver->receive();
+        $chunk = $request->file('file');
 
-        if ($save->isFinished()) {
+        $name = $request->get('resumableChunkNumber'). ".part";
 
-            $file = $save->getFile();
+        $chunk->storeAs(Video::CHUNK_FOLDER.'/'.$folder, $name, 'local');
 
-            // Store file
-            $name = $file->store('/','videos');
+        if ($request->get('resumableTotalChunks') === $request->get('resumableChunkNumber')) {
 
-            // Get file duration
-
-            $ffprobe = FFProbe::create([
-                'ffprobe.binaries' => storage_path('bin/ffprobe')
+            $video = Video::create([
+                'uuid' => (string) Str::uuid(),
+                'title' => Str::replace('.'.$chunk->getClientOriginalExtension(), '', $chunk->getClientOriginalName()),
+                'original_file_name' => $chunk->getClientOriginalName(),
+                'mimetype' => $request->get('resumableType'),
+                'size' => $request->get('resumableTotalSize'),
+                'status' => VideoStatus::DRAFT,
+                'user_id' => Auth::user()->id
             ]);
 
-            $duration = $ffprobe
-                ->format(Storage::disk('videos')->path($name))
-                ->get('duration');
-
-            $validated = $request->safe()->merge([
-                'uuid' => (string) Str::uuid(),
-                'title' => Str::replace('.'.$file->getClientOriginalExtension(), '', $file->getClientOriginalName()),
-                'original_file_name' => $file->getClientOriginalName(),
-                'file' => $name,
-                'mimetype' => $file->getMimeType(),
-                'duration' => round($duration),
-                'size' => $file->getSize(),
-                'status' => VideoStatus::DRAFT,
-            ])->toArray();
-
-            $video = Auth::user()->videos()->create($validated);
-
-            // Remove chunk files
-            unlink($save->getFile()->getPathname());
+            BuildFullFileFromChunks::dispatch($folder, $video, $chunk->getClientOriginalExtension());
 
             return response()->json([
                 'route' => route('user.videos.create', $video)
             ]);
         }
 
-        $handler = $save->handler();
+        $percentage = ceil($request->get('resumableChunkNumber') / $request->get('resumableTotalChunks') * 100);
 
         return response()->json([
-            "done" => $handler->getPercentageDone()
+            "done" => $percentage
         ]);
     }
 }

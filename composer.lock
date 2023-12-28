@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8fb316f2029534ae7db67f85a3835ff",
+    "content-hash": "0de04ff0ec199811bf0775b388c0cfcd",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -4675,72 +4675,6 @@
             "time": "2022-07-30T15:51:26+00:00"
         },
         {
-            "name": "pion/laravel-chunk-upload",
-            "version": "v1.5.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pionl/laravel-chunk-upload.git",
-                "reference": "dcf5cf42059910242c31fc34d0ea147d07478473"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pionl/laravel-chunk-upload/zipball/dcf5cf42059910242c31fc34d0ea147d07478473",
-                "reference": "dcf5cf42059910242c31fc34d0ea147d07478473",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/console": "5.2 - 5.8 | ^6.0 | ^7.0 | ^8.0 | ^9.0 | ^10.0",
-                "illuminate/filesystem": "5.2 - 5.8 | ^6.0 | ^7.0 | ^8.0 | ^9.0 | ^10.0",
-                "illuminate/http": "5.2 - 5.8 | ^6.0 | ^7.0 | ^8.0 | ^9.0 | ^10.0",
-                "illuminate/support": "5.2 - 5.8 | ^6.0 | ^7.0 | ^8.0 | ^9.0 | ^10.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.16.0",
-                "mockery/mockery": "^1.1.0 | ^1.3.0",
-                "overtrue/phplint": "^1.1 | ^2.0",
-                "phpunit/phpunit": "5.7 | 6.0 | 7.0 | 7.5 | 8.4 | ^8.5 | ^9.3 | ^10.0"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Pion\\Laravel\\ChunkUpload\\Providers\\ChunkUploadServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Pion\\Laravel\\ChunkUpload\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Martin Kluska",
-                    "email": "martin@kluska.cz"
-                }
-            ],
-            "description": "Service for chunked upload with several js providers",
-            "support": {
-                "issues": "https://github.com/pionl/laravel-chunk-upload/issues",
-                "source": "https://github.com/pionl/laravel-chunk-upload/tree/v1.5.2"
-            },
-            "funding": [
-                {
-                    "url": "https://revolut.me/martinpv7n",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/pionl",
-                    "type": "github"
-                }
-            ],
-            "time": "2023-03-15T21:02:42+00:00"
-        },
-        {
             "name": "predis/predis",
             "version": "v2.2.0",
             "source": {
@@ -5905,6 +5839,56 @@
                 }
             ],
             "time": "2022-08-23T07:15:15+00:00"
+        },
+        {
+            "name": "staudenmeir/eloquent-eager-limit",
+            "version": "v1.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/staudenmeir/eloquent-eager-limit.git",
+                "reference": "8cedfcd02fb50dcf3c5a1fefc3be74d652ae0391"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/staudenmeir/eloquent-eager-limit/zipball/8cedfcd02fb50dcf3c5a1fefc3be74d652ae0391",
+                "reference": "8cedfcd02fb50dcf3c5a1fefc3be74d652ae0391",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "^9.0",
+                "php": "^8.0.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Staudenmeir\\EloquentEagerLimit\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonas Staudenmeir",
+                    "email": "mail@jonas-staudenmeir.de"
+                }
+            ],
+            "description": "Laravel Eloquent eager loading with limit",
+            "support": {
+                "issues": "https://github.com/staudenmeir/eloquent-eager-limit/issues",
+                "source": "https://github.com/staudenmeir/eloquent-eager-limit/tree/v1.7.1"
+            },
+            "funding": [
+                {
+                    "url": "https://paypal.me/JonasStaudenmeir",
+                    "type": "custom"
+                }
+            ],
+            "time": "2022-03-20T21:56:48+00:00"
         },
         {
             "name": "staudenmeir/eloquent-has-many-deep",

@@ -2,6 +2,7 @@
 
 @section('title', $video->title)
 @section('description', Str::limit($video->description, 155))
+@section('image', $video->thumbnail_url)
 
 @section('class', 'mt-0 mt-lg-3 ms-0')
 
@@ -9,9 +10,35 @@
     <div class="row">
         <div class="col-lg-8 col-xl-8 col-xxl-8 offset-xxl-1 px-0 px-lg-3">
             <div class="ratio ratio-16x9">
-                <video controls class="w-100 border border-1 rounded" controlsList="nodownload" poster="{{$video->thumbnail_url}}" autoplay oncontextmenu="return false;">
-                    <source src="{{$video->file_url}}#t={{$t}}" type="{{$video->mimetype}}">
-                </video>
+                @if($video->is_failed)
+                    <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
+                        <div class="text-center">
+                            <div class="mb-2 text-danger fw-bold">The processing of your video failed.</div>
+                            <div class="text-muted">
+                                Try to re-upload your file, if the problem persist please contact your support.<hr><a target='_blank' href='/contact' class='btn btn-primary btn-sm'>Contact support</a>
+                            </div>
+                        </div>
+                    </div>
+                @elseif($video->is_uploading)
+                    <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
+                        <div class="text-center">
+                            <div class="mb-2">Your video is processing ...</div>
+                            <div class="text-muted text-sm">You will receive a notification once the processing is complete.</div>
+                        </div>
+                    </div>
+                @else
+                    <video
+                        controls
+                        class="w-100 border border-1 rounded"
+                        controlsList="nodownload"
+                        poster="{{$video->thumbnail_url}}"
+                        oncontextmenu="return false;"
+                        autoplay
+                        playsinline
+                    >
+                        <source src="{{$video->file_url}}#t={{$t}}" type="{{$video->mimetype}}">
+                    </video>
+                @endif
             </div>
             <div class="px-3 px-lg-0">
                 <div class="mt-3 d-flex align-items-center gap-3">
@@ -79,16 +106,16 @@
                                 Save
                             </button>
                             @can('report', $video)
-                                @if($video->reported_by_auth_user)
+                                <button class="btn btn-secondary btn-sm rounded-4 px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
+                                    <i class="fa-regular fa-flag"></i>&nbsp;
+                                    Report
+                                </button>
+                            @else
+                                @if($video->reportByAuthUser)
                                     <div class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm">
                                         <i class="fa-regular fa-flag"></i>
-                                        <span>Reported {{$video->reports->first()->created_at->diffForHumans()}}</span>
+                                        <span>Reported {{$video->reportByAuthUser->created_at->diffForHumans()}}</span>
                                     </div>
-                                @else
-                                    <button class="btn btn-secondary btn-sm rounded-4 px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
-                                        <i class="fa-regular fa-flag"></i>&nbsp;
-                                        Report
-                                    </button>
                                 @endif
                             @endcan
                         </div>
@@ -157,7 +184,7 @@
                             @endif
                         </div>
                     </div>
-                    <div class="">
+                    <div>
                         @if(!Auth::check())
                             <button
                                 type="button"
@@ -208,25 +235,27 @@
                         </div>
                     </div>
                 @endif
-                <div class="d-flex gap-2 align-items-center">
-                    @if($video->category)
-                        <a href="{{$video->category->route}}" class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0 text-decoration-none">
-                            <i class="fa-solid fa-{{$video->category->icon}}"></i>
-                            <strong>{{$video->category->title}}</strong>
-                        </a>
-                    @endif
-                    @if($video->language)
-                        <div class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0">
-                            <i class="fa-solid fa-language"></i>
-                            <strong>{{$video->language->name}}</strong>
-                        </div>
-                    @endif
-                </div>
+                @if($video->category || $video->language)
+                    <div class="d-flex gap-2 align-items-center">
+                        @if($video->category)
+                            <a href="{{$video->category->route}}" class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0 text-decoration-none">
+                                <i class="fa-solid fa-{{$video->category->icon}}"></i>
+                                <strong>{{$video->category->title}}</strong>
+                            </a>
+                        @endif
+                        @if($video->language)
+                            <div class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0">
+                                <i class="fa-solid fa-language"></i>
+                                <strong>{{$video->language->name}}</strong>
+                            </div>
+                        @endif
+                    </div>
+                @endif
                 <hr class="d-none d-lg-block mt-4">
                 @if($video->allow_comments)
                     <div class="d-none d-lg-block" id="comments_area"></div>
-                    <div class="d-block d-lg-none">
-                        <div class="d-flex align-items-center justify-content-between py-3 border-top border-bottom my-3" data-bs-toggle="offcanvas" data-bs-target="#comments-offcanvas">
+                    <div class="d-block d-lg-none card my-4">
+                        <div class="d-flex align-items-center justify-content-between card-body" data-bs-toggle="offcanvas" data-bs-target="#comments-offcanvas">
                             <span>Comments • {{$video->comments_count}}</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </div>
@@ -239,29 +268,31 @@
                         </div>
                     </div>
                 @else
-                    <div class="alert alert-primary text-center">
+                    <div class="alert alert-primary text-center my-4 my-lg-0">
                         <strong>Comments are turned off</strong>
                     </div>
                 @endif
             </div>
         </div>
-        <div class="col-lg-4 col-xl-4 col-xxl-3 px-0 px-sm-2">
-            <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
-                <a href="{{$nextVideoUrl}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
-                    <i class="fa-solid fa-forward-step"></i>
-                    <span>Next Video</span>
-                </a>
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" role="switch" id="autoplay">
-                    <label class="form-check-label" for="autoplay">Autoplay</label>
+        <hr class="d-block d-lg-none">
+        @if($nextVideoUrl)
+            <div class="col-lg-4 col-xl-4 col-xxl-3 px-0 px-sm-2">
+                <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
+                    <a href="{{$nextVideoUrl}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
+                        <i class="fa-solid fa-forward-step"></i>
+                        <span>Next Video</span>
+                    </a>
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="autoplay">
+                        <label class="form-check-label" for="autoplay">Autoplay</label>
+                    </div>
+                </div>
+                <hr>
+                <div class="px-3 px-sm-0 pt-3 pt-sm-0">
+                    @each('videos.card-secondary',  $videos, 'video')
                 </div>
             </div>
-            <hr>
-            <div>
-                @each('videos.card-secondary',  $videos, 'video')
-            </div>
-
-        </div>
+        @endif
     </div>
     @include('modals.share')
     @includeWhen(Auth::check(), 'modals.save')
@@ -272,8 +303,8 @@
         const observer = new IntersectionObserver((entries) => {
             for (const entry of entries) {
                 if(entry.isIntersecting) {
-                    document.getElementById('comments_area').innerHTML ="<comments-area target='{{$video->id}}' auth='{{auth()->user()?->setAppends(['avatar_url'])->setVisible(['avatar_url', 'username'])}}' default-sort='{{$video->default_comments_sort}}' />";
-                    observer.unobserve(entry.target)
+                    document.getElementById('comments_area').innerHTML ="<comments-area target='{{$video->id}}' default-sort='{{$video->default_comments_sort}}' />";
+                    observer.unobserve(entry.target);
                 }
             }
         });
@@ -284,7 +315,7 @@
         let opened = false;
         commentsOffcanvas.addEventListener('show.bs.offcanvas', event => {
             if(!opened) {
-                document.getElementById('offcanvas-body').innerHTML ="<comments-area target='{{$video->id}}' auth='{{auth()->user()?->setAppends(['avatar_url'])->setVisible(['avatar_url', 'username'])}}' default-sort='{{$video->default_comments_sort}}' />";
+                document.getElementById('offcanvas-body').innerHTML ="<comments-area target='{{$video->id}}' default-sort='{{$video->default_comments_sort}}' />";
             }
             opened = true;
         })
@@ -326,5 +357,20 @@
                 window.location.replace('{{$nextVideoUrl}}');
             }
         }, false);
+
+        // TimeCode
+
+        function time (timecode) {
+
+            video.currentTime = timecode;
+            video.play()
+
+            video.scrollIntoView({
+                behavior: 'smooth',
+                block: 'center',
+                inline: 'center'
+            })
+        }
+
     </script>
 @endpush

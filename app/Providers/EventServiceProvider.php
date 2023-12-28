@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use App\Events\ExportFinished;
-use App\Listeners\SendExportFinishedNotification;
+use App\Listeners\ExportEventSubscriber;
+use App\Listeners\BackgroundEventSubscriber;
+use App\Listeners\SendEmailVerificationNotification;
+use App\Listeners\SuccessfulLogin;
 use App\Listeners\UserEventSubscriber;
 use App\Listeners\VideoEventSubscriber;
 use App\Models\Category;
@@ -16,10 +18,8 @@ use App\Observers\CommentObserver;
 use App\Observers\InteractionObserver;
 use App\Observers\UserObserver;
 use App\Observers\VideoObserver;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Login;
-use App\Listeners\SendEmailVerificationNotification;
-use App\Listeners\SuccessfulLogin;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 
@@ -37,14 +37,13 @@ class EventServiceProvider extends ServiceProvider
         Login::class => [
             SuccessfulLogin::class,
         ],
-        ExportFinished::class => [
-            SendExportFinishedNotification::class,
-        ]
     ];
 
     protected $subscribe = [
         UserEventSubscriber::class,
         VideoEventSubscriber::class,
+        ExportEventSubscriber::class,
+        BackgroundEventSubscriber::class
     ];
 
     /**

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\VideoStatus;
 use App\Enums\Languages;
+use App\Helpers\Parser;
 use App\Models\Interfaces\Reportable;
 use App\Models\Traits\HasLike;
 use App\Models\Interfaces\Likeable;
@@ -20,23 +21,29 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Video extends Model implements Likeable, Reportable
 {
-    use HasFactory, HasLike, HasReport;
+    use HasFactory, HasLike, HasReport, HasEagerLimit;
 
     protected $guarded = ['id'];
 
     protected $dates = [
         'publication_date',
         'scheduled_date',
-        'banned_at'
+        'banned_at',
+        'uploaded_at',
     ];
 
     protected $casts = [
         'status' => VideoStatus::class,
         'language' => Languages::class
     ];
+
+    public const THUMBNAIL_FOLDER = 'thumbnails';
+    public const VIDEO_FOLDER = 'videos';
+    public const CHUNK_FOLDER = 'chunks';
 
     /**
      * -------------------- RELATIONS --------------------
@@ -92,14 +99,34 @@ class Video extends Model implements Likeable, Reportable
     protected function isActive(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now()))
+            get: fn () =>
+                !$this->is_uploading &&
+                (
+                    $this->status === VideoStatus::PUBLIC ||
+                    ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now()))
+                )
+
         );
     }
 
     protected function isPublic(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now())) || $this->status === VideoStatus::UNLISTED
+            get: fn () =>
+                !$this->is_uploading &&
+                (
+                    $this->status === VideoStatus::PUBLIC ||
+                    ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now())) ||
+                    $this->status === VideoStatus::UNLISTED
+                )
+
+        );
+    }
+
+    protected function isCreated(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => !in_array($this->status, [VideoStatus::DRAFT, VideoStatus::FAILED]) && !$this->is_uploading
         );
     }
 
@@ -143,6 +170,22 @@ class Video extends Model implements Likeable, Reportable
         );
     }
 
+    protected function isUploading(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => is_null($this->uploaded_at)
+
+        );
+    }
+
+    protected function isFailed(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status === VideoStatus::FAILED
+
+        );
+    }
+
     protected function duration(): Attribute
     {
         return Attribute::make(
@@ -159,21 +202,15 @@ class Video extends Model implements Likeable, Reportable
 
     protected function shortDescription(): Attribute
     {
-        $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
-
-        $a = clean(preg_replace($url, '<a href="$0" target="_blank" title="$0" rel="external nofollow">$0</a>', Str::limit($this->description, 247)));
-
         return Attribute::make(
-            get: fn () => $a
+            get: fn () => Parser::applyParsers(Str::limit($this->description, 200), ['links', 'timecodes'])
         );
     }
 
     protected function parsedDescription(): Attribute
     {
-        $url = '~(?:(https?)://([^\s<]+)|(www\.[^\s<]+?\.[^\s<]+))(?<![\.,:])~i';
-
         return Attribute::make(
-            get: fn () => clean(preg_replace($url, '<a href="$0" target="_blank" title="$0" rel="external nofollow" target="_blank">$0</a>', $this->description))
+            get: fn () => Parser::applyParsers($this->description, ['links', 'timecodes'])
         );
     }
 
@@ -232,6 +269,7 @@ class Video extends Model implements Likeable, Reportable
     public function scopeActive(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
     {
         return $query->where('status', VideoStatus::PUBLIC)
+            ->whereNotNull('uploaded_at')
             ->orWhere(function($query) {
                 $query->where('status', VideoStatus::PLANNED)
                     ->where('scheduled_date', '<=', now());
@@ -247,6 +285,7 @@ class Video extends Model implements Likeable, Reportable
     public function scopePublic(QueryBuilder|EloquentBuilder $query, $includeAuthVideo = false): QueryBuilder|EloquentBuilder
     {
         return $query->whereIn('status', [VideoStatus::PUBLIC, VideoStatus::UNLISTED])
+            ->whereNotNull('uploaded_at')
             ->orWhere(function($query) use ($includeAuthVideo) {
                 $query->where('status', VideoStatus::PLANNED)
                     ->where('scheduled_date', '<=', now())
@@ -262,11 +301,23 @@ class Video extends Model implements Likeable, Reportable
      */
     public function scopeNotActive(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
     {
-        return $query->whereIn('status', [VideoStatus::PRIVATE, VideoStatus::BANNED, VideoStatus::DRAFT])
+        return $query->whereIn('status', [VideoStatus::PRIVATE, VideoStatus::BANNED, VideoStatus::DRAFT, VideoStatus::FAILED])
             ->orWhere(function($query) {
                 $query->where('status', VideoStatus::PLANNED)
                     ->where('scheduled_date', '>', now());
-            });
+            })
+            ->orWhereNull('uploaded_at');
+    }
+
+    /**
+     * Scope a query to only include valid videos.
+     *
+     * @param QueryBuilder|EloquentBuilder $query
+     * @return QueryBuilder|EloquentBuilder
+     */
+    public function scopeValid(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
+    {
+        return $query->whereNot('status', VideoStatus::FAILED);
     }
 
     /**

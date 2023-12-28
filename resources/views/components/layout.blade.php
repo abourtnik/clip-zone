@@ -17,22 +17,21 @@
     <meta property="og:url" content="{{url()->full()}}" />
     <meta property="og:title" content="@yield('title') - {{config('app.name')}}" />
     <meta property="og:description" content="@yield('description')" />
-    <meta property="og:image" content="{{asset('images/logo.png')}}" />
+    <meta property="og:image" content="@yield('image', asset('images/logo.png'))" />
     <meta property="og:language" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
 
     <link rel="shortcut icon" href="{{asset('favicon.ico')}}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{asset('/images/icons/apple-touch-icon.png')}}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{asset('/images/icons/favicon-32x32.png')}}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('/images/icons/favicon-16x16.png')}}">
-    <link rel="manifest" href="{{asset('/manifest.json')}}"/>
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @auth()
-        <meta name="user_id" content="{{auth()->user()->id}}">
+    <meta name="user_id" content="{{auth()->user()->id}}">
     @endauth
 
     @if ($attributes->get('statistics', false) && config('app.statistics_enabled'))
-        <script async defer data-website-id="32676102-17e3-4534-9023-f3aa1eb8300a" src="https://stats.antonbourtnik.fr/umami.js"></script>
+    <script async defer data-website-id="32676102-17e3-4534-9023-f3aa1eb8300a" src="https://stats.antonbourtnik.fr/umami.js"></script>
     @endif
 
     @vite(['resources/js/app.js'])
@@ -68,7 +67,8 @@
     </main>
     @stack('scripts')
     <script>
-        const LANG = '{{app()->getLocale()}}'
+        window.USER = {!! Auth::check() ? Auth::user()->json  : 'null' !!}
+        window.LANG = '{{app()->getLocale()}}'
     </script>
 </body>
 </html>

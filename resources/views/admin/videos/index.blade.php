@@ -115,7 +115,7 @@
                 @include('videos.status')
             </td>
             <td class="align-middle">
-                @if($video->is_private || $video->is_unlisted || $video->is_draft)
+                @if($video->is_private || $video->is_unlisted || $video->is_draft || $video->is_failed)
                     {{$video->created_at->format('d F Y H:i')}}
                     <div class="text-sm text-muted">Uploaded</div>
                 @elseif($video->is_planned)

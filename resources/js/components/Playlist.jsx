@@ -39,10 +39,12 @@ export default function Playlist ({initial = []}) {
     const addVideo = (video) => {
         setShowSuggestions(false);
         setVideos(videos => [...videos, video])
+        setData(data => data.filter(v => v.id !== video.id))
     }
 
     const remove = (video) => {
         setVideos(videos => videos.filter(v => v.id !== video.id))
+        setData(data => [...data, video])
     }
 
     return (
@@ -51,7 +53,7 @@ export default function Playlist ({initial = []}) {
                 <h5 className="text-primary">Videos { videos.length > 0 && '• ' + videos.length}</h5>
                 <hr/>
                 <div className={'position-relative'}>
-                    <form ref={ref} method="GET" className="d-flex w-100 position-relative" role="search" action="/search">
+                    <div ref={ref} className="d-flex w-100 position-relative">
                         <input
                             onChange={handleChange}
                             className="form-control rounded-5"
@@ -70,7 +72,7 @@ export default function Playlist ({initial = []}) {
                                 </div>
                             </div>
                         }
-                    </form>
+                    </div>
                     {
                         (showSuggestions && search.trim() && !loading) &&
                         <div className={'position-absolute shadow-lg  left-0 w-100 bg-white shadow-lg border border-1 pt-3 overflow-auto'} style={{top:'39px',zIndex:3, maxHeight: '557px'}}>
@@ -88,8 +90,15 @@ export default function Playlist ({initial = []}) {
                                                             </small>
                                                         </div>
                                                         <div>
-                                                            <div className={'text-black text-lowercase text-sm'}>{result.title}</div>
-                                                            <div className={'text-muted text-lowercase text-sm'}>{result.user.username} • {result.views}</div>
+                                                            <div className={'text-black fw-bold text-sm mb-1'}>
+                                                                {result.title}
+                                                            </div>
+                                                            <div className={'text-muted text-sm'}>
+                                                                {result.user.username}
+                                                            </div>
+                                                            <div className={'text-muted text-sm'}>
+                                                                {result.views} • {result.publication_date}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </li>
@@ -152,8 +161,15 @@ export default function Playlist ({initial = []}) {
                                                                         </small>
                                                                     </div>
                                                                     <div className={'px-3 col-12 col-sm-6 col-lg-7 col-xl-8'}>
-                                                                        <div className={'text-black text-lowercase text-sm'}>{video.title}</div>
-                                                                        <div className={'text-muted text-lowercase text-sm'}>{video.user.username} • {video.views}</div>
+                                                                        <div className={'text-black fw-bold text-sm mb-1'}>
+                                                                            {video.title}
+                                                                        </div>
+                                                                        <div className={'text-muted text-sm'}>
+                                                                            {video.user.username}
+                                                                        </div>
+                                                                        <div className={'text-muted text-sm'}>
+                                                                            {video.views} • {video.publication_date}
+                                                                        </div>
                                                                     </div>
                                                                 </>
                                                         }
@@ -175,8 +191,8 @@ export default function Playlist ({initial = []}) {
                                 }
                             </ReactSortable> :
                             <div className={'d-flex flex-column gap-1 justify-content-center align-items-center h-100 w-100'}>
-                                <div className={'fw-bold fs-5'}>Add new video</div>
-                                <p className={'text-muted text-sm'}>Some description</p>
+                                <div className={'fw-bold fs-5'}>No videos added</div>
+                                <p className={'text-muted text-sm text-center'}>Add videos to your playlist by selecting your videos or videos from other channels</p>
                             </div>
                     }
                 </div>

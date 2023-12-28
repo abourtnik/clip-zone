@@ -7,9 +7,7 @@ import {Comment as Skeleton} from "./Skeletons";
 import {useInView} from "react-intersection-observer";
 import {jsonFetch} from '../hooks'
 
-const Comments = memo(({target, auth, defaultSort}) => {
-
-    const user = auth ? JSON.parse(auth) : null;
+const Comments = memo(({target, defaultSort}) => {
 
     const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments?video_id=${target}&sort=${defaultSort}`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
@@ -38,7 +36,7 @@ const Comments = memo(({target, auth, defaultSort}) => {
         }).then(comment => {
             setComments(comments => [comment, ...comments]);
             setCount(count => count + 1);
-            document.getElementById('content').value = '';
+            document.getElementById('message-content').value = '';
         }).catch(e => e)
     }, []);
 
@@ -98,7 +96,7 @@ const Comments = memo(({target, auth, defaultSort}) => {
                     <button onClick={() => sort('newest')} className={'btn btn-' + activeButton('newest') + 'btn-sm'}>Newest first</button>
                 </div>
             </div>
-            <CommentsForm user={user} add={add}/>
+            <CommentsForm add={add}/>
             {
                 (primaryLoading) ?
                     <div className="d-flex flex-column gap-2">
@@ -107,8 +105,6 @@ const Comments = memo(({target, auth, defaultSort}) => {
                 : comments.map(comment => <Comment
                         key={comment.id}
                         comment={comment}
-                        user={user}
-                        canReply={true}
                         remove={remove}
                         update={update}
                         pin={pin}

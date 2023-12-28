@@ -71,7 +71,7 @@ class UpdateUserRequest extends FormRequest
             'website' => [
                 'sometimes',
                 'nullable',
-                'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',
+                'regex:/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w@ \.-]*)*\/?$/',
                 'max:'.config('validation.user.website.max'),
             ],
             'show_subscribers' => 'sometimes|nullable|boolean'

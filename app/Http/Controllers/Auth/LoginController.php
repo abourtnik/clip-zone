@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Str;
 
 class LoginController
 {
@@ -23,11 +25,20 @@ class LoginController
             'password' => ['required']
         ]);
 
+        if (RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+
+            $seconds = RateLimiter::availableIn($this->throttleKey());
+
+            return back()->with('error', 'Too many login attempts. Please try again in '.$seconds. ' seconds')->onlyInput('username');
+        }
+
         $remember = $request->has('remember');
 
         $user = User::where('username', $credentials['username'])->orWhere('email', $credentials['username'])->first();
 
         if ($user && Hash::check($credentials['password'], $user->password)) {
+
+            RateLimiter::clear($this->throttleKey());
 
             if (!$user->hasVerifiedEmail()) {
                 return back()->with('error', 'Your email is not verified. Please check your mailbox')->onlyInput('username');
@@ -37,6 +48,8 @@ class LoginController
 
             return redirect()->intended(route('user.index'));
         }
+
+        RateLimiter::hit($this->throttleKey(), 60);
 
         return back()->with('error', 'Invalid login credentials. Please try again or reset your password. <br><a class="text-danger fw-bold text-decoration-none" href="/contact">Contact</a> our support team for help.')->onlyInput('username');
     }
@@ -54,5 +67,15 @@ class LoginController
         $request->session()->regenerateToken();
 
         return redirect()->route('pages.home');
+    }
+
+    /**
+     * Get the rate limiting throttle key for the request.
+     *
+     * @return string
+     */
+    private function throttleKey(): string
+    {
+        return Str::lower(request('email')) . '|' . request()->ip();
     }
 }

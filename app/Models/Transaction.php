@@ -20,6 +20,8 @@ class Transaction extends Model
 
     public $timestamps = false;
 
+    public const INVOICE_FOLDER = 'invoices';
+
     public function user() : BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -54,7 +56,7 @@ class Transaction extends Model
     protected function invoicePath(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->date->format('Y-m').'/'.$this->invoice_name
+            get: fn () => self::INVOICE_FOLDER.'/'.$this->date->format('Y-m').'/'.$this->invoice_name
         );
     }
 
@@ -68,7 +70,7 @@ class Transaction extends Model
     protected function invoiceUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => Storage::disk('invoices')->path($this->invoice_path)
+            get: fn () => Storage::path($this->invoice_path)
         );
     }
 }

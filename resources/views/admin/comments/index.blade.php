@@ -157,6 +157,7 @@
         </div>
         {{ $comments->links() }}
         @include('admin.comments.modals.ban')
+        @include('users.comments.modals.replies')
     @else
         <div class="card shadow">
             <div class="card-body d-flex justify-content-center align-items-center">

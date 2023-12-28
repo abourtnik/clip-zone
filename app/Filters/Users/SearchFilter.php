@@ -10,8 +10,10 @@ class SearchFilter
     {
         $match = '%'.$search.'%';
 
-        return $query->where('username', 'LIKE', $match)
+        return $query->where(fn($query) => $query
+            ->where('username', 'LIKE', $match)
             ->orWhere('email', 'LIKE', $match)
-            ->orWhere('description', 'LIKE', $match);
+            ->orWhere('description', 'LIKE', $match)
+        );
     }
 }

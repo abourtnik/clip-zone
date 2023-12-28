@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Arr;
 use Throwable;
 
@@ -42,7 +43,7 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->reportable(function (Throwable $e) {
             //
@@ -64,7 +65,19 @@ class Handler extends ExceptionHandler
             'line' => $e->getLine(),
             'trace' => collect($e->getTrace())->map(fn ($trace) => Arr::except($trace, ['args']))->all(),
         ] : [
-            'message' => $this->isHttpException($e) ? $e->getMessage() : 'Whoops! An error occurred. Please try again later.',
+            'message' => $this->getMessage($e)
         ];
+    }
+
+    private function getMessage (Throwable $e) : string {
+        if ($this->isHttpException($e)) {
+            if ($e->getPrevious() instanceof TokenMismatchException){
+                return 'Your Session has expired. Please login again to continue.';
+            } else {
+                return $e->getMessage();
+            }
+        } else {
+            return 'Whoops! An error occurred. Please try again later.';
+        }
     }
 }

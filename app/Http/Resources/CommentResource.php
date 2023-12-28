@@ -23,6 +23,7 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'class' => Comment::class,
             'content' => $this->content,
+            'parsed_content' => $this->parsed_content,
             'short_content' => $this->short_content,
             'is_long' => $this->is_long,
             'user' => [
@@ -37,7 +38,6 @@ class CommentResource extends JsonResource
             ],
             'created_at' => $this->created_at->diffForHumans(),
             'is_updated' => $this->is_updated,
-            'model' => Comment::class,
             'likes_count' => $this->likes_count,
             'dislikes_count' => $this->dislikes_count,
             'liked_by_auth_user' => $this->liked_by_auth_user > 0,
@@ -46,7 +46,17 @@ class CommentResource extends JsonResource
             'can_update' => Auth::user()?->can('update', $this->resource) ?? false,
             'can_report' => Auth::user()?->can('report', $this->resource) ?? false,
             'can_pin' => Auth::user()?->can('pin', $this->resource) ?? false,
-            'replies' =>  CommentResource::collection($this->replies),
+            'replies' => $this->when($this->total_replies > 0, function () {
+                return [
+                    'data' => CommentResource::collection($this->replies),
+                    'links' => [
+                        'next' => $this->replies->count() < $this->total_replies ? route('comments.replies', ['comment' => $this->resource , 'page' => 2]) : null,
+                    ],
+                    'meta' => [
+                        'total' => $this->total_replies
+                    ]
+                ];
+            }),
             'is_pinned' => $this->is_pinned,
             'is_reply' => $this->is_reply,
             'is_author_reply' => $this->when(!$this->is_reply, fn() => $this->author_replies > 0),
@@ -56,7 +66,7 @@ class CommentResource extends JsonResource
                     'avatar' => $this->video->user->avatar_url,
                 ];
             }),
-            'reported_at' => $this->when(Auth::user()?->can('report', $this->resource), fn() => $this->reports->first()?->created_at->diffForHumans()),
+            'reported_at' => $this->when($this->reportByAuthUser, fn() => $this->reportByAuthUser->created_at->diffForHumans()),
         ];
     }
 }

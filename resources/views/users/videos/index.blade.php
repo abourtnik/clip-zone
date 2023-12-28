@@ -59,7 +59,7 @@
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
                     <th scope="col" class="w-40" style="min-width: 360px">Video</th>
-                    <th scope="col">Visibility</th>
+                    <th scope="col">Status</th>
                     <th scope="col" style="min-width: 150px;">Date</th>
                     <th scope="col">Views</th>
                     <th scope="col">Category</th>
@@ -75,16 +75,17 @@
                             <a href="{{$video->route}}">
                                 @include('users.videos.partials.thumbnail')
                             </a>
-                            <div>
+                            <div class="d-flex flex-column align-items-start gap-2">
                                 <div>{{Str::limit($video->title, 100), '...'}}</div>
-                                <small class="text-muted">{{Str::limit($video->description, 190), '...'}}</small>
+                                <div class="text-muted text-sm">{{Str::limit($video->description, 75), '...'}}</div>
+                                <div class="badge bg-primary w-auto">{{$video->duration}} - @size($video->size)</div>
                             </div>
                         </td>
                         <td class="align-middle">
                             @include('videos.status')
                         </td>
                         <td class="align-middle">
-                            @if($video->is_private || $video->is_unlisted || $video->is_draft)
+                            @if($video->is_private || $video->is_unlisted || $video->is_draft|| $video->is_failed)
                                 <small>{{$video->created_at->format('d F Y H:i')}}</small>
                                 <div class="text-sm text-muted">Uploaded</div>
                             @elseif($video->is_planned)
@@ -96,7 +97,7 @@
                             @endif
                         </td>
                         <td class="align-middle">
-                            @if(!$video->is_draft)
+                            @if($video->is_created)
                                 @if($video->views_count)
                                     <a href="{{route('user.videos.show', $video)}}" class="badge bg-info text-decoration-none">
                                         {{trans_choice('views', $video->views_count)}}
@@ -109,7 +110,7 @@
                             @endif
                         </td>
                         <td class="align-middle">
-                            @if(!$video->is_draft)
+                            @if($video->is_created)
                                 @if($video->category)
                                     <div class="badge bg-primary">
                                         {{$video->category->title}}
@@ -122,7 +123,7 @@
                             @endif
                         </td>
                         <td class="align-middle">
-                            @if(!$video->is_draft)
+                            @if($video->is_created)
                                 @if($video->comments_count)
                                     <a href="{{route('user.comments.index') .'?video='.$video->id}}" class="badge bg-info text-decoration-none">
                                         {{trans_choice('comments', $video->comments_count)}}
@@ -140,7 +141,7 @@
                             @endif
                         </td>
                         <td class="align-middle">
-                            @if(!$video->is_draft)
+                            @if($video->is_created)
                                 @include('users.partials.interactions', ['item' => $video])
                                 <div class="d-flex align-items-center gap-1">
                                     @if($video->interactions_count)
@@ -188,24 +189,23 @@
                                 >
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
-                                @if(!$video->is_draft)
+                                @if($video->is_created)
                                     <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="Video statistics">
                                         <i class="fa-solid fa-chart-simple"></i>
                                     </a>
                                 @endif
-                                @can('unpin', $video)
-                                    <form action="{{route('user.videos.unpin', $video)}}" method="POST" class="d-inline-block">
-                                        @csrf
-                                        <button class="btn btn-secondary btn-sm" title="Unpin video" type="submit">
-                                            <i class="fa-solid fa-link-slash"></i>
-                                        </button>
-                                    </form>
-                                @endcan
                                 @can('pin', $video)
                                     <form action="{{route('user.videos.pin', $video)}}" method="POST" class="d-inline-block">
                                         @csrf
                                         <button class="btn btn-secondary btn-sm" title="Pin video" type="submit">
                                             <i class="fa-solid fa-thumbtack"></i>
+                                        </button>
+                                    </form>
+                                @elsecan('unpin', $video)
+                                    <form action="{{route('user.videos.unpin', $video)}}" method="POST" class="d-inline-block">
+                                        @csrf
+                                        <button class="btn btn-secondary btn-sm" title="Unpin video" type="submit">
+                                            <i class="fa-solid fa-link-slash"></i>
                                         </button>
                                     </form>
                                 @endcan

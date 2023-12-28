@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ReportController as ReportAdminController;
 use App\Http\Controllers\Admin\CategoryController as CategoryAdminController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\InvoiceController as InvoiceAdminController;
+use App\Http\Controllers\Admin\SpamController;
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OAuthController;
@@ -86,7 +87,6 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
     Route::get('/video/download/{video:uuid}', 'download')
         ->name('download')
-        ->middleware('premium')
         ->can('download', 'video')
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
     Route::get('/embed/{video:uuid}', 'embed')
@@ -233,6 +233,7 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     // Notifications
     Route::controller(NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
         Route::get('/', 'index')->name('index');
+        Route::get('{notification}/click', 'click')->name('click');
     });
 
     Route::get('/subscribers', [ProfileController::class, 'subscribers'])->name('subscribers');
@@ -298,6 +299,12 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
             ->name('download')
             ->can('download', 'export')
             ->missing(fn(Request $request) => abort(404, 'Export not found'));
+    });
+
+    // Spam
+    Route::controller(SpamController::class)->prefix('spam')->name('spams.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::put('/update', 'update')->name('update');
     });
 
     // Logs

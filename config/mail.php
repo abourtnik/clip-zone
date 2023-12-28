@@ -114,5 +114,6 @@ return [
             resource_path('views/vendor/mail'),
         ],
     ],
-    'support_mail' => env('SUPPORT_EMAIL')
+    'support_mail' => env('SUPPORT_EMAIL'),
+    'server_mail' => env('SERVER_EMAIL')
 ];

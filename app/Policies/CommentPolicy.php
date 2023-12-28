@@ -107,9 +107,9 @@ class CommentPolicy
      */
     public function report(User $user, Comment $comment): Response|bool
     {
-        return $comment->user->isNot($user)
+        return $comment->video->is_public && $comment->user->isNot($user) && !$comment->is_banned && !$comment->reportByAuthUser
             ? Response::allow()
-            : Response::denyWithStatus(403);
+            : Response::denyWithStatus(403, 'You are not authorized to report this comment');
     }
 
     /**

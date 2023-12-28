@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\VideoStatus;
+use App\Events\Video\VideoViewed;
 use App\Http\Resources\VideoResource;
 use App\Models\Category;
 use App\Models\User;
@@ -18,7 +19,6 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class VideoController
 {
-
     public function __construct(private readonly VideoService $videoService)
     {
     }
@@ -56,19 +56,7 @@ class VideoController
 
     public function show (Video $video, Request $request) : View {
 
-        $limit = ['unit' => 'minutes', 'value' => 1];
-
-        $ip_views_count = $video->views()->where('ip' , $request->ip())
-            ->whereBetween('view_at', [now()->sub($limit['unit'], 1), now()])
-            ->limit($limit['value'])
-            ->count();
-
-        if ($ip_views_count < $limit['value']) {
-            $video->views()->create([
-                'ip' => $request->ip(),
-                'user_id' => Auth::user()?->id
-            ]);
-        }
+        event(new VideoViewed($video));
 
         $suggestedVideos = $this->videoService->getSuggestedVideos($video);
 
@@ -76,7 +64,7 @@ class VideoController
             'video' => $video
                 ->load([
                     'user' => fn($q) => $q->withCount('subscribers'),
-                    'reports' => fn($q) => $q->where('user_id', Auth::id())
+                    'reportByAuthUser'
                 ])
                 ->loadCount([
                     'views',
@@ -85,29 +73,26 @@ class VideoController
                     'comments',
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                    'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ]),
             'videos' => $suggestedVideos,
-            'nextVideoUrl' => route('video.show', $suggestedVideos->random()),
+            'nextVideoUrl' => $suggestedVideos->count() ? route('video.show', $suggestedVideos->random()) : null,
             't' => $request->query('t', 0),
         ]);
     }
 
     public function download (Video $video): StreamedResponse
     {
-        return Storage::disk('videos')->download($video->file);
+        return Storage::download(Video::VIDEO_FOLDER .'/'. $video->file);
     }
 
-    public function file (Video $video) : Response
-    {
-        return response()->noContent(200);
-    }
+    public function file (Video $video) : void {}
 
     public function thumbnail (Video $video): Response
     {
-        $file = Storage::disk('thumbnails')->get($video->thumbnail);
+        $path = Video::THUMBNAIL_FOLDER.'/'.$video->thumbnail;
+        $file = Storage::get($path);
 
-        return response($file)->header('Content-Type', Storage::disk('thumbnails')->mimeType($video->thumbnail));
+        return response($file)->header('Content-Type', Storage::mimeType($path));
     }
 
     public function embed (Video $video): View
@@ -134,9 +119,9 @@ class VideoController
                 ->when($excludePinned, fn($query) => $query->where('id', '!=', $user->pinned_video->id))
                 ->withCount('views')
                 ->with('user')
-                ->when($sort === 'latest', fn($query) => $query->latest('created_at'))
+                ->when($sort === 'latest', fn($query) => $query->latest('publication_date'))
                 ->when($sort === 'popular', fn($query) => $query->orderByRaw('views_count DESC'))
-                ->when($sort === 'oldest', fn($query) => $query->oldest('created_at'))
+                ->when($sort === 'oldest', fn($query) => $query->oldest('publication_date'))
                 ->paginate(24)
         );
     }

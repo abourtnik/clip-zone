@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+    const REPLIES_PER_PAGE = 10;
+
     public function __construct()
     {
         //$this->authorizeResource(Comment::class, 'comment');
@@ -51,7 +53,7 @@ class CommentController extends Controller
                                 'user',
                                 'video' => fn($q) => $q->with('user'),
                                 'replies',
-                                'reports' => fn($q) => $q->where('user_id', Auth::id())
+                                'reportByAuthUser',
                             ])
                             ->withCount([
                                 'likes',
@@ -59,11 +61,14 @@ class CommentController extends Controller
                                 'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                                 'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                             ])
-                            ->latest();
+                            ->orderByRaw('likes_count - dislikes_count DESC')
+                            ->latest()
+                            ->limit(self::REPLIES_PER_PAGE);
                     },
-                    'reports' => fn($q) => $q->where('user_id', Auth::id())
+                    'reportByAuthUser'
                 ])
                 ->withCount([
+                    'replies as total_replies' => fn($q) => $q->public(),
                     'likes',
                     'dislikes',
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
@@ -71,9 +76,9 @@ class CommentController extends Controller
                     'replies as author_replies' => fn ($query) => $query->where('user_id', $video->user->id),
                 ])
                 ->when($video->pinned_comment, fn($query) => $query->orderByRaw('id <> ' .$video->pinned_comment->id))
-                ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC')->latest())
-                ->when($sort === 'newest', fn($query) => $query->latest())
-                ->paginate(24)
+                ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
+                ->latest()
+                ->simplePaginate(20)
                 ->withQueryString()
         ))->additional([
             'count' => $video->comments_count,
@@ -91,7 +96,8 @@ class CommentController extends Controller
                 ->with([
                     'user',
                     'video' => fn($q) => $q->with('user'),
-                    'replies'
+                    'replies',
+                    'reportByAuthUser'
                 ])
                 ->withCount([
                     'likes',
@@ -100,10 +106,12 @@ class CommentController extends Controller
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ])
                 ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
-                ->when($sort === 'recent', fn($query) => $query->latest())
-                ->paginate(12)
+                ->latest()
+                ->simplePaginate(self::REPLIES_PER_PAGE)
                 ->withQueryString()
-        ));
+        ))->additional([
+            'count' => $comment->replies_count,
+        ]);
 
     }
 

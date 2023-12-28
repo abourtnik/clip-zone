@@ -40,6 +40,8 @@ export default function VideoUpload ({endpoint, maxsize}) {
 
         setLoading(true);
 
+        const uniqueId = Date.now();
+
         const resumable = new Resumable({
             target: endpoint,
             query:{
@@ -55,7 +57,8 @@ export default function VideoUpload ({endpoint, maxsize}) {
             simultaneousUploads: 1,
             testChunks: false,
             permanentErrors: [400, 401, 403, 404, 409, 413, 415, 422, 500, 501],
-            setChunkTypeFromFile : file.type
+            setChunkTypeFromFile : file.type,
+            generateUniqueIdentifier: () => uniqueId,
         });
 
         window.resumable = resumable;
@@ -119,7 +122,7 @@ export default function VideoUpload ({endpoint, maxsize}) {
             }
             {
                 error &&
-                <div className={"alert w-90 mx-auto alert-danger mb-3"}>
+                <div className={"alert w-90 mx-auto alert-danger mb-3 text-center"}>
                     <strong className={'text-sm'}>{error}</strong>
                 </div>
             }

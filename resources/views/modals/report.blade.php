@@ -17,7 +17,7 @@
                         </div>
                     @endforeach
                     <hr>
-                    <div class="mb-3" x-data="{ count: 0 }" x-init="count = $refs.comment.value.length">
+                    <div class="mb-3" x-init="count = $refs.comment.value.length">
                         <label for="comment" class="form-label">Provide additional details</label>
                         <textarea
                             class="form-control"
@@ -79,9 +79,17 @@
 
     document.addEventListener('alpine:init', () => {
         Alpine.data('report', () => ({
+            init() {
+                document.getElementById('report').addEventListener('hide.bs.modal', event => {
+                    document.getElementById('report-form').reset()
+                    this.reported = false
+                    this.count = 0
+                })
+            },
             loading: false,
             reported: false,
             error: null,
+            count : 0,
             async perform () {
                 this.loading = true;
                 this.error = null;

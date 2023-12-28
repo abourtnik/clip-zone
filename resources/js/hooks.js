@@ -1,11 +1,11 @@
 import {useCallback, useState, useEffect} from 'preact/hooks';
 
-export function usePaginateFetch (url) {
+export function usePaginateFetch (url, initialItems = [], initialCount = null, initialNext = null) {
 
     const [loading, setLoading] = useState(false);
-    const [items, setItems] = useState([]);
-    const [count, setCount] = useState([]);
-    const [next, setNext] = useState(null);
+    const [items, setItems] = useState(initialItems);
+    const [count, setCount] = useState(initialCount);
+    const [next, setNext] = useState(initialNext);
     const load = useCallback(async (sort = null) => {
         setLoading(true);
         return await jsonFetch((next || url) + (sort ? '&sort=' + sort : '')).then(data => {

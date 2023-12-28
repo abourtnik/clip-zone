@@ -44,6 +44,12 @@ class ReportController extends Controller
 
     public function report (ReportRequest $request) : Response {
 
+        $type = $request->get('type');
+
+        $model = $type::findOrFail($request->get('id'));
+
+        $this->authorize('report', $model);
+
         $validated = $request->safe()->merge([
             'reportable_type' => $request->get('type'),
             'reportable_id' => $request->get('id'),

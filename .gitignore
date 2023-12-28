@@ -3,6 +3,7 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage
 /vendor
 .env
 .env.backup
@@ -17,6 +18,7 @@ yarn-error.log
 
 # Local data
 mariadb_data
+minio_data
 
 # Folder view configuration files
 .DS_Store
@@ -35,4 +37,7 @@ Thumbs.db
 
 # Compiled C++ files
 *.out
+
+# Spams
+storage/app/words.txt
 

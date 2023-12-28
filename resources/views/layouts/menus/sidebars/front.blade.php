@@ -1,5 +1,5 @@
 <div @class(["offcanvas offcanvas-start fixed overflow-auto", 'show_sidebar' => $show_sidebar ]) id="responsive-sidebar" data-bs-keyboard="false" data-bs-backdrop="true" data-bs-scroll="true" aria-modal="true" role="dialog">
-    <div @class(["offcanvas-header d-flex align-items-center bg-light border py-1", 'd-md-none' => $show_sidebar, 'd-flex gap-2' => Auth::user()?->is_premium, 'justify-content-between' => !Auth::user()?->is_premium])>
+    <div @class(["offcanvas-header d-flex align-items-center bg-light border py-2", 'd-md-none' => $show_sidebar, 'd-flex gap-2' => Auth::user()?->is_premium, 'justify-content-between' => !Auth::user()?->is_premium])>
         <a
             href="{{route('pages.home')}}"
             @class(['offcanvas-title text-danger fw-bold text-decoration-none d-flex gap-2', 'h6' => Auth::user()?->is_premium, 'h5' => !Auth::user()?->is_premium])
@@ -156,10 +156,16 @@
                     <small>All Rights Reserved</small>
                 </div>
                 <div class="d-flex align-items-center gap-2 mt-2">
-                    <a class="btn bg-dark text-white btn-sm" href="https://github.com/abourtnik/clip-zone" target="_blank">
+                    <a class="btn bg-dark text-white btn-sm mt-2" href="https://github.com/abourtnik/clip-zone" target="_blank">
                         <i class="fa-brands fa-github mr-2"></i>
                         <span>Github</span>
                     </a>
+                    <a class="btn text-white btn-sm mt-2" href="https://www.paypal.com/donate/?hosted_button_id=P4KH8VMKM6XMJ" target="_blank" style="background-color: #0079C1">
+                        <i class="fa-brands fa-paypal mr-2"></i>
+                        <span>Donate</span>
+                    </a>
+                </div>
+                <div class="d-flex align-items-center gap-2 mt-2">
                     <form action="{{route('lang.update')}}" method="POST">
                         @csrf()
                         <select onchange="this.form.submit()" class="form-select form-select-sm text-sm" aria-label="Locale" name="locale">

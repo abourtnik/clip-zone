@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\VideoStatus;
-use App\Events\VideoPublished;
+use App\Events\Video\VideoPublished;
 use App\Models\Video;
 use Illuminate\Console\Command;
 
@@ -37,6 +37,7 @@ class SendVideoPublishedEvent extends Command
 
         foreach ($videos as $video) {
             VideoPublished::dispatch($video);
+            $this->info(now()->format('Y-m-d H:i:s',).' - Video : ' .$video->title. ' ('.$video->id.') published.');
         }
 
         return Command::SUCCESS;

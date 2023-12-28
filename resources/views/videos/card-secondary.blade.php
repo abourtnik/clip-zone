@@ -1,14 +1,14 @@
-<article class="d-flex flex-wrap flex-sm-nowrap mb-2 position-relative gap-2 suggested_video video-card">
+<article @class(["d-flex flex-wrap flex-sm-nowrap position-relative gap-0 gap-sm-2 suggested_video", "mb-4 mb-sm-2" => !isset($playlist_video)]) x-data="{hover:false}">
     <a href="{{$video->route}}">
         <div class="position-relative">
-            <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" imgClass="rounded-2 video-thumbnail"/>
+            <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" imgClass="rounded" :hover="hover"/>
             <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                 {{$video->duration}}
             </small>
         </div>
-        <span style="position: absolute;inset: 0;"></span>
+        <span @mouseover="hover=true" @mouseleave="hover=false" style="position: absolute;inset: 0;z-index: 10"></span>
     </a>
-    <div class="p-2 p-sm-0">
+    <div class="pt-2 p-sm-0">
         <div class="d-flex gap-2">
             <a href="{{$video->user->route}}" style=";height: 36px;" class="position-relative d-block d-sm-none" title={{$video->user->username}}>
                 <img class="rounded-circle" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar"  style="width: 36px">
@@ -23,7 +23,7 @@
                 <div class="text-sm d-flex flex-wrap gap-1 align-items-center text-muted">
                     <div>{{trans_choice('views', $video->views_count)}}</div>
                     <div>•</div>
-                    <div>{{$video->created_at->diffForHumans()}}</div>
+                    <div>{{$video->publication_date->diffForHumans()}}</div>
                 </div>
             </div>
         </div>

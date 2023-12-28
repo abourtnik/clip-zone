@@ -61,6 +61,14 @@ class InteractionController extends Controller
 
         return InteractionsResource::collection(
             $video->interactions()
+                ->with([
+                    'user' => function ($query) {
+                        $query->withCount(['subscribers as is_subscribe_to_current_user' => function($query) {
+                            $query->where('subscriber_id', Auth::id());
+                        }]);
+                    },
+                    'likeable'
+                ])
                 ->when($filter === 'up', fn($query) => $query->where('status', true))
                 ->when($filter === 'down', fn($query) => $query->where('status', false))
                 ->when($search, fn($query) => $query->whereRelation('user', 'username', 'LIKE',  '%'.$search.'%'))

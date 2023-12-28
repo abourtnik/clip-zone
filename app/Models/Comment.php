@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Parser;
 use App\Models\Interfaces\Likeable;
 use App\Models\Interfaces\Reportable;
 use App\Models\Traits\HasLike;
@@ -19,10 +20,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Comment extends Model implements Likeable, Reportable
 {
-    use HasLike, LogsActivity, HasReport;
+    use HasLike, LogsActivity, HasReport, HasEagerLimit;
 
     protected $guarded = ['id'];
 
@@ -31,6 +33,8 @@ class Comment extends Model implements Likeable, Reportable
     protected $dates = [
         'banned_at'
     ];
+
+    public const SHORT_CONTENT_LIMIT = 500;
 
     use HasFactory;
 
@@ -67,14 +71,7 @@ class Comment extends Model implements Likeable, Reportable
     protected function isLong(): Attribute
     {
         return Attribute::make(
-            get: fn () => Str::length($this->content) > 780
-        );
-    }
-
-    protected function shortContent(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => Str::limit($this->content, 780,' ...')
+            get: fn () => Str::length($this->content) > self::SHORT_CONTENT_LIMIT
         );
     }
 
@@ -106,7 +103,19 @@ class Comment extends Model implements Likeable, Reportable
         );
     }
 
+    protected function shortContent(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Parser::applyParsers(Str::limit($this->content, self::SHORT_CONTENT_LIMIT), ['links', 'timecodes'])
+        );
+    }
 
+    protected function parsedContent(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => Parser::applyParsers($this->content, ['links', 'timecodes'])
+        );
+    }
 
     /**
      * -------------------- SCOPES --------------------

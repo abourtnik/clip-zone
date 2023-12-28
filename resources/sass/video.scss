@@ -1,18 +1,3 @@
-// Card
-
-.video-card {
-    @media (max-width: map-get($grid-breakpoints, "sm")) {
-        background-color: white;
-        border-bottom: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
-    }
-
-    .video-thumbnail {
-        @media (max-width: map-get($grid-breakpoints, "sm")) {
-            border-radius: 0 !important;
-        }
-    }
-}
-
 // SUGGESTED VIDEOS
 
 .suggested_video {
@@ -23,6 +8,20 @@
             max-width: 100%;
         }
     }
+}
+
+.image-box img {
+    transition: all 0.3s;
+    transform: scale(1);
+}
+
+.image-box.hover {
+    overflow: hidden;
+    outline:  3px solid #DC3644;
+    img {
+        transform: scale(1.1);
+    }
+
 }
 
 

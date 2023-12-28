@@ -139,7 +139,7 @@
                             Ninja
                         </a>
                     @else
-                        <form id="form-ban" method="POST" action="{{route('admin.users.confirm', $user)}}">
+                        <form method="POST" action="{{route('admin.users.confirm', $user)}}">
                             @csrf
                             <button type="submit" class="btn btn-success btn-sm">
                                 <i class="fa-solid fa-user-check"></i>

@@ -21,7 +21,7 @@ class UserPolicy
     {
         return $model->is_active
             ? Response::allow()
-            : Response::denyWithStatus(404, 'This user don\'t exist');
+            : Response::denyWithStatus(404, 'This user doesn\'t exist');
     }
 
     /**
@@ -33,9 +33,9 @@ class UserPolicy
      */
     public function subscribe (User $user, User $model): Response|bool
     {
-        return $user->isNot($model)
+        return $user->isNot($model) && $model->is_active
             ? Response::allow()
-            : Response::denyWithStatus(403, 'You can\'t subscribe yourself');
+            : Response::denyWithStatus(403, 'You can\'t subscribe to this user');
     }
 
     /**
@@ -47,9 +47,9 @@ class UserPolicy
      */
     public function report (User $user, User $model): Response|bool
     {
-        return $user->isNot($model)
+        return $user->isNot($model) && $model->is_active && !$model->isReportedByUser($user)
             ? Response::allow()
-            : Response::denyWithStatus(403, 'You can\'t report yourself');
+            : Response::denyWithStatus(403, 'You are not authorized to report this user');
     }
 
     /**

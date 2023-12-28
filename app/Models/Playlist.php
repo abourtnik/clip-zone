@@ -11,10 +11,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Auth;
+use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Playlist extends Model
 {
-    use HasFactory;
+    use HasFactory, HasEagerLimit;
 
     protected $guarded = ['id'];
 
@@ -47,7 +49,9 @@ class Playlist extends Model
     protected function thumbnail(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->videos()->public(true)->first()?->thumbnail_url
+            get: fn () => $this->videos->first(function (Video $video, int $key) {
+                return $video->is_public || $video->user->is(Auth::user());
+            })?->thumbnail_url
         );
     }
 

@@ -19,6 +19,7 @@ class LoginTest extends TestCase
     public function test_login_view() :void
     {
         $response = $this->get(route('login'));
+
         $response->assertViewIs('auth.login');
     }
 
@@ -91,10 +92,14 @@ class LoginTest extends TestCase
             'password' => $password
         ]);
 
+        $response->assertRedirect(route('user.index'));
+
+        $response = $this->get(route('user.index'));
+
         $response->assertRedirect(route('login'));
+
         $response->assertSessionHas('error', 'Your account has been suspended for violating our <a target="_blank" class="text-danger fw-bold" href="/terms">Terms of Service</a>');
 
-        $this->assertTrue(session()->hasOldInput('username'));
         $this->assertGuest();
     }
 }

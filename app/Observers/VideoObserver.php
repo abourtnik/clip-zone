@@ -3,7 +3,7 @@
 namespace App\Observers;
 
 use App\Enums\VideoStatus;
-use App\Events\VideoPublished;
+use App\Events\Video\VideoPublished;
 use App\Helpers\Image;
 use App\Models\Video;
 
@@ -39,7 +39,7 @@ class VideoObserver
         // Remove video reports
         $video->reports()->delete();
 
-        Image::deleteIf($video->file, 'videos');
-        Image::deleteIf($video->thumbnail, 'thumbnails');
+        Image::deleteIf($video->file, Video::VIDEO_FOLDER);
+        Image::deleteIf($video->thumbnail, Video::THUMBNAIL_FOLDER);
     }
 }

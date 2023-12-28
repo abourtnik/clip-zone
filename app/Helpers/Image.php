@@ -3,24 +3,25 @@
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 
 class Image
 {
-    public static function storeAndDelete(UploadedFile|null $file, string|null $initialFile, string $disk): string|null {
+    public static function storeAndDelete(UploadedFile|null $file, string|null $initialFile, string $path): string|null {
 
-        if ($file && $initialFile && !Str::contains($initialFile, 'default')) {
-            Storage::disk($disk)->delete($initialFile);
+        if ($file && $initialFile) {
+            Storage::delete($path.'/'.$initialFile);
         }
 
-        return $file?->store('/', $disk) ?? $initialFile;
+        $file?->store($path);
+
+        return $file?->hashName() ?? $initialFile;
     }
 
-    public static function deleteIf(string|null $file, string $disk): void {
+    public static function deleteIf(string|null $file, string $path): void {
 
-        if ($file && !Str::contains($file, 'default')) {
-            Storage::disk($disk)->delete($file);
+        if ($file) {
+            Storage::delete($path.'/'.$file);
         }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Models\View as ViewModel;
@@ -30,7 +31,7 @@ class HistoryController extends Controller
         ]);
     }
 
-    public function clear()
+    public function clear(): RedirectResponse
     {
         Auth::user()->views()->update([
             'user_id' => null

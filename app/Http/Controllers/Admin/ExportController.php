@@ -18,7 +18,7 @@ class ExportController
 
     public function download (Export $export): StreamedResponse
     {
-        return Storage::disk('exports')->download($export->file);
+        return Storage::download($export->path);
     }
 
 }
