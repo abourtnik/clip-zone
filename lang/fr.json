@@ -114,7 +114,7 @@
     "Website": "Site internet",
     "Joined": "Actif depuis le",
     "By embedding ClipZone videos on your site, you are agreeing to ClipZone": "En intégrant des vidéos ClipZone sur votre site, vous acceptez nos",
-    "Unleash the full potential of your creative journey with our premium plan": "Libérez tout votre potentiel créatif avec nos plans premiums",
+    "Unleash the full potential of your creative journey with our premium plan": "Libérez votre potentiel créatif avec nos plans premiums",
     "days trial": "jours d'essai",
     "Then": "Puis",
     "Cancel anytime": "Annuler à tout moment",
@@ -154,6 +154,8 @@
     "Want to download this video ?" : "Vous voulez télécharger cette vidéo ?",
     "Upgrade to Premium for download videos." : "Passez à Premium pour télécharger des vidéos.",
     "Upgrade to Premium" : "Passer à la version premium",
+    "Comments are turned off" : "Les commentaires sont désactivés",
+    "Country" : "Pays",
     "Invalid login credentials. Please try again or reset your password. <br><a class=\"text-danger fw-bold text-decoration-none\" href=\"/contact\">Contact</a> our support team for help.'" : "Envoyez-moi les instructions",
     "No description provided": "Aucune description"
 }

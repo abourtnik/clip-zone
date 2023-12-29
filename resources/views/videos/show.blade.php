@@ -240,7 +240,7 @@
                         @if($video->category)
                             <a href="{{$video->category->route}}" class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0 text-decoration-none">
                                 <i class="fa-solid fa-{{$video->category->icon}}"></i>
-                                <strong>{{$video->category->title}}</strong>
+                                <strong>{{ __($video->category->title) }}</strong>
                             </a>
                         @endif
                         @if($video->language)
