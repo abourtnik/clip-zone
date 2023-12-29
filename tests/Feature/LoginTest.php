@@ -53,7 +53,7 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertRedirect(route('login'));
-        $response->assertSessionHas('error', 'Invalid login credentials. Please try again or reset your password. <br><a class="text-danger fw-bold text-decoration-none" href="/contact">Contact</a> our support team for help.');
+        $response->assertSessionHas('error', __('auth.failed'));
 
         $this->assertTrue(session()->hasOldInput('username'));
         $this->assertGuest();
@@ -73,7 +73,7 @@ class LoginTest extends TestCase
         ]);
 
         $response->assertRedirect(route('login'));
-        $response->assertSessionHas('error', 'Your email is not verified. Please check your mailbox');
+        $response->assertSessionHas('error', __('auth.email_not_verified'));
 
         $this->assertTrue(session()->hasOldInput('username'));
         $this->assertGuest();
