@@ -29,7 +29,7 @@ class LoginController
 
             $seconds = RateLimiter::availableIn($this->throttleKey());
 
-            return back()->with('error', 'Too many login attempts. Please try again in '.$seconds. ' seconds')->onlyInput('username');
+            return back()->with('error', __('auth.throttle', ['seconds' => $seconds]))->onlyInput('username');
         }
 
         $remember = $request->has('remember');
@@ -41,7 +41,7 @@ class LoginController
             RateLimiter::clear($this->throttleKey());
 
             if (!$user->hasVerifiedEmail()) {
-                return back()->with('error', 'Your email is not verified. Please check your mailbox')->onlyInput('username');
+                return back()->with('error', __('auth.email_not_verified'))->onlyInput('username');
             }
 
             Auth::login($user, $remember);
@@ -51,7 +51,7 @@ class LoginController
 
         RateLimiter::hit($this->throttleKey(), 60);
 
-        return back()->with('error', 'Invalid login credentials. Please try again or reset your password. <br><a class="text-danger fw-bold text-decoration-none" href="/contact">Contact</a> our support team for help.')->onlyInput('username');
+        return back()->with('error', __('auth.failed'))->onlyInput('username');
     }
 
     /**

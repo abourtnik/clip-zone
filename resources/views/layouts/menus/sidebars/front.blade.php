@@ -5,13 +5,13 @@
             @class(['offcanvas-title text-danger fw-bold text-decoration-none d-flex gap-2', 'h6' => Auth::user()?->is_premium, 'h5' => !Auth::user()?->is_premium])
         >
             <span>{{config('app.name')}}</span>
-             @if(Auth::user()?->is_premium) <span class="text-warning">Premium</span> @endif
+             @if(Auth::user()?->is_premium) <span class="text-warning">{{__('Premium')}}</span> @endif
         </a>
         <div class="d-flex gap-2 align-items-center">
             @auth()
             <button class="btn btn-success btn-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#video_create">
                 <i class="fa-solid fa-upload"></i>
-                <span>Upload</span>
+                <span>{{__('Upload')}}</span>
             </button>
             @endauth
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -34,8 +34,8 @@
             @endforeach
             @if(Auth::check() && $favorite_playlists->count())
                 <div class="d-flex align-items-center justify-content-between ps-3 pe-2 mb-2 text-sm">
-                    <div class="fw-bold ">Playlists ({{$favorite_playlists->count()}})</div>
-                    <a class="text-decoration-none text-primary" href="{{route('playlist.manage')}}">See</a>
+                    <div class="fw-bold ">{{__('Playlists')}} ({{$favorite_playlists->count()}})</div>
+                    <a class="text-decoration-none text-primary" href="{{route('playlist.manage')}}">{{__('See')}}</a>
                 </div>
                 <ul class="nav nav-pills flex-column text-center" x-data="{ open: false }">
                     @foreach($favorite_playlists->slice(0, 7) as $playlist)
@@ -50,7 +50,7 @@
                         <li class="nav-item">
                             <button @click="open = true" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" x-show.important="!open" role="button">
                                 <i class="fa-solid fa-chevron-down"></i>
-                                <small>Show {{$favorite_playlists->count() - 7}} more</small>
+                                <small>{{__('Show more', ['count' => $favorite_playlists->count() - 7])}}</small>
                             </button>
                         </li>
                         <div x-show="open">
@@ -63,7 +63,7 @@
                             <li class="nav-item">
                                 <button @click="open = false" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" role="button">
                                     <i class="fa-solid fa-chevron-up"></i>
-                                    <small>Show Less</small>
+                                    <small>{{__('Show Less')}}</small>
                                 </button>
                             </li>
                         </div>
@@ -73,8 +73,8 @@
             @endif
             @if(Auth::check() && $subscriptions->count())
                 <div class="d-flex align-items-center justify-content-between ps-3 pe-2 mb-2 text-sm">
-                    <div class="fw-bold ">Subscriptions ({{$subscriptions->count()}})</div>
-                    <a class="text-decoration-none text-primary" href="{{route('subscription.manage')}}">See</a>
+                    <div class="fw-bold ">{{__('Subscriptions')}} ({{$subscriptions->count()}})</div>
+                    <a class="text-decoration-none text-primary" href="{{route('subscription.manage')}}">{{__('See')}}</a>
                 </div>
                 <ul class="nav nav-pills flex-column text-center" x-data="{ open: false }">
                     @foreach($subscriptions->slice(0, 7) as $user)
@@ -92,7 +92,7 @@
                         <li class="nav-item">
                             <button @click="open = true" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" x-show.important="!open" role="button">
                                 <i class="fa-solid fa-chevron-down"></i>
-                                <small>Show {{$subscriptions->count() - 7}} more</small>
+                                <small>{{__('Show more', ['count' => $subscriptions->count() - 7])}}</small>
                             </button>
                         </li>
                         <div x-show="open">
@@ -110,7 +110,7 @@
                             <li class="nav-item">
                                 <button @click="open = false" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" role="button">
                                     <i class="fa-solid fa-chevron-up"></i>
-                                    <small>Show Less</small>
+                                    <small>{{ __('Show Less') }}</small>
                                 </button>
                             </li>
                         </div>
@@ -129,12 +129,12 @@
                 </ul>
             @endif
             <hr class="w-90">
-            <div class="fw-bold ps-3 mb-2">Explore</div>
+            <div class="fw-bold ps-3 mb-2">{{__('Explore')}}</div>
             <ul class="nav nav-pills flex-column mb-auto text-center">
                 @foreach($categories as $category)
                     <x-sidebar-item route="{{route('pages.category', $category->slug)}}">
                         <i style="width: 24px" class="fa-solid fa-{{$category->icon}}"></i>
-                        <span class="text-sm">{{$category->title}}</span>
+                        <span class="text-sm">{{__($category->title)}}</span>
                     </x-sidebar-item>
                 @endforeach
             </ul>
@@ -149,11 +149,11 @@
             @endif
             <hr class="w-90">
             <div class="ps-4 pb-2">
-                <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">Terms of Service •</a>
-                <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('contact.show')}}">Contact</a>
+                <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">{{__('Terms of Service')}} •</a>
+                <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('contact.show')}}">{{__('Contact')}}</a>
                 <div class="mt-2 text-muted d-flex flex-column gap-1">
-                    <small>Copyright © {{now()->format('Y')}} {{config('app.name')}}</small>
-                    <small>All Rights Reserved</small>
+                    <small>{{__('Copyright')}} © {{now()->format('Y')}} {{config('app.name')}}</small>
+                    <small>{{__('All Rights Reserved')}}</small>
                 </div>
                 <div class="d-flex align-items-center gap-2 mt-2">
                     <a class="btn bg-dark text-white btn-sm mt-2" href="https://github.com/abourtnik/clip-zone" target="_blank">
@@ -162,7 +162,7 @@
                     </a>
                     <a class="btn text-white btn-sm mt-2" href="https://www.paypal.com/donate/?hosted_button_id=P4KH8VMKM6XMJ" target="_blank" style="background-color: #0079C1">
                         <i class="fa-brands fa-paypal mr-2"></i>
-                        <span>Donate</span>
+                        <span>{{__('Donate')}}</span>
                     </a>
                 </div>
                 <div class="d-flex align-items-center gap-2 mt-2">

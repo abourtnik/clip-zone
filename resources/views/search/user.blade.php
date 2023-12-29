@@ -21,12 +21,12 @@
                 class="btn btn-danger position-relative"
                 data-bs-toggle="popover"
                 data-bs-placement="right"
-                data-bs-title="Want to subscribe to this channel?"
+                data-bs-title="{{ __('Want to subscribe to this channel ?') }}"
                 data-bs-trigger="focus"
                 data-bs-html="true"
-                data-bs-content="Sign in to subscribe to this channel.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                data-bs-content="{{ __('Sign in to subscribe to this channel.') }}<hr><a href='/login' class='btn btn-primary btn-sm'>{{ __('Sign In') }}</a>"
             >
-                Subscribe
+                {{ __('Subscribe') }}
             </button>
         @endauth
     </div>

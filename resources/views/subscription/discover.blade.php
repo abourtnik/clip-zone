@@ -4,7 +4,7 @@
 
 @section('content')
     @if($users->count())
-        <h3 class="mb-4">Discover new channels</h3>
+        <h3 class="mb-4">{{ __('Discover new channels')}}</h3>
         <div class="row gx-3 gy-3">
             @each('subscription.partials.user', $users, 'user')
         </div>

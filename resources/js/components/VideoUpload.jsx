@@ -2,10 +2,13 @@ import { useState, useRef } from 'preact/hooks';
 import configuration from "../config";
 import Resumable from 'resumablejs'
 import {formatSizeUnits} from "../functions";
+import { useTranslation } from "react-i18next";
 
 const MB = 1048576;
 
 export default function VideoUpload ({endpoint, maxsize}) {
+
+    const { t } = useTranslation();
 
     const config = configuration['video'];
 
@@ -112,7 +115,7 @@ export default function VideoUpload ({endpoint, maxsize}) {
                     />
                     <div style={'border-style: dashed !important;'} className={"text-center align-items-center d-flex flex-column w-100 mx-auto py-3" + (isDrag ? ' bg-light border border-2' : '') }>
                         <img src="/images/upload.jpg" className={'mb-4'} alt=""/>
-                        <strong className="mb-1">Drag and drop video file to upload</strong>
+                        <strong className="mb-1">{t('Drag and drop video file to upload')}</strong>
                         <div className="text-muted">Your video will be private until you publish them.</div>
                         <button className="btn btn-primary mt-4 text-uppercase">
                             Select file

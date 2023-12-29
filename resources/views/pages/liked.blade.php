@@ -23,10 +23,10 @@
                 <div class="card-body">
                     <div class="text-center">
                         <i class="fa-solid fa-thumbs-up fa-4x mb-3"></i>
-                        <h5 class="my-3">Your like videos history is empty</h5>
-                        <p class="text-muted">Start like videos</p>
+                        <h5 class="my-3">{{ __('Your like videos history is empty') }}</h5>
+                        <p class="text-muted">{{ __('Start like videos') }}</p>
                         <a href="{{route('pages.home')}}" class="btn btn-primary rounded-5 text-uppercase">
-                            See videos
+                            {{ __('See videos') }}
                         </a>
                     </div>
                 </div>

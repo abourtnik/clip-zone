@@ -19,7 +19,7 @@
                 <li class="nav-item align-items-center d-none d-lg-flex">
                     <button class="btn btn-success btn-sm d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#video_create">
                         <i class="fa-solid fa-upload"></i>
-                        <span class="d-none d-xl-inline">Upload</span>
+                        <span class="d-none d-xl-inline">{{__('Upload')}}</span>
                     </button>
                 </li>
                 <li class="nav-item align-items-center">

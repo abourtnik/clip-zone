@@ -6,8 +6,11 @@ import {usePaginateFetch} from "../hooks";
 import {Comment as Skeleton} from "./Skeletons";
 import {useInView} from "react-intersection-observer";
 import {jsonFetch} from '../hooks'
+import {useTranslation} from "react-i18next";
 
 const Comments = memo(({target, defaultSort}) => {
+
+    const { t } = useTranslation();
 
     const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments?video_id=${target}&sort=${defaultSort}`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
@@ -89,11 +92,11 @@ const Comments = memo(({target, defaultSort}) => {
         <div className="mb-4">
             <div className="mb-3 d-flex align-items-center justify-content-between">
                 {
-                    primaryLoading ? <div>Loading ...</div> : <div>{count} Comment{count > 1 && 's'}</div>
+                    primaryLoading ? <div>{t('Loading ...')}</div> : <div>{t( 'Comments', { count: count })}</div>
                 }
                 <div className={'d-flex gap-2 align-items-center'}>
-                    <button onClick={() => sort('top')} className={'btn btn-' + activeButton('top') + 'btn-sm'}>Top Comments</button>
-                    <button onClick={() => sort('newest')} className={'btn btn-' + activeButton('newest') + 'btn-sm'}>Newest first</button>
+                    <button onClick={() => sort('top')} className={'btn btn-' + activeButton('top') + 'btn-sm'}>{t('Top Comments')}</button>
+                    <button onClick={() => sort('newest')} className={'btn btn-' + activeButton('newest') + 'btn-sm'}>{t('Newest first')}</button>
                 </div>
             </div>
             <CommentsForm add={add}/>

@@ -8,6 +8,9 @@ import 'htmx.org';
 import Cropper from 'cropperjs';
 import Sortable from 'sortablejs';
 
+// LANG
+import './lang/config';
+
 // Components
 import './components/index.js'
 

@@ -13,17 +13,17 @@
                 @if($video->is_failed)
                     <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
                         <div class="text-center">
-                            <div class="mb-2 text-danger fw-bold">The processing of your video failed.</div>
+                            <div class="mb-2 text-danger fw-bold">{{__('The processing of your video failed.')}}</div>
                             <div class="text-muted">
-                                Try to re-upload your file, if the problem persist please contact your support.<hr><a target='_blank' href='/contact' class='btn btn-primary btn-sm'>Contact support</a>
+                                {{__('Try to re-upload your file, if the problem persist please contact your support..')}}<hr><a target='_blank' href='/contact' class='btn btn-primary btn-sm'>{{__('Contact support')}}</a>
                             </div>
                         </div>
                     </div>
                 @elseif($video->is_uploading)
                     <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
                         <div class="text-center">
-                            <div class="mb-2">Your video is processing ...</div>
-                            <div class="text-muted text-sm">You will receive a notification once the processing is complete.</div>
+                            <div class="mb-2">{{__('Your video is processing')}} ...</div>
+                            <div class="text-muted text-sm">{{__('You will receive a notification once the processing is complete.')}}</div>
                         </div>
                     </div>
                 @else
@@ -45,28 +45,28 @@
                     @if($video->is_planned)
                         <div class="d-flex alert alert-warning px-2 py-1 align-items-center gap-2 mb-0">
                             <i class="fa-solid fa-clock"></i>
-                            <strong>Planned - {{$video->scheduled_date->format('d M Y H:i')}}</strong>
+                            <strong>{{__('Planned')}} - {{$video->scheduled_date->format('d M Y H:i')}}</strong>
                         </div>
                     @elseif($video->is_private)
                         <div class="d-flex alert alert-danger px-2 py-1 align-items-center gap-2 mb-0">
                             <i class="fa-solid fa-lock"></i>
-                            <strong>Private</strong>
+                            <strong>{{__('Private')}}</strong>
                         </div>
                     @elseif($video->is_unlisted)
                         <div class="d-flex alert alert-secondary px-2 py-1 align-items-center gap-2 mb-0">
                             <i class="fa-solid fa-eye-slash"></i>
-                            <strong>Unlisted</strong>
+                            <strong>{{__('Unlisted')}}</strong>
                         </div>
                     @elseif($video->is_draft)
                         <div class="d-flex alert alert-secondary px-2 py-1 align-items-center gap-2 mb-0">
                             <i class="fa-solid fa-file"></i>
-                            <strong>Draft</strong>
+                            <strong>{{__('Draft')}}</strong>
                         </div>
                     @endif
                     <h1 class="mb-0 h5">{{$video->title}}</h1>
                 </div>
                 <div class="mt-3 d-flex flex-column flex-xxl-row gap-3 justify-content-between align-items-start align-items-xxl-center">
-                    <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date?->format('d F Y') ?? $video->created_at->format('d F Y')}}</div>
+                    <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date?->translatedFormat('d F Y') ?? $video->created_at->translatedFormat('d F Y')}}</div>
                     @auth
                         <div class="d-flex flex-wrap gap-2 align-items-center">
                             <interaction-button
@@ -79,12 +79,12 @@
                             </interaction-button>
                             <button class="btn btn-info rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                                 <i class="fa-solid fa-share"></i>&nbsp;
-                                Share
+                                {{__('Share')}}
                             </button>
                             @if(Auth::user()->is_premium)
                                 <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4 btn-sm px-3" title="Download video">
                                     <i class="fa-solid fa-download"></i>&nbsp;
-                                    Download
+                                    {{__('Download')}}
                                 </a>
                             @else
                                 <button
@@ -92,29 +92,29 @@
                                     title="Download video"
                                     data-bs-toggle="popover"
                                     data-bs-placement="right"
-                                    data-bs-title="Want to download this video ?"
+                                    data-bs-title="{{__('Want to download this video ?')}}"
                                     data-bs-trigger="focus"
                                     data-bs-html="true"
-                                    data-bs-content="Upgrade to Premium for download videos.<hr><a href='/premium' class='btn btn-warning btn-sm text-white fw-bold'><i class='fa-solid fa-star'></i>&nbsp;Upgrade to Premium</a>"
+                                    data-bs-content="{{__('Upgrade to Premium for download videos.')}}<hr><a href='/premium' class='btn btn-warning btn-sm text-white fw-bold'><i class='fa-solid fa-star'></i>&nbsp;{{__('Upgrade to Premium')}}</a>"
                                 >
                                     <i class="fa-solid fa-download"></i>&nbsp;
-                                    Download
+                                    {{__('Download')}}
                                 </button>
                             @endif
                             <button class="btn btn-warning btn-sm rounded-4 px-4" title="Save video" data-bs-toggle="modal" data-bs-target="#save" data-id="{{$video->id}}">
                                 <i class="fa-regular fa-bookmark"></i>&nbsp;
-                                Save
+                                {{__('Save')}}
                             </button>
                             @can('report', $video)
                                 <button class="btn btn-secondary btn-sm rounded-4 px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
                                     <i class="fa-regular fa-flag"></i>&nbsp;
-                                    Report
+                                    {{__('Report')}}
                                 </button>
                             @else
                                 @if($video->reportByAuthUser)
                                     <div class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm">
                                         <i class="fa-regular fa-flag"></i>
-                                        <span>Reported {{$video->reportByAuthUser->created_at->diffForHumans()}}</span>
+                                        <span>{{__('Reported')}} {{$video->reportByAuthUser->created_at->diffForHumans()}}</span>
                                     </div>
                                 @endif
                             @endcan
@@ -126,10 +126,10 @@
                                     class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
                                     data-bs-toggle="popover"
                                     data-bs-placement="left"
-                                    data-bs-title="Like this video ?"
+                                    data-bs-title="{{__('Like this video ?')}}"
                                     data-bs-trigger="focus"
                                     data-bs-html="true"
-                                    data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                    data-bs-content="{{__('Sign in to make your opinion count.')}}<hr><a href='/login' class='btn btn-primary btn-sm'>{{__('Sign In')}}</a>"
                                 >
                                     <i class="fa-regular fa-thumbs-up"></i>
                                     @if($video->show_likes && $video->likes_count)
@@ -141,10 +141,10 @@
                                     class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
                                     data-bs-toggle="popover"
                                     data-bs-placement="right"
-                                    data-bs-title="Don't like this video ?"
+                                    data-bs-title="{{__('Don\'t like this video ?')}}"
                                     data-bs-trigger="focus"
                                     data-bs-html="true"
-                                    data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                    data-bs-content="{{__('Sign in to make your opinion count.')}}<hr><a href='/login' class='btn btn-primary btn-sm'>{{__('Sign In')}}</a>"
                                 >
                                     <i class="fa-regular fa-thumbs-down"></i>
                                     @if($video->show_likes && $video->dislikes_count)
@@ -154,19 +154,19 @@
                             </div>
                             <button class="btn btn-info rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                                 <i class="fa-solid fa-share"></i>&nbsp;
-                                Share
+                                {{__('Share')}}
                             </button>
                             <button
                                 class="btn btn-secondary rounded-4 btn-sm px-3"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
-                                data-bs-title="Need to report the video?"
+                                data-bs-title="{{__('Need to report the video ?')}}"
                                 data-bs-trigger="focus"
                                 data-bs-html="true"
-                                data-bs-content="Sign in to report inappropriate content.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                data-bs-content="{{__('Sign in to report inappropriate content.')}}<hr><a href='/login' class='btn btn-primary btn-sm'>{{__('Sign In')}}</a>"
                             >
                                 <i class="fa-regular fa-flag"></i>&nbsp;
-                                Report
+                                {{__('Report')}}
                             </button>
                         </div>
                     @endauth
@@ -191,12 +191,12 @@
                                 class="btn btn-danger"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
-                                data-bs-title="Want to subscribe to this channel ?"
+                                data-bs-title="{{__('Want to subscribe to this channel ?')}}"
                                 data-bs-trigger="focus"
                                 data-bs-html="true"
-                                data-bs-content="Sign in to subscribe to this channel.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                data-bs-content="{{__('Sign in to subscribe to this channel.')}}<hr><a href='/login' class='btn btn-primary btn-sm'>{{__('Sign In')}}</a>"
                             >
-                                Subscribe
+                                {{ __('Subscribe') }}
                             </button>
                         @elseif(auth()->user()->isNot($video->user))
                             <subscribe-button
@@ -219,7 +219,7 @@
                                     {!! nl2br($video->short_description) !!}
                                 </p>
                             </template>
-                            <div class="text-primary fw-bold mt-1" x-text="open ? 'Show less': 'Show more'"></div>
+                            <div class="text-primary fw-bold mt-1" x-text="open ? '{{__('Show less')}}' : '{{__('Show more')}}'"></div>
                         </div>
                     </div>
                 @elseif($video->description)
@@ -231,7 +231,7 @@
                 @else
                     <div class="my-4 card">
                         <div class="card-body">
-                            <div class="text-muted mb-0">No description provided</div>
+                            <div class="text-muted mb-0">{{__('No description provided')}}</div>
                         </div>
                     </div>
                 @endif
@@ -256,12 +256,12 @@
                     <div class="d-none d-lg-block" id="comments_area"></div>
                     <div class="d-block d-lg-none card my-4">
                         <div class="d-flex align-items-center justify-content-between card-body" data-bs-toggle="offcanvas" data-bs-target="#comments-offcanvas">
-                            <span>Comments • {{$video->comments_count}}</span>
+                            <span>{{__('Comments')}} • {{$video->comments_count}}</span>
                             <i class="fa-solid fa-arrow-right"></i>
                         </div>
                         <div class="offcanvas offcanvas-bottom" tabindex="-1" id="comments-offcanvas" style="min-height: 650px;">
                             <div class="offcanvas-header bg-light border d-flex justify-content-between align-items-center">
-                                <h5 class="offcanvas-title">Comments</h5>
+                                <h5 class="offcanvas-title">{{__('Comments')}}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
                             <div id="offcanvas-body" class="offcanvas-body"></div>
@@ -269,7 +269,7 @@
                     </div>
                 @else
                     <div class="alert alert-primary text-center my-4 my-lg-0">
-                        <strong>Comments are turned off</strong>
+                        <strong>{{__('Comments are turned off')}}</strong>
                     </div>
                 @endif
             </div>
@@ -280,11 +280,11 @@
                 <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
                     <a href="{{$nextVideoUrl}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
                         <i class="fa-solid fa-forward-step"></i>
-                        <span>Next Video</span>
+                        <span>{{__('Next Video')}}</span>
                     </a>
                     <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" id="autoplay">
-                        <label class="form-check-label" for="autoplay">Autoplay</label>
+                        <label class="form-check-label" for="autoplay">{{__('Autoplay')}}</label>
                     </div>
                 </div>
                 <hr>

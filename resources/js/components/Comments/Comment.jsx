@@ -7,8 +7,11 @@ import Edit from './Edit'
 
 import ConfirmDelete from './ConfirmDelete'
 import {jsonFetch, usePaginateFetch} from "../../hooks";
+import {useTranslation} from "react-i18next";
 
 const Comment = memo(({comment, remove, update, pin}) => {
+
+    const { t } = useTranslation();
 
     const [onEdit, setOnEdit] = useState(false);
     const [showReply, setShowReply] = useState(false);
@@ -58,11 +61,6 @@ const Comment = memo(({comment, remove, update, pin}) => {
         }).catch(e => e);
     }, []);
 
-    const showRepliesText = (show, length) => {
-        const count = length > 1 ? length + ' replies' : 'reply';
-        return (show ? 'Hide ' : 'Show ') + count;
-    }
-
     return (
         <article className="d-flex mb-3 gap-2">
             <a href={comment.user.route} className={'h-100'}>
@@ -74,7 +72,7 @@ const Comment = memo(({comment, remove, update, pin}) => {
                         comment.is_pinned &&
                         <div className={'d-flex align-items-center gap-2 mb-3 badge rounded-pill text-bg-primary'} style='width:fit-content'>
                             <i className="fa-solid fa-thumbtack"></i>
-                            <span className={'text-white'}>Pinned by {comment.author.username} </span>
+                            <span className={'text-white'}>{t('Pinned by')} {comment.author.username} </span>
                         </div>
                     }
                     <div className="d-flex justify-content-between align-items-center">
@@ -84,7 +82,7 @@ const Comment = memo(({comment, remove, update, pin}) => {
                             </a>
                             <span>•</span>
                             <small className="text-muted">{comment.created_at}</small>
-                            {comment.is_updated && <><span>•</span> <small className="text-muted fw-semibold">Modified</small></>}
+                            {comment.is_updated && <><span>•</span> <small className="text-muted fw-semibold">{t('Modified')}</small></>}
                         </div>
                         {
                             <div className={'dropdown'}>
@@ -106,7 +104,7 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                         <li>
                                             <button className="dropdown-item d-flex align-items-center gap-3" onClick={() => setOnEdit(onEdit => !onEdit)}>
                                                 <i className="fa-solid fa-pen"></i>
-                                                Edit
+                                                {t('Edit')}
                                             </button>
                                         </li>
                                     }
@@ -125,26 +123,26 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                                         data-type={comment.class}
                                                     >
                                                         <i className="fa-solid fa-flag"></i>
-                                                        Report
+                                                        {t('Report')}
                                                     </button>
                                                     :
                                                     comment.reported_at &&
                                                     <div className="dropdown-item d-flex align-items-center gap-2 mb-0 text-sm py-2">
                                                         <i className="fa-solid fa-flag"></i>
-                                                        <span>Reported {comment.reported_at}</span>
+                                                        <span>{t('Reported')} {comment.reported_at}</span>
                                                     </div>
                                                 :
                                                 <button
                                                     className="dropdown-item d-flex align-items-center gap-3"
                                                     data-bs-toggle="popover"
                                                     data-bs-placement="left"
-                                                    data-bs-title="Need to report the comment?"
+                                                    data-bs-title={t('Need to report the comment?')}
                                                     data-bs-trigger="focus"
                                                     data-bs-html="true"
-                                                    data-bs-content="Sign in to report inappropriate content.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                                    data-bs-content={`${t('Sign in to report inappropriate content.')}<hr><a href='/login' class='btn btn-primary btn-sm'>${t('Sign in')}`}
                                                 >
                                                     <i className="fa-solid fa-flag"></i>
-                                                    Report
+                                                    {t('Report')}
                                                 </button>
                                         }
                                     </li>
@@ -169,10 +167,10 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                             className="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end d-fl"
                                             data-bs-toggle="popover"
                                             data-bs-placement="left"
-                                            data-bs-title="Like this comment ?"
+                                            data-bs-title={t('Like this comment ?')}
                                             data-bs-trigger="focus"
                                             data-bs-html="true"
-                                            data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                            data-bs-content={`${t('Sign in to make your opinion count.')}<hr><a href='/login' class='btn btn-primary btn-sm'>${t('Sign in')}</a>`}
                                         >
                                             <div className={'d-flex gap-2 align-items-center'}>
                                                 <i className="fa-regular fa-thumbs-up"></i>
@@ -184,10 +182,10 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                             className="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
                                             data-bs-toggle="popover"
                                             data-bs-placement="right"
-                                            data-bs-title="Don't like this comment ?"
+                                            data-bs-title={t('Don\'t like this comment ?')}
                                             data-bs-trigger="focus"
                                             data-bs-html="true"
-                                            data-bs-content="Sign in to make your opinion count.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                            data-bs-content={`${t('Sign in to make your opinion count.')}<hr><a href='/login' class='btn btn-primary btn-sm'>${t('Sign in')}</a>`}
                                         >
                                             <div className={'d-flex gap-2 align-items-center'}>
                                                 <i className="fa-regular fa-thumbs-down"></i>
@@ -204,18 +202,18 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                         className="btn btn-sm text-info"
                                         onClick={() => setShowReply(true)}
                                     >
-                                        Reply
+                                        {t('Reply')}
                                     </button> :
                                     <button
                                         className="btn btn-sm text-info"
                                         data-bs-toggle="popover"
                                         data-bs-placement="right"
-                                        data-bs-title="Want to reply to this comment ?"
+                                        data-bs-title={t('Want to reply to this comment ?')}
                                         data-bs-trigger="focus"
                                         data-bs-html="true"
-                                        data-bs-content="Sign in for reply.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                        data-bs-content={`${t('Sign in for reply.')}<hr><a href='/login' class='btn btn-primary btn-sm'>${t('Sign in')}</a>`}
                                     >
-                                        Reply
+                                        {t('Reply')}
                                     </button> : null
                         }
                     </div>
@@ -231,7 +229,7 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                     <span>•</span>
                                 </>
                             }
-                            {showRepliesText(showReplies, repliesCount)}
+                            {t( (showReplies ? 'Hide ' : 'Show ') + 'replies', { count: repliesCount })}
                         </button>
                     }
                 </div>
@@ -256,13 +254,13 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                         loading ?
                                             <div className={'d-flex gap-2 align-items-center'}>
                                                 <div className="spinner-border spinner-border-sm" role="status">
-                                                    <span className="visually-hidden">Loading...</span>
+                                                    <span className="visually-hidden">{t('Loading ...')}</span>
                                                 </div>
-                                                <span>Loading ....</span>
+                                                <span>{t('Loading ...')}</span>
                                             </div> :
                                             <>
                                                 <i className="fa-regular fa-plus"></i>
-                                                <span>Show more responses</span>
+                                                <span>{t('Show more responses')}</span>
                                             </>
                                     }
                                 </button>

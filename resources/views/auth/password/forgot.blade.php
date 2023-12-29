@@ -16,33 +16,33 @@
                                 <strong>{!! session('status') !!}</strong>
                             </div>
                         @endif
-                        <h1 class="h3 mb-5 fw-normal text-center">Password forget</h1>
+                        <h1 class="h3 mb-5 fw-normal text-center">{{ __('Password forget') }}</h1>
                          <ul class="ps-0 mb-5">
                              <li class="d-flex align-items-center gap-3 mb-3">
                                  <div class="bg-info bg-opacity-75 rounded-circle text-white border border-1 border-info d-flex align-items-center justify-content-center fw-bold dot">1</div>
-                                 <p class="mb-0">Enter the email address associated with your account below.</p>
+                                 <p class="mb-0">{{ __('Enter the email address associated with your account below.') }}</p>
                              </li>
                              <li class="d-flex align-items-center gap-3 mb-3">
                                  <div class="bg-info bg-opacity-75 rounded-circle text-white border border-1 border-info d-flex align-items-center justify-content-center fw-bold dot">2</div>
-                                 <p class="mb-0">You will receive an email, click on the link to choose a new password.</p>
+                                 <p class="mb-0">{{ __('You will receive an email, click on the link to choose a new password.') }}</p>
                              </li>
                              <li class="d-flex align-items-center gap-3 mb-3">
                                  <div class="bg-info bg-opacity-75 rounded-circle text-white border border-1 border-info d-flex align-items-center justify-content-center fw-bold dot">3</div>
-                                 <p class="mb-0">After validating your new password, you are connected to your account !</p>
+                                 <p class="mb-0">{{ __('After validating your new password, you are connected to your account !') }}</p>
                              </li>
                          </ul>
                         <form method="POST" action="{{route('password.email')}}">
                             @csrf
                             <div class="form-group form-floating mb-3">
                                 <input type="email" @class(['form-control', 'is-invalid' => $errors->has('email')]) name="email" id="email" placeholder="Email" required value="{{ old('email') }}">
-                                <label for="email">Email</label>
+                                <label for="email">{{ __('Email') }}</label>
                                 @error('email')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
                                 @enderror
                             </div>
-                            <button class="w-100 btn btn-lg btn-primary" type="submit">Send me instructions</button>
+                            <button class="w-100 btn btn-lg btn-primary" type="submit">{{ __('Send me instructions') }}</button>
                         </form>
                     </div>
             </div>

@@ -45,10 +45,10 @@
                         </div>
                         <div class="col-12 col-lg-6 py-5 px-3 px-sm-5 d-flex align-items-center justify-content-center text-center">
                             <div>
-                                <h1 class="h3 mb-3 fw-normal">Don’t miss new videos</h1>
-                                <p class="text-muted">Sign In to see updates from your favorite channels</p>
+                                <h1 class="h3 mb-3 fw-normal">{{ __('Don’t miss new videos') }}</h1>
+                                <p class="text-muted">{{ __('Sign In to see updates from your favorite channels') }}</p>
                                 <a href="{{route('login')}}" class="btn btn-outline-primary rounded-5 text-uppercase">
-                                    Sign in
+                                    {{ __('Sign In') }}
                                 </a>
                             </div>
                         </div>

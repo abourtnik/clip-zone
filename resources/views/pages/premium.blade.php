@@ -15,22 +15,22 @@
             @endif
             <h1 class="mb-3 text-center fw-bold">
                 <span class="text-danger">{{config('app.name')}}</span>
-                <span class="text-warning">Premium</span>
+                <span class="text-warning">{{ __('Premium') }}</span>
             </h1>
-            <h2 class="my-5 text-center">Unleash the full potential of your creative journey with our premium plan</h2>
+            <h2 class="my-5 text-center">{{ __('Unleash the full potential of your creative journey with our premium plan') }}</h2>
             <h3 class="my-5 text-center">
-                <span>{{config('plans.trial_period.period')}} days trial • Then</span>
+                <span>{{config('plans.trial_period.period')}} {{ __('days trial') }} • {{ __('Then') }}</span>
                 @foreach($plans as $plan)
-                    <span x-show="plan === {{$plan->id}}">{{$plan->price}} € / {{$plan->period}} </span>
+                    <span x-show="plan === {{$plan->id}}">{{$plan->price}} € / {{ __($plan->period)}} </span>
                 @endforeach
-                <span>• Cancel anytime</span>
+                <span>• {{ __('Cancel anytime') }}</span>
             </h3>
             <div class="row">
                 <div class="col-12 col-lg-6 col-xl-5 mb-3 mb-lg-0">
                     <div class="mb-3">
                         <div class="card h-100">
                             <div class="card-body text-center">
-                                <h5>Billing</h5>
+                                <h5>{{ __('Billing') }}</h5>
                                 <hr>
                                 <div class="d-flex gap-2 mb-3">
                                     @foreach($plans as $plan)
@@ -39,39 +39,39 @@
                                             class="btn w-100"
                                             @click="plan = {{$plan->id}}"
                                         >
-                                            {{Str::ucfirst($plan->name)}}
+                                            {{__(Str::ucfirst($plan->name))}}
                                         </button>
                                     @endforeach
                                 </div>
-                                <small class="text-muted">Save 2 months with the annual subscription</small>
+                                <small class="text-muted">{{ __('Save 2 months with the annual subscription') }}</small>
                             </div>
                         </div>
                     </div>
                     @foreach($plans as $plan)
                         <div class="card shadow" x-show="plan === {{$plan->id}}">
                             <div class="card-body">
-                                <h5 class="card-title fs-1 text-primary text-center">{{$plan->price}} € / {{$plan->period}}</h5>
+                                <h5 class="card-title fs-1 text-primary text-center">{{$plan->price}} € / {{ __($plan->period) }}</h5>
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex align-items-center gap-4 py-3">
                                     <i class="fa-solid fa-upload fa-2x text-danger"></i>
                                     <div class="d-flex flex-column gap-1">
-                                        <div class="fw-bold">Uploads</div>
-                                        Unlimited videos uploads and storage space
+                                        <div class="fw-bold">{{ __('Uploads') }}</div>
+                                        {{ __('Unlimited videos uploads and storage space') }}
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex align-items-center gap-4 py-3">
                                     <i class="fa-solid fa-download fa-2x text-danger"></i>
                                     <div class="d-flex flex-column gap-1">
-                                        <div class="fw-bold">Downloads</div>
-                                        Save videos for when you really need them – like when you’re on a plane or commuting.
+                                        <div class="fw-bold">{{ __('Downloads') }}</div>
+                                        {{ __('Save videos for when you really need them – like when you’re on a plane or commuting.') }}
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex align-items-center gap-4 py-3">
                                     <i class="fa-solid fa-user-check fa-2x text-danger"></i>
                                     <div class="d-flex flex-column gap-1">
-                                        <div class="fw-bold">Channel promotion</div>
-                                        Promote your channel in discovery page
+                                        <div class="fw-bold">{{ __('Channel promotion') }}</div>
+                                        {{ __('Promote your channel in discovery page') }}
                                     </div>
                                 </li>
                             </ul>
@@ -81,11 +81,11 @@
                                         You already have an subscription, please manage it on your <a href="{{route('user.edit')}}">account</a>.
                                     </div>
                                 @else
-                                    <a href="{{route('premium.subscribe', $plan)}}" class="btn btn-primary fs-5 w-100">Start Trial</a>
+                                    <a href="{{route('premium.subscribe', $plan)}}" class="btn btn-primary fs-5 w-100">{{ __('Start Trial')}}</a>
                                     <div class="text-sm text-muted mt-3">
-                                        <p class="fw-bold">Billing starts on {{now()->add('days', config('plans.trial_period.period'))->format('j F Y')}}, the end of your trial, and will renew automatically every {{$plan->period}}.</p>
-                                        You will be charged automatically at the end of each period.
-                                        Payments won't be refunded for partial billing periods. Cancel anytime from your account.
+                                        <p class="fw-bold">{{ __('premium.billing', ['date' => now()->add('days', config('plans.trial_period.period'))->translatedFormat('j F Y'), 'period' => __($plan->period)]) }}</p>
+                                        {{ __('You will be charged automatically at the end of each period.') }}
+                                        {{ __('Payments won\'t be refunded for partial billing periods. Cancel anytime from your account.') }}
                                     </div>
                                 @endif
                             </div>
@@ -104,8 +104,8 @@
                                 </div>
                             </div>
                             <div>
-                                <p class="fw-bold mb-1">Today: Free trial for {{config('plans.trial_period.period')}} days. Cancel anytime.</p>
-                                <small class="text-muted text-sm">Start your free trial of {{config('app.name')}} Premium and enjoy all premium features.</small>
+                                <p class="fw-bold mb-1">{{ __('premium.trial_period', ['days' => config('plans.trial_period.period')]) }}</p>
+                                <small class="text-muted text-sm">{{ __('Start your free trial of ' .config('app.name'). ' Premium and enjoy all premium features.') }}</small>
                             </div>
                         </div>
                         <div class="d-flex gap-2 step">
@@ -116,8 +116,8 @@
                                 <div class="line"></div>
                             </div>
                             <div>
-                                <p class="fw-bold mb-1">{{now()->add('days', config('plans.trial_period.period'))->sub('days', config('plans.trial_period.email_reminder'))->format('j F Y')}}</p>
-                                <small class="text-muted">We'll send you a reminder email {{config('plans.trial_period.email_reminder')}} days before your {{config('app.name')}} Premium trial ends.</small>
+                                <p class="fw-bold mb-1">{{now()->add('days', config('plans.trial_period.period'))->sub('days', config('plans.trial_period.email_reminder'))->translatedFormat('j F Y')}}</p>
+                                <small class="text-muted">{{ __('premium.email_reminder', ['days' => config('plans.trial_period.email_reminder'), 'app_name' => config('app.name')]) }}</small>
                             </div>
                         </div>
                         <div class="d-flex gap-2 step">
@@ -127,42 +127,42 @@
                                 </div>
                             </div>
                             <div>
-                                <p class="fw-bold mb-1">{{now()->add('days', config('plans.trial_period.period'))->format('j F Y')}}</p>
-                                <small class="text-muted">Your subscription begins unless you canceled it during the trial period.</small>
+                                <p class="fw-bold mb-1">{{now()->add('days', config('plans.trial_period.period'))->translatedFormat('j F Y')}}</p>
+                                <small class="text-muted">{{ __('Your subscription begins unless you canceled it during the trial period.') }}</small>
                             </div>
                         </div>
                     </div>
                     <div class="card h-50">
                         <div class="card-header text-center h5">
-                            Plans comparison
+                            {{ __('Plans comparison') }}
                         </div>
                         <div class="card-body">
                             <table class="table" style="--table-cell-padding-y:.6rem">
                                 <thead>
                                 <tr>
                                     <th scope="col"></th>
-                                    <th scope="col">Free plan</th>
-                                    <th scope="col">Premium plan</th>
+                                    <th scope="col">{{ __('Free plan') }}</th>
+                                    <th scope="col">{{ __('Premium plan') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr class="py-4">
-                                    <td class="fw-bold">Max Video Uploads</td>
+                                    <td class="fw-bold">{{ __('Max Video Uploads') }}</td>
                                     <td>{{config('plans.free.max_uploads')}}</td>
-                                    <td>Unlimited</td>
+                                    <td>{{ __('Unlimited') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold">Max File Size Per Upload</td>
+                                    <td class="fw-bold">{{ __('Max File Size Per Upload') }}</td>
                                     <td>@size(config('plans.free.max_file_size'))</td>
                                     <td>@size(config('plans.premium.max_file_size'))</td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold">Video Storage Space</td>
+                                    <td class="fw-bold">{{ __('Video Storage Space') }}</td>
                                     <td>@size(config('plans.free.max_videos_storage'))</td>
-                                    <td>Unlimited</td>
+                                    <td>{{ __('Unlimited') }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold">Downloads</td>
+                                    <td class="fw-bold">{{ __('Downloads') }}</td>
                                     <td>
                                         <i class="fa-solid fa-xmark fs-4 text-gray-500"></i>
                                     </td>
@@ -171,7 +171,7 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold">Channel promotion</td>
+                                    <td class="fw-bold">{{ __('Channel promotion') }}</td>
                                     <td>
                                         <i class="fa-solid fa-xmark fs-4 text-gray-500"></i>
                                     </td>

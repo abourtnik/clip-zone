@@ -28,11 +28,11 @@
         <div>
             <p class="text-muted">
                 @if($paginator->total() && $paginator->hasPages())
-                    {!! __('Showing') !!}
+                    {!! __('pagination.showing') !!}
                     <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
-                    {!! __('to') !!}
+                    {!! __('pagination.to') !!}
                     <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
-                    {!! __('of') !!}
+                    {!! __('pagination.of') !!}
                 @endif
                 <span class="fw-semibold">{{ $paginator->total() }}</span>
                 {{trans_choice('pagination.results', $paginator->total())}}

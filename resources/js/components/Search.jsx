@@ -1,8 +1,11 @@
 import { useState, useCallback, useRef } from 'preact/hooks';
 import {debounce} from "../functions";
 import {jsonFetch, useClickOutside} from '../hooks'
+import {useTranslation} from "react-i18next";
 
 export default function Search ({query = '', responsive = true}) {
+
+    const { t } = useTranslation();
 
     const ref = useRef(null)
 
@@ -89,7 +92,7 @@ export default function Search ({query = '', responsive = true}) {
                         onChange={handleChange}
                         className="form-control rounded-5 rounded-end radius-end-0 border border-secondary"
                         type="search"
-                        placeholder="Search"
+                        placeholder={t("Search")}
                         aria-label="Search"
                         name="q"
                         value={search}
@@ -132,13 +135,13 @@ export default function Search ({query = '', responsive = true}) {
                                 }
                                 <li className={'text-center border-top d-flex align-items-center rounded-bottom'}>
                                     <a className={"text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold hover-primary py-2 rounded-bottom " + (selectedIndex === results.items.length ? 'selected' : null)} href={results.route}>
-                                        See {results.total} result{results.total > 1 && 's'}
+                                        {t('See results', { count: results.total })}
                                     </a>
                                 </li>
                             </ul>
                             :
                             <div className={'d-flex justify-content-center align-items-center flex-column pb-3'}>
-                                <strong>No results found</strong>
+                                <strong>{t('No results found')}</strong>
                             </div>
                     }
                 </div>

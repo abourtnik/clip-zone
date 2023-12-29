@@ -21,12 +21,12 @@
                                 <strong>{!! session('success') !!}</strong>
                             </div>
                         @endif
-                        <h1 class="h3 mb-5 fw-normal text-center">Welcome Back !</h1>
+                        <h1 class="h3 mb-5 fw-normal text-center">{{__('Welcome Back !')}}</h1>
                         <form method="POST" action="{{route('login.perform')}}">
                             @csrf
                             <div class="form-group form-floating mb-3 position-relative">
                                 <input type="text" class="form-control" name="username" id="username" placeholder="Username" required autofocus value="{{ old('username') }}">
-                                <label for="username">Email or Username</label>
+                                <label for="username">{{__('Email or Username')}}</label>
                             </div>
                             <div class="form-group form-floating mb-3" x-data="{show:false}">
                                 <input :type="show ? 'text' : 'password'" class="form-control" id="password" name="password" placeholder="Password" required>
@@ -34,35 +34,35 @@
                                     <i x-show="!show" class="fa-solid fa-eye"></i>
                                     <i x-show="show" class="fa-solid fa-eye-slash"></i>
                                 </button>
-                                <label for="password">Password</label>
+                                <label for="password">{{__('Password')}}</label>
                             </div>
                             <div class="form-group d-flex justify-content-between align-items-center mb-3">
                                 <div class="form-check">
                                     <input type="checkbox" id="remember" name="remember" class="form-check-input">
                                     <label class="form-check-label" for="remember">
-                                        Remember me
+                                        {{__('Remember me')}}
                                     </label>
                                 </div>
                             </div>
-                            <button class="w-100 btn btn-lg btn-primary" type="submit">Sign In</button>
+                            <button class="w-100 btn btn-lg btn-primary" type="submit">{{__('Sign In')}}</button>
                             <div class="mt-4 mb-3 text-muted text-center">
                                 <div class="d-flex justify-content-center">
-                                    <p class="mr-2">Do not have an account ?</p>
+                                    <p class="mr-2">{{__('Do not have an account ?')}}</p>
                                     <a href="{{route('registration')}}" class="font-weight-bold text-decoration-none">
-                                        <strong>Sign Up</strong>
+                                        <strong>{{__('Sign Up')}}</strong>
                                     </a>
                                 </div>
-                                <a href="{{route('password.forgot')}}" class="text-muted text-decoration-none">Forgot your password ?</a>
+                                <a href="{{route('password.forgot')}}" class="text-muted text-decoration-none">{{__('Forgot your password ?')}}</a>
                             </div>
                         </form>
                         <hr>
                         <a class="btn w-100 text-white text-center position-relative mb-2" href="{{route('oauth.connect', ['service' => 'facebook'])}}" style="background-color: #47639e">
                             <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle"></i>
-                            <span>Sign In with Facebook</span>
+                            <span>{{__('Sign In with Facebook')}}</span>
                         </a>
                         <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.connect', ['service' => 'google'])}}" style="background-color: #dd4b39">
                             <i class="fa-brands fa-google position-absolute top-50 left-5 translate-middle"></i>
-                            <span>Sign In with Google</span>
+                            <span>{{__('Sign In with Google')}}</span>
                         </a>
                     </div>
                 </div>

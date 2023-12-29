@@ -3,7 +3,7 @@
         <div class="modal-content" >
             <div x-show="!embed">
                 <div class="modal-header">
-                    <h5 class="modal-title">Share Video</h5>
+                    <h5 class="modal-title">{{ __('Share Video') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" x-data="startAt('{{$video->route}}')">
@@ -43,7 +43,7 @@
                         </a>
                     </div>
                     <hr>
-                    <label for="link" class="form-label">Video Link</label>
+                    <label for="link" class="form-label">{{ __('Video Link') }}</label>
                     <div class="mb-3 input-group">
                         <input type="text" class="form-control" readonly id="link" x-model="link">
                         <button
@@ -53,16 +53,16 @@
                             title="Copy video link"
                             data-bs-toggle="tooltip"
                             data-bs-trigger="click"
-                            data-bs-title="Link copied !"
+                            data-bs-title="{{ __('Link copied !') }}"
                         >
-                            <span>Copy</span>
+                            <span>{{ __('Copy') }}</span>
                         </button>
                     </div>
-                    <div class="col-10 col-sm-6">
+                    <div class="col-10 col-sm-7">
                         <div class="input-group mb-3 ">
                             <div class="input-group-text d-flex align-items-center gap-2">
                                 <input class="form-check-input mt-0" type="checkbox" aria-label="Checkbox for following text input" x-model="enabled">
-                                <label for="link" class="form-label mb-0">Start at :</label>
+                                <label for="link" class="form-label mb-0">{{ __('Start at :') }}</label>
                             </div>
                             <input type="time" id="time" class="form-control disabled" aria-label="Text input with checkbox" value="00:01" :disabled="!enabled" x-model="time">
                         </div>
@@ -75,7 +75,7 @@
                         <button type="button" class="bg-transparent" @click="embed = false">
                             <i class="fa-solid fa-arrow-left"></i>
                         </button>
-                        <h5 class="modal-title">Embed</h5>
+                        <h5 class="modal-title">{{ __('Embed') }}</h5>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -97,11 +97,11 @@
                                 data-link="{{ '<iframe width="560" height="315" src="'.route('video.embed', $video).'" title="'.config('app.name').' video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>' }}"
                             >
                                 <i class="fa-regular fa-copy"></i>
-                                <span>Copy code</span>
+                                <span>{{ __('Copy code') }}</span>
                             </button>
                             <div class="mt-auto">
-                                <p class="text-muted text-sm mb-0">By embedding {{config('app.name')}} videos on your site, you are agreeing to {{config('app.name')}}
-                                    <a class="text-decoration-none" target="_blank" href="{{route('pages.terms')}}">Terms of Service</a>
+                                <p class="text-muted text-sm mb-0">{{ __('By embedding ' .config('app.name'). ' videos on your site, you are agreeing to ' .config('app.name')) }}
+                                    <a class="text-decoration-none" target="_blank" href="{{route('pages.terms')}}">{{ __('Terms of Service') }}</a>
                                 </p>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
             </div>
         </div>
     </div>

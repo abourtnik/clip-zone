@@ -11,7 +11,7 @@
                         <img class="img-fluid" src="{{asset('images/pages/register.jpg')}}" alt="Register">
                     </div>
                     <div class="col-12 col-xl-6 py-5 px-3 px-sm-5">
-                        <h1 class="h3 mb-5 fw-normal text-center">Create your Account !</h1>
+                        <h1 class="h3 mb-5 fw-normal text-center">{{__('Create your Account !')}}</h1>
                         <form method="POST" action="{{route('registration.perform')}}">
                             @csrf
                             <div class="form-group form-floating mb-3">
@@ -26,7 +26,7 @@
                                     maxlength="{{config('validation.user.username.max')}}"
                                     value="{{ old('username') }}"
                                 >
-                                <label for="username">Username</label>
+                                <label for="username">{{__('Username')}}</label>
                                 @error('username')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -43,7 +43,7 @@
                                     value="{{ old('email') }}"
                                     required
                                 >
-                                <label for="email">Email</label>
+                                <label for="email">{{__('Email')}}</label>
                                 @error('email')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -60,7 +60,7 @@
                                     minlength="{{config('validation.user.password.min')}}"
                                     required
                                 >
-                                <label for="password">Password</label>
+                                <label for="password">{{__('Password')}}</label>
                                 @error('password')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -77,7 +77,7 @@
                                     minlength="{{config('validation.user.password.min')}}"
                                     required
                                 >
-                                <label for="password_confirmation">Confirm password</label>
+                                <label for="password_confirmation">{{__('Confirm password')}}</label>
                                 @error('password_confirmation')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -87,30 +87,30 @@
                             <div class="form-check my-4">
                                 <input @class(['form-check-input', 'is-invalid' => $errors->has('cgu')]) type="checkbox" id="cgu" name="cgu">
                                 <label class="form-check-label" for="cgu">
-                                    I agree all statements in <a href="{{route('pages.terms')}}" class="text-decoration-none">Terms of service</a>
+                                    {!! __('registration.terms', ['link' => route('pages.terms')]) !!}
                                 </label>
                                 @error('cgu')
                                 <div class="invalid-feedback">
-                                    You must agree with Terms of service before creating a account.
+                                    {{ __('You must agree with Terms of service before creating a account.') }}
                                 </div>
                                 @enderror
                             </div>
-                            <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
+                            <button class="w-100 btn btn-lg btn-primary" type="submit">{{ __('Register') }}</button>
                             <div class="mt-4 mb-3 text-muted text-center d-flex justify-content-center">
-                                <p class="mr-2">Already have an account ?</p>
+                                <p class="mr-2">{{ __('Already have an account ?') }}</p>
                                 <a href="{{route('login')}}" class="font-weight-bold text-decoration-none">
-                                    <strong>Sign In</strong>
+                                    <strong>{{ __('Sign In') }}</strong>
                                 </a>
                             </div>
                         </form>
                         <hr>
                         <a class="btn w-100 text-white text-center position-relative mb-2" href="{{route('oauth.connect', ['service' => 'facebook'])}}" style="background-color: #47639e">
                             <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle"></i>
-                            <span>Register with Facebook</span>
+                            <span>{{ __('Register with Facebook') }}</span>
                         </a>
                         <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.connect', ['service' => 'google'])}}" style="background-color: #dd4b39">
                             <i class="fa-brands fa-google position-absolute top-50 left-5 translate-middle"></i>
-                            <span>Register with Google</span>
+                            <span>{{ __('Register with Google') }}</span>
                         </a>
                     </div>
                 </div>
