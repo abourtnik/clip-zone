@@ -1,5 +1,6 @@
 {
     "subscribers": "[0,1] :count subscriber|[2,*] :count subscribers",
+    "elements": "[0,1] :count element|[2,*] :count elements",
     "videos": "[0,1] :count video|[2,*] :count videos",
     "comments": "[0,1] :count comment|[2,*] :count comments",
     "replies": "[0,1] :count reply|[2,*] :count replies",
@@ -7,6 +8,5 @@
     "results": "[0,1] :count result|[2,*] :count results",
     "likes": "[0,1] :count like|[2,*] :count likes",
     "dislikes": "[0,1] :count dislike|[2,*] :count dislikes",
-    "reports": "[0,1] :count report|[2,*] :count reports",
-    "Show more": "Show :count more"
+    "reports": "[0,1] :count report|[2,*] :count reports"
 }

@@ -1,5 +1,6 @@
 {
     "subscribers": "[0,1] :count abonné|[2,*] :count abonnés",
+    "elements": "[0,1] :count élément|[2,*] :count éléments",
     "videos": "[0,1] :count vidéo|[2,*] :count vidéos",
     "comments": "[0,1] :count commentaire|[2,*] :count commentaires",
     "replies": "[0,1] :count réponse|[2,*] :count réponses",
@@ -50,7 +51,9 @@
     "Autoplay": "Lecture automatique",
     "Premium": "Premium",
     "Playlists": "Playlists",
+    "Show": "Afficher",
     "Show more": "Afficher plus",
+    "Read more": "Afficher plus",
     "Show less": "Afficher moins",
     "Report": "Signaler",
     "Like this video ?": "Vous aimez cette vidéo ?",
@@ -148,6 +151,9 @@
     "You will receive an email, click on the link to choose a new password." : "Vous recevrez un email, cliquez sur le lien pour choisir un nouveau mot de passe.",
     "After validating your new password, you are connected to your account !" : "Après avoir validé votre nouveau mot de passe, vous êtes connecté à votre compte !",
     "Send me instructions" : "Envoyez-moi les instructions",
+    "Want to download this video ?" : "Vous voulez télécharger cette vidéo ?",
+    "Upgrade to Premium for download videos." : "Passez à Premium pour télécharger des vidéos.",
+    "Upgrade to Premium" : "Passer à la version premium",
     "Invalid login credentials. Please try again or reset your password. <br><a class=\"text-danger fw-bold text-decoration-none\" href=\"/contact\">Contact</a> our support team for help.'" : "Envoyez-moi les instructions",
     "No description provided": "Aucune description"
 }

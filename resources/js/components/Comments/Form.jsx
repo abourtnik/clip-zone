@@ -35,7 +35,7 @@ const CommentForm = memo(({add, placeholder = 'Add a comment...', label = 'Comme
                         </div>
                         <div className="mb-3 d-flex justify-content-end">
                             <Button type={'submit'} loading={loading} color={'success'}>
-                                {label}
+                                {t(label)}
                             </Button>
                         </div>
                     </form> :

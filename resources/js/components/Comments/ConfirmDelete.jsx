@@ -16,7 +16,7 @@ export default function ConfirmDelete ({onDelete, comment}) {
                             <i className="fa-solid fa-trash-can"></i>
                             <span>{t('Confirm delete ?')}</span>
                         </button>
-                        <button className={'btn btn-sm btn-primary fw-bold'} onClick={() => setConfirmDelete(false)}>Cancel</button>
+                        <button className={'btn btn-sm btn-primary fw-bold'} onClick={() => setConfirmDelete(false)}>{t('Cancel')}</button>
                     </div>
                     :
                     <button className="dropdown-item d-flex align-items-center gap-3" onClick={() => setConfirmDelete(true)}>

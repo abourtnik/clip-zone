@@ -10,7 +10,7 @@
                 {!! Str::limit($slot, ($max ?? 780)) !!}
             </small>
         </template>
-        <button @click="open=!open" class="text-primary text-sm bg-transparent d-block mt-1 ps-0" x-text="open ? 'Show less': 'Read more'"></button>
+        <button @click="open=!open" class="text-primary text-sm bg-transparent d-block mt-1 ps-0" x-text="open ? '{{ __('Show less') }}' : '{{ __('Read more') }}'"></button>
     </div>
 @else
     <small {{ $attributes->class(['text-muted' => !$attributes->has('color'), 'text-'.$attributes->get('color') => $attributes->has('color')])}} class="d-block mt-1">

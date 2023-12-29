@@ -1,5 +1,6 @@
 import { useReducer } from 'preact/hooks';
 import {jsonFetch} from '../hooks'
+import {useTranslation} from "react-i18next";
 
 const reducer = (state, action) => {
     switch (action) {
@@ -25,6 +26,8 @@ const reducer = (state, action) => {
 }
 
 export default function Interaction ({model, target, count, active, showCount = true}) {
+
+    const { t } = useTranslation();
 
     const {like, dislike} = JSON.parse(active)
     const {likes_count, dislikes_count} = JSON.parse(count)
@@ -55,7 +58,7 @@ export default function Interaction ({model, target, count, active, showCount = 
                 onClick={() => handleClick('like')}
                 className={'hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-end ' + (state.liked ? 'text-success' : 'text-black') + (!showCount || state.counterLike === 0 ? ' py-2' : '')}
                 data-bs-toggle="tooltip"
-                data-bs-title="I like this"
+                data-bs-title={t("I like this")}
                 data-bs-placement="bottom"
                 data-bs-trigger="hover"
             >
@@ -69,7 +72,7 @@ export default function Interaction ({model, target, count, active, showCount = 
                 onClick={() => handleClick('dislike')}
                 className={'hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-start ' + (state.disliked ? 'text-danger' : 'text-black')}
                 data-bs-toggle="tooltip"
-                data-bs-title="I dislike this"
+                data-bs-title={t("I dislike this")}
                 data-bs-placement="bottom"
                 data-bs-trigger="hover"
             >

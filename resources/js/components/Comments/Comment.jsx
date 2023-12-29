@@ -95,7 +95,7 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                         <li>
                                             <button onClick={() => pin(comment, comment.is_pinned ? 'unpin' : 'pin')} className="dropdown-item d-flex align-items-center gap-3" >
                                                 <i className="fa-solid fa-thumbtack"></i>
-                                                {comment.is_pinned ? 'Unpin' : 'Pin'}
+                                                {comment.is_pinned ? t('Unpin') : t('Pin')}
                                             </button>
                                         </li>
                                     }

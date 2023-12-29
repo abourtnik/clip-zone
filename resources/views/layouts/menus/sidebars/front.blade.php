@@ -50,7 +50,7 @@
                         <li class="nav-item">
                             <button @click="open = true" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" x-show.important="!open" role="button">
                                 <i class="fa-solid fa-chevron-down"></i>
-                                <small>{{__('Show more', ['count' => $favorite_playlists->count() - 7])}}</small>
+                                <small>{{ __('Show'). ' ' .trans_choice('elements', $favorite_playlists->count() - 7) }}</small>
                             </button>
                         </li>
                         <div x-show="open">
@@ -63,7 +63,7 @@
                             <li class="nav-item">
                                 <button @click="open = false" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" role="button">
                                     <i class="fa-solid fa-chevron-up"></i>
-                                    <small>{{__('Show Less')}}</small>
+                                    <small>{{__('Show less')}}</small>
                                 </button>
                             </li>
                         </div>
@@ -92,7 +92,7 @@
                         <li class="nav-item">
                             <button @click="open = true" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" x-show.important="!open" role="button">
                                 <i class="fa-solid fa-chevron-down"></i>
-                                <small>{{__('Show more', ['count' => $subscriptions->count() - 7])}}</small>
+                                <small>{{ __('Show'). ' ' .trans_choice('elements', $subscriptions->count() - 7) }}</small>
                             </button>
                         </li>
                         <div x-show="open">
@@ -110,7 +110,7 @@
                             <li class="nav-item">
                                 <button @click="open = false" class="nav-link text-primary fw-bold rounded-0 gap-4 w-100 d-flex align-items-center gap-4" role="button">
                                     <i class="fa-solid fa-chevron-up"></i>
-                                    <small>{{ __('Show Less') }}</small>
+                                    <small>{{ __('Show less') }}</small>
                                 </button>
                             </li>
                         </div>
