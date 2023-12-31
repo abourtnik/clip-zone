@@ -1,0 +1,44 @@
+@include color-mode(dark) {
+    body {
+        background-color: #1C1E3D;
+    }
+    .text-black {
+        color: #D4DCFF !important;
+    }
+    .bg-white {
+        background-color: #22254D !important;
+    }
+    .card {
+        background-color: #22254D !important;
+    }
+    .bg-light {
+        background-color: #1C1E3D !important;
+    }
+    .modal-content {
+        background-color: #22254D !important;
+    }
+    .nav-item .text-primary {
+        color: white !important;
+    }
+    .form-control, .form-select {
+        background-color: #181933 !important;
+    }
+    .list-group-item {
+        background-color: #22254D !important;
+    }
+    .hover-grey:hover {
+        background-color: #5396e7 !important;
+    }
+    .bg-light-dark {
+        background-color: #25365B !important;
+    }
+    .hover-primary:hover {
+        background-color: #5396e7 !important;
+    }
+    .selected {
+        background-color: #5396e7 !important;
+    }
+    .switch {
+        border: 1px solid #2a2e5e !important;
+    }
+}

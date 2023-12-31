@@ -58,3 +58,19 @@ ajaxButtons.map(element => element.addEventListener('click', async e => {
     });
 
 }))
+
+// THEME
+
+const theme = localStorage.getItem("theme");
+if (theme && theme === 'dark') {
+    if (document.getElementById('theme-switcher')) {
+        document.getElementById('theme-switcher').checked = true
+    }
+    document.documentElement.setAttribute('data-bs-theme', 'dark')
+}
+
+document.getElementById('theme-switcher')?.addEventListener('change', e => {
+    const theme = e.currentTarget.checked ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-bs-theme', theme)
+    localStorage.setItem("theme", theme);
+})

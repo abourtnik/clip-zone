@@ -30,7 +30,6 @@
             {{config('app.name')}}
         </a>
     </div>
-
     <script>
         const LANG = '{{app()->getLocale()}}'
     </script>

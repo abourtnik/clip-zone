@@ -1,0 +1,75 @@
+.theme-switch {
+    input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+        min-height: auto;
+    }
+    label {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        cursor: pointer;
+        margin-bottom: 0!important;
+    }
+    .switch {
+        flex: none;
+        width: 55px;
+        height: 26px;
+        display: inline-block;
+        background: #f7fafb;
+        border: 1px solid #d5e3ec;
+        box-shadow: 0 1px 4px rgba(213,222,233,.2);
+        border-radius: 100px;
+        margin-right: calc(1 * 8px);
+        transition: background .3s;
+
+        &::before {
+            content: "";
+            display: block;
+            height: 24px;
+            width: 24px;
+            background: #fff;
+            border: 1px solid #d5e3ec;
+            box-shadow: 0 1px 4px rgba(213,222,233,.2);
+            border-radius: 100px;
+            transition: transform .3s;
+        }
+    }
+    .icon {
+        position: absolute;
+        left: 5px;
+        top: 5px;
+        width: 16px;
+        height: 16px;
+        color: #ff9a00;
+        opacity: 1;
+        transition: .3s;
+    }
+    .icon-moon {
+        color: #d4dcff;
+    }
+}
+
+.theme-switch input:checked+label .switch::before {
+    transform: translateX(31px);
+    background: #5396e7 !important;
+}
+
+.theme-switch input:checked+label .switch {
+    background: #0f1224 !important;
+}
+
+.theme-switch input:not(:checked)+label .icon-moon {
+    opacity: 0;
+}
+
+.theme-switch input:checked+label .icon-sun {
+    opacity: 0;
+}
+
+.theme-switch input:checked+label .icon {
+    transform: translateX(31px);
+}

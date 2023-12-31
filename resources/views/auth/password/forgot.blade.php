@@ -8,7 +8,7 @@
             <div class="col-10 offset-1 col-xxl-8 offset-xxl-2 border border-1 bg-light">
                 <div class="row">
                     <div class="col-6 d-none d-xl-flex px-0 border-end border-gray-200 d-flex justify-content-center align-items-center bg-white">
-                        <img class="img-fluid" src="{{asset('images/pages/forgot.jpg')}}" alt="Forgot password">
+                        <img class="img-fluid" src="{{asset('images/pages/forgot.png')}}" alt="Forgot password">
                     </div>
                     <div class="col-12 col-xl-6 py-5 px-3 px-sm-5">
                         @if (session('status'))

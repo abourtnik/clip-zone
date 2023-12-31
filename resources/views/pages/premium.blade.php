@@ -15,7 +15,7 @@
             @endif
             <h1 class="mb-3 text-center fw-bold">
                 <span class="text-danger">{{config('app.name')}}</span>
-                <span class="text-warning">{{ __('Premium') }}</span>
+                <span class="text-warning">Premium</span>
             </h1>
             <h2 class="my-5 text-center">{{ __('Unleash the full potential of your creative journey with our premium plan') }}</h2>
             <h3 class="my-5 text-center">

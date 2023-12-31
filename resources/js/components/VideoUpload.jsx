@@ -98,7 +98,7 @@ export default function VideoUpload ({endpoint, maxsize}) {
         <>
             {
                 (!loading || error) &&
-                <div className="block w-full position-relative bg-white appearance-none border-2 border-gray-300 border-solid rounded-md hover:shadow-outline-gray p-3">
+                <div className="block w-full position-relative bg-white appearance-none rounded-md hover:shadow-outline-gray p-3">
                     <label className="d-none" htmlFor="file"></label>
                     <input
                         id="file"
