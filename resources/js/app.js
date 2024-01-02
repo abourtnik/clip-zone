@@ -61,16 +61,21 @@ ajaxButtons.map(element => element.addEventListener('click', async e => {
 
 // THEME
 
+const switchers = [...document.getElementsByClassName('theme-switcher')];
+
 const theme = localStorage.getItem("theme");
 if (theme && theme === 'dark') {
-    if (document.getElementById('theme-switcher')) {
-        document.getElementById('theme-switcher').checked = true
+    if (switchers) {
+        switchers.forEach(switcher => switcher.checked = true)
     }
     document.documentElement.setAttribute('data-bs-theme', 'dark')
 }
 
-document.getElementById('theme-switcher')?.addEventListener('change', e => {
-    const theme = e.currentTarget.checked ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-bs-theme', theme)
-    localStorage.setItem("theme", theme);
+switchers.forEach(switcher =>  {
+    switcher.addEventListener('change', e => {
+        const theme = e.currentTarget.checked ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme)
+        localStorage.setItem("theme", theme);
+        switchers.filter(switcher => switcher.id !== e.currentTarget.id).forEach(switcher => switcher.checked = e.currentTarget.checked)
+    })
 })

@@ -22,7 +22,8 @@ class CommentController extends Controller
                     ->whereNull('parent_id')
                     ->withCount(['likes', 'dislikes', 'interactions', 'replies'])
                     ->orderBy('created_at', 'desc')
-                    ->paginate(12),
+                    ->paginate(12)
+                    ->withQueryString(),
             'filters' => $filters->receivedFilters(),
             'videos' => Video::all(),
             'users' => User::all(),

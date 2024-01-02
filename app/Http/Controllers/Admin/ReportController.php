@@ -30,7 +30,8 @@ class ReportController extends Controller
                     }
                 ])
                 ->orderBy('created_at', 'desc')
-                ->paginate(12),
+                ->paginate(12)
+                ->withQueryString(),
             'filters' => $filters->receivedFilters(),
             'reasons' => ReportReason::get(),
             'status' => ReportStatus::get(),

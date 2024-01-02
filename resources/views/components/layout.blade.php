@@ -63,6 +63,7 @@
             <site-notifications initial="{{$json_notifications}}"></site-notifications>
             @include('modals.report')
             @include('users.videos.modals.upload')
+            @include('layouts.menus.account')
         @endif
     </main>
     @stack('scripts')

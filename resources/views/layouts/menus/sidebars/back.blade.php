@@ -29,21 +29,19 @@
                         aria-current="page"
                     >
                         <img style="width: 40px" class="rounded-circle" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
-                        <span class="text-sm fw-bold">{{auth()->user()->username}}</span>
+                        <div class="text-start">
+                            <span class="text-sm fw-bold">{{auth()->user()->username}}</span>
+                            @if(auth()->user()->is_premium)
+                                <div class="badge bg-warning">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span>Premium account</span>
+                                </div>
+                            @else
+                                <div class="badge bg-secondary">Standard account</div>
+                            @endif
+                        </div>
                     </a>
                 </li>
-                @if($type === 'user' && auth()->user()->is_admin)
-                    <li class="nav-item">
-                        <a
-                            class="nav-link rounded-0 d-flex align-items-center gap-4 bg-danger bg-opacity-75 text-white border-top py-3"
-                            href="{{route('admin.index')}}"
-                            aria-current="page"
-                        >
-                            <i style="width: 24px" class="fa-solid fa-toolbox"></i>
-                            <span class="text-sm fw-bold">Admin</span>
-                        </a>
-                    </li>
-                @endif
             </ul>
         </nav>
     </div>

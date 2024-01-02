@@ -156,6 +156,14 @@
     "Upgrade to Premium" : "Passer à la version premium",
     "Comments are turned off" : "Les commentaires sont désactivés",
     "Country" : "Pays",
+    "Standard account" : "Compte Standard",
+    "View your channel" : "Afficher votre chaîne",
+    "Manage videos" : "Gérer les vidéos",
+    "Channel settings" : "Paramètres de la chaîne",
+    "Manage my subscription" : "Gérer mon abonnement",
+    "Leave" : "Partir",
+    "Logout" : "Se déconnecter",
+    "Premium account" : "Compte premium",
     "Invalid login credentials. Please try again or reset your password. <br><a class=\"text-danger fw-bold text-decoration-none\" href=\"/contact\">Contact</a> our support team for help.'" : "Envoyez-moi les instructions",
     "No description provided": "Aucune description"
 }

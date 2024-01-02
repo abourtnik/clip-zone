@@ -24,7 +24,8 @@ class UserController
                     'comments',
                 ])->whereNull('is_admin')
                 ->orderBy('created_at', 'desc')
-                ->paginate(15),
+                ->paginate(15)
+                ->withQueryString(),
             'filters' => $filters->receivedFilters()
         ]);
     }

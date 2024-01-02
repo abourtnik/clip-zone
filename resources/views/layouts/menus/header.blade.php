@@ -35,30 +35,17 @@
                     </button>
                 </li>
                 <li class="nav-item">
-                    <a href="{{route('user.index')}}">
-                        <img style="width: 42px;height: 42px" class="rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
-                    </a>
+                    <button class="bg-transparent px-0" role="button" data-bs-toggle="offcanvas" data-bs-target="#account">
+                        <img width="40" height="40" class="rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
+                    </button>
                 </li>
-                @impersonating($guard = null)
-                    <li class="nav-item d-flex align-items-center">
-                        <a class="nav-link" href="{{route('impersonate.leave')}}">
-                            <i class="fa-solid fa-right-from-bracket text-danger"></i>
-                        </a>
-                    </li>
-                @else
-                    <li class="nav-item d-flex align-items-center">
-                        <a class="nav-link" href="{{route('logout')}}">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                        </a>
-                    </li>
-                @endImpersonating
                 @else
                     <li class="nav-item">
                         <a class="btn bg-transparent text-primary" href="{{route('login')}}">
                             {{ __('Sign In') }}
                         </a>
                     </li>
-                    <li class="nav-item ml-1 d-flex align-items-center">
+                    <li class="nav-item d-flex align-items-center">
                         <a class="btn btn-sm btn-primary d-flex gap-2 align-items-center" href="{{route('registration')}}">
                             <span>{{ __('Register') }}</span>
                         </a>

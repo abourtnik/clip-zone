@@ -17,13 +17,15 @@ class VideoController
 {
     public function index (VideoFilters $filters) : View {
         return view('admin.videos.index', [
-            'videos' => Video::filter($filters)->with([
-                'category:id,title',
-                'user' => fn($q) => $q->withCount(['videos', 'subscribers'])
-            ])
-            ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
-            ->latest('created_at')
-            ->paginate(15),
+            'videos' => Video::filter($filters)
+                ->with([
+                    'category:id,title',
+                    'user' => fn($q) => $q->withCount(['videos', 'subscribers'])
+                ])
+                ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
+                ->latest('created_at')
+                ->paginate(15)
+                ->withQueryString(),
             'filters' => $filters->receivedFilters(),
             'status' => VideoStatus::getAll(),
             'categories' => Category::all(),

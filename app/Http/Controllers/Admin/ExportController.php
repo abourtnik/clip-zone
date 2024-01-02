@@ -13,6 +13,7 @@ class ExportController
         return view('admin.exports.index', [
             'exports' => Export::latest()
                 ->paginate(15)
+                ->withQueryString()
         ]);
     }
 
