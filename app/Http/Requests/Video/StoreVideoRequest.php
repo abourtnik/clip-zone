@@ -4,12 +4,11 @@ namespace App\Http\Requests\Video;
 
 use App\Enums\ImageType;
 use App\Enums\VideoStatus;
-use App\Enums\Languages;
+use App\Models\Video;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
-use Illuminate\Validation\Rules\Enum;
 
 class StoreVideoRequest extends FormRequest
 {
@@ -60,7 +59,7 @@ class StoreVideoRequest extends FormRequest
             'category_id' => 'nullable|exists:categories,id',
             'language' => [
                 'nullable',
-                new Enum(Languages::class)
+                Rule::in(Video::AVAILABLE_LANGUAGES),
             ],
             'allow_comments' => 'required|boolean',
             'default_comments_sort' => [

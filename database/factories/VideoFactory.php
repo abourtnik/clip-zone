@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\Languages;
 use App\Enums\VideoStatus;
 use App\Models\Category;
 use App\Models\Video;
@@ -34,7 +33,7 @@ class VideoFactory extends Factory
             'status' => fake()->randomElement([VideoStatus::PUBLIC->value, VideoStatus::PRIVATE->value, VideoStatus::UNLISTED->value]),
             'publication_date' => $date,
             'category_id' => Category::inRandomOrder()->first()?->id,
-            'language' => fake()->randomElement(array_keys(Languages::get())),
+            'language' => fake()->randomElement(Video::AVAILABLE_LANGUAGES),
             'allow_comments' => fake()->boolean(90),
             'default_comments_sort' => fake()->randomElement(['top', 'newest']),
             'show_likes' => fake()->boolean(90),

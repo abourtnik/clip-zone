@@ -83,8 +83,7 @@
                                 <select class="form-control" name="language" id="language">
                                     <option value="" selected>--- Select Language ---</option>
                                     @foreach($languages as $code => $language)
-                                        <option
-                                            @selected(old('language') == $code) value="{{$code}}">{{$language}}</option>
+                                        <option @selected(old('language') == $code) value="{{$code}}">{{ucfirst($language)}}</option>
                                     @endforeach
                                 </select>
                             </div>

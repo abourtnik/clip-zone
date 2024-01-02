@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\VideoStatus;
-use App\Enums\Languages;
 use App\Helpers\Parser;
 use App\Models\Interfaces\Reportable;
 use App\Models\Traits\HasLike;
@@ -22,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
+use Symfony\Component\Intl\Languages;
 
 class Video extends Model implements Likeable, Reportable
 {
@@ -38,12 +38,19 @@ class Video extends Model implements Likeable, Reportable
 
     protected $casts = [
         'status' => VideoStatus::class,
-        'language' => Languages::class
     ];
 
     public const THUMBNAIL_FOLDER = 'thumbnails';
     public const VIDEO_FOLDER = 'videos';
     public const CHUNK_FOLDER = 'chunks';
+
+    public const AVAILABLE_LANGUAGES = ['ar', 'en', 'fr', 'zh', 'nl', 'de', 'hi', 'it', 'ko', 'es', 'pt', 'ru'];
+
+    public static function languages (): array {
+        return array_filter(Languages::getNames(app()->getLocale()), function ($code) {
+            return in_array($code, self::AVAILABLE_LANGUAGES);
+        }, ARRAY_FILTER_USE_KEY);
+    }
 
     /**
      * -------------------- RELATIONS --------------------
@@ -253,6 +260,13 @@ class Video extends Model implements Likeable, Reportable
     {
         return Attribute::make(
             get: fn () => $this->user->pinned_video?->is($this)
+        );
+    }
+
+    protected function languageName(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => ucfirst(Languages::getName($this->language, app()->getLocale())),
         );
     }
 

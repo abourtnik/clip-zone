@@ -246,7 +246,7 @@
                         @if($video->language)
                             <div class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0">
                                 <i class="fa-solid fa-language"></i>
-                                <strong>{{$video->language->name}}</strong>
+                                <strong>{{$video->language_name}}</strong>
                             </div>
                         @endif
                     </div>
