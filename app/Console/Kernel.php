@@ -4,7 +4,8 @@ namespace App\Console;
 
 use App\Console\Commands\DeleteExpiredChunks;
 use App\Console\Commands\DeleteUnconfirmedUsers;
-use App\Console\Commands\SendTrialsEnd;
+use App\Console\Commands\Premium\SendCardExpiration;
+use App\Console\Commands\Premium\SendTrialsEnd;
 use App\Console\Commands\SendVideoPublishedEvent;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -32,6 +33,10 @@ class Kernel extends ConsoleKernel
             ->appendOutputTo($LOG_PATH);
         $schedule->command(DeleteExpiredChunks::class)
             ->dailyAt('2:00')
+            ->appendOutputTo($LOG_PATH);
+        $schedule->command(SendCardExpiration::class)
+            ->twiceMonthly(1, 16, '09:30')
+            ->lastDayOfMonth('09:30')
             ->appendOutputTo($LOG_PATH);
     }
 

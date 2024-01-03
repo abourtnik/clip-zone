@@ -34,6 +34,7 @@ class StripeWebhookController extends Controller
             'customer.subscription.created' => $this->onSubscriptionCreated($request->get('data')['object']),
             'customer.subscription.updated' => $this->onSubscriptionUpdated($request->get('data')['object']),
             'customer.subscription.deleted' => $this->onSubscriptionDeleted($request->get('data')['object']),
+            'customer.updated' => $this->onCustomerUpdated($request->get('data')['object']),
             default => response()->noContent()
         };
     }
@@ -126,6 +127,24 @@ class StripeWebhookController extends Controller
 
         return response()->noContent();
 
+    }
+
+    public function onCustomerUpdated (array $data) : Response  {
+
+        $user = $this->getUserFromStripeId($data['id']);
+
+        $subscription = Subscription::where('user_id', $user->id)->firstOrFail();
+
+        if ($data['invoice_settings']['default_payment_method']) {
+            $paymentMethod = Cashier::stripe()->paymentMethods->retrieve($data['invoice_settings']['default_payment_method']);
+
+            $subscription->update([
+                'card_last4' => $paymentMethod->card->last4,
+                'card_expired_at' => Carbon::createFromDate($paymentMethod->card->exp_year, $paymentMethod->card->exp_month)->endOfMonth()
+            ]);
+        }
+
+        return response()->noContent();
     }
 
     public function onSubscriptionDeleted (array $data) : Response  {

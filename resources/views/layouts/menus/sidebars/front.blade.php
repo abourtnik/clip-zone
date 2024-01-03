@@ -5,7 +5,7 @@
             @class(['offcanvas-title text-danger fw-bold text-decoration-none d-flex gap-2', 'h6' => Auth::user()?->is_premium, 'h5' => !Auth::user()?->is_premium])
         >
             <span>{{config('app.name')}}</span>
-             @if(Auth::user()?->is_premium) <span class="text-warning">{{__('Premium')}}</span> @endif
+             @if(Auth::user()?->is_premium) <span class="text-warning">Premium</span> @endif
         </a>
         <div class="d-flex gap-2 align-items-center">
             @auth()

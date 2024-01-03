@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Premium;
 
 use App\Models\Subscription;
 use App\Notifications\Premium\TrialEnd;
@@ -38,7 +38,7 @@ class SendTrialsEnd extends Command
 
         foreach ($subscriptions as $subscription) {
             $subscription->user->notify(new TrialEnd());
-            $this->info(now()->format('Y-m-d H:i:s',).' - Notify ' .$subscription->user->name. '('.$subscription->user->id.') trials end.');
+            $this->info(now()->format('Y-m-d H:i:s',).' - Notify ' .$subscription->user->username. '('.$subscription->user->id.') trials end.');
         }
 
         return Command::SUCCESS;

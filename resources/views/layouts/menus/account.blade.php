@@ -34,7 +34,7 @@
                 </a>
             @elseif(auth()->user()->stripe_id)
                 <a class="list-group-item list-group-item-action py-3" href="{{auth()->user()->billingPortalUrl(route('user.edit'))}}">
-                    <i style="width: 24px" class="fa-solid fa-user-cog"></i>
+                    <i style="width: 24px" class="fa-solid fa-star"></i>
                     <span>{{ __('Manage my subscription') }}</span>
                 </a>
             @endif
