@@ -90,13 +90,17 @@ class StripeWebhookController extends Controller
         $user = $this->getUserFromStripeId($data['customer']);
         $plan = $this->getPlanFromStripeId($data['plan']['id']);
 
+        $paymentMethod = Cashier::stripe()->paymentMethods->retrieve($data['default_payment_method']);
+
         Subscription::create([
             'next_payment' => Carbon::createFromTimestamp($data['current_period_end']),
             'stripe_status' => $data['status'],
             'user_id' => $user->id,
             'plan_id' => $plan->id,
             'stripe_id' => $data['id'],
-            'trial_ends_at' => Carbon::createFromTimestamp($data['trial_end'])
+            'trial_ends_at' => Carbon::createFromTimestamp($data['trial_end']),
+            'card_last4' => $paymentMethod->card->last4,
+            'card_expired_at' => Carbon::createFromDate($paymentMethod->card->exp_year, $paymentMethod->card->exp_month)->endOfMonth()
         ]);
 
         $user->notify(new Welcome());
@@ -133,9 +137,9 @@ class StripeWebhookController extends Controller
 
         $user = $this->getUserFromStripeId($data['id']);
 
-        $subscription = Subscription::where('user_id', $user->id)->firstOrFail();
+        $subscription = Subscription::where('user_id', $user->id)->first();
 
-        if ($data['invoice_settings']['default_payment_method']) {
+        if ($subscription && $data['invoice_settings']['default_payment_method']) {
             $paymentMethod = Cashier::stripe()->paymentMethods->retrieve($data['invoice_settings']['default_payment_method']);
 
             $subscription->update([

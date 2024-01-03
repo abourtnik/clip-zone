@@ -16,6 +16,10 @@ class PremiumController extends Controller
                 'automatic_tax' => [
                     'enabled' => true
                 ],
+                'payment_method_types' => [
+                    'card',
+                ],
+                'payment_method_collection' => 'always',
                 'subscription_data' => [
                     'trial_period_days' => config('plans.trial_period.period')
                 ]
