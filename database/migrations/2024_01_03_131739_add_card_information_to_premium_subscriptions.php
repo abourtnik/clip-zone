@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::table('premium_subscriptions', function (Blueprint $table) {
             $table->after('trial_ends_at', function (Blueprint $table) {
-                $table->string('card_last4')->after('trials_end_at');
-                $table->date('card_expired_at')->after('trials_end_at');
+                $table->string('card_last4');
+                $table->date('card_expired_at');
             });
         });
     }
