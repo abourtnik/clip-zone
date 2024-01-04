@@ -309,4 +309,7 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
 
     // Logs
     Route::get('/logs', fn() => redirect('logs'))->name('logs');
+
+    // Telescope
+    Route::get('/telescope', fn() => redirect('telescope'))->name('telescope');
 });

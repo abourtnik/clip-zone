@@ -95,3 +95,12 @@ ClipZone is made available under the [MIT License](http://www.opensource.org/lic
 
 ## Credits
 ClipZone is created and maintained by [Anton Bourtnik](https://github.com/abourtnik)
+
+// TO DO
+
+- Upload files to scaleway (S3 prod ?)
+
+- Upgrade logs package for custom logs regex : TELESCOPE ? or just sql viewer
+- Autocomplete search (admin)
+- Laravel Scout for Search (MeilSearch, or full text mysql)
+- Update logo + favicon
