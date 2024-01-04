@@ -22,6 +22,7 @@ class Subscription extends Model
         'next_payment' => 'datetime',
         'trial_ends_at' => 'datetime',
         'ends_at' => 'datetime',
+        'card_expired_at' => 'date',
     ];
 
     public function user() : BelongsTo
@@ -58,7 +59,7 @@ class Subscription extends Model
     protected function isUnpaid(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->stripe_status === StripeSubscription::STATUS_PAST_DUE
+            get: fn () => $this->stripe_status === StripeSubscription::STATUS_UNPAID
         );
     }
 
@@ -68,8 +69,8 @@ class Subscription extends Model
             get: fn () => match($this->stripe_status) {
                 StripeSubscription::STATUS_ACTIVE => 'Active',
                 StripeSubscription::STATUS_TRIALING => 'In trial period',
-                StripeSubscription::STATUS_PAST_DUE => 'Unpaid',
                 StripeSubscription::STATUS_CANCELED => 'Canceled',
+                StripeSubscription::STATUS_UNPAID => 'Unpaid',
             }
         );
     }

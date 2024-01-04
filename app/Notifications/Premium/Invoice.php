@@ -4,6 +4,7 @@ namespace App\Notifications\Premium;
 
 use App\Models\Transaction;
 use App\Models\User;
+use Illuminate\Mail\Attachment;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
@@ -65,7 +66,7 @@ class Invoice extends Notification
                 'notifiable' => $notifiable,
                 'transaction' => $this->transaction
             ])
-            ->attach($this->transaction->invoice_url, [
+            ->attach(Attachment::fromStorage($this->transaction->invoice_url), [
                 'as' => $this->transaction->invoice_name,
                 'mime' => 'application/pdf',
             ]);
