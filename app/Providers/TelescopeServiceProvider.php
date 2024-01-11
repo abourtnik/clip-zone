@@ -30,12 +30,18 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
                    $entry->isFailedJob() ||
                    $entry->isSlowQuery() ||
                    $entry->isException() ||
-                   $entry->isScheduledTask() ||
+                   ($entry->isScheduledTask() && !in_array('every_minute', $entry->tags)) ||
                    $entry->hasMonitoredTag();
         });
 
         Telescope::avatar(function ($id, $email) {
             return User::find($id)->avatar_url;
+        });
+
+        Telescope::tag(function (IncomingEntry $entry) {
+            return $entry->type === 'schedule' && $entry->content['expression'] === '* * * * *'
+                ? ['every_minute']
+                : [];
         });
     }
 
