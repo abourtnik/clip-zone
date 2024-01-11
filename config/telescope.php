@@ -128,7 +128,7 @@ return [
 
         Watchers\CommandWatcher::class => [
             'enabled' => true,
-            'ignore' => ['optimize', 'cache:clear', 'migrate', 'queue:restart'],
+            'ignore' => ['optimize', 'cache:clear', 'migrate', 'queue:restart', 'video:published'],
         ],
 
         Watchers\DumpWatcher::class => [
@@ -171,7 +171,7 @@ return [
             'enabled' => env('TELESCOPE_QUERY_WATCHER', true),
             'ignore_packages' => true,
             'ignore_paths' => [],
-            'slow' => 10,
+            'slow' => 50,
         ],
 
         Watchers\RedisWatcher::class => false,

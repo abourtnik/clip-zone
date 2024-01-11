@@ -9,7 +9,7 @@ class Parser
         'timecodes' => 'parseTimeCodes',
     ];
 
-    public static function applyParsers(string $string, array $parsers): string|null {
+    public static function applyParsers(string|null $string, array $parsers): string|null {
 
         $result = htmlspecialchars($string);
 
