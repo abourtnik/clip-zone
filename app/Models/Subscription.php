@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -38,7 +37,7 @@ class Subscription extends Model
     protected function isActive(): Attribute
     {
         return Attribute::make(
-            get: fn () => (!$this->is_cancel || $this->ends_at?->isFuture()) && !$this->is_unpaid
+            get: fn () => !$this->is_canceled && !$this->is_unpaid
         );
     }
 
@@ -49,10 +48,17 @@ class Subscription extends Model
         );
     }
 
-    protected function isCancel(): Attribute
+    protected function trialCanceled(): Attribute
     {
         return Attribute::make(
             get: fn () => !is_null($this->ends_at)
+        );
+    }
+
+    protected function isCanceled(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->stripe_status === StripeSubscription::STATUS_CANCELED
         );
     }
 
@@ -87,7 +93,6 @@ class Subscription extends Model
      */
     public function scopeActive(Builder $query): void
     {
-        $query->whereNull('ends_at')
-            ->orWhere('ends_at', '>', Carbon::now());
+        $query->whereNotIn('stripe_status', [StripeSubscription::STATUS_UNPAID, StripeSubscription::STATUS_CANCELED]);
     }
 }

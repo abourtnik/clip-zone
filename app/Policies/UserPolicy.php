@@ -65,4 +65,17 @@ class UserPolicy
             ? Response::allow()
             : Response::denyWithStatus(403, 'You can\'t ban premium user');
     }
+
+    /**
+     * Determine whether the user can subscribe to premium plan.
+     *
+     * @param User $user
+     * @return Response|bool
+     */
+    public function premiumSubscribe (User $user): Response|bool
+    {
+        return $user->has_current_subscription
+            ? Response::denyWithStatus(403, "You already have an active subscription.")
+            : Response::allow();
+    }
 }

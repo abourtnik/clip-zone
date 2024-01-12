@@ -19,7 +19,9 @@
             </h1>
             <h2 class="my-5 text-center">{{ __('Unleash the full potential of your creative journey with our premium plan') }}</h2>
             <h3 class="my-5 text-center">
+                @if(!Auth::user()?->premium_subscription)
                 <span>{{config('plans.trial_period.period')}} {{ __('days trial') }} • {{ __('Then') }}</span>
+                @endif
                 @foreach($plans as $plan)
                     <span x-show="plan === {{$plan->id}}">{{$plan->price}} € / {{ __($plan->period)}} </span>
                 @endforeach
@@ -76,9 +78,16 @@
                                 </li>
                             </ul>
                             <div class="card-body text-center py-3">
-                                @if(Auth::user()?->premium_subscription)
+                                @if(Auth::user()?->has_current_subscription)
                                     <div class="alert alert-success">
-                                        You already have an subscription, please manage it on your <a href="{{route('user.edit')}}">account</a>.
+                                        {!! __('premium.exist', ['route' => route('user.edit')]) !!}
+                                    </div>
+                                @elseif(Auth::user()?->premium_subscription)
+                                    <a href="{{route('premium.subscribe', $plan)}}" class="btn btn-primary fs-5 w-100">{{ __('premium.get', ['app_name' => config('app.name')])}}</a>
+                                    <div class="text-sm text-muted mt-3">
+                                        <p class="fw-bold">{{ __('premium.billing_without_trial', ['date' => now()->translatedFormat('j F Y'), 'period' => __($plan->period)]) }}</p>
+                                        {{ __('You will be charged automatically at the end of each period.') }}
+                                        {{ __('Payments won\'t be refunded for partial billing periods. Cancel anytime from your account.') }}
                                     </div>
                                 @else
                                     <a href="{{route('premium.subscribe', $plan)}}" class="btn btn-primary fs-5 w-100">{{ __('Start Trial')}}</a>
@@ -93,6 +102,7 @@
                     @endforeach
                 </div>
                 <div class="col-12 col-lg-6 col-xl-7">
+                    @if(!Auth::user()?->premium_subscription)
                     <div class="card card-body bg-light mb-3 h-50">
                         <div class="d-flex gap-2 step">
                             <div class="progression">
@@ -132,7 +142,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card h-50">
+                    @endif
+                    <div @class(['card h-50', 'h-100' => Auth::user()?->premium_subscription])>
                         <div class="card-header text-center h5">
                             {{ __('Plans comparison') }}
                         </div>

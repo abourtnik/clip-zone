@@ -62,16 +62,14 @@
                                         </div>
                                     </div>
                                     <hr>
-                                    @if($user->premium_subscription->is_cancel)
-                                        <p>
-                                            You have canceled your subscription
-                                            @if($user->premium_subscription->ends_at->isPast())
-                                                <span>the <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong></span>
-                                            @endif
-                                        </p>
-                                        @if($user->premium_subscription->ends_at->isFuture())
-                                            <p>It will be automatically suspended after the : <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong>.</p>
-                                        @endif
+                                    @if($user->premium_subscription->is_canceled)
+                                        <p>Your subscription was canceled the <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong></p>
+                                        <a class="btn btn-primary" href="{{route('pages.premium')}}">
+                                            Renew my subscription
+                                        </a>
+                                    @elseif($user->premium_subscription->is_trial_canceled)
+                                        <p>You have canceled your subscription</p>
+                                        <p>It will be automatically suspended after the : <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong>.</p>
                                         <a class="btn btn-primary" href="{{$billing_profile_url}}">
                                             Reactivate my subscription
                                         </a>

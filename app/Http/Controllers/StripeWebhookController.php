@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\Stripe\SubscriptionCreated;
+use App\Jobs\Stripe\SubscriptionUpdated;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Notifications\Premium\Invoice;
 use App\Notifications\Premium\Unpaid;
-use App\Notifications\Premium\Welcome;
 use App\Services\InvoiceService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -87,47 +88,16 @@ class StripeWebhookController extends Controller
 
     public function onSubscriptionCreated (array $data) : Response  {
 
-        $user = $this->getUserFromStripeId($data['customer']);
-        $plan = $this->getPlanFromStripeId($data['plan']['id']);
+        SubscriptionCreated::dispatch($data);
 
-        $paymentMethod = Cashier::stripe()->paymentMethods->retrieve($data['default_payment_method']);
-
-        Subscription::create([
-            'next_payment' => Carbon::createFromTimestamp($data['current_period_end']),
-            'stripe_status' => $data['status'],
-            'user_id' => $user->id,
-            'plan_id' => $plan->id,
-            'stripe_id' => $data['id'],
-            'trial_ends_at' => Carbon::createFromTimestamp($data['trial_end']),
-            'card_last4' => $paymentMethod->card->last4,
-            'card_expired_at' => Carbon::createFromDate($paymentMethod->card->exp_year, $paymentMethod->card->exp_month)->endOfMonth()
-        ]);
-
-        $user->notify(new Welcome());
+        Log::channel('stripe')->info('onSubscriptionCreated finish');
 
         return response()->noContent();
     }
 
     public function onSubscriptionUpdated (array $data) : Response  {
 
-        $subscription = Subscription::where('stripe_id', $data['id'])->firstOrFail();
-
-        $subscription->update([
-            'stripe_status' => $data['status']
-        ]);
-
-        if ($data['cancel_at_period_end']) {
-            $subscription->update([
-                'ends_at' => $subscription->on_trial
-                    ? $subscription->trial_ends_at
-                    : Carbon::createFromTimestamp($data['current_period_end'])
-            ]);
-        } else {
-            $subscription->update([
-                'next_payment' => Carbon::createFromTimestamp($data['current_period_end']),
-                'ends_at' => null
-            ]);
-        }
+        SubscriptionUpdated::dispatch($data);
 
         return response()->noContent();
 
@@ -153,7 +123,11 @@ class StripeWebhookController extends Controller
 
     public function onSubscriptionDeleted (array $data) : Response  {
 
-        Subscription::where('stripe_id', $data['id'])->delete();
+        $subscription = Subscription::where('stripe_id', $data['id'])->firstOrFail();
+
+        $subscription->update([
+            'stripe_status' => $data['status']
+        ]);
 
         return response()->noContent();
     }

@@ -28,9 +28,9 @@
                 <span>{{ __('Channel settings') }}</span>
             </a>
             @if(auth()->user()->premium_subscription)
-                <a class="list-group-item list-group-item-action py-3" href="{{auth()->user()->billingPortalUrl(route('user.edit'))}}">
-                    <i style="width: 24px" class="fa-solid fa-star"></i>
-                    <span>{{ __('Manage my subscription') }}</span>
+                <a class="list-group-item list-group-item-action py-3" href="{{ auth()->user()->premium_subscription->is_canceled ? route('user.edit') : auth()->user()->billingPortalUrl(route('user.edit'))}}">
+                    <i style="width: 24px" class="fa-solid fa-dollar"></i>
+                    <span>{{ __('Membership') }}</span>
                 </a>
             @else
                 <a class="list-group-item list-group-item-action list-group-item-warning py-3" href="{{route('pages.premium')}}">

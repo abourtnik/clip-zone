@@ -262,6 +262,13 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         );
     }
 
+    protected function hasCurrentSubscription(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->is_premium || ($this->premium_subscription && $this->premium_subscription->is_unpaid)
+        );
+    }
+
     protected function plan(): Attribute
     {
         return Attribute::make(
