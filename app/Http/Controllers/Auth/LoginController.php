@@ -29,7 +29,7 @@ class LoginController
 
             $seconds = RateLimiter::availableIn($this->throttleKey());
 
-            return back()->with('error', __('auth.throttle', ['seconds' => $seconds]))->onlyInput('username');
+            return back()->with('error', __('throttle.auth', ['seconds' => $seconds]))->onlyInput('username');
         }
 
         $remember = $request->has('remember');

@@ -12,6 +12,12 @@
                     </div>
                     <div class="col-12 col-xl-6 py-5 px-3 px-sm-5">
                         <h1 class="h3 mb-5 fw-normal text-center">{{ __('Contact Us') }}</h1>
+                        @if (session('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{!! session('error') !!}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
                         @if (session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{!! session('success') !!}</strong>
