@@ -25,7 +25,7 @@ export default function Video ({video}) {
                             {video.duration}
                         </small>
                     </div>
-                    <span onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}  style="position: absolute;inset: 0;z-index:20"></span>
+                    <span onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}  style="position: absolute;inset: 0;"></span>
                 </a>
                 <div className="d-flex pt-2">
                     <a href={video.user.route} style="height: 36px;" className="position-relative" title={video.user.username}>

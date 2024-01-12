@@ -7,7 +7,7 @@
                     {{$video->duration}}
                 </small>
             </div>
-            <span @mouseover="hover=true" @mouseleave="hover=false" style="position: absolute;inset: 0;z-index: 10"></span>
+            <span @mouseover="hover=true" @mouseleave="hover=false" style="position: absolute;inset: 0;"></span>
         </a>
         <div class="d-flex pt-2">
             <a href="{{$video->user->route}}" style=";height: 36px;" class="position-relative" title={{$video->user->username}}>

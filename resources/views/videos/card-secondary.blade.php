@@ -6,7 +6,7 @@
                 {{$video->duration}}
             </small>
         </div>
-        <span @mouseover="hover=true" @mouseleave="hover=false" style="position: absolute;inset: 0;z-index: 10"></span>
+        <span @mouseover="hover=true" @mouseleave="hover=false" style="position: absolute;inset: 0;"></span>
     </a>
     <div class="pt-2 p-sm-0">
         <div class="d-flex gap-2">
