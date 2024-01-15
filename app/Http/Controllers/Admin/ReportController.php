@@ -35,7 +35,6 @@ class ReportController extends Controller
             'filters' => $filters->receivedFilters(),
             'reasons' => ReportReason::get(),
             'status' => ReportStatus::get(),
-            'users' => User::all(),
         ]);
     }
 

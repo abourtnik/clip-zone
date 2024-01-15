@@ -2,21 +2,39 @@
 
 namespace App\Filters;
 
-use App\Filters\Comments\AuthorFilter;
-use App\Filters\Comments\BanFilter;
-use App\Filters\Comments\DateFilter;
-use App\Filters\Comments\SearchFilter;
-use App\Filters\Comments\VideoFilter;
-use App\Filters\Comments\RepliesFilter;
+use App\Filters\Traits\DateFilter;
+use App\Filters\Traits\UserFilter;
+use Illuminate\Database\Eloquent\Builder;
 
-class CommentFilters extends AbstractFilters
+class CommentFilters extends Filter
 {
-    protected array $filters = [
-        'search' => SearchFilter::class,
-        'video' => VideoFilter::class,
-        'user' => AuthorFilter::class,
-        'date' => DateFilter::class,
-        'replies' => RepliesFilter::class,
-        'ban' => BanFilter::class,
-    ];
+    use DateFilter, UserFilter;
+
+    protected string $dateField = 'comments.created_at';
+
+    public function search(string $search): Builder
+    {
+        $match = '%'.$search.'%';
+
+        return $this->builder->where('content', 'LIKE', $match);
+    }
+
+    public function replies (string $value): Builder
+    {
+        return $this->builder
+            ->when($value === 'with', fn($query) => $query->has('replies'))
+            ->when($value === 'without', fn($query) => $query->doesntHave('replies'));
+    }
+
+    public function ban (string $value): Builder
+    {
+        return $this->builder
+            ->when($value === 'banned', fn($query) => $query->whereNotNull('banned_at'))
+            ->when($value === 'not_banned', fn($query) => $query->whereNull('banned_at'));
+    }
+
+    public function video(string $value): Builder
+    {
+        return $this->builder->whereRelation('video', 'id', $value);
+    }
 }

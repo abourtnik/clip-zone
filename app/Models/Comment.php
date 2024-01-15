@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Helpers\Parser;
 use App\Models\Interfaces\Likeable;
 use App\Models\Interfaces\Reportable;
+use App\Models\Traits\Filterable;
 use App\Models\Traits\HasLike;
 use App\Models\Traits\HasReport;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,7 +25,7 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Comment extends Model implements Likeable, Reportable
 {
-    use HasLike, LogsActivity, HasReport, HasEagerLimit;
+    use HasLike, LogsActivity, HasReport, HasEagerLimit, Filterable;
 
     protected $guarded = ['id'];
 
@@ -141,17 +142,6 @@ class Comment extends Model implements Likeable, Reportable
     public function scopePublic(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
     {
         return $query->whereNull('banned_at');
-    }
-
-    /**
-     * Scope a query to only include replies.
-     *
-     * @param  Builder $query
-     * @return void
-     */
-    public function scopeFilter(Builder $query, $filters)
-    {
-        return $filters->apply($query);
     }
 
     /**

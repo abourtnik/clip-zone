@@ -2,16 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\VideoStatus;
 use App\Filters\SearchFilters;
-use App\Http\Resources\VideoResource;
 use App\Models\Playlist;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -117,35 +113,5 @@ class SearchController extends Controller
             'route' => route('search.index'). '?q=' .$q,
         ]);
 
-    }
-
-    public function searchVideos (Request $request): ResourceCollection {
-
-        list('q' => $q, 'except_ids' => $except_ids) = $request->only('q', 'except_ids');
-
-        $match = '%'.$q.'%';
-
-        return VideoResource::collection(
-                Video::where(
-                    fn($q) => $q
-                        ->active()
-                        ->orWhere(fn($q) => $q
-                            ->where('user_id' , Auth::user()->id)
-                            ->whereNotNull('uploaded_at'))
-                            ->whereNotIn('status', [VideoStatus::DRAFT, VideoStatus::BANNED, VideoStatus::FAILED])
-                )
-                ->whereNotIn('id', $except_ids)
-                ->where(
-                    fn($query) => $query
-                        ->where('title', 'LIKE', $match)
-                        ->orWhere('description', 'LIKE', $match)
-                        ->orWhereRelation('user', 'username', 'LIKE', $match)
-                )
-                ->with('user')
-                ->withCount('views')
-                ->latest('publication_date')
-                ->limit(24)
-                ->get()
-        );
     }
 }

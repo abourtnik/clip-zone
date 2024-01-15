@@ -14,30 +14,18 @@
                 <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
             </div>
             <div class="col">
-                <label for="video" class="form-label fw-bold">Video</label>
-                <select name="video" class="form-select" aria-label="Default select example">
-                    <option selected value="">All</option>
-                    @foreach($videos as $video)
-                        <option @selected(($filters['video'] ?? null) === (string) $video->id) value="{{$video->id}}">{{$video->title}}</option>
-                    @endforeach
-                </select>
+                <search-model name="video" endpoint="{{route('admin.search.videos')}}" @isset($selectedVideo)) value="{{$selectedVideo}}" @endisset/>
             </div>
             <div class="col">
-                <label for="user" class="form-label fw-bold">User</label>
-                <select name="user" class="form-select" aria-label="Default select example">
-                    <option selected value="">All</option>
-                    @foreach($users as $user)
-                        <option @selected(($filters['user'] ?? null) === (string) $user->id) value="{{$user->id}}">{{$user->username}}</option>
-                    @endforeach
-                </select>
+                <search-model name="user" endpoint="{{route('admin.search.users')}}" @isset($selectedUser)) value="{{$selectedUser}}" @endisset/>
             </div>
             <div class="col">
-                <label for="comment_date_start" class="form-label fw-bold">Comment date start</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="comment_date_start" value="{{$filters['date'][0] ?? null}}">
+                <label for="date_start" class="form-label fw-bold">Comment date start</label>
+                <input type="datetime-local" name="date_start" class="form-control" id="date_start" value="{{$filters['date_start'] ?? null}}">
             </div>
             <div class="col">
-                <label for="comment_date_end" class="form-label fw-bold">Comment date end</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="comment_date_end" value="{{$filters['date'][1] ?? null}}">
+                <label for="date_end" class="form-label fw-bold">Comment date end</label>
+                <input type="datetime-local" name="date_end" class="form-control" id="date_end" value="{{$filters['date_end'] ?? null}}">
             </div>
             <div class="col">
                 <label for="replies" class="form-label fw-bold">Replies</label>

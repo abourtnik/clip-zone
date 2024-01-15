@@ -15,6 +15,7 @@ import ImageUpload from "./ImageUpload";
 import VideoUpload from "./VideoUpload";
 import ImageLoaded from "./ImageLoaded";
 import Save from "./Save";
+import SearchModel from "./SearchModel";
 
 register(Subscribe, 'subscribe-button');
 register(Interaction, 'interaction-button', [], { shadow: false });
@@ -31,5 +32,6 @@ register(ImageUpload, 'image-upload', ['source'], { shadow: false });
 register(VideoUpload, 'video-upload', [], { shadow: false });
 register(ImageLoaded, 'image-loaded', ['hover'], { shadow: false });
 register(Save, 'save-video', [], { shadow: false });
+register(SearchModel, 'search-model', [], { shadow: false });
 
 

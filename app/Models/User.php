@@ -6,6 +6,7 @@ use App\Models\Interfaces\Likeable;
 use App\Models\Interfaces\Reportable;
 use App\Models\Pivots\FavoritePlaylist;
 use App\Models\Pivots\Subscription;
+use App\Models\Traits\Filterable;
 use App\Models\Traits\HasReport;
 use App\Notifications\PasswordUpdate;
 use App\Notifications\ResetPassword;
@@ -38,7 +39,7 @@ use App\Models\Subscription as PremiumSubscription;
 
 class User extends Authenticatable implements MustVerifyEmail, Reportable
 {
-    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable;
+    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable, Filterable;
 
     protected $guarded = ['id', 'is_admin'];
 
@@ -317,11 +318,6 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     public function scopeActive(Builder $query): void
     {
         $query->whereNotNull(['email_verified_at'])->whereNull(['banned_at']);
-    }
-
-    public function scopeFilter(Builder $query, $filters)
-    {
-        return $filters->apply($query);
     }
 
     /**

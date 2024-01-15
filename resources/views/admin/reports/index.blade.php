@@ -14,13 +14,7 @@
                 <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
             </div>
             <div class="col">
-                <label for="user" class="form-label fw-bold">Report By</label>
-                <select name="user" class="form-select" aria-label="Default select example">
-                    <option selected value="">All</option>
-                    @foreach($users as $user)
-                        <option @selected(($filters['user'] ?? null) === $user->id) value="{{$user->id}}">{{$user->username}}</option>
-                    @endforeach
-                </select>
+                <search-model name="user" endpoint="{{route('admin.search.users')}}" label="Report by" @isset($selectedUser)) value="{{$selectedUser}}" @endisset/>
             </div>
             <div class="col">
                 <label for="type" class="form-label fw-bold">Type</label>
@@ -50,12 +44,12 @@
                 </select>
             </div>
             <div class="col">
-                <label for="report_date_start" class="form-label fw-bold">Report date start</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="report_date_start" value="{{$filters['date'][0] ?? null}}">
+                <label for="date_start" class="form-label fw-bold">Report date start</label>
+                <input type="datetime-local" name="date_start" class="form-control" id="date_start" value="{{$filters['date_start'] ?? null}}">
             </div>
             <div class="col">
-                <label for="report_date_end" class="form-label fw-bold">Report date end</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="report_date_end" value="{{$filters['date'][1] ?? null}}">
+                <label for="date_end" class="form-label fw-bold">Report date end</label>
+                <input type="datetime-local" name="date_end" class="form-control" id="date_end" value="{{$filters['date_end'] ?? null}}">
             </div>
             <div class="btn-group">
                 <button type="submit" class="btn btn-outline-secondary" title="Search">

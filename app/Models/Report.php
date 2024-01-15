@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\ReportReason;
 use App\Enums\ReportStatus;
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Report extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
 
     protected $guarded = ['id'];
 
@@ -60,14 +60,5 @@ class Report extends Model
                 'Video' => 'video',
             }
         );
-    }
-
-    /**
-     * -------------------- SCOPES --------------------
-     */
-
-    public function scopeFilter(Builder $query, $filters)
-    {
-        return $filters->apply($query);
     }
 }

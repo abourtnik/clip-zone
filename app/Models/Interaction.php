@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Interaction extends Model
 {
-    use HasFactory, LogsActivity;
+    use HasFactory, LogsActivity, Filterable;
 
     protected $guarded = ['id'];
 
@@ -37,11 +37,6 @@ class Interaction extends Model
     public function tapActivity(Activity $activity, string $eventName)
     {
         $activity->properties = ['status' => $activity->subject->status];
-    }
-
-    public function scopeFilter(Builder $query, $filters)
-    {
-        return $filters->apply($query);
     }
 
     public function getActivitylogOptions(): LogOptions

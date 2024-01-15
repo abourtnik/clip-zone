@@ -2,19 +2,34 @@
 
 namespace App\Filters;
 
-use App\Filters\Videos\PublicationDateFilter;
-use App\Filters\Videos\SearchFilter;
-use App\Filters\Videos\StatusFilter;
-use App\Filters\Videos\CategoryFilter;
-use App\Filters\Videos\AuthorFilter;
+use App\Enums\VideoStatus;
+use App\Filters\Traits\DateFilter;
+use App\Filters\Traits\UserFilter;
+use Illuminate\Database\Eloquent\Builder;
 
-class VideoFilters extends AbstractFilters
+class VideoFilters extends Filter
 {
-    protected array $filters = [
-        'search' => SearchFilter::class,
-        'status' => StatusFilter::class,
-        'category' => CategoryFilter::class,
-        'date' => PublicationDateFilter::class,
-        'user' => AuthorFilter::class,
-    ];
+    use DateFilter, UserFilter;
+
+    protected string $dateField = 'publication_date';
+
+    public function search(string $search): Builder
+    {
+        $match = '%'.$search.'%';
+
+        return $this->builder->where(fn($query) => $query->where('title', 'LIKE', $match)->orWhere('description', 'LIKE', $match));
+    }
+
+    public function status(string $status): Builder
+    {
+        return $this->builder->when($status == VideoStatus::PUBLIC->value, fn($query) => $query->active())
+            ->when($status == VideoStatus::PLANNED->value, fn($query) => $query->where('status', VideoStatus::PLANNED->value)->where('scheduled_date', '>', now()))
+            ->when(in_array($status, [VideoStatus::PRIVATE->value, VideoStatus::UNLISTED->value, VideoStatus::BANNED->value, VideoStatus::DRAFT->value, VideoStatus::FAILED->value]), fn($query) => $query->where('status', $status));
+    }
+
+    public function category(string $category): Builder
+    {
+        return $this->builder->when($category === 'without', fn($query) => $query->doesntHave('category'))
+            ->when($category !== 'without', fn($query) => $query->whereRelation('category', 'id', $category));
+    }
 }

@@ -2,13 +2,19 @@
 
 namespace App\Filters;
 
-use App\Filters\Subscribers\SearchFilter;
-use App\Filters\Subscribers\SubscriptionDateFilter;
+use App\Filters\Traits\DateFilter;
+use Illuminate\Database\Eloquent\Builder;
 
-class SubscriberFilters extends AbstractFilters
+class SubscriberFilters extends Filter
 {
-    protected array $filters = [
-        'search' => SearchFilter::class,
-        'date' => SubscriptionDateFilter::class,
-    ];
+    use DateFilter;
+
+    protected string $dateField = 'subscribe_at';
+
+    public function search(string $search): Builder
+    {
+        $match = '%'.$search.'%';
+
+        return $this->builder->where('username' , 'LIKE', $match);
+    }
 }

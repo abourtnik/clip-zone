@@ -2,11 +2,11 @@
 
 namespace App\Filters;
 
-use App\Filters\Interaction\DateFilter;
+use App\Filters\Traits\DateFilter;
 
-class InteractionFilters extends AbstractFilters
+class InteractionFilters extends Filter
 {
-    protected array $filters = [
-        'date' => DateFilter::class,
-    ];
+    use DateFilter;
+
+    protected string $dateField = 'perform_at';
 }

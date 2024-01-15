@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Filters\CommentFilters;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
-use App\Models\User;
-use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -24,9 +22,7 @@ class CommentController extends Controller
                     ->orderBy('created_at', 'desc')
                     ->paginate(12)
                     ->withQueryString(),
-            'filters' => $filters->receivedFilters(),
-            'videos' => Video::all(),
-            'users' => User::all(),
+            'filters' => $filters->receivedFilters()
         ]);
     }
 

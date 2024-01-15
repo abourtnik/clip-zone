@@ -3,7 +3,6 @@
 namespace App\Http;
 
 use App\Http\Middleware\IsAdmin;
-use App\Http\Middleware\IsNotPremium;
 use App\Http\Middleware\IsPremium;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -42,6 +41,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\IsBanned::class,
             \App\Http\Middleware\Security::class,
             \App\Http\Middleware\Language::class,
+            \App\Http\Middleware\StripEmptyParams::class,
         ],
 
         'api' => [
@@ -71,7 +71,6 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin' => IsAdmin::class,
-        'premium' => IsPremium::class,
-        'not_premium' => IsNotPremium::class,
+        'premium' => IsPremium::class
     ];
 }

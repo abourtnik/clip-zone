@@ -26,7 +26,7 @@ export default function Playlist ({initial = []}) {
 
         setShowSuggestions(true);
 
-        jsonFetch(`/api/search-videos?q=${value}`, {
+        jsonFetch(`/api/search/videos?q=${value}`, {
             method: 'POST',
             body : JSON.stringify({
                 'except_ids' : videos.map(v => v.id)

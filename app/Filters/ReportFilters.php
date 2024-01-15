@@ -2,23 +2,42 @@
 
 namespace App\Filters;
 
-use App\Filters\Report\AuthorFilter;
-use App\Filters\Report\DateFilter;
-use App\Filters\Report\TypeFilter;
-use App\Filters\Report\SearchFilter;
-use App\Filters\Report\StatusFilter;
-use App\Filters\Report\ReasonFilter;
-use App\Filters\Report\IdFilter;
+use App\Filters\Traits\DateFilter;
+use App\Filters\Traits\UserFilter;
+use App\Models\Comment;
+use App\Models\User;
+use App\Models\Video;
+use Illuminate\Database\Eloquent\Builder;
 
-class ReportFilters extends AbstractFilters
+class ReportFilters extends Filter
 {
-    protected array $filters = [
-        'search' => SearchFilter::class,
-        'type' => TypeFilter::class,
-        'reason' => ReasonFilter::class,
-        'status' => StatusFilter::class,
-        'date' => DateFilter::class,
-        'user' => AuthorFilter::class,
-        'id' => IdFilter::class,
-    ];
+    use DateFilter, UserFilter;
+
+    public function search(string $search): Builder
+    {
+        $match = '%'.$search.'%';
+
+        return $this->builder->where(function($query) use ($match) {
+            return $query->where('reason', 'LIKE', $match)
+                ->orWhere('comment', 'LIKE', $match)
+                ->OrWhereHasMorph('reportable', [Video::class], fn($q) => $q->where('title', 'LIKE', $match)->orWhereRelation('user', 'username', 'LIKE', $match));
+        });
+    }
+
+    public function type(string $type): Builder
+    {
+        return $this->builder->when($type === 'video', fn($q) => $q->whereHasMorph('reportable', [Video::class]))
+            ->when($type === 'comment', fn($q) => $q->whereHasMorph('reportable', [Comment::class]))
+            ->when($type === 'user', fn($q) => $q->whereHasMorph('reportable', [User::class]));
+    }
+
+    public function reason(string $reason): Builder
+    {
+        return $this->builder->where('reason', $reason);
+    }
+
+    public function status(string $status): Builder
+    {
+        return $this->builder->where('status', $status);
+    }
 }

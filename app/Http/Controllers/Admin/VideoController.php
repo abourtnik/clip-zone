@@ -17,7 +17,8 @@ class VideoController
 {
     public function index (VideoFilters $filters) : View {
         return view('admin.videos.index', [
-            'videos' => Video::filter($filters)
+            'videos' => Video::query()
+                ->filter($filters)
                 ->with([
                     'category:id,title',
                     'user' => fn($q) => $q->withCount(['videos', 'subscribers'])
@@ -29,7 +30,6 @@ class VideoController
             'filters' => $filters->receivedFilters(),
             'status' => VideoStatus::getAll(),
             'categories' => Category::all(),
-            'users' => User::all(),
         ]);
     }
 

@@ -14,12 +14,12 @@
                 <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
             </div>
             <div class="col-12 col-sm-6 col-lg">
-                <label for="subscription_date_start" class="form-label fw-bold">Subscription date start</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="subscription_date_start" value="{{$filters['date'][0] ?? null}}">
+                <label for="date_start" class="form-label fw-bold">Subscription date start</label>
+                <input type="datetime-local" name="date_start" class="form-control" id="subscription_date_start" value="{{$filters['date_start'] ?? null}}">
             </div>
             <div class="col-12 col-sm-6 col-lg">
-                <label for="subscription_date_end" class="form-label fw-bold">Subscription date end</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="subscription_date_end" value="{{$filters['date'][1] ?? null}}">
+                <label for="date_end" class="form-label fw-bold">Subscription date end</label>
+                <input type="datetime-local" name="date_end" class="form-control" id="date_end" value="{{$filters['date_end'] ?? null}}">
             </div>
             <div class="btn-group col-auto">
                 <button type="submit" class="btn btn-outline-secondary" title="Search">

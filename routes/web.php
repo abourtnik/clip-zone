@@ -63,7 +63,7 @@ Route::post('stripe-webhook', [StripeWebhookController::class, 'index'])
     ->middleware(VerifyWebhookSignature::class)
     ->name('stripe_webhook');
 
-Route::name('premium.')->middleware(['auth', 'not_premium'])->controller(PremiumController::class)->group(function () {
+Route::name('premium.')->middleware(['auth', 'can:premiumSubscribe,App\Models\User'])->controller(PremiumController::class)->group(function () {
     Route::get('/subscribe/{plan}', 'subscribe')
         ->name('subscribe');
 });

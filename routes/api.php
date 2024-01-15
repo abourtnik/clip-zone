@@ -3,6 +3,8 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\User\SearchController as SearchUserController;
+use App\Http\Controllers\Admin\SearchController as SearchAdminController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\NotificationController;
@@ -85,8 +87,23 @@ Route::middleware('auth:sanctum')->group(function () {
                 ->can('delete', 'notification');
             Route::get('/read-all', 'readAll')->name('read-all');
         });
-    });
 
+        // SEARCH
+        Route::controller(SearchUserController::class)->prefix('search')->name('search.')->group(function () {
+            Route::get('/users', 'users')->name('users');
+            Route::post('/videos', 'videos')->name('videos');
+        });
+
+        // SEARCH ADMIN
+        Route::controller(SearchAdminController::class)
+            ->prefix('admin/search')
+            ->name('admin.search.')
+            ->middleware('admin')
+            ->group(function () {
+                Route::get('/users', 'users')->name('users');
+                Route::get('/videos', 'videos')->name('videos');
+            });
+    });
 });
 
 
@@ -98,7 +115,6 @@ Route::middleware('throttle:api')->group(function () {
 
     // SEARCH
     Route::get("search", [SearchController::class, 'search'])->name('search');
-    Route::post("search-videos", [SearchController::class, 'searchVideos'])->name('search-videos');
 
     // VIDEOS
     Route::prefix('videos')->name('videos.')->controller(VideoController::class)->group(function () {

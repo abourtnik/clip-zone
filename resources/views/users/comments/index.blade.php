@@ -23,21 +23,15 @@
                 </select>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
-                <label for="user" class="form-label fw-bold">User</label>
-                <select name="user" class="form-select" aria-label="Default select example">
-                    <option selected value="">All</option>
-                    @foreach($users as $user)
-                        <option @selected(($filters['user'] ?? null) === (string) $user->id) value="{{$user->id}}">{{$user->username}}</option>
-                    @endforeach
-                </select>
+                <search-model name="user" endpoint="{{route('search.users')}}" @isset($selectedUser)) value="{{$selectedUser}}" @endisset></search-model>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
-                <label for="comment_date_start" class="form-label fw-bold">Comment date start</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="comment_date_start" value="{{$filters['date'][0] ?? null}}">
+                <label for="date_start" class="form-label fw-bold">Comment date start</label>
+                <input type="datetime-local" name="date_start" class="form-control" id="date_start" value="{{$filters['date_start'] ?? null}}">
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
-                <label for="comment_date_end" class="form-label fw-bold">Comment date end</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="comment_date_end" value="{{$filters['date'][1] ?? null}}">
+                <label for="date_end" class="form-label fw-bold">Comment date end</label>
+                <input type="datetime-local" name="date_end" class="form-control" id="date_end" value="{{$filters['date_end'] ?? null}}">
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
                 <label for="replies" class="form-label fw-bold">Replies</label>

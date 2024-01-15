@@ -8,20 +8,20 @@
             <label for="date_start" class="form-label fw-bold">Date start</label>
             <input
                 type="datetime-local"
-                name="date[]"
+                name="date_start"
                 class="form-control"
                 id="date_start"
-                value="{{$filters['date'][0] ?? null}}"
+                value="{{$filters['date_start'] ?? null}}"
             >
         </div>
         <div class="col-12 col-sm">
             <label for="date_end" class="form-label fw-bold">Date end</label>
             <input
                 type="datetime-local"
-                name="date[]"
+                name="date_end"
                 class="form-control"
                 id="date_end"
-                value="{{$filters['date'][1] ?? null}}"
+                value="{{$filters['date_end'] ?? null}}"
             >
         </div>
         <div class="btn-group">

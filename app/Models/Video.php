@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\VideoStatus;
 use App\Helpers\Parser;
 use App\Models\Interfaces\Reportable;
+use App\Models\Traits\Filterable;
 use App\Models\Traits\HasLike;
 use App\Models\Interfaces\Likeable;
 use App\Models\Traits\HasReport;
@@ -25,7 +26,7 @@ use Symfony\Component\Intl\Languages;
 
 class Video extends Model implements Likeable, Reportable
 {
-    use HasFactory, HasLike, HasReport, HasEagerLimit;
+    use HasFactory, HasLike, HasReport, HasEagerLimit, Filterable;
 
     protected $guarded = ['id'];
 
@@ -332,17 +333,5 @@ class Video extends Model implements Likeable, Reportable
     public function scopeValid(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
     {
         return $query->whereNot('status', VideoStatus::FAILED);
-    }
-
-    /**
-     * Scope a query to only filter videos.
-     *
-     * @param EloquentBuilder $query
-     * @param $filters
-     * @return EloquentBuilder
-     */
-    public function scopeFilter(EloquentBuilder $query, $filters) : EloquentBuilder
-    {
-        return $filters->apply($query);
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Filters\CommentFilters;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
-use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -37,7 +36,6 @@ class CommentController extends Controller
                 }
             ])->videos_comments->paginate(15)->withQueryString(),
             'videos' => Auth::user()->videos,
-            'users' => User::all(),
             'filters' => $filters->receivedFilters(),
         ]);
     }

@@ -2,11 +2,11 @@
 
 namespace App\Filters;
 
-use App\Filters\Views\DateFilter;
+use App\Filters\Traits\DateFilter;
 
-class ViewFilters extends AbstractFilters
+class ViewFilters extends Filter
 {
-    protected array $filters = [
-        'date' => DateFilter::class,
-    ];
+    use DateFilter;
+
+    protected string $dateField = 'view_at';
 }

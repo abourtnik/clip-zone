@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\PlaylistStatus;
 use App\Models\Pivots\FavoritePlaylist;
 use App\Models\Pivots\PlaylistVideo;
+use App\Models\Traits\Filterable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,7 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Playlist extends Model
 {
-    use HasFactory, HasEagerLimit;
+    use HasFactory, HasEagerLimit, Filterable;
 
     protected $guarded = ['id'];
 
@@ -89,10 +90,5 @@ class Playlist extends Model
     public function scopeActive(Builder $query): void
     {
         $query->where('status', PlaylistStatus::PUBLIC);
-    }
-
-    public function scopeFilter(Builder $query, $filters)
-    {
-        return $filters->apply($query);
     }
 }
