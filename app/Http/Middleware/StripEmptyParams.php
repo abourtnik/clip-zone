@@ -9,6 +9,10 @@ use Illuminate\Http\RedirectResponse;
 
 class StripEmptyParams
 {
+    protected $except = [
+        'admin/telescope/*'
+    ];
+
     /**
      * Handle an incoming request.
      *
@@ -20,7 +24,7 @@ class StripEmptyParams
     {
         $query = $request->query();
 
-        if (!$query) {
+        if (!$query || $this->inExceptArray($request)) {
             return $next($request);
         }
 
@@ -31,5 +35,26 @@ class StripEmptyParams
         }
 
         return redirect()->route($request->route()->getName(), $cleanQuery);
+    }
+
+    /**
+     * Determine if the request has a URI that should pass through StripEmptyParams.
+     *
+     * @param Request $request
+     * @return bool
+     */
+    protected function inExceptArray(Request $request): bool
+    {
+        foreach ($this->except as $except) {
+            if ($except !== '/') {
+                $except = trim($except, '/');
+            }
+
+            if ($request->fullUrlIs($except) || $request->is($except)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
