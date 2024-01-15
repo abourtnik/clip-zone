@@ -38,12 +38,12 @@
                 </select>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl">
-                <label for="publication_date_start" class="form-label fw-bold">Publication date start</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="publication_date_start" value="{{$filters['date'][0] ?? null}}">
+                <label for="date_start" class="form-label fw-bold">Publication date start</label>
+                <input type="datetime-local" name="date_start" class="form-control" id="date_start" value="{{$filters['date_start'] ?? null}}">
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl">
-                <label for="publication_date_end" class="form-label fw-bold">Publication date end</label>
-                <input type="datetime-local" name="date[]" class="form-control" id="publication_date_end" value="{{$filters['date'][1] ?? null}}">
+                <label for="date_end" class="form-label fw-bold">Publication date end</label>
+                <input type="datetime-local" name="date_end" class="form-control" id="date_end" value="{{$filters['date_end'] ?? null}}">
             </div>
             <div class="btn-group col-auto">
                 <button type="submit" class="btn btn-outline-secondary" title="Search">
