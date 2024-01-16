@@ -13,6 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Excel as BaseExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use Throwable;
@@ -55,6 +56,8 @@ class Export implements ShouldQueue
         $fileName = $class->fileName.'-'.Carbon::now()->timestamp.'.csv';
 
         Excel::store($class, ExportModel::EXPORT_FOLDER.'/'.$fileName, null, BaseExcel::CSV);
+
+        Log::info('test job is updated');
 
         $this->export->update([
             'file' => $fileName,
