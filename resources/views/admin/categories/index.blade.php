@@ -53,5 +53,5 @@
             </tbody>
         </table>
     </div>
-    @include('admin.categories.modals.organise', ['categories' => $categories])
+    @include('admin.categories.modals.organise', ['categories' => $active_categories])
 @endsection

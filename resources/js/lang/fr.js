@@ -28,7 +28,7 @@ export default {
     "Cancel": "Annuler",
     "Show less": "Voir moins",
     "Read more": "Lire la suite",
-    "Comments": "{count, plural, =0 {commentaire} =1 {1 commentaire} other {# commentaires}}",
+    "Comments": "{count, plural, =0 {0 commentaire} =1 {1 commentaire} other {# commentaires}}",
     "Search": "Rechercher",
     "Latest": "Les plus récentes",
     "Popular": "Populaires",

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
@@ -16,28 +15,56 @@ class SubscriptionController extends Controller
             return view('subscription.index');
         }
 
-        return view('subscription.index', [
-            'users' => User::active()
-                ->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray())
-                ->where('show_subscribers', true)
-                ->withCount('subscribers')
-                ->orderBy('subscribers_count', 'desc')
-                ->paginate(24),
-            'sorted_videos' => Auth::user()
-                ->subscriptions_videos()
-                ->active()
-                ->with('user')
-                ->withCount('views')
-                ->latest()
-                ->get()
-                ->groupBy(fn ($item) => Carbon::parse($item->created_at)->format('Y-m-d'))
-                ->all()
-        ]);
+        $subscription_count = Auth::user()->subscriptions->count();
+
+        if ($subscription_count) {
+            return view('subscription.index', [
+                'subscription_count' => $subscription_count,
+                'videos' => Auth::user()
+                    ->subscriptions_videos()
+                    ->active()
+                    ->with('user')
+                    ->withCount('views')
+                    ->latest()
+                    ->get()
+            ]);
+        } else {
+            return view('subscription.index', [
+                'subscription_count' => $subscription_count,
+                'users' => User::active()
+                    ->whereNot('id', Auth::id())
+                    ->where('show_subscribers', true)
+                    ->withCount([
+                        'subscribers',
+                        'videos' => fn($query) => $query->active(),
+                        'premium_subscription' => fn($query) => $query->active()
+                    ])
+                    ->having('videos_count', '>', 0)
+                    ->orderBy('premium_subscription_count', 'desc')
+                    ->orderBy('subscribers_count', 'desc')
+                    ->orderBy('videos_count', 'desc')
+                    ->orderBy('created_at', 'asc')
+                    ->limit(100)
+                    ->get(),
+            ]);
+        }
     }
 
     public function manage(): View
     {
-        return view('subscription.manage');
+        return view('subscription.manage', [
+            'subscriptions' => Auth::user()
+                ->subscriptions()
+                ->withCount([
+                    'subscribers',
+                    'videos',
+                    'subscribers as is_subscribe_to_current_user' => function($query) {
+                        $query->where('subscriber_id', Auth::id());
+                    }
+                ])
+                ->latest('subscribe_at')
+                ->get()
+        ]);
     }
 
     public function discover(): View
@@ -47,14 +74,16 @@ class SubscriptionController extends Controller
                 ->where('show_subscribers', true)
                 ->withCount([
                     'subscribers',
-                    'videos',
+                    'videos' => fn($query) => $query->active(),
                     'premium_subscription' => fn(Builder $query) => $query->active()
                 ])
                 ->having('videos_count', '>', 0)
                 ->when(Auth::check(), fn($query) => $query->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray()))
                 ->orderBy('premium_subscription_count', 'desc')
                 ->orderBy('subscribers_count', 'desc')
+                ->orderBy('videos_count', 'desc')
                 ->orderBy('created_at', 'asc')
+                ->limit(100)
                 ->get()
         ]);
     }

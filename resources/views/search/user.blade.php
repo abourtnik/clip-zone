@@ -11,7 +11,7 @@
         </a>
         @if(Auth::check() && !Auth::user()->is($user))
             <subscribe-button
-                @if(!Auth()->user()->isSubscribeTo($user)) is-subscribe @endif
+                @if(!$user->is_subscribe_to_current_user) is-subscribe @endif
                 user="{{$user->id}}"
                 class="position-relative"
             />

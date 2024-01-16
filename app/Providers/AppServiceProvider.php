@@ -2,24 +2,15 @@
 
 namespace App\Providers;
 
-use App\Enums\ReportReason;
-use App\Http\Resources\NotificationResource;
-use App\Models\Category;
 use App\Services\YoutubeService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\View;
 use Illuminate\Notifications\Channels\DatabaseChannel as IlluminateDatabaseChannel;
 use App\Notifications\Channels\DatabaseChannel;
 
-use Illuminate\Support\Str;
 use Laravel\Cashier\Cashier;
-use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -64,70 +55,6 @@ class AppServiceProvider extends ServiceProvider
             );
         });
 
-        // SIDEBAR
-        View::composer([
-            'layouts.menus.sidebars.*',
-            'subscription.index',
-            'subscription.manage',
-            'admin.categories.index'
-        ], function($view) {
-            $view->with('categories', Cache::rememberForever('categories', fn() => Category::where('in_menu', true)->ordered()->get()));
-            $view->with(
-                'subscriptions',
-                Auth::user()?->subscriptions()
-                    ->withCount([
-                        'videos as new_videos' => fn($query) => $query->active()
-                            ->where('publication_date', '>', DB::raw('subscriptions.read_at')),
-                        'subscribers',
-                        'videos'
-                    ])
-                    ->latest('subscribe_at')
-                    ->get()
-            );
-            $view->with('favorite_playlists', Auth::user()?->favorites_playlist()->latest('added_at')->get());
-        });
-
-        // NOTIFICATIONS
-        View::composer('layouts.menus.header', function($view) {
-            $view->with('unread_notifications', Auth::user()?->notifications()->unread()->count());
-        });
-
-        View::composer('components.layout', function($view) {
-            if (!Str::contains($view->getName(), ['partials', 'modals', 'types'])) {
-                $view->with(
-                    'json_notifications',
-                    NotificationResource::collection(
-                        Auth::user()?->notifications()->latest()->limit(20)->get() ?? []
-                    )->toJson(),
-                );
-            }
-        });
-
-        // Reports
-        View::composer('modals.report', function($view) {
-            $view->with('report_reasons', ReportReason::get());
-        });
-
-        // Upload limit
-        View::composer('users.videos.modals.upload', function($view) {
-            $view->with('available_uploads', config('plans.free.max_uploads') - Auth::user()->uploaded_videos);
-            $view->with('available_space', config('plans.'.Auth::user()->plan.'.max_videos_storage') - Auth::user()->uploaded_videos_size);
-        });
-
-        // SHOW SIDEBAR
-        View::composer(['layouts.menus.sidebars.*' , 'layouts.menus.header'], function($view) {
-            $view->with('show_sidebar', !in_array(request()->route()?->getName(), ['video.show', 'pages.premium']));
-        });
-
-
         Cashier::calculateTaxes();
-
-        Blade::directive('size', function ($expression) {
-            return "<?php echo \App\Helpers\Number::formatSizeUnits($expression) ?>";
-        });
-
-        Blade::directive('money', function ($centimes) {
-            return "<?php echo number_format($centimes / 100, 2) . ' €' ?>";
-        });
     }
 }

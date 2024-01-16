@@ -1,4 +1,4 @@
-<div @class(["offcanvas offcanvas-start fixed overflow-auto", 'show_sidebar' => $show_sidebar ]) id="responsive-sidebar" data-bs-keyboard="false" data-bs-backdrop="true" data-bs-scroll="true" aria-modal="true" role="dialog">
+<div @class(["offcanvas offcanvas-start fixed overflow-auto show_sidebar"]) id="responsive-sidebar" data-bs-keyboard="false" data-bs-backdrop="true" data-bs-scroll="true" aria-modal="true" role="dialog">
     <div class="offcanvas-header d-flex justify-content-between align-items-center d-md-none bg-light border py-2">
         <a href="{{route('pages.home')}}" class="offcanvas-title h5 text-danger fw-bold text-decoration-none">
             {{config('app.name')}}

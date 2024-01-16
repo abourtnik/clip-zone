@@ -60,7 +60,7 @@
             </div>
         </div>
         @if (Auth::check())
-            <site-notifications initial="{{$json_notifications}}"></site-notifications>
+            @include('layouts.menus.notifications')
             @include('modals.report')
             @include('users.videos.modals.upload')
             @include('layouts.menus.account')

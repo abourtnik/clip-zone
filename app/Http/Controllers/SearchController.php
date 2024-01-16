@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -44,7 +45,11 @@ class SearchController extends Controller
             ->where('username', 'LIKE' , $match)
             ->withCount([
                 'subscribers',
-                'videos' => fn($query) => $query->active()
+                'videos' => fn($query) => $query->active(),
+                'subscribers as is_subscribe_to_current_user' => function($query) {
+                    $query->where('subscriber_id', Auth::id());
+                }
+
             ])
             ->orderBy('subscribers_count', 'desc')
             ->get() : collect();

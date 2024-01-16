@@ -14,6 +14,10 @@ class CategoryController
             'all_categories' => Category::query()
                 ->orderBy('in_menu', 'desc')
                 ->orderBy('position', 'asc')
+                ->get(),
+            'active_categories' => Category::query()
+                ->where('in_menu', true)
+                ->ordered()
                 ->get()
         ]);
     }

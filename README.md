@@ -98,9 +98,15 @@ ClipZone is created and maintained by [Anton Bourtnik](https://github.com/abourt
 
 // TO DO
 
+- Premium bug  multiple trial possible
+
+
+- Export not working on production (install redis and horizon)
 - Upload files to scaleway (S3 prod ?)
+- Refactors View composer
+- Include video slug in url (user and playslist too ?)
+
 
 - Upgrade logs package for custom logs regex : TELESCOPE ? or just sql viewer
-- Autocomplete search (admin)
 - Laravel Scout for Search (MeilSearch, or full text mysql)
 - Update logo + favicon
