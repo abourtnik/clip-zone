@@ -150,7 +150,7 @@ return [
             'ignore_paths' => [],
         ],
 
-        Watchers\JobWatcher::class => true,
+        Watchers\JobWatcher::class => false,
 
         Watchers\LogWatcher::class => [
             'enabled' => true,
