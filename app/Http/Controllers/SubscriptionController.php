@@ -25,7 +25,7 @@ class SubscriptionController extends Controller
                     ->active()
                     ->with('user')
                     ->withCount('views')
-                    ->latest()
+                    ->latest('publication_date')
                     ->get()
             ]);
         } else {
