@@ -144,6 +144,12 @@ return [
             'icon' => 'cube',
             'route' => 'admin.telescope',
             'new_tab' => true,
+        ],
+        [
+            'title' => 'Horizon',
+            'icon' => 'bars-progress',
+            'route' => 'admin.horizon',
+            'new_tab' => true,
         ]
     ]
 ];

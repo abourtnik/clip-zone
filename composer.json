@@ -14,6 +14,7 @@
         "lab404/laravel-impersonate": "^1.7",
         "laravel/cashier": "^14.12",
         "laravel/framework": "^9.19",
+        "laravel/horizon": "^5.21",
         "laravel/sanctum": "^3.2",
         "laravel/socialite": "^5.8",
         "laravel/telescope": "^4.17",

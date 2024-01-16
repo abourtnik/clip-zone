@@ -312,4 +312,7 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
 
     // Telescope
     Route::get('/telescope', fn() => redirect('telescope'))->name('telescope');
+
+    // Horizon
+    Route::get('/horizon', fn() => redirect('horizon'))->name('horizon');
 });
