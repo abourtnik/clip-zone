@@ -201,6 +201,7 @@ return [
         App\Providers\BroadcastServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
         App\Providers\BladeServiceProvider::class,
+        App\Providers\LogServiceProvider::class,
 
     ],
 
