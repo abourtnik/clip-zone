@@ -10,7 +10,9 @@ class ExportService
 {
     public function generate($type) :void
     {
-        $export = ExportModel::create();
+        $export = new ExportModel();
+
+        $export->save();
 
         Export::dispatch(Auth::user(), $type, $export);
     }
