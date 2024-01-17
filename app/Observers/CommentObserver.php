@@ -22,7 +22,7 @@ class CommentObserver
 
             $comment->video->user->notify(new UserNotification(
                 'You have new comment on your video !',
-                route('video.show', $comment->video)
+                $comment->video->route
             ));
         }
     }

@@ -3,9 +3,11 @@
 namespace Database\Factories;
 
 use App\Enums\VideoStatus;
+use App\Helpers\Number;
 use App\Models\Category;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends Factory<Video>
@@ -21,9 +23,12 @@ class VideoFactory extends Factory
     {
         $date = fake()->dateTimeBetween('-1 year');
 
+        $title = fake()->text(rand(5, config('validation.video.title.max')));
+
         return [
-            'uuid' => fake()->uuid(),
-            'title' => fake()->text(rand(5, config('validation.video.title.max'))),
+            'uuid' => Number::unique(),
+            'title' => $title,
+            'slug' => Str::slug($title),
             'description' => fake()->realTextBetween(100, config('validation.video.description.max')),
             'file' => 'default.webm',
             'original_file_name' => fake()->word() . '.avi',

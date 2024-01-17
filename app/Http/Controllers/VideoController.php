@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\User;
 use App\Models\Video;
 use App\Services\VideoService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -54,7 +55,11 @@ class VideoController
         );
     }
 
-    public function show (Video $video, Request $request) : View {
+    public function show (string $slug, Video $video, Request $request) : View|RedirectResponse {
+
+        if ($video->slug !== $slug) {
+            return redirect($video->route, 301);
+        }
 
         event(new VideoViewed($video));
 
@@ -75,7 +80,7 @@ class VideoController
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                 ]),
             'videos' => $suggestedVideos,
-            'nextVideoUrl' => $suggestedVideos->count() ? route('video.show', $suggestedVideos->random()) : null,
+            'nextVideoUrl' => $suggestedVideos->count() ? $suggestedVideos->random()->route : null,
             't' => $request->query('t', 0),
         ]);
     }

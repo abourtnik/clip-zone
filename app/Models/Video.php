@@ -246,7 +246,7 @@ class Video extends Model implements Likeable, Reportable
     protected function route(): Attribute
     {
         return Attribute::make(
-            get: fn () => route('video.show', $this),
+            get: fn () => route('video.show', ['slug' => $this->slug, 'video' => $this]),
         );
     }
 

@@ -67,7 +67,7 @@
                     <tr class="bg-light">
                         <td class="">
                             <div class="d-flex gap-3 align-items-center">
-                                <a href="{{route('video.show', $comment->video)}}">
+                                <a href="{{$comment->video->route}}">
                                     @include('users.videos.partials.thumbnail', ['video' => $comment->video])
                                 </a>
                                 <small>{{Str::limit($comment->video->title, 100), '...'}}</small>

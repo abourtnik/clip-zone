@@ -23,7 +23,7 @@ class VideoEventSubscriber
         foreach ($event->video->user->subscribers as $subscriber) {
             $subscriber->notify(new UserNotification(
                 $event->video->user->username. ' has published new video !',
-                route('video.show', $event->video)
+                $event->video->route
             ));
         }
     }

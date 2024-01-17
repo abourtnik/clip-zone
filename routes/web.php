@@ -73,9 +73,10 @@ Route::post('update-locale', [LangController::class, 'update'])->name('lang.upda
 
 // VIDEOS
 Route::controller(VideoController::class)->name('video.')->group(function () {
-    Route::get('/video/{video:uuid}', 'show')
+    Route::get('/video/{slug}-{video:uuid}', 'show')
         ->name('show')
         ->can('show', 'video')
+        ->where('slug', '[a-z0-9A-Z\-]+')
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
     Route::get('/video/file/{video:file}', 'file')
         ->name('file')

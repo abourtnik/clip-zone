@@ -7,6 +7,7 @@ use App\Enums\VideoStatus;
 use App\Enums\VideoType;
 use App\Filters\VideoFilters;
 use App\Helpers\Image;
+use App\Helpers\Number;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\FileRequest;
 use App\Http\Requests\Video\StoreVideoRequest;
@@ -65,6 +66,7 @@ class VideoController extends Controller
 
     public function store(StoreVideoRequest $request, Video $video): RedirectResponse {
         $validated = $request->safe()->merge([
+            'slug' => Str::slug($request->get('title')),
             'thumbnail' =>  Image::storeAndDelete($request->file('thumbnail'), null, Video::THUMBNAIL_FOLDER),
             'scheduled_date' => $request->get('scheduled_date'),
             'publication_date' => match((int) $request->get('status')) {
@@ -134,6 +136,7 @@ class VideoController extends Controller
         // Publication date is the first date that video become public, this data never be updated after first publication
 
         $validated = $request->safe()->merge([
+            'slug' => Str::slug($request->get('title')),
             'thumbnail' => Image::storeAndDelete($request->file('thumbnail'), $video->thumbnail, Video::THUMBNAIL_FOLDER),
             'scheduled_date' => match((int) $request->get('status')) {
                 VideoStatus::PLANNED->value => $request->get('scheduled_date'),
@@ -196,9 +199,12 @@ class VideoController extends Controller
 
         if ($request->get('resumableTotalChunks') === $request->get('resumableChunkNumber')) {
 
+            $title = Str::replace('.'.$chunk->getClientOriginalExtension(), '', $chunk->getClientOriginalName());
+
             $video = Video::create([
-                'uuid' => (string) Str::uuid(),
-                'title' => Str::replace('.'.$chunk->getClientOriginalExtension(), '', $chunk->getClientOriginalName()),
+                'uuid' => Number::unique(),
+                'title' => $title,
+                'slug' => Str::slug($title),
                 'original_file_name' => $chunk->getClientOriginalName(),
                 'mimetype' => $request->get('resumableType'),
                 'size' => $request->get('resumableTotalSize'),

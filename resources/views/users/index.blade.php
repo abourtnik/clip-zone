@@ -294,7 +294,7 @@
                                     <tr>
                                         <td class="align-start">
                                             <div class="d-flex gap-3 align-items-center">
-                                                <a href="{{route('video.show', $comment->video)}}">
+                                                <a href="{{$comment->video->route}}">
                                                     @include('users.videos.partials.thumbnail', ['video' => $comment->video])
                                                 </a>
                                             </div>
@@ -378,7 +378,7 @@
                                 @forelse($user->videos_interactions as $interaction)
                                 <tr>
                                     <td class="align-middle">
-                                        <a href="{{route('video.show', $interaction->likeable->id)}}">
+                                        <a href="{{$interaction->likeable->route}}">
                                             @include('users.videos.partials.thumbnail', ['video' => $interaction->likeable])
                                         </a>
                                     </td>
