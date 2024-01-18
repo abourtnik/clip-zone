@@ -74,7 +74,7 @@ class SearchController extends Controller
 
         $match = '%'.$q.'%';
 
-        $videos = Video::select(['id', 'uuid', 'title'])
+        $videos = Video::select(['id', 'uuid', 'slug', 'title'])
             ->active()
             ->where(function($query) use ($match) {
                 $query->where('title', 'LIKE', $match)->orWhere('description', 'LIKE', $match);
