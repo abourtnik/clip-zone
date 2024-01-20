@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from 'preact/hooks';
 import {debounce} from "../functions";
 import {jsonFetch, useClickOutside} from '../hooks'
 import {useTranslation} from "react-i18next";
+import clsx from 'clsx';
 
 export default function Search ({query = '', responsive = true}) {
 
@@ -120,7 +121,7 @@ export default function Search ({query = '', responsive = true}) {
                             results.items.map((result, key) => <ResultItem result={result} key={key} isSelected={selectedIndex === key}/>)
                         }
                         <li className={'text-center border-top d-flex align-items-center rounded-bottom'}>
-                            <a className={"text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold hover-primary py-2 rounded-bottom " + (selectedIndex === results.items.length ? 'selected' : null)} href={results.route}>
+                            <a className={clsx("text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold hover-primary py-2 rounded-bottom", selectedIndex === results.items.length && 'selected')} href={results.route}>
                                 {t('See results', { count: results.total })}
                             </a>
                         </li>
@@ -143,7 +144,7 @@ function ResultItem ({result, isSelected}) {
         <li>
             <a
                 href={result.url}
-                className={"d-flex align-items-start gap-2 justify-content-start text-decoration-none px-3 py-2 hover-primary " + (isSelected ? 'selected' : null)}
+                className={clsx("d-flex align-items-start gap-2 justify-content-start text-decoration-none px-3 py-2 hover-primary", isSelected && 'selected')}
             >
                 {
                     loading &&
@@ -154,7 +155,7 @@ function ResultItem ({result, isSelected}) {
                         alt={'default '}
                     />
                 }
-                <img className={'img-fluid ' + (loading ? 'd-none' : 'd-block')} width={100} src={result.thumbnail} alt="" onLoad={imageLoad} />
+                <img className={clsx('img-fluid', loading && 'd-none', !loading && 'd-block')} width={100} src={result.thumbnail} alt="" onLoad={imageLoad} />
                 <div className={'text-sm'}>
                     <div className={'text-black'} dangerouslySetInnerHTML={{__html: result._formatted.title}}></div>
                     <div className={'text-muted'} dangerouslySetInnerHTML={{__html: result._formatted.user}}></div>
