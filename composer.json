@@ -11,16 +11,19 @@
         "doctrine/dbal": "^3.6",
         "fakerphp/faker": "^1.9.1",
         "guzzlehttp/guzzle": "^7.2",
+        "http-interop/http-factory-guzzle": "^1.2",
         "lab404/laravel-impersonate": "^1.7",
         "laravel/cashier": "^14.12",
         "laravel/framework": "^9.19",
         "laravel/horizon": "^5.21",
         "laravel/sanctum": "^3.2",
+        "laravel/scout": "^10.8",
         "laravel/socialite": "^5.8",
         "laravel/telescope": "^4.17",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.0",
         "maatwebsite/excel": "^3.1",
+        "meilisearch/meilisearch-php": "^1.6",
         "mews/purifier": "^3.3",
         "opcodesio/log-viewer": "^3.1",
         "php-ffmpeg/php-ffmpeg": "^1.1",
@@ -78,7 +81,8 @@
         "preferred-install": "dist",
         "sort-packages": true,
         "allow-plugins": {
-            "pestphp/pest-plugin": true
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": false
         }
     },
     "minimum-stability": "dev",

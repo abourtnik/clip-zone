@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filters;
+namespace App\Filters\Drivers;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
-class Filter
+class MySQLFilter extends DriverFilter
 {
     /**
      * The field to use for date filter.
@@ -35,13 +35,5 @@ class Filter
         }
 
         return $builder;
-    }
-
-    public function receivedFilters(): array
-    {
-        $filters = request()->all();
-
-        $clear = request()->exists('clear');
-        return $clear ? [] : request()->only(array_keys($filters));
     }
 }

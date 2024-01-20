@@ -24,6 +24,7 @@ install: ## Install application
 	composer install --optimize-autoloader --no-dev
 	php artisan migrate --force
 	php artisan queue:restart
+	php artisan scout:sync-index-settings
 	npm install
 	npm run build
 	php artisan optimize

@@ -17,9 +17,7 @@ yarn-error.log
 /.vscode
 
 # Local data
-mariadb_data
-minio_data
-redis_data
+docker/data
 
 # Folder view configuration files
 .DS_Store

@@ -2,6 +2,7 @@
 
 namespace App\Filters;
 
+use App\Filters\Drivers\MySQLFilter;
 use App\Filters\Traits\DateFilter;
 use App\Filters\Traits\UserFilter;
 use App\Models\Comment;
@@ -9,7 +10,7 @@ use App\Models\User;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Builder;
 
-class ReportFilters extends Filter
+class ReportFilters extends MySQLFilter
 {
     use DateFilter, UserFilter;
 

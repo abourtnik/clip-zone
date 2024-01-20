@@ -3,11 +3,12 @@
 namespace App\Filters;
 
 use App\Enums\VideoStatus;
+use App\Filters\Drivers\MySQLFilter;
 use App\Filters\Traits\DateFilter;
 use App\Filters\Traits\UserFilter;
 use Illuminate\Database\Eloquent\Builder;
 
-class VideoFilters extends Filter
+class VideoFilters extends MySQLFilter
 {
     use DateFilter, UserFilter;
 

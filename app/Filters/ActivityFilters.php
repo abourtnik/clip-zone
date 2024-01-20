@@ -2,13 +2,14 @@
 
 namespace App\Filters;
 
+use App\Filters\Drivers\MySQLFilter;
 use App\Filters\Traits\DateFilter;
 use App\Models\Comment;
 use App\Models\Interaction;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Builder;
 
-class ActivityFilters extends Filter
+class ActivityFilters extends MySQLFilter
 {
     use DateFilter;
 

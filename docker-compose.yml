@@ -40,7 +40,7 @@ services:
             MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
             TZ: 'Europe/Paris'
         volumes:
-            - ./mariadb_data:/var/lib/mysql
+            - ./docker/data/mariadb:/var/lib/mysql
         networks:
             - application
         healthcheck:
@@ -54,7 +54,18 @@ services:
         networks:
             - application
         volumes:
-            - ./redis_data:/data
+            - ./docker/data/redis:/data
+    meilisearch:
+        image: getmeili/meilisearch:v1.6
+        container_name: meilisearch_container
+        environment:
+            - MEILI_MASTER_KEY=${MEILISEARCH_KEY}
+        ports:
+            - "7700:7700"
+        networks:
+            - application
+        volumes:
+            - ./docker/data/meilisearch:/meili_data
     maildev:
         image: maildev/maildev
         container_name: maildev_container
@@ -95,7 +106,7 @@ services:
             MINIO_ROOT_USER: minio
             MINIO_ROOT_PASSWORD: password
         volumes:
-            - ./minio_data:/data/minio
+            - ./docker/data/minio:/data/minio
         command: 'minio server /data/minio --console-address ":8900"'
         networks:
             - application

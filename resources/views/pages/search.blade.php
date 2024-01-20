@@ -13,15 +13,6 @@
         </div>
         <form class="my-4 row align-items-end gx-2 gy-2" method="GET" x-show.important="filters">
             <input type="hidden" name="q" value="{{$search}}">
-            <div class="col-12 col-lg">
-                <label for="type" class="form-label fw-bold">{{ __('Type') }}</label>
-                <select name="type" class="form-select" aria-label="Default select example">
-                    <option selected value="">{{ __('All') }}</option>
-                    <option @selected(($filters['type'] ?? null) === 'users') value="users">{{ __('User') }}</option>
-                    <option @selected(($filters['type'] ?? null) === 'videos') value="videos">{{ __('Video') }}</option>
-                    <option @selected(($filters['type'] ?? null) === 'playlists') value="playlists">{{ __('Playlist') }}</option>
-                </select>
-            </div>
             <div class="col-12 col-sm-6 col-lg">
                 <label for="date" class="form-label fw-bold">{{ __('Upload Date') }}</label>
                 <select name="date" class="form-select" aria-label="Default select example">
@@ -53,7 +44,7 @@
     </div>
     <div class="row">
         <div class="col-12 col-xl-10 offset-xl-1">
-            @if($results->count())
+            @if($results->total())
                 @foreach($results as $result)
                     @include('search.'.$result->type, [$result->type => $result])
                 @endforeach

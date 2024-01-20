@@ -15,18 +15,19 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Query\Builder as QueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 use Symfony\Component\Intl\Languages;
+use Illuminate\Database\Eloquent\Collection;
 
 class Video extends Model implements Likeable, Reportable
 {
-    use HasFactory, HasLike, HasReport, HasEagerLimit, Filterable;
+    use HasFactory, HasLike, HasReport, HasEagerLimit, Filterable, Searchable;
 
     protected $guarded = ['id'];
 
@@ -278,10 +279,10 @@ class Video extends Model implements Likeable, Reportable
     /**
      * Scope a query to only include active videos.
      *
-     * @param QueryBuilder|EloquentBuilder $query
-     * @return QueryBuilder|EloquentBuilder
+     * @param Builder $query
+     * @return Builder
      */
-    public function scopeActive(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
+    public function scopeActive(Builder $query): Builder
     {
         return $query->where('status', VideoStatus::PUBLIC)
             ->whereNotNull('uploaded_at')
@@ -294,10 +295,10 @@ class Video extends Model implements Likeable, Reportable
     /**
      * Scope a query to only include public videos.
      *
-     * @param QueryBuilder|EloquentBuilder $query
-     * @return QueryBuilder|EloquentBuilder
+     * @param Builder $query
+     * @return Builder
      */
-    public function scopePublic(QueryBuilder|EloquentBuilder $query, $includeAuthVideo = false): QueryBuilder|EloquentBuilder
+    public function scopePublic(Builder $query, $includeAuthVideo = false): Builder
     {
         return $query->whereIn('status', [VideoStatus::PUBLIC, VideoStatus::UNLISTED])
             ->whereNotNull('uploaded_at')
@@ -311,10 +312,10 @@ class Video extends Model implements Likeable, Reportable
     /**
      * Scope a query to only include not active videos.
      *
-     * @param QueryBuilder|EloquentBuilder $query
-     * @return QueryBuilder|EloquentBuilder
+     * @param Builder $query
+     * @return Builder
      */
-    public function scopeNotActive(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
+    public function scopeNotActive(Builder $query): Builder
     {
         return $query->whereIn('status', [VideoStatus::PRIVATE, VideoStatus::BANNED, VideoStatus::DRAFT, VideoStatus::FAILED])
             ->orWhere(function($query) {
@@ -327,11 +328,61 @@ class Video extends Model implements Likeable, Reportable
     /**
      * Scope a query to only include valid videos.
      *
-     * @param QueryBuilder|EloquentBuilder $query
-     * @return QueryBuilder|EloquentBuilder
+     * @param Builder $query
+     * @return Builder
      */
-    public function scopeValid(QueryBuilder|EloquentBuilder $query): QueryBuilder|EloquentBuilder
+    public function scopeValid(Builder $query): Builder
     {
         return $query->whereNot('status', VideoStatus::FAILED);
+    }
+
+    /**
+     * Get the name of the index associated with the model.
+     */
+    public function searchableAs(): string
+    {
+        return 'videos';
+    }
+
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query
+            ->active()
+            ->with(['user:id,username', 'category:id,title'])
+            ->withCount('views');
+    }
+
+    /**
+     * Modify the collection of models being made searchable.
+     */
+    public function makeSearchableUsing(Collection $models): Collection
+    {
+        return $models
+            ->load([
+                'user:id,username',
+                'category:id,title'
+            ])
+            ->loadCount('views');
+    }
+
+    public function toSearchableArray() : array
+    {
+        return [
+            'id' => (int) $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'category' => $this->category?->title,
+            'user' => $this->user->username,
+            'views' => $this->views_count,
+            'duration' => (int) $this->getRawOriginal('duration'),
+            'url' => $this->route,
+            'thumbnail' => $this->thumbnail_url,
+            'publication_date' => $this->publication_date->timestamp
+        ];
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        return $this->is_active;
     }
 }

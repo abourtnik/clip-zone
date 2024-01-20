@@ -2,10 +2,11 @@
 
 namespace App\Filters;
 
+use App\Filters\Drivers\MySQLFilter;
 use App\Filters\Traits\DateFilter;
 use Illuminate\Database\Eloquent\Builder;
 
-class UserFilters extends Filter
+class UserFilters extends MySQLFilter
 {
     use DateFilter;
 

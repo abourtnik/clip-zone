@@ -9,6 +9,7 @@ use App\Console\Commands\Premium\SendTrialsEnd;
 use App\Console\Commands\SendVideoPublishedEvent;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Laravel\Scout\Console\ImportCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -38,6 +39,10 @@ class Kernel extends ConsoleKernel
             ->twiceMonthly(1, 16, '09:30')
             ->lastDayOfMonth('09:30')
             ->appendOutputTo($LOG_PATH);
+
+        // Sync views_count for videos index Meilisearch
+        $schedule->command(ImportCommand::class, ['App\Models\Video'])
+            ->dailyAt('3:00');
     }
 
     /**
