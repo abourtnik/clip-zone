@@ -18,6 +18,8 @@ class InteractionController extends Controller
 
         $likeable = $model::findOrFail($id);
 
+        $this->authorize('interact', $likeable);
+
         $interaction = $likeable->interactions()->whereRelation('user', 'id', Auth::user()->id)->first();
 
         if ($interaction) {

@@ -5,7 +5,6 @@ namespace App\Http\Requests\Interaction;
 use App\Models\Comment;
 use App\Models\Video;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class InteractionRequest extends FormRequest
@@ -38,10 +37,8 @@ class InteractionRequest extends FormRequest
             'id' => [
                 'required',
                 'numeric',
-                Rule::exists((new $model())->getTable(), 'id')->where(function ($query) use ($model) {
-                    return (new $model)->scopePublic($query)->orWhere('user_id', Auth::user()->id);
-                })
-            ],
+                'exists:'.$model.',id',
+            ]
         ];
     }
 }

@@ -113,6 +113,20 @@ class CommentPolicy
     }
 
     /**
+     * Determine whether the user can like/dislike the comment.
+     *
+     * @param  User $user
+     * @param  Comment $comment
+     * @return Response|bool
+     */
+    public function interact(User $user, Comment $comment): Response|bool
+    {
+        return $comment->is_active || $comment->user->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(403, 'You are not authorized to interact with this comment');
+    }
+
+    /**
      * Determine whether the user can pin the model.
      *
      * @param  User $user

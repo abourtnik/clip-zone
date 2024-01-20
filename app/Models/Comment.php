@@ -118,6 +118,13 @@ class Comment extends Model implements Likeable, Reportable
         );
     }
 
+    protected function isActive(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => !$this->is_banned
+        );
+    }
+
     /**
      * -------------------- SCOPES --------------------
      */
