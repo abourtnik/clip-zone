@@ -17,7 +17,7 @@
         </a>
         <div class="d-flex mt-2">
             <div class="ml-2">
-                <a href="{{$playlist->route}}" class="fw-bolder text-decoration-none text-black d-block position-relative" title="{{$playlist->title}}">
+                <a href="{{$playlist->route}}" class="fw-bolder text-decoration-none text-black d-block position-relative text-break" title="{{$playlist->title}}">
                     {{Str::limit($playlist->title, 69)}}
                 </a>
                 <div class="text-sm text-muted">{{$playlist->created_at->diffForHumans()}}</div>

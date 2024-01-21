@@ -52,7 +52,7 @@ class SearchController extends Controller
         $videos = Video::search($q, function(Indexes $index, $query, $options) {
                 $options['attributesToRetrieve'] = ['title', 'url', 'thumbnail', 'user'];
                 $options['attributesToHighlight'] = ['title', 'user'];
-                $options['attributesToCrop'] = ['title:10'];
+                $options['attributesToCrop'] = ['title:15'];
                 return $index->rawSearch($query, $options);
             })
             ->orderBy('views', 'desc')

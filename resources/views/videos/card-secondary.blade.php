@@ -14,7 +14,7 @@
                 <img class="rounded-circle" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar"  style="width: 36px">
             </a>
             <div>
-                <a href="{{$video->route}}" class="d-block fw-bold position-relative text-decoration-none text-black text-sm mb-1 overflow-hidden" title="{{$video->title}}" style="max-height: 40px">
+                <a href="{{$video->route}}" class="d-block fw-bold position-relative text-decoration-none text-black text-sm mb-1 overflow-hidden text-break" title="{{$video->title}}" style="max-height: 40px">
                     {{Str::limit($video->title, 50)}}
                 </a>
                 <a href="{{$video->user->route}}" class="d-block text-muted position-relative text-decoration-none text-sm" title="{{$video->user->username}}">

@@ -80,9 +80,6 @@ export default function Search ({query = '', responsive = true}) {
         }).catch(e => e).finally(() => setLoading(false));
     }, 300), []);
 
-    const width = responsive ? 'w-100 start-0' : 'w-35 rounded-4';
-    const textSize = responsive ? 'text-sm' : '';
-
     return (
         <>
         <form ref={ref} method="GET" className="d-flex w-100 mb-0" role="search" action="/search" onSubmit={handleSubmit}>
@@ -115,7 +112,7 @@ export default function Search ({query = '', responsive = true}) {
         </form>
         {
             (showResults && search.trim() && results.total) ?
-                <div className={'position-absolute ' + width + ' bg-white shadow-lg border border-1 pt-3 rounded-top rounded-bottom'} style={{top:'53px'}}>
+                <div className={clsx('position-absolute bg-white border border-1 pt-3', responsive && 'w-100 start-0', !responsive && 'shadow-lg rounded-top rounded-bottom col-6 col-xl-5 col-xxl-4 rounded-4')} style={{top:'53px'}}>
                     <ul className={'list-unstyled mb-0'}>
                         {
                             results.items.map((result, key) => <ResultItem result={result} key={key} isSelected={selectedIndex === key}/>)

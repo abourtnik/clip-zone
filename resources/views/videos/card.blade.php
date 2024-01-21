@@ -14,7 +14,7 @@
                 <img class="rounded-circle" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar"  style="width: 36px">
             </a>
             <div class="ml-2">
-                <a href="{{$video->route}}" class="fw-bolder text-decoration-none text-black d-block position-relative" title="{{$video->title}}">{{$video->short_title}}</a>
+                <a href="{{$video->route}}" class="fw-bolder text-decoration-none text-black d-block position-relative text-break" title="{{$video->title}}">{{$video->short_title}}</a>
                 <a href="{{$video->user->route}}" class="position-relative text-decoration-none">
                     <small>{{$video->user->username}}</small>
                 </a>

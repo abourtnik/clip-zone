@@ -11,6 +11,7 @@ use App\Models\Interfaces\Likeable;
 use App\Models\Traits\HasReport;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -279,10 +280,10 @@ class Video extends Model implements Likeable, Reportable
     /**
      * Scope a query to only include active videos.
      *
-     * @param Builder $query
-     * @return Builder
+     * @param QueryBuilder|Builder $query
+     * @return QueryBuilder|Builder
      */
-    public function scopeActive(Builder $query): Builder
+    public function scopeActive(QueryBuilder|Builder $query): QueryBuilder|Builder
     {
         return $query->where('status', VideoStatus::PUBLIC)
             ->whereNotNull('uploaded_at')
