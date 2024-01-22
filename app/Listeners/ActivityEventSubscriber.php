@@ -16,7 +16,8 @@ class ActivityEventSubscriber
     public function saveActivity(ActivityCreated $event): void {
           Auth::user()->activity()->create([
               'subject_type' => get_class($event->model),
-              'subject_id' => $event->model->id
+              'subject_id' => $event->model->id,
+              'perform_at' => $event->model->created_at
           ]);
     }
 

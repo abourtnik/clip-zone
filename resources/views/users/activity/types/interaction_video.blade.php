@@ -11,9 +11,9 @@
             <div class="d-flex flex-column gap-2 justify-content-between col-12 col-sm-8">
                 <div class="text-muted text-sm">
                     @if($activity->subject->status)
-                        Vous avez liké la vidéo
+                        {{ __('You liked the video') }}
                     @else
-                        Vous avez dislliké la vidéo
+                        {{ __('You disliked the video') }}
                     @endif
                     <a href="{{$activity->subject->likeable->route}}" class="text-decoration-none text-sm">{{$activity->subject->likeable->title}}</a>
                 </div>

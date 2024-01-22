@@ -10,9 +10,9 @@
                 </x-expand-item>
                 <div class="text-muted text-sm">
                     @if($activity->subject->is_reply)
-                        Vous avez répondu à un commentaire sur la vidéo
+                        {{ __('You respond to a comment on the video') }}
                     @else
-                        Vous avez publié un commentaire sur la video
+                        {{ __('You posted a comment on the video') }}
                     @endif
                     <a href="{{$activity->subject->video->route}}" class="text-decoration-none text-sm">{{$activity->subject->video->title}}</a>
                 </div>

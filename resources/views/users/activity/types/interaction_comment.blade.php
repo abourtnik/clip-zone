@@ -13,10 +13,10 @@
                     {{$activity->subject->likeable->content}}
                 </x-expand-item>
                 <div class="text-muted text-sm">
-                    @if($activity->subject->is_reply)
-                        Vous avez like à un commentaire sur la vidéo
+                    @if($activity->subject->status)
+                        {{ __('You liked a comment on the video') }}
                     @else
-                        Vous avez dislliké un commentaire sur la video
+                        {{ __('You disliked a comment on the video') }}
                     @endif
                     <a href="{{$activity->subject->likeable->video->route}}" class="text-decoration-none text-sm">{{$activity->subject->likeable->video->title}}</a>
                 </div>
