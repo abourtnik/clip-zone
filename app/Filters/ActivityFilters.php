@@ -13,6 +13,8 @@ class ActivityFilters extends MySQLFilter
 {
     use DateFilter;
 
+    protected string $dateField = 'perform_at';
+
     public function type(string $value): Builder
     {
         return $this->builder->when($value === 'video_likes', fn($q) => $q->whereHasMorph('subject', [Interaction::class], fn($query) => $query->whereHasMorph('likeable', [Video::class])->where('status', true)))

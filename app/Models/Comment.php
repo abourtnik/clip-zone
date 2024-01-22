@@ -6,11 +6,11 @@ use App\Helpers\Parser;
 use App\Models\Interfaces\Likeable;
 use App\Models\Interfaces\Reportable;
 use App\Models\Traits\Filterable;
+use App\Models\Traits\HasActivity;
 use App\Models\Traits\HasLike;
 use App\Models\Traits\HasReport;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
-use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -18,26 +18,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Str;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 class Comment extends Model implements Likeable, Reportable
 {
-    use HasLike, LogsActivity, HasReport, HasEagerLimit, Filterable;
+    use HasLike, HasReport, HasEagerLimit, Filterable, HasFactory, HasActivity;
 
     protected $guarded = ['id'];
-
-    protected static $recordEvents = ['created'];
 
     protected $dates = [
         'banned_at'
     ];
 
     public const SHORT_CONTENT_LIMIT = 500;
-
-    use HasFactory;
 
     /**
      * -------------------- RELATIONS --------------------
@@ -150,17 +145,4 @@ class Comment extends Model implements Likeable, Reportable
     {
         return $query->whereNull('banned_at');
     }
-
-    /**
-     * -------------------- METHODS --------------------
-     */
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
-    }
-
-
-
-
 }

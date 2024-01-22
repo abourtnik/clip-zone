@@ -7,7 +7,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Interaction;
 use App\Models\Video;
-use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +23,8 @@ class ActivityController extends Controller
                 'activity as comment_dislikes_count' => fn($query) => $query->filter($filters)->whereHasMorph('subject', [Interaction::class], fn($query) => $query->whereHasMorph('likeable', [Comment::class])->where('status', false)),
                 'activity as comments_count' => fn($query) => $query->filter($filters)->whereHasMorph('subject', [Comment::class]),
             ]),
-            'activity_log' => Activity::causedBy(Auth::user())
+            'activities' => Activity::query()
+                ->where('user_id', Auth::id())
                 ->filter($filters)
                 ->with([
                     'subject' => function (MorphTo $morphTo) {
@@ -41,10 +41,9 @@ class ActivityController extends Controller
                         ]);
                     }
                 ])
-                ->latest('updated_at')
-                ->get()
-                ->groupBy(fn ($item) => Carbon::parse($item->updated_at)->format('Y-m-d'))
-                ->all(),
+                ->latest('perform_at')
+                ->paginate(12)
+                ->withQueryString(),
             'filters' => $filters->receivedFilters(),
             'types' => [
                 'video_likes' => 'Video Likes',

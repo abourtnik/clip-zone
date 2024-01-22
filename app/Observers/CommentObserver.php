@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Models\Activity;
 use App\Models\Comment;
 use App\Notifications\UserNotification;
 
@@ -44,8 +43,5 @@ class CommentObserver
 
         // Remove video reports
         $comment->reports()->delete();
-
-        // Remove activity for this comment
-        Activity::forSubject($comment)->delete();
     }
 }

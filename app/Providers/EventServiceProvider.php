@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\ActivityEventSubscriber;
 use App\Listeners\ExportEventSubscriber;
 use App\Listeners\BackgroundEventSubscriber;
 use App\Listeners\SendEmailVerificationNotification;
@@ -10,12 +11,10 @@ use App\Listeners\UserEventSubscriber;
 use App\Listeners\VideoEventSubscriber;
 use App\Models\Category;
 use App\Models\Comment;
-use App\Models\Interaction;
 use App\Models\User;
 use App\Models\Video;
 use App\Observers\CategoryObserver;
 use App\Observers\CommentObserver;
-use App\Observers\InteractionObserver;
 use App\Observers\UserObserver;
 use App\Observers\VideoObserver;
 use Illuminate\Auth\Events\Login;
@@ -43,7 +42,8 @@ class EventServiceProvider extends ServiceProvider
         UserEventSubscriber::class,
         VideoEventSubscriber::class,
         ExportEventSubscriber::class,
-        BackgroundEventSubscriber::class
+        BackgroundEventSubscriber::class,
+        ActivityEventSubscriber::class
     ];
 
     /**
@@ -57,7 +57,6 @@ class EventServiceProvider extends ServiceProvider
         Comment::observe(CommentObserver::class);
         User::observe(UserObserver::class);
         Video::observe(VideoObserver::class);
-        Interaction::observe(InteractionObserver::class);
     }
 
     /**

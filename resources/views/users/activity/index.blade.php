@@ -39,16 +39,9 @@
             <div class="card card-body">
                 <h5 class="text-primary">Activity</h5>
                 <hr>
-                @if($activity_log || $filters)
-                    @forelse($activity_log as $date => $log)
-                        <div class="row mt-2 justify-content-center">
-                            <div class="col-12 mt-2">
-                                <h5 class="mb-3">{{\Carbon\Carbon::createFromFormat('Y-m-d',$date)->calendar(now(), ['sameDay' => '[Today]', 'lastDay' => '[Yesterday]', 'lastWeek' => '[] dddd', 'sameElse' => 'D MMMM'])}}</h5>
-                                @foreach($log as $activity)
-                                    @include('users.activity.types.'. $activity->type)
-                                @endforeach
-                            </div>
-                        </div>
+                @if($activities->total() || $filters)
+                    @forelse($activities as $activity)
+                        @include('users.activity.types.'. $activity->type)
                     @empty
                         <div class="card">
                             <div class="card-body d-flex justify-content-center align-items-center">
@@ -59,6 +52,7 @@
                             </div>
                         </div>
                     @endforelse
+                    {{ $activities->links() }}
                 @else
                     <div class="card">
                         <div class="card-body d-flex justify-content-center align-items-center">

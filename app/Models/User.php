@@ -140,7 +140,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     }
 
     public function activity () : HasMany {
-        return $this->hasMany(Activity::class, 'causer_id');
+        return $this->hasMany(Activity::class);
     }
 
     public function user_reports () : HasMany {

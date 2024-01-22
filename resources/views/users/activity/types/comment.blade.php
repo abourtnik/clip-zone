@@ -1,24 +1,27 @@
-<div class="d-flex align-items-center position-relative">
+<div class="d-flex align-items-center">
     <div class="my-2 card card-body">
-        <div class="d-flex gap-4 align-items-start">
-            <div class="rounded-circle bg-primary text-white px-2 py-1">
+        <div class="d-flex gap-4 flex-column flex-sm-row align-items-stretch justify-content-between">
+            <div class="rounded-circle bg-primary text-white px-2 py-1" style="height: 32px;width: 32px;">
                 <i class="fa-solid fa-comment"></i>
             </div>
-            <div class="d-flex gap-3 justify-content-between w-100">
-                <div class="w-75">
-                    <div class="d-flex flex-column flex-sm-row gap-4 align-items-start">
-                        <strong>Commented</strong>
-                        <a href="{{$activity->subject->video->route}}" class="text-decoration-none text-sm">{{$activity->subject->video->title}}</a>
-                        <a href="{{$activity->subject->video->route}}">
-                            @include('users.videos.partials.thumbnail', ['video' => $activity->subject->video])
-                        </a>
-                    </div>
-                    <hr class="my-3">
-                    <x-expand-item>
-                        {{$activity->subject->content}}
-                    </x-expand-item>
+            <div class="d-flex flex-column gap-2 justify-content-between col-12 col-sm-8">
+                <x-expand-item color="black">
+                    {{$activity->subject->content}}
+                </x-expand-item>
+                <div class="text-muted text-sm">
+                    @if($activity->subject->is_reply)
+                        Vous avez répondu à un commentaire sur la vidéo
+                    @else
+                        Vous avez publié un commentaire sur la video
+                    @endif
+                    <a href="{{$activity->subject->video->route}}" class="text-decoration-none text-sm">{{$activity->subject->video->title}}</a>
                 </div>
-                <small class="text-muted fw-bold">{{$activity->created_at->format('H:i')}}</small>
+            </div>
+            <div class="d-flex flex-column gap-4 align-items-start align-items-sm-center">
+                <small class="text-muted fw-bold text-center">{{$activity->perform_at->translatedFormat('d F Y - H:i')}}</small>
+                <a href="{{$activity->subject->video->route}}">
+                    @include('users.videos.partials.thumbnail', ['video' => $activity->subject->video])
+                </a>
             </div>
         </div>
     </div>

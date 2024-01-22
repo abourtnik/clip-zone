@@ -23,15 +23,19 @@ class InteractionController extends Controller
         $interaction = $likeable->interactions()->whereRelation('user', 'id', Auth::user()->id)->first();
 
         if ($interaction) {
-            if ($interaction->status == $status) {
-                $interaction->delete();
-            } else {
-                $interaction->update([
+
+            $interaction->delete();
+
+            if ($interaction->status != $status) {
+                Auth::user()->interactions()->create([
+                    'likeable_type' => get_class($likeable),
+                    'likeable_id' => $likeable->id,
                     'status' => $status,
-                    'perform_at' => now()
                 ]);
             }
-        } else {
+        }
+
+        else {
             Auth::user()->interactions()->create([
                 'likeable_type' => get_class($likeable),
                 'likeable_id' => $likeable->id,

@@ -3,22 +3,19 @@
 namespace App\Models;
 
 use App\Models\Traits\Filterable;
+use App\Models\Traits\HasActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class Interaction extends Model
 {
-    use HasFactory, LogsActivity, Filterable;
+    use HasFactory, Filterable, HasActivity;
 
     protected $guarded = ['id'];
 
     public $timestamps = false;
-
-    protected static $recordEvents = ['created'];
 
     protected $casts = [
         'perform_at' => 'datetime',
@@ -32,15 +29,5 @@ class Interaction extends Model
     public function likeable() : MorphTo
     {
         return $this->morphTo();
-    }
-
-    public function tapActivity(Activity $activity, string $eventName)
-    {
-        $activity->properties = ['status' => $activity->subject->status];
-    }
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
     }
 }
