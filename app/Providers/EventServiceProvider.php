@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Listeners\ActivityEventSubscriber;
 use App\Listeners\ExportEventSubscriber;
 use App\Listeners\BackgroundEventSubscriber;
+use App\Listeners\SearchEventSubscriber;
 use App\Listeners\SendEmailVerificationNotification;
 use App\Listeners\SuccessfulLogin;
 use App\Listeners\UserEventSubscriber;
@@ -43,7 +44,8 @@ class EventServiceProvider extends ServiceProvider
         VideoEventSubscriber::class,
         ExportEventSubscriber::class,
         BackgroundEventSubscriber::class,
-        ActivityEventSubscriber::class
+        ActivityEventSubscriber::class,
+        SearchEventSubscriber::class
     ];
 
     /**

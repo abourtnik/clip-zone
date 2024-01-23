@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SearchPerformed;
 use App\Filters\SearchFilters;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
@@ -48,6 +49,8 @@ class SearchController extends Controller
     public function search (Request $request): JsonResponse {
 
         $q = $request->get('q');
+
+        SearchPerformed::dispatch($q);
 
         $videos = Video::search($q, function(Indexes $index, $query, $options) {
                 $options['attributesToRetrieve'] = ['title', 'url', 'thumbnail', 'user'];
