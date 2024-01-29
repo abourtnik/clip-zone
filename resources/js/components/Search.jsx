@@ -23,7 +23,9 @@ export default function Search ({query = '', responsive = true}) {
         setSelectedIndex(null);
         setLoading(true);
         setSearch(value);
-        suggest(value)
+        if (value.trim()) {
+            suggest(value)
+        }
     };
 
     const handleKeys = (e) => {
