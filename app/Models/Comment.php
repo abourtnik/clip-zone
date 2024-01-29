@@ -28,7 +28,7 @@ class Comment extends Model implements Likeable, Reportable
 
     protected $guarded = ['id'];
 
-    protected $dates = [
+    protected $casts = [
         'banned_at'
     ];
 

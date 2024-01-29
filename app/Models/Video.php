@@ -32,15 +32,12 @@ class Video extends Model implements Likeable, Reportable
 
     protected $guarded = ['id'];
 
-    protected $dates = [
-        'publication_date',
-        'scheduled_date',
-        'banned_at',
-        'uploaded_at',
-    ];
-
     protected $casts = [
         'status' => VideoStatus::class,
+        'publication_date' => 'datetime',
+        'scheduled_date' => 'datetime',
+        'banned_at' => 'datetime',
+        'uploaded_at' => 'datetime'
     ];
 
     public const THUMBNAIL_FOLDER = 'thumbnails';

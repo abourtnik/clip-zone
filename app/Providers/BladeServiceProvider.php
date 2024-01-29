@@ -25,11 +25,15 @@ class BladeServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Blade::directive('size', function ($expression) {
-            return "<?php echo \App\Helpers\Number::formatSizeUnits($expression) ?>";
+            return "<?php echo \Illuminate\Support\Number::fileSize($expression) ?>";
         });
 
         Blade::directive('money', function ($centimes) {
-            return "<?php echo number_format($centimes / 100, 2) . ' €' ?>";
+            return "<?php echo \Illuminate\Support\Number::currency($centimes / 100, in: 'EUR', locale: 'fr') ?>";
+        });
+
+        Blade::directive('abbreviate', function ($number) {
+            return "<?php echo \Illuminate\Support\Number::abbreviate($number, maxPrecision: 1) ?>";
         });
     }
 }

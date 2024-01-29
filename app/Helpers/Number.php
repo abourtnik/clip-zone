@@ -19,12 +19,6 @@ class Number
         return '0';
     }
 
-    public static function formatSizeUnits(int $bytes): string {
-        $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        $power = $bytes > 0 ? floor(log($bytes, 1024)) : 0;
-        return number_format($bytes / pow(1024, $power), 2, '.', ',') . ' ' . $units[$power];
-    }
-
     public static function unique(): string {
         $time = str_split(time());
         shuffle($time);

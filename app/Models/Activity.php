@@ -16,8 +16,8 @@ class Activity extends Model
 
     protected $guarded = ['id'];
 
-    protected $dates = [
-        'perform_at'
+    protected $casts = [
+        'perform_at' => 'datetime'
     ];
 
     public $timestamps = false;

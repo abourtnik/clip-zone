@@ -1,3 +1,5 @@
+@use('App\Enums\VideoType')
+
 <div class="modal fade" tabindex="-1" id="video_create" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -8,7 +10,7 @@
             <div class="modal-body p-0">
                 <video-upload endpoint="{{route('videos.upload')}}" maxSize="{{config('plans.'.Auth::user()->plan.'.max_file_size')}}"></video-upload>
                 <div class="text-sm text-muted mb-3 text-center">
-                    Accepted formats : <strong>{{implode(', ', \App\Enums\VideoType::acceptedFormats())}}</strong>
+                    Accepted formats : <strong>{{implode(', ', VideoType::acceptedFormats())}}</strong>
                 </div>
                 <div class="fw-bold text-center alert alert-info mb-0 radius-end-0 radius-start-0 px-0">
                     <h5 class="alert-heading text-center fw-bold">Your upload limits</h5>

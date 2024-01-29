@@ -11,11 +11,11 @@
                         <img class="img-fluid" src="{{asset('images/pages/login.png')}}" alt="Login">
                     </div>
                     <div class="col-12 col-xl-6 py-5 px-3 px-sm-5">
-                        @if (session('error'))
+                        @session('error')
                             <div class="alert alert-danger">
-                                {!! session('error') !!}
+                                {!! $value !!}
                             </div>
-                        @endif
+                        @endsession
                         @if (session('success'))
                             <div class="alert alert-success fade show" role="alert">
                                 <strong>{!! session('success') !!}</strong>

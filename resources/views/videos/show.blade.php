@@ -133,7 +133,7 @@
                                 >
                                     <i class="fa-regular fa-thumbs-up"></i>
                                     @if($video->show_likes && $video->likes_count)
-                                        <span class="ml-1">{{$video->likes_count}}</span>
+                                        <span class="ml-1">@abbreviate($video->likes_count)</span>
                                     @endif
                                 </button>
                                 <div class="vr h-75 my-auto"></div>
@@ -148,7 +148,7 @@
                                 >
                                     <i class="fa-regular fa-thumbs-down"></i>
                                     @if($video->show_likes && $video->dislikes_count)
-                                        <span class="ml-1">{{$video->dislikes_count}}</span>
+                                        <span class="ml-1">@abbreviate($video->dislikes_count)</span>
                                     @endif
                                 </button>
                             </div>
