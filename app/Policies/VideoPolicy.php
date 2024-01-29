@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Helpers\Number;
+use Illuminate\Support\Number;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Auth\Access\HandlesAuthorization;
@@ -168,7 +168,7 @@ class VideoPolicy
         if ($user_space + request()->get('resumableTotalSize') > config('plans.free.max_videos_storage')) {
             return Response::denyWithStatus(
                 403,
-                'Sorry ! Your space is limited to '.Number::formatSizeUnits(config('plans.free.max_videos_storage')).' with free plan. (Available space : '. Number::formatSizeUnits(config('plans.'.Auth::user()->plan.'.max_videos_storage') - $user_space) .'). Upgrade to Premium plan to increase your space storage.'
+                'Sorry ! Your space is limited to '.Number::fileSize(config('plans.free.max_videos_storage')).' with free plan. (Available space : '. Number::fileSize(config('plans.'.Auth::user()->plan.'.max_videos_storage') - $user_space) .'). Upgrade to Premium plan to increase your space storage.'
             );
         }
 

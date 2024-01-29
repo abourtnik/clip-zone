@@ -3,7 +3,7 @@
 namespace App\Http\Requests\Video;
 
 use App\Enums\VideoType;
-use App\Helpers\Number;
+use Illuminate\Support\Number;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -55,8 +55,8 @@ class FileRequest extends FormRequest
      */
     public function messages(): array
     {
-        $fileSize = Number::formatSizeUnits($this->get('resumableTotalSize'));
-        $maxSize = Number::formatSizeUnits(config('plans.'.Auth::user()->plan.'.max_file_size'));
+        $fileSize = Number::fileSize($this->get('resumableTotalSize'));
+        $maxSize = Number::fileSize(config('plans.'.Auth::user()->plan.'.max_file_size'));
 
         return [
             'resumableTotalSize.max' => 'Your file file is too large ('.$fileSize.') The uploading file should not exceed ' .$maxSize,
