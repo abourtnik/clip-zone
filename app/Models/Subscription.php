@@ -48,7 +48,7 @@ class Subscription extends Model
         );
     }
 
-    protected function trialCanceled(): Attribute
+    protected function isTrialCanceled(): Attribute
     {
         return Attribute::make(
             get: fn () => !is_null($this->ends_at)
