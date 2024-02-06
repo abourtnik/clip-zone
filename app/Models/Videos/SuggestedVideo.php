@@ -22,4 +22,11 @@ class SuggestedVideo extends Video implements NextVideo
             get: fn () => $this->video->route,
         );
     }
+
+    public function title(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->video->title,
+        );
+    }
 }

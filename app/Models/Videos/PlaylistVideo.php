@@ -25,4 +25,11 @@ class PlaylistVideo extends Video implements NextVideo
             get: fn () => $this->video->routeWithParams(['list' => $this->playlist->uuid]),
         );
     }
+
+    public function title(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->video->title,
+        );
+    }
 }
