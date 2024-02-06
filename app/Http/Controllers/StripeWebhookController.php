@@ -81,7 +81,9 @@ class StripeWebhookController extends Controller
 
         $user = $this->getUserFromStripeId($data['customer']);
 
-        $user->notify(new Unpaid($data['amount_due']));
+        if ($user->is_premium) {
+            $user->notify(new Unpaid($data['amount_due']));
+        }
 
         return response()->noContent();
     }
