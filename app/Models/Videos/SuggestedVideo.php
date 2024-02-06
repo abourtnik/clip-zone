@@ -9,10 +9,11 @@ class SuggestedVideo extends Video implements NextVideo
 {
     private Video $video;
 
-
     public function __construct(Video $video)
     {
         $this->video = $video;
+
+        parent::__construct($video->attributesToArray());
     }
 
     public function route(): Attribute

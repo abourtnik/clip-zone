@@ -15,6 +15,8 @@ class PlaylistVideo extends Video implements NextVideo
     {
        $this->video = $video;
        $this->playlist = $playlist;
+
+       parent::__construct($video->attributesToArray());
     }
 
     public function route(): Attribute
