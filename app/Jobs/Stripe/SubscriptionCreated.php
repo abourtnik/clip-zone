@@ -13,6 +13,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Laravel\Cashier\Cashier;
+use Stripe\Subscription as StripeSubscription;
 use Throwable;
 
 class SubscriptionCreated implements ShouldQueue
@@ -45,6 +46,10 @@ class SubscriptionCreated implements ShouldQueue
      */
     public function handle() : void
     {
+        if ($this->data['status'] === StripeSubscription::STATUS_INCOMPLETE) {
+            return;
+        }
+
         $user = User::where('stripe_id', $this->data['customer'])->firstOrFail();
 
         $plan = Plan::where('stripe_id', $this->data['plan']['id'])->firstOrFail();
