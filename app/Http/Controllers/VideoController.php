@@ -69,15 +69,18 @@ class VideoController
 
         if ($request->query('list')) {
             $playlist = Playlist::query()
-                ->active()
                 ->where('uuid', $list)
+                ->where(function ($query) {
+                    $query->active()
+                        ->orWhere('user_id', Auth::id());
+                })
                 ->with([
                     'videos' => fn($query) => $query->with('user')->withPivot('position')
                 ])
                 ->withCount('videos')
                 ->first();
 
-            $currentIndex = $playlist->videos->find($video->id)?->pivot->position;
+            $currentIndex = $playlist?->videos->find($video->id)?->pivot->position;
         }
 
         event(new VideoViewed($video));
