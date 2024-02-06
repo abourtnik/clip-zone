@@ -6,6 +6,7 @@ use App\Enums\VideoStatus;
 use App\Events\Video\VideoViewed;
 use App\Http\Resources\VideoResource;
 use App\Models\Category;
+use App\Models\Playlist;
 use App\Models\User;
 use App\Models\Video;
 use App\Services\VideoService;
@@ -61,6 +62,24 @@ class VideoController
             return redirect($video->route, 301);
         }
 
+        $list = $request->query('list');
+
+        $playlist = null;
+        $currentIndex = null;
+
+        if ($request->query('list')) {
+            $playlist = Playlist::query()
+                ->active()
+                ->where('uuid', $list)
+                ->with([
+                    'videos' => fn($query) => $query->with('user')->withPivot('position')
+                ])
+                ->withCount('videos')
+                ->first();
+
+            $currentIndex = $playlist->videos->find($video->id)?->pivot->position;
+        }
+
         event(new VideoViewed($video));
 
         $suggestedVideos = $this->videoService->getSuggestedVideos($video);
@@ -80,8 +99,10 @@ class VideoController
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                 ]),
             'videos' => $suggestedVideos,
-            'nextVideoUrl' => $suggestedVideos->count() ? $suggestedVideos->random()->route : null,
+            'nextVideo' => $this->videoService->getNextVideo($suggestedVideos, $playlist, $currentIndex),
             't' => $request->query('t', 0),
+            'playlist' => $playlist,
+            'currentIndex' => $currentIndex,
         ]);
     }
 

@@ -2,12 +2,17 @@
 
 namespace App\Services;
 
+use App\Models\Playlist;
 use App\Models\Video;
+use App\Models\Videos\NextVideo;
+use App\Models\Videos\PlaylistVideo;
+use App\Models\Videos\SuggestedVideo;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 
 class VideoService {
 
-    public function getSuggestedVideos($parentVideo): Collection
+    public function getSuggestedVideos(Video $parentVideo): Collection
     {
         $user_videos = Video::whereNot('id', $parentVideo->id)
             ->where('user_id', $parentVideo->user->id)
@@ -44,5 +49,24 @@ class VideoService {
             ->get();
 
         return $user_videos->merge($category_videos)->merge($random_videos);
+    }
+
+    public function getNextVideo (Collection $suggestedVideos, ?Playlist $playlist, ?int $currentIndex) : NextVideo {
+
+        if ($playlist && ($currentIndex + 1 !== $playlist->videos_count)) {
+
+            $nextPlaylistVideo = $playlist->videos->skip($currentIndex + 1)->first(function (Video $video, int $index) {
+                return $video->user->is(Auth::user()) || $video->is_public;
+            });
+
+            if ($nextPlaylistVideo) {
+                return new PlaylistVideo($nextPlaylistVideo, $playlist);
+            }
+
+            return new SuggestedVideo($suggestedVideos->first());
+
+        }
+
+        return new SuggestedVideo($suggestedVideos->first());
     }
 }

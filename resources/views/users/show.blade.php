@@ -140,7 +140,7 @@
                             <div class="my-4 d-flex gap-3 align-items-center">
                                 <h5 class="mb-0">{{ __('Videos') }}</h5>
                                 <button
-                                    class="link-primary bg-transparent text-decoration-none d-flex align-items-center gap-2 hover-primary"
+                                    class="link-primary bg-transparent text-decoration-none d-flex align-items-center gap-2 hover-primary py-2 px-3 rounded-4"
                                     onclick="new bootstrap.Tab('#videos_link').show()"
                                 >
                                     <i class="fa-solid fa-play"></i>
@@ -156,14 +156,16 @@
                         @if($user->playlists_count)
                             <hr>
                             @foreach($user->playlists as $playlist)
-                                <div class="mb-1 d-flex gap-3 align-items-center">
-                                    <h5 class="mb-0">{{Str::limit($playlist->title, 80)}}</h5>
-                                    <a class="link-primary bg-transparent text-decoration-none d-flex align-items-center gap-2 hover-primary" href="{{$playlist->route}}">
-                                        <i class="fa-solid fa-play"></i>
-                                        {{ __('See All') }}
-                                    </a>
+                                <div class="my-4">
+                                    <div class="d-flex gap-3 align-items-center mb-1">
+                                        <h5 class="mb-0">{{Str::limit($playlist->title, 80)}}</h5>
+                                        <a class="link-primary bg-transparent text-decoration-none d-flex align-items-center py-2 px-3 gap-2 hover-primary rounded-4" href="{{$playlist->first_video->routeWithParams(['list' => $playlist->uuid])}}">
+                                            <i class="fa-solid fa-play"></i>
+                                            {{ __('See All') }}
+                                        </a>
+                                    </div>
+                                    <p class="text-muted text-sm mb-0">{{Str::limit($playlist->description, 200)}}</p>
                                 </div>
-                                <p class="text-muted text-sm">{{Str::limit($playlist->description, 200)}}</p>
                                 <div class="row gx-3 gy-3 gy-sm-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-2 row-cols-xl-3 row-cols-xxl-4">
                                     @foreach($playlist->videos as $video)
                                         @include('videos.card', ['video' => $video])

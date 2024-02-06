@@ -275,24 +275,92 @@
             </div>
         </div>
         <hr class="d-block d-lg-none">
-        @if($nextVideoUrl)
             <div class="col-lg-4 col-xl-4 col-xxl-3 px-0 px-sm-2">
-                <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
-                    <a href="{{$nextVideoUrl}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
-                        <i class="fa-solid fa-forward-step"></i>
-                        <span>{{__('Next Video')}}</span>
-                    </a>
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="autoplay">
-                        <label class="form-check-label" for="autoplay">{{__('Autoplay')}}</label>
+                @if($nextVideo)
+                    <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
+                        <a href="{{$nextVideo->route}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
+                            <i class="fa-solid fa-forward-step"></i>
+                            <span>{{__('Next Video')}}</span>
+                        </a>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="autoplay">
+                            <label class="form-check-label" for="autoplay">{{__('Autoplay')}}</label>
+                        </div>
                     </div>
-                </div>
-                <hr>
+                    <hr>
+                @endif
+                @if($playlist)
+                    <div x-data="{open:true}" class="mx-2 mx-sm-0">
+                        <div class="card card-body overflow-y-auto px-0" x-show="open" style="max-height: 620px">
+                            <div class="d-flex justify-content-between px-3 w-100">
+                                <div class="d-flex flex-column gap-1 w-90 align-items-start">
+                                    <a href="{{$playlist->route}}" class="fw-bold fs-5 text-decoration-none text-dark">{{$playlist->title}}</a>
+                                    <div class="d-flex gap-1 align-items-center">
+                                        <a href="{{$playlist->user->route}}" class="text-sm text-decoration-none text-black">{{$playlist->user->username}}</a>
+                                        <span>•</span>
+                                        <span class="text-muted text-sm">{{$currentIndex + 1}}/{{$playlist->videos_count}}</span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" aria-label="Close" @click="open=false"></button>
+                            </div>
+                            <hr class="mb-0">
+                            @foreach($playlist->videos as $index => $p_video)
+                                @if($p_video->user->is(Auth::user()) || $p_video->is_public)
+                                    <article @class(["px-2 py-2 hover-primary playlist_video", 'selected' => $p_video->is($video)])>
+                                        <a href="{{$p_video->routeWithParams(['list' => $playlist->uuid])}}" class="d-flex flex-column flex-sm-row gap-2 text-decoration-none text-black">
+                                            <div class="d-flex align-items-center gap-3">
+                                                @if($p_video->is($video))
+                                                    <i class="fa-solid fa-play text-muted text-sm"></i>
+                                                @else
+                                                    <small class="text-muted">{{$index + 1}}</small>
+                                                @endif
+                                                <div class="position-relative">
+                                                    <image-loaded source="{{$p_video->thumbnail_url}}" title="{{$p_video->title}}" imgClass="rounded"/>
+                                                    <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
+                                                        {{$p_video->duration}}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="text-center text-sm-start">
+                                                <h6 class="fw-bold text-sm mb-1 overflow-hidden text-break" title="{{$p_video->title}}">
+                                                    {{Str::limit($p_video->title, 50)}}
+                                                </h6>
+                                                <small class="text-muted text-sm" title="{{$p_video->user->username}}">
+                                                    {{$p_video->user->username}}
+                                                </small>
+                                            </div>
+                                        </a>
+                                    </article>
+                                @else
+                                    <article class="d-flex w-100 align-items-center gap-3 px-2 py-2">
+                                        <small class="text-muted">{{$index + 1}}</small>
+                                        <div class="bg-secondary text-white d-flex flex-column justify-content-center align-items-center w-100 gap-2" style="height: 100px">
+                                            <i class="fa-solid fa-lock fa-1x"></i>
+                                            <div class="text-center text-sm">
+                                                <div class='text-sm fw-bold'>This video is private</div>
+                                                <div class='text-sm'>The author update this video status to private</div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                @endif
+                            @endforeach
+                        </div>
+                        <div class="card card-body bg-light-dark cursor-pointer" x-show="!open" @click="open=true">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="d-flex flex-column gap-1 w-95">
+                                    <div> <span class="fw-bold">A suivre :</span> {{$nextVideo->title}} </div>
+                                    <small class="text-sm">{{Str::limit($playlist->title, 45)}} • <span class="text-muted text-sm">{{$currentIndex + 1}}/{{$playlist->videos_count}}</span></small>
+                                </div>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                @endif
                 <div class="px-3 px-sm-0 pt-3 pt-sm-0">
                     @each('videos.card-secondary',  $videos, 'video')
                 </div>
             </div>
-        @endif
     </div>
     @include('modals.share')
     @includeWhen(Auth::check(), 'modals.save')
@@ -354,7 +422,7 @@
 
         video.addEventListener('ended', (event) => {
             if(autoplay) {
-                window.location.replace('{{$nextVideoUrl}}');
+                window.location.replace('{{$nextVideo->route}}');
             }
         }, false);
 

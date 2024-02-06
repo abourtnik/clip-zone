@@ -6,8 +6,8 @@
     <div class="row justify-content-center gy-3">
         <div class="col-md-12 col-lg-5 col-xl-4 col-xxl-4 text-black">
             <div x-data="{favorite: {{$favorite_by_auth_user ? 'true' : 'false'}}}" class="text-black h-100 card">
-                @if($playlist->thumbnail)
-                    <img class="img-fluid card-img-top" src="{{$playlist->thumbnail}}" alt="{{$playlist->title}}">
+                @if($playlist->first_video)
+                    <img class="img-fluid card-img-top" src="{{$playlist->first_video->thumbnail_url}}" alt="{{$playlist->title}}">
                 @endif
                 <div class="card-body">
                     <h2 class="h4 my-3">{{$playlist->title}}</h2>
@@ -22,30 +22,45 @@
                         <div class="text-sm">Created {{$playlist->created_at->diffForHumans()}}</div>
                     </div>
                     <div class="text-sm mb-3">Updated {{$playlist->updated_at->diffForHumans()}}</div>
-                    @auth
-                        <button x-show.important="!favorite" @click="favorite = true;" class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button" data-url="{{route('playlist.favorite', $playlist)}}">
-                            <i class="fa-regular fa-heart"></i>
-                            <span>Add to favorites</span>
-                        </button>
-                        <button x-show.important="favorite" @click="favorite = false;" class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button" data-url="{{route('playlist.remove-favorite', $playlist)}}">
-                            <i class="fa-solid fa-heart"></i>
-                            <span>Remove from favorites</span>
-                        </button>
-                    @else
-                        <button
-                            type="button"
-                            class="btn btn-primary btn-sm"
-                            data-bs-toggle="popover"
-                            data-bs-placement="right"
-                            data-bs-title="Want to save this playlist ?"
-                            data-bs-trigger="focus"
-                            data-bs-html="true"
-                            data-bs-content="Sign in to save this playlist.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
-                        >
-                            <i class="fa-regular fa-heart"></i>
-                            <span>Add to favorites</span>
-                        </button>
-                    @endauth
+                    <div class="d-flex gap-2">
+                        @if($playlist->first_video)
+                        <a href="{{$playlist->first_video->routeWithParams(['list' => $playlist->uuid])}}" class="btn btn-danger btn-sm d-flex gap-2 align-items-center">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Play All</span>
+                        </a>
+                        @endif
+                        @auth
+                            <button x-show.important="!favorite" @click="favorite = true;" class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button" data-url="{{route('playlist.favorite', $playlist)}}">
+                                <i class="fa-regular fa-heart"></i>
+                                <span>Add to favorites</span>
+                            </button>
+                            <button x-show.important="favorite" @click="favorite = false;" class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button" data-url="{{route('playlist.remove-favorite', $playlist)}}">
+                                <i class="fa-solid fa-heart"></i>
+                                <span>Remove from favorites</span>
+                            </button>
+                            @if($playlist->user->is(Auth::user()))
+                                <a href="{{route('user.playlists.edit', $playlist)}}" class="btn btn-info btn-sm d-flex gap-2 align-items-center">
+                                    <i class="fa-solid fa-pen"></i>
+                                    <span>Edit playlist</span>
+                                </a>
+                            @endif
+                        @else
+                            <button
+                                type="button"
+                                class="btn btn-primary btn-sm"
+                                data-bs-toggle="popover"
+                                data-bs-placement="right"
+                                data-bs-title="Want to save this playlist ?"
+                                data-bs-trigger="focus"
+                                data-bs-html="true"
+                                data-bs-content="Sign in to save this playlist.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                            >
+                                <i class="fa-regular fa-heart"></i>
+                                <span>Add to favorites</span>
+                            </button>
+                        @endauth
+                    </div>
+
                     <div class="mt-3">
                         <x-expand-item max="150" color="dark">
                             {{$playlist->description}}

@@ -249,6 +249,11 @@ class Video extends Model implements Likeable, Reportable
         );
     }
 
+    public function routeWithParams(array $params = []): string
+    {
+        return route('video.show', array_merge(['slug' => $this->slug, 'video' => $this], $params));
+    }
+
     protected function type(): Attribute
     {
         return Attribute::make(

@@ -30,7 +30,8 @@ class PlaylistController extends Controller
         return view('users.playlists.index', [
             'playlists' => Playlist::where('user_id', Auth::user()->id)
                 ->withCount(['videos'])
-                ->paginate(15)->withQueryString(),
+                ->paginate(15)
+                ->withQueryString(),
             'status' => PlaylistStatus::get(),
             'filters' => $filters->receivedFilters(),
         ]);

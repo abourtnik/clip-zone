@@ -61,8 +61,8 @@
                     <tr class="bg-light">
                         <td class="d-flex gap-3">
                             <a href="{{$playlist->route}}">
-                                @if($playlist->thumbnail)
-                                    <img src="{{$playlist->thumbnail}}" alt="{{$playlist->title}} thumbnail" style="width: 120px;height: 68px">
+                                @if($playlist->first_video)
+                                    <img src="{{$playlist->first_video->thumbnail_url}}" alt="{{$playlist->title}} thumbnail" style="width: 120px;height: 68px">
                                 @else
                                     <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="width: 120px;height: 68px">
                                         <i class="fa-solid fa-image fa-2x"></i>

@@ -47,15 +47,6 @@ class Playlist extends Model
      * -------------------- ATTRIBUTES --------------------
      */
 
-    protected function thumbnail(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->videos->first(function (Video $video, int $key) {
-                return $video->is_public || $video->user->is(Auth::user());
-            })?->thumbnail_url
-        );
-    }
-
     protected function route(): Attribute
     {
         return Attribute::make(
@@ -74,6 +65,15 @@ class Playlist extends Model
     {
         return Attribute::make(
             get: fn () => $this->status === PlaylistStatus::PUBLIC || $this->status === PlaylistStatus::UNLISTED
+        );
+    }
+
+    protected function firstVideo(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->videos->first(function (Video $video, int $key) {
+                return $video->is_public || $video->user->is(Auth::user());
+            })
         );
     }
 
