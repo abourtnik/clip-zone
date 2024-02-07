@@ -42,7 +42,7 @@ class SubscriptionUpdated implements ShouldQueue
      */
     public function handle() : void
     {
-        if ($this->data['status'] === StripeSubscription::STATUS_INCOMPLETE) {
+        if (in_array($this->data['status'], [StripeSubscription::STATUS_INCOMPLETE, StripeSubscription::STATUS_INCOMPLETE_EXPIRED])) {
             return;
         }
 

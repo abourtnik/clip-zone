@@ -140,7 +140,7 @@ class SyncComments extends Command
 
             $usedUsers[] = $userId;
 
-            $comment->interactions()->create([
+            $comment->interactions()->createQuietly([
                 'user_id' => $userId,
                 'status' => fake()->boolean(96),
                 'perform_at' => fake()->dateTimeBetween($afterDate)

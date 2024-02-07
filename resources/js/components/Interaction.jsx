@@ -1,6 +1,7 @@
 import { useReducer } from 'preact/hooks';
 import {jsonFetch} from '../hooks'
 import {useTranslation} from "react-i18next";
+import numeral from 'numeral'
 
 const reducer = (state, action) => {
     switch (action) {
@@ -64,7 +65,7 @@ export default function Interaction ({model, target, count, active, showCount = 
             >
                 <div className={'d-flex gap-1 align-items-center'}>
                     {state.liked ? <i className="fa-solid fa-thumbs-up"></i> : <i className="fa-regular fa-thumbs-up"></i>}
-                    { (showCount && state.counterLike > 0) && <span className={'ml-1'}>{state.counterLike}</span>}
+                    { (showCount && state.counterLike > 0) && <span className={'ml-1'}>{numeral(state.counterLike).format('0[.]0a')}</span>}
                 </div>
             </button>
             <div className="vr h-75 my-auto"></div>
@@ -78,7 +79,7 @@ export default function Interaction ({model, target, count, active, showCount = 
             >
                 <div className={'d-flex gap-1  align-items-center'}>
                     {state.disliked ? <i className="fa-solid fa-thumbs-down"></i> : <i className="fa-regular fa-thumbs-down"></i>}
-                    { (showCount && state.counterDislike > 0) && <span className={'ml-1'}>{state.counterDislike}</span>}
+                    { (showCount && state.counterDislike > 0) && <span className={'ml-1'}>{numeral(state.counterDislike).format('0[.]0a')}</span>}
                 </div>
             </button>
         </div>

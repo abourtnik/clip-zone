@@ -95,7 +95,7 @@ class SyncVideosInteractions extends Command
         }
 
         for ($i = 0; $i < $interactionsCount; $i++) {
-            $video->interactions()->create([
+            $video->interactions()->createQuietly([
                 'user_id' => $users->get($i),
                 'status' => fake()->boolean(95),
                 'perform_at' => fake()->dateTimeBetween($video->publication_date)
