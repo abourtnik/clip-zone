@@ -3,38 +3,46 @@
 @section('title', 'Channel dashboard')
 
 @section('content')
-    <form class="mb-4 d-flex flex-wrap gap-3 align-items-end" method="GET">
-        <div class="col-12 col-sm">
-            <label for="date_start" class="form-label fw-bold">Date start</label>
-            <input
-                type="datetime-local"
-                name="date_start"
-                class="form-control"
-                id="date_start"
-                value="{{$filters['date_start'] ?? null}}"
-            >
-        </div>
-        <div class="col-12 col-sm">
-            <label for="date_end" class="form-label fw-bold">Date end</label>
-            <input
-                type="datetime-local"
-                name="date_end"
-                class="form-control"
-                id="date_end"
-                value="{{$filters['date_end'] ?? null}}"
-            >
-        </div>
-        <div class="btn-group">
-            <button type="submit" class="btn btn-outline-secondary" title="Search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-            <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
-                <i class="fa-solid fa-eraser"></i>
-            </a>
-        </div>
-    </form>
+    <div x-data="{ filters: window.innerWidth > 992 }">
+        <button class="btn btn-primary btn-sm d-flex d-lg-none align-items-center gap-2 mb-3" @click="filters = !filters">
+            <i class="fa-solid fa-filter"></i>
+            <span>{{ __('Filters') }}</span>
+            <i class="fa-solid fa-chevron-down" x-show.important="!filters" ></i>
+            <i class="fa-solid fa-chevron-up" x-show.important="filters" ></i>
+        </button>
+        <form class="mb-4 d-flex flex-wrap gap-3 align-items-end" method="GET" x-show.important="filters">
+            <div class="col-12 col-sm">
+                <label for="date_start" class="form-label fw-bold">Date start</label>
+                <input
+                    type="datetime-local"
+                    name="date_start"
+                    class="form-control"
+                    id="date_start"
+                    value="{{$filters['date_start'] ?? null}}"
+                >
+            </div>
+            <div class="col-12 col-sm">
+                <label for="date_end" class="form-label fw-bold">Date end</label>
+                <input
+                    type="datetime-local"
+                    name="date_end"
+                    class="form-control"
+                    id="date_end"
+                    value="{{$filters['date_end'] ?? null}}"
+                >
+            </div>
+            <div class="btn-group">
+                <button type="submit" class="btn btn-outline-secondary" title="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
+                    <i class="fa-solid fa-eraser"></i>
+                </a>
+            </div>
+        </form>
+    </div>
     <div class="row mb-4">
-        <div class="col-12 col-sm-4 col-md-4 col-xl mb-4 mb-xl-0">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-3 col-xxl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Videos</h5>
@@ -46,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-4 col-md-4 col-xl mb-4 mb-xl-0">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-3 col-xxl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Subscribers</h5>
@@ -58,7 +66,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-4 col-md-4 col-xl mb-4 mb-xl-0">
+        <div class="col-12 col-sm-4 col-md-4 col-xl-3 col-xxl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Views</h5>
@@ -70,7 +78,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-sm-0">
+        <div class="col-12 col-sm-6 col-md-6 col-xl-3 col-xxl mb-4 mb-sm-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Comments</h5>
@@ -82,7 +90,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-6 col-md-6 col-xl">
+        <div class="col-12 col-sm-6 col-md-6 col-xl mt-0 mt-xl-4 mt-xxl-0">
             <div class="card shadow border-primary">
                 <div class="card-body text-center">
                     <h5 class="card-title text-center text-primary">Interactions</h5>
