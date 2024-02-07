@@ -8,6 +8,7 @@ use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\Transaction;
 use App\Models\User;
+use App\Notifications\Premium\Cancel;
 use App\Notifications\Premium\Invoice;
 use App\Notifications\Premium\Unpaid;
 use App\Services\InvoiceService;
@@ -130,6 +131,8 @@ class StripeWebhookController extends Controller
         $subscription->update([
             'stripe_status' => $data['status']
         ]);
+
+        $subscription->user->notify(new Cancel());
 
         return response()->noContent();
     }
