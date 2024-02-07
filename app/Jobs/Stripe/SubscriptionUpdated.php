@@ -9,6 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Stripe\Subscription as StripeSubscription;
 use Throwable;
 
 class SubscriptionUpdated implements ShouldQueue
@@ -41,6 +42,10 @@ class SubscriptionUpdated implements ShouldQueue
      */
     public function handle() : void
     {
+        if ($this->data['status'] === StripeSubscription::STATUS_INCOMPLETE) {
+            return;
+        }
+
         $subscription = Subscription::where('stripe_id', $this->data['id'])->firstOrFail();
 
         $subscription->update([
