@@ -66,13 +66,13 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th scope="col" class="w-40" style="min-width: 360px">Video</th>
+                    <th scope="col" class="w-40" style="min-width: 400px">Video</th>
                     <th scope="col">Status</th>
-                    <th scope="col" style="min-width: 150px;">Date</th>
+                    <th scope="col" style="min-width: 180px;">Date</th>
                     <th scope="col">Views</th>
                     <th scope="col">Category</th>
                     <th scope="col">Comments</th>
-                    <th scope="col">Interactions</th>
+                    <th scope="col" style="min-width: 170px;">Interactions</th>
                     <th scope="col">Actions</th>
                 </tr>
                 </thead>

@@ -42,7 +42,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th scope="col">Channel</th>
+                    <th scope="col" style="min-width: 200px;">Channel</th>
                     <th scope="col" style="min-width: 174px;">Date of subscription</th>
                     <th scope="col" style="min-width: 159px;">Subscribers count</th>
                     <th scope="col" style="min-width: 151px;">Registration date</th>
