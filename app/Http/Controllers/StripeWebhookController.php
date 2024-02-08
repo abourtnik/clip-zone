@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Cashier;
+use Stripe\Subscription as StripeSubscription;
 
 class StripeWebhookController extends Controller
 {
@@ -91,14 +92,20 @@ class StripeWebhookController extends Controller
 
     public function onSubscriptionCreated (array $data) : Response  {
 
-        SubscriptionCreated::dispatch($data);
+        if ($this->isSubscriptionIncomplete($data['status'])){
+            return response()->noContent();
+        }
 
-        Log::channel('stripe')->info('onSubscriptionCreated finish');
+        SubscriptionCreated::dispatch($data);
 
         return response()->noContent();
     }
 
     public function onSubscriptionUpdated (array $data) : Response  {
+
+        if ($this->isSubscriptionIncomplete($data['status'])){
+            return response()->noContent();
+        }
 
         SubscriptionUpdated::dispatch($data);
 
@@ -143,5 +150,9 @@ class StripeWebhookController extends Controller
 
     private function getPlanFromStripeId (string $id) : Plan {
         return Plan::where('stripe_id', $id)->firstOrFail();
+    }
+
+    private function isSubscriptionIncomplete (string $status) : bool {
+        return in_array($status, [StripeSubscription::STATUS_INCOMPLETE, StripeSubscription::STATUS_INCOMPLETE_EXPIRED]);
     }
 }

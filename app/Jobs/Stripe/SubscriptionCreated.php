@@ -46,10 +46,6 @@ class SubscriptionCreated implements ShouldQueue
      */
     public function handle() : void
     {
-        if ($this->data['status'] === StripeSubscription::STATUS_INCOMPLETE) {
-            return;
-        }
-
         $user = User::where('stripe_id', $this->data['customer'])->firstOrFail();
 
         $plan = Plan::where('stripe_id', $this->data['plan']['id'])->firstOrFail();
