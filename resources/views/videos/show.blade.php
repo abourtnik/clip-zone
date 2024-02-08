@@ -290,7 +290,7 @@
                     <hr>
                 @endif
                 @if($playlist)
-                    <div x-data="{open:true}" class="mx-2 mx-sm-0">
+                    <div x-data="{open: window.innerWidth > 992}" class="mx-2 mx-sm-0">
                         <div class="card card-body overflow-y-auto px-0" x-show="open" style="max-height: 620px">
                             <div class="d-flex justify-content-between px-3 w-100">
                                 <div class="d-flex flex-column gap-1 w-90 align-items-start">
