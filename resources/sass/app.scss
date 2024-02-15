@@ -81,6 +81,18 @@ body {
     z-index: -1;
 }
 
+
+.file-button {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+
+    input {
+        display: none;
+    }
+}
+
 // TABS
 
 .user-tabs.active {

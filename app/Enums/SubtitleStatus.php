@@ -4,21 +4,19 @@ namespace App\Enums;
 
 use App\Enums\Traits\Listable;
 
-enum PlaylistStatus : int {
+enum SubtitleStatus : int {
 
     use Listable;
 
     case PUBLIC = 0;
-    case PRIVATE = 1;
-    case UNLISTED = 2;
+    case DRAFT = 1;
 
     public function color(): string
     {
         return match($this)
         {
             self::PUBLIC => 'success',
-            self::PRIVATE => 'danger',
-            self::UNLISTED => 'info',
+            self::DRAFT => 'secondary',
         };
     }
 
@@ -27,8 +25,7 @@ enum PlaylistStatus : int {
         return match($this)
         {
             self::PUBLIC => 'earth-europe',
-            self::PRIVATE => 'lock',
-            self::UNLISTED => 'eye-slash',
+            self::DRAFT => 'file',
         };
     }
 }

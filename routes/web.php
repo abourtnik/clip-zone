@@ -33,6 +33,7 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\User\PlaylistController as PlaylistUserController;;
 use App\Http\Controllers\User\CommentController as CommentUserController;
+use App\Http\Controllers\User\SubtitleController;
 use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\InvoiceController;
@@ -90,6 +91,11 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
         ->name('download')
         ->can('download', 'video')
         ->missing(fn(Request $request) => abort(404, 'Video not found'));
+    Route::get('/video/{video:uuid}/subtitles/{subtitle}', 'subtitles')
+        ->scopeBindings()
+        ->name('subtitles')
+        ->can('subtitles', 'video')
+        ->missing(fn(Request $request) => abort(404, 'Subtitle not found'));
     Route::get('/embed/{video:uuid}', 'embed')
         ->name('embed')
         ->missing(fn (Request $request) => response()->view('videos.embed.missing'));
@@ -207,6 +213,10 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
 
     // Comments
     Route::resource('comments', CommentUserController::class)->only(['index', 'destroy']);
+
+    // Subtitles
+    Route::get('subtitles', [SubtitleController::class, 'list'])->name('subtitles.list');
+    Route::resource('videos.subtitles', SubtitleController::class)->shallow();
 
     // Playlists
     Route::resource('playlists', PlaylistUserController::class)->except(['show']);

@@ -16,7 +16,7 @@
                     <h5 class="alert-heading text-center fw-bold">Your upload limits</h5>
                     <hr>
                     @if(!Auth::user()->is_premium)
-                        <span>Available uploads :
+                        <span @class(['text-danger' => $available_uploads <= 0])>Available uploads :
                             <strong> {{ ($available_uploads > 0) ? $available_uploads : 0  }}</strong>
                         </span> •
                     @else

@@ -3,6 +3,7 @@
 use App\Models\Video;
 use App\Models\Playlist;
 use App\Models\Category;
+use App\Models\Subtitle;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 
@@ -28,6 +29,8 @@ Breadcrumbs::for('show_video', function (BreadcrumbTrail $trail, Video $video) {
 });
 
 // PLAYLISTS
+
+// Index
 Breadcrumbs::for('playlists', function (BreadcrumbTrail $trail) {
     $trail->push('Playlists', route('user.playlists.index'));
 });
@@ -44,7 +47,33 @@ Breadcrumbs::for('edit_playlist', function (BreadcrumbTrail $trail, Playlist $pl
     $trail->push($playlist->title, route('user.playlists.edit', $playlist));
 });
 
+// SUBTITLES
+
+// Index
+Breadcrumbs::for('subtitles', function (BreadcrumbTrail $trail) {
+    $trail->push('Subtitles', route('user.subtitles.list'));
+});
+
+// Video Subtitles
+Breadcrumbs::for('videos_subtitles', function (BreadcrumbTrail $trail, Video $video) {
+    $trail->parent('subtitles');
+    $trail->push($video->title, route('user.videos.subtitles.index', $video));
+});
+
+// Video Subtitles > Create Subtitle
+Breadcrumbs::for('create_subtitle', function (BreadcrumbTrail $trail, Video $video) {
+    $trail->parent('videos_subtitles', $video);
+    $trail->push('Create new subtitle', route('user.videos.subtitles.create', $video));
+});
+
+// Video Subtitles > Update Subtitle [Subtitle]
+Breadcrumbs::for('edit_subtitle', function (BreadcrumbTrail $trail, Subtitle $subtitle) {
+    $trail->parent('videos_subtitles', $subtitle->video);
+    $trail->push($subtitle->name, route('user.subtitles.update', $subtitle));
+});
+
 // CATEGORIES
+
 Breadcrumbs::for('categories', function (BreadcrumbTrail $trail) {
     $trail->push('Categories', route('admin.categories.index'));
 });

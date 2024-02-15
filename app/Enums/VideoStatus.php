@@ -2,9 +2,12 @@
 
 namespace App\Enums;
 
+use App\Enums\Traits\Listable;
 use Illuminate\Support\Arr;
 
 enum VideoStatus : int {
+
+    use Listable;
 
     case PUBLIC = 0;
     case PRIVATE = 1;
@@ -35,11 +38,5 @@ enum VideoStatus : int {
             self::PLANNED->value,
             self::UNLISTED->value,
         ];
-    }
-
-    private static function get (array $data) : array {
-        return Arr::map(Arr::pluck($data, 'name', 'value'), function (string $value, int $key) {
-            return ucfirst(strtolower($value));
-        });
     }
 }

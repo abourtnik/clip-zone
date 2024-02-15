@@ -37,6 +37,14 @@
                         playsinline
                     >
                         <source src="{{$video->file_url}}#t={{$t}}" type="{{$video->mimetype}}">
+                        @foreach($video->subtitles as $subtitle)
+                            <track
+                                label="{{$subtitle->name}}"
+                                kind="subtitles"
+                                srclang="{{$subtitle->language}}"
+                                src="{{$subtitle->file_url}}"
+                            />
+                        @endforeach
                     </video>
                 @endif
             </div>

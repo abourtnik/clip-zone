@@ -85,6 +85,10 @@ class Video extends Model implements Likeable, Reportable
         return $this->belongsToMany(Playlist::class, 'playlist_has_videos');
     }
 
+    public function subtitles () : HasMany {
+        return $this->hasMany(Subtitle::class);
+    }
+
     /**
      * -------------------- ATTRIBUTES --------------------
      */

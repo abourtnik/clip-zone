@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Models;
+
+use App\Enums\SubtitleStatus;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
+use Symfony\Component\Intl\Languages;
+
+class Subtitle extends Model
+{
+    use HasFactory, HasEagerLimit;
+
+    protected $guarded = ['id'];
+
+    protected $casts = [
+        'status' => SubtitleStatus::class,
+    ];
+
+    public const FILE_FOLDER = 'subtitles';
+
+
+    /**
+     * -------------------- RELATIONS --------------------
+     */
+
+    public function video () : BelongsTo {
+        return $this->belongsTo(Video::class);
+    }
+
+    /**
+     * -------------------- ATTRIBUTES --------------------
+     */
+
+    protected function fileUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => route('video.subtitles', ['video' => $this->video, 'subtitle' => $this])
+        );
+    }
+
+    protected function languageName(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => ucfirst(Languages::getName($this->language, app()->getLocale())),
+        );
+    }
+
+    /**
+     * Scope a query to only include valid videos.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopePublic(Builder $query): Builder
+    {
+        return $query->where('status', SubtitleStatus::PUBLIC);
+    }
+}

@@ -5,9 +5,9 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\UploadedFile;
 
-class Image
+class File
 {
-    public static function storeAndDelete(UploadedFile|null $file, string|null $initialFile, string $path): string|null {
+    public static function storeAndDelete(UploadedFile|null $file, string $path, string|null $initialFile = null): string|null {
 
         if ($file && $initialFile) {
             Storage::delete($path.'/'.$initialFile);
@@ -18,7 +18,7 @@ class Image
         return $file?->hashName() ?? $initialFile;
     }
 
-    public static function deleteIf(string|null $file, string $path): void {
+    public static function deleteIfExist(string|null $file, string $path): void {
 
         if ($file) {
             Storage::delete($path.'/'.$file);

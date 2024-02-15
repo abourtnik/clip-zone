@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Jobs\Export;
 use App\Models\Notification;
 use App\Models\Playlist;
+use App\Models\Subtitle;
 use App\Models\Transaction;
 use App\Models\Video;
 use App\Models\Comment;
@@ -12,6 +13,7 @@ use App\Models\User;
 use App\Policies\ExportPolicy;
 use App\Policies\InvoicePolicy;
 use App\Policies\NotificationPolicy;
+use App\Policies\SubtitlePolicy;
 use App\Policies\UserPolicy;
 use App\Policies\VideoPolicy;
 use App\Policies\CommentPolicy;
@@ -33,6 +35,7 @@ class AuthServiceProvider extends ServiceProvider
         Notification::class => NotificationPolicy::class,
         Export::class => ExportPolicy::class,
         Transaction::class => InvoicePolicy::class,
+        Subtitle::class => SubtitlePolicy::class,
     ];
 
     /**

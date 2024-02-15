@@ -7,6 +7,7 @@ use App\Events\Video\VideoViewed;
 use App\Http\Resources\VideoResource;
 use App\Models\Category;
 use App\Models\Playlist;
+use App\Models\Subtitle;
 use App\Models\User;
 use App\Models\Video;
 use App\Services\VideoService;
@@ -91,6 +92,7 @@ class VideoController
             'video' => $video
                 ->load([
                     'user' => fn($q) => $q->withCount('subscribers'),
+                    'subtitles' => fn($q) => $q->public()->orderBy('name'),
                     'reportByAuthUser'
                 ])
                 ->loadCount([
@@ -119,6 +121,14 @@ class VideoController
     public function thumbnail (Video $video): Response
     {
         $path = Video::THUMBNAIL_FOLDER.'/'.$video->thumbnail;
+        $file = Storage::get($path);
+
+        return response($file)->header('Content-Type', Storage::mimeType($path));
+    }
+
+    public function subtitles (Video $video, Subtitle $subtitle): Response
+    {
+        $path = Subtitle::FILE_FOLDER.'/'.$subtitle->file;
         $file = Storage::get($path);
 
         return response($file)->header('Content-Type', Storage::mimeType($path));

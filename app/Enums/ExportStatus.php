@@ -2,19 +2,15 @@
 
 namespace App\Enums;
 
-use Illuminate\Support\Arr;
+use App\Enums\Traits\Listable;
 
 enum ExportStatus : int {
+
+    use Listable;
 
     case PENDING = 0;
     case COMPLETED = 1;
     case ERROR = 2;
-
-    public static function get () : array {
-        return Arr::map(Arr::pluck(self::cases(), 'name', 'value'), function (string $value, int $key) {
-            return ucfirst(strtolower($value));
-        });
-    }
 
     public function color(): string
     {
@@ -34,9 +30,5 @@ enum ExportStatus : int {
             self::COMPLETED => 'check',
             self::ERROR => 'circle-exclamation',
         };
-    }
-
-    public function name () :string {
-        return ucfirst(strtolower($this->name));
     }
 }

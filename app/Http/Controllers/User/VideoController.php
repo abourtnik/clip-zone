@@ -6,7 +6,7 @@ use App\Enums\ImageType;
 use App\Enums\VideoStatus;
 use App\Enums\VideoType;
 use App\Filters\VideoFilters;
-use App\Helpers\Image;
+use App\Helpers\File;
 use App\Helpers\Number;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\FileRequest;
@@ -67,7 +67,7 @@ class VideoController extends Controller
     public function store(StoreVideoRequest $request, Video $video): RedirectResponse {
         $validated = $request->safe()->merge([
             'slug' => Str::slug($request->get('title')),
-            'thumbnail' =>  Image::storeAndDelete($request->file('thumbnail'), null, Video::THUMBNAIL_FOLDER),
+            'thumbnail' =>  File::storeAndDelete($request->file('thumbnail'),Video::THUMBNAIL_FOLDER),
             'scheduled_date' => $request->get('scheduled_date'),
             'publication_date' => match((int) $request->get('status')) {
                 VideoStatus::PUBLIC->value => now(),
@@ -137,7 +137,7 @@ class VideoController extends Controller
 
         $validated = $request->safe()->merge([
             'slug' => Str::slug($request->get('title')),
-            'thumbnail' => Image::storeAndDelete($request->file('thumbnail'), $video->thumbnail, Video::THUMBNAIL_FOLDER),
+            'thumbnail' => File::storeAndDelete($request->file('thumbnail'), Video::THUMBNAIL_FOLDER, $video->thumbnail),
             'scheduled_date' => match((int) $request->get('status')) {
                 VideoStatus::PLANNED->value => $request->get('scheduled_date'),
                 default => null,
