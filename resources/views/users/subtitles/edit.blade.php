@@ -78,7 +78,7 @@
                             </div>
                             <div class="d-flex flex-column flex-sm-row gap-1 justify-content-between">
                                 <label class="file-button" x-data="{file:null}">
-                                    <input type="file" required name="file" @change="file = $event.target.files[0]" accept="text/vtt" />
+                                    <input type="file" name="file" @change="file = $event.target.files[0]" accept="text/vtt" />
                                     <div class="d-flex gap-2 align-items-center">
                                         <i class="fa fa-upload"></i>
                                         <span x-show="!file">Upload new file</span>
