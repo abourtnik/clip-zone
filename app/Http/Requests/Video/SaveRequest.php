@@ -45,12 +45,18 @@ class SaveRequest extends FormRequest
                         })->orWhere('user_id', Auth::user()->id);
                 }),
             ],
-            'playlists' => 'array',
-            'playlists.*' => [
+            'playlists' => 'required|array',
+            'playlists.*' => 'required|array:id,checked',
+            'playlists.*.id' => [
+                'required',
                 'numeric',
                 Rule::exists('playlists', 'id')->where(function (Builder $query){
                     return $query->where('user_id', Auth::user()->id);
                 })
+            ],
+            'playlists.*.checked' => [
+                'required',
+                'boolean',
             ]
         ];
     }
@@ -64,8 +70,8 @@ class SaveRequest extends FormRequest
     {
         return [
             'video_id.exists' => 'This video is not exist or is private',
-            'playlists.*.exists' => 'Playlist in position :position not exists on our records',
-            'playlists.*.numeric' => 'Playlist in position :position must be type numeric',
+            'playlists.*.id.exists' => 'Playlist in position :position not exists on our records',
+            'playlists.*.id.numeric' => 'Playlist in position :position must be type numeric',
         ];
     }
 }

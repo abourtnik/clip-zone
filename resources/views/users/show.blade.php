@@ -49,7 +49,7 @@
                                 @if($user->show_subscribers)
                                     {{trans_choice('subscribers', $user->subscribers_count)}} •
                                 @endif
-                                {{trans_choice('videos', $user->videos_count)}}
+                                {{trans_choice('videos', $user->videos->count())}}
                             </div>
                         </div>
                     </div>
@@ -103,7 +103,7 @@
             </div>
             <div class="tab-content px-3 px-sm-0">
                 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    @if(!$user->videos_count && !$user->playlists_count)
+                    @if($user->videos->isEmpty() && $user->playlists->isEmpty())
                         <div class="alert alert-primary mt-4">{{ __('Channel without content') }}</div>
                     @else
                         @if($user->pinned_video)
@@ -136,7 +136,7 @@
                             </div>
                             <hr>
                         @endif
-                        @if($user->videos_count)
+                        @if($user->videos->isNotEmpty())
                             <div class="my-4 d-flex gap-3 align-items-center">
                                 <h5 class="mb-0">{{ __('Videos') }}</h5>
                                 <button
@@ -153,7 +153,7 @@
                                 @endforeach
                             </div>
                         @endif
-                        @if($user->playlists_count)
+                        @if($user->playlists->isNotEmpty())
                             <hr>
                             @foreach($user->playlists as $playlist)
                                 <div class="my-4">
@@ -177,8 +177,8 @@
                     @endif
                 </div>
                 <div class="tab-pane" id="videos" role="tabpanel" aria-labelledby="videos-tab">
-                    @if($user->videos->count())
-                        <user-videos user="{{$user->id}}" videos="{{$user->videos_count}}"  exclude-pinned></user-videos>
+                    @if($user->videos->isNotEmpty())
+                        <user-videos user="{{$user->id}}" videos="{{$user->videos->count()}}"  exclude-pinned></user-videos>
                     @else
                         <div class="alert alert-primary mt-4">
                             {{ __('This user has no videos') }}
@@ -186,7 +186,7 @@
                     @endif
                 </div>
                 <div class="tab-pane" id="playlists" role="tabpanel" aria-labelledby="playlists-tab">
-                    @if($user->playlists_count)
+                    @if($user->playlists->isNotEmpty())
                         <div class="row gx-3 gy-4 mt-0">
                             @each('playlists.card', $user->playlists, 'playlist')
                         </div>

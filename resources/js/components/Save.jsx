@@ -65,7 +65,10 @@ const Save = memo(({video}) => {
             method: 'POST',
             body: JSON.stringify({
                 video_id : video,
-                playlists : Array.from(document.querySelectorAll('input[name="playlists[]"]:checked'), input => input.value),
+                playlists : Array.from(document.querySelectorAll('input[name="playlists[]"]'), input => ({
+                    'id': input.dataset.id,
+                    'checked': input.checked
+                })),
             })
         }).then(() => {
             send('SAVED')

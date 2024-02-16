@@ -10,6 +10,7 @@ use App\Http\Requests\Playlist\UpdatePlaylistRequest;
 use App\Http\Requests\Video\SaveRequest;
 use App\Http\Resources\PlaylistResource;
 use App\Http\Resources\VideoResource;
+use App\Models\Pivots\PlaylistVideo;
 use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
@@ -135,7 +136,38 @@ class PlaylistController extends Controller
 
         $playlists = $request->get('playlists', []);
 
-        $video->playlists()->sync($playlists);
+        foreach ($playlists as $playlist) {
+
+            if ($playlist['checked']) {
+
+                $exist = PlaylistVideo::where([
+                    'playlist_id' => $playlist['id'],
+                    'video_id' => $video->id
+                ])->exists();
+
+                if (!$exist) {
+
+                    $lastPosition = PlaylistVideo::where('playlist_id', $playlist['id'])
+                        ->latest('position')
+                        ->first()
+                        ?->position;
+
+                    PlaylistVideo::create([
+                        'playlist_id' => $playlist['id'],
+                        'video_id' => $video->id,
+                        'position' => is_null($lastPosition) ? 0 : $lastPosition + 1
+                    ]);
+                }
+
+            }
+
+            else {
+                PlaylistVideo::where([
+                    'playlist_id' => $playlist['id'],
+                    'video_id' => $video->id
+                ])->delete();
+            }
+        }
 
         return response()->json(null, 201);
     }

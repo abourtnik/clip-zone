@@ -231,6 +231,9 @@ class Parser
         'se',
         'sg',
         'sh',
+        'shop',
+        'store',
+        'app',
         'si',
         'sj',
         'sk',
@@ -306,7 +309,7 @@ class Parser
 
     private static function parseLinks(string $string): string|null {
 
-        $regex = '/(https?:\/\/)?([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.('.implode('|', self::VALID_DOMAIN).')(:[0-9]{1,5})?(\/\S*)?)$/im';
+        $regex = '/(https?:\/\/)?([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.('.implode('|', self::VALID_DOMAIN).')(:[0-9]{1,5})?(\/\S*)?)/im';
 
         return preg_replace($regex, '<a class="text-decoration-none" href="//${2}" target="_blank" title="$0" rel="external nofollow">$0</a>', $string);
     }

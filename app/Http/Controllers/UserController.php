@@ -43,8 +43,6 @@ class UserController
             ])->loadCount([
                 'subscribers',
                 'videos_views',
-                'videos' => fn($q) => $q->active(),
-                'playlists' => fn($q) => $q->active()
             ]),
             'is_subscribed' => $isSubscribed
         ]);
