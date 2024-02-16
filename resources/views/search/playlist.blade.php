@@ -1,8 +1,8 @@
 <article class="d-flex flex-column flex-sm-row mb-3 position-relative card">
     <a href="{{$playlist->route}}" class="col-12 col-sm-6 col-lg-5 col-xl-4">
         <div class="position-relative h-100">
-            @if($playlist->thumbnail)
-                <img class="img-fluid w-100 h-100" src="{{$playlist->thumbnail}}" alt="{{$playlist->title}}" style="object-fit: cover;">
+            @if($playlist->first_video)
+                <img class="img-fluid w-100 h-100" src="{{$playlist->first_video->thumbnail_url}}" alt="{{$playlist->title}}" style="object-fit: cover;">
             @else
                 <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="height: 200px;width: 300px">
                     <i class="fa-solid fa-image fa-2x"></i>
