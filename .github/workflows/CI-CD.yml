@@ -5,7 +5,7 @@ on:
       - main
 jobs:
   test:
-    name: Run Test
+    name: Run Test and PHP Stan
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,6 +23,8 @@ jobs:
         run: chmod -R 777 storage bootstrap/cache
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: php artisan test --stop-on-failure --env=testing
+      - name: Execute PHP Stan
+        run: ./vendor/bin/phpstan analyse
   deploy:
     name: Deploy
     needs: test
