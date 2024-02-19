@@ -2,9 +2,13 @@
 
 namespace App\Http\Resources\Search;
 
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
 
+/**
+ * @mixin User
+ */
 class UserSearchResource extends JsonResource
 {
     public static $wrap = null;
@@ -13,9 +17,9 @@ class UserSearchResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param Request $request
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toArray($request) : array
+    public function toArray(Request $request) : array
     {
         return [
             'value' => $this->id,

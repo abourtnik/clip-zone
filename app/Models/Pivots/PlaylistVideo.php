@@ -5,6 +5,9 @@ namespace App\Models\Pivots;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
+/**
+ * @mixin IdeHelperPlaylistVideo
+ */
 class PlaylistVideo extends Pivot
 {
     use HasFactory;

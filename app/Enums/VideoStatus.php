@@ -3,7 +3,6 @@
 namespace App\Enums;
 
 use App\Enums\Traits\Listable;
-use Illuminate\Support\Arr;
 
 enum VideoStatus : int {
 
@@ -18,7 +17,7 @@ enum VideoStatus : int {
     case FAILED = 6;
 
     public static function getAll(): array {
-        return self::get(self::cases());
+        return self::get();
     }
 
     public static function getActive(): array {

@@ -22,6 +22,9 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Str;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
+/**
+ * @mixin IdeHelperComment
+ */
 class Comment extends Model implements Likeable, Reportable
 {
     use HasLike, HasReport, HasEagerLimit, Filterable, HasFactory, HasActivity;

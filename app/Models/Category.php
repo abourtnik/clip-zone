@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
 
+/**
+ * @mixin IdeHelperCategory
+ */
 class Category extends Model implements Sortable
 {
     use SortableTrait;

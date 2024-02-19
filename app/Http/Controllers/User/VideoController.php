@@ -31,15 +31,14 @@ class VideoController extends Controller
 
     public function index(VideoFilters $filters): View {
         return view('users.videos.index', [
-            'videos' => Auth::user()->load([
-                'videos' => function ($query) use ($filters) {
-                    $query
-                        ->filter($filters)
-                        ->with(['category:id,title', 'user:id'])
-                        ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
-                        ->latest('updated_at');
-                }
-            ])->videos->paginate(15)->withQueryString(),
+            'videos' => Video::query()
+                ->where('user_id', Auth::id())
+                ->filter($filters)
+                ->with(['category:id,title', 'user:id'])
+                ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
+                ->latest('updated_at')
+                ->paginate(15)
+                ->withQueryString(),
             'status' => VideoStatus::getAll(),
             'filters' => $filters->receivedFilters(),
             'categories' => Category::all(),
@@ -48,7 +47,7 @@ class VideoController extends Controller
 
     public function create(Video $video): View|RedirectResponse {
 
-        if (!$video->isDraft) {
+        if (!$video->is_draft) {
             return redirect()->route('user.videos.edit', $video);
         }
 
@@ -113,7 +112,7 @@ class VideoController extends Controller
 
     public function edit(Video $video): View|RedirectResponse {
 
-        if ($video->isDraft) {
+        if ($video->is_draft) {
             return redirect()->route('user.videos.create', $video);
         }
 

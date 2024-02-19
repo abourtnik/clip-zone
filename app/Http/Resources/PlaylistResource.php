@@ -2,10 +2,14 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Playlist;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
+/**
+ * @mixin Playlist
+ */
 class PlaylistResource extends JsonResource
 {
     public static $wrap = null;
@@ -14,15 +18,15 @@ class PlaylistResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param Request $request
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toArray($request) : array
+    public function toArray(Request $request) : array
     {
         return [
             'id' => $this->id,
             'title' => Str::limit($this->title, 90),
             'icon' => $this->status->icon(),
-            'has_video' => $this->whenNotNull($this->has_video)
+            'has_video' => $this->whenNotNull($this->resource->has_video)
         ];
     }
 }

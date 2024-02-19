@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Subtitle;
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
@@ -11,6 +12,8 @@ use Illuminate\Http\Request;
 class SubtitlePolicy
 {
     use HandlesAuthorization;
+
+    private Video $video;
 
     public function __construct(Request $request)
     {

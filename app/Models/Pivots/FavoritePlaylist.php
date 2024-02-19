@@ -2,13 +2,13 @@
 
 namespace App\Models\Pivots;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
+/**
+ * @mixin IdeHelperFavoritePlaylist
+ */
 class FavoritePlaylist extends Pivot
 {
-    use HasFactory;
-
     protected $table = 'favorites_playlist';
 
     protected $casts = [

@@ -15,6 +15,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
+/**
+ * @mixin IdeHelperPlaylist
+ */
 class Playlist extends Model
 {
     use HasFactory, HasEagerLimit, Filterable;

@@ -26,6 +26,9 @@ use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 use Symfony\Component\Intl\Languages;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * @mixin IdeHelperVideo
+ */
 class Video extends Model implements Likeable, Reportable
 {
     use HasFactory, HasLike, HasReport, HasEagerLimit, Filterable, Searchable;

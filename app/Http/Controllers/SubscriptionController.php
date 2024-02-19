@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Illuminate\Database\Eloquent\Builder;
 
 class SubscriptionController extends Controller
 {
@@ -75,7 +74,7 @@ class SubscriptionController extends Controller
                 ->withCount([
                     'subscribers',
                     'videos' => fn($query) => $query->active(),
-                    'premium_subscription' => fn(Builder $query) => $query->active()
+                    'premium_subscription' => fn($query) => $query->active()
                 ])
                 ->having('videos_count', '>', 0)
                 ->when(Auth::check(), fn($query) => $query->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray()))

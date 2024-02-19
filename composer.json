@@ -36,6 +36,8 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
+        "barryvdh/laravel-ide-helper": "^2.15",
+        "larastan/larastan": "^2.0",
         "laravel/pint": "^1.0",
         "mockery/mockery": "^1.5",
         "nunomaduro/collision": "^6.1",

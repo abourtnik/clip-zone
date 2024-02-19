@@ -4,13 +4,13 @@ namespace App\Models;
 
 use App\Enums\ExportStatus;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @mixin IdeHelperExport
+ */
 class Export extends Model
 {
-    use HasFactory;
-
     protected $guarded = ['id'];
 
     protected $casts = [

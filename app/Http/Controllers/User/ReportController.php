@@ -21,21 +21,21 @@ class ReportController extends Controller
 {
     public function index(ReportFilters $filters) : View {
         return view('users.reports.index', [
-            'reports' => Auth::user()->load([
-                'user_reports' => function ($query) use ($filters) {
-                    $query->filter($filters)
-                            ->with([
-                                'reportable' => function (MorphTo $morphTo) {
-                                    $morphTo->morphWith([
-                                        User::class,
-                                        Video::class => ['user'],
-                                        Comment::class => ['video', 'user']
-                                    ]);
-                            }
-                        ])
-                        ->orderBy('created_at', 'desc');
-                }
-            ])->user_reports->paginate(15)->withQueryString(),
+            'reports' => Report::query()
+                ->where('user_id', Auth::id())
+                ->filter($filters)
+                ->with([
+                    'reportable' => function (MorphTo $morphTo) {
+                        $morphTo->morphWith([
+                            User::class,
+                            Video::class => ['user'],
+                            Comment::class => ['video', 'user']
+                        ]);
+                    }
+                ])
+                ->orderBy('created_at', 'desc')
+                ->paginate(15)
+                ->withQueryString(),
             'filters' => $filters->receivedFilters(),
             'reasons' => ReportReason::get(),
             'status' => ReportStatus::get(),

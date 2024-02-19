@@ -5,15 +5,17 @@ namespace App\Models;
 use App\Enums\SubtitleStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 use Symfony\Component\Intl\Languages;
 
+/**
+ * @mixin IdeHelperSubtitle
+ */
 class Subtitle extends Model
 {
-    use HasFactory, HasEagerLimit;
+    use HasEagerLimit;
 
     protected $guarded = ['id'];
 

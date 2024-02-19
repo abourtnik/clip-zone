@@ -5,8 +5,6 @@ namespace App\Providers;
 use App\Services\YoutubeService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Notifications\Channels\DatabaseChannel as IlluminateDatabaseChannel;
 use App\Notifications\Channels\DatabaseChannel;
 
@@ -39,22 +37,11 @@ class AppServiceProvider extends ServiceProvider
         // Pagination
         Paginator::useBootstrapFive();
 
-        // Collection Pagination
-        Collection::macro('paginate', function($perPage, $total = null, $page = null, $pageName = 'page') {
-            $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
-
-            return new LengthAwarePaginator(
-                $this->forPage($page, $perPage),
-                $total ?: $this->count(),
-                $perPage,
-                $page,
-                [
-                    'path' => LengthAwarePaginator::resolveCurrentPath(),
-                    'pageName' => $pageName,
-                ]
-            );
-        });
-
+        // Cashier
         Cashier::calculateTaxes();
+
+        if ($this->app->isLocal()) {
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        }
     }
 }

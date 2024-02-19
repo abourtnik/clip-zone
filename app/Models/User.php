@@ -32,9 +32,7 @@ use Symfony\Component\Intl\Countries;
 use App\Models\Subscription as PremiumSubscription;
 
 /**
- * App\Models\User
- *
- * @property boolean $is_admin
+ * @mixin IdeHelperUser
  */
 
 class User extends Authenticatable implements MustVerifyEmail, Reportable
@@ -412,7 +410,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     /**
      * @return bool
      */
-    public function canBeImpersonated()
+    public function canBeImpersonated(): bool
     {
         return !$this->is_admin;
     }

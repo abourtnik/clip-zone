@@ -62,7 +62,7 @@ class ProfileController
                     $query
                         ->filter($interactionFilters)
                         ->with([
-                            'likeable' => function (MorphTo $morphTo) use ($interactionFilters) {
+                            'likeable' => function (MorphTo $morphTo) {
                                 $morphTo->morphWith([
                                     Video::class => ['user']
                                 ]);
@@ -105,7 +105,7 @@ class ProfileController
                     ->withCount('subscribers')
                     ->orderBy('subscribe_at', 'desc');
                 }
-            ])->subscribers->paginate(15),
+            ])->subscribers()->paginate(15),
             'filters' => $filters->receivedFilters()
         ]);
     }

@@ -20,7 +20,7 @@ const Notifications = memo(({initial}) => {
             forceTLS: true
         });
 
-        window.Echo.private('App.Models.User.' + document.querySelector('meta[name="user_id"]').getAttribute('content')).notification(notification => {
+        window.Echo.private('App.Models.User.' + window.USER.id).notification(notification => {
             setNotifications(notifications => [notification, ...notifications]);
             document.getElementById('bell').classList.add('fa-shake')
             new Audio('/sounds/notification.mp3').play()

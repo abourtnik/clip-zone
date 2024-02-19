@@ -1,4 +1,4 @@
-.PHONY: help, exec, start, stop, optimize, deploy, install, test, logs, init, stripe
+.PHONY: help, exec, start, stop, optimize, deploy, install, test, logs, init, stripe, analyse, helpers
 .DEFAULT_GOAL=help
 
 help: ## Show help options
@@ -56,3 +56,11 @@ logs: ## See last logs
 
 stripe: ## See Stripe Webhook logs
 	docker logs -f stripe_container
+
+analyse: ## Execute Larastan
+	docker exec -it php_container ./vendor/bin/phpstan analyse --memory-limit=2G
+
+helpers: ## Generate Helpers
+	docker exec -it php_container php artisan ide-helper:generate
+	docker exec -it php_container php artisan ide-helper:models -F helpers/ModelHelper.php -M
+	docker exec -it php_container php artisan ide-helper:meta

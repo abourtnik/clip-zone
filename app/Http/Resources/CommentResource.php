@@ -7,6 +7,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
+/**
+ * @mixin Comment
+ */
 class CommentResource extends JsonResource
 {
     public static $wrap = null;
@@ -15,9 +18,9 @@ class CommentResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param Request $request
-     * @return array
+     * @return array<string, mixed>
      */
-    public function toArray($request) : array
+    public function toArray(Request $request) : array
     {
         return [
             'id' => $this->id,
@@ -40,33 +43,33 @@ class CommentResource extends JsonResource
             'is_updated' => $this->is_updated,
             'likes_count' => $this->likes_count,
             'dislikes_count' => $this->dislikes_count,
-            'liked_by_auth_user' => $this->liked_by_auth_user > 0,
-            'disliked_by_auth_user' => $this->disliked_by_auth_user > 0,
+            'liked_by_auth_user' => $this->resource->liked_by_auth_user > 0,
+            'disliked_by_auth_user' => $this->resource->disliked_by_auth_user > 0,
             'can_delete' => Auth::user()?->can('delete', $this->resource) ?? false,
             'can_update' => Auth::user()?->can('update', $this->resource) ?? false,
             'can_report' => Auth::user()?->can('report', $this->resource) ?? false,
             'can_pin' => Auth::user()?->can('pin', $this->resource) ?? false,
-            'replies' => $this->when($this->total_replies > 0, function () {
+            'replies' => $this->when($this->resource->total_replies > 0, function () {
                 return [
                     'data' => CommentResource::collection($this->replies),
                     'links' => [
-                        'next' => $this->replies->count() < $this->total_replies ? route('comments.replies', ['comment' => $this->resource , 'page' => 2]) : null,
+                        'next' => $this->replies->count() < $this->resource->total_replies ? route('comments.replies', ['comment' => $this->resource , 'page' => 2]) : null,
                     ],
                     'meta' => [
-                        'total' => $this->total_replies
+                        'total' => $this->resource->total_replies
                     ]
                 ];
             }),
             'is_pinned' => $this->is_pinned,
             'is_reply' => $this->is_reply,
-            'is_author_reply' => $this->when(!$this->is_reply, fn() => $this->author_replies > 0),
+            'is_author_reply' => $this->when(!$this->is_reply, fn() => $this->resource->author_replies > 0),
             'author' => $this->when(!$this->is_reply, function () {
                 return [
                     'username' => $this->video->user->username,
                     'avatar' => $this->video->user->avatar_url,
                 ];
             }),
-            'reported_at' => $this->when($this->reportByAuthUser, fn() => $this->reportByAuthUser->created_at->diffForHumans()),
+            'reported_at' => $this->when($this->resource->reportByAuthUser, fn() => $this->reportByAuthUser->created_at->diffForHumans()),
         ];
     }
 }

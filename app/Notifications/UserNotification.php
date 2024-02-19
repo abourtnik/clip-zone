@@ -54,9 +54,8 @@ class UserNotification extends Notification
     public function toBroadcast(User $notifiable): BroadcastMessage
     {
         $notification = NotificationModel::where('user_id', $notifiable->id)
-            ->oldest()
-            ->get()
-            ->last();
+            ->latest()
+            ->first();
 
         return (new BroadcastMessage(
             (new NotificationResource($notification))->resolve()
