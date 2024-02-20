@@ -203,8 +203,12 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
             ->name('unpin')
             ->can('unpin', 'video')
             ->missing(fn(Request $request) => abort(404, 'Video not found'));
-        Route::get('{video}/create', 'create')->name('create');
-        Route::post('{video}/store', 'store')->name('store');
+        Route::get('{video}/create', 'create')
+            ->name('create')
+            ->can('update', 'video');
+        Route::post('{video}/store', 'store')
+            ->name('store')
+            ->can('update', 'video');
     });
 
     Route::resource('videos', VideoUserController::class)->except([
