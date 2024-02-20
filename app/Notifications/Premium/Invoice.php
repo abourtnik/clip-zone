@@ -38,7 +38,7 @@ class Invoice extends Notification
      */
     public function via(User $notifiable): array|string
     {
-        return ['mail'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
