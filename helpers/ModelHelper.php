@@ -193,26 +193,34 @@ namespace App\Models{
 /**
  * App\Models\Notification
  *
- * @property int $id
- * @property int $user_id
- * @property string $message
- * @property string $url
+ * @property string $id
+ * @property string $type
+ * @property string $notifiable_type
+ * @property int $notifiable_id
+ * @property array $data
  * @property \Illuminate\Support\Carbon|null $read_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $is_read
- * @property-read \App\Models\User $user
+ * @property-read mixed $message
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $notifiable
+ * @property-read mixed $url
+ * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $user
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> all($columns = ['*'])
+ * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> get($columns = ['*'])
  * @method static \Illuminate\Database\Eloquent\Builder|Notification newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Notification newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Notification query()
- * @method static \Illuminate\Database\Eloquent\Builder|Notification unread()
+ * @method static \Illuminate\Database\Eloquent\Builder|DatabaseNotification read()
+ * @method static \Illuminate\Database\Eloquent\Builder|DatabaseNotification unread()
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereData($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereMessage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereNotifiableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereNotifiableType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereReadAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Notification whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUrl($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -614,7 +622,7 @@ namespace App\Models{
  * @property-read mixed $json
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $likes
  * @property-read int|null $likes_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Notification> $notifications
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read mixed $others_active_videos
  * @property-read \App\Models\Video|null $pinned_video

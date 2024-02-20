@@ -6,11 +6,12 @@ use App\Models\Interfaces\Likeable;
 use App\Models\Interfaces\Reportable;
 use App\Models\Pivots\FavoritePlaylist;
 use App\Models\Pivots\Subscription;
+use App\Models\Subscription as PremiumSubscription;
 use App\Models\Traits\Filterable;
 use App\Models\Traits\HasReport;
-use App\Notifications\PasswordUpdate;
-use App\Notifications\ResetPassword;
-use App\Notifications\VerifyEmail;
+use App\Notifications\Account\PasswordUpdate;
+use App\Notifications\Account\ResetPassword;
+use App\Notifications\Account\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -29,7 +30,6 @@ use Laravel\Cashier\Billable;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Symfony\Component\Intl\Countries;
-use App\Models\Subscription as PremiumSubscription;
 
 /**
  * @mixin IdeHelperUser
@@ -158,10 +158,6 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         return $this->belongsToMany(Playlist::class, 'favorites_playlist', 'user_id', 'playlist_id')
             ->using(FavoritePlaylist::class)
             ->withPivot(['added_at']);
-    }
-
-    public function notifications () : HasMany {
-        return $this->hasMany(Notification::class);
     }
 
     public function premium_subscription () : HasOne {

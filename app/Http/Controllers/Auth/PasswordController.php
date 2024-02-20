@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Models\PasswordReset;
 use App\Models\User;
-use App\Notifications\ResetPassword;
+use App\Notifications\Account\ResetPassword;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;

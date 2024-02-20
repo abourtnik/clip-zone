@@ -12,7 +12,7 @@ class NotificationPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can read notification.
      *
      * @param User $user
      * @param Notification $notification
@@ -26,7 +26,7 @@ class NotificationPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can unread notification.
      *
      * @param User $user
      * @param Notification $notification
@@ -40,7 +40,21 @@ class NotificationPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view click on notification.
+     *
+     * @param User $user
+     * @param Notification $notification
+     * @return Response|bool
+     */
+    public function click(User $user, Notification $notification): Response|bool
+    {
+        return $notification->user()->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(403, 'You are not authorized to perform this action for this record.');
+    }
+
+    /**
+     * Determine whether the user can delete notification.
      *
      * @param User $user
      * @param Notification $notification

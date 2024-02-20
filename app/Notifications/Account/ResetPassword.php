@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Account;
 
 use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -63,7 +63,7 @@ class ResetPassword extends Notification
     {
         return (new MailMessage)
             ->subject(Lang::get('Reset Password Notification'))
-            ->markdown('mails.forgot', compact('url', 'notifiable'));
+            ->markdown('mails.account.forgot', compact('url', 'notifiable'));
     }
 
     /**

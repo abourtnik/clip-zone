@@ -1,14 +1,22 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Video;
 
 use App\Models\User;
+use App\Models\Video;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
 
-class DeleteAccount extends Notification
+class VideoBanned extends Notification
 {
+    private Video $video;
+
+    public function __construct(Video $video)
+    {
+        $this->video = $video;
+    }
+
     /**
      * Get the notification's channels.
      *
@@ -17,7 +25,7 @@ class DeleteAccount extends Notification
      */
     public function via(User $notifiable): array|string
     {
-        return ['mail'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -40,9 +48,25 @@ class DeleteAccount extends Notification
     protected function buildMailMessage(User $notifiable) : MailMessage
     {
         return (new MailMessage)
-            ->subject(Lang::get('Your account was deleted'))
-            ->markdown('mails.delete', [
+            ->subject(Lang::get('Your video was suspended'))
+            ->markdown('mails.video.ban', [
                 'notifiable' => $notifiable,
+                'video' => $this->video->loadCount('views'),
             ]);
+    }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  User $notifiable
+     * @return array
+     */
+    public function toArray(User $notifiable) : array
+    {
+        return [
+            'message' => 'You video ' .$this->video->title. ' was banned',
+            'url' => route('user.videos.index'),
+            'created_at' => now()->diffForHumans()
+        ];
     }
 }

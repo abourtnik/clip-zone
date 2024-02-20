@@ -5,8 +5,6 @@ namespace App\Providers;
 use App\Services\YoutubeService;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Notifications\Channels\DatabaseChannel as IlluminateDatabaseChannel;
-use App\Notifications\Channels\DatabaseChannel;
 
 use Laravel\Cashier\Cashier;
 
@@ -31,9 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot() :void
     {
-        // Notifications
-        $this->app->instance(IlluminateDatabaseChannel::class, new DatabaseChannel());
-
         // Pagination
         Paginator::useBootstrapFive();
 

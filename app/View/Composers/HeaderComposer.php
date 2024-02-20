@@ -16,7 +16,7 @@ class HeaderComposer
     public function compose(View $view): void
     {
         $view->with([
-            'unread_notifications' => Auth::user()?->notifications()->unread()->count(),
+            'unread_notifications' => Auth::user()?->unreadNotifications->count(),
             'show_sidebar' => !in_array(request()->route()?->getName(), ['video.show', 'pages.premium']),
         ]);
     }

@@ -4,7 +4,8 @@ namespace App\Listeners;
 
 use App\Events\Export\ExportFail;
 use App\Events\Export\ExportFinished;
-use App\Notifications\UserNotification;
+use App\Notifications\Export\ExportError;
+use App\Notifications\Export\ExportSuccess;
 use Illuminate\Events\Dispatcher;
 
 class ExportEventSubscriber
@@ -17,10 +18,7 @@ class ExportEventSubscriber
      */
     public function sendSuccessNotification(ExportFinished $event): void
     {
-        $event->user->notify(new UserNotification(
-            'Your '. $event->export->file .' export is ready !',
-            route('admin.exports.download', $event->export)
-        ));
+        $event->user->notify(new ExportSuccess($event->export));
     }
 
     /**
@@ -31,10 +29,7 @@ class ExportEventSubscriber
      */
     public function sendErrorNotification(ExportFail $event): void
     {
-        $event->user->notify(new UserNotification(
-            'Your export was failed !',
-            route('admin.exports.index')
-        ));
+        $event->user->notify(new ExportError($event->export));
     }
 
     /**

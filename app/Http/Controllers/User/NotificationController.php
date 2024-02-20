@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
@@ -13,7 +14,11 @@ class NotificationController extends Controller
 {
     public function index() : View {
         return view('users.notifications', [
-            'user_notifications' => Notification::where('user_id', Auth::user()->id)
+            'user_notifications' => Notification::query()
+                ->where([
+                    'notifiable_type' => User::class,
+                    'notifiable_id' => Auth::id()
+                ])
                 ->latest()
                 ->paginate(15)
         ]);
@@ -21,26 +26,21 @@ class NotificationController extends Controller
 
     public function click (Notification $notification) : RedirectResponse {
 
-        $notification->update([
-            'read_at' => now()
-        ]);
+        $notification->markAsRead();
 
         return redirect($notification->url);
     }
 
     public function read (Notification $notification) : Response {
-        $notification->update([
-            'read_at' => now()
-        ]);
+
+        $notification->markAsRead();
 
         return response()->noContent();
     }
 
     public function unread (Notification $notification) : Response {
 
-        $notification->update([
-            'read_at' => null
-        ]);
+        $notification->markAsUnread();
 
         return response()->noContent();
     }
@@ -54,7 +54,10 @@ class NotificationController extends Controller
 
     public function readAll () : Response {
 
-        Notification::where('user_id', Auth::user()->id)->update([
+        Notification::where([
+            'notifiable_type' => User::class,
+            'notifiable_id' => Auth::id()
+        ])->update([
             'read_at' => now()
         ]);
 

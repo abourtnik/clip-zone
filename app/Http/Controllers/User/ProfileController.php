@@ -12,7 +12,7 @@ use App\Helpers\File;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Models\Video;
-use App\Notifications\DeleteAccount;
+use App\Notifications\Account\DeleteAccount;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\JsonResponse;

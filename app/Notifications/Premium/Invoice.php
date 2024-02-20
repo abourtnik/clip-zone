@@ -71,4 +71,19 @@ class Invoice extends Notification
                 'mime' => 'application/pdf',
             ]);
     }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  User $notifiable
+     * @return array
+     */
+    public function toArray(User $notifiable) : array
+    {
+        return [
+            'message' => 'Your ' .config('app.name'). ' invoice is available',
+            'url' => route('user.invoices.show', $this->transaction),
+            'created_at' => now()->diffForHumans()
+        ];
+    }
 }

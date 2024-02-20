@@ -20,7 +20,7 @@ class NotificationResource extends JsonResource
     public function toArray(Request $request) : array
     {
         return [
-            'ID' => $this->id,
+            'id' => $this->id,
             'message' => $this->message,
             'url' => route('user.notifications.click', $this),
             'is_read' => $this->is_read,

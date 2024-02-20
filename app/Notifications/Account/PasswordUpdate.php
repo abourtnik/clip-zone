@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Account;
 
 use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -41,6 +41,6 @@ class PasswordUpdate extends Notification
     {
         return (new MailMessage)
             ->subject(Lang::get('Password Update'))
-            ->markdown('mails.password', compact('notifiable'));
+            ->markdown('mails.account.password', compact('notifiable'));
     }
 }

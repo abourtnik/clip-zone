@@ -1,23 +1,14 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Account;
 
 use App\Models\User;
-use App\Models\Video;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
 
-class BannedVideo extends Notification
+class BanAccount extends Notification
 {
-
-    private Video $video;
-
-    public function __construct(Video $video)
-    {
-        $this->video = $video;
-    }
-
     /**
      * Get the notification's channels.
      *
@@ -50,9 +41,8 @@ class BannedVideo extends Notification
     {
         return (new MailMessage)
             ->subject(Lang::get('Your account was suspended'))
-            ->markdown('mails.ban.video', [
+            ->markdown('mails.account.ban', [
                 'notifiable' => $notifiable,
-                'video' => $this->video->loadCount('views'),
             ]);
     }
 }

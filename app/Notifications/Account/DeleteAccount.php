@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Account;
 
 use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
 
-class BannedUser extends Notification
+class DeleteAccount extends Notification
 {
     /**
      * Get the notification's channels.
@@ -40,8 +40,8 @@ class BannedUser extends Notification
     protected function buildMailMessage(User $notifiable) : MailMessage
     {
         return (new MailMessage)
-            ->subject(Lang::get('Your account was suspended'))
-            ->markdown('mails.ban.user', [
+            ->subject(Lang::get('Your account was deleted'))
+            ->markdown('mails.account.delete', [
                 'notifiable' => $notifiable,
             ]);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Notifications;
+namespace App\Notifications\Account;
 
 use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -45,7 +45,7 @@ class VerifyEmail extends Notification
     {
         return (new MailMessage)
             ->subject('Welcome on ' .Config::get('app.name'). ' !')
-            ->markdown('mails.verify', compact('url', 'notifiable'));
+            ->markdown('mails.account.verify', compact('url', 'notifiable'));
     }
 
     /**

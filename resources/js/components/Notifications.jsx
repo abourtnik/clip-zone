@@ -44,8 +44,8 @@ const Notifications = memo(({initial}) => {
     }, [notifications]);
 
     const read = useCallback (async (notification) => {
-        return jsonFetch(`/api/notifications/${notification.ID}/read`).then(() => {
-            setNotifications(notifications => notifications.map(n => n.ID === notification.ID ? {...n, is_read: true} : n));
+        return jsonFetch(`/api/notifications/${notification.id}/read`).then(() => {
+            setNotifications(notifications => notifications.map(n => n.id === notification.id ? {...n, is_read: true} : n));
         }).catch(e => e);
     }, []);
 
