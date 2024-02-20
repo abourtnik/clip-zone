@@ -92,20 +92,12 @@ class StripeWebhookController extends Controller
 
     public function onSubscriptionCreated (array $data) : Response  {
 
-        if ($this->isSubscriptionIncomplete($data['status'])){
-            return response()->noContent();
-        }
-
         SubscriptionCreated::dispatch($data);
 
         return response()->noContent();
     }
 
     public function onSubscriptionUpdated (array $data) : Response  {
-
-        if ($this->isSubscriptionIncomplete($data['status'])){
-            return response()->noContent();
-        }
 
         SubscriptionUpdated::dispatch($data);
 
