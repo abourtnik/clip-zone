@@ -64,9 +64,9 @@
             <thead>
             <tr style="border-top: 3px solid #0D6EFD;">
                 <th style="min-width: 300px" scope="col">User</th>
-                <th scope="col" style="min-width: 350px">Video</th>
+                <th scope="col" style="min-width: 400px">Video</th>
                 <th scope="col">Visibility</th>
-                <th scope="col" style="min-width: 200px">Date</th>
+                <th scope="col" style="min-width: 210px">Date</th>
                 <th scope="col">Views</th>
                 <th scope="col">Comments</th>
                 <th scope="col" style="min-width: 140px">Interactions</th>
@@ -107,9 +107,7 @@
                                     <img src="{{$video->thumbnail_url}}" alt="" style="width: 120px;height: 68px">
                                 @endif
                             </a>
-                            <div>
-                                <div>{{Str::limit($video->title, 100), '...'}}</div>
-                            </div>
+                            <div class="text-sm">{{Str::limit($video->title, 100), '...'}}</div>
                         </div>
                     </td>
                     <td class="align-middle">
