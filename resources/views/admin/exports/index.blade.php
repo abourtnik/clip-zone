@@ -12,10 +12,10 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th>Report</th>
+                    <th style="min-width: 200px">Export</th>
                     <th>Status</th>
-                    <th>Date</th>
-                    <th>Action</th>
+                    <th style="min-width: 120px">Date</th>
+                    <th style="min-width: 121px">Action</th>
                 </tr>
                 </thead>
                 <tbody>

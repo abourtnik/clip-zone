@@ -29,7 +29,7 @@
                         aria-current="page"
                     >
                         <img style="width: 40px" class="rounded-circle" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
-                        <div class="text-start">
+                        <div class="d-flex flex-column gap-2 text-start">
                             <span class="text-sm fw-bold">{{auth()->user()->username}}</span>
                             @if(auth()->user()->is_premium)
                                 <div class="badge bg-warning">

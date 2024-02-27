@@ -8,61 +8,69 @@
             <h2>Comments</h2>
         </div>
         <hr>
-        <form class="my-4 d-flex gap-3 align-items-end" method="GET">
-            <div class="col">
-                <label for="search" class="form-label fw-bold">Search</label>
-                <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
-            </div>
-            <div class="col">
-                <search-model name="video" endpoint="{{route('admin.search.videos')}}" @isset($selectedVideo)) value="{{$selectedVideo}}" @endisset/>
-            </div>
-            <div class="col">
-                <search-model name="user" endpoint="{{route('admin.search.users')}}" @isset($selectedUser)) value="{{$selectedUser}}" @endisset/>
-            </div>
-            <div class="col">
-                <label for="date_start" class="form-label fw-bold">Comment date start</label>
-                <input type="datetime-local" name="date_start" class="form-control" id="date_start" value="{{$filters['date_start'] ?? null}}">
-            </div>
-            <div class="col">
-                <label for="date_end" class="form-label fw-bold">Comment date end</label>
-                <input type="datetime-local" name="date_end" class="form-control" id="date_end" value="{{$filters['date_end'] ?? null}}">
-            </div>
-            <div class="col">
-                <label for="replies" class="form-label fw-bold">Replies</label>
-                <select name="replies" class="form-select" aria-label="Default select example">
-                    <option selected value="">All</option>
-                    @foreach(['with', 'without'] as $option)
-                        <option @selected(($filters['replies'] ?? null) === $option) value="{{$option}}">{{ucfirst($option)}} replies</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col">
-                <label for="ban" class="form-label fw-bold">Banned</label>
-                <select name="ban" class="form-select" aria-label="Default select example">
-                    <option selected value="">All</option>
-                    @foreach(['banned' => 'Banned', 'not_banned' => 'Not banned'] as $id => $label)
-                        <option @selected(($filters['ban'] ?? null) === $id) value="{{$id}}">{{$label}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="btn-group">
-                <button type="submit" class="btn btn-outline-secondary" title="Search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
-                    <i class="fa-solid fa-eraser"></i>
-                </a>
-            </div>
-        </form>
+        <div x-data="{ filters: window.innerWidth > 992 }">
+            <button class="btn btn-primary btn-sm d-flex d-lg-none align-items-center gap-2 mb-3" @click="filters = !filters">
+                <i class="fa-solid fa-filter"></i>
+                <span>{{ __('Filters') }}</span>
+                <i class="fa-solid fa-chevron-down" x-show.important="!filters" ></i>
+                <i class="fa-solid fa-chevron-up" x-show.important="filters" ></i>
+            </button>
+            <form class="mb-4 row align-items-end gx-2 gy-2" method="GET" x-show.important="filters">
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl col-xxl-3">
+                    <label for="search" class="form-label fw-bold">Search</label>
+                    <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
+                    <search-model name="video" endpoint="{{route('admin.search.videos')}}" @isset($selectedVideo)) value="{{$selectedVideo}}" @endisset/>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
+                    <search-model name="user" endpoint="{{route('admin.search.users')}}" @isset($selectedUser)) value="{{$selectedUser}}" @endisset/>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
+                    <label for="date_start" class="form-label fw-bold">Comment date start</label>
+                    <input type="datetime-local" name="date_start" class="form-control" id="date_start" value="{{$filters['date_start'] ?? null}}">
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
+                    <label for="date_end" class="form-label fw-bold">Comment date end</label>
+                    <input type="datetime-local" name="date_end" class="form-control" id="date_end" value="{{$filters['date_end'] ?? null}}">
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
+                    <label for="replies" class="form-label fw-bold">Replies</label>
+                    <select name="replies" class="form-select" aria-label="Default select example">
+                        <option selected value="">All</option>
+                        @foreach(['with', 'without'] as $option)
+                            <option @selected(($filters['replies'] ?? null) === $option) value="{{$option}}">{{ucfirst($option)}} replies</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6 col-lg-4 col-xl">
+                    <label for="ban" class="form-label fw-bold">Banned</label>
+                    <select name="ban" class="form-select" aria-label="Default select example">
+                        <option selected value="">All</option>
+                        @foreach(['banned' => 'Banned', 'not_banned' => 'Not banned'] as $id => $label)
+                            <option @selected(($filters['ban'] ?? null) === $id) value="{{$id}}">{{$label}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="btn-group col-auto">
+                    <button type="submit" class="btn btn-outline-secondary" title="Search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
+                        <i class="fa-solid fa-eraser"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th class="w-25">Video</th>
-                    <th class="w-50">Comment</th>
+                    <th style="min-width: 400px">Video</th>
+                    <th style="min-width: 400px">Comment</th>
                     <th>Replies</th>
                     <th>Interactions</th>
-                    <th>Ban</th>
+                    <th style="min-width: 142px">Ban</th>
                 </tr>
                 </thead>
                 <tbody>

@@ -1,4 +1,5 @@
 <x-layout sidebar="back" type="admin">
+    @section('class', 'overflow-auto')
     @if ($message = Session::get('success'))
         <div class="alert alert-success alert-dismissible">
             <strong>{{ $message }}</strong>

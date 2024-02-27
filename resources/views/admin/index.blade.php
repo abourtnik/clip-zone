@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row mb-4">
-        <div class="col-12 col-sm-4 col-md-4 col-xl mb-4 mb-xl-0">
+        <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Videos</h5>
@@ -16,7 +16,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-sm-4 col-md-4 col-xl mb-4 mb-xl-0">
+        <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
                     <h5 class="card-title text-center text-primary">Users</h5>

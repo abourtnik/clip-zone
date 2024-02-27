@@ -11,11 +11,11 @@
         <table class="table table-bordered table-striped">
             <thead>
             <tr style="border-top: 3px solid #0D6EFD;">
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Tax</th>
-                <th>Fee</th>
-                <th>User</th>
+                <th style="min-width: 100px">Date</th>
+                <th style="min-width: 50px">Amount</th>
+                <th style="min-width: 50px">Tax</th>
+                <th style="min-width: 50px">Fee</th>
+                <th style="min-width: 150px">User</th>
                 <th>Actions</th>
             </tr>
             </thead>

@@ -15,13 +15,13 @@
     <div class="table-responsive">
         <table class="table table-bordered table-striped">
             <thead>
-            <tr style="border-top: 3px solid #0D6EFD;">
-                <th class="w-25">Category</th>
-                <th class="w-50">Slug</th>
-                <th>Icon</th>
-                <th>In menu</th>
-                <th>Position</th>
-            </tr>
+                <tr style="border-top: 3px solid #0D6EFD;">
+                    <th style="min-width: 160px">Category</th>
+                    <th style="min-width: 150px">Slug</th>
+                    <th>Icon</th>
+                    <th style="min-width: 80px">In menu</th>
+                    <th>Position</th>
+                </tr>
             </thead>
             <tbody>
             @forelse($all_categories as $category)

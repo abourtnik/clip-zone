@@ -7,7 +7,7 @@
         <h2>Spam</h2>
     </div>
     <hr>
-    <form method="POST" action="{{route('admin.spams.update')}}" class="col-6">
+    <form method="POST" action="{{route('admin.spams.update')}}" class="col-12 col-xxl-6">
         @csrf()
         @method('PUT')
         <div class="mb-3">

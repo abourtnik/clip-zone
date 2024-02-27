@@ -15,7 +15,7 @@
                 <th>Price</th>
                 <th>Duration</th>
                 <th>Stripe ID</th>
-                <th>Created At</th>
+                <th style="min-width: 150px">Created At</th>
             </tr>
             </thead>
             <tbody>
