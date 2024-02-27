@@ -59,6 +59,7 @@
                 <th scope="col">Subscribers</th>
                 <th scope="col">Videos</th>
                 <th scope="col">Comments</th>
+                <th scope="col">Interactions</th>
                 <th scope="col" style="min-width: 180px;">Registered</th>
                 <th scope="col" style="min-width: 180px;">Last login</th>
                 <th scope="col" style="min-width: 110px;">Ban</th>
@@ -108,6 +109,13 @@
                         <a href="{{route('admin.comments.index') .'?user='.$user->id}}" class="badge bg-primary  text-decoration-none">{{trans_choice('comments', $user->comments_count)}}</a>
                     @else
                         <div class="badge bg-secondary">No comments</div>
+                    @endif
+                </td>
+                <td class="align-middle">
+                    @if($user->interactions_count)
+                        <div class="badge bg-primary">{{trans_choice('interactions', $user->interactions_count)}}</div>
+                    @else
+                        <div class="badge bg-secondary">No interactions</div>
                     @endif
                 </td>
                 <td class="align-middle">

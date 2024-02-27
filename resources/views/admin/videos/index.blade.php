@@ -64,12 +64,12 @@
             <thead>
             <tr style="border-top: 3px solid #0D6EFD;">
                 <th style="min-width: 300px" scope="col">User</th>
-                <th scope="col" style="min-width: 300px">Video</th>
+                <th scope="col" style="min-width: 350px">Video</th>
                 <th scope="col">Visibility</th>
                 <th scope="col" style="min-width: 200px">Date</th>
                 <th scope="col">Views</th>
                 <th scope="col">Comments</th>
-                <th scope="col">Interactions</th>
+                <th scope="col" style="min-width: 140px">Interactions</th>
                 <th scope="col">Actions</th>
             </tr>
             </thead>
@@ -97,7 +97,7 @@
                                 </div>
                             @endif
                         @endif
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-3">
                             <a class="d-block " href="{{$video->route}}">
                                 @if($video->is_draft)
                                     <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="width: 120px;height: 68px">
@@ -109,7 +109,6 @@
                             </a>
                             <div>
                                 <div>{{Str::limit($video->title, 100), '...'}}</div>
-                                <small class="text-muted">{{Str::limit($video->description, 190), '...'}}</small>
                             </div>
                         </div>
                     </td>

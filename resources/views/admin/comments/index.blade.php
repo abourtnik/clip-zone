@@ -67,9 +67,9 @@
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
                     <th style="min-width: 400px">Video</th>
-                    <th style="min-width: 400px">Comment</th>
+                    <th style="min-width: 420px">Comment</th>
                     <th>Replies</th>
-                    <th>Interactions</th>
+                    <th style="min-width: 150px">Interactions</th>
                     <th style="min-width: 142px">Ban</th>
                 </tr>
                 </thead>
@@ -85,7 +85,7 @@
                             </div>
                         </td>
                         <td class="align-middle">
-                            <div class="d-flex gap-2">
+                            <div class="d-flex gap-3">
                                 <a href="{{$comment->user->route}}">
                                     <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
                                 </a>

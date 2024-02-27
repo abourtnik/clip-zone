@@ -22,7 +22,9 @@ class UserController
                     'subscribers',
                     'videos',
                     'comments',
-                ])->whereNull('is_admin')
+                    'interactions'
+                ])
+                ->whereNull('is_admin')
                 ->orderBy('created_at', 'desc')
                 ->paginate(15)
                 ->withQueryString(),

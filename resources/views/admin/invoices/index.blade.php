@@ -11,7 +11,7 @@
         <table class="table table-bordered table-striped">
             <thead>
             <tr style="border-top: 3px solid #0D6EFD;">
-                <th style="min-width: 100px">Date</th>
+                <th style="min-width: 110px">Date</th>
                 <th style="min-width: 50px">Amount</th>
                 <th style="min-width: 50px">Tax</th>
                 <th style="min-width: 50px">Fee</th>
