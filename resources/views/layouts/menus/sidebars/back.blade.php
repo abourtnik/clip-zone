@@ -24,7 +24,7 @@
             <ul class="nav nav-pills flex-column text-center">
                 <li class="nav-item">
                     <a
-                        @class(['nav-link hover-grey rounded-0 d-flex align-items-center gap-4 bg-primary bg-opacity-25 text-black', 'bg-light-dark fw-bold text-primary border-start border-5 border-primary' => URL::current() === route('user.edit')])
+                        @class(['nav-link hover-grey rounded-0 d-flex align-items-center gap-4 bg-primary bg-opacity-25 text-black py-3', 'bg-light-dark fw-bold text-primary border-start border-5 border-primary' => URL::current() === route('user.edit')])
                         href="{{route('user.edit')}}"
                         aria-current="page"
                     >
