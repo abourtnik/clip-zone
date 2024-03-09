@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ExportService
 {
-    public function generate($type) :void
+    public function generate(string $type, array $filters = []): void
     {
         $export = ExportModel::create([
             'status' => ExportStatus::PENDING
         ]);
 
-        Export::dispatch(Auth::user(), $type, $export);
+        Export::dispatch(Auth::user(), $type, $export, $filters);
     }
 }

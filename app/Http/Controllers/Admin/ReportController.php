@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Enums\ReportReason;
 use App\Enums\ReportStatus;
-use App\Filters\ReportFilters;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\Report;
@@ -16,9 +14,9 @@ use Illuminate\Http\RedirectResponse;
 
 class ReportController extends Controller
 {
-    public function index(ReportFilters $filters) : View {
+    public function index() : View {
         return view('admin.reports.index', [
-            'reports' => Report::filter($filters)
+            'reports' => Report::filter()
                 ->with([
                     'user',
                     'reportable' => function (MorphTo $morphTo) {
@@ -31,10 +29,7 @@ class ReportController extends Controller
                 ])
                 ->orderBy('created_at', 'desc')
                 ->paginate(12)
-                ->withQueryString(),
-            'filters' => $filters->receivedFilters(),
-            'reasons' => ReportReason::get(),
-            'status' => ReportStatus::get(),
+                ->withQueryString()
         ]);
     }
 

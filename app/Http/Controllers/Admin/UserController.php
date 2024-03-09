@@ -14,9 +14,9 @@ use Illuminate\Http\Request;
 
 class UserController
 {
-    public function index (UserFilters $filters) : View {
+    public function index () : View {
         return view('admin.users.index', [
-            'users' => User::filter($filters)
+            'users' => User::filter()
                 ->with('premium_subscription')
                 ->withCount([
                     'subscribers',
@@ -28,7 +28,6 @@ class UserController
                 ->orderBy('created_at', 'desc')
                 ->paginate(15)
                 ->withQueryString(),
-            'filters' => $filters->receivedFilters()
         ]);
     }
 
@@ -63,10 +62,12 @@ class UserController
         return redirect()->route('admin.users.index');
     }
 
-    public function export (ExportService $exportService): RedirectResponse {
+    public function export (Request $request, ExportService $exportService): RedirectResponse {
 
-        $exportService->generate(UsersExport::class);
+        $exportService->generate(UsersExport::class, $request->query());
 
-        return redirect()->route('admin.users.index')->withSuccess('Your export has been queued. you will receive a notification when it is completed.');
+        return redirect()
+            ->route('admin.users.index', $request->query())
+            ->withSuccess('Your export has been queued. you will receive a notification when it is completed.');
     }
 }

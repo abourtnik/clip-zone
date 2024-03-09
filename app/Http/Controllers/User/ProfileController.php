@@ -3,13 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use App\Events\UserSubscribed;
-use App\Filters\CommentFilters;
-use App\Filters\InteractionFilters;
-use App\Filters\SubscriberFilters;
-use App\Filters\VideoFilters;
-use App\Filters\ViewFilters;
 use App\Helpers\File;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Pivots\Subscription;
 use App\Models\User;
 use App\Models\Video;
 use App\Notifications\Account\DeleteAccount;
@@ -25,42 +21,36 @@ use Symfony\Component\Intl\Countries;
 
 class ProfileController
 {
-    public function index(
-        VideoFilters $videoFilter,
-        CommentFilters $commentFilters,
-        SubscriberFilters $subscriberFilters,
-        InteractionFilters $interactionFilters,
-        ViewFilters $viewFilters,
-    ) : View
+    public function index() : View
     {
         return view('users.index', [
             'user' => Auth::user()->load([
-                'videos' => function ($query) use ($videoFilter) {
+                'videos' => function ($query) {
                     $query
-                        ->filter($videoFilter)
+                        ->filter()
                         ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
                         ->orderBy('created_at', 'desc')
                         ->limit(5);
                 },
-                'subscribers' => function ($query) use ($subscriberFilters) {
+                'subscribers' => function ($query) {
                     $query
-                        ->filter($subscriberFilters)
+                        ->filter()
                         ->withCount('subscribers')
                         ->orderBy('subscribe_at', 'desc')
                         ->limit(5);
                 },
-                "videos_comments" => function ($query) use ($commentFilters) {
+                "videos_comments" => function ($query) {
                     $query
-                        ->filter($commentFilters)
+                        ->filter()
                         ->with(['user', 'video'])
                         ->whereNull('parent_id')
                         ->withCount('replies')
                         ->orderBy('created_at', 'desc')
                         ->limit(5);
                 },
-                "videos_interactions" => function ($query) use ($interactionFilters) {
+                "videos_interactions" => function ($query) {
                     $query
-                        ->filter($interactionFilters)
+                        ->filter()
                         ->with([
                             'likeable' => function (MorphTo $morphTo) {
                                 $morphTo->morphWith([
@@ -73,15 +63,14 @@ class ProfileController
                         ->limit(5);
                 }
             ])->loadCount([
-                'subscribers' => fn($query) => $query->filter($subscriberFilters),
-                'videos_views' => fn($query) => $query->filter($viewFilters),
-                'videos_interactions' => fn($query) => $query->whereHasMorph('likeable', Video::class, fn($query) => $query->whereHas('interactions', fn($query) => $query->filter($interactionFilters))),
-                'videos' => fn($query) => $query->filter($videoFilter),
-                'videos_comments' => fn($query) => $query->filter($commentFilters),
-                'videos_likes' => fn($query) => $query->whereHasMorph('likeable', Video::class, fn($query) => $query->whereHas('likes', fn($query) => $query->filter($interactionFilters))),
-                'videos_dislikes' => fn($query) => $query->whereHasMorph('likeable', Video::class, fn($query) => $query->whereHas('dislikes', fn($query) => $query->filter($interactionFilters))),
+                'subscribers' => fn($query) => $query->filter(),
+                'videos_views' => fn($query) => $query->filter(),
+                'videos_interactions' => fn($query) => $query->whereHasMorph('likeable', Video::class, fn($query) => $query->whereHas('interactions', fn($query) => $query->filter())),
+                'videos' => fn($query) => $query->filter(),
+                'videos_comments' => fn($query) => $query->filter(),
+                'videos_likes' => fn($query) => $query->whereHasMorph('likeable', Video::class, fn($query) => $query->whereHas('likes', fn($query) => $query->filter())),
+                'videos_dislikes' => fn($query) => $query->whereHasMorph('likeable', Video::class, fn($query) => $query->whereHas('dislikes', fn($query) => $query->filter())),
             ]),
-            'filters' => $videoFilter->receivedFilters()
         ]);
     }
 
@@ -93,20 +82,23 @@ class ProfileController
         ]);
     }
 
-    public function subscribers(SubscriberFilters $filters) : View {
+    public function subscribers() : View {
         return view('users.subscribers', [
-            'subscribers' => Auth::user()->load([
-                'subscribers' => function ($query) use ($filters) {
-                    $query
-                        ->filter($filters)
-                        ->withCount(['subscribers as is_subscribe_to_current_user' => function($query) {
-                            $query->where('subscriber_id', Auth::id());
-                        }])
-                    ->withCount('subscribers')
-                    ->orderBy('subscribe_at', 'desc');
-                }
-            ])->subscribers()->paginate(15),
-            'filters' => $filters->receivedFilters()
+            'subscriptions' => Subscription::query()
+                ->where('user_id', Auth::id())
+                ->filter()
+                ->with([
+                    'subscriber' => function ($query) {
+                        return $query
+                            ->withCount('subscribers')
+                            ->withExists([
+                                'subscribers as is_current_user_subscribe' => fn($query) => $query->where('subscriber_id', Auth::id())
+                            ]);
+                    }
+                ])
+                ->orderBy('subscribe_at', 'desc')
+                ->paginate(15)
+                ->withQueryString()
         ]);
     }
 

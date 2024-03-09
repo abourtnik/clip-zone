@@ -22,7 +22,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon $perform_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $subject
  * @property-read mixed $type
- * @method static \Illuminate\Database\Eloquent\Builder|Activity filter(\App\Filters\Drivers\MySQLFilter $filter)
+ * @method static \Illuminate\Database\Eloquent\Builder|Activity filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Activity newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Activity newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Activity query()
@@ -114,7 +114,7 @@ namespace App\Models{
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Video $video
  * @method static \Database\Factories\CommentFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Comment filter(\App\Filters\Drivers\MySQLFilter $filter)
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Comment public()
@@ -173,7 +173,7 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $likeable
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\InteractionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Interaction filter(\App\Filters\Drivers\MySQLFilter $filter)
+ * @method static \Illuminate\Database\Eloquent\Builder|Interaction filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Interaction newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Interaction newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Interaction query()
@@ -302,7 +302,10 @@ namespace App\Models\Pivots{
  * @property int $user_id
  * @property \Illuminate\Support\Carbon $subscribe_at
  * @property \Illuminate\Support\Carbon $read_at
+ * @property-read \App\Models\User|null $subscriber
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\Pivots\SubscriptionFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Subscription filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Subscription query()
@@ -368,7 +371,7 @@ namespace App\Models{
  * @property-read int|null $videos_count
  * @method static \Illuminate\Database\Eloquent\Builder|Playlist active()
  * @method static \Database\Factories\PlaylistFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist filter(\App\Filters\Drivers\MySQLFilter $filter)
+ * @method static \Illuminate\Database\Eloquent\Builder|Playlist filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Playlist newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Playlist newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Playlist query()
@@ -405,7 +408,7 @@ namespace App\Models{
  * @property-read mixed $type
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\ReportFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Report filter(\App\Filters\Drivers\MySQLFilter $filter)
+ * @method static \Illuminate\Database\Eloquent\Builder|Report filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Report newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Report newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Report query()
@@ -666,7 +669,7 @@ namespace App\Models{
  * @property-read int|null $videos_comments_interactions_count
  * @method static \Illuminate\Database\Eloquent\Builder|User active()
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|User filter(\App\Filters\Drivers\MySQLFilter $filter)
+ * @method static \Illuminate\Database\Eloquent\Builder|User filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder|User hasExpiredGenericTrial()
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
@@ -778,7 +781,7 @@ namespace App\Models{
  * @property-read int|null $views_count
  * @method static \Illuminate\Database\Eloquent\Builder|Video active()
  * @method static \Database\Factories\VideoFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Video filter(\App\Filters\Drivers\MySQLFilter $filter)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder|Video newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Video newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Video notActive()
@@ -829,7 +832,7 @@ namespace App\Models{
  * @property-read \App\Models\Video|null $user
  * @property-read \App\Models\Video $video
  * @method static \Database\Factories\ViewFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|View filter(\App\Filters\Drivers\MySQLFilter $filter)
+ * @method static \Illuminate\Database\Eloquent\Builder|View filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder|View newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|View newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|View query()

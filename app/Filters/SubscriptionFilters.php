@@ -6,7 +6,7 @@ use App\Filters\Drivers\MySQLFilter;
 use App\Filters\Traits\DateFilter;
 use Illuminate\Database\Eloquent\Builder;
 
-class SubscriberFilters extends MySQLFilter
+class SubscriptionFilters extends MySQLFilter
 {
     use DateFilter;
 
@@ -16,6 +16,6 @@ class SubscriberFilters extends MySQLFilter
     {
         $match = '%'.$search.'%';
 
-        return $this->builder->where('username' , 'LIKE', $match);
+        return $this->builder->whereRelation('subscriber' ,'username', 'LIKE', $match);
     }
 }

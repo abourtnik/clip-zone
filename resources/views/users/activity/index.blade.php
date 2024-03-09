@@ -1,3 +1,5 @@
+@use('App\Filters\Forms\User\ActivityFiltersForm')
+
 @extends('layouts.user')
 
 @section('title', 'Channel Activity')
@@ -7,47 +9,13 @@
         <h2>My Activity</h2>
     </div>
     <hr>
-    <div x-data="{ filters: window.innerWidth > 992 }">
-        <button class="btn btn-primary btn-sm d-flex d-lg-none align-items-center gap-2 mb-3" @click="filters = !filters">
-            <i class="fa-solid fa-filter"></i>
-            <span>{{ __('Filters') }}</span>
-            <i class="fa-solid fa-chevron-down" x-show.important="!filters" ></i>
-            <i class="fa-solid fa-chevron-up" x-show.important="filters" ></i>
-        </button>
-        <form class="mb-4 row align-items-end gx-2 gy-2" method="GET" x-show.important="filters">
-            <div class="col-12 col-lg">
-                <label for="type" class="form-label fw-bold">Type</label>
-                <select name="type" class="form-select" aria-label="Default select example">
-                    <option selected value="">All</option>
-                    @foreach($types as $value => $label)
-                        <option @selected(($filters['type'] ?? null) === $value) value="{{$value}}">{{$label}}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-12 col-sm-6 col-lg">
-                <label for="date_start" class="form-label fw-bold">Date start</label>
-                <input type="datetime-local" name="date_start" class="form-control" id="date_start" value="{{$filters['date_start'] ?? null}}">
-            </div>
-            <div class="col-12 col-sm-6 col-lg">
-                <label for="date_end" class="form-label fw-bold">Date end</label>
-                <input type="datetime-local" name="date_end" class="form-control" id="date_end" value="{{$filters['date_end'] ?? null}}">
-            </div>
-            <div class="btn-group col-auto">
-                <button type="submit" class="btn btn-outline-secondary" title="Search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
-                    <i class="fa-solid fa-eraser"></i>
-                </a>
-            </div>
-        </form>
-    </div>
+    {!! form(FormBuilder::create(ActivityFiltersForm::class)) !!}
     <div class="row">
         <div class="col-xl-8 order-last order-xl-first">
             <div class="card card-body">
                 <h5 class="text-primary">Activity</h5>
                 <hr>
-                @if($activities->total() || $filters)
+                @if($activities->total() || request()->all())
                     @forelse($activities as $activity)
                         @include('users.activity.types.'. $activity->type)
                     @empty

@@ -12,6 +12,7 @@
         "fakerphp/faker": "^1.9.1",
         "guzzlehttp/guzzle": "^7.2",
         "http-interop/http-factory-guzzle": "^1.2",
+        "kris/laravel-form-builder": "^1.52",
         "lab404/laravel-impersonate": "^1.7",
         "laravel/cashier": "^14.12",
         "laravel/framework": "^v10.42.0",

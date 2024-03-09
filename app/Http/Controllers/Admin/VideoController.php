@@ -4,18 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use App\Enums\VideoStatus;
 use App\Events\Video\VideoBanned;
-use App\Filters\VideoFilters;
-use App\Models\Category;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class VideoController
 {
-    public function index (VideoFilters $filters) : View {
+    public function index () : View {
         return view('admin.videos.index', [
-            'videos' => Video::query()
-                ->filter($filters)
+            'videos' => Video::filter()
                 ->with([
                     'category:id,title',
                     'user' => fn($q) => $q->withCount(['videos', 'subscribers'])
@@ -23,10 +20,7 @@ class VideoController
                 ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
                 ->latest('created_at')
                 ->paginate(15)
-                ->withQueryString(),
-            'filters' => $filters->receivedFilters(),
-            'status' => VideoStatus::getAll(),
-            'categories' => Category::all(),
+                ->withQueryString()
         ]);
     }
 

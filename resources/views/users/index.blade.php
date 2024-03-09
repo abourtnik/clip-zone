@@ -1,46 +1,11 @@
+@use('App\Filters\Forms\User\DashboardFiltersForm')
+
 @extends('layouts.user')
 
 @section('title', 'Channel dashboard')
 
 @section('content')
-    <div x-data="{ filters: window.innerWidth > 992 }">
-        <button class="btn btn-primary btn-sm d-flex d-lg-none align-items-center gap-2 mb-3" @click="filters = !filters">
-            <i class="fa-solid fa-filter"></i>
-            <span>{{ __('Filters') }}</span>
-            <i class="fa-solid fa-chevron-down" x-show.important="!filters" ></i>
-            <i class="fa-solid fa-chevron-up" x-show.important="filters" ></i>
-        </button>
-        <form class="mb-4 d-flex flex-wrap gap-3 align-items-end" method="GET" x-show.important="filters">
-            <div class="col-12 col-sm">
-                <label for="date_start" class="form-label fw-bold">Date start</label>
-                <input
-                    type="datetime-local"
-                    name="date_start"
-                    class="form-control"
-                    id="date_start"
-                    value="{{$filters['date_start'] ?? null}}"
-                >
-            </div>
-            <div class="col-12 col-sm">
-                <label for="date_end" class="form-label fw-bold">Date end</label>
-                <input
-                    type="datetime-local"
-                    name="date_end"
-                    class="form-control"
-                    id="date_end"
-                    value="{{$filters['date_end'] ?? null}}"
-                >
-            </div>
-            <div class="btn-group">
-                <button type="submit" class="btn btn-outline-secondary" title="Search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
-                    <i class="fa-solid fa-eraser"></i>
-                </a>
-            </div>
-        </form>
-    </div>
+    {!! form(FormBuilder::create(DashboardFiltersForm::class)) !!}
     <div class="row mb-4">
         <div class="col-12 col-sm-4 col-md-4 col-xl-3 col-xxl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
@@ -119,7 +84,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($user->videos_count || $filters)
+                    @if($user->videos_count || request()->all())
                         <div class="table-responsive">
                             <table class="table">
                             <thead>
@@ -218,7 +183,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($user->subscribers_count || $filters)
+                    @if($user->subscribers_count || request()->all())
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -287,7 +252,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($user->videos_comments_count || $filters)
+                    @if($user->videos_comments_count || request()->all())
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -372,7 +337,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($user->videos_interactions_count || $filters)
+                    @if($user->videos_interactions_count || request()->all())
                         <div class="table-responsive">
                             <table class="table">
                             <thead>

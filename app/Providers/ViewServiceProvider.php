@@ -30,12 +30,7 @@ class ViewServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer([
-            'admin.videos.index',
-            'admin.comments.index',
-            'admin.reports.index',
-            'users.comments.index'
-        ], FilterComposer::class);
+        View::composer('forms.fields.autocomplete', FilterComposer::class);
 
         View::composer('layouts.menus.sidebars.front', SidebarComposer::class);
 

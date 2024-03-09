@@ -28,20 +28,23 @@ class Export implements ShouldQueue
      */
     public int $timeout = 120;
 
+
     public User $user;
     private string $exportType;
     private ExportModel $export;
+    private array $filters;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(User $user, string $exportType, ExportModel $export)
+    public function __construct(User $user, string $exportType, ExportModel $export, array $filters)
     {
         $this->user = $user;
         $this->exportType = $exportType;
         $this->export = $export;
+        $this->filters = $filters;
     }
 
     /**
@@ -51,7 +54,7 @@ class Export implements ShouldQueue
      */
     public function handle() : void
     {
-        $class = new $this->exportType();
+        $class = new $this->exportType($this->filters);
         $fileName = $class->fileName.'-'.Carbon::now()->timestamp.'.csv';
 
         Excel::store($class, ExportModel::EXPORT_FOLDER.'/'.$fileName, null, BaseExcel::CSV);

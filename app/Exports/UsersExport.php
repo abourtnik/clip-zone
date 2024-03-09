@@ -15,9 +15,16 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping, WithColu
 {
     public string $fileName = 'users';
 
+    private array $filters;
+
+    public function __construct(array $filters)
+    {
+        $this->filters = $filters;
+    }
+
     public function collection() : Collection
     {
-        return User::all();
+        return User::filter($this->filters)->get();
     }
 
     public function headings(): array

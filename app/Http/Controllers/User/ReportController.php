@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Enums\ReportReason;
-use App\Enums\ReportStatus;
-use App\Filters\ReportFilters;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Report\ReportRequest;
 use App\Models\Comment;
@@ -19,11 +16,10 @@ use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
-    public function index(ReportFilters $filters) : View {
+    public function index() : View {
         return view('users.reports.index', [
-            'reports' => Report::query()
+            'reports' => Report::filter()
                 ->where('user_id', Auth::id())
-                ->filter($filters)
                 ->with([
                     'reportable' => function (MorphTo $morphTo) {
                         $morphTo->morphWith([
@@ -35,10 +31,7 @@ class ReportController extends Controller
                 ])
                 ->orderBy('created_at', 'desc')
                 ->paginate(15)
-                ->withQueryString(),
-            'filters' => $filters->receivedFilters(),
-            'reasons' => ReportReason::get(),
-            'status' => ReportStatus::get(),
+                ->withQueryString()
         ]);
     }
 

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Filters\CommentFilters;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Contracts\View\View;
@@ -10,9 +9,9 @@ use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller
 {
-    public function index(CommentFilters $filters) : View {
+    public function index() : View {
         return view('admin.comments.index', [
-            'comments' => Comment::filter($filters)
+            'comments' => Comment::filter()
                     ->with([
                         'video' => fn($q) => $q->with('user'),
                         'user'
@@ -21,8 +20,7 @@ class CommentController extends Controller
                     ->withCount(['likes', 'dislikes', 'interactions', 'replies'])
                     ->orderBy('created_at', 'desc')
                     ->paginate(12)
-                    ->withQueryString(),
-            'filters' => $filters->receivedFilters()
+                    ->withQueryString()
         ]);
     }
 

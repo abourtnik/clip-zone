@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use App\Enums\PlaylistStatus;
-use App\Filters\PlaylistFilters;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Playlist\StorePlaylistRequest;
 use App\Http\Requests\Playlist\UpdatePlaylistRequest;
@@ -27,14 +26,13 @@ class PlaylistController extends Controller
         $this->authorizeResource(Playlist::class, 'playlist');
     }
 
-    public function index(PlaylistFilters $filters): View {
+    public function index(): View {
         return view('users.playlists.index', [
-            'playlists' => Playlist::where('user_id', Auth::user()->id)
+            'playlists' => Playlist::filter()
+                ->where('user_id', Auth::user()->id)
                 ->withCount(['videos'])
                 ->paginate(15)
-                ->withQueryString(),
-            'status' => PlaylistStatus::get(),
-            'filters' => $filters->receivedFilters(),
+                ->withQueryString()
         ]);
     }
 

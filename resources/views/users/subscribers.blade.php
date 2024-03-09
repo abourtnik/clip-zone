@@ -1,82 +1,55 @@
+@use('App\Filters\Forms\User\SubscriberFiltersForm')
+
 @extends('layouts.user')
 
 @section('title', 'Channel subscribers')
 
 @section('content')
-    @if($subscribers->total() || $filters)
+    @if($subscriptions->total() || request()->all())
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2>My Subscribers</h2>
         </div>
         <hr>
-        <div x-data="{ filters: window.innerWidth > 992 }">
-            <button class="btn btn-primary btn-sm d-flex d-lg-none align-items-center gap-2 mb-3" @click="filters = !filters">
-                <i class="fa-solid fa-filter"></i>
-                <span>{{ __('Filters') }}</span>
-                <i class="fa-solid fa-chevron-down" x-show.important="!filters" ></i>
-                <i class="fa-solid fa-chevron-up" x-show.important="filters" ></i>
-            </button>
-            <form class="mb-4 row align-items-end gx-2 gy-2" method="GET" x-show.important="filters">
-                <div class="col-12 col-lg">
-                    <label for="search" class="form-label fw-bold">Search</label>
-                    <input type="search" class="form-control" id="search" placeholder="Search" name="search" value="{{$filters['search'] ?? null}}">
-                </div>
-                <div class="col-12 col-sm-6 col-lg">
-                    <label for="date_start" class="form-label fw-bold">Subscription date start</label>
-                    <input type="datetime-local" name="date_start" class="form-control" id="subscription_date_start" value="{{$filters['date_start'] ?? null}}">
-                </div>
-                <div class="col-12 col-sm-6 col-lg">
-                    <label for="date_end" class="form-label fw-bold">Subscription date end</label>
-                    <input type="datetime-local" name="date_end" class="form-control" id="date_end" value="{{$filters['date_end'] ?? null}}">
-                </div>
-                <div class="btn-group col-auto">
-                    <button type="submit" class="btn btn-outline-secondary" title="Search">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
-                    <a href="?clear=1" class="btn btn-outline-secondary" title="Clear">
-                        <i class="fa-solid fa-eraser"></i>
-                    </a>
-                </div>
-            </form>
-        </div>
+        {!! form(FormBuilder::create(SubscriberFiltersForm::class)) !!}
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
                     <th scope="col" style="min-width: 200px;">Channel</th>
-                    <th scope="col" style="min-width: 174px;">Date of subscription</th>
+                    <th scope="col" style="min-width: 174px;">Subscribed at</th>
                     <th scope="col" style="min-width: 159px;">Subscribers count</th>
                     <th scope="col" style="min-width: 151px;">Registration date</th>
                     <th scope="col">Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                @forelse($subscribers as $subscriber)
+                @forelse($subscriptions as $subscription)
                     <tr class="bg-light">
                         <td>
-                            <a href="{{$subscriber->route}}" class="d-flex align-items-center gap-2 text-decoration-none">
-                                <img class="rounded" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 50px;">
-                                <span>{{$subscriber->username}}</span>
+                            <a href="{{$subscription->subscriber->route}}" class="d-flex align-items-center gap-2 text-decoration-none">
+                                <img class="rounded" src="{{$subscription->subscriber->avatar_url}}" alt="{{$subscription->subscriber->username}} avatar" style="width: 50px;">
+                                <span>{{$subscription->subscriber->username}}</span>
                             </a>
                         </td>
                         <td class="align-middle">
-                            <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}">
-                                {{$subscriber->pivot->subscribe_at->diffForHumans()}}
+                            <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscription->subscribe_at->format('d F Y - H:i')}}">
+                                {{$subscription->subscribe_at->diffForHumans()}}
                             </div>
                         </td>
                         <td class="align-middle">
                             <span class="text-sm">
-                                 {{trans_choice('subscribers', $subscriber->subscribers_count)}}
+                                 {{trans_choice('subscribers', $subscription->subscriber->subscribers_count)}}
                             </span>
                         </td>
                         <td class="align-middle">
-                            <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscriber->created_at->format('d F Y - H:i')}}">
-                                {{$subscriber->created_at->diffForHumans()}}
+                            <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscription->subscriber->created_at->format('d F Y - H:i')}}">
+                                {{$subscription->subscriber->created_at->diffForHumans()}}
                             </div>
                         </td>
                         <td class="align-middle">
                             <subscribe-button
-                                @if(!$subscriber->is_subscribe_to_current_user) is-subscribe @endif
-                                user="{{$subscriber->id}}"
+                                @if(!$subscription->subscriber->is_current_user_subscribe) is-subscribe @endif
+                                user="{{$subscription->subscriber->id}}"
                                 size="sm"
                             />
                         </td>
@@ -92,7 +65,7 @@
                 </tbody>
             </table>
         </div>
-        {{ $subscribers->links() }}
+        {{ $subscriptions->links() }}
     @else
         <div class="card shadow">
             <div class="card-body d-flex justify-content-center align-items-center">

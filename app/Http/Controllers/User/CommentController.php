@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Filters\CommentFilters;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    public function index(CommentFilters $filters) : View {
+    public function index() : View {
+
         return view('users.comments.index', [
             'comments' => Comment::query()
-                ->where('user_id', Auth::id())
+                ->whereHas('video', function (Builder $query) {
+                    $query->where('user_id', Auth::id());
+                })
                 ->whereNull('parent_id')
-                ->filter($filters)
+                ->filter()
                 ->with([
                     'video',
                     'user' => function ($query) {
@@ -28,9 +31,7 @@ class CommentController extends Controller
                 ->withCount(['likes', 'dislikes', 'interactions', 'replies'])
                 ->orderBy('created_at', 'desc')
                 ->paginate(15)
-                ->withQueryString(),
-            'videos' => Auth::user()->videos,
-            'filters' => $filters->receivedFilters(),
+                ->withQueryString()
         ]);
     }
 
