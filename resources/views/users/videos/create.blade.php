@@ -115,19 +115,35 @@
             <div class="col-xl-5 col-xxl-4 order-first order-xl-last mb-4 mb-xl-0">
                 <div class="card shadow-soft h-100">
                     <div class="card-body">
-                        <div class="ratio ratio-16x9">
-                            @if($video->is_uploading)
+                        <div
+                            class="ratio ratio-16x9"
+                            x-data="{loading: false, video: {{$video->is_uploading ? 'false' : json_encode(['url' => $video->file_url, 'mimetype' => $video->mimetype])}} }"
+                            @uploaded.window="loading=true"
+                            @terminate.window="loading= false; video = $event.detail"
+                        >
+                            <template x-if="!video">
                                 <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
                                     <div class="text-center">
                                         <div class="mb-2">Your video is processing ...</div>
                                         <div class="text-muted text-sm">You will receive a notification once the processing is complete.</div>
                                     </div>
                                 </div>
-                            @else
+                            </template>
+                            <template x-if="loading">
+                                <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
+                                    <div class="text-center">
+                                        <div class="mb-4 fw-bold text-danger">Your video is almost ready ...</div>
+                                        <div class="spinner-border text-danger" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="video">
                                 <video controls class="w-100 border" controlsList="nodownload" onloadstart="this.volume=0.5">
-                                    <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
+                                    <source x-bind:src="video.url" x-bind:type="video.mimetype">
                                 </video>
-                            @endif
+                            </template>
                         </div>
                         <div class="bg-light border mt-2 px-3 py-2 d-flex flex-column gap-3">
                             <div class="d-flex justify-content-between align-items-center">
@@ -260,15 +276,30 @@
     @include('users.partials.crop')
 @endsection
 
-<script>
-    document.addEventListener('alpine:init', () => {
-        const planned_value = document.getElementById('planned_value').textContent;
-        Alpine.data('planned', (initial) => ({
-            value: initial,
-            date: initial ? '{{old('scheduled_date')}}' : '',
-            update(e) {
-                this.value = e.target.options[e.target.selectedIndex].index == planned_value;
-            }
-        }));
-    })
-</script>
+@push('scripts')
+    <script>
+        document.addEventListener('alpine:init', () => {
+            const planned_value = document.getElementById('planned_value').textContent;
+            Alpine.data('planned', (initial) => ({
+                value: initial,
+                date: initial ? '{{old('scheduled_date')}}' : '',
+                update(e) {
+                    this.value = e.target.options[e.target.selectedIndex].index == planned_value;
+                }
+            }));
+        })
+
+        document.addEventListener("DOMContentLoaded", function(event) {
+            window.PRIVATE_CHANNEL.listen('.video.uploaded', (data) => {
+
+                window.dispatchEvent(new CustomEvent('uploaded'));
+
+                setTimeout(() => {
+                    window.dispatchEvent(new CustomEvent('terminate', {detail: data}));
+                }, 4000)
+
+            });
+        })
+    </script>
+@endpush
+

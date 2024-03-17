@@ -70,7 +70,7 @@ class ProfileController
                 'videos_comments' => fn($query) => $query->filter(),
                 'videos_likes' => fn($query) => $query->whereHasMorph('likeable', Video::class, fn($query) => $query->whereHas('likes', fn($query) => $query->filter())),
                 'videos_dislikes' => fn($query) => $query->whereHasMorph('likeable', Video::class, fn($query) => $query->whereHas('dislikes', fn($query) => $query->filter())),
-            ]),
+            ])
         ]);
     }
 

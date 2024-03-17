@@ -27,7 +27,7 @@ class InteractionsResource extends JsonResource
                 'username' => $this->user->username,
                 'avatar' => $this->user->avatar_url,
                 'route' => $this->user->route,
-                'is_subscribe' => $this->user->is_subscribe_to_current_user > 0
+                'is_auth_subscribe' => $this->user->is_auth_subscribe
             ],
             'video' => [
                 'id' => $this->likeable->id

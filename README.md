@@ -16,8 +16,8 @@ Open Source Youtube Clone
 
 ## Technical detail
 
-* Backend : PHP 8.1, Laravel 9 , MySQL
-* Frontend : Preact, Alpine JS, Boostrap 5.2
+* Backend : PHP 8.1, Laravel 10, MySQL
+* Frontend : Preact, Alpine JS, Boostrap 5.3
 
 ## Installation
 

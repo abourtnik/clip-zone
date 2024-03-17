@@ -26,9 +26,8 @@ class ActivityController extends Controller
                 'activity as comment_dislikes_count' => fn($query) => $query->filter($datesFilters)->whereHasMorph('subject', [Interaction::class], fn($query) => $query->whereHasMorph('likeable', [Comment::class])->where('status', false)),
                 'activity as comments_count' => fn($query) => $query->filter($datesFilters)->whereHasMorph('subject', [Comment::class]),
             ]),
-            'activities' => Activity::query()
+            'activities' => Activity::filter()
                 ->where('user_id', Auth::id())
-                ->filter()
                 ->with([
                     'subject' => function (MorphTo $morphTo) {
                         $morphTo->morphWith([

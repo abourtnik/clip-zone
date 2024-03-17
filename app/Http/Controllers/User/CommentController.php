@@ -14,20 +14,12 @@ class CommentController extends Controller
     public function index() : View {
 
         return view('users.comments.index', [
-            'comments' => Comment::query()
+            'comments' => Comment::filter()
                 ->whereHas('video', function (Builder $query) {
                     $query->where('user_id', Auth::id());
                 })
                 ->whereNull('parent_id')
-                ->filter()
-                ->with([
-                    'video',
-                    'user' => function ($query) {
-                        $query->withCount(['subscriptions as is_subscribe_to_current_user' => function ($query) {
-                            $query->where('user_id', Auth::id());
-                        }]);
-                    }
-                ])
+                ->with(['video', 'user'])
                 ->withCount(['likes', 'dislikes', 'interactions', 'replies'])
                 ->orderBy('created_at', 'desc')
                 ->paginate(15)

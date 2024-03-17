@@ -41,9 +41,6 @@
                                 <div>
                                     <div class="d-flex align-items-center">
                                         <a class="text-sm text-decoration-none" href="{{$comment->user->route}}">{{$comment->user->username}}</a>
-                                        @if($comment->user->is_subscribe_to_current_user)
-                                            <small class="text-muted">&nbsp;• <span class="text-danger">Subscriber</span></small>
-                                        @endif
                                         <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
                                         @if($comment->is_updated)
                                             <small class="text-muted text-muted fw-semibold">&nbsp;• Modified</small>

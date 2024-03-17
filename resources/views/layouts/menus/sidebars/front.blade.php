@@ -83,7 +83,7 @@
                                 <img style="width: 24px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
                                 <span class="text-sm text-nowrap">{{Str::limit($user->username, 20)}}</span>
                             </div>
-                            @if($user->new_videos)
+                            @if($user->has_new_video)
                                 <span class="bg-primary rounded-circle" style="width: 8px;height: 8px"></span>
                             @endif
                         </x-sidebar-item>

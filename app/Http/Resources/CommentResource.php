@@ -43,8 +43,8 @@ class CommentResource extends JsonResource
             'is_updated' => $this->is_updated,
             'likes_count' => $this->likes_count,
             'dislikes_count' => $this->dislikes_count,
-            'liked_by_auth_user' => $this->resource->liked_by_auth_user > 0,
-            'disliked_by_auth_user' => $this->resource->disliked_by_auth_user > 0,
+            'liked_by_auth_user' => $this->resource->liked_by_auth_user,
+            'disliked_by_auth_user' => $this->resource->disliked_by_auth_user,
             'can_delete' => Auth::user()?->can('delete', $this->resource) ?? false,
             'can_update' => Auth::user()?->can('update', $this->resource) ?? false,
             'can_report' => Auth::user()?->can('report', $this->resource) ?? false,
@@ -62,7 +62,7 @@ class CommentResource extends JsonResource
             }),
             'is_pinned' => $this->is_pinned,
             'is_reply' => $this->is_reply,
-            'is_author_reply' => $this->when(!$this->is_reply, fn() => $this->resource->author_replies > 0),
+            'is_author_reply' => $this->when(!$this->is_reply, fn() => $this->resource->is_author_reply),
             'author' => $this->when(!$this->is_reply, function () {
                 return [
                     'username' => $this->video->user->username,

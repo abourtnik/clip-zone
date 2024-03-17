@@ -27,8 +27,8 @@ class SidebarComposer
             $view->with([
                 'subscriptions' => Auth::user()
                     ->subscriptions()
-                    ->withCount([
-                        'videos as new_videos' => function($query) {
+                    ->withExists([
+                        'videos as has_new_video' => function($query) {
                             return $query->active()->where('publication_date', '>', DB::raw('subscriptions.read_at'));
                         }
                     ])

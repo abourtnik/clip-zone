@@ -56,10 +56,7 @@ class SubscriptionController extends Controller
                 ->subscriptions()
                 ->withCount([
                     'subscribers',
-                    'videos',
-                    'subscribers as is_subscribe_to_current_user' => function($query) {
-                        $query->where('subscriber_id', Auth::id());
-                    }
+                    'videos'
                 ])
                 ->latest('subscribe_at')
                 ->get()

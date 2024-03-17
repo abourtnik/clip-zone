@@ -9,25 +9,5 @@
             </div>
             <span style="position: absolute;inset: 0;"></span>
         </a>
-        @if(Auth::check() && !Auth::user()->is($user))
-            <subscribe-button
-                @if(!$user->is_subscribe_to_current_user) is-subscribe @endif
-                user="{{$user->id}}"
-                class="position-relative"
-            />
-        @elseif (!Auth::check())
-            <button
-                type="button"
-                class="btn btn-danger position-relative"
-                data-bs-toggle="popover"
-                data-bs-placement="right"
-                data-bs-title="{{ __('Want to subscribe to this channel ?') }}"
-                data-bs-trigger="focus"
-                data-bs-html="true"
-                data-bs-content="{{ __('Sign in to subscribe to this channel.') }}<hr><a href='/login' class='btn btn-primary btn-sm'>{{ __('Sign In') }}</a>"
-            >
-                {{ __('Subscribe') }}
-            </button>
-        @endauth
     </div>
 </article>

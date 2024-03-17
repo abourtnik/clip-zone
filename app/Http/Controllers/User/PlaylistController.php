@@ -39,7 +39,7 @@ class PlaylistController extends Controller
     public function list(Video $video): ResourceCollection {
         return PlaylistResource::collection(
             Playlist::where('user_id', Auth::user()->id)
-                ->withCount([
+                ->withExists([
                     'videos as has_video' => fn($q) => $q->where('video_id', $video->id)
                 ])
                 ->paginate(20)

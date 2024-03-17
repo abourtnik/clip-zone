@@ -99,7 +99,9 @@ class VideoController
                     'views',
                     'likes',
                     'dislikes',
-                    'comments',
+                    'comments'
+                ])
+                ->loadExists([
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                 ]),

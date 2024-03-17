@@ -63,10 +63,16 @@
             @include('layouts.menus.account')
         @endif
     </main>
-    @stack('scripts')
-    <script>
+    <script type="text/javascript">
         window.USER = {!! Auth::check() ? Auth::user()->json  : 'null' !!}
         window.LANG = '{{app()->getLocale()}}'
+
+        @if (Auth::check())
+            document.addEventListener("DOMContentLoaded", function(event) {
+                window.PRIVATE_CHANNEL = window.Echo.private(`App.Models.User.${window.USER.id}`);
+            });
+        @endif
     </script>
+    @stack('scripts')
 </body>
 </html>

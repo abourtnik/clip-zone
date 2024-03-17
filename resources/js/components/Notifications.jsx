@@ -1,7 +1,5 @@
 import {useState, useEffect, useCallback} from 'preact/hooks';
 import {memo} from 'preact/compat';
-import Echo from "laravel-echo";
-import Pusher from 'pusher-js';
 import {jsonFetch} from "../hooks";
 import Notification from "./Notification";
 
@@ -10,17 +8,7 @@ const Notifications = memo(({initial}) => {
     const [notifications, setNotifications] = useState(JSON.parse(initial));
 
     useEffect( async () => {
-
-        window.Pusher = Pusher;
-
-        window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: import.meta.env.VITE_PUSHER_APP_KEY,
-            cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-            forceTLS: true
-        });
-
-        window.Echo.private('App.Models.User.' + window.USER.id).notification(notification => {
+        window.PRIVATE_CHANNEL.notification(notification => {
             setNotifications(notifications => [notification, ...notifications]);
             document.getElementById('bell').classList.add('fa-shake')
             new Audio('/sounds/notification.mp3').play()

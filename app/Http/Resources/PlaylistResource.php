@@ -26,7 +26,7 @@ class PlaylistResource extends JsonResource
             'id' => $this->id,
             'title' => Str::limit($this->title, 90),
             'icon' => $this->status->icon(),
-            'has_video' => $this->whenNotNull($this->resource->has_video)
+            'has_video' => $this->resource->has_video
         ];
     }
 }

@@ -13,6 +13,7 @@ use App\Http\Requests\Video\StoreVideoRequest;
 use App\Http\Requests\Video\UpdateVideoRequest;
 use App\Jobs\BuildFullFileFromChunks;
 use App\Models\Category;
+use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
@@ -117,11 +118,12 @@ class VideoController extends Controller
             'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats()),
             'categories' => Category::all(),
             'languages' => Video::languages(),
-            'playlists' => Auth::user()->load([
-                'playlists' => fn($q) => $q->withCount([
+            'playlists' => Playlist::query()
+                ->where('user_id', Auth::id())
+                ->withExists([
                     'videos as has_video' => fn($q) => $q->where('video_id', $video->id)
                 ])
-            ])->playlists
+                ->get()
         ]);
     }
 

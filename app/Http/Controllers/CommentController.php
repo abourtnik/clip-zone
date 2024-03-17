@@ -57,7 +57,9 @@ class CommentController extends Controller
                             ])
                             ->withCount([
                                 'likes',
-                                'dislikes',
+                                'dislikes'
+                            ])
+                            ->withExists([
                                 'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                                 'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                             ])
@@ -70,10 +72,12 @@ class CommentController extends Controller
                 ->withCount([
                     'replies as total_replies' => fn($q) => $q->public(),
                     'likes',
-                    'dislikes',
+                    'dislikes'
+                ])
+                ->withExists([
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                    'replies as author_replies' => fn ($query) => $query->where('user_id', $video->user->id),
+                    'replies as is_author_reply' => fn($q) => $q->where('user_id', $video->user->id),
                 ])
                 ->when($video->pinned_comment, fn($query) => $query->orderByRaw('id <> ' .$video->pinned_comment->id))
                 ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
@@ -101,7 +105,9 @@ class CommentController extends Controller
                 ])
                 ->withCount([
                     'likes',
-                    'dislikes',
+                    'dislikes'
+                ])
+                ->withExists([
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ])

@@ -69,7 +69,7 @@ class InteractionController extends Controller
             $video->interactions()
                 ->with([
                     'user' => function ($query) {
-                        $query->withCount(['subscribers as is_subscribe_to_current_user' => function($query) {
+                        $query->withExists(['subscribers as is_auth_subscribe' => function($query) {
                             $query->where('subscriber_id', Auth::id());
                         }]);
                     },

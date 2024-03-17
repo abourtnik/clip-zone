@@ -7,6 +7,8 @@ import TomSelect from "tom-select";
 import 'htmx.org';
 import Cropper from 'cropperjs';
 import Sortable from 'sortablejs';
+import Echo from "laravel-echo";
+import Pusher from 'pusher-js';
 
 // LANG
 import './lang/config';
@@ -18,6 +20,22 @@ window.bootstrap = bootstrap;
 window.Alpine = Alpine
 window.Cropper = Cropper
 window.Sortable = Sortable
+window.Pusher = Pusher;
+
+
+// Laravel Echo
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    wsHost: import.meta.env.VITE_PUSHER_WEBSOCKETS_HOST,
+    wsPort: import.meta.env.VITE_PUSHER_PORT,
+    wssPort: import.meta.env.VITE_PUSHER_PORT,
+    forceTLS: false,
+    encrypted: true,
+    disableStats: true,
+    enabledTransports: ['ws', 'wss'],
+});
 
 Alpine.start()
 

@@ -102,7 +102,9 @@ export default function Interactions ({target}) {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <Subscribe isSubscribe={interaction.user.is_subscribe} user={interaction.user.id} size={'sm'}/>
+                                                    {
+                                                        interaction.user.id !== window.USER.id && <Subscribe isSubscribe={interaction.user.is_auth_subscribe} user={interaction.user.id} size={'sm'}/>
+                                                    }
                                                 </li>
                                             ))
                                         }
