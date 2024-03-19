@@ -69,7 +69,7 @@ Route::name('premium.')->middleware(['auth', 'can:premiumSubscribe,App\Models\Us
         ->name('subscribe');
 });
 
-// Lang
+// LANG
 Route::post('update-locale', [LangController::class, 'update'])->name('lang.update');
 
 // VIDEOS
@@ -77,25 +77,20 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
     Route::get('/video/{slug}-{video:uuid}', 'show')
         ->name('show')
         ->can('show', 'video')
-        ->where('slug', '[a-z0-9A-Z\-]+')
-        ->missing(fn(Request $request) => abort(404, 'Video not found'));
+        ->where('slug', '[a-z0-9A-Z\-]+');
     Route::get('/video/file/{video:file}', 'file')
         ->name('file')
-        ->can('file', 'video')
-        ->missing(fn(Request $request) => abort(404, 'Video not found'));
+        ->can('file', 'video');
     Route::get('/video/thumbnail/{video:uuid}', 'thumbnail')
         ->name('thumbnail')
-        ->can('thumbnail', 'video')
-        ->missing(fn(Request $request) => abort(404, 'Video not found'));
+        ->can('thumbnail', 'video');
     Route::get('/video/download/{video:uuid}', 'download')
         ->name('download')
-        ->can('download', 'video')
-        ->missing(fn(Request $request) => abort(404, 'Video not found'));
+        ->can('download', 'video');
     Route::get('/video/{video:uuid}/subtitles/{subtitle}', 'subtitles')
         ->scopeBindings()
         ->name('subtitles')
-        ->can('subtitles', 'video')
-        ->missing(fn(Request $request) => abort(404, 'Subtitle not found'));
+        ->can('subtitles', 'video');
     Route::get('/embed/{video:uuid}', 'embed')
         ->name('embed')
         ->missing(fn (Request $request) => response()->view('videos.embed.missing'));
@@ -105,8 +100,7 @@ Route::controller(VideoController::class)->name('video.')->group(function () {
 Route::controller(PlaylistController::class)->name('playlist.')->group(function () {
     Route::get('/playlist/{playlist:uuid}', 'show')
         ->name('show')
-        ->can('show', 'playlist')
-        ->missing(fn(Request $request) => abort(404, 'Playlist not found'));
+        ->can('show', 'playlist');
     Route::get('/{playlist}/favorite', 'favorite')->name('favorite');
     Route::get('/{playlist}/remove-favorite', 'removeFavorite')->name('remove-favorite');
     Route::get('/playlists/manage', 'manage')->name('manage')->middleware('auth');
@@ -116,8 +110,7 @@ Route::controller(PlaylistController::class)->name('playlist.')->group(function 
 Route::controller(UserController::class)->name('user.')->group(function () {
     Route::get('/user/{user}', 'show')
         ->name('show')
-        ->can('show', 'user')
-        ->missing(fn(Request $request) => abort(404, 'User not found'));
+        ->can('show', 'user');
 });
 
 // SEARCH
@@ -197,12 +190,10 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     Route::controller(VideoUserController::class)->prefix('videos')->name('videos.')->group(function () {
         Route::post('/{video}/pin', 'pin')
             ->name('pin')
-            ->can('pin', 'video')
-            ->missing(fn(Request $request) => abort(404, 'Video not found'));
+            ->can('pin', 'video');
         Route::post('/{video}/unpin', 'unpin')
             ->name('unpin')
-            ->can('unpin', 'video')
-            ->missing(fn(Request $request) => abort(404, 'Video not found'));
+            ->can('unpin', 'video');
         Route::get('{video}/create', 'create')
             ->name('create')
             ->can('update', 'video');
@@ -241,8 +232,7 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
         Route::get('/', 'index')->name('index');
         Route::get('/{transaction}', 'show')
             ->name('show')
-            ->can('show', 'transaction')
-            ->missing(fn(Request $request) => abort(404, 'Invoice not found'));;
+            ->can('show', 'transaction');
     });
 
     // Notifications
@@ -314,8 +304,7 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/{export}/download', 'download')
             ->name('download')
-            ->can('download', 'export')
-            ->missing(fn(Request $request) => abort(404, 'Export not found'));
+            ->can('download', 'export');
     });
 
     // Spam

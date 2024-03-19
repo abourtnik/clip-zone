@@ -33,7 +33,10 @@ class VideoController extends Controller
         return view('users.videos.index', [
             'videos' => Video::filter()
                 ->where('user_id', Auth::id())
-                ->with(['category:id,title', 'user:id'])
+                ->with([
+                    'category:id,title',
+                    'user:id,pinned_video_id',
+                ])
                 ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
                 ->latest('updated_at')
                 ->paginate(15)

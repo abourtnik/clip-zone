@@ -71,7 +71,7 @@
                             <strong>{{__('Draft')}}</strong>
                         </div>
                     @endif
-                    <h1 class="mb-0 h5">{{$video->title}}</h1>
+                    <h1 class="mb-0 h5 text-break">{{$video->title}}</h1>
                 </div>
                 <div class="mt-3 d-flex flex-column flex-xxl-row gap-3 justify-content-between align-items-start align-items-xxl-center">
                     <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date?->translatedFormat('d F Y') ?? $video->created_at->translatedFormat('d F Y')}}</div>

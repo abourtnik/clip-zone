@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Arr;
@@ -79,5 +80,15 @@ class Handler extends ExceptionHandler
         } else {
             return 'Whoops! An error occurred. Please try again later.';
         }
+    }
+
+    public function render($request, Throwable $e)
+    {
+        if ($e instanceof ModelNotFoundException) {
+            $model = (new \ReflectionClass($e->getModel()))->getShortName();
+            abort(404, ($model ?: 'Record') . ' Not found');
+        }
+
+        return parent::render($request, $e);
     }
 }
