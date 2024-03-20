@@ -13,7 +13,9 @@ class InvoiceController
     public function index(): View {
 
         return view('users.invoices.index', [
-            'invoices' => Transaction::where('user_id' , Auth::user()->id)->paginate()
+            'invoices' => Transaction::where('user_id' , Auth::user()->id)
+                ->latest('date')
+                ->paginate()
         ]);
     }
 
