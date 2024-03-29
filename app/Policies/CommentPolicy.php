@@ -25,6 +25,10 @@ class CommentPolicy
 
     public function list(?User $user, Video $video) : Response|bool
     {
+        if ($user?->is_admin) {
+            return Response::allow();
+        }
+
         return ($video->is_public && $video->allow_comments) || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(404, !$video->is_public ? 'This video is private' : 'Comments are turned off');

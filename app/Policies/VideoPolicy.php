@@ -47,7 +47,7 @@ class VideoPolicy
      */
     public function show(?User $user, Video $video): Response|bool
     {
-        if ($user->is_admin) {
+        if ($user?->is_admin) {
             return Response::allow();
         }
 
@@ -79,6 +79,10 @@ class VideoPolicy
      */
     public function file(?User $user, Video $video): Response|bool
     {
+        if ($user?->is_admin) {
+            return Response::allow();
+        }
+
         return $video->is_public || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(403, 'This video is private');
