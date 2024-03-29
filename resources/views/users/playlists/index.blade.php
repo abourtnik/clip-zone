@@ -5,7 +5,7 @@
 @section('title', 'Channel playlists')
 
 @section('content')
-    @if($playlists->total() || $filters)
+    @if($playlists->total() || request()->all())
         {{ Breadcrumbs::render('playlists') }}
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2>My Playlists</h2>

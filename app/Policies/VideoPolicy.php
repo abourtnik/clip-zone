@@ -47,6 +47,10 @@ class VideoPolicy
      */
     public function show(?User $user, Video $video): Response|bool
     {
+        if ($user->is_admin) {
+            return Response::allow();
+        }
+
         return $video->is_public || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(404, $video->is_banned ? 'This video was banned' : 'This video is private');
