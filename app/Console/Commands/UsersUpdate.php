@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Helpers\Number;
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Database\QueryException;
 
 class UsersUpdate extends Command
 {
@@ -34,9 +36,17 @@ class UsersUpdate extends Command
 
         foreach ($users as $user) {
 
-            $user->update([
-                'slug' => User::generateSlug($user->username),
-            ]);
+            $slug = User::generateSlug($user->username);
+
+            try {
+                $user->update([
+                    'slug' => $slug,
+                ]);
+            } catch (QueryException $exception) {
+                $user->update([
+                    'slug' => $slug . '-01',
+                ]);
+            }
         }
 
         return Command::SUCCESS;
