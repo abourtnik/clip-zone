@@ -20,8 +20,11 @@ class UserFactory extends Factory
     {
         $date = fake()->dateTimeBetween('-20 years');
 
+        $username = fake()->unique()->userName();
+
         return [
-            'username' => fake()->unique()->userName(),
+            'username' => $username,
+            'slug' => User::generateSlug($username),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => 'password',
