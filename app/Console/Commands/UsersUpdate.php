@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Str;
 
 class UsersUpdate extends Command
 {
@@ -29,7 +28,9 @@ class UsersUpdate extends Command
      */
     public function handle() : int
     {
-        $users = User::all();
+        $users = User::query()
+            ->whereNull('slug')
+            ->get();
 
         foreach ($users as $user) {
 

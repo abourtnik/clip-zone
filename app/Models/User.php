@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Helpers\Number;
 use App\Models\Interfaces\Likeable;
 use App\Models\Interfaces\Reportable;
 use App\Models\Pivots\FavoritePlaylist;
@@ -420,6 +421,14 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     }
 
     public static function generateSlug(string $username) : string {
-        return Str::ucfirst(Str::camel(Str::slug($username)));
+
+        $slug = Str::ucfirst(Str::camel(Str::slug($username)));
+
+        // Str::slug() generate empty string with non latin character
+        if (empty($slug)) {
+            return 'user-' .Number::unique();
+        }
+
+        return $slug;
     }
 }
