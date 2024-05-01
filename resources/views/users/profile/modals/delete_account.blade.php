@@ -22,8 +22,8 @@
                         </ul>
                     </div>
                     <div class="w-100">
-                        <label for="current_password" class="form-label">Enter your password for confirm account deletion</label>
-                        <input type="password" class="form-control" id="current_password" name="current_password" required>
+                        <label for="delete_current_password" class="form-label">Enter your password for confirm account deletion</label>
+                        <input type="password" class="form-control" id="delete_current_password" name="current_password" required>
                     </div>
                 </div>
                 <div class="modal-footer">

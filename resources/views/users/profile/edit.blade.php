@@ -102,7 +102,7 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col-12 col-sm-4 mb-3">
+                            <div class="col-12 col-sm-6 mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input
                                     type="text"
@@ -115,11 +115,41 @@
                                     maxlength="{{config('validation.user.username.max')}}"
                                 >
                             </div>
-                            <div class="col-12 col-sm-4 mb-3">
+                            <div
+                                class="col-12 col-sm-6 mb-3"
+                                x-data="{ slug: '{{  $user->slug }}', valid :true }"
+                            >
+                                <label for="slug" class="form-label">Handle</label>
+                                <div class="input-group has-validation">
+                                    <span class="input-group-text">@</span>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        :class="!valid && 'is-invalid'"
+                                        id="slug"
+                                        name="slug"
+                                        required
+                                        value="{{old('slug', $user->slug)}}"
+                                        minlength="{{config('validation.user.slug.min')}}"
+                                        maxlength="{{config('validation.user.slug.max')}}"
+                                        x-ref="slug"
+                                        @keyup="slug = $refs.slug.value; valid = /^[a-zA-Z0-9._-]+$/.test($refs.slug.value)"
+                                        pattern="^[a-zA-Z0-9._\-]+$"
+                                        title="Handle can only contain letters, numbers, periods (.), dashes (-), and underscores (_)"
+                                    >
+                                    <div class="invalid-feedback" x-show="!valid">
+                                        Handle can only contain letters, numbers, periods (.), dashes (-), and underscores (_)
+                                    </div>
+                                </div>
+                                <div class="form-text" x-show="valid">
+                                    <span>{{ config('app.url') }}/@</span><span x-text="slug"></span>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 mb-3">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control" id="email" name="email" required value="{{old('email', $user->email)}}">
                             </div>
-                            <div class="col-12 col-sm-4 mb-3">
+                            <div class="col-12 col-sm-6 mb-3">
                                 <label for="country" class="form-label">Country</label>
                                 <select class="form-control" name="country" id="country">
                                     <option selected value="">Select Country</option>

@@ -418,4 +418,8 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     {
         return $this->username;
     }
+
+    public static function generateSlug(string $username) : string {
+        return Str::ucfirst(Str::camel(Str::slug($username)));
+    }
 }

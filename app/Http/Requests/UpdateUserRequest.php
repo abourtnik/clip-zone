@@ -35,6 +35,14 @@ class UpdateUserRequest extends FormRequest
                 'max:'.config('validation.user.username.max'),
                 Rule::unique('users', 'username')->ignore(Auth::user())
             ],
+            'slug' => [
+                'sometimes',
+                'required',
+                'regex:/^[a-zA-Z0-9._-]+$/',
+                'min:'.config('validation.user.slug.min'),
+                'max:'.config('validation.user.slug.max'),
+                Rule::unique('users', 'slug')->ignore(Auth::user())
+            ],
             'email' => [
                 'sometimes',
                 'required',
@@ -89,7 +97,20 @@ class UpdateUserRequest extends FormRequest
             'avatar.max' => 'The avatar file is too large. Its size should not exceed 2 MB.',
             'avatar.dimensions' => 'The avatar image must be at least :min_width x :min_height pixels',
             'banner.max' => 'The banner file is too large. Its size should not exceed 2 MB.',
-            'banner.dimensions' => 'The banner image must be at least :min_width x :min_height pixels'
+            'banner.dimensions' => 'The banner image must be at least :min_width x :min_height pixels',
+            'slug.regex' => ':attribute can only contain letters, numbers, periods (.), dashes (-), and underscores (_)'
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        return [
+            'slug' => 'Handle',
         ];
     }
 }

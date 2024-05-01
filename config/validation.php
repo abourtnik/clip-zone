@@ -14,6 +14,10 @@ return [
             'min' => 3,
             'max' => 40
         ],
+        'slug' => [
+            'min' => 3,
+            'max' => 30
+        ],
         'password' => [
             'min' => 6,
         ],

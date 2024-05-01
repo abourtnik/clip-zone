@@ -21,7 +21,7 @@
             >
                 <i class="fa-solid fa-2x fa-camera"></i>
             </a>
-        @endauth
+        @endif
     </div>
     <div class="w-100">
         <div class="col-12 col-sm-10 offset-sm-1">
@@ -221,6 +221,9 @@
                                             <a rel="external nofollow" target="_blank" href="//{{$user->website}}">{{ __('Website') }}</a>
                                         </li>
                                     @endif
+                                    <li class="list-group-item ps-0">
+                                        {{ config('app.url') . '/@' . $user->username }}
+                                    </li>
                                     <li class="list-group-item ps-0">
                                         @auth
                                             @can('report', $user)

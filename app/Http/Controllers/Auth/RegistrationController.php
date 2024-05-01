@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Str;
 
 class RegistrationController
 {
@@ -21,7 +22,10 @@ class RegistrationController
 
         $validated = $request
             ->safe()
-            ->merge(['is_admin' => null])
+            ->merge([
+                'slug' => User::generateSlug($request->get('username')),
+                'is_admin' => null
+            ])
             ->except('cgu');
 
         $user = User::create($validated);

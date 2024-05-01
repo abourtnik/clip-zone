@@ -108,7 +108,7 @@ Route::controller(PlaylistController::class)->name('playlist.')->group(function 
 
 // USERS
 Route::controller(UserController::class)->name('user.')->group(function () {
-    Route::get('/user/{user}', 'show')
+    Route::get('/@{user:slug}', 'show')
         ->name('show')
         ->can('show', 'user');
 });
