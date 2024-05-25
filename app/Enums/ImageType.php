@@ -20,4 +20,8 @@ enum ImageType : string {
     public static function acceptedMimeTypes(): array {
         return array_column(self::cases(), 'value');
     }
+
+    public static function toString(): string {
+        return implode(', ', self::acceptedFormats());
+    }
 }

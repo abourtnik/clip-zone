@@ -44,7 +44,17 @@ const tooltips = [...document.querySelectorAll('[data-bs-toggle="tooltip"]')]
 tooltips.map(element => new bootstrap.Tooltip(element))
 
 const popovers = [...document.querySelectorAll('[data-bs-toggle="popover"]')]
-popovers.map(element => new bootstrap.Popover(element))
+popovers.map(element => {
+
+    let options = {};
+
+    if (element.hasAttribute('data-bs-content-id')) {
+        options.content = document.getElementById(element.getAttribute('data-bs-content-id')).innerHTML
+        options.html = true;
+    }
+
+    return new bootstrap.Popover(element, options)
+});
 
 document.querySelectorAll('.select-multiple').forEach((element)=>{
     new TomSelect(element,{

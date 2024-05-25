@@ -55,6 +55,8 @@ class Video extends Model implements Likeable, Reportable
         }, ARRAY_FILTER_USE_KEY);
     }
 
+    public const GENERATED_THUMBNAILS = 3;
+
     /**
      * -------------------- RELATIONS --------------------
      */
@@ -68,11 +70,11 @@ class Video extends Model implements Likeable, Reportable
     }
 
     public function views (): HasMany {
-        return $this->hasMany(View::class);
+        return $this->hasMany(View::class, 'video_id');
     }
 
     public function comments () : HasMany {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Comment::class, 'video_id');
     }
 
     public function pinned_comment () : HasOne {
@@ -85,12 +87,22 @@ class Video extends Model implements Likeable, Reportable
     }
 
     public function playlists() : BelongsToMany {
-        return $this->belongsToMany(Playlist::class, 'playlist_has_videos');
+        return $this->belongsToMany(Playlist::class, 'playlist_has_videos', 'video_id', 'playlist_id');
     }
 
     public function subtitles () : HasMany {
-        return $this->hasMany(Subtitle::class);
+        return $this->hasMany(Subtitle::class, 'video_id');
     }
+
+    public function thumbnails () : HasMany {
+        return $this->hasMany(Thumbnail::class, 'video_id');
+    }
+
+    /*
+    public function thumbnail () : HasOne {
+        return $this->hasOne(Thumbnail::class, 'video_id')->where(['is_active' => true]);
+    }
+    */
 
     /**
      * -------------------- ATTRIBUTES --------------------
@@ -109,6 +121,15 @@ class Video extends Model implements Likeable, Reportable
             get: fn () =>  $this->thumbnail ? route('video.thumbnail', $this) : null
         );
     }
+
+    /*
+    protected function thumbnailUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => route('video.thumbnail', ['video' => $this, 'thumbnail' => $this->thumbnail])
+        );
+    }
+    */
 
     protected function isActive(): Attribute
     {
@@ -347,6 +368,17 @@ class Video extends Model implements Likeable, Reportable
     }
 
     /**
+     * Scope a query to only include valid videos.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeWithoutShorts(Builder $query): Builder
+    {
+        return $query->where('is_short', false);
+    }
+
+    /**
      * Get the name of the index associated with the model.
      */
     public function searchableAs(): string
@@ -395,4 +427,28 @@ class Video extends Model implements Likeable, Reportable
     {
         return $this->is_active;
     }
+
+
+   /* public function resolveRouteBinding($value, $field = null): Video|Short
+    {
+        $video = $this->where($field ?? 'id', $value)->firstOrFail();
+
+        if ($video->is_short) {
+
+            return $this->cast($video, Short::class);
+        }
+
+        return $video;
+    }
+
+    protected function cast($instance, $className)
+    {
+        return unserialize(sprintf(
+            'O:%d:"%s"%s',
+            \strlen($className),
+            $className,
+            strstr(strstr(serialize($instance), '"'), ':')
+        ));
+    }
+   */
 }

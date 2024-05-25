@@ -15,7 +15,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('videos', function (Blueprint $table) {
             $table->id();
@@ -25,7 +25,6 @@ return new class extends Migration
             $table->string('file');
             $table->string('original_file_name');
             $table->string('mimetype');
-            $table->string('thumbnail')->nullable();
             $table->unsignedMediumInteger('duration');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Category::class)->nullable()->constrained();
@@ -47,7 +46,7 @@ return new class extends Migration
      *
      * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('videos');
     }
