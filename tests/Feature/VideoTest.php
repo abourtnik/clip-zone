@@ -29,7 +29,6 @@ class VideoTest extends TestCase
 
         $this->video = Video::factory()->create([
             'status' => VideoStatus::DRAFT,
-            'thumbnail' => null,
             'category_id' => null,
             'language' => null,
             'publication_date' => null,
@@ -40,7 +39,6 @@ class VideoTest extends TestCase
 
         $this->created_video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
-            'thumbnail' => null,
             'category_id' => null,
             'language' => null,
             'publication_date' => null,
@@ -61,7 +59,7 @@ class VideoTest extends TestCase
             ...$this->video->toArray(),
             ...[
                 'status' => VideoStatus::PUBLIC->value,
-                'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value),
+                'thumbnail' => 1,
             ]
         ]);
 
@@ -80,7 +78,7 @@ class VideoTest extends TestCase
             ...$this->video->toArray(),
             ...[
                 'status' => VideoStatus::PRIVATE->value,
-                'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value),
+                'thumbnail' => 1,
             ]
         ]);
 
@@ -99,7 +97,7 @@ class VideoTest extends TestCase
             ...$this->video->toArray(),
             ...[
                 'status' => VideoStatus::UNLISTED->value,
-                'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value),
+                'thumbnail' => 1,
             ]
         ]);
 
@@ -119,7 +117,7 @@ class VideoTest extends TestCase
             ...[
                 'status' => VideoStatus::PLANNED->value,
                 'scheduled_date' => Carbon::now()->addMinutes(30),
-                'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value),
+                'thumbnail' => 1,
             ]
         ]);
 
@@ -141,7 +139,7 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PUBLIC,
             'publication_date' => $date,
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
+            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -168,7 +166,7 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PUBLIC,
             'publication_date' => $date,
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
+            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -195,7 +193,7 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PUBLIC,
             'publication_date' => $date,
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
+            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -223,7 +221,7 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PUBLIC,
             'publication_date' => $date,
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
+            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -249,7 +247,7 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PRIVATE,
             'publication_date' => null,
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
+            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -274,7 +272,7 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PRIVATE,
             'publication_date' => null,
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
+            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -299,7 +297,7 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PRIVATE,
             'publication_date' => null,
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
+            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -326,7 +324,7 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PRIVATE,
             'publication_date' => null,
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
+            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -355,7 +353,7 @@ class VideoTest extends TestCase
             'publication_date' => $scheduled_date,
             'scheduled_date' => $scheduled_date,
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
+            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -383,7 +381,7 @@ class VideoTest extends TestCase
             'publication_date' => $scheduled_date,
             'scheduled_date' => $scheduled_date,
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
+            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -411,7 +409,7 @@ class VideoTest extends TestCase
             'publication_date' => $scheduled_date,
             'scheduled_date' => $scheduled_date,
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
+            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
