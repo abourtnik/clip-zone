@@ -31,7 +31,6 @@ class ReportTest extends TestCase
 
         $this->video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value),
             'category_id' => null,
             'language' => null,
             'publication_date' => now(),
@@ -84,7 +83,6 @@ class ReportTest extends TestCase
             'status' => VideoStatus::PUBLIC,
             'publication_date' => now(),
             'user_id' => $this->user->id,
-            'thumbnail' => UploadedFile::fake()->create('thumbnail.png', 2048, ImageType::PNG->value)
         ]);
 
         $response = $this->actingAs($this->user)->withHeaders([
