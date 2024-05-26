@@ -40,6 +40,7 @@ services:
             TZ: 'Europe/Paris'
         volumes:
             - ./docker/data/mariadb:/var/lib/mysql
+            - ./database/dumps:/dumps
         networks:
             - application
         healthcheck:

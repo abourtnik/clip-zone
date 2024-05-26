@@ -2,13 +2,12 @@
 
 namespace Tests\Feature;
 
-use App\Enums\ImageType;
 use App\Enums\VideoStatus;
+use App\Models\Thumbnail;
 use App\Models\User;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -46,6 +45,11 @@ class VideoTest extends TestCase
             'allow_comments' => true,
             'show_likes' => true,
         ]);
+
+        $this->thumbnail = Thumbnail::factory()->generated()->create([
+            'video_id' => $this->video->id,
+            'is_active' => true
+        ]);
     }
 
     /**
@@ -59,7 +63,7 @@ class VideoTest extends TestCase
             ...$this->video->toArray(),
             ...[
                 'status' => VideoStatus::PUBLIC->value,
-                'thumbnail' => 1,
+                'thumbnail' => $this->thumbnail->id,
             ]
         ]);
 
@@ -78,7 +82,7 @@ class VideoTest extends TestCase
             ...$this->video->toArray(),
             ...[
                 'status' => VideoStatus::PRIVATE->value,
-                'thumbnail' => 1,
+                'thumbnail' => $this->thumbnail->id,
             ]
         ]);
 
@@ -97,7 +101,7 @@ class VideoTest extends TestCase
             ...$this->video->toArray(),
             ...[
                 'status' => VideoStatus::UNLISTED->value,
-                'thumbnail' => 1,
+                'thumbnail' => $this->thumbnail->id,
             ]
         ]);
 
@@ -117,7 +121,7 @@ class VideoTest extends TestCase
             ...[
                 'status' => VideoStatus::PLANNED->value,
                 'scheduled_date' => Carbon::now()->addMinutes(30),
-                'thumbnail' => 1,
+                'thumbnail' => $this->thumbnail->id,
             ]
         ]);
 
@@ -138,14 +142,14 @@ class VideoTest extends TestCase
         $video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
             'publication_date' => $date,
-            'user_id' => $this->user->id,
-            'thumbnail' => 1
+            'user_id' => $this->user->id
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::PUBLIC->value,
+                'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
 
@@ -166,13 +170,13 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PUBLIC,
             'publication_date' => $date,
             'user_id' => $this->user->id,
-            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::PRIVATE->value,
+                'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
 
@@ -193,13 +197,13 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PUBLIC,
             'publication_date' => $date,
             'user_id' => $this->user->id,
-            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::UNLISTED->value,
+                'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
 
@@ -221,14 +225,14 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PUBLIC,
             'publication_date' => $date,
             'user_id' => $this->user->id,
-            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::PLANNED->value,
-                'scheduled_date' => $scheduled_date
+                'scheduled_date' => $scheduled_date,
+                'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
 
@@ -247,13 +251,13 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PRIVATE,
             'publication_date' => null,
             'user_id' => $this->user->id,
-            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::PUBLIC->value,
+                'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
 
@@ -272,13 +276,13 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PRIVATE,
             'publication_date' => null,
             'user_id' => $this->user->id,
-            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::PRIVATE->value,
+                'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
 
@@ -297,13 +301,13 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PRIVATE,
             'publication_date' => null,
             'user_id' => $this->user->id,
-            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::UNLISTED->value,
+                'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
 
@@ -324,7 +328,6 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PRIVATE,
             'publication_date' => null,
             'user_id' => $this->user->id,
-            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -332,6 +335,7 @@ class VideoTest extends TestCase
             ...[
                 'status' => VideoStatus::PLANNED->value,
                 'scheduled_date' => $scheduled_date,
+                'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
 
@@ -353,13 +357,13 @@ class VideoTest extends TestCase
             'publication_date' => $scheduled_date,
             'scheduled_date' => $scheduled_date,
             'user_id' => $this->user->id,
-            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::PUBLIC->value,
+                'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
 
@@ -381,13 +385,13 @@ class VideoTest extends TestCase
             'publication_date' => $scheduled_date,
             'scheduled_date' => $scheduled_date,
             'user_id' => $this->user->id,
-            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::PRIVATE->value,
+                'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
 
@@ -409,7 +413,6 @@ class VideoTest extends TestCase
             'publication_date' => $scheduled_date,
             'scheduled_date' => $scheduled_date,
             'user_id' => $this->user->id,
-            'thumbnail' => 1
         ]);
 
         $response = $this->actingAs($this->user)->put(route('user.videos.update', $video), [
@@ -417,6 +420,7 @@ class VideoTest extends TestCase
             ...[
                 'status' => VideoStatus::PLANNED->value,
                 'scheduled_date' => Carbon::now()->addMinutes(40),
+                'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
 

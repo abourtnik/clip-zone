@@ -48,7 +48,7 @@ deploy: ## Deploy application
 	make install
 
 test: ## Run test
-	# php artisan cache clear
+	docker exec -it php_container php artisan config:clear
 	docker exec -it php_container php artisan test --stop-on-failure --env=testing
 
 logs: ## See last logs

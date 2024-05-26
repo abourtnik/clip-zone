@@ -18,6 +18,7 @@ yarn-error.log
 
 # Local data
 docker/data
+database/dumps/*
 
 # Folder view configuration files
 .DS_Store
