@@ -75,7 +75,7 @@ class VideosUpdate extends Command
                    Video::VIDEO_FOLDER .DIRECTORY_SEPARATOR .$video->file, now()->addSeconds(30)
                );
 
-                $fileName = VideoMetadata::extractImages($url, $time);
+                $fileName = VideoMetadata::extractImage($url, $time);
 
                 if ($fileName !== false) {
                     $thumbnail->update([

@@ -2,7 +2,6 @@ export default {
     accepted_format : ['image/jpeg', 'image/png', 'image/webp', 'image/jpeg'],
     avatar: {
         maxSize: 4,
-        rounded: true,
         minWidth: 98,
         minHeight: 98,
         width: 176,
@@ -13,7 +12,6 @@ export default {
     },
     banner: {
         maxSize: 6,
-        rounded: false,
         minWidth: 1060,
         minHeight: 175,
         width: 1060,
@@ -24,7 +22,6 @@ export default {
     },
     thumbnail: {
         maxSize: 2,
-        rounded: false,
         minWidth: 640,
         minHeight: 360,
         width: 720,

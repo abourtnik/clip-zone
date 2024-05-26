@@ -5,9 +5,9 @@ namespace App\Jobs;
 use App\Enums\VideoStatus;
 use App\Events\Video\VideoError;
 use App\Events\Video\VideoUploaded;
+use App\Helpers\VideoMetadata;
 use App\Models\Video;
 use App\Services\FileMerger;
-use FFMpeg\FFProbe;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -73,6 +73,8 @@ class BuildFullFileFromChunks implements ShouldQueue
 
         $this->updateVideo($path, $fileName);
 
+        GenerateThumbnails::dispatch($this->video);
+
         if (config('filesystems.default') === 's3') {
             $this->uploadToS3($path, $this->video);
         } else {
@@ -93,18 +95,14 @@ class BuildFullFileFromChunks implements ShouldQueue
      */
     private function updateVideo (string $path, string $fileName): void {
 
-        // Get file duration
-        $ffprobe = FFProbe::create([
-            'ffprobe.binaries' => storage_path('bin/ffprobe')
-        ]);
+        $filePath = Storage::disk('local')->path($path);
 
-        $duration = $ffprobe
-            ->format(Storage::disk('local')->path($path))
-            ->get('duration');
+        $duration = VideoMetadata::getDuration($filePath);
 
         $this->video->update([
             'file' => $fileName,
             'duration' => round($duration),
+            'is_short' => $this->isShort($duration, $filePath)
         ]);
     }
 
@@ -122,8 +120,6 @@ class BuildFullFileFromChunks implements ShouldQueue
 
         Storage::disk('s3')->writeStream($path, $stream);
 
-        Storage::disk('local')->delete($path);
-
         $video->update([
             'uploaded_at' => now()
         ]);
@@ -139,5 +135,16 @@ class BuildFullFileFromChunks implements ShouldQueue
     {
         $this->video->update(['status' => VideoStatus::FAILED]);
         VideoError::dispatch($this->video);
+    }
+
+    private function isShort(float $duration, string $path): bool
+    {
+        if ($duration > 60) {
+            return false;
+        }
+
+        $videoDimensions = VideoMetadata::getDimensions($path);
+
+        return $videoDimensions->getWidth() < $videoDimensions->getHeight();
     }
 }

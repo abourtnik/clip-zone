@@ -36,7 +36,34 @@
                         @csrf
                         <div @class(["d-flex justify-content-between align-items-center", "flex-column" => $user->premium_subscription, 'flex-column flex-lg-row' => !$user->premium_subscription])>
                             <div class="d-flex align-items-center justify-content-start gap-5">
-                                <image-upload source="{{$user->avatar_url}}" name="avatar" style="width: 150px; height: 150px"></image-upload>
+                                <div
+                                    class="position-relative overflow-hidden rounded-circle border border-secondary"
+                                    x-data="{hover:false}"
+                                    @mouseover="hover=true"
+                                    @mouseleave="hover=false"
+                                    @cropped-avatar.window="$refs.image.setAttribute('src', URL.createObjectURL($event.detail))"
+                                    style="width: 150px; height: 150px"
+                                >
+                                    <img x-ref="image" class="img-fluid w-100" src="{{$user->avatar_url}}" alt="Avatar" >
+                                    <div
+                                        class="position-absolute w-100 text-center text-white start-50"
+                                        :class="hover ? 'opacity-100 top-50' : 'opacity-0 top-75'"
+                                        style="z-index: 2;transition: all 0.3s ease-in-out 0s;transform: translate(-50%, -50%);"
+                                    >
+                                        <div class="fw-bold">Click to update avatar</div>
+                                    </div>
+                                    <image-upload
+                                        name="avatar"
+                                        config="avatar"
+                                        class="position-absolute bottom-0 left-0 right-0 top-0 opacity-0 cursor-pointer w-100 z-3"
+                                    ></image-upload>
+                                    <div
+                                        style="transition: all 0.4s ease-in-out 0s;"
+                                        class="position-absolute bg-dark bg-opacity-75 bottom-0 left-0 right-0 top-0 w-100"
+                                        :class="hover ? 'opacity-100' : 'opacity-0'"
+                                    >
+                                    </div>
+                                </div>
                                 <div class="d-flex flex-column gap-2">
                                     <div class="text-muted">Member since {{$user->created_at->longAbsoluteDiffForHumans()}}</div>
                                     @if($user->is_premium)
@@ -181,7 +208,34 @@
                     <div class="card-body">
                         @method('PUT')
                         @csrf
-                        <image-upload source="{{$user->banner_url}}" name="banner"></image-upload>
+                        <div
+                            class="position-relative overflow-hidden"
+                            x-data="{hover:false}"
+                            @mouseover="hover=true"
+                            @mouseleave="hover=false"
+                            @cropped-banner.window="$refs.image.setAttribute('src', URL.createObjectURL($event.detail))"
+                        >
+                            <img x-ref="image" class="img-fluid w-100" src="{{$user->banner_url}}" alt="Banner" >
+                            <div
+                                class="position-absolute w-100 text-center text-white start-50"
+                                :class="hover ? 'opacity-100 top-50' : 'opacity-0 top-75'"
+                                style="z-index: 2;transition: all 0.3s ease-in-out 0s;transform: translate(-50%, -50%);"
+                            >
+                                <div class="fw-bold">Click to update Banner</div>
+                            </div>
+                            <image-upload
+                                name="banner"
+                                config="banner"
+                                class="position-absolute bottom-0 left-0 right-0 top-0 opacity-0 cursor-pointer w-100 z-3"
+                            >
+                            </image-upload>
+                            <div
+                                style="transition: all 0.4s ease-in-out 0s;"
+                                class="position-absolute bg-dark bg-opacity-75 bottom-0 left-0 right-0 top-0 w-100"
+                                :class="hover ? 'opacity-100' : 'opacity-0'"
+                            >
+                            </div>
+                        </div>
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6 mb-3">
                                 <label for="website" class="form-label">Website</label>

@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Enums\ImageType;
+use App\Enums\ThumbnailStatus;
 use App\Enums\VideoStatus;
-use App\Enums\VideoType;
-use App\Helpers\File;
 use App\Helpers\Number;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\FileRequest;
 use App\Http\Requests\Video\StoreVideoRequest;
 use App\Http\Requests\Video\UpdateVideoRequest;
+use App\Http\Resources\ThumbnailResource;
 use App\Jobs\BuildFullFileFromChunks;
 use App\Models\Category;
 use App\Models\Playlist;
+use App\Models\Thumbnail;
 use App\Models\Video;
+use App\Services\ThumbnailService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -53,19 +54,18 @@ class VideoController extends Controller
         return view('users.videos.create', [
             'video' => $video,
             'status' => VideoStatus::getActive(),
-            'accepted_video_mimes_types' => implode(', ', VideoType::acceptedMimeTypes()),
-            'accepted_video_formats' => implode(', ', VideoType::acceptedFormats()),
-            'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats()),
             'categories' => Category::all(),
             'languages' => Video::languages(),
             'playlists' => Auth::user()->playlists,
+            'thumbnails' => ThumbnailResource::collection(
+                Thumbnail::query()->where('video_id', $video->id)->with('video')->get()
+            )->toJson()
         ]);
     }
 
     public function store(StoreVideoRequest $request, Video $video): RedirectResponse {
         $validated = $request->safe()->merge([
             'slug' => Str::slug($request->get('title')),
-            'thumbnail' =>  File::storeAndDelete($request->file('thumbnail'),Video::THUMBNAIL_FOLDER),
             'scheduled_date' => $request->get('scheduled_date'),
             'publication_date' => match((int) $request->get('status')) {
                 VideoStatus::PUBLIC->value => now(),
@@ -75,6 +75,8 @@ class VideoController extends Controller
         ])->toArray();
 
         $video->update($validated);
+
+        ThumbnailService::save($request);
 
         return redirect()->route('user.videos.index');
     }
@@ -118,9 +120,11 @@ class VideoController extends Controller
         return view('users.videos.edit', [
             'video' => $video,
             'status' => VideoStatus::getActive(),
-            'accepted_thumbnail_mimes_types' => implode(', ', ImageType::acceptedFormats()),
             'categories' => Category::all(),
             'languages' => Video::languages(),
+            'thumbnails' => ThumbnailResource::collection(
+                Thumbnail::query()->where('video_id', $video->id)->with('video')->get()
+            )->toJson(),
             'playlists' => Playlist::query()
                 ->where('user_id', Auth::id())
                 ->withExists([
@@ -136,7 +140,6 @@ class VideoController extends Controller
 
         $validated = $request->safe()->merge([
             'slug' => Str::slug($request->get('title')),
-            'thumbnail' => File::storeAndDelete($request->file('thumbnail'), Video::THUMBNAIL_FOLDER, $video->thumbnail),
             'scheduled_date' => match((int) $request->get('status')) {
                 VideoStatus::PLANNED->value => $request->get('scheduled_date'),
                 default => null,
@@ -153,6 +156,8 @@ class VideoController extends Controller
         $video->playlists()
             ->wherePivotIn('playlist_id', Auth::user()->playlists()->pluck('id')->toArray())
             ->sync($request->get('playlists'));
+
+        ThumbnailService::save($request);
 
         if ($request->get('action') === 'save') {
             return redirect(route('user.videos.edit', $video));
@@ -210,6 +215,12 @@ class VideoController extends Controller
                 'status' => VideoStatus::DRAFT,
                 'user_id' => Auth::user()->id
             ]);
+
+            for ($i = 0; $i < Video::GENERATED_THUMBNAILS; $i++) {
+                $video->thumbnails()->create([
+                    'status' => ThumbnailStatus::PENDING
+                ]);
+            }
 
             BuildFullFileFromChunks::dispatch($folder, $video, $chunk->getClientOriginalExtension());
 

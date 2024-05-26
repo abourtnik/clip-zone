@@ -45,3 +45,11 @@
     border-top: 1px solid #fff;
 }
 
+.video-thumbnail {
+    min-height: 140px;
+
+    @media (max-width: map-get($grid-breakpoints, "xl")) {
+        min-height: 170px;
+    }
+}
+

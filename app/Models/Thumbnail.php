@@ -23,7 +23,7 @@ class Thumbnail extends Model
     protected function url(): Attribute
     {
         return Attribute::make(
-            get: fn () => route('video.thumbnail', ['video' => $this->video, 'thumbnail' => $this])
+            get: fn () => route('video.thumbnails', ['video' => $this->video, 'thumbnail' => $this])
         );
     }
 }

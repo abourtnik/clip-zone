@@ -29,6 +29,9 @@ class StoreVideoRequest extends FormRequest
      */
     public function rules() : array
     {
+        /** @var Video $video */
+        $video = $this->route('video');
+
         return [
             'title' => [
                 'required',
@@ -40,11 +43,19 @@ class StoreVideoRequest extends FormRequest
                 'string',
                 'max:'.config('validation.video.description.max')
             ],
-            'thumbnail' => [
+            'thumbnail_file' => [
+                'sometimes',
                 'file',
-                'required',
                 'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
                 'max:2048', // 2mo
+            ],
+            'thumbnail' => [
+                'required',
+                'numeric',
+                'min:0',
+                Rule::when($this->get('thumbnail'), Rule::exists('thumbnails', 'id')->where(function (Builder $query) use ($video) {
+                    return $query->where('video_id', $video->id);
+                }))
             ],
             'status' => [
                 'required',

@@ -89,7 +89,7 @@ class VideoPolicy
     }
 
     /**
-     * Determine whether the user can see video thumbnail.
+     * Determine whether the user can see video active thumbnail.
      *
      * @param User|null $user
      * @param Video $video
@@ -97,23 +97,23 @@ class VideoPolicy
      */
     public function thumbnail(?User $user, Video $video): Response|bool
     {
-        return $video->is_public || $video->user()->is($user)
+        return $video->is_public || $video->user->is($user)
             ? Response::allow()
             : Response::denyWithStatus(403, 'This video is private');
     }
 
     /**
-     * Determine whether the user can see video subtitles.
+     * Determine whether the user can see video thumbnails.
      *
-     * @param User|null $user
+     * @param User $user
      * @param Video $video
      * @return Response|bool
      */
-    public function subtitles(?User $user, Video $video): Response|bool
+    public function thumbnails(User $user, Video $video): Response|bool
     {
-        return $video->is_public || $video->user()->is($user)
+        return $video->user->is($user)
             ? Response::allow()
-            : Response::denyWithStatus(403, 'This video is private');
+            : Response::denyWithStatus(404);
     }
 
     /**

@@ -52,6 +52,13 @@ class Subtitle extends Model
         );
     }
 
+    protected function isPublic(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $this->status === SubtitleStatus::PUBLIC
+        );
+    }
+
     /**
      * Scope a query to only include valid videos.
      *

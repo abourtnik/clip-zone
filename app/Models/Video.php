@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\ThumbnailStatus;
 use App\Enums\VideoStatus;
 use App\Helpers\Parser;
 use App\Models\Interfaces\Reportable;
@@ -98,11 +99,13 @@ class Video extends Model implements Likeable, Reportable
         return $this->hasMany(Thumbnail::class, 'video_id');
     }
 
-    /*
     public function thumbnail () : HasOne {
         return $this->hasOne(Thumbnail::class, 'video_id')->where(['is_active' => true]);
     }
-    */
+
+    public function uploadedThumbnail () : HasOne {
+        return $this->hasOne(Thumbnail::class, 'video_id')->where(['status' => ThumbnailStatus::UPLOADED]);
+    }
 
     /**
      * -------------------- ATTRIBUTES --------------------
@@ -118,18 +121,9 @@ class Video extends Model implements Likeable, Reportable
     protected function thumbnailUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () =>  $this->thumbnail ? route('video.thumbnail', $this) : null
+            get: fn () => route('video.thumbnail', $this)
         );
     }
-
-    /*
-    protected function thumbnailUrl(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => route('video.thumbnail', ['video' => $this, 'thumbnail' => $this->thumbnail])
-        );
-    }
-    */
 
     protected function isActive(): Attribute
     {

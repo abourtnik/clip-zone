@@ -25,7 +25,7 @@
 
         const croppedImage = document.getElementById('cropped_image');
         const name = event.relatedTarget.dataset.name;
-        const input = document.querySelector(`input[name="${name}"]`);
+        const input = document.querySelector(`input[name="${name}"]:not([readonly])`);
 
         window.cropper = new Cropper(croppedImage, {
             aspectRatio: config.aspectRatio,
@@ -55,14 +55,14 @@
                 height: config.height,
             });
 
-            document.querySelector(`image-upload[name="${name}"]`).setAttribute('source', canvas.toDataURL());
-
             canvas.toBlob(function (blob) {
                 let file = new File([blob], "img.jpg",{type:"image/jpeg", lastModified:new Date().getTime()});
                 let container = new DataTransfer();
 
                 container.items.add(file);
                 input.files = container.files;
+
+                window.dispatchEvent(new CustomEvent(`cropped-${name}`, { detail: file }));
             });
         }, {
             once: true

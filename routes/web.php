@@ -73,28 +73,44 @@ Route::name('premium.')->middleware(['auth', 'can:premiumSubscribe,App\Models\Us
 Route::post('update-locale', [LangController::class, 'update'])->name('lang.update');
 
 // VIDEOS
-Route::controller(VideoController::class)->name('video.')->group(function () {
-    Route::get('/video/{slug}-{video:uuid}', 'show')
+Route::controller(VideoController::class)->name('video.')->prefix('video')->group(function () {
+    Route::get('{slug}-{video:uuid}', 'show')
         ->name('show')
         ->can('show', 'video')
         ->where('slug', '[a-z0-9A-Z\-]+');
-    Route::get('/video/file/{video:file}', 'file')
+    Route::get('file/{video:file}', 'file')
         ->name('file')
         ->can('file', 'video');
-    Route::get('/video/thumbnail/{video:uuid}', 'thumbnail')
+    Route::get('{video:uuid}/thumbnail', 'thumbnail')
         ->name('thumbnail')
         ->can('thumbnail', 'video');
-    Route::get('/video/download/{video:uuid}', 'download')
+    Route::get('{video:uuid}/download', 'download')
         ->name('download')
         ->can('download', 'video');
-    Route::get('/video/{video:uuid}/subtitles/{subtitle}', 'subtitles')
+    Route::get('{video:uuid}/subtitles/{subtitle}', 'subtitles')
         ->scopeBindings()
         ->name('subtitles')
-        ->can('subtitles', 'video');
-    Route::get('/embed/{video:uuid}', 'embed')
+        ->can('show', 'subtitle');
+    Route::get('{video:uuid}/thumbnails/{thumbnail}', 'thumbnails')
+        ->scopeBindings()
+        ->name('thumbnails')
+        ->can('thumbnails', 'video');
+    Route::get('{video:uuid}/embed', 'embed')
         ->name('embed')
         ->missing(fn (Request $request) => response()->view('videos.embed.missing'));
 });
+
+// SHORTS
+/*
+Route::controller(\App\Http\Controllers\ShortController::class)->name('short.')->group(function () {
+    Route::get('/shorts', 'index')
+        ->name('index');
+    Route::get('/shorts/{video:uuid}', 'show')
+        ->name('show')
+        ->can('show', 'video');
+});
+*/
+
 
 // PLAYLISTS
 Route::controller(PlaylistController::class)->name('playlist.')->group(function () {
@@ -188,10 +204,10 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
 
     // Videos
     Route::controller(VideoUserController::class)->prefix('videos')->name('videos.')->group(function () {
-        Route::post('/{video}/pin', 'pin')
+        Route::post('{video}/pin', 'pin')
             ->name('pin')
             ->can('pin', 'video');
-        Route::post('/{video}/unpin', 'unpin')
+        Route::post('{video}/unpin', 'unpin')
             ->name('unpin')
             ->can('unpin', 'video');
         Route::get('{video}/create', 'create')

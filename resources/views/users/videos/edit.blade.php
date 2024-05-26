@@ -200,12 +200,10 @@
                                 </div>
                             </div>
                         </div>
-                        <h6 class="text-primary mt-4">Thumbnail</h6>
+                        <h6 class="text-primary mt-4">Thumbnail *</h6>
                         <hr class="mt-2">
-                        <image-upload source="{{$video->thumbnail_url}}" name="thumbnail"></image-upload>
-                        <div class="form-text text-sm">
-                            <div>Accepted formats : <strong>{{$accepted_thumbnail_mimes_types}}</strong> • Max file size :  <strong>2 Mo</strong></div>
-                        </div>
+                        <div class="text-sm text-muted mb-3">Select or upload a picture that shows what's in your video. A good thumbnail stands out and draws viewers' attention.</div>
+                        <thumbnails-select data={{$thumbnails}}></thumbnails-select>
                         <h6 class="text-primary mt-4">Comments and ratings</h6>
                         <hr class="mt-2">
                         <div class="d-flex flex-column gap-1">

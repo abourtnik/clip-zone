@@ -47,7 +47,7 @@ class VideoMetadata
             ->getDimensions();
     }
 
-    public static function extractImages (string $path, $time = 0): string|false
+    public static function extractImage (string $path, $time = 0): string|false
     {
         $video = self::getFFMpeg()->open($path);
 

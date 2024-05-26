@@ -8,6 +8,7 @@ use App\Http\Resources\VideoResource;
 use App\Models\Category;
 use App\Models\Playlist;
 use App\Models\Subtitle;
+use App\Models\Thumbnail;
 use App\Models\User;
 use App\Models\Video;
 use App\Services\VideoService;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class VideoController
+class VideoController extends Controller
 {
     public function __construct(private readonly VideoService $videoService)
     {
@@ -122,7 +123,15 @@ class VideoController
 
     public function thumbnail (Video $video): Response
     {
-        $path = Video::THUMBNAIL_FOLDER.'/'.$video->thumbnail;
+        $path = Video::THUMBNAIL_FOLDER.'/'.$video->thumbnail->file;
+        $file = Storage::get($path);
+
+        return response($file)->header('Content-Type', Storage::mimeType($path));
+    }
+
+    public function thumbnails (Video $video, Thumbnail $thumbnail): Response
+    {
+        $path = Video::THUMBNAIL_FOLDER.'/'.$thumbnail->file;
         $file = Storage::get($path);
 
         return response($file)->header('Content-Type', Storage::mimeType($path));
