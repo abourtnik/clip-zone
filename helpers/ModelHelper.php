@@ -451,6 +451,126 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Short
+ *
+ * @property int $id
+ * @property string $uuid
+ * @property string $title
+ * @property string $slug
+ * @property string|null $description
+ * @property string|null $file
+ * @property string $original_file_name
+ * @property string $mimetype
+ * @property-read string|null $duration
+ * @property int|null $size size in bytes
+ * @property int $user_id
+ * @property int|null $category_id
+ * @property \App\Enums\VideoStatus $status
+ * @property string|null $language
+ * @property \Illuminate\Support\Carbon|null $scheduled_date
+ * @property \Illuminate\Support\Carbon|null $publication_date Date when video become public for the first time
+ * @property int $allow_comments
+ * @property string $default_comments_sort
+ * @property int $show_likes
+ * @property int|null $pinned_comment_id
+ * @property \Illuminate\Support\Carbon|null $banned_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $uploaded_at
+ * @property string|null $youtube_id Youtube ID
+ * @property int $is_short
+ * @property-read \App\Models\Category|null $category
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $comment_interactions
+ * @property-read int|null $comment_interactions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
+ * @property-read int|null $comments_count
+ * @property-read mixed $description_is_long
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $dislikes
+ * @property-read int|null $dislikes_count
+ * @property-read mixed $dislikes_ratio
+ * @property-read mixed $file_url
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $interactions
+ * @property-read int|null $interactions_count
+ * @property-read mixed $is_active
+ * @property-read mixed $is_banned
+ * @property-read mixed $is_created
+ * @property-read mixed $is_draft
+ * @property-read mixed $is_failed
+ * @property-read mixed $is_pinned
+ * @property-read mixed $is_planned
+ * @property-read mixed $is_private
+ * @property-read mixed $is_public
+ * @property-read mixed $is_unlisted
+ * @property-read mixed $is_uploading
+ * @property-read mixed $language_name
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $likes
+ * @property-read int|null $likes_count
+ * @property-read mixed $likes_ratio
+ * @property-read mixed $parsed_description
+ * @property-read \App\Models\Comment|null $pinned_comment
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Playlist> $playlists
+ * @property-read int|null $playlists_count
+ * @property-read mixed $real_status
+ * @property-read \App\Models\Report|null $reportByAuthUser
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Report> $reports
+ * @property-read int|null $reports_count
+ * @property-read mixed $route
+ * @property-read mixed $short_description
+ * @property-read mixed $short_title
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Subtitle> $subtitles
+ * @property-read int|null $subtitles_count
+ * @property-read \App\Models\Thumbnail|null $thumbnail
+ * @property-read mixed $thumbnail_url
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Thumbnail> $thumbnails
+ * @property-read int|null $thumbnails_count
+ * @property-read mixed $type
+ * @property-read \App\Models\Thumbnail|null $uploadedThumbnail
+ * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\View> $views
+ * @property-read int|null $views_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Video active()
+ * @method static \Illuminate\Database\Eloquent\Builder|Video filter(array $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Short newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Short newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Video notActive()
+ * @method static \Illuminate\Database\Eloquent\Builder|Video public($includeAuthVideo = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Video valid()
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereAllowComments($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereBannedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereDefaultCommentsSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereIsShort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereMimetype($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereOriginalFileName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short wherePinnedCommentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short wherePublicationDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereScheduledDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereShowLikes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereUploadedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereYoutubeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video withoutShorts()
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperShort {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Subscription
  *
  * @property int $id
@@ -460,11 +580,11 @@ namespace App\Models{
  * @property int|null $plan_id
  * @property string|null $stripe_id
  * @property \Illuminate\Support\Carbon|null $trial_ends_at
+ * @property string $card_last4
+ * @property \Illuminate\Support\Carbon $card_expired_at
  * @property \Illuminate\Support\Carbon|null $ends_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string $card_last4
- * @property \Illuminate\Support\Carbon $card_expired_at
  * @property-read mixed $is_active
  * @property-read mixed $is_canceled
  * @property-read mixed $is_trial_canceled
@@ -508,6 +628,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $file_url
+ * @property-read mixed $is_public
  * @property-read mixed $language_name
  * @property-read \App\Models\Video $video
  * @method static \Illuminate\Database\Eloquent\Builder|Subtitle newModelQuery()
@@ -526,6 +647,36 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperSubtitle {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Thumbnail
+ *
+ * @property int $id
+ * @property int $video_id
+ * @property string|null $file
+ * @property int $is_active
+ * @property \App\Enums\ThumbnailStatus $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $url
+ * @property-read \App\Models\Video $video
+ * @method static \Database\Factories\ThumbnailFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereVideoId($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperThumbnail {}
 }
 
 namespace App\Models{
@@ -583,6 +734,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $username
+ * @property string|null $slug
  * @property string $email
  * @property-write string $password
  * @property \Illuminate\Support\Carbon|null $email_verified_at
@@ -638,6 +790,8 @@ namespace App\Models{
  * @property-read int|null $reports_count
  * @property-read mixed $route
  * @property-read mixed $short_description
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Short> $shorts
+ * @property-read int|null $shorts_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $subscribers
  * @property-read int|null $subscribers_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, User> $subscriptions
@@ -694,6 +848,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePinnedVideoId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereShowSubscribers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereStripeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
@@ -716,7 +871,6 @@ namespace App\Models{
  * @property string|null $file
  * @property string $original_file_name
  * @property string $mimetype
- * @property string|null $thumbnail
  * @property-read string|null $duration
  * @property int|null $size size in bytes
  * @property int $user_id
@@ -734,6 +888,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $uploaded_at
  * @property string|null $youtube_id Youtube ID
+ * @property int $is_short
  * @property-read \App\Models\Category|null $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $comment_interactions
  * @property-read int|null $comment_interactions_count
@@ -774,8 +929,12 @@ namespace App\Models{
  * @property-read mixed $short_title
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Subtitle> $subtitles
  * @property-read int|null $subtitles_count
+ * @property-read \App\Models\Thumbnail|null $thumbnail
  * @property-read mixed $thumbnail_url
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Thumbnail> $thumbnails
+ * @property-read int|null $thumbnails_count
  * @property-read mixed $type
+ * @property-read \App\Models\Thumbnail|null $uploadedThumbnail
  * @property-read \App\Models\User $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\View> $views
  * @property-read int|null $views_count
@@ -797,6 +956,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereFile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereIsShort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereLanguage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereMimetype($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereOriginalFileName($value)
@@ -807,13 +967,13 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereSize($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereThumbnail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereUploadedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereUuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereYoutubeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video withoutShorts()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
