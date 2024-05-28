@@ -46,9 +46,9 @@
                                 >
                                     <img x-ref="image" class="img-fluid w-100" src="{{$user->avatar_url}}" alt="Avatar" >
                                     <div
-                                        class="position-absolute w-100 text-center text-white start-50"
+                                        class="position-absolute w-100 text-center text-white start-50 z-2"
                                         :class="hover ? 'opacity-100 top-50' : 'opacity-0 top-75'"
-                                        style="z-index: 2;transition: all 0.3s ease-in-out 0s;transform: translate(-50%, -50%);"
+                                        style="transition: all 0.3s ease-in-out 0s;transform: translate(-50%, -50%);"
                                     >
                                         <div class="fw-bold">Click to update avatar</div>
                                     </div>
@@ -217,9 +217,9 @@
                         >
                             <img x-ref="image" class="img-fluid w-100" src="{{$user->banner_url}}" alt="Banner" >
                             <div
-                                class="position-absolute w-100 text-center text-white start-50"
+                                class="position-absolute w-100 text-center text-white start-50 z-2"
                                 :class="hover ? 'opacity-100 top-50' : 'opacity-0 top-75'"
-                                style="z-index: 2;transition: all 0.3s ease-in-out 0s;transform: translate(-50%, -50%);"
+                                style="transition: all 0.3s ease-in-out 0s;transform: translate(-50%, -50%);"
                             >
                                 <div class="fw-bold">Click to update Banner</div>
                             </div>

@@ -43,7 +43,7 @@
         <button class="position-absolute top-50 start-50 translate-middle bg-transparent text-decoration-none" @click="player = false" x-show.important="!share && player">
             <i class="fa-solid fa-play-circle fa-4x text-white"></i>
         </button>
-        <div class="position-absolute w-100 top-0 d-flex justify-content-between align-items-center p-3" x-show.important="!share && title"  style="z-index: 1">
+        <div class="position-absolute w-100 top-0 d-flex justify-content-between align-items-center p-3 z-1" x-show.important="!share && title">
             <div class="d-flex gap-2 align-items-center">
                 <a href="{{$video->user->route}}" class="text-decoration-none">
                     <img class="rounded-circle" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar" style="width: 48px;height: 48px;">
@@ -72,7 +72,7 @@
         <button class="bg-transparent" @click="share = false">
             <i class="fa-solid fa-xmark text-white position-absolute top-0 left-95 mt-3"></i>
         </button>
-        <div class="text-white text-center" style="z-index: 1">
+        <div class="text-white text-center z-1">
             <p class="fs-5">Share</p>
             <a href="{{$video->route}}" class="fs-5 text-decoration-none text-white">{{$video->route}}</a>
             <div class="d-flex flex-wrap justify-content-center mt-3" style="row-gap: 1rem !important;">

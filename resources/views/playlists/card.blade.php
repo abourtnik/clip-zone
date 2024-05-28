@@ -3,7 +3,7 @@
         <a href="{{$playlist->first_video->routeWithParams(['list' => $playlist->uuid])}}">
             <div class="position-relative">
                 <div class="card-stack position-absolute h-100 rounded-4"></div>
-                <div style="position: inherit;z-index: 2">
+                <div class="z-2" style="position: inherit;">
                     @if($playlist->first_video)
                         <img class="img-fluid w-100 rounded-4" src="{{$playlist->first_video->thumbnail_url}}" alt="{{$playlist->title}} Thumbnail" style="width: 360px; height: 202px;object-fit: cover;">
                     @else
@@ -16,7 +16,7 @@
                         <span>{{trans_choice('videos', $playlist->videos_count)}}</span>
                     </small>
                 </div>
-                <div x-show.important="hover" style="inset:0;z-index: 2;" class="bg-dark position-absolute d-flex justify-content-center align-items-center bg-opacity-75 rounded-4">
+                <div x-show.important="hover" style="inset:0;" class="bg-dark position-absolute d-flex justify-content-center align-items-center bg-opacity-75 rounded-4 z-2">
                     <div class="d-flex gap-2 text-white align-items-center">
                         <i class="fa-solid fa-play"></i>
                         <span class="text-uppercase">{{ __('Play All') }}</span>
