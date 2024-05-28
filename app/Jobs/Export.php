@@ -13,6 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel as BaseExcel;
 use Maatwebsite\Excel\Facades\Excel;
 use Throwable;
@@ -57,10 +58,13 @@ class Export implements ShouldQueue
         $class = new $this->exportType($this->filters);
         $fileName = $class->fileName.'-'.Carbon::now()->timestamp.'.csv';
 
-        Excel::store($class, ExportModel::EXPORT_FOLDER.'/'.$fileName, null, BaseExcel::CSV);
+        $path = ExportModel::EXPORT_FOLDER .DIRECTORY_SEPARATOR. $fileName;
+
+        Excel::store($class, $path, null, BaseExcel::CSV);
 
         $this->export->update([
             'file' => $fileName,
+            'size' => Storage::size($path),
             'status' => ExportStatus::COMPLETED
         ]);
 

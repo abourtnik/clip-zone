@@ -141,6 +141,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string|null $file
+ * @property int|null $size size in bytes
  * @property \App\Enums\ExportStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -152,6 +153,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Export whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Export whereFile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Export whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Export whereSize($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Export whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Export whereUpdatedAt($value)
  * @mixin \Eloquent
@@ -478,6 +480,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $uploaded_at
  * @property string|null $youtube_id Youtube ID
+ * @property int $is_live
  * @property int $is_short
  * @property-read \App\Models\Category|null $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $comment_interactions
@@ -525,7 +528,7 @@ namespace App\Models{
  * @property-read int|null $thumbnails_count
  * @property-read mixed $type
  * @property-read \App\Models\Thumbnail|null $uploadedThumbnail
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\View> $views
  * @property-read int|null $views_count
  * @method static \Illuminate\Database\Eloquent\Builder|Video active()
@@ -545,6 +548,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Short whereDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Short whereFile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Short whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Short whereIsLive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Short whereIsShort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Short whereLanguage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Short whereMimetype($value)
@@ -888,6 +892,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $uploaded_at
  * @property string|null $youtube_id Youtube ID
+ * @property int $is_live
  * @property int $is_short
  * @property-read \App\Models\Category|null $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $comment_interactions
@@ -935,7 +940,7 @@ namespace App\Models{
  * @property-read int|null $thumbnails_count
  * @property-read mixed $type
  * @property-read \App\Models\Thumbnail|null $uploadedThumbnail
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\View> $views
  * @property-read int|null $views_count
  * @method static \Illuminate\Database\Eloquent\Builder|Video active()
@@ -956,6 +961,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereFile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Video whereIsLive($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereIsShort($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereLanguage($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Video whereMimetype($value)

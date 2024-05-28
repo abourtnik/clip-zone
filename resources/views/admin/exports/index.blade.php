@@ -13,6 +13,7 @@
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
                     <th style="min-width: 200px">Export</th>
+                    <th>Size</th>
                     <th>Status</th>
                     <th style="min-width: 125px">Date</th>
                     <th style="min-width: 121px">Action</th>
@@ -23,6 +24,9 @@
                     <tr class="bg-light">
                         <td class="align-middle">
                             {{$export->file}}
+                        </td>
+                        <td class="align-middle">
+                            @size($export->size)
                         </td>
                         <td class="align-middle">
                             <span class="badge bg-{{$export->status->color()}}">
