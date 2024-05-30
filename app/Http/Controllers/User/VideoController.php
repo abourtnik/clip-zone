@@ -19,6 +19,7 @@ use App\Services\ThumbnailService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -234,5 +235,20 @@ class VideoController extends Controller
         return response()->json([
             "done" => $percentage
         ]);
+    }
+
+    public function massDelete(Request $request)
+    {
+        $ids = $request->get('ids');
+
+        $videos = Auth::user()->videos()->whereIn('id', $ids);
+
+        $count = $videos->count();
+
+        $videos->each(fn(Video $video) => $video->delete());
+
+        return redirect()
+            ->route('user.videos.index')
+            ->withSuccess($count. ' videos deleted with success');
     }
 }

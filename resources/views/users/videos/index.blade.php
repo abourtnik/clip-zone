@@ -6,20 +6,38 @@
 
 @section('content')
     @if($videos->total() || request()->all())
+    <div x-data="{selected:[]}">
         {{ Breadcrumbs::render('videos') }}
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2 class="mb-0">My Videos</h2>
-            <button class="btn btn-success d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#video_create">
-                <i class="fa-solid fa-upload"></i>
-                &nbsp;<span>Import new video</span>
-            </button>
+            <div class="d-flex align-items-center gap-1">
+                <button x-show.important="selected.length > 0" class="btn btn-danger d-flex align-items-center gap-1" @click="$refs.deleteForm.submit()">
+                    <i class="fa-solid fa-trash me-1"></i>
+                    <span>Delete</span>
+                    <span x-text="selected.length"></span>
+                    <span x-text="selected.length === 1 ? 'video' : 'videos'"></span>
+                </button>
+                <button class="btn btn-success d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#video_create">
+                    <i class="fa-solid fa-upload"></i>
+                    &nbsp;<span>Import new video</span>
+                </button>
+            </div>
         </div>
         <hr>
         {!! form(FormBuilder::create(VideoFiltersForm::class)) !!}
-        <div class="table-responsive">
-            <table class="table table-bordered table-striped">
+        <form
+            onsubmit="return window.confirm('Confirmer la suppression ?');"
+            action="{{route('user.videos.mass-delete')}}"
+            method="POST"
+            x-ref="deleteForm"
+        >
+            @csrf
+            @method('DELETE')
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
+                    <th scope="col"></th>
                     <th scope="col" class="w-40" style="min-width: 400px">Video</th>
                     <th scope="col">Status</th>
                     <th scope="col" style="min-width: 180px;">Date</th>
@@ -33,6 +51,19 @@
                 <tbody>
                 @forelse($videos as $video)
                     <tr class="bg-light">
+                        <td class="align-middle">
+                            <div class="form-check">
+                                <input
+                                    name="ids[]"
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    x-model="selected"
+                                    value="{{$video->id}}"
+                                    id="video-{{$video->id}}"
+                                >
+                                <label class="form-check-label" for="video-{{$video->id}}"></label>
+                            </div>
+                        </td>
                         <td class="d-flex gap-3">
                             <a href="{{$video->route}}">
                                 @include('users.videos.partials.thumbnail')
@@ -184,10 +215,12 @@
                 @endforelse
                 </tbody>
             </table>
-        </div>
+            </div>
+        </form>
         {{ $videos->links() }}
         @include('users.videos.modals.delete')
         @include('videos.modals.interactions')
+    </div>
     @else
         <div class="card shadow">
             <div class="card-body d-flex justify-content-center align-items-center">

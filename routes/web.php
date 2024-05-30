@@ -216,6 +216,8 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
         Route::post('{video}/store', 'store')
             ->name('store')
             ->can('update', 'video');
+        Route::delete('mass-delete', 'massDelete')
+            ->name('mass-delete');
     });
 
     Route::resource('videos', VideoUserController::class)->except([

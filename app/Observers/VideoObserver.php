@@ -40,6 +40,12 @@ class VideoObserver
         $video->reports()->delete();
 
         File::deleteIfExist($video->file, Video::VIDEO_FOLDER);
-        File::deleteIfExist($video->thumbnail, Video::THUMBNAIL_FOLDER);
+
+        // Remove videos thumbnails
+        foreach ($video->thumbnails as $thumbnail) {
+            $thumbnail->delete();
+            File::deleteIfExist($thumbnail->file, Video::THUMBNAIL_FOLDER);
+        }
+
     }
 }
