@@ -248,6 +248,6 @@ class VideoController extends Controller
 
         return redirect()
             ->route('user.videos.index')
-            ->withSuccess($count. ' videos deleted with success');
+            ->withSuccess(trans_choice('videos', $count). ' deleted with success');
     }
 }

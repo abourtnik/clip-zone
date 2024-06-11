@@ -12,8 +12,8 @@ enum VideoType : string {
     case OGG = 'video/ogg';
     case WEBM = 'video/webm';
     case MOV = 'video/quicktime';
-    case AVI = 'video/avi';
-    case WMV = 'video/x-ms-wmv';
+    case AVI = 'video/x-msvideo';
+    case WMV = 'video/x-ms-asf';
     case SWF = 'application/x-shockwave-flash';
     case MPEG = 'video/mpeg';
     case FLV = 'video/x-flv';

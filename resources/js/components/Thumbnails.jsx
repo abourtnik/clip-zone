@@ -111,7 +111,7 @@ function Thumbnail({thumbnail}) {
         if (status === STATUS.GENERATED) {
             return (
                 <img
-                    className={clsx('img-fluid cursor-pointer opacity-50 video-thumbnail', hover && 'opacity-100', active && 'border-4 border-primary opacity-100')}
+                    className={clsx('img-fluid cursor-pointer opacity-50', hover && 'opacity-100', active && 'border-4 border-primary opacity-100')}
                     src={thumbnail.url}
                     alt="Thumbnail"
                     onMouseEnter={() => setHover(true)}
@@ -186,7 +186,7 @@ function Upload({initial}) {
                         </div>
                         <div className={'input-file position-relative h-100'}>
                             <button
-                                className={'position-absolute top-10 p-0 right-5 bg-transparent'}
+                                className={'position-absolute p-0 bg-transparent'}
                                 type="button"
                                 data-bs-toggle="popover"
                                 data-bs-placement="top"
@@ -194,6 +194,7 @@ function Upload({initial}) {
                                 data-bs-content-id="thumbnail-rules"
                                 data-bs-trigger="focus"
                                 tabIndex="0"
+                                style={{top: '10px', right: '10px'}}
                             >
                                 <i className="fa-solid fa-circle-info"></i>
                             </button>

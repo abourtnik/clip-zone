@@ -11,7 +11,13 @@
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2 class="mb-0">My Videos</h2>
             <div class="d-flex align-items-center gap-1">
-                <button x-show.important="selected.length > 0" class="btn btn-danger d-flex align-items-center gap-1" @click="$refs.deleteForm.submit()">
+                <button
+                    x-show.important="selected.length > 0"
+                    class="btn btn-danger d-flex align-items-center gap-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#mass_delete"
+                    type="button"
+                >
                     <i class="fa-solid fa-trash me-1"></i>
                     <span>Delete</span>
                     <span x-text="selected.length"></span>
@@ -26,7 +32,6 @@
         <hr>
         {!! form(FormBuilder::create(VideoFiltersForm::class)) !!}
         <form
-            onsubmit="return window.confirm('Confirmer la suppression ?');"
             action="{{route('user.videos.mass-delete')}}"
             method="POST"
             x-ref="deleteForm"
@@ -202,6 +207,9 @@
                                         </button>
                                     </form>
                                 @endcan
+                                <a download href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="Download video">
+                                    <i class="fa-solid fa-download"></i>
+                                </a>
                             </div>
                         </td>
                     </tr>
@@ -220,6 +228,7 @@
         {{ $videos->links() }}
         @include('users.videos.modals.delete')
         @include('videos.modals.interactions')
+        @include('users.videos.modals.mass-delete')
     </div>
     @else
         <div class="card shadow">

@@ -25,7 +25,7 @@ class GenerateThumbnails implements ShouldQueue
      *
      * @var int
      */
-    public int $timeout = 180;
+    public int $timeout = 360; // 6 minutes
 
 
     public Video $video;
