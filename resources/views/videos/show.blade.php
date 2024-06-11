@@ -1,3 +1,5 @@
+@use('App\Models\Video')
+
 @extends('layouts.default')
 
 @section('title', $video->title)
@@ -36,7 +38,7 @@
                         autoplay
                         playsinline
                     >
-                        <source src="{{$video->file_url}}#t={{$t}}" type="{{$video->mimetype}}">
+                        <source src="{{$video->file_url}}#t={{$t}}" type="{{Video::MIMETYPE}}">
                         @foreach($video->subtitles as $subtitle)
                             <track
                                 label="{{$subtitle->name}}"

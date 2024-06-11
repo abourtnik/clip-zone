@@ -90,7 +90,7 @@ class GenerateThumbnails implements ShouldQueue
         }
 
         // Remove video from local storage
-        Storage::disk('local')->delete($path);
+        Storage::disk('local')->delete(Video::VIDEO_FOLDER . DIRECTORY_SEPARATOR . $this->video->file);
 
     }
 

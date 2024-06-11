@@ -5,6 +5,7 @@ namespace App\Http\Requests\Video;
 use App\Enums\ImageType;
 use App\Enums\VideoStatus;
 use App\Models\Video;
+use App\Rules\MimetypeEnum;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -46,7 +47,7 @@ class UpdateVideoRequest extends FormRequest
             'thumbnail_file' => [
                 'sometimes',
                 'file',
-                'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
+                new MimetypeEnum(ImageType::class),
                 'max:2048', // 2mo
             ],
             'thumbnail' => [

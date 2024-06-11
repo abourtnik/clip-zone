@@ -211,7 +211,6 @@ class VideoController extends Controller
                 'title' => $title,
                 'slug' => Str::slug($title),
                 'original_file_name' => $chunk->getClientOriginalName(),
-                'mimetype' => $request->get('resumableType'),
                 'size' => $request->get('resumableTotalSize'),
                 'status' => VideoStatus::DRAFT,
                 'user_id' => Auth::user()->id

@@ -57,6 +57,9 @@ logs: ## See last logs
 stripe: ## See Stripe Webhook logs
 	docker logs -f stripe_container
 
+restart-horizon: ## Restart Horizon
+	docker-compose restart queues_container
+
 analyse: ## Execute Larastan
 	docker exec -it php_container ./vendor/bin/phpstan analyse --memory-limit=2G
 

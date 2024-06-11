@@ -47,7 +47,7 @@ class Video extends Model implements Likeable, Reportable
     public const THUMBNAIL_FOLDER = 'thumbnails';
     public const VIDEO_FOLDER = 'videos';
     public const CHUNK_FOLDER = 'chunks';
-
+    public const MIMETYPE = 'video/mp4';
     public const AVAILABLE_LANGUAGES = ['ar', 'en', 'fr', 'zh', 'nl', 'de', 'hi', 'it', 'ko', 'es', 'pt', 'ru'];
 
     public static function languages (): array {

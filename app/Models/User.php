@@ -429,6 +429,10 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
             return 'user-' .Number::unique();
         }
 
+        if (User::query()->where('slug', $slug)->exists()){
+            return $slug. '-' .Number::unique();
+        }
+
         return $slug;
     }
 }

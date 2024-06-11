@@ -1,3 +1,5 @@
+@use('App\Models\Video')
+
 @extends('layouts.user')
 
 @section('title', 'Edit Subtitle')
@@ -99,7 +101,7 @@
                     <div class="card-body">
                         <div class="ratio ratio-16x9">
                             <video controls class="w-100 border" controlsList="nodownload" onloadstart="this.volume=0.5">
-                                <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
+                                <source src="{{$video->file_url}}" type="{{Video::MIMETYPE}}">
                             </video>
                         </div>
                         <div class="bg-light border mt-2 px-3 py-2 d-flex flex-column gap-3">

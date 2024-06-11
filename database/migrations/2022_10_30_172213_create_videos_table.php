@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->string('file');
             $table->string('original_file_name');
-            $table->string('mimetype');
+            $table->string('original_mimetype')->nullable();
             $table->unsignedMediumInteger('duration');
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Category::class)->nullable()->constrained();

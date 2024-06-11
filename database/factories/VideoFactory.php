@@ -33,7 +33,7 @@ class VideoFactory extends Factory
             'file' => 'default.webm',
             'original_file_name' => fake()->word() . '.avi',
             'duration' => fake()->numberBetween(5, 4000),
-            'mimetype' => 'video/mp4',
+            'original_mimetype' => Video::MIMETYPE,
             'status' => fake()->randomElement([VideoStatus::PUBLIC->value, VideoStatus::PRIVATE->value, VideoStatus::UNLISTED->value]),
             'publication_date' => $date,
             'category_id' => Category::inRandomOrder()->first()?->id,

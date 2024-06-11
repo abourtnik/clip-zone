@@ -29,8 +29,5 @@ export default {
         cropArea : 1.0,
         aspectRatio : 16/9,
         resizeable : true
-    },
-    video:  {
-        accepted_format : ['video/mp4', 'video/webm', 'audio/ogg'],
     }
 }

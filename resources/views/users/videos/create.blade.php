@@ -1,3 +1,6 @@
+@use('App\Models\Video')
+@use('App\Enums\VideoStatus')
+
 @extends('layouts.user')
 
 @section('title', 'Create video')
@@ -117,7 +120,7 @@
                     <div class="card-body">
                         <div
                             class="ratio ratio-16x9"
-                            x-data="{loading: false, video: {{$video->is_uploading ? 'false' : json_encode(['url' => $video->file_url, 'mimetype' => $video->mimetype])}} }"
+                            x-data="{loading: false, video: {{$video->is_uploading ? 'false' : json_encode(['url' => $video->file_url])}} }"
                             @uploaded.window="loading=true"
                             @terminate.window="loading= false; video = $event.detail"
                         >
@@ -141,7 +144,7 @@
                             </template>
                             <template x-if="video">
                                 <video controls class="w-100 border" controlsList="nodownload" onloadstart="this.volume=0.5">
-                                    <source x-bind:src="video.url" x-bind:type="video.mimetype">
+                                    <source x-bind:src="video.url" type="{{Video::MIMETYPE}}">
                                 </video>
                             </template>
                         </div>
@@ -196,8 +199,8 @@
                         <h6 class="text-primary mt-4">Visibility</h6>
                         <hr class="mt-2">
                         <div>
-                            <div id="planned_value" class="d-none">{{\App\Enums\VideoStatus::PLANNED->value}}</div>
-                            <div class="row" x-data="planned({{ json_encode(old('status') == \App\Enums\VideoStatus::PLANNED->value)}})">
+                            <div id="planned_value" class="d-none">{{VideoStatus::PLANNED->value}}</div>
+                            <div class="row" x-data="planned({{ json_encode(old('status') == VideoStatus::PLANNED->value)}})">
                                 <div class="col-6">
                                     <label for="status" class="form-label d-none">Visibility</label>
                                     <select class="form-control" name="status" id="status" required @change="update">

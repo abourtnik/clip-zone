@@ -31,11 +31,6 @@ export default function VideoUpload ({endpoint, maxsize}) {
             return;
         }
 
-        if(!config.accepted_format.includes(file.type)) {
-            setError(`The file type is invalid (${file.type}). Allowed types are ${config.accepted_format.join(', ')}`)
-            return;
-        }
-
         if(file.size > maxsize) {
             setError(`Your ${name} file is too large (${formatSizeUnits(file.size)}) The uploading file should not exceed ${formatSizeUnits(maxsize)}.`)
             return;
@@ -60,7 +55,7 @@ export default function VideoUpload ({endpoint, maxsize}) {
             simultaneousUploads: 1,
             testChunks: false,
             permanentErrors: [400, 401, 403, 404, 409, 413, 415, 422, 500, 501],
-            setChunkTypeFromFile : file.type,
+            setChunkTypeFromFile : true,
             generateUniqueIdentifier: () => uniqueId,
         });
 
@@ -110,7 +105,6 @@ export default function VideoUpload ({endpoint, maxsize}) {
                         onDragEnter={() => setDrag(true)}
                         onDragLeave={() => setDrag(false)}
                         onDrop={() => setDrag(false)}
-                        accept="video/*"
 
                     />
                     <div style={'border-style: dashed !important;'} className={"text-center align-items-center d-flex flex-column w-100 mx-auto py-3" + (isDrag ? ' bg-light border border-2' : '') }>

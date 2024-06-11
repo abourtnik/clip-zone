@@ -71,12 +71,19 @@ class BuildFullFileFromChunks implements ShouldQueue
 
         Storage::disk('local')->deleteDirectory(Video::CHUNK_FOLDER.'/'.$this->folder);
 
-        $this->updateVideo($path, $fileName);
+        $this->video->update([
+            'original_mimetype' => Storage::disk('local')->mimeType($path)
+        ]);
+
+        // Convert video to mp4 and remove original
+        $path = VideoMetadata::convert($path);
+
+        $this->updateVideo($path);
 
         GenerateThumbnails::dispatch($this->video);
 
         if (config('filesystems.default') === 's3') {
-            $this->uploadToS3($path, $this->video);
+            $this->uploadToS3($path);
         } else {
             $this->video->update([
                 'uploaded_at' => now()
@@ -90,18 +97,18 @@ class BuildFullFileFromChunks implements ShouldQueue
      * Create Video from uploaded file.
      *
      * @param string $path
-     * @param string $fileName
      *
      */
-    private function updateVideo (string $path, string $fileName): void {
+    private function updateVideo (string $path): void {
 
         $filePath = Storage::disk('local')->path($path);
 
         $duration = VideoMetadata::getDuration($filePath);
 
         $this->video->update([
-            'file' => $fileName,
+            'file' => pathinfo($path, PATHINFO_BASENAME),
             'duration' => round($duration),
+            'size' => Storage::disk('local')->size($path),
             'is_short' => $this->isShort($duration, $filePath)
         ]);
     }
@@ -110,17 +117,16 @@ class BuildFullFileFromChunks implements ShouldQueue
      * Upload file from local to S3.
      *
      * @param string $path
-     * @param Video $video
      *
      * @return void
      */
-    private function uploadToS3 (string $path, Video $video) : void {
+    private function uploadToS3 (string $path) : void {
 
         $stream = Storage::disk('local')->readStream($path);
 
         Storage::disk('s3')->writeStream($path, $stream);
 
-        $video->update([
+        $this->video->update([
             'uploaded_at' => now()
         ]);
     }

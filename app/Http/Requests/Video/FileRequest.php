@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Video;
 
 use App\Enums\VideoType;
+use App\Rules\MimetypeEnum;
 use Illuminate\Support\Number;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,9 @@ use Closure;
 
 class FileRequest extends FormRequest
 {
+    public const CHUNK_SIZE = 10_240; // 10 MB
+
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -42,8 +46,8 @@ class FileRequest extends FormRequest
                 'required',
                 'file',
                 // file mimetype only available on first chunk other chunk mimetype are application/octet-stream
-                Rule::when($this->get('resumableChunkNumber') == 1, 'mimetypes:'.implode(',', VideoType::acceptedMimeTypes())),
-                'max:10240' // Chunk size 10mo
+                Rule::when($this->get('resumableChunkNumber') == 1, [new MimetypeEnum(VideoType::class)]),
+                'max:'.self::CHUNK_SIZE // Chunk size 10mo
             ]
         ];
     }

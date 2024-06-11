@@ -1,3 +1,5 @@
+@use('App\Models\Video')
+
 @extends('layouts.default')
 
 @section('title', $user->username)
@@ -119,7 +121,7 @@
                                             autoplay
                                             playsinline
                                         >
-                                            <source src="{{$user->pinned_video->file_url}}" type="{{$user->pinned_video->mimetype}}">
+                                            <source src="{{$user->pinned_video->file_url}}" type="{{Video::MIMETYPE}}">
                                         </video>
                                     </div>
                                 </div>

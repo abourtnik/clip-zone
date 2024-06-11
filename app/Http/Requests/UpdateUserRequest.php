@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\ImageType;
+use App\Rules\MimetypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -54,7 +55,7 @@ class UpdateUserRequest extends FormRequest
                 'sometimes',
                 'nullable',
                 'file',
-                'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
+                new MimetypeEnum(ImageType::class),
                 'max:2048', // 2mo
                 Rule::dimensions()->minWidth(98)->minHeight(98)
             ],
@@ -62,7 +63,7 @@ class UpdateUserRequest extends FormRequest
                 'sometimes',
                 'nullable',
                 'file',
-                'mimetypes:'.implode(',', ImageType::acceptedMimeTypes()),
+                new MimetypeEnum(ImageType::class),
                 'max:2048', // 2mo
             ],
             'description' => [

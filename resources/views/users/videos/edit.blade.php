@@ -1,3 +1,6 @@
+@use('App\Models\Video')
+@use('App\Enums\VideoStatus')
+
 @extends('layouts.user')
 
 @section('title', 'Video details')
@@ -119,7 +122,7 @@
                                 </div>
                             @else
                                 <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}" onloadstart="this.volume=0.5">
-                                    <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
+                                    <source src="{{$video->file_url}}" type="{{Video::MIMETYPE}}">
                                 </video>
                             @endif
                         </div>
@@ -174,8 +177,8 @@
                         <h6 class="text-primary mt-4">Visibility</h6>
                         <hr class="mt-2">
                         <div>
-                            <div id="planned_value" class="d-none">{{\App\Enums\VideoStatus::PLANNED->value}}</div>
-                            <div class="row" x-data="planned({{ json_encode(old('status', $video->real_status->value) == \App\Enums\VideoStatus::PLANNED->value)}})">
+                            <div id="planned_value" class="d-none">{{VideoStatus::PLANNED->value}}</div>
+                            <div class="row" x-data="planned({{ json_encode(old('status', $video->real_status->value) == VideoStatus::PLANNED->value)}})">
                                 <div class="col-6">
                                     <label for="status" class="form-label d-none">Visibility</label>
                                     <select class="form-control" name="status" id="status" required @change="update">

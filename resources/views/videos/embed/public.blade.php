@@ -1,3 +1,5 @@
+@use(App\Models\Video)
+
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -61,7 +63,7 @@
         </div>
         <div class="ratio ratio-16x9 w-100 h-100" x-show.important="!player">
             <video id="video" :controls="!share" class="w-100 border border-1 rounded" controlsList="nodownload" oncontextmenu="return false;" :autoplay="!player">
-                <source src="{{$video->file_url}}" type="{{$video->mimetype}}">
+                <source src="{{$video->file_url}}" type="{{Video::MIMETYPE}}">
             </video>
         </div>
         <a href="{{$video->route}}" class="position-absolute text-white bg-dark bg-opacity-75 bottom-0 p-2 text-decoration-none mb-2" x-show.important="player">

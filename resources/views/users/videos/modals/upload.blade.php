@@ -10,7 +10,7 @@
             <div class="modal-body p-0">
                 <video-upload endpoint="{{route('videos.upload')}}" maxSize="{{config('plans.'.Auth::user()->plan.'.max_file_size')}}"></video-upload>
                 <div class="text-sm text-muted mb-3 text-center">
-                    Accepted formats : <strong>{{VideoType::toString()}}</strong>
+                    Accepted formats : <strong>{{VideoType::nameToString()}}</strong>
                 </div>
                 <div class="fw-bold text-center alert alert-info mb-0 radius-end-0 radius-start-0 px-0">
                     <h5 class="alert-heading text-center fw-bold">Your upload limits</h5>
