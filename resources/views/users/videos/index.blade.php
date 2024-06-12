@@ -207,9 +207,11 @@
                                         </button>
                                     </form>
                                 @endcan
-                                <a download href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="Download video">
-                                    <i class="fa-solid fa-download"></i>
-                                </a>
+                                @can('download', $video)
+                                    <a download href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="Download video">
+                                        <i class="fa-solid fa-download"></i>
+                                    </a>
+                                @endcan
                             </div>
                         </td>
                     </tr>

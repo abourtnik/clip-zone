@@ -121,7 +121,7 @@ class Video extends Model implements Likeable, Reportable
     protected function thumbnailUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => route('video.thumbnail', $this)
+            get: fn () => $this->thumbnail ? route('video.thumbnail', $this) : null
         );
     }
 
@@ -204,6 +204,13 @@ class Video extends Model implements Likeable, Reportable
         return Attribute::make(
             get: fn () => is_null($this->uploaded_at)
 
+        );
+    }
+
+    protected function isUploaded(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status !== VideoStatus::FAILED && !$this->is_uploading
         );
     }
 

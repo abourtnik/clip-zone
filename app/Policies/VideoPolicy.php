@@ -65,7 +65,7 @@ class VideoPolicy
      */
     public function download(User $user, Video $video): Response|bool
     {
-        return ($video->is_public && $user->is_premium) || $video->user()->is($user)
+        return $video->is_uploaded && (($video->is_public && $user->is_premium) || $video->user()->is($user))
             ? Response::allow()
             : Response::denyWithStatus(403, 'You are not authorized to download this video');
     }

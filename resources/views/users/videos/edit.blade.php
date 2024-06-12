@@ -127,24 +127,24 @@
                             @endif
                         </div>
                         <div class="bg-light border mt-2 px-3 py-2 d-flex flex-column gap-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <small class="text-muted fw-bold mb-2">Video Link</small>
-                                    <a class="text-decoration-none d-block text-sm w-75" href="{{$video->route}}">{{$video->route}}</a>
+                            <div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted fw-bold">Video Link</small>
+                                    <button
+                                        x-data
+                                        @click="navigator.clipboard.writeText($event.currentTarget.dataset.link)"
+                                        type="button"
+                                        class="btn btn-sm btn-light"
+                                        title="Copy video link"
+                                        data-link="{{$video->route}}"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-trigger="click"
+                                        data-bs-title="Link copied !"
+                                    >
+                                        <i class="fa-regular fa-copy"></i>
+                                    </button>
                                 </div>
-                                <button
-                                    x-data
-                                    @click="navigator.clipboard.writeText($event.currentTarget.dataset.link)"
-                                    type="button"
-                                    class="btn btn-sm btn-light"
-                                    title="Copy video link"
-                                    data-link="{{$video->route}}"
-                                    data-bs-toggle="tooltip"
-                                    data-bs-trigger="click"
-                                    data-bs-title="Link copied !"
-                                >
-                                    <i class="fa-regular fa-copy"></i>
-                                </button>
+                                <a class="text-decoration-none text-sm" href="{{$video->route}}">{{$video->route}}</a>
                             </div>
                             <div>
                                 <small class="text-muted fw-bold mb-2">Original file name</small>

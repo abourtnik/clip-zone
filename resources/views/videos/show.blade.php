@@ -87,29 +87,33 @@
                                 @if(!$video->show_likes) show-count @endif
                             >
                             </interaction-button>
-                            <button class="btn btn-info rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
-                                <i class="fa-solid fa-share"></i>&nbsp;
-                                {{__('Share')}}
-                            </button>
-                            @if(Auth::user()->is_premium)
-                                <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4 btn-sm px-3" title="Download video">
-                                    <i class="fa-solid fa-download"></i>&nbsp;
-                                    {{__('Download')}}
-                                </a>
-                            @else
-                                <button
-                                    class="btn btn-primary rounded-4 btn-sm px-3"
-                                    title="Download video"
-                                    data-bs-toggle="popover"
-                                    data-bs-placement="right"
-                                    data-bs-title="{{__('Want to download this video ?')}}"
-                                    data-bs-trigger="focus"
-                                    data-bs-html="true"
-                                    data-bs-content="{{__('Upgrade to Premium for download videos.')}}<hr><a href='/premium' class='btn btn-warning btn-sm text-white fw-bold'><i class='fa-solid fa-star'></i>&nbsp;{{__('Upgrade to Premium')}}</a>"
-                                >
-                                    <i class="fa-solid fa-download"></i>&nbsp;
-                                    {{__('Download')}}
+                            @if($video->is_public)
+                                <button class="btn btn-info rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                                    <i class="fa-solid fa-share"></i>&nbsp;
+                                    {{__('Share')}}
                                 </button>
+                            @endif
+                            @if($video->is_uploaded)
+                                @can('download', $video)
+                                    <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4 btn-sm px-3" title="Download video">
+                                        <i class="fa-solid fa-download"></i>&nbsp;
+                                        {{__('Download')}}
+                                    </a>
+                                @else
+                                    <button
+                                        class="btn btn-primary rounded-4 btn-sm px-3"
+                                        title="Download video"
+                                        data-bs-toggle="popover"
+                                        data-bs-placement="right"
+                                        data-bs-title="{{__('Want to download this video ?')}}"
+                                        data-bs-trigger="focus"
+                                        data-bs-html="true"
+                                        data-bs-content="{{__('Upgrade to Premium for download videos.')}}<hr><a href='/premium' class='btn btn-warning btn-sm text-white fw-bold'><i class='fa-solid fa-star'></i>&nbsp;{{__('Upgrade to Premium')}}</a>"
+                                    >
+                                        <i class="fa-solid fa-download"></i>&nbsp;
+                                        {{__('Download')}}
+                                    </button>
+                                @endcan
                             @endif
                             <button class="btn btn-warning btn-sm rounded-4 px-4" title="Save video" data-bs-toggle="modal" data-bs-target="#save" data-id="{{$video->id}}">
                                 <i class="fa-regular fa-bookmark"></i>&nbsp;
@@ -402,7 +406,7 @@
     </script>
 @endPushIf
 
-@push('scripts')
+@pushIf($video->is_uploaded, 'scripts')
     <script>
 
         // Volume
@@ -453,4 +457,4 @@
         }
 
     </script>
-@endpush
+@endPushIf
