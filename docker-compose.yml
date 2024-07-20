@@ -1,15 +1,14 @@
-version: "3"
 services:
     php:
         container_name: php_container
         build:
             context: ./docker
             dockerfile: Dockerfile
-        ports:
-            - "5173:5173"
+        image: clipzone/php
         working_dir: /var/www/html
         volumes:
             - ./:/var/www/html
+            - ./docker/php.ini:/usr/local/etc/php/php.ini
         networks:
             - application
         depends_on:
@@ -46,6 +45,17 @@ services:
         healthcheck:
             test: [ "CMD", "mysqladmin", "ping" ]
         restart: unless-stopped
+    node:
+        image: node:18-alpine
+        container_name: node_container
+        ports:
+            - "5173:5173"
+        volumes:
+            - ./:/usr/src/app
+        working_dir: /usr/src/app
+        command: npm run dev
+        networks:
+            - application
     redis:
         image: redis:latest
         container_name: redis_container
@@ -112,11 +122,9 @@ services:
             - application
     queues:
         container_name: queues_container
-        build:
-            context: ./docker
-            dockerfile: Dockerfile
-        command: php artisan horizon
+        image: clipzone/php
         working_dir: /var/www/html
+        command: php artisan horizon
         volumes:
             - ./:/var/www/html
         networks:

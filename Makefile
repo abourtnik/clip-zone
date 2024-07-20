@@ -11,8 +11,7 @@ reset: ## Reset database and run seeders
 	docker exec -it php_container php artisan migrate:fresh --seed
 
 start: ## Start dev server
-	docker-compose up -d
-	docker exec -it php_container npm run dev
+	docker-compose -p clipzone up -d
 
 stop: ## Stop dev server
 	docker-compose down
