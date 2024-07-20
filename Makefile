@@ -14,7 +14,7 @@ start: ## Start dev server
 	docker-compose -p clipzone up -d
 
 stop: ## Stop dev server
-	docker-compose down
+	docker-compose -p clipzone down
 
 optimize: ## Clear application cache
 	docker exec -it php_container php artisan optimize
