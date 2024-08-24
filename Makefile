@@ -11,10 +11,10 @@ reset: ## Reset database and run seeders
 	docker exec -it php_container php artisan migrate:fresh --seed
 
 start: ## Start dev server
-	docker-compose -p clipzone up -d
+	docker compose -p clipzone up -d
 
 stop: ## Stop dev server
-	docker-compose -p clipzone down
+	docker compose -p clipzone down
 
 optimize: ## Clear application cache
 	docker exec -it php_container php artisan optimize
@@ -31,7 +31,7 @@ install: ## Install application
 
 init: ## Init application
 	cp .env.example .env
-	docker-compose up -d
+	docker compose up -d
 	docker exec -it php_container npm install
 	docker exec -it php_container composer install
 	docker exec -it php_container php artisan key:generate
@@ -57,7 +57,7 @@ stripe: ## See Stripe Webhook logs
 	docker logs -f stripe_container
 
 restart-horizon: ## Restart Horizon
-	docker-compose restart queues_container
+	docker compose restart queues_container
 
 analyse: ## Execute Larastan
 	docker exec -it php_container ./vendor/bin/phpstan analyse --memory-limit=2G

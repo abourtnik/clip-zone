@@ -44,6 +44,13 @@ class Video extends Model implements Likeable, Reportable
         'uploaded_at' => 'datetime'
     ];
 
+    /**
+     * The relationships that should always be loaded.
+     *
+     * @var array
+     */
+    protected $with = ['thumbnail'];
+
     public const THUMBNAIL_FOLDER = 'thumbnails';
     public const VIDEO_FOLDER = 'videos';
     public const CHUNK_FOLDER = 'chunks';

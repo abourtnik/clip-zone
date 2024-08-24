@@ -13,9 +13,9 @@
                     <h2 class="h4 my-3">{{$playlist->title}}</h2>
                     <div class="mt-3">by <a class="text-decoration-none fw-bold " href="{{$playlist->user->route}}">{{$playlist->user->username}}</a> </div>
                     <span class="badge bg-{{$playlist->status->color()}} my-3">
-                    <i class="fa-solid fa-{{$playlist->status->icon()}}"></i>&nbsp;
-                    {{$playlist->status->name()}}
-                </span>
+                        <i class="fa-solid fa-{{$playlist->status->icon()}}"></i>&nbsp;
+                        {{$playlist->status->name()}}
+                    </span>
                     <div class="d-flex align-items-center gap-1 mb-2">
                         <div class="text-sm">{{trans_choice('videos', $playlist->videos_count)}}</div>
                         <div class="text-sm">•</div>
