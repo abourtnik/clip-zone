@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PlaylistSort;
 use App\Enums\PlaylistStatus;
 use App\Models\Pivots\FavoritePlaylist;
 use App\Models\Pivots\PlaylistVideo;
@@ -26,6 +27,7 @@ class Playlist extends Model
 
     protected $casts = [
         'status' => PlaylistStatus::class,
+        'sort' => PlaylistSort::class,
     ];
 
     public function user() : BelongsTo
@@ -37,7 +39,8 @@ class Playlist extends Model
     {
         return $this->belongsToMany(Video::class, 'playlist_has_videos')
             ->using(PlaylistVideo::class)
-            ->orderByPivot('position', 'asc');
+            ->join('playlists', 'playlists.id', 'playlist_has_videos.playlist_id')
+            ->when($this->sort, fn($q) => $q->orderBy($this->sort->getSortedColumn(), $this->sort->getSortedDirection()));
     }
 
     public function users () : BelongsToMany {

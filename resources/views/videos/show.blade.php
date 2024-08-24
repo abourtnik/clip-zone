@@ -319,7 +319,7 @@
                             </div>
                             <hr class="mb-0">
                             <div class="overflow-y-auto">
-                                @foreach($playlist->videos as $index => $p_video)
+                                @foreach($playlistVideos as $index => $p_video)
                                     @if($p_video->user->is(Auth::user()) || $p_video->is_public)
                                         <article @class(["px-2 py-2 hover-primary playlist_video", 'selected' => $p_video->is($video)])>
                                             <a href="{{$p_video->routeWithParams(['list' => $playlist->uuid])}}" class="d-flex flex-column flex-sm-row gap-2 text-decoration-none text-black">

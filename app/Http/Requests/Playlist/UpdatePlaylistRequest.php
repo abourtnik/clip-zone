@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Playlist;
 
+use App\Enums\PlaylistSort;
 use App\Enums\PlaylistStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -41,6 +42,10 @@ class UpdatePlaylistRequest extends FormRequest
             'status' => [
                 'required',
                 new Enum(PlaylistStatus::class)
+            ],
+            'sort' => [
+                'required',
+                new Enum(PlaylistSort::class)
             ],
             'videos' => 'nullable|array',
             'videos.*' => [

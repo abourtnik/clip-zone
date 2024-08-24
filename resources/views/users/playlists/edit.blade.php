@@ -1,3 +1,5 @@
+@use('App\Enums\PlaylistSort')
+
 @extends('layouts.user')
 
 @section('title', 'Playlist detail')
@@ -16,6 +18,7 @@
     @endif
     <div class="d-flex justify-content-between align-items-center my-3">
         <h2>Playlist detail</h2>
+        <a class="btn btn-success" href="{{$playlist->route}}">See Playlist</a>
     </div>
     <form action="{{ route('user.playlists.update', $playlist) }}" method="POST">
         @method('PUT')
@@ -66,13 +69,23 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 mt-3">
-                            <label for="status" class="form-label">Visibility</label>
-                            <select class="form-control" name="status" id="status" required>
-                                @foreach($status as $id => $name)
-                                    <option @selected(old('status', $playlist->status->value) == $id) value="{{$id}}">{{$name}}</option>
-                                @endforeach
-                            </select>
+                        <div class="row">
+                            <div class="col-12 col-sm-6 mt-3">
+                                <label for="status" class="form-label">Visibility</label>
+                                <select class="form-control" name="status" id="status" required>
+                                    @foreach($status as $id => $name)
+                                        <option @selected(old('status', $playlist->status->value) == $id) value="{{$id}}">{{$name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 mt-3">
+                                <label for="sort" class="form-label">Default videos order</label>
+                                <select class="form-control" name="sort" id="sort" required>
+                                    @foreach($sorts as $id => $name)
+                                        <option @selected(old('sort', $playlist->sort->value) == $id) value="{{$id}}">{{$name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

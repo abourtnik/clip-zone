@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Enums\PlaylistSort;
 use App\Enums\PlaylistStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Playlist\StorePlaylistRequest;
@@ -30,6 +31,9 @@ class PlaylistController extends Controller
         return view('users.playlists.index', [
             'playlists' => Playlist::filter()
                 ->where('user_id', Auth::user()->id)
+                ->with([
+                    'videos' => fn($query) => $query->withCount('views')
+                ])
                 ->withCount(['videos'])
                 ->paginate(15)
                 ->withQueryString()
@@ -49,6 +53,7 @@ class PlaylistController extends Controller
     public function create(): View {
         return view('users.playlists.create', [
             'status' => PlaylistStatus::get(),
+            'sorts' => PlaylistSort::get(),
             'videos' => VideoResource::collection(
                 old('videos') ? Video::whereIn('id', old('videos'))
                     ->with('user')
@@ -88,12 +93,13 @@ class PlaylistController extends Controller
         return view('users.playlists.edit', [
             'playlist' => $playlist,
             'status' => PlaylistStatus::get(),
+            'sorts' => PlaylistSort::get(),
             'videos' => VideoResource::collection(
                 old('videos') ? Video::whereIn('id', old('videos'))
                     ->with('user')
                     ->with('views')
                     ->when(ctype_digit(implode('', old('videos'))), fn($q) => $q->orderByRaw('FIELD(id,' . implode(',', old('videos')).")"))
-                    ->get() : $playlist->videos->load('user')->loadCount('views')
+                    ->get() : $playlist->videos()->withCount('views')->with('user')->get()
             )->toJson()
         ]);
     }

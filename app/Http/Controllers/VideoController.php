@@ -67,6 +67,7 @@ class VideoController extends Controller
         $list = $request->query('list');
 
         $playlist = null;
+        $playlistVideos = null;
         $currentIndex = null;
 
         if ($request->query('list')) {
@@ -76,11 +77,14 @@ class VideoController extends Controller
                     $query->active()
                         ->orWhere('user_id', Auth::id());
                 })
-                ->with([
-                    'videos' => fn($query) => $query->with('user')->withPivot('position')
-                ])
                 ->withCount('videos')
                 ->first();
+            $playlistVideos = $playlist
+                ->videos()
+                ->with(['user', 'thumbnail'])
+                ->withCount('views')
+                ->withPivot('position')
+                ->get();
 
             $currentIndex = $playlist?->videos->find($video->id)?->pivot->position;
         }
@@ -110,6 +114,7 @@ class VideoController extends Controller
             'nextVideo' => $this->videoService->getNextVideo($suggestedVideos, $playlist, $currentIndex),
             't' => $request->query('t', 0),
             'playlist' => $playlist,
+            'playlistVideos' => $playlistVideos,
             'currentIndex' => $currentIndex,
         ]);
     }
