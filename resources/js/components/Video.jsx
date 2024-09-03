@@ -1,6 +1,10 @@
 import {useState} from 'preact/hooks';
+import {useTranslation} from "react-i18next";
+import moment from "moment";
 
 export default function Video ({video}) {
+
+    const { t } = useTranslation();
 
     const [loading, setLoading] = useState(true);
     const [hover, setHover] = useState(false);
@@ -22,7 +26,7 @@ export default function Video ({video}) {
                             <img className={'img-fluid w-100 ' + (loading ? 'd-none' : 'd-block')} src={video.thumbnail} alt={video.title} onLoad={imageLoad}/>
                         </div>
                         <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
-                            {video.duration}
+                            {video.formated_duration}
                         </small>
                     </div>
                     <span onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}  style="position: absolute;inset: 0;"></span>
@@ -36,7 +40,7 @@ export default function Video ({video}) {
                         <a href={video.user.route} className="position-relative text-decoration-none">
                             <small>{video.user.username}</small>
                         </a>
-                        <small className="text-muted d-block">{video.views} • {video.publication_date}</small>
+                        <small className="text-muted d-block">{t( 'Views', { count:  video.views } )} • {moment(video.publication_date).fromNow()}</small>
                     </div>
                 </div>
             </div>

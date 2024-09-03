@@ -29,6 +29,7 @@ export default {
     "Show less": "Voir moins",
     "Read more": "Lire la suite",
     "Comments": "{count, plural, =0 {0 commentaire} =1 {1 commentaire} other {# commentaires}}",
+    "Views": "{count, plural, =0 {0 vue} =1 {1 vue} other {# vues}}",
     "Search": "Rechercher",
     "Latest": "Les plus récentes",
     "Popular": "Populaires",
