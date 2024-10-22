@@ -127,7 +127,9 @@ Route::middleware('throttle:api')->group(function () {
     Route::prefix('videos')->name('videos.')->controller(VideoController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/trend', 'trend')->name('trend');
-        Route::get('/{video:uuid}', 'show')->name('show');
+        Route::get('/{video:uuid}', 'show')
+            ->can('show', 'video')
+            ->can('delete', 'notification');;
     });
 
     // COMMENTS
