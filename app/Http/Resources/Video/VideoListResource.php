@@ -27,6 +27,7 @@ class VideoListResource extends JsonResource
             'id' => $this->id,
             'uuid' => $this->uuid,
             'title' => $this->title,
+            'short_title' => $this->short_title,
             'thumbnail' => $this->thumbnail_url,
             'formated_duration' => $this->duration,
             'views' => $this->views_count,
