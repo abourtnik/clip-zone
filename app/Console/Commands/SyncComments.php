@@ -161,6 +161,7 @@ class SyncComments extends Command
         if ($user) {
             $user->update([
                 'description' => $channel['description'] ?: null,
+                'slug' => Str::remove('@', $channel['customUrl']),
                 'created_at' => Carbon::create($channel['publishedAt']),
                 'country' => $channel['country'] ?? null,
             ]);
@@ -203,6 +204,7 @@ class SyncComments extends Command
 
             return User::create([
                 'username' => $channel['title'],
+                'slug' => Str::remove('@', $channel['customUrl']),
                 'email' => Str::slug($channel['title']) .'-'. Carbon::now()->timestamp .'@youtube.com',
                 'password' => Str::random(),
                 'email_verified_at' => Carbon::create($channel['publishedAt'])->addSeconds(rand(10, 300)),
