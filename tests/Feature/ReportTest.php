@@ -2,18 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\Enums\ImageType;
 use App\Enums\ReportReason;
 use App\Enums\VideoStatus;
 use App\Models\Comment;
 use App\Models\Report;
 use App\Models\User;
 use App\Models\Video;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 class ReportTest extends TestCase

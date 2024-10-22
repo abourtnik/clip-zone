@@ -26,7 +26,7 @@ export default function UserVideos ({user, videos, showSort = true, excludePinne
                     <button onClick={() => sort('oldest')} className={'btn btn-' + activeButton('oldest') + 'btn-sm'} type="button">{t('Oldest')}</button>
                 </div>
             }
-            <Videos url={`/api/videos/user/${user}?sort=${selectedSort}${pinned}`} skeletons={videos}/>
+            <Videos url={`/api/users/${user}/videos?sort=${selectedSort}${pinned}`} skeletons={videos}/>
         </>
 
     )

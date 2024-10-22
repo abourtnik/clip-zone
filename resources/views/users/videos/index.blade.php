@@ -34,24 +34,26 @@
         <form
             action="{{route('user.videos.mass-delete')}}"
             method="POST"
+            id="delete-form"
             x-ref="deleteForm"
         >
             @csrf
             @method('DELETE')
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped">
+        </form>
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped">
                 <thead>
-                <tr style="border-top: 3px solid #0D6EFD;">
-                    <th scope="col"></th>
-                    <th scope="col" class="w-40" style="min-width: 400px">Video</th>
-                    <th scope="col">Status</th>
-                    <th scope="col" style="min-width: 180px;">Date</th>
-                    <th scope="col">Views</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Comments</th>
-                    <th scope="col" style="min-width: 170px;">Interactions</th>
-                    <th scope="col">Actions</th>
-                </tr>
+                    <tr style="border-top: 3px solid #0D6EFD;">
+                        <th scope="col"></th>
+                        <th scope="col" class="w-40" style="min-width: 400px">Video</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" style="min-width: 180px;">Date</th>
+                        <th scope="col">Views</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Comments</th>
+                        <th scope="col" style="min-width: 170px;">Interactions</th>
+                        <th scope="col">Actions</th>
+                    </tr>
                 </thead>
                 <tbody>
                 @forelse($videos as $video)
@@ -65,6 +67,7 @@
                                     x-model="selected"
                                     value="{{$video->id}}"
                                     id="video-{{$video->id}}"
+                                    form="delete-form"
                                 >
                                 <label class="form-check-label" for="video-{{$video->id}}"></label>
                             </div>
@@ -225,8 +228,7 @@
                 @endforelse
                 </tbody>
             </table>
-            </div>
-        </form>
+        </div>
         {{ $videos->links() }}
         @include('users.videos.modals.delete')
         @include('videos.modals.interactions')

@@ -3,14 +3,16 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\User\SearchController as SearchUserController;
 use App\Http\Controllers\Admin\SearchController as SearchAdminController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\NotificationController;
-use App\Http\Controllers\User\PlaylistController;
-use App\Http\Controllers\User\VideoController as VideoUserController;
-use App\Http\Controllers\VideoController;
+use App\Http\Controllers\Api\VideoController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\PlaylistController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Video;
 
@@ -40,7 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
         ->missing(fn() => abort(404, 'User not found'));
 
     // UPLOAD
-    Route::post('/videos/upload', [VideoUserController::class, 'upload'])
+    Route::post('/videos/upload', [VideoController::class, 'upload'])
         ->name('videos.upload')
         ->middleware('throttle:upload')
         ->can('upload', Video::class);
@@ -68,7 +70,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // PLAYLIST
         Route::controller(PlaylistController::class)->prefix('playlists')->name('playlists.')->group(function () {
-            Route::get('/{video}', 'list')->name('list');
             Route::post('/save', 'save')->name('save');
         });
 
@@ -88,7 +89,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/read-all', 'readAll')->name('read-all');
         });
 
-        // SEARCH
+        // SEARCH USER
         Route::controller(SearchUserController::class)->prefix('search')->name('search.')->group(function () {
             Route::get('/users', 'users')->name('users');
             Route::post('/videos', 'videos')->name('videos');
@@ -113,20 +114,42 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::middleware('throttle:api')->group(function () {
 
+    // AUTH
+    Route::controller(LoginController::class)->group(function () {
+        Route::post('/login', 'login');
+        Route::get('/me', 'me')->name('me');
+    });
+
     // SEARCH
     Route::get("search", [SearchController::class, 'search'])->name('search');
 
     // VIDEOS
     Route::prefix('videos')->name('videos.')->controller(VideoController::class)->group(function () {
-        Route::get('/home', 'home')->name('home');
+        Route::get('/', 'index')->name('index');
         Route::get('/trend', 'trend')->name('trend');
-        Route::get('/category/{category}', 'category')->name('category');
-        Route::get('/user/{user}', 'user')->name('user');
+        Route::get('/{video:uuid}', 'show')->name('show');
     });
 
     // COMMENTS
     Route::prefix('comments')->name('comments.')->controller(CommentController::class)->group(function () {
         Route::get("/", [CommentController::class, 'list'])->name('comments.list');
         Route::get('/{comment}/replies', 'replies')->name('replies');
+    });
+
+    // USERS
+    Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {
+        Route::get('/{user:id}', 'show')->name('show');
+        Route::get('/{user:id}/videos', 'videos')->name('videos');
+        Route::get('/{user:id}/playlists', 'playlists')->name('playlists');
+    });
+
+    // PLAYLISTS
+    Route::prefix('playlists')->name('playlists.')->controller(PlaylistController::class)->group(function () {
+        Route::get('/{playlist:uuid}', 'show')->name('show');
+    });
+
+    // CATEGORIES
+    Route::prefix('categories')->name('categories.')->controller(CategoryController::class)->group(function () {
+        Route::get('/{category}/videos', 'videos')->name('videos');
     });
 });

@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Enums\VideoStatus;
-use App\Http\Resources\Search\UserSearchResource;
-use App\Http\Resources\VideoResource;
+use App\Http\Resources\Video\VideoListResource;
+use App\Http\Resources\User\UserSearchResource;
 use App\Models\User;
 use App\Models\Video;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,6 +22,7 @@ class SearchController
 
         return UserSearchResource::collection(
             User::query()
+                ->active()
                 ->where('username', 'LIKE', $match)
                 ->whereHas('comments', function (Builder $query) {
                     $query
@@ -41,7 +42,7 @@ class SearchController
 
         $match = '%'.$q.'%';
 
-        return VideoResource::collection(
+        return VideoListResource::collection(
             Video::where(
                 fn($q) => $q
                     ->active()

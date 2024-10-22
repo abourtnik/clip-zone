@@ -42,7 +42,7 @@ const Save = memo(({video}) => {
     const [saveState, send] = useMachine(saveMachine);
 
     useEffect( async () => {
-        return jsonFetch(`/api/playlists/${video}` , {
+        return jsonFetch(`/api/users/${window.USER.id}/playlists?video_id=${video}` , {
         }).then(response => {
             setPlaylists(response.data);
             setLoading(false)

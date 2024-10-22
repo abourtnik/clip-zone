@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Resources\Search\UserSearchResource;
-use App\Http\Resources\Search\VideoSearchResource;
+use App\Http\Resources\User\UserSearchResource;
+use App\Http\Resources\Video\VideoSearchResource;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Http\Request;

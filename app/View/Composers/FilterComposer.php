@@ -22,7 +22,7 @@ class FilterComposer
                 $class = 'App\Models\\' .Str::ucfirst($filter);
                 $model = $class::query()->find(request()->get($filter));
                 if ($model) {
-                    $resource = 'App\Http\Resources\Search\\' .Str::ucfirst($filter). 'SearchResource';
+                    $resource = 'App\Http\Resources\\' .Str::ucfirst($filter). '\\' .Str::ucfirst($filter). 'SearchResource';
                     $view->with('selected'.Str::ucfirst($filter), (new $resource($model))->toJson());
                 }
             }

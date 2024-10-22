@@ -6,7 +6,7 @@
 @section('class', 'px-1 px-sm-3 mt-3')
 
 @section('content')
-    <videos-area url="{{route('videos.home')}}" /></videos-area>
+    <videos-area url="{{route('videos.index')}}" /></videos-area>
     @includeWhen($success, 'modals.premium')
 @endsection
 

@@ -6,16 +6,12 @@ use App\Enums\PlaylistStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Playlist\StorePlaylistRequest;
 use App\Http\Requests\Playlist\UpdatePlaylistRequest;
-use App\Http\Requests\Video\SaveRequest;
-use App\Http\Resources\PlaylistResource;
-use App\Http\Resources\VideoResource;
-use App\Models\Pivots\PlaylistVideo;
+use App\Http\Resources\Playlist\PlaylistListResource;
+use App\Http\Resources\Video\VideoListResource;
 use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -30,26 +26,17 @@ class PlaylistController extends Controller
         return view('users.playlists.index', [
             'playlists' => Playlist::filter()
                 ->where('user_id', Auth::user()->id)
+                ->with('videos')
                 ->withCount(['videos'])
                 ->paginate(15)
                 ->withQueryString()
         ]);
     }
 
-    public function list(Video $video): ResourceCollection {
-        return PlaylistResource::collection(
-            Playlist::where('user_id', Auth::user()->id)
-                ->withExists([
-                    'videos as has_video' => fn($q) => $q->where('video_id', $video->id)
-                ])
-                ->paginate(20)
-        );
-    }
-
     public function create(): View {
         return view('users.playlists.create', [
             'status' => PlaylistStatus::get(),
-            'videos' => VideoResource::collection(
+            'videos' => VideoListResource::collection(
                 old('videos') ? Video::whereIn('id', old('videos'))
                     ->with('user')
                     ->with('views')
@@ -59,7 +46,7 @@ class PlaylistController extends Controller
         ]);
     }
 
-    public function store(StorePlaylistRequest $request): RedirectResponse|PlaylistResource {
+    public function store(StorePlaylistRequest $request): RedirectResponse|PlaylistListResource {
 
         $validated = $request->safe()->merge([
             'uuid' => (string) Str::uuid(),
@@ -77,7 +64,7 @@ class PlaylistController extends Controller
         }
 
         if ($request->ajax()) {
-            return new PlaylistResource($playlist);
+            return new PlaylistListResource($playlist);
         }
 
         return redirect()->route('user.playlists.index');
@@ -88,7 +75,7 @@ class PlaylistController extends Controller
         return view('users.playlists.edit', [
             'playlist' => $playlist,
             'status' => PlaylistStatus::get(),
-            'videos' => VideoResource::collection(
+            'videos' => VideoListResource::collection(
                 old('videos') ? Video::whereIn('id', old('videos'))
                     ->with('user')
                     ->with('views')
@@ -127,47 +114,4 @@ class PlaylistController extends Controller
 
         return redirect()->route('user.playlists.index');
     }
-
-    public function save (SaveRequest $request): JsonResponse {
-
-        $video = Video::findOrFail($request->get('video_id'));
-
-        $playlists = $request->get('playlists', []);
-
-        foreach ($playlists as $playlist) {
-
-            if ($playlist['checked']) {
-
-                $exist = PlaylistVideo::where([
-                    'playlist_id' => $playlist['id'],
-                    'video_id' => $video->id
-                ])->exists();
-
-                if (!$exist) {
-
-                    $lastPosition = PlaylistVideo::where('playlist_id', $playlist['id'])
-                        ->latest('position')
-                        ->first()
-                        ?->position;
-
-                    PlaylistVideo::create([
-                        'playlist_id' => $playlist['id'],
-                        'video_id' => $video->id,
-                        'position' => is_null($lastPosition) ? 0 : $lastPosition + 1
-                    ]);
-                }
-
-            }
-
-            else {
-                PlaylistVideo::where([
-                    'playlist_id' => $playlist['id'],
-                    'video_id' => $video->id
-                ])->delete();
-            }
-        }
-
-        return response()->json(null, 201);
-    }
-
 }

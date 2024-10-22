@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Resources\Search;
+namespace App\Http\Resources\Video;
 
-use App\Models\User;
-use Illuminate\Http\Resources\Json\JsonResource;
+use App\Models\Video;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @mixin User
+ * @mixin Video
  */
-class UserSearchResource extends JsonResource
+class VideoSearchResource extends JsonResource
 {
     public static $wrap = null;
 
@@ -23,7 +23,7 @@ class UserSearchResource extends JsonResource
     {
         return [
             'value' => $this->id,
-            'label' => $this->username
+            'label' => $this->title
         ];
     }
 }

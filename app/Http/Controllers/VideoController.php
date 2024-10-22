@@ -4,18 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Enums\VideoStatus;
 use App\Events\Video\VideoViewed;
-use App\Http\Resources\VideoResource;
-use App\Models\Category;
 use App\Models\Playlist;
 use App\Models\Subtitle;
 use App\Models\Thumbnail;
-use App\Models\User;
 use App\Models\Video;
 use App\Services\VideoService;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -25,37 +21,6 @@ class VideoController extends Controller
 {
     public function __construct(private readonly VideoService $videoService)
     {
-    }
-
-    public function home () : ResourceCollection {
-        return VideoResource::collection(
-            Video::active()
-                ->with('user')
-                ->withCount('views')
-                ->latest('publication_date')
-                ->paginate(24)
-        );
-    }
-
-    public function trend () : ResourceCollection {
-        return VideoResource::collection(
-            Video::active()
-                ->with('user')
-                ->withCount('views')
-                ->orderBy('views_count', 'desc')
-                ->paginate(24)
-        );
-    }
-
-    public function category (Category $category) : ResourceCollection {
-        return VideoResource::collection(
-            Video::active()
-                ->whereRelation('category', 'id', $category->id)
-                ->with('user')
-                ->withCount('views')
-                ->latest('publication_date')
-                ->paginate(24)
-        );
     }
 
     public function show (string $slug, Video $video, Request $request) : View|RedirectResponse {
@@ -156,23 +121,5 @@ class VideoController extends Controller
         },[
             'video' => $video
         ]);
-    }
-
-    public function user (User $user, Request $request) : ResourceCollection {
-
-        $sort = $request->get('sort', 'latest');
-        $excludePinned = $request->exists('excludePinned');
-
-        return VideoResource::collection(
-            $user->videos()
-                ->active()
-                ->when($excludePinned, fn($query) => $query->where('id', '!=', $user->pinned_video->id))
-                ->withCount('views')
-                ->with('user')
-                ->when($sort === 'latest', fn($query) => $query->latest('publication_date'))
-                ->when($sort === 'popular', fn($query) => $query->orderByRaw('views_count DESC'))
-                ->when($sort === 'oldest', fn($query) => $query->oldest('publication_date'))
-                ->paginate(24)
-        );
     }
 }

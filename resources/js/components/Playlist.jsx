@@ -2,6 +2,7 @@ import { useState, useCallback, useRef } from 'preact/hooks';
 import {debounce} from "../functions";
 import { ReactSortable } from "react-sortablejs";
 import {jsonFetch, useClickOutside} from '../hooks'
+import moment from "moment/moment";
 
 export default function Playlist ({initial = []}) {
 
@@ -86,7 +87,7 @@ export default function Playlist ({initial = []}) {
                                                         <div className={'position-relative'}>
                                                             <img style={{width:'150px', height: '84px'}} src={result.thumbnail} alt=""/>
                                                             <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
-                                                                {result.duration}
+                                                                {result.formated_duration}
                                                             </small>
                                                         </div>
                                                         <div>
@@ -97,7 +98,7 @@ export default function Playlist ({initial = []}) {
                                                                 {result.user.username}
                                                             </div>
                                                             <div className={'text-muted text-sm'}>
-                                                                {result.views} • {result.publication_date}
+                                                                {result.views} views • {moment(result.publication_date).fromNow()}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -157,7 +158,7 @@ export default function Playlist ({initial = []}) {
                                                                     <div className={'position-relative col-12 col-sm-6 col-lg-5 col-xl-4'}>
                                                                         <img className={'img-fluid'} src={video.thumbnail} alt=""/>
                                                                         <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
-                                                                            {video.duration}
+                                                                            {video.formated_duration}
                                                                         </small>
                                                                     </div>
                                                                     <div className={'px-3 col-12 col-sm-6 col-lg-7 col-xl-8'}>
@@ -168,7 +169,7 @@ export default function Playlist ({initial = []}) {
                                                                             {video.user.username}
                                                                         </div>
                                                                         <div className={'text-muted text-sm'}>
-                                                                            {video.views} • {video.publication_date}
+                                                                            {video.views} views • {moment(video.publication_date).fromNow()}
                                                                         </div>
                                                                     </div>
                                                                 </>

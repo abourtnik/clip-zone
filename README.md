@@ -95,3 +95,10 @@ ClipZone is made available under the [MIT License](http://www.opensource.org/lic
 
 ## Credits
 ClipZone is created and maintained by [Anton Bourtnik](https://github.com/abourtnik)
+
+// ADD test
+// Update logo and favicon
+// Checkbox for enable/disable autoplay for video
+// Separe videos LIstVideo and Fullvideo
+// Add typescript
+// Separate api 
