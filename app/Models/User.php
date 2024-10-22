@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Cashier\Billable;
+use Laravel\Sanctum\HasApiTokens;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Symfony\Component\Intl\Countries;
@@ -38,7 +39,7 @@ use Symfony\Component\Intl\Countries;
 
 class User extends Authenticatable implements MustVerifyEmail, Reportable
 {
-    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable, Filterable;
+    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable, Filterable, HasApiTokens;
 
     protected $guarded = ['id', 'is_admin'];
 
@@ -49,6 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'show_subscribers' => 'boolean',
         'banned_at' => 'datetime',
         'last_login_at' => 'datetime'
     ];

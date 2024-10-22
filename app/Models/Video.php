@@ -37,6 +37,8 @@ class Video extends Model implements Likeable, Reportable
     protected $guarded = ['id'];
 
     protected $casts = [
+        'allow_comments' => 'boolean',
+        'show_likes' => 'boolean',
         'status' => VideoStatus::class,
         'publication_date' => 'datetime',
         'scheduled_date' => 'datetime',
@@ -387,6 +389,10 @@ class Video extends Model implements Likeable, Reportable
     }
 
     /**
+     * -------------------- LARAVEL SCOUT --------------------
+     */
+
+    /**
      * Get the name of the index associated with the model.
      */
     public function searchableAs(): string
@@ -419,6 +425,7 @@ class Video extends Model implements Likeable, Reportable
     {
         return [
             'id' => (int) $this->id,
+            'uuid' => $this->uuid,
             'title' => $this->title,
             'description' => $this->description,
             'category' => $this->category?->title,
@@ -435,28 +442,4 @@ class Video extends Model implements Likeable, Reportable
     {
         return $this->is_active;
     }
-
-
-   /* public function resolveRouteBinding($value, $field = null): Video|Short
-    {
-        $video = $this->where($field ?? 'id', $value)->firstOrFail();
-
-        if ($video->is_short) {
-
-            return $this->cast($video, Short::class);
-        }
-
-        return $video;
-    }
-
-    protected function cast($instance, $className)
-    {
-        return unserialize(sprintf(
-            'O:%d:"%s"%s',
-            \strlen($className),
-            $className,
-            strstr(strstr(serialize($instance), '"'), ':')
-        ));
-    }
-   */
 }

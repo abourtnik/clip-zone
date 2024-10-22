@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -18,12 +19,9 @@ class LoginController
         return view('auth.login');
     }
 
-    public function login (Request $request) : RedirectResponse {
+    public function login (LoginRequest $request) : RedirectResponse {
 
-        $credentials = $request->validate([
-            'username' => ['required'],
-            'password' => ['required']
-        ]);
+        $credentials = $request->validated();
 
         if (RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
 

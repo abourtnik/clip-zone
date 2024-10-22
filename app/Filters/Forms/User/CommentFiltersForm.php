@@ -34,7 +34,7 @@ class CommentFiltersForm extends FilterForm
             ])
             ->add('user', 'autocomplete', [
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'endpoint' => route('admin.search.users')
+                'endpoint' => route('search.users')
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
                 'label' => 'Publication date start',
