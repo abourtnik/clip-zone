@@ -77,7 +77,7 @@
                                 @include('users.videos.partials.thumbnail')
                             </a>
                             <div class="d-flex flex-column align-items-start gap-2">
-                                <div>{{Str::limit($video->title, 100), '...'}}</div>
+                                <a class="text-black text-decoration-none" href="{{$video->route}}">{{Str::limit($video->title, 100), '...'}}</a>
                                 <div class="text-muted text-sm">{{Str::limit($video->description, 75), '...'}}</div>
                                 <div class="badge bg-primary w-auto">{{$video->duration}} - @size($video->size)</div>
                             </div>

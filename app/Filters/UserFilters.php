@@ -17,6 +17,7 @@ class UserFilters extends MySQLFilter
         return $this->builder->where(fn($query) => $query
             ->where('username', 'LIKE', $match)
             ->orWhere('email', 'LIKE', $match)
+            ->orWhere('slug', 'LIKE', $match)
             ->orWhere('description', 'LIKE', $match)
         );
     }

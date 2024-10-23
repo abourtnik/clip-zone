@@ -41,8 +41,8 @@
                                     </div>
                                 @endif
                             </a>
-                            <div>
-                                <div>{{Str::limit($playlist->title, 100), '...'}}</div>
+                            <div class="d-flex flex-column align-items-start gap-2">
+                                <a class="text-black text-decoration-none" href="{{$playlist->route}}">{{Str::limit($playlist->title, 100), '...'}}</a>
                                 <small class="text-muted">{{Str::limit($playlist->description, 190), '...'}}</small>
                             </div>
                         </td>

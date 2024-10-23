@@ -16,6 +16,10 @@
     @endif
     <div class="d-flex justify-content-between align-items-center my-3">
         <h2>Playlist detail</h2>
+        <a class="btn btn-success btn-sm d-flex align-items-center gap-2" href="{{$playlist->route}}">
+            <i class="fa-solid fa-eye d-none d-sm-block"></i>
+            <span>See Playlist</span>
+        </a>
     </div>
     <form action="{{ route('user.playlists.update', $playlist) }}" method="POST">
         @method('PUT')
