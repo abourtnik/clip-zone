@@ -1,13 +1,18 @@
 import {useState} from 'preact/hooks';
 import {useTranslation} from "react-i18next";
-import moment from "moment";
+import * as moment from 'moment';
+import {VideoType} from "@/types";
 
-export default function Video ({video}) {
+type Props = {
+    video : VideoType
+}
+
+export default function Video ({video} : Props) {
 
     const { t } = useTranslation();
 
-    const [loading, setLoading] = useState(true);
-    const [hover, setHover] = useState(false);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [hover, setHover] = useState<boolean>(false);
 
     const imageLoad = () => {
         setLoading(false);
@@ -29,7 +34,7 @@ export default function Video ({video}) {
                             {video.formated_duration}
                         </small>
                     </div>
-                    <span onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}  style="position: absolute;inset: 0;"></span>
+                    <span className={'position-absolute inset'} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}></span>
                 </a>
                 <div className="d-flex pt-2">
                     <a href={video.user.route} style="height: 36px;" className="position-relative" title={video.user.username}>
