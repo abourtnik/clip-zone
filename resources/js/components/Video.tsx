@@ -1,6 +1,6 @@
 import {useState} from 'preact/hooks';
 import {useTranslation} from "react-i18next";
-import * as moment from 'moment';
+import moment from 'moment';
 import {VideoType} from "@/types";
 
 type Props = {
