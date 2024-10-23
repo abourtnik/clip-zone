@@ -207,7 +207,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     protected function countryName(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Countries::getName($this->country, app()->getLocale()),
+            get: fn ($value) => $this->country ? Countries::getName($this->country, app()->getLocale()) : null,
         );
     }
 

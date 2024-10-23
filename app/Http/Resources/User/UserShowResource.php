@@ -37,7 +37,7 @@ class UserShowResource extends JsonResource
             'description' => $this->description,
             'website' => $this->website,
             'country_code' => $this->country,
-            'country' => $this->country_name,
+            'country' => $this->when(!is_null($this->country), $this->country_name),
             'views' => $this->whenCounted('videos_views'),
             'created_at' => $this->created_at,
             'pinned_video' => $this->when(!is_null($this->pinned_video), function () {
