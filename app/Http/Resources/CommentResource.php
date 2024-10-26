@@ -34,42 +34,46 @@ class CommentResource extends JsonResource
                 'username' => $this->user->username,
                 'avatar' => $this->user->avatar_url,
                 'route' => $this->user->route,
-                'is_author' => $this->video->user->is($this->user)
+                'is_video_author' => $this->video->user->is($this->user)
             ],
-            'video' => [
-                'id' => $this->video->id
-            ],
-            'created_at' => $this->created_at->diffForHumans(),
+            'video_uuid' => $this->video->uuid,
+            'created_at' => $this->created_at,
             'is_updated' => $this->is_updated,
             'likes_count' => $this->likes_count,
             'dislikes_count' => $this->dislikes_count,
-            'liked_by_auth_user' => $this->resource->liked_by_auth_user,
-            'disliked_by_auth_user' => $this->resource->disliked_by_auth_user,
-            'can_delete' => Auth::user()?->can('delete', $this->resource) ?? false,
-            'can_update' => Auth::user()?->can('update', $this->resource) ?? false,
-            'can_report' => Auth::user()?->can('report', $this->resource) ?? false,
-            'can_pin' => Auth::user()?->can('pin', $this->resource) ?? false,
-            'replies' => $this->when($this->resource->total_replies > 0, function () {
+            $this->mergeWhen(Auth::check(), [
+                'liked_by_auth_user' => $this->resource->liked_by_auth_user,
+                'disliked_by_auth_user' => $this->resource->disliked_by_auth_user,
+                'can_delete' => Auth::user()?->can('delete', $this->resource),
+                'can_update' => Auth::user()?->can('update', $this->resource),
+                'can_report' => Auth::user()?->can('report', $this->resource),
+                'can_pin' => Auth::user()?->can('pin', $this->resource)
+            ]),
+            'is_reply' => $this->is_reply,
+            $this->mergeWhen(!$this->is_reply, [
+                'is_pinned' => $this->is_pinned,
+                'has_replies' => $this->resource->total_replies > 0,
+                'is_video_author_reply' => $this->resource->is_video_author_reply,
+                'is_video_author_like' => $this->resource->is_video_author_like,
+                $this->mergeWhen(($this->is_pinned || $this->resource->is_video_author_reply || $this->resource->is_video_author_like), [
+                    'video_author' => [
+                        'username' => $this->video->user->username,
+                        'avatar' => $this->video->user->avatar_url,
+                    ]
+                ])
+            ]),
+            'reported_at' => $this->when($this->resource->reportByAuthUser, fn() => $this->reportByAuthUser->created_at->diffForHumans()),
+            'replies' => $this->when(!$this->is_reply && $this->resource->total_replies > 0, function () {
                 return [
                     'data' => CommentResource::collection($this->replies),
                     'links' => [
-                        'next' => $this->replies->count() < $this->resource->total_replies ? route('comments.replies', ['comment' => $this->resource , 'page' => 2]) : null,
+                        'next' => $this->replies->count() < $this->resource->total_replies ? route('comments.replies', ['video' => $this->video, 'comment' => $this->resource, 'page' => 2]) : null,
                     ],
                     'meta' => [
                         'total' => $this->resource->total_replies
                     ]
                 ];
             }),
-            'is_pinned' => $this->is_pinned,
-            'is_reply' => $this->is_reply,
-            'is_author_reply' => $this->when(!$this->is_reply, fn() => $this->resource->is_author_reply),
-            'author' => $this->when(!$this->is_reply, function () {
-                return [
-                    'username' => $this->video->user->username,
-                    'avatar' => $this->video->user->avatar_url,
-                ];
-            }),
-            'reported_at' => $this->when($this->resource->reportByAuthUser, fn() => $this->reportByAuthUser->created_at->diffForHumans()),
         ];
     }
 }

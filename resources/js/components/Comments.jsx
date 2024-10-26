@@ -8,11 +8,11 @@ import {useInView} from "react-intersection-observer";
 import {jsonFetch} from '../hooks'
 import {useTranslation} from "react-i18next";
 
-const Comments = memo(({target, defaultSort}) => {
+const Comments = memo(({video, defaultSort}) => {
 
     const { t } = useTranslation();
 
-    const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments?video_id=${target}&sort=${defaultSort}`)
+    const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/videos/${video}/comments?sort=${defaultSort}`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
 
     const [selectedSort, setSelectedSort] = useState(defaultSort);
@@ -30,12 +30,9 @@ const Comments = memo(({target, defaultSort}) => {
     }, [inView]);
 
     const add = useCallback(async (data) => {
-       return jsonFetch(`/api/comments` , {
+       return jsonFetch(`/api/videos/${video}/comments` , {
             method: 'POST',
-            body: JSON.stringify({
-                ...data,
-                video_id: parseInt(target)
-            })
+            body: JSON.stringify(data)
         }).then(comment => {
             setComments(comments => [comment, ...comments]);
             setCount(count => count + 1);
@@ -44,7 +41,7 @@ const Comments = memo(({target, defaultSort}) => {
     }, []);
 
     const update = useCallback(async (comment, content) => {
-        return jsonFetch(`/api/comments/${comment.id}` , {
+        return jsonFetch(`/api/videos/${video}/comments/${comment.id}` , {
             method: 'PUT',
             body: JSON.stringify({
                 content: content,
@@ -55,7 +52,7 @@ const Comments = memo(({target, defaultSort}) => {
     },[]);
 
     const remove = useCallback(async (comment) => {
-        return jsonFetch(`/api/comments/${comment.id}` , {
+        return jsonFetch(`/api/videos/${video}/comments/${comment.id}` , {
             method: 'DELETE',
         }).then(() => {
             setComments(comments => comments.filter(c => c.id !== comment.id))
@@ -64,7 +61,7 @@ const Comments = memo(({target, defaultSort}) => {
     }, []);
 
     const pin = useCallback(async (comment, action= 'pin') => {
-        return jsonFetch(`/api/comments/${comment.id}/${action}`, {
+        return jsonFetch(`/api/videos/${video}/comments/${comment.id}/${action}`, {
             method: 'POST'
         }).then( async () => await reload(selectedSort))
             .catch(e => e)
@@ -79,7 +76,7 @@ const Comments = memo(({target, defaultSort}) => {
 
     const reload = async (type) => {
         setPrimaryLoading(true);
-        jsonFetch(`/api/comments?video_id=${target}&sort=${type}`).then(data => {
+        jsonFetch(`/api/videos/${video}/comments?sort=${type}`).then(data => {
             setPrimaryLoading(false);
             setComments(data.data)
             setNext(data.links.next)

@@ -54,7 +54,7 @@
                         </td>
                         <td class="align-middle">
                             @if($comment->replies_count)
-                                <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}" data-video="{{$comment->video->id}}">
+                                <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}" data-video="{{$comment->video->uuid}}">
                                     See replies ({{$comment->replies_count}})
                                 </button>
                             @else

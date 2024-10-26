@@ -6,6 +6,7 @@ use App\Http\Resources\User\UserSearchResource;
 use App\Http\Resources\Video\VideoSearchResource;
 use App\Models\User;
 use App\Models\Video;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -19,7 +20,10 @@ class SearchController
 
         return UserSearchResource::collection(
             User::query()
-                ->where('username', 'LIKE', $match)
+                ->where(function (Builder $query) use ($match) {
+                    $query->where('username', 'LIKE', $match)
+                        ->orWhere('slug', 'LIKE', $match);
+                })
                 ->limit(10)
                 ->get()
         );

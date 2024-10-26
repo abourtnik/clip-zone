@@ -15,15 +15,11 @@ class CommentPolicy
     /**
      * Determine whether the user can view any models.
      *
-     * @param User $user
+     * @param ?User $user
+     * @param Video $video
      * @return Response|bool
      */
-    public function viewAny(User $user) : Response|bool
-    {
-        return true;
-    }
-
-    public function list(?User $user, Video $video) : Response|bool
+    public function viewAny(?User $user, Video $video) : Response|bool
     {
         if ($user?->is_admin) {
             return Response::allow();
@@ -71,8 +67,6 @@ class CommentPolicy
             ? Response::allow()
             : Response::denyWithStatus(404, !$video->is_public ? 'This video is private' : 'Comments are turned off');
     }
-
-
 
     /**
      * Determine whether the user can update the model.

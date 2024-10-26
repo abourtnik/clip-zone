@@ -23,7 +23,10 @@ class SearchController
         return UserSearchResource::collection(
             User::query()
                 ->active()
-                ->where('username', 'LIKE', $match)
+                ->where(function (Builder $query) use ($match) {
+                    $query->where('username', 'LIKE', $match)
+                        ->orWhere('slug', 'LIKE', $match);
+                })
                 ->whereHas('comments', function (Builder $query) {
                     $query
                         ->whereHas('video', function (Builder $query) {

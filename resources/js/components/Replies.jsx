@@ -6,9 +6,9 @@ import {useInView} from "react-intersection-observer";
 import CommentsForm from "./Comments/Form";
 import {jsonFetch} from '../hooks'
 
-export default function Replies ({target, video}) {
+export default function Replies ({comment, video}) {
 
-    const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/comments/${target}/replies`)
+    const {items: comments, setItems: setComments, load, loading, count, setCount, hasMore, setNext} =  usePaginateFetch(`/api/videos/${video}/comments/${comment}/replies`)
     const [primaryLoading, setPrimaryLoading] = useState(true)
 
     const [selectedSort, setSelectedSort] = useState('top');
@@ -27,12 +27,11 @@ export default function Replies ({target, video}) {
     }, [inView]);
 
     const reply = useCallback(async (data) => {
-        return jsonFetch(`/api/comments` , {
+        return jsonFetch(`/api/videos/${video}/comments` , {
             method: 'POST',
             body: JSON.stringify({
                 ...data,
-                video_id: video,
-                parent_id: target
+                parent_id: comment
             })
         }).then(comment => {
             setComments(comments => [comment, ...comments]);
@@ -42,7 +41,7 @@ export default function Replies ({target, video}) {
     }, []);
 
     const remove = useCallback(async (comment) => {
-        return jsonFetch(`/api/comments/${comment.id}` , {
+        return jsonFetch(`/api/videos/${video}/comments/${comment.id}` , {
             method: 'DELETE',
         }).then(() => {
             setComments(comments => comments.filter(c => c.id !== comment.id))
@@ -51,7 +50,7 @@ export default function Replies ({target, video}) {
     }, []);
 
     const update = useCallback(async (comment, content) => {
-        return jsonFetch(`/api/comments/${comment.id}` , {
+        return jsonFetch(`/api/videos/${video}/comments/${comment.id}` , {
             method: 'PUT',
             body: JSON.stringify({
                 content: content,
@@ -70,7 +69,7 @@ export default function Replies ({target, video}) {
 
     const reload = async (type) => {
         setPrimaryLoading(true);
-        jsonFetch(`/api/comments/${target}/replies?sort=${type}`).then(data => {
+        jsonFetch(`/api/videos/${video}/comments/${comment}/replies?sort=${type}`).then(data => {
             setPrimaryLoading(false);
             setComments(data.data)
             setNext(data.links.next)

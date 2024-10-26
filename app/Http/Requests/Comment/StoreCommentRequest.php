@@ -25,7 +25,6 @@ class StoreCommentRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'video_id' => 'required|exists:videos,id',
             'parent_id' => [
                 'nullable',
                 Rule::exists('comments', 'id')->where(function ($query) {

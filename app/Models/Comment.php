@@ -84,7 +84,7 @@ class Comment extends Model implements Likeable, Reportable
     protected function isPinned(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->video->pinned_comment?->is($this)
+            get: fn () => $this->video->pinned_comment?->is($this) ?? false
         );
     }
 

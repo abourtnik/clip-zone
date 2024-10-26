@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\InteractionController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Api\LoginController;
@@ -54,15 +54,6 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/interactions', 'list')->name('list');
             Route::post('/like', 'like')->name('like');
             Route::post('/dislike', 'dislike')->name('dislike');
-        });
-
-        // COMMENTS
-        Route::prefix('comments')->name('comments.')->controller(CommentController::class)->group(function () {
-            Route::post('/', 'store')->name('store');
-            Route::put('/{comment}', 'update')->name('update')->can('update', 'comment');
-            Route::delete('/{comment}', 'delete')->name('delete')->can('delete', 'comment');
-            Route::post('/{comment}/pin', 'pin')->name('pin')->can('pin', 'comment');
-            Route::post('/{comment}/unpin', 'unpin')->name('unpin')->can('pin', 'comment');
         });
 
         // REPORT
@@ -131,12 +122,6 @@ Route::middleware('throttle:api')->group(function () {
             ->can('show', 'video');
     });
 
-    // COMMENTS
-    Route::prefix('comments')->name('comments.')->controller(CommentController::class)->group(function () {
-        Route::get("/", [CommentController::class, 'list'])->name('comments.list');
-        Route::get('/{comment}/replies', 'replies')->name('replies');
-    });
-
     // USERS
     Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {
         Route::get('/{user:id}', 'show')->name('show');
@@ -153,4 +138,21 @@ Route::middleware('throttle:api')->group(function () {
     Route::prefix('categories')->name('categories.')->controller(CategoryController::class)->group(function () {
         Route::get('/{category}/videos', 'videos')->name('videos');
     });
+});
+
+
+// COMMENTS
+Route::prefix('videos/{video:uuid}/comments')->name('comments.')
+    ->controller(CommentController::class)
+    ->middleware('throttle:api')
+    ->group(function () {
+        Route::get('/', 'index');
+        Route::get('/{comment}/replies', 'replies')->name('replies');
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::post('/', 'store')->name('store');
+            Route::put('/{comment}', 'update')->name('update');
+            Route::delete('/{comment}', 'delete')->name('delete');
+            Route::post('/{comment}/pin', 'pin')->name('pin');
+            Route::post('/{comment}/unpin', 'unpin')->name('unpin');
+        });
 });

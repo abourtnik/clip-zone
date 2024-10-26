@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\StoreCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
 use App\Http\Resources\CommentResource;
@@ -19,24 +20,18 @@ class CommentController extends Controller
 
     public function __construct()
     {
-        //$this->authorizeResource(Comment::class, 'comment');
+        $this->authorizeResource('App\Models\Comment,video', ['comment,video']);
     }
 
     /**
+     * @param Video $video
      * @param Request $request
      * @return ResourceCollection
      * @throws AuthorizationException
      */
-    public function list(Request $request) : ResourceCollection {
+    public function index(Video $video, Request $request) : ResourceCollection {
 
         $sort = $request->get('sort', 'top');
-        $video_id = $request->get('video_id');
-
-        $video = Video::findOrFail($video_id)->loadCount([
-            'comments' => fn($q) => $q->public()
-        ]);
-
-        $this->authorize('list', [Comment::class, $video]);
 
         return (CommentResource::collection(
             $video
@@ -77,7 +72,8 @@ class CommentController extends Controller
                 ->withExists([
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                    'replies as is_author_reply' => fn($q) => $q->where('user_id', $video->user->id),
+                    'replies as is_video_author_reply' => fn($q) => $q->where('user_id', $video->user->id),
+                    'likes as is_video_author_like' => fn($q) => $q->where('user_id', $video->user->id),
                 ])
                 ->when($video->pinned_comment, fn($query) => $query->orderByRaw('id <> ' .$video->pinned_comment->id))
                 ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
@@ -85,11 +81,11 @@ class CommentController extends Controller
                 ->simplePaginate(20)
                 ->withQueryString()
         ))->additional([
-            'count' => $video->comments_count,
+            'count' => $video->comments()->public()->count(),
         ]);
     }
 
-    public function replies (Comment $comment, Request $request) : ResourceCollection {
+    public function replies (Video $video, Comment $comment, Request $request) : ResourceCollection {
 
         $sort = $request->get('sort', 'top');
 
@@ -121,29 +117,31 @@ class CommentController extends Controller
 
     }
 
-    public function store (StoreCommentRequest $request) : CommentResource
+    public function store (Video $video, StoreCommentRequest $request) : CommentResource
     {
-        $this->authorize('create', [Comment::class, Video::findOrFail($request->get('video_id'))]);
+        $validated = $request->safe()->merge([
+            'user_id' => Auth::user()->id,
+        ])->toArray();
 
-        $comment = Auth::user()->comments()->create($request->validated());
+        $comment = $video->comments()->create($validated);
 
         return new CommentResource($comment);
     }
 
-    public function update(UpdateCommentRequest $request, Comment $comment): CommentResource
+    public function update(Video $video, Comment $comment, UpdateCommentRequest $request): CommentResource
     {
         $comment->update($request->validated());
 
         return new CommentResource($comment);
     }
 
-    public function delete(Comment $comment): Response
+    public function delete(Video $video, Comment $comment): Response
     {
         $comment->delete();
         return response()->noContent();
     }
 
-    public function pin(Comment $comment): Response
+    public function pin(Video $video, Comment $comment): Response
     {
         $comment->video->update([
             'pinned_comment_id' => $comment->id
@@ -152,7 +150,7 @@ class CommentController extends Controller
         return response()->noContent();
     }
 
-    public function unpin(Comment $comment): Response
+    public function unpin(Video $video, Comment $comment): Response
     {
         $comment->video->update([
             'pinned_comment_id' => null

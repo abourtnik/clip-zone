@@ -8,6 +8,7 @@ import Edit from './Edit'
 import ConfirmDelete from './ConfirmDelete'
 import {jsonFetch, usePaginateFetch} from "../../hooks";
 import {useTranslation} from "react-i18next";
+import moment from 'moment';
 
 const Comment = memo(({comment, remove, update, pin}) => {
 
@@ -16,20 +17,22 @@ const Comment = memo(({comment, remove, update, pin}) => {
     const [onEdit, setOnEdit] = useState(false);
     const [showReply, setShowReply] = useState(false);
     const {items: replies, setItems: setReplies, load, loading, count: repliesCount, setCount, hasMore} =
-        usePaginateFetch(`/api/comments/${comment.id}/replies`, comment?.replies?.data ?? [], comment?.replies?.meta.total, comment?.replies?.links.next)
+        usePaginateFetch(`/api/videos/${comment.video_uuid}/comments/${comment.id}/replies`, comment?.replies?.data ?? [], comment?.replies?.meta.total, comment?.replies?.links.next)
     const [showReplies, setShowReplies] = useState(false);
 
     useEffect(() => {
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
         [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+        const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+        [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
     }, [])
 
     const reply = useCallback(async (data) => {
-        return jsonFetch(`/api/comments` , {
+        return jsonFetch(`/api/videos/${comment.video_uuid}/comments` , {
             method: 'POST',
             body: JSON.stringify({
                 ...data,
-                video_id: parseInt(comment.video.id),
+                video_id: parseInt(comment.video_uuid),
                 parent_id: comment.id
             })
         }).then(comment => {
@@ -42,7 +45,7 @@ const Comment = memo(({comment, remove, update, pin}) => {
     }, []);
 
     const deleteReply = useCallback (async (reply) => {
-        return jsonFetch(`/api/comments/${reply.id}` , {
+        return jsonFetch(`/api/videos/${comment.video_uuid}/comments/${reply.id}` , {
             method: 'DELETE',
         }).then(() => {
             setReplies(replies => replies.filter(r => r.id !== reply.id))
@@ -51,7 +54,7 @@ const Comment = memo(({comment, remove, update, pin}) => {
     }, []);
 
     const updateReply = useCallback (async (reply, content) => {
-        return jsonFetch(`/api/comments/${reply.id}` , {
+        return jsonFetch(`/api/videos/${comment.video_uuid}/comments/${reply.id}` , {
             method: 'PUT',
             body: JSON.stringify({
                 content: content,
@@ -69,19 +72,19 @@ const Comment = memo(({comment, remove, update, pin}) => {
             <div className={'w-100'}>
                 <div className={'border p-3 bg-white'}>
                     {
-                        comment.is_pinned &&
+                        comment?.is_pinned &&
                         <div className={'d-flex align-items-center gap-2 mb-3 badge rounded-pill text-bg-primary'} style='width:fit-content'>
                             <i className="fa-solid fa-thumbtack"></i>
-                            <span className={'text-white'}>{t('Pinned by')} {comment.author.username} </span>
+                            <span className={'text-white'}>{t('Pinned by')} {comment.video_author.username} </span>
                         </div>
                     }
                     <div className="d-flex justify-content-between align-items-center">
                         <div className={'d-flex flex-wrap align-items-center gap-1'}>
-                            <a href={comment.user.route} className={'text-decoration-none text-sm' + (comment.user.is_author ? ' badge rounded-pill text-bg-secondary' : '') }>
+                            <a href={comment.user.route} className={'text-decoration-none text-sm' + (comment.user.is_video_author ? ' badge rounded-pill text-bg-secondary' : '') }>
                                 {comment.user.username}
                             </a>
                             <span>•</span>
-                            <small className="text-muted">{comment.created_at}</small>
+                            <small className="text-muted">{moment(comment.created_at).fromNow()}</small>
                             {comment.is_updated && <><span>•</span> <small className="text-muted fw-semibold">{t('Modified')}</small></>}
                         </div>
                         {
@@ -91,7 +94,7 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                 </button>
                                 <ul className="dropdown-menu">
                                     {
-                                        comment.can_pin &&
+                                        comment?.can_pin &&
                                         <li>
                                             <button onClick={() => pin(comment, comment.is_pinned ? 'unpin' : 'pin')} className="dropdown-item d-flex align-items-center gap-3" >
                                                 <i className="fa-solid fa-thumbtack"></i>
@@ -100,7 +103,7 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                         </li>
                                     }
                                     {
-                                        comment.can_update &&
+                                        comment?.can_update &&
                                         <li>
                                             <button className="dropdown-item d-flex align-items-center gap-3" onClick={() => setOnEdit(onEdit => !onEdit)}>
                                                 <i className="fa-solid fa-pen"></i>
@@ -109,7 +112,7 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                         </li>
                                     }
                                     {
-                                        comment.can_delete && <ConfirmDelete comment={comment} onDelete={remove}/>
+                                        comment?.can_delete && <ConfirmDelete comment={comment} onDelete={remove}/>
                                     }
                                     <li>
                                         {
@@ -156,10 +159,16 @@ const Comment = memo(({comment, remove, update, pin}) => {
                             {
                                 window.USER ?
                                     <Interaction
-                                        active={JSON.stringify({'like': comment.liked_by_auth_user, 'dislike': comment.disliked_by_auth_user})}
+                                        active={JSON.stringify({
+                                            'like': comment.liked_by_auth_user,
+                                            'dislike': comment.disliked_by_auth_user
+                                        })}
                                         model={comment.class}
                                         target={comment.id}
-                                        count={JSON.stringify({'likes_count' : comment.likes_count, 'dislikes_count' : comment.dislikes_count})}
+                                        count={JSON.stringify({
+                                            'likes_count': comment.likes_count,
+                                            'dislikes_count': comment.dislikes_count
+                                        })}
                                     />
                                     :
                                     <div className="d-flex justify-content-between bg-light-dark rounded-4">
@@ -216,16 +225,25 @@ const Comment = memo(({comment, remove, update, pin}) => {
                                         {t('Reply')}
                                     </button> : null
                         }
+                        {
+                            comment?.is_video_author_like &&
+                            <div className={'position-relative'} data-bs-toggle="tooltip" data-bs-title={'Liked by ' + comment.video_author.username}>
+                                <img className="rounded-circle img-fluid" src={comment.video_author.avatar} alt={comment.video_author.username + ' avatar'} style="width: 30px;"/>
+                                <i
+                                    style="width: 10px;height: 10px;"
+                                    className={'fa-2xs fa-solid fa-thumbs-up text-white position-absolute bottom-0 left-60 dot rounded-circle d-flex justify-content-center align-items-center bg-success'}></i>
+                            </div>
+                        }
                     </div>
                     {showReply && <ReplyForm setShowReply={setShowReply} comment={comment} reply={reply}/>}
                     {
-                        repliesCount > 0 &&
+                    comment?.has_replies &&
                         <button className={'btn btn-sm text-primary my-1 mt-2 ps-0 fw-bold d-flex align-items-center gap-2'} onClick={() => setShowReplies(showReplies => !showReplies)}>
                             <i className={'fa-solid fa-' + (showReplies ? 'chevron-up' : 'chevron-down')}></i>
                             {
-                                comment.is_author_reply &&
+                                comment?.is_video_author_reply &&
                                 <>
-                                    <img className="rounded-circle img-fluid" src={comment.author.avatar} alt={comment.author.username + ' avatar'} style="width: 30px;"/>
+                                    <img className="rounded-circle img-fluid" src={comment.video_author.avatar} alt={comment.video_author.username + ' avatar'} style="width: 30px;"/>
                                     <span>•</span>
                                 </>
                             }
