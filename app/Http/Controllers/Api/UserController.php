@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Events\UserSubscribed;
 use App\Http\Resources\Playlist\PlaylistListResource;
 use App\Http\Resources\User\UserShowResource;
 use App\Http\Resources\Video\VideoListResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class UserController
@@ -15,30 +17,33 @@ class UserController
     public function show(User $user): UserShowResource
     {
         return new UserShowResource(
-            $user->loadCount(['subscribers', 'videos', 'videos_views'])
-            ->load([
-                'pinned_video' => fn($q) => $q->withCount('views'),
-                'videos' => function ($q) {
-                    $q->with('user')
-                        ->withCount('views')
-                        ->active()
-                        ->latest('publication_date')
-                        ->limit(8);
-                },
-                'playlists' => function ($q) {
-                    $q->withCount('videos')
-                        ->withWhereHas('videos', function($q) {
-                            $q->active()
-                                ->withCount('views')
-                                ->with('user')
-                                ->limit(8);
-                        })
-                        ->active()
-                        ->latest('updated_at')
-                        ->limit(6);
-                },
-            ])
-
+            $user
+                ->loadCount(['subscribers', 'videos', 'videos_views'])
+                ->load([
+                    'pinned_video' => fn($q) => $q->withCount('views'),
+                    'videos' => function ($q) {
+                        $q->with('user')
+                            ->withCount('views')
+                            ->active()
+                            ->latest('publication_date')
+                            ->limit(8);
+                    },
+                    'playlists' => function ($q) {
+                        $q->withCount('videos')
+                            ->withWhereHas('videos', function($q) {
+                                $q->active()
+                                    ->withCount('views')
+                                    ->with('user')
+                                    ->limit(8);
+                            })
+                            ->active()
+                            ->latest('updated_at')
+                            ->limit(6);
+                    },
+                ])
+                ->loadExists([
+                    'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', auth('sanctum')->user()?->id),
+                ])
         );
     }
 
@@ -76,6 +81,12 @@ class UserController
                 })
                 ->paginate(24)
         );
+    }
+
+    public function subscribe (Request $request, User $user) : Response {
+        $subscription = $request->user()->subscriptions()->toggle($user);
+        UserSubscribed::dispatchIf($subscription['attached'], $user, $request->user());
+        return response()->noContent();
     }
 
 }

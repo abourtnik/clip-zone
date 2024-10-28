@@ -6,7 +6,6 @@ use App\Http\Controllers\SearchController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\User\SearchController as SearchUserController;
 use App\Http\Controllers\Admin\SearchController as SearchAdminController;
-use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\Api\VideoController;
@@ -35,7 +34,7 @@ use App\Models\Video;
 Route::middleware('auth:sanctum')->group(function () {
 
     // SUBSCRIBE
-    Route::post("subscribe/{user}", [ProfileController::class, 'subscribe'])
+    Route::post("subscribe/{user}", [UserController::class, 'subscribe'])
         ->name('subscribe')
         ->can('subscribe', 'user')
         ->middleware('throttle:subscribe')
@@ -108,7 +107,10 @@ Route::middleware('throttle:api')->group(function () {
     // AUTH
     Route::controller(LoginController::class)->group(function () {
         Route::post('/login', 'login');
-        Route::get('/me', 'me')->name('me');
+        Route::middleware('auth:sanctum')->group(function () {
+            Route::get('/me', 'me');
+            Route::post('/logout', 'logout');
+        });
     });
 
     // SEARCH

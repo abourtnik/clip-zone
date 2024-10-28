@@ -32,6 +32,9 @@ class UserShowResource extends JsonResource
             $this->mergeWhen($this->show_subscribers, [
                 'subscribers' => $this->subscribers_count
             ]),
+            $this->mergeWhen(auth('sanctum')->check(), [
+                'subscribed_by_auth_user' => $this->resource->subscribed_by_auth_user,
+            ]),
             'videos_count' => $this->videos_count,
             'short_description' => $this->short_description,
             'description' => $this->description,

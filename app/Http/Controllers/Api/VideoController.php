@@ -44,7 +44,13 @@ class VideoController
         return new VideoShowResource(
             $video
                 ->load([
-                    'user' => fn($q) => $q->withCount('subscribers'),
+                    'user' => function($q) {
+                        return $q
+                            ->withCount('subscribers')
+                            ->withExists([
+                                'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', auth('sanctum')->user()?->id),
+                            ]);
+                    },
                 ])
                 ->loadCount(['views', 'comments', 'likes', 'dislikes'])
         );

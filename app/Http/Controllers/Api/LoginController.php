@@ -6,9 +6,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\AccountResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,16 +38,13 @@ class LoginController
     /**
      * Log the user out of the application.
      *
-     * @param Request  $request
-     * @return RedirectResponse
+     * @param Request $request
+     * @return Response
      */
-    public function logout (Request $request): RedirectResponse {
+    public function logout (Request $request): Response {
 
-        Auth::logout();
+        $request->user()->currentAccessToken()->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('pages.home');
+        return response()->noContent();
     }
 }

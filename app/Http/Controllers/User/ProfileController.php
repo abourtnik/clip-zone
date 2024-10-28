@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Events\UserSubscribed;
 use App\Helpers\File;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Pivots\Subscription;
@@ -11,7 +10,6 @@ use App\Models\Video;
 use App\Notifications\Account\DeleteAccount;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -133,12 +131,6 @@ class ProfileController
         $user->updatePassword($request->get('new_password'));
 
         return redirect()->route('user.edit')->with(['status' => 'Your password has been updated successfully !']);
-    }
-
-    public function subscribe (User $user) : JsonResponse {
-        $subscription = Auth::user()->subscriptions()->toggle($user);
-        UserSubscribed::dispatchIf($subscription['attached'], $user, Auth::user());
-        return response()->json();
     }
 
     public function delete(Request $request): RedirectResponse {
