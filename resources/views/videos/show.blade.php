@@ -289,7 +289,7 @@
             </div>
         </div>
         <hr class="d-block d-lg-none">
-            <div class="col-lg-4 col-xl-4 col-xxl-3 px-0 px-sm-2">
+            <div class="col-lg-4 col-xl-4 col-xxl-3 px-0 px-sm-3 px-lg-2">
                 @if($nextVideo)
                     <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
                         <a href="{{$nextVideo->route}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
@@ -373,7 +373,7 @@
                     </div>
                     <hr>
                 @endif
-                <div class="px-3 px-sm-0 pt-3 pt-sm-0">
+                <div class="px-0 pt-3 pt-sm-0">
                     @each('videos.card-secondary',  $videos, 'video')
                 </div>
             </div>

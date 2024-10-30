@@ -124,3 +124,12 @@ em {
     cursor: pointer;
     display: block;
 }
+
+@media (min-width: map-get($grid-breakpoints, "sm")) {
+    .rounded-4-sm {
+        border-radius: var(--bs-border-radius-xl) !important;
+    }
+    .rounded-1-sm {
+        border-radius: var(--bs-border-radius) !important;
+    }
+}
