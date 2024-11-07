@@ -249,7 +249,7 @@ class ReportTest extends TestCase
             'id' => $video->id
         ]);
 
-        $response->assertStatus(Response::HTTP_CREATED);
+        $response->assertStatus(Response::HTTP_NO_CONTENT);
 
         $report = Report::all()->first();
 
