@@ -22,6 +22,8 @@ trait HasReport
 
     public function reportByAuthUser(): MorphOne
     {
-        return $this->morphOne(Report::class, 'reportable')->where('user_id', Auth::user()?->id);
+        $user = Auth::guard('web')->user() ?? Auth::guard('sanctum')->user();
+
+        return $this->morphOne(Report::class, 'reportable')->where('user_id', $user?->id);
     }
 }

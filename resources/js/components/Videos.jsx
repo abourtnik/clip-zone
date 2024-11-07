@@ -34,7 +34,7 @@ export default function Videos ({url, skeletons = 12}) {
                     {
                         (videos.length) ?
                             <>
-                                <div className="row mx-0 mx-sm-2 gx-3 gy-3 gy-sm-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4">
+                                <div className="row mx-0 gx-3 gy-3 gy-sm-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4">
                                     {videos.map(video => <Video key={video.id} video={video}/>)}
                                 </div>
                                 {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\UserSubscribed;
 use App\Http\Resources\Playlist\PlaylistListResource;
+use App\Http\Resources\User\UserListResource;
 use App\Http\Resources\User\UserShowResource;
 use App\Http\Resources\Video\VideoListResource;
 use App\Models\User;
@@ -79,7 +80,7 @@ class UserController
                         'videos as has_video' => fn($q) => $q->where('video_id', $video_id)
                     ]);
                 })
-                ->paginate(24)
+                ->paginate(15)
         );
     }
 
@@ -87,6 +88,35 @@ class UserController
         $subscription = $request->user()->subscriptions()->toggle($user);
         UserSubscribed::dispatchIf($subscription['attached'], $user, $request->user());
         return response()->noContent();
+    }
+
+    public function subscriptionsVideos(Request $request): ResourceCollection
+    {
+        return VideoListResource::collection(
+            $request
+                ->user()
+                ->subscriptions_videos()
+                ->active()
+                ->with('user')
+                ->withCount('views')
+                ->latest('publication_date')
+                ->paginate(15)
+        );
+    }
+
+    public function subscriptionsChannels(Request $request): ResourceCollection
+    {
+        return UserListResource::collection(
+            $request
+                ->user()
+                ->subscriptions()
+                ->withExists([
+                    'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', auth('sanctum')->user()?->id),
+                ])
+                ->withCount('subscribers')
+                ->latest('subscribe_at')
+                ->paginate(15)
+        );
     }
 
 }

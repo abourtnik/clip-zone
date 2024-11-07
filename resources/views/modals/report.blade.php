@@ -53,7 +53,7 @@
                     <img class="img-fluid" src="{{asset('images/reports/ok.jpg')}}" alt="Report success">
                     <h3 class="my-4">Thanks for reporting</h3>
                     <p class="text-muted mt-4">
-                        If we find this content to be in violation of our Community Guidlines, we will remove it.
+                        If we find this content to be in violation of our Community Guidelines, we will remove it.
                     </p>
                 </div>
                 <div class="modal-footer">
@@ -102,7 +102,7 @@
                     },
                 });
                 this.loading = false;
-                if (response.status === 201) {
+                if (response.ok) {
                     this.reported = true;
                 } else {
                     const data = await response.json();

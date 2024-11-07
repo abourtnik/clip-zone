@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Report\ReportRequest;
 use App\Models\Comment;
 use App\Models\Report;
 use App\Models\User;
@@ -11,7 +10,6 @@ use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
@@ -33,24 +31,6 @@ class ReportController extends Controller
                 ->paginate(15)
                 ->withQueryString()
         ]);
-    }
-
-    public function report (ReportRequest $request) : Response {
-
-        $type = $request->get('type');
-
-        $model = $type::findOrFail($request->get('id'));
-
-        $this->authorize('report', $model);
-
-        $validated = $request->safe()->merge([
-            'reportable_type' => $request->get('type'),
-            'reportable_id' => $request->get('id'),
-        ])->toArray();
-
-        Auth::user()->user_reports()->create($validated);
-
-        return response()->noContent(201);
     }
 
     public function cancel (Report $report) : RedirectResponse {

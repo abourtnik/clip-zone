@@ -26,6 +26,7 @@ class AccountResource extends JsonResource
             'email' => $this->email,
             'token' => $this->createToken($request->device_name)->plainTextToken,
             'avatar_url' => $this->avatar_url,
+            'is_premium' => $this->is_premium,
             'created_at' => $this->created_at,
         ];
     }

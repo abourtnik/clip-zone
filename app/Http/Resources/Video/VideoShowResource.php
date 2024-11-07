@@ -33,6 +33,14 @@ class VideoShowResource extends JsonResource
                 'likes' => $this->likes_count,
                 'dislikes' => $this->dislikes_count,
             ]),
+            $this->mergeWhen(auth('sanctum')->check(), [
+                'liked_by_auth_user' => $this->resource->liked_by_auth_user,
+                'disliked_by_auth_user' => $this->resource->disliked_by_auth_user,
+                'reported_by_auth_user' => $this->resource->reported_by_auth_user,
+                $this->mergeWhen($this->resource->reported_by_auth_user, [
+                    'report_at' => $this->resource->reportByAuthUser?->created_at
+                ])
+            ]),
             'default_comments_sort' => $this->default_comments_sort,
             'title' => $this->title,
             'short_title' => $this->short_title,

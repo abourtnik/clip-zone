@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 use App\Http\Requests\Interaction\InteractionRequest;
 use App\Http\Resources\InteractionsResource;
 use App\Models\Video;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 class InteractionController extends Controller
 {
-    private function perform (InteractionRequest $request, $status) : JsonResponse {
+    private function perform (InteractionRequest $request, bool $status) : Response {
 
         list('model' => $model, 'id' => $id) = $request->only('model', 'id');
 
@@ -43,16 +44,16 @@ class InteractionController extends Controller
             ]);
         }
 
-        return response()->json();
+        return response()->noContent();
 
     }
 
-    public function like(InteractionRequest $request): JsonResponse
+    public function like(InteractionRequest $request): Response
     {
         return $this->perform($request, true);
     }
 
-    public function dislike(InteractionRequest $request): JsonResponse
+    public function dislike(InteractionRequest $request): Response
     {
         return $this->perform($request, false);
     }

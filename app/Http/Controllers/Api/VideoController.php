@@ -51,8 +51,14 @@ class VideoController
                                 'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', auth('sanctum')->user()?->id),
                             ]);
                     },
+                    'reportByAuthUser'
                 ])
                 ->loadCount(['views', 'comments', 'likes', 'dislikes'])
+                ->loadExists([
+                    'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', auth('sanctum')->user()?->id),
+                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', auth('sanctum')->user()?->id),
+                    'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', auth('sanctum')->user()?->id),
+                ])
         );
     }
 

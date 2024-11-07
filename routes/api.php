@@ -1,19 +1,19 @@
 <?php
 
-use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\InteractionController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\Api\LoginController;
-use App\Http\Controllers\User\SearchController as SearchUserController;
-use App\Http\Controllers\Admin\SearchController as SearchAdminController;
-use App\Http\Controllers\User\ReportController;
-use App\Http\Controllers\User\NotificationController;
-use App\Http\Controllers\Api\VideoController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\PlaylistController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Video;
+use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\InteractionController;
+use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\PlaylistController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\VideoController;
+use App\Http\Controllers\Api\ReportController;
+use App\Http\Controllers\Api\SearchController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\User\SearchController as SearchUserController;
+use App\Http\Controllers\Admin\SearchController as SearchAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +94,12 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::get('/users', 'users')->name('users');
                 Route::get('/videos', 'videos')->name('videos');
             });
+
+        // SUBSCRIPTIONS
+        Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {
+            Route::get('/subscriptions-videos', 'subscriptionsVideos');
+            Route::get('/subscriptions-channels', 'subscriptionsChannels');
+        });
     });
 });
 

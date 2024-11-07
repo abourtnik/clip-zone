@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\SearchPerformed;
 use App\Filters\SearchFilters;
 use App\Models\Video;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Database\Eloquent\Builder;
@@ -44,30 +42,5 @@ class SearchController extends Controller
             'results' => $videos,
             'filters' => $filters->receivedFilters()
         ]);
-    }
-
-    public function search (Request $request): JsonResponse {
-
-        $q = $request->get('q');
-
-        SearchPerformed::dispatch($q);
-
-        $videos = Video::search($q, function(Indexes $index, $query, $options) {
-                $options['attributesToRetrieve'] = ['title', 'url', 'thumbnail', 'user', 'uuid', 'views', 'publication_date'];
-                $options['attributesToHighlight'] = ['title', 'user'];
-                $options['attributesToCrop'] = ['title:15'];
-                return $index->rawSearch($query, $options);
-            })
-            ->orderBy('views', 'desc')
-            ->orderBy('publication_date', 'desc')
-            ->take(10)
-            ->raw();
-
-        return response()->json([
-            'total' => $videos['totalHits'],
-            'items' => $videos['hits'],
-            'route' => route('search.index'). '?q=' .$q,
-        ]);
-
     }
 }

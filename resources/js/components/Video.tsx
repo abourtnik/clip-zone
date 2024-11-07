@@ -30,7 +30,10 @@ export default function Video ({video} : Props) {
                         <div className={'image-box rounded-4-sm position-relative overflow-hidden' + (hover && !loading ? ' hover' : '')}>
                             <img className={'img-fluid w-100 ' + (loading ? 'd-none' : 'd-block')} src={video.thumbnail} alt={video.title} onLoad={imageLoad}/>
                         </div>
-                        <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
+                        <small
+                            className="position-absolute p-1 text-white bg-dark fw-bold rounded"
+                            style="font-size: 0.70rem;bottom: 8px;right: 6px;"
+                        >
                             {video.formated_duration}
                         </small>
                     </div>
