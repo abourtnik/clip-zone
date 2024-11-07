@@ -1,4 +1,4 @@
-.theme-switch {
+.input-switch {
     input {
         position: absolute;
         top: 0;
@@ -48,28 +48,28 @@
         opacity: 1;
         transition: .3s;
     }
-    .icon-moon {
+    .icon-on {
         color: #d4dcff;
     }
 }
 
-.theme-switch input:checked+label .switch::before {
+.input-switch input:checked+label .switch::before {
     transform: translateX(31px);
     background: #5396e7 !important;
 }
 
-.theme-switch input:checked+label .switch {
-    background: #0f1224 !important;
+.input-switch input:checked+label .switch {
+    background: var(--bs-primary-bg-subtle) !important
 }
 
-.theme-switch input:not(:checked)+label .icon-moon {
+.input-switch input:not(:checked)+label .icon-on {
     opacity: 0;
 }
 
-.theme-switch input:checked+label .icon-sun {
+.input-switch input:checked+label .icon-off {
     opacity: 0;
 }
 
-.theme-switch input:checked+label .icon {
+.input-switch input:checked+label .icon {
     transform: translateX(31px);
 }

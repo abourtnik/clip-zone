@@ -143,32 +143,60 @@
                 <ul class="nav nav-pills flex-column text-center">
                     <x-sidebar-item route="{{route('pages.premium')}}" class="fw-bold bg-warning" color="white">
                         <i style="width: 24px" class="fa-solid fa-star"></i>
-                        <span class="text-sm">Premium</span>
+                        <span class="text-sm">{{config('app.name')}} Premium</span>
                     </x-sidebar-item>
                 </ul>
             @endif
             <hr class="w-90">
-            <div class="d-flex align-items-center gap-2 justify-content-evenly">
-                <form action="{{route('lang.update')}}" method="POST">
-                    @csrf()
-                    <select onchange="this.form.submit()" class="form-select form-select-sm text-sm" aria-label="Locale" name="locale">
-                        @foreach(config('languages') as $lang => $info)
-                            <option @selected(App::currentLocale() === $lang) value="{{$lang}}">{{$info['emoji']}} {{$info['label']}}</option>
-                        @endforeach
-                    </select>
-                </form>
-                <div class="theme-switch d-inline-block position-relative cursor-pointer">
-                    <input type="checkbox" id="theme-switcher-global" class="theme-switcher" aria-label="Changer de thème">
-                    <label for="theme-switcher-global">
-                        <span class="switch"></span>
-                        <svg class="icon icon-moon" fill="currentColor" width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/>
-                        </svg>
-                        <svg class="icon icon-sun" fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" id="sun" data-name="Line Color" xmlns="http://www.w3.org/2000/svg">
-                            <path  d="M12,3V4M5.64,5.64l.7.7M3,12H4m1.64,6.36.7-.7M12,21V20m6.36-1.64-.7-.7M21,12H20M18.36,5.64l-.7.7" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
-                            <circle cx="12" cy="12" r="4" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></circle>
-                        </svg>
-                    </label>
+            <div class="d-flex flex-column gap-3">
+                <div class="d-flex gap-2 align-items-center justify-content-evenly">
+                    <form action="{{route('lang.update')}}" method="POST">
+                        @csrf()
+                        <select onchange="this.form.submit()" class="form-select form-select-sm text-sm" aria-label="Locale" name="locale">
+                            @foreach(config('languages') as $lang => $info)
+                                <option @selected(App::currentLocale() === $lang) value="{{$lang}}">{{$info['emoji']}} {{$info['label']}}</option>
+                            @endforeach
+                        </select>
+                    </form>
+                    <div class="input-switch d-inline-block position-relative cursor-pointer">
+                        <input type="checkbox" id="theme-switcher-global" class="theme-switcher" aria-label="Changer de thème">
+                        <label for="theme-switcher-global">
+                            <span class="switch"></span>
+                            <svg class="icon icon-on" fill="currentColor" width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z"/>
+                            </svg>
+                            <svg class="icon icon-off" fill="#000000" width="800px" height="800px" viewBox="0 0 24 24" id="sun" data-name="Line Color" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12,3V4M5.64,5.64l.7.7M3,12H4m1.64,6.36.7-.7M12,21V20m6.36-1.64-.7-.7M21,12H20M18.36,5.64l-.7.7" style="fill: none; stroke: rgb(44, 169, 188); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+                                <circle cx="12" cy="12" r="4" style="fill: none; stroke: rgb(0, 0, 0); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></circle>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+                <div class="d-flex gap-2 align-items-center justify-content-evenly">
+                    <span class="text-sm text-black">Videos auto-play</span>
+                    <div class="input-switch d-inline-block position-relative cursor-pointer">
+                        <input type="checkbox" id="autoplay-video" aria-label="Activer la lecture automatique" class="autoplay-switcher">
+                        <label for="autoplay-video">
+                            <span class="switch"></span>
+                            <svg
+                                class="icon icon-on"
+                                fill="currentColor"
+                                width="800px"
+                                height="800px"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path d="M18.54,9,8.88,3.46a3.42,3.42,0,0,0-5.13,3V17.58A3.42,3.42,0,0,0,7.17,21a3.43,3.43,0,0,0,1.71-.46L18.54,15a3.42,3.42,0,0,0,0-5.92Zm-1,4.19L7.88,18.81a1.44,1.44,0,0,1-1.42,0,1.42,1.42,0,0,1-.71-1.23V6.42a1.42,1.42,0,0,1,.71-1.23A1.51,1.51,0,0,1,7.17,5a1.54,1.54,0,0,1,.71.19l9.66,5.58a1.42,1.42,0,0,1,0,2.46Z"/>
+                            </svg>
+                            <svg class="icon icon-off" fill="#000000" width="800px" height="800px" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    fill-rule="evenodd"
+                                    clip-rule="evenodd"
+                                    d="M6.04995 2.74998C6.04995 2.44623 5.80371 2.19998 5.49995 2.19998C5.19619 2.19998 4.94995 2.44623 4.94995 2.74998V12.25C4.94995 12.5537 5.19619 12.8 5.49995 12.8C5.80371 12.8 6.04995 12.5537 6.04995 12.25V2.74998ZM10.05 2.74998C10.05 2.44623 9.80371 2.19998 9.49995 2.19998C9.19619 2.19998 8.94995 2.44623 8.94995 2.74998V12.25C8.94995 12.5537 9.19619 12.8 9.49995 12.8C9.80371 12.8 10.05 12.5537 10.05 12.25V2.74998Z"
+                                    fill="#000000"
+                                />
+                            </svg>
+                        </label>
+                    </div>
                 </div>
             </div>
             <hr class="w-90">

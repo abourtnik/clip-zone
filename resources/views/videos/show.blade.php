@@ -35,7 +35,6 @@
                         controlsList="nodownload"
                         poster="{{$video->thumbnail_url}}"
                         oncontextmenu="return false;"
-                        autoplay
                         playsinline
                     >
                         <source src="{{$video->file_url}}#t={{$t}}" type="{{Video::MIMETYPE}}">
@@ -427,7 +426,7 @@
 
         // Autoplay
 
-        let autoplay = ((localStorage.getItem('autoplay') || false)  === 'true');
+        let autoplay = JSON.parse(localStorage.getItem('autoplay') || false);
 
         document.getElementById('autoplay').checked = autoplay;
 
@@ -456,5 +455,11 @@
             })
         }
 
+        // Video autoplay
+        let autoplayVideo = JSON.parse(localStorage.getItem('autoplay-video') || true);
+
+        if (autoplayVideo) {
+            video.autoplay = true
+        }
     </script>
 @endPushIf
