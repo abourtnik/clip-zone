@@ -207,15 +207,23 @@
                     <small>{{__('Copyright')}} © {{now()->format('Y')}} {{config('app.name')}}</small>
                     <small>{{__('All Rights Reserved')}}</small>
                 </div>
-                <div class="d-flex align-items-center gap-2 mt-2">
-                    <a class="btn bg-dark text-white btn-sm mt-2" href="https://github.com/abourtnik/clip-zone" target="_blank">
-                        <i class="fa-brands fa-github mr-2"></i>
-                        <span>Github</span>
-                    </a>
-                    <a class="btn text-white btn-sm mt-2" href="https://www.paypal.com/donate/?hosted_button_id=P4KH8VMKM6XMJ" target="_blank" style="background-color: #0079C1">
-                        <i class="fa-brands fa-paypal mr-2"></i>
-                        <span>{{__('Donate')}}</span>
-                    </a>
+                <div class="d-flex flex-column gap-2 mt-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <a class="btn bg-dark text-white btn-sm" href="https://github.com/abourtnik/clip-zone" target="_blank">
+                            <i class="fa-brands fa-github mr-2"></i>
+                            <span>Github</span>
+                        </a>
+                        <a class="btn text-white btn-sm" href="https://www.paypal.com/donate/?hosted_button_id=P4KH8VMKM6XMJ" target="_blank" style="background-color: #0079C1">
+                            <i class="fa-brands fa-paypal mr-2"></i>
+                            <span>{{__('Donate')}}</span>
+                        </a>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <a style="background-color: #FB3F4C;" class="btn text-white btn-sm" href="https://play.google.com/store/apps/details?id=com.abourtnik.clipzone" target="_blank">
+                            <i class="fa-brands fa-google-play mr-2"></i>
+                            <span>Play Store</span>
+                        </a>
+                    </div>
                 </div>
                 <a class="text-sm fw-bold text-decoration-none d-block mt-2" href="https://antonbourtnik.fr" target="_blank">Anton Bourtnik</a>
             </div>

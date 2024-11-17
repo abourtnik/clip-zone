@@ -2,13 +2,14 @@ export type VideoType = {
     id: number,
     uuid: string,
     title: string,
-    short_title : string
+    short_title : string,
     thumbnail: string,
-    formated_duration: string
+    formated_duration: string,
     views: number,
-    route: string
-    user: UserType,
-    publication_date: Date
+    route: string,
+    publication_date: string | number,
+    user: UserType
+    is_private?: boolean
 }
 
 export type UserType = {
@@ -19,6 +20,7 @@ export type UserType = {
     route: string
     show_subscribers: boolean
     subscribers?: number
+    subscribed_by_auth_user?: boolean
     videos_count: number
     created_at: Date,
 }

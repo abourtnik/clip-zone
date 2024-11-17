@@ -198,7 +198,7 @@
                         </div>
                     </div>
                     <div>
-                        @if(!Auth::check())
+                        @if(Auth::guest())
                             <button
                                 type="button"
                                 class="btn btn-danger"
@@ -214,7 +214,8 @@
                         @elseif(auth()->user()->isNot($video->user))
                             <subscribe-button
                                 @if(!Auth()->user()->isSubscribeTo($video->user)) is-subscribe @endif
-                            user="{{$video->user->id}}">
+                                user="{{$video->user->id}}"
+                            >
                             </subscribe-button>
                         @endif
                     </div>

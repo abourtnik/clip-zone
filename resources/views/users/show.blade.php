@@ -58,12 +58,13 @@
                     @if(Auth::check() && Auth::user()->isNot($user))
                         <subscribe-button
                             @if(!$is_subscribed) is-subscribe @endif
-                            user="{{$user->id}}">
+                            user="{{$user->id}}"
+                        >
                         </subscribe-button>
                     @elseif(!Auth::check())
                         <button
                             type="button"
-                            class="btn btn-danger text-uppercase"
+                            class="btn btn-danger rounded-4 px-3"
                             data-bs-toggle="popover"
                             data-bs-placement="right"
                             data-bs-title="{{ __('Want to subscribe to this channel ?') }}"

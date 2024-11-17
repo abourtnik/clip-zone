@@ -1,7 +1,7 @@
 ClipZone
 =====
 
-<a href="https://github.com/abourtnik/clip-zoneactions">
+<a href="https://github.com/abourtnik/clip-zone/actions">
 <img src="https://github.com/abourtnik/clip-zone/actions/workflows/CI-CD.yml/badge.svg" alt="Build Status">
 </a>
 <a href="https://www.paypal.com/donate/?hosted_button_id=P4KH8VMKM6XMJ">

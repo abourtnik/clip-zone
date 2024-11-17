@@ -2,12 +2,13 @@ import {useState} from 'preact/hooks';
 import {useTranslation} from "react-i18next";
 import moment from 'moment';
 import {VideoType} from "@/types";
+import {memo} from "preact/compat";
 
 type Props = {
     video : VideoType
 }
 
-export default function Video ({video} : Props) {
+const Video = memo(({video} : Props) => {
 
     const { t } = useTranslation();
 
@@ -54,4 +55,6 @@ export default function Video ({video} : Props) {
             </div>
         </article>
     )
-}
+})
+
+export default Video;
