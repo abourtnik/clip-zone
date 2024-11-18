@@ -181,7 +181,7 @@
                 </div>
                 <div class="tab-pane" id="videos" role="tabpanel" aria-labelledby="videos-tab">
                     @if($user->videos->isNotEmpty())
-                        <user-videos user="{{$user->id}}" videos="{{$user->videos->count()}}"  exclude-pinned></user-videos>
+                        <user-videos user="{{$user->id}}" />
                     @else
                         <div class="alert alert-primary mt-4">
                             {{ __('This user has no videos') }}

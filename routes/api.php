@@ -126,20 +126,23 @@ Route::middleware('throttle:api')->group(function () {
     Route::prefix('videos')->name('videos.')->controller(VideoController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/trend', 'trend')->name('trend');
-        Route::get('/{video:uuid}', 'show')
-            ->can('show', 'video');
+        Route::get('/{video:uuid}', 'show')->can('show', 'video');
     });
 
     // USERS
-    Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {
-        Route::get('/{user:id}', 'show')->name('show');
-        Route::get('/{user:id}/videos', 'videos')->name('videos');
-        Route::get('/{user:id}/playlists', 'playlists')->name('playlists');
+    Route::prefix('users')
+        ->name('users.')
+        ->controller(UserController::class)
+        ->middleware('can:show,user')
+        ->group(function () {
+            Route::get('/{user:id}', 'show')->name('show');
+            Route::get('/{user:id}/videos', 'videos')->name('videos');
+            Route::get('/{user:id}/playlists', 'playlists')->name('playlists');
     });
 
     // PLAYLISTS
     Route::prefix('playlists')->name('playlists.')->controller(PlaylistController::class)->group(function () {
-        Route::get('/{playlist:uuid}', 'show')->name('show');
+        Route::get('/{playlist:uuid}', 'show')->name('show')->can('show', 'playlist');
     });
 
     // CATEGORIES

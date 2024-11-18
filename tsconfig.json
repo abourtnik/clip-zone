@@ -17,6 +17,7 @@
         "allowSyntheticDefaultImports": true,
         "esModuleInterop": true,
         "downlevelIteration": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "include": ["resources/js/global.d.ts"]
     }
 }

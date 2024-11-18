@@ -1,31 +1,32 @@
 import { useState, useRef } from 'preact/hooks';
-import configuration from "../config";
 import Resumable from 'resumablejs'
-import {formatSizeUnits} from "../functions";
+import {formatSizeUnits} from "@/functions/size";
 import { useTranslation } from "react-i18next";
+import {ChangeEvent} from "react";
 
-const MB = 1048576;
+type Props = {
+    endpoint: string,
+    maxsize: number
+}
 
-export default function VideoUpload ({endpoint, maxsize}) {
+export function VideoUpload ({endpoint, maxsize} : Props) {
 
     const { t } = useTranslation();
 
-    const config = configuration['video'];
+    const [loading, setLoading] = useState<boolean>(false);
+    const [error, setError] = useState<string>('');
+    const [progress, setProgress] = useState<number>(0);
+    const [isDrag, setDrag] = useState<boolean>(false);
 
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
-    const [progress, setProgress] = useState(0);
-    const [isDrag, setDrag] = useState(false);
+    const input = useRef<HTMLInputElement>(null)
 
-    const input = useRef(null)
-
-    const change = async (event) => {
+    const change = async (event: ChangeEvent<HTMLInputElement>) => {
 
         setError('');
 
-        const file = event.target.files[0];
+        const file = event.currentTarget.files?.[0];
 
-        input.current.value = '';
+        event.currentTarget.value = '';
 
         if(!file) {
             return;
@@ -40,23 +41,25 @@ export default function VideoUpload ({endpoint, maxsize}) {
 
         const uniqueId = Date.now();
 
+        const token = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement;
+
         const resumable = new Resumable({
             target: endpoint,
             query:{
-                _token: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                _token: token.getAttribute('content')
             },
             chunkSize: 10 * 1000 * 1000, // 10MB
             forceChunkSize: true,
             headers: {
                 'Accept': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                'X-CSRF-TOKEN': token.getAttribute('content')
             },
             method: 'multipart',
             simultaneousUploads: 1,
             testChunks: false,
-            permanentErrors: [400, 401, 403, 404, 409, 413, 415, 422, 500, 501],
+            permanentErrors: [400, 401, 403, 404, 409, 413, 415, 419, 422, 500, 501],
             setChunkTypeFromFile : true,
-            generateUniqueIdentifier: () => uniqueId,
+            generateUniqueIdentifier: () => uniqueId.toString(),
         });
 
         window.resumable = resumable;
@@ -68,10 +71,10 @@ export default function VideoUpload ({endpoint, maxsize}) {
         });
 
         resumable.on('fileProgress', function (file) {
-            setProgress(Math.round(file.progress() * 100));
+            setProgress(Math.round(file.progress(false) * 100));
         });
 
-        resumable.on('fileSuccess', function (file, response) {
+        resumable.on('fileSuccess', function (file: Resumable.ResumableFile, response :string) {
             setLoading(false)
             const data = JSON.parse(response);
             window.location.replace(data.route);

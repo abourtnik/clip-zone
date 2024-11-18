@@ -8,7 +8,7 @@ type Props = {
     video : VideoType
 }
 
-const Video = memo(({video} : Props) => {
+export const Video = memo(({video} : Props) => {
 
     const { t } = useTranslation();
 
@@ -56,5 +56,3 @@ const Video = memo(({video} : Props) => {
         </article>
     )
 })
-
-export default Video;

@@ -1,6 +1,6 @@
 import {Fragment} from "preact";
 import {useEffect} from 'preact/hooks';
-import Video from "./Video";
+import {Video} from "./Video";
 import { useInView } from 'react-intersection-observer';
 import {VideoSkeleton} from "@/components/Skeletons/VideoSkeleton";
 import {QueryClient, QueryClientProvider, useInfiniteQuery} from "@tanstack/react-query";
@@ -68,6 +68,7 @@ function Main ({url} : Props) {
             <div
                 className="row mx-0 gx-3 gy-3 gy-sm-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 row-cols-xxl-4">
                 {
+
                     videos &&
                     <>
                         {videos.pages.map((group, i) => (
@@ -87,7 +88,7 @@ function Main ({url} : Props) {
     )
 }
 
-export default function Videos(props: Props) {
+export function VideosList(props: Props) {
 
     const queryClient = new QueryClient({
         defaultOptions: {

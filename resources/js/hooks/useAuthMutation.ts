@@ -4,10 +4,6 @@ import {show as showToast} from "../functions/toast";
 
 type Props = UseMutationOptions & { authError: string }
 
-declare global {
-    interface Window { USER: {id: number, avatar: string} | null }
-}
-
 export function useAuthMutation(options: Props) {
 
     const isAuthenticated = !!window.USER;
