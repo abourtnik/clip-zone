@@ -25,6 +25,13 @@ export type UserType = {
     created_at: Date,
 }
 
+export type InteractionType = {
+    id: number,
+    status: boolean,
+    user: UserType,
+    perform_at: Date,
+}
+
 export type CommentType = {
     id: number,
     parsed_content: string,
@@ -33,7 +40,7 @@ export type CommentType = {
 }
 
 export type UserVideosSort = 'latest' | 'popular' | 'oldest'
-
+export type InteractionsFilters = 'all' | 'up' | 'down'
 export type CommentsSort = 'top' | 'newest'
 
 export type Paginator<T> = {

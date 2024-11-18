@@ -50,7 +50,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // INTERACTIONS
         Route::name('interactions.')->controller(InteractionController::class)->group(function () {
-            Route::get('/interactions', 'list')->name('list');
+            Route::get('/videos/{video:id}/interactions', 'list')->name('list');
             Route::post('/like', 'like')->name('like');
             Route::post('/dislike', 'dislike')->name('dislike');
         });

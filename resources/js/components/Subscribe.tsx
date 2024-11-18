@@ -7,10 +7,10 @@ import {useAuthMutation} from "@/hooks/useAuthMutation";
 type Props = {
     isSubscribe?: boolean,
     user: number,
-    size?: null,
+    size?: string | null,
 }
 
-function Main ({isSubscribe = true, user, size= null} : Props) {
+function Main ({isSubscribe = true, user, size = null} : Props) {
 
     const {isPending, mutate} = useAuthMutation({
         mutationKey: ['subscribe', user],

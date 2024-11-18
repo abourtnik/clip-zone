@@ -1,11 +1,10 @@
 import register from 'preact-custom-element';
 
 import { VideoUpload, VideosList, UserVideos } from './Videos';
+import { InteractionList, Interaction } from './Interactions';
 
 import Subscribe from "./Subscribe";
-import Interaction from "./Interaction";
 import Comments from "./Comments";
-import Interactions from "./Interactions";
 import Search from "./Search";
 import LineChart from "./LineChart";
 import Replies from "./Replies";
@@ -21,7 +20,7 @@ register(Subscribe, 'subscribe-button');
 register(Interaction, 'interaction-button', [], { shadow: false });
 register(Comments, 'comments-area', [], { shadow: false });
 register(VideosList, 'videos-area', [], { shadow: false });
-register(Interactions, 'interactions-area', [], { shadow: false });
+register(InteractionList, 'interactions-area', [], { shadow: false });
 register(Search, 'search-bar', [], { shadow: false });
 register(LineChart, 'line-chart', [], { shadow: false });
 register(Replies, 'replies-area', [], { shadow: false });

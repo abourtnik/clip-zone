@@ -27,8 +27,8 @@ class UserListResource extends JsonResource
             'avatar' => $this->avatar_url,
             'route' => $this->route,
             'show_subscribers' => $this->show_subscribers,
-            $this->mergeWhen($this->show_subscribers, [
-                'subscribers' => $this->subscribers_count
+            $this->mergeWhen($this->show_subscribers && $this, [
+                'subscribers' => $this->whenCounted('subscribers_count')
             ]),
             $this->mergeWhen(auth('sanctum')->check(), [
                 'subscribed_by_auth_user' => $this->resource->subscribed_by_auth_user,

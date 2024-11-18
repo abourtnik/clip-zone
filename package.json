@@ -10,6 +10,7 @@
         "@types/bootstrap": "^5.2.10",
         "@types/react": "^18.2.25",
         "@types/react-dom": "^18.3.1",
+        "@types/numeral": "^2.0.5",
         "laravel-echo": "^1.15.0",
         "laravel-vite-plugin": "^0.6.0",
         "postcss": "^8.1.14",

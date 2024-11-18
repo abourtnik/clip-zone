@@ -1,9 +1,28 @@
 import { useReducer } from 'preact/hooks';
-import {jsonFetch} from '../hooks'
 import {useTranslation} from "react-i18next";
 import numeral from 'numeral'
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {useAuthMutation} from "@/hooks/useAuthMutation";
+import {interact} from "@/api/clipzone";
 
-const reducer = (state, action) => {
+type Props = {
+    model: 'App\\Models\\Video' | 'App\\Models\\Comment',
+    target: number,
+    count: string,
+    active: string,
+    showCount?: boolean
+}
+
+interface State {
+    liked: boolean;
+    disliked: boolean;
+    counterLike: number;
+    counterDislike: number;
+}
+
+type Action = 'LIKE' | 'DISLIKE';
+
+const reducer = (state: State, action: Action) : State => {
     switch (action) {
         case 'LIKE':
             return {
@@ -13,7 +32,6 @@ const reducer = (state, action) => {
                 counterLike: state.liked ? state.counterLike - 1 : state.counterLike + 1,
                 counterDislike: state.disliked ? state.counterDislike - 1 : state.counterDislike
             }
-            break;
         case 'DISLIKE':
             return {
                 ...state,
@@ -22,16 +40,22 @@ const reducer = (state, action) => {
                 counterDislike: state.disliked ? state.counterDislike - 1 : state.counterDislike + 1,
                 counterLike: state.liked ? state.counterLike - 1 : state.counterLike
             }
-            break;
+        default:
+            return state;
     }
 }
 
-export default function Interaction ({model, target, count, active, showCount = true}) {
+function Main ({model, target, count, active, showCount = true} : Props) {
 
     const { t } = useTranslation();
 
-    const {like, dislike} = JSON.parse(active)
-    const {likes_count, dislikes_count} = JSON.parse(count)
+    const {like, dislike}: {like: boolean, dislike: boolean} = JSON.parse(active)
+    const {likes_count, dislikes_count}: {likes_count: number, dislikes_count: number} = JSON.parse(count)
+
+    const {mutate} = useAuthMutation({
+        mutationFn: (type: any) => interact(type, target, model),
+        mutationKey: ['interaction', model, target],
+    })
 
     const [state, dispatch] = useReducer(reducer, {
         liked: like,
@@ -40,23 +64,15 @@ export default function Interaction ({model, target, count, active, showCount = 
         counterDislike : dislikes_count
     })
 
-    const handleClick = async (type) => {
-
-        dispatch(type.toUpperCase())
-
-        await jsonFetch(`/api/${type}` , {
-            method: 'POST',
-            body: JSON.stringify({
-                'model': model,
-                'id': target,
-            })
-        }).catch(e => e)
+    const handleClick = async (type: Action) => {
+        dispatch(type)
+        mutate(type.toLocaleLowerCase() as any)
     }
 
     return (
         <div className={'d-flex justify-content-between bg-light-dark rounded-4'}>
             <button
-                onClick={() => handleClick('like')}
+                onClick={() => handleClick('LIKE')}
                 className={'hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-end ' + (state.liked ? 'text-success' : 'text-black') + (!showCount || state.counterLike === 0 ? ' py-2' : '')}
                 data-bs-toggle="tooltip"
                 data-bs-title={t("I like this")}
@@ -70,7 +86,7 @@ export default function Interaction ({model, target, count, active, showCount = 
             </button>
             <div className="vr h-75 my-auto"></div>
             <button
-                onClick={() => handleClick('dislike')}
+                onClick={() => handleClick('DISLIKE')}
                 className={'hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-start ' + (state.disliked ? 'text-danger' : 'text-black')}
                 data-bs-toggle="tooltip"
                 data-bs-title={t("I dislike this")}
@@ -83,5 +99,22 @@ export default function Interaction ({model, target, count, active, showCount = 
                 </div>
             </button>
         </div>
+    )
+}
+
+export function Interaction(props: Props) {
+
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            }
+        }
+    });
+
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Main {...props} />
+        </QueryClientProvider>
     )
 }

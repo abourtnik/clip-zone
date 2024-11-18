@@ -58,21 +58,19 @@ class InteractionController extends Controller
         return $this->perform($request, false);
     }
 
-    public function list (Request $request) : ResourceCollection {
+    public function list (Video $video, Request $request) : ResourceCollection {
 
         $filter = $request->get('filter', 'all');
         $search = $request->get('search');
-        $video_id = $request->get('video_id');
-
-        $video = Video::findOrFail($video_id)->loadCount('comments');
 
         return InteractionsResource::collection(
-            $video->interactions()
+            $video
+                ->interactions()
                 ->with([
                     'user' => function ($query) {
-                        $query->withExists(['subscribers as is_auth_subscribe' => function($query) {
-                            $query->where('subscriber_id', Auth::id());
-                        }]);
+                        $query->withExists([
+                            'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', auth('sanctum')->user()->id)
+                        ]);
                     },
                     'likeable'
                 ])

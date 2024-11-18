@@ -1,7 +1,7 @@
 import {useState, useEffect, useCallback} from 'preact/hooks';
 import { memo } from 'preact/compat';
 
-import Interaction from "../Interaction";
+import {Interaction} from "../Interactions";
 import ReplyForm from "./ReplyForm";
 import Edit from './Edit'
 

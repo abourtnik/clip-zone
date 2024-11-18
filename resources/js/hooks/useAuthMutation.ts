@@ -2,7 +2,7 @@
 import {useMutation, UseMutationOptions} from "@tanstack/react-query";
 import {show as showToast} from "../functions/toast";
 
-type Props = UseMutationOptions & { authError: string }
+type Props = UseMutationOptions & { authError?: string }
 
 export function useAuthMutation(options: Props) {
 
@@ -12,7 +12,9 @@ export function useAuthMutation(options: Props) {
         ...options,
         mutationFn: (args) => {
             if (!isAuthenticated) {
-                showToast(options.authError);
+                if (options.authError) {
+                    showToast(options.authError);
+                }
                 return Promise.reject()
             }
 
