@@ -54,9 +54,12 @@
                         </td>
                         <td class="align-middle">
                             @if($comment->replies_count)
-                                <button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}" data-video="{{$comment->video->uuid}}">
+                                <div class="badge bg-primary">
+                                    {{trans_choice('replies', $comment->replies_count)}}
+                                </div>
+                                {{--<button class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#comment_replies" data-id="{{$comment->id}}" data-video="{{$comment->video->uuid}}">
                                     See replies ({{$comment->replies_count}})
-                                </button>
+                                </button>--}}
                             @else
                                 <div class="badge bg-secondary">
                                     No replies

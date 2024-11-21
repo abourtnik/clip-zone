@@ -46,7 +46,7 @@ class CommentObserver
         $comment->replies_interactions()->each(fn ($interaction) => $interaction->delete());
         $comment->replies()->delete();
 
-        // Remove video reports
+        // Remove reports
         $comment->reports()->delete();
     }
 }

@@ -1,7 +1,7 @@
 import '../sass/app.scss';
 
 // Libs
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle';
+import * as bootstrap from 'bootstrap'
 import Alpine from 'alpinejs'
 import TomSelect from "tom-select";
 import 'htmx.org';

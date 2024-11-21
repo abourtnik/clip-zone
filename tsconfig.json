@@ -1,5 +1,7 @@
 {
     "compilerOptions": {
+        "target": "es2019",
+        "lib": ["es2019", "dom", "dom.iterable"],
         "jsx": "react-jsx",
         "jsxImportSource": "preact",
         "jsxFactory": "h",

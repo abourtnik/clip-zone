@@ -2,7 +2,7 @@ import { useReducer } from 'preact/hooks';
 import {useTranslation} from "react-i18next";
 import numeral from 'numeral'
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import {useAuthMutation} from "@/hooks/useAuthMutation";
+import {useErrorMutation} from "@/hooks/useErrorMutation";
 import {interact} from "@/api/clipzone";
 
 type Props = {
@@ -52,8 +52,8 @@ function Main ({model, target, count, active, showCount = true} : Props) {
     const {like, dislike}: {like: boolean, dislike: boolean} = JSON.parse(active)
     const {likes_count, dislikes_count}: {likes_count: number, dislikes_count: number} = JSON.parse(count)
 
-    const {mutate} = useAuthMutation({
-        mutationFn: (type: any) => interact(type, target, model),
+    const {mutate} = useErrorMutation({
+        mutationFn: (type: 'like' | 'dislike') => interact(type, target, model),
         mutationKey: ['interaction', model, target],
     })
 
@@ -66,7 +66,7 @@ function Main ({model, target, count, active, showCount = true} : Props) {
 
     const handleClick = async (type: Action) => {
         dispatch(type)
-        mutate(type.toLocaleLowerCase() as any)
+        mutate(type.toLocaleLowerCase() as 'like' | 'dislike')
     }
 
     return (

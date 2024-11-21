@@ -50,9 +50,11 @@ class CommentResource extends JsonResource
                 'can_pin' => Auth::user()?->can('pin', $this->resource)
             ]),
             'is_reply' => $this->is_reply,
+            'parent_id' => $this->whenNotNull($this->parent_id),
             $this->mergeWhen(!$this->is_reply, [
                 'is_pinned' => $this->is_pinned,
                 'has_replies' => $this->resource->total_replies > 0,
+                'replies_count' => $this->resource->total_replies,
                 'is_video_author_reply' => $this->resource->is_video_author_reply,
                 'is_video_author_like' => $this->resource->is_video_author_like,
                 $this->mergeWhen(($this->is_pinned || $this->resource->is_video_author_reply || $this->resource->is_video_author_like), [
@@ -66,12 +68,8 @@ class CommentResource extends JsonResource
             'replies' => $this->when(!$this->is_reply && $this->resource->total_replies > 0, function () {
                 return [
                     'data' => CommentResource::collection($this->replies),
-                    'links' => [
-                        'next' => $this->replies->count() < $this->resource->total_replies ? route('comments.replies', ['video' => $this->video, 'comment' => $this->resource, 'page' => 2]) : null,
-                    ],
-                    'meta' => [
-                        'total' => $this->resource->total_replies
-                    ]
+                    'next_page' => $this->when($this->replies->count() < $this->resource->total_replies, 2, null),
+                    'total' => $this->resource->total_replies
                 ];
             }),
         ];

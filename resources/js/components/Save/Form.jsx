@@ -1,6 +1,6 @@
 import {useState} from "preact/hooks";
 import { memo } from 'preact/compat';
-import Button from '../Button'
+import {Button} from '../commons'
 
 const Form = memo(({create}) => {
 

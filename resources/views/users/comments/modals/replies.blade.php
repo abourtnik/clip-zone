@@ -20,6 +20,6 @@
         const id = button.dataset.id;
         const video = button.dataset.video;
 
-        event.target.querySelector('.modal-body').innerHTML = `<replies-area comment="${id}" video="${video}"/>`;
+        event.target.querySelector('.modal-body').innerHTML = `<user-replies comment="${id}" video="${video}"/>`;
     })
 </script>

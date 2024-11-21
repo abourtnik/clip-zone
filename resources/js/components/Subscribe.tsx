@@ -2,7 +2,7 @@ import { useState } from 'preact/hooks';
 import {useTranslation} from "react-i18next";
 import {subscribe} from "@/api/clipzone";
 import {QueryClient, QueryClientProvider,} from '@tanstack/react-query'
-import {useAuthMutation} from "@/hooks/useAuthMutation";
+import {useErrorMutation} from "@/hooks/useErrorMutation";
 
 type Props = {
     isSubscribe?: boolean,
@@ -12,11 +12,10 @@ type Props = {
 
 function Main ({isSubscribe = true, user, size = null} : Props) {
 
-    const {isPending, mutate} = useAuthMutation({
+    const {isPending, mutate} = useErrorMutation({
         mutationKey: ['subscribe', user],
         mutationFn: () => subscribe(user),
         onSuccess: () => setSubscribed(v => !v),
-        authError: 'Sign in to subscribe to this channel'
     })
 
     const { t } = useTranslation();

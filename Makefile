@@ -7,6 +7,9 @@ help: ## Show help options
 connect: ## Enter in docker container
 	docker exec -it php_container /bin/bash
 
+node: ## Enter in docker container
+	docker exec -it node_container /bin/sh
+
 reset: ## Reset database and run seeders
 	docker exec -it php_container php artisan migrate:fresh --seed
 

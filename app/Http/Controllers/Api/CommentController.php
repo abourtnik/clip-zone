@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\StoreCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\RepliesCollection;
 use App\Models\Comment;
 use App\Models\Video;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -89,7 +90,7 @@ class CommentController extends Controller
 
         $sort = $request->get('sort', 'top');
 
-        return (CommentResource::collection(
+        return (new RepliesCollection(
             $comment
                 ->loadCount('replies')
                 ->replies()
@@ -112,7 +113,7 @@ class CommentController extends Controller
                 ->simplePaginate(self::REPLIES_PER_PAGE)
                 ->withQueryString()
         ))->additional([
-            'count' => $comment->replies_count,
+            'total' => $comment->replies_count,
         ]);
 
     }
