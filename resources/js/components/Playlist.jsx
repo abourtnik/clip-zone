@@ -1,7 +1,8 @@
 import { useState, useCallback, useRef } from 'preact/hooks';
 import {debounce} from "../functions";
 import { ReactSortable } from "react-sortablejs";
-import {jsonFetch, useClickOutside} from '../hooks'
+import {useClickOutside} from '../hooks'
+import {jsonFetch} from '../oldhooks'
 import moment from "moment/moment";
 
 export default function Playlist ({initial = []}) {

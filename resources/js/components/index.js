@@ -2,18 +2,17 @@ import register from 'preact-custom-element';
 
 import { VideoUpload, VideosList, UserVideos } from './Videos';
 import { InteractionList, Interaction } from './Interactions';
+import { SearchBar, SearchModel } from './Search';
 
 import Subscribe from "./Subscribe";
 import {CommentsList} from "./Comments/CommentsList";
 import {UserReplies} from "./Comments/UserReplies";
-import Search from "./Search";
 import LineChart from "./LineChart";
 import Playlist from "./Playlist";
 import Notifications from "./Notifications";
 import ImageUpload from "./ImageUpload";
 import ImageLoaded from "./ImageLoaded";
 import Save from "./Save";
-import SearchModel from "./SearchModel";
 import Thumbnails from "./Thumbnails";
 
 register(Subscribe, 'subscribe-button');
@@ -21,7 +20,7 @@ register(Interaction, 'interaction-button', [], { shadow: false });
 register(CommentsList, 'comments-area', [], { shadow: false });
 register(VideosList, 'videos-area', [], { shadow: false });
 register(InteractionList, 'interactions-area', [], { shadow: false });
-register(Search, 'search-bar', [], { shadow: false });
+register(SearchBar, 'search-bar', [], { shadow: false });
 register(LineChart, 'line-chart', [], { shadow: false });
 register(UserReplies, 'user-replies', [], { shadow: false });
 register(UserVideos, 'user-videos', [], { shadow: false });

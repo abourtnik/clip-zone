@@ -1,6 +1,6 @@
 import {useState, useEffect, useCallback} from 'preact/hooks';
 import {memo} from 'preact/compat';
-import {jsonFetch} from "../hooks";
+import {jsonFetch} from '../oldhooks'
 import Notification from "./Notification";
 
 const Notifications = memo(({initial}) => {

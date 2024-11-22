@@ -7,7 +7,8 @@ import {
     CommentType,
     CommentsSort,
     CommentData,
-    ResponsesPaginator
+    ResponsesPaginator,
+    Search, SearchModel
 } from "@/types";
 
 const API_URL =  '/api';
@@ -53,4 +54,12 @@ export async function deleteComment(video_uuid: string, comment_id: number): Pro
 
 export async function pinComment(type: 'pin' | 'unpin', video_uuid: string, comment_id: number): Promise<void> {
     return jsonFetch(API_URL + `/videos/${video_uuid}/comments/${comment_id}/${type}`, 'POST');
+}
+
+export async function search(query: string): Promise<Search> {
+    return jsonFetch(API_URL + '/search?q=' + query);
+}
+
+export async function searchModel(endpoint: string, query: string): Promise<SearchModel> {
+    return jsonFetch(endpoint + '?q=' + query);
 }

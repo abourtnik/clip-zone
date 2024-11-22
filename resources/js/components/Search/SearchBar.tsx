@@ -1,105 +1,67 @@
-import { useState, useCallback, useRef } from 'preact/hooks';
-import {debounce} from "../functions";
-import {jsonFetch, useClickOutside} from '../hooks'
+import {useState, useRef} from 'preact/hooks';
 import {useTranslation} from "react-i18next";
 import clsx from 'clsx';
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {useSearchQuery, useClickOutside, useKeyboardNavigate} from "@/hooks";
+import {search} from "@/api/clipzone";
+import {SearchVideoType} from "@/types";
+import {ChangeEvent, FormEvent} from "react";
 
-export default function Search ({query = '', responsive = true}) {
+type Props = {
+    query?: string,
+    responsive?: boolean
+}
+
+function Main ({responsive = true} : Props) {
 
     const { t } = useTranslation();
 
-    const ref = useRef(null)
+    const form = useRef<HTMLFormElement>(null);
 
-    const [search, setSearch] = useState(query);
-    const [results, setResults] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [showResults, setShowResults] = useState(false);
-    const [selectedIndex, setSelectedIndex] = useState(null);
+    const searchParams = new URLSearchParams(window.location.search).get('q') ?? '';
 
-    useClickOutside(ref, () => setShowResults(false))
+    const [query, setQuery] = useState<string>(searchParams);
+    const [showResults, setShowResults] = useState<boolean>(false);
 
-    const handleChange = e => {
-        const value = e.target.value;
-        setSelectedIndex(null);
-        setLoading(true);
-        setSearch(value);
-        if (value.trim()) {
-            suggest(value)
+    const {data: results, isFetching} = useSearchQuery({
+        query: query,
+        key: 'search',
+        searchFn: search,
+    });
+
+    useClickOutside(form, () => setShowResults(false))
+
+    const {index, navigate} = useKeyboardNavigate({
+        length: results && results.items.length + 1,
+        onSelect: (index) => {
+            window.location.href = results!.items[index]?.url ?? '/search?q=' + query;
         }
-    };
+    });
 
-    const handleKeys = (e) => {
-        switch (e.key) {
-            case 'ArrowDown':
-                setSelectedIndex(i => {
-
-                    if (!results.total){
-                        return null;
-                    }
-
-                    if(i === null) {
-                        return 0
-                    }
-                    else if (results.items.length === i) {
-                        return null
-                    }
-                    else {
-                        return  i + 1
-                    }
-                })
-                break;
-            case 'ArrowUp':
-                setSelectedIndex(i => {
-
-                    if (!results.total){
-                        return null;
-                    }
-
-                    if(i === null) {
-                        return results.items.length
-                    }
-                    else if (i === 0) {
-                        return null
-                    }
-                    else {
-                        return  i - 1
-                    }
-                })
-                break;
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        if (index !== null) {
+            e.preventDefault();
         }
     }
-
-    const handleSubmit = (e) => {
-        if (selectedIndex !== null && selectedIndex !== results.items.length) {
-            e.preventDefault()
-            window.location.href = results.items[selectedIndex].url;
-        }
-    }
-
-    const suggest = useCallback(debounce(async value => {
-        jsonFetch(`/api/search?q=${value}`).then(results => {
-            setResults(results);
-        }).catch(e => e).finally(() => setLoading(false));
-    }, 300), []);
 
     return (
         <>
-        <form ref={ref} method="GET" className="d-flex w-100 mb-0" role="search" action="/search" onSubmit={handleSubmit}>
+        <form ref={form} method="GET" className="d-flex w-100 mb-0" role="search" action="/search" onSubmit={handleSubmit}>
             <div className="input-group flex-nowrap">
                 <div className={'position-relative'} style={{flex: '1 1 auto'}}>
                     <input
                         onClick={() => setShowResults(true)}
-                        onChange={handleChange}
+                        onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.currentTarget.value)}
                         className="form-control rounded-5 rounded-end radius-end-0 border border-secondary"
                         type="search"
                         placeholder={t("Search")}
                         aria-label="Search"
                         name="q"
-                        value={search}
-                        onKeyDown={handleKeys}
+                        value={query}
+                        onKeyDown={navigate}
                     />
                     {
-                        (loading && search.trim()) &&
+                        isFetching &&
                         <div className="position-absolute top-50 right-0 translate-middle" >
                             <div className={'spinner-border spinner-border-sm'} role="status">
                                 <span className="visually-hidden">Loading...</span>
@@ -113,25 +75,30 @@ export default function Search ({query = '', responsive = true}) {
             </div>
         </form>
         {
-            (showResults && search.trim() && results.total) ?
+            (showResults && results && results.total > 0) &&
                 <div className={clsx('position-absolute bg-white border border-1 pt-3', responsive && 'w-100 start-0', !responsive && 'shadow-lg rounded-top rounded-bottom col-6 col-xl-5 col-xxl-4 rounded-4')} style={{top:'53px'}}>
                     <ul className={'list-unstyled mb-0'}>
                         {
-                            results.items.map((result, key) => <ResultItem result={result} key={key} isSelected={selectedIndex === key}/>)
+                            results.items.map((result, key) => <ResultItem result={result} key={key} isSelected={index === key}/>)
                         }
                         <li className={'text-center border-top d-flex align-items-center rounded-bottom'}>
-                            <a className={clsx("text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold hover-primary py-2 rounded-bottom", selectedIndex === results.items.length && 'selected')} href={results.route}>
+                            <a className={clsx("text-decoration-none text-muted px-2 pt-2 w-100 text-sm fw-bold hover-primary py-2 rounded-bottom", index === results.items.length && 'selected')} href={results.route}>
                                 {t('See results', { count: results.total })}
                             </a>
                         </li>
                     </ul>
-                </div> : null
+                </div>
         }
         </>
     )
 }
 
-function ResultItem ({result, isSelected}) {
+type ResultItemProps = {
+    result: SearchVideoType
+    isSelected : boolean
+}
+
+function ResultItem ({result, isSelected} : ResultItemProps) {
 
     const [loading, setLoading] = useState(true);
 
@@ -161,5 +128,22 @@ function ResultItem ({result, isSelected}) {
                 </div>
             </a>
         </li>
+    )
+}
+
+export function SearchBar(props: Props) {
+
+    const queryClient = new QueryClient({
+        defaultOptions: {
+            queries: {
+                retry: false,
+            }
+        }
+    });
+
+    return (
+        <QueryClientProvider client={queryClient}>
+            <Main {...props} />
+        </QueryClientProvider>
     )
 }

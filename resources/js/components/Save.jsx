@@ -1,7 +1,7 @@
 import {useState, useCallback, useEffect} from 'preact/hooks';
 import {memo} from 'preact/compat';
 import Form from "./Save/Form";
-import {jsonFetch} from "../hooks";
+import {jsonFetch} from '../oldhooks'
 import { useMachine } from '@xstate/react';
 import {createMachine} from "xstate";
 

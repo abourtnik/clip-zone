@@ -1,42 +1,4 @@
-import {useCallback, useState, useEffect} from 'preact/hooks';
-
-export function usePaginateFetch (url, initialItems = [], initialCount = null, initialNext = null) {
-
-    const [loading, setLoading] = useState(false);
-    const [items, setItems] = useState(initialItems);
-    const [count, setCount] = useState(initialCount);
-    const [next, setNext] = useState(initialNext);
-    const load = useCallback(async (sort = null) => {
-        setLoading(true);
-        return await jsonFetch((next || url) + (sort ? '&sort=' + sort : '')).then(data => {
-            next ? setItems(items => [...items, ...data.data]) :  setItems(data.data)
-            setCount(data.count ?? data.meta.total)
-            setNext(data.links.next)
-            setLoading(false);
-        })
-    }, [url, next])
-
-    return {
-        items,
-        setItems,
-        load,
-        loading,
-        count,
-        setCount,
-        hasMore: next !== null,
-        setNext
-    }
-}
-
-export function useToggle (initial) {
-
-    const [value, setValue] = useState(initial);
-
-    const toggle = () => setValue(value => !value)
-
-    return [value, toggle]
-
-}
+import {useEffect} from 'preact/hooks';
 
 export function useClickOutside (ref, callback) {
     useEffect(() => {

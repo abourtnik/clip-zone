@@ -8,7 +8,7 @@
                 {{config('app.name')}} @if(Auth::user()?->is_premium) <span class="text-warning">Premium</span> @endif
             </a>
         </div>
-        <search-bar class="col-6 col-xl-5 col-xxl-4 d-none d-lg-block" responsive query="{{request()->get('q')}}"></search-bar>
+        <search-bar class="col-6 col-xl-5 col-xxl-4 d-none d-lg-block" responsive></search-bar>
         <ul @class(['navbar-nav flex-row d-flex align-items-center', 'gap-1' => Auth::guest(), 'gap-4' => Auth::check()]) href="{{route('pages.home')}}">
             <li class="nav-item d-block d-lg-none">
                 <button @click="search = true" class="bg-transparent nav-link text-black">
@@ -57,6 +57,6 @@
         <button @click="search = false" class="nav-link d-flex align-items-center bg-transparent">
             <i  class="fa-solid fa-arrow-left"></i>
         </button>
-        <search-bar class="w-100" query="{{request()->get('q')}}"></search-bar>
+        <search-bar class="w-100"></search-bar>
     </div>
 </nav>

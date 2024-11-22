@@ -107,9 +107,35 @@ export type ResponsesPaginator = {
     total: number
 }
 
-export type SearchResultType = VideoType
+export type SearchVideoType = {
+    title: string,
+    user: string
+    views: string,
+    formated_duration: string,
+    publication_date: number,
+    thumbnail: string,
+    url: string,
+    uuid: string,
+    _formatted: {
+        title: string,
+        user: string,
+        views: string,
+        publication_date: string,
+        thumbnail: string,
+        url: string,
+        uuid: string
+    }
+}
 
 export type Search = {
+    items: SearchVideoType[],
+    route: string,
     total: number,
-    items: SearchResultType[]
+}
+
+export type SearchModel = {
+    data: {
+        value: string,
+        label: string
+    }[]
 }

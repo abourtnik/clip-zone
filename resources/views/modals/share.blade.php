@@ -61,7 +61,7 @@
                     <div class="col-10 col-sm-7">
                         <div class="input-group mb-3 ">
                             <div class="input-group-text d-flex align-items-center gap-2">
-                                <input class="form-check-input mt-0" type="checkbox" aria-label="Checkbox for following text input" x-model="enabled">
+                                <input name="start_at" class="form-check-input mt-0" type="checkbox" aria-label="Checkbox for following text input" x-model="enabled">
                                 <label for="link" class="form-label mb-0">{{ __('Start at :') }}</label>
                             </div>
                             <input type="time" id="time" class="form-control disabled" aria-label="Text input with checkbox" value="00:01" :disabled="!enabled" x-model="time">
@@ -85,7 +85,7 @@
                             <iframe src="{{route('video.embed', $video)}}" class="w-100" width="960" height="540" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                         </div>
                         <div class="col-12 col-xl-4 d-flex flex-column gap-2">
-                            <textarea readonly rows="8" class="form-control" style="resize: none">{{ '<iframe width="560" height="315" src="'.route('video.embed', $video).'" title="'.config('app.name').' video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>' }}</textarea>
+                            <textarea id="embed_code" readonly rows="8" class="form-control" style="resize: none">{{ '<iframe width="560" height="315" src="'.route('video.embed', $video).'" title="'.config('app.name').' video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>' }}</textarea>
                             <button
                                 class="btn btn-primary btn-block d-flex align-items-center gap-2 justify-content-center"
                                 type="button"
