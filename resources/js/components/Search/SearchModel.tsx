@@ -2,6 +2,7 @@ import {useState, useRef} from 'preact/hooks';
 import {useSearchQuery, useClickOutside, useKeyboardNavigate} from "@/hooks";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {searchModel} from "@/api/clipzone";
+import {ChangeEvent} from "react";
 
 type Props = {
     endpoint: string,
@@ -35,10 +36,15 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
         setShowResults(false)
     }
 
-    const {index, navigate} = useKeyboardNavigate({
+    const {index, navigate, resetIndex} = useKeyboardNavigate({
         length: results?.data.length,
         onSelect: select
     });
+
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setQuery(e.currentTarget.value)
+        resetIndex()
+    }
 
     return (
         <div className={'position-relative'}>
@@ -47,7 +53,7 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
                 <input
                     onClick={() => setShowResults(true)}
                     ref={input}
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={handleChange}
                     type="search"
                     className="form-control"
                     id={name}

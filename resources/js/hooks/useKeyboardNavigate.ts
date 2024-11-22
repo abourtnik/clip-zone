@@ -10,9 +10,14 @@ export function useKeyboardNavigate (options: Options) {
     const {length, onSelect} = options;
 
     const [index, setIndex] = useState<number | null>(null);
+
+    const resetIndex = () => setIndex(null);
+
     const navigate = (e: KeyboardEvent<HTMLInputElement>) => {
 
         if (['ArrowDown', 'ArrowUp', 'Enter'].includes(e.key)) {
+
+            e.preventDefault();
 
             if (length === undefined || length === 0) {
                 setIndex(null);
@@ -44,5 +49,5 @@ export function useKeyboardNavigate (options: Options) {
         }
     }
 
-    return {index, navigate}
+    return {index, navigate, resetIndex}
 }

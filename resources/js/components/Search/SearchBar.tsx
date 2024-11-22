@@ -31,7 +31,7 @@ function Main ({responsive = true} : Props) {
 
     useClickOutside(form, () => setShowResults(false))
 
-    const {index, navigate} = useKeyboardNavigate({
+    const {index, navigate, resetIndex} = useKeyboardNavigate({
         length: results && results.items.length + 1,
         onSelect: (index) => {
             window.location.href = results!.items[index]?.url ?? '/search?q=' + query;
@@ -44,6 +44,11 @@ function Main ({responsive = true} : Props) {
         }
     }
 
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setQuery(e.currentTarget.value)
+        resetIndex()
+    }
+
     return (
         <>
         <form ref={form} method="GET" className="d-flex w-100 mb-0" role="search" action="/search" onSubmit={handleSubmit}>
@@ -51,7 +56,7 @@ function Main ({responsive = true} : Props) {
                 <div className={'position-relative'} style={{flex: '1 1 auto'}}>
                     <input
                         onClick={() => setShowResults(true)}
-                        onChange={(e: ChangeEvent<HTMLInputElement>) => setQuery(e.currentTarget.value)}
+                        onChange={handleChange}
                         className="form-control rounded-5 rounded-end radius-end-0 border border-secondary"
                         type="search"
                         placeholder={t("Search")}
