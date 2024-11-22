@@ -42,6 +42,7 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
     });
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setShowResults(true)
         setQuery(e.currentTarget.value)
         resetIndex()
     }
