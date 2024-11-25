@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\View\Composers\FilterComposer;
 use App\View\Composers\HeaderComposer;
-use App\View\Composers\NotificationComposer;
 use App\View\Composers\ReportComposer;
 use App\View\Composers\SidebarComposer;
 use App\View\Composers\UploadComposer;
@@ -35,8 +34,6 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('layouts.menus.sidebars.front', SidebarComposer::class);
 
         View::composer('layouts.menus.header', HeaderComposer::class);
-
-        View::composer('layouts.menus.notifications', NotificationComposer::class);
 
         View::composer('modals.report', ReportComposer::class);
 

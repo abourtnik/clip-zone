@@ -43,7 +43,8 @@ class ExportError extends Notification
         return [
             'message' => 'Your export was failed !',
             'url' => route('admin.exports.index'),
-            'created_at' => now()->diffForHumans()
+            'created_at' => now(),
+            'is_read' => false
         ];
     }
 }

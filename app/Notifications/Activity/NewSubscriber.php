@@ -42,7 +42,8 @@ class NewSubscriber extends Notification
         return [
             'message' => $this->subscriber->username. ' has subscribed to your channel !',
             'url' => route('user.show', $this->subscriber),
-            'created_at' => now()->diffForHumans(),
+            'is_read' => false,
+            'created_at' => now(),
         ];
     }
 

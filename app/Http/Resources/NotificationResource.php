@@ -22,9 +22,9 @@ class NotificationResource extends JsonResource
         return [
             'id' => $this->id,
             'message' => $this->message,
-            'url' => route('user.notifications.click', $this),
+            'url' => $this->url,
             'is_read' => $this->is_read,
-            'created_at' => $this->created_at->diffForHumans()
+            'created_at' => $this->created_at
         ];
     }
 }

@@ -65,6 +65,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // NOTIFICATIONS
         Route::controller(NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
+            Route::get('/', 'index')
+                ->name('index');
             Route::get('/{notification}/read', 'read')
                 ->name('read')
                 ->missing(fn() => abort(404, 'Notification not found'))

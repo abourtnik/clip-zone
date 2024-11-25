@@ -43,7 +43,8 @@ class NewVideo extends Notification
         return [
             'message' => $this->video->user->username. ' has published new video !',
             'url' => $this->video->route,
-            'created_at' => now()->diffForHumans()
+            'created_at' => now(),
+            'is_read' => false
         ];
     }
 }

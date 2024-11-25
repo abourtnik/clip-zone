@@ -43,7 +43,8 @@ class VideoUploaded extends Notification
         return [
             'message' => 'Your video : ' .$this->video->title. ' was successfully processed.',
             'url' => $this->video->is_draft ? route('user.videos.create', $this->video) : route('user.videos.edit', $this->video),
-            'created_at' => now()->diffForHumans()
+            'created_at' => now(),
+            'is_read' => false
         ];
     }
 }

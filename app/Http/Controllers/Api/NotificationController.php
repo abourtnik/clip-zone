@@ -3,13 +3,26 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NotificationResource;
 use App\Models\Notification;
 use App\Models\User;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class NotificationController extends Controller
 {
+    public function index(): ResourceCollection
+    {
+        return (
+            NotificationResource::collection(
+                Notification::where(['notifiable_type' => User::class, 'notifiable_id' => Auth::id()])
+                    ->latest()
+                    ->paginate(20)
+            )
+        );
+    }
+
     public function read (Notification $notification) : Response {
 
         $notification->markAsRead();

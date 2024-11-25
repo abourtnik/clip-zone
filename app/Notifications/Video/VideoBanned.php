@@ -66,7 +66,8 @@ class VideoBanned extends Notification
         return [
             'message' => 'You video ' .$this->video->title. ' was banned',
             'url' => route('user.videos.index'),
-            'created_at' => now()->diffForHumans()
+            'created_at' => now(),
+            'is_read' => false
         ];
     }
 }

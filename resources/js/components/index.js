@@ -3,13 +3,14 @@ import register from 'preact-custom-element';
 import { VideoUpload, VideosList, UserVideos } from './Videos';
 import { InteractionList, Interaction } from './Interactions';
 import { SearchBar, SearchModel } from './Search';
+import {NotificationsList} from "./Notifications/NotificationsList";
 
 import Subscribe from "./Subscribe";
 import {CommentsList} from "./Comments/CommentsList";
 import {UserReplies} from "./Comments/UserReplies";
 import LineChart from "./LineChart";
 import Playlist from "./Playlist";
-import Notifications from "./Notifications";
+
 import ImageUpload from "./ImageUpload";
 import ImageLoaded from "./ImageLoaded";
 import Save from "./Save";
@@ -25,7 +26,7 @@ register(LineChart, 'line-chart', [], { shadow: false });
 register(UserReplies, 'user-replies', [], { shadow: false });
 register(UserVideos, 'user-videos', [], { shadow: false });
 register(Playlist, 'playlist-videos', [], { shadow: false });
-register(Notifications, 'site-notifications', [], { shadow: false });
+register(NotificationsList, 'site-notifications', [], { shadow: false });
 register(ImageUpload, 'image-upload', ['source'], { shadow: false });
 register(VideoUpload, 'video-upload', [], { shadow: false });
 register(ImageLoaded, 'image-loaded', ['hover'], { shadow: false });

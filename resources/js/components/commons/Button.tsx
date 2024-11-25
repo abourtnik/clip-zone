@@ -1,12 +1,13 @@
 import clsx from "clsx";
 import { ComponentChildren } from "preact";
+import {ButtonHTMLAttributes} from "preact/compat";
 
 type Props = {
     loading?: boolean,
     color?: string,
     small?: boolean,
     children: ComponentChildren;
-} & JSX.IntrinsicElements['button'];
+} & ButtonHTMLAttributes;
 
 export function Button ({loading= false, children, color = 'primary', small = true, ...props} : Props) {
     return (

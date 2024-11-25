@@ -1,15 +1,5 @@
 import {jsonFetch} from '@/functions/api'
-import {
-    VideoType,
-    Paginator,
-    InteractionType,
-    InteractionsFilters,
-    CommentType,
-    CommentsSort,
-    CommentData,
-    ResponsesPaginator,
-    Search, SearchModel
-} from "@/types";
+import {VideoType, Paginator, InteractionType, InteractionsFilters, CommentType, CommentsSort, CommentData, ResponsesPaginator, Search, SearchModel, NotificationType} from "@/types";
 
 const API_URL =  '/api';
 
@@ -62,4 +52,20 @@ export async function search(query: string): Promise<Search> {
 
 export async function searchModel(endpoint: string, query: string): Promise<SearchModel> {
     return jsonFetch(endpoint + '?q=' + query);
+}
+
+export async function getNotifications(page: number = 1): Promise<Paginator<NotificationType>> {
+    return jsonFetch(API_URL + '/notifications?page=' + page);
+}
+
+export async function handleNotification(id: number, type: 'read' | 'unread'): Promise<void> {
+    return jsonFetch(API_URL + `/notifications/${id}/${type}`);
+}
+
+export async function deleteNotification(id: number): Promise<void> {
+    return jsonFetch(API_URL + `/notifications/${id}/delete`, 'DELETE');
+}
+
+export async function readAllNotifications(): Promise<void> {
+    return jsonFetch(API_URL + `/notifications/read-all`);
 }

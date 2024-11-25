@@ -23,16 +23,7 @@
                     </button>
                 </li>
                 <li class="nav-item align-items-center">
-                    <button class="btn nav-link bg-transparent btn-sm d-flex align-items-center gap-2 position-relative" data-bs-toggle="offcanvas" data-bs-target="#notifications">
-                        <i id="bell" class="fa-solid fa-bell"></i>
-                        <span id="notifications_count" @class(['position-absolute top-10 translate-middle badge rounded-pill bg-danger text-sm', 'd-none' => !$unread_notifications]) style="left: 90%">
-                            @if($unread_notifications > 99)
-                                <span>99 +</span>
-                            @else
-                                <span>{{$unread_notifications}}</span>
-                            @endif
-                        </span>
-                    </button>
+                    <site-notifications count="{{$unread_notifications}}" />
                 </li>
                 <li class="nav-item">
                     <button class="bg-transparent px-0" role="button" data-bs-toggle="offcanvas" data-bs-target="#account">

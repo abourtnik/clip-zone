@@ -43,7 +43,8 @@ class ExportSuccess extends Notification
         return [
             'message' => 'Your '. $this->export->file .' export is ready !',
             'url' => route('admin.exports.download', $this->export),
-            'created_at' => now()->diffForHumans()
+            'created_at' => now(),
+            'is_read' => false
         ];
     }
 }

@@ -43,7 +43,8 @@ class NewComment extends Notification
         return [
             'message' => 'You have new comment on your video !',
             'url' =>  $this->comment->video->route,
-            'created_at' => now()->diffForHumans()
+            'created_at' => now(),
+            'is_read' => false
         ];
     }
 }

@@ -83,7 +83,8 @@ class Invoice extends Notification
         return [
             'message' => 'Your ' .config('app.name'). ' invoice is available',
             'url' => route('user.invoices.show', $this->transaction),
-            'created_at' => now()->diffForHumans()
+            'created_at' => now(),
+            'read_at' => false
         ];
     }
 }

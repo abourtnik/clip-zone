@@ -57,7 +57,6 @@
             </div>
         </div>
         @if (Auth::check())
-            @include('layouts.menus.notifications')
             @include('modals.report')
             @include('users.videos.modals.upload')
             @include('layouts.menus.account')
