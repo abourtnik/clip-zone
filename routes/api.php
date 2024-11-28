@@ -60,6 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // PLAYLIST
         Route::controller(PlaylistController::class)->prefix('playlists')->name('playlists.')->group(function () {
+            Route::post('/', 'store')->name('store');
             Route::post('/save', 'save')->name('save');
         });
 
@@ -143,8 +144,13 @@ Route::middleware('throttle:api')->group(function () {
     });
 
     // PLAYLISTS
-    Route::prefix('playlists')->name('playlists.')->controller(PlaylistController::class)->group(function () {
-        Route::get('/{playlist:uuid}', 'show')->name('show')->can('show', 'playlist');
+    Route::prefix('playlists')
+        ->name('playlists.')
+        ->controller(PlaylistController::class)
+        ->middleware('can:show,playlist')
+        ->group(function () {
+            Route::get('/{playlist:uuid}', 'show')->name('show');
+            Route::get('/{playlist:uuid}/videos', 'videos')->name('videos');
     });
 
     // CATEGORIES

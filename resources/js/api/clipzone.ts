@@ -1,5 +1,20 @@
 import {jsonFetch} from '@/functions/api'
-import {VideoType, Paginator, InteractionType, InteractionsFilters, CommentType, CommentsSort, CommentData, ResponsesPaginator, Search, SearchModel, NotificationType} from "@/types";
+import {
+    VideoType,
+    Paginator,
+    InteractionType,
+    InteractionsFilters,
+    CommentType,
+    CommentsSort,
+    CommentData,
+    ResponsesPaginator,
+    Search,
+    SearchModel,
+    NotificationType,
+    PlaylistType,
+    PlaylistCreateData,
+    PlaylistSaveData
+} from "@/types";
 
 const API_URL =  '/api';
 
@@ -68,4 +83,26 @@ export async function deleteNotification(id: number): Promise<void> {
 
 export async function readAllNotifications(): Promise<void> {
     return jsonFetch(API_URL + `/notifications/read-all`);
+}
+
+export async function getPlaylistVideos(playlist_uuid: string | null, page: number = 1): Promise<Paginator<VideoType>> {
+    return jsonFetch(API_URL + `/playlists/${playlist_uuid}/videos?page=`+ page);
+}
+
+export async function searchVideos(query: string, exceptIds: number[]): Promise<VideoType[]> {
+    return jsonFetch(API_URL + `/search/videos?q=${query}`, 'POST', {
+        except_ids: exceptIds
+    });
+}
+
+export async function getUserPlaylists(user_id: number, page: number = 1, video_id: number): Promise<Paginator<PlaylistType>> {
+    return jsonFetch(API_URL + `/users/${user_id}/playlists?page=${page}&video_id=${video_id}`);
+}
+
+export async function createPlaylist(data: PlaylistCreateData): Promise<PlaylistType> {
+    return jsonFetch(API_URL + `/playlists`, 'POST', data);
+}
+
+export async function savePlaylist(data: PlaylistSaveData): Promise<void> {
+    return jsonFetch(API_URL + `/playlists/save`, 'POST', data);
 }

@@ -6,7 +6,6 @@ use App\Enums\PlaylistStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Playlist\StorePlaylistRequest;
 use App\Http\Requests\Playlist\UpdatePlaylistRequest;
-use App\Http\Resources\Playlist\PlaylistListResource;
 use App\Http\Resources\Video\VideoListResource;
 use App\Models\Playlist;
 use App\Models\Video;
@@ -46,7 +45,7 @@ class PlaylistController extends Controller
         ]);
     }
 
-    public function store(StorePlaylistRequest $request): RedirectResponse|PlaylistListResource {
+    public function store(StorePlaylistRequest $request): RedirectResponse {
 
         $validated = $request->safe()->merge([
             'uuid' => (string) Str::uuid(),
@@ -61,10 +60,6 @@ class PlaylistController extends Controller
             $playlist->videos()->attach([
                 $id => ['position' => $key]
             ]);
-        }
-
-        if ($request->ajax()) {
-            return new PlaylistListResource($playlist);
         }
 
         return redirect()->route('user.playlists.index');

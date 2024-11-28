@@ -4,16 +4,15 @@ import { VideoUpload, VideosList, UserVideos } from './Videos';
 import { InteractionList, Interaction } from './Interactions';
 import { SearchBar, SearchModel } from './Search';
 import {NotificationsList} from "./Notifications/NotificationsList";
+import {UserPlaylists, Save} from "./Playlists";
 
 import Subscribe from "./Subscribe";
 import {CommentsList} from "./Comments/CommentsList";
 import {UserReplies} from "./Comments/UserReplies";
 import LineChart from "./LineChart";
-import Playlist from "./Playlist";
 
 import ImageUpload from "./ImageUpload";
 import ImageLoaded from "./ImageLoaded";
-import Save from "./Save";
 import Thumbnails from "./Thumbnails";
 
 register(Subscribe, 'subscribe-button');
@@ -25,7 +24,7 @@ register(SearchBar, 'search-bar', [], { shadow: false });
 register(LineChart, 'line-chart', [], { shadow: false });
 register(UserReplies, 'user-replies', [], { shadow: false });
 register(UserVideos, 'user-videos', [], { shadow: false });
-register(Playlist, 'playlist-videos', [], { shadow: false });
+register(UserPlaylists, 'playlist-videos', [], { shadow: false });
 register(NotificationsList, 'site-notifications', [], { shadow: false });
 register(ImageUpload, 'image-upload', ['source'], { shadow: false });
 register(VideoUpload, 'video-upload', [], { shadow: false });

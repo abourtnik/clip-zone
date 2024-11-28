@@ -114,10 +114,7 @@
                                     </button>
                                 @endcan
                             @endif
-                            <button class="btn btn-warning btn-sm rounded-4 px-4" title="Save video" data-bs-toggle="modal" data-bs-target="#save" data-id="{{$video->id}}">
-                                <i class="fa-regular fa-bookmark"></i>&nbsp;
-                                {{__('Save')}}
-                            </button>
+                            <save-video video="{{$video->id}}" ></save-video>
                             @can('report', $video)
                                 <button class="btn btn-secondary btn-sm rounded-4 px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
                                     <i class="fa-regular fa-flag"></i>&nbsp;
@@ -379,7 +376,6 @@
             </div>
     </div>
     @include('modals.share')
-    @includeWhen(Auth::check(), 'modals.save')
 @endsection
 
 @pushIf($video->allow_comments , 'scripts')
