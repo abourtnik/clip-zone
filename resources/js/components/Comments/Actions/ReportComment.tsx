@@ -2,6 +2,7 @@ import {useTranslation} from "react-i18next";
 import {CommentType} from "@/types";
 import {Modal, Button} from 'react-bootstrap';
 import {useState} from "preact/hooks";
+import {Report} from "@/components/Actions";
 
 
 type Props = {
@@ -19,16 +20,12 @@ export function ReportComment ({comment} : Props) {
             {
                 window.USER ?
                     comment.can_report ?
-                        <button
-                            className="dropdown-item d-flex align-items-center gap-3"
-                            data-bs-toggle="modal"
-                            data-bs-target="#report"
-                            data-id={comment.id}
-                            data-type={comment.class}
-                        >
-                            <i className="fa-solid fa-flag"></i>
-                            {t('Report')}
-                        </button>
+                        <Report
+                            buttonClass="dropdown-item d-flex align-items-center gap-3"
+                            reportedClass={'dropdown-item d-flex align-items-center gap-2 mb-0 text-sm py-2'}
+                            type={'comment'}
+                            id={comment.id}
+                        />
                         :
                         comment.reported_at &&
                         <div className="dropdown-item d-flex align-items-center gap-2 mb-0 text-sm py-2">

@@ -32,7 +32,7 @@ function Main ({isSubscribe = true, user, size = null} : Props) {
     )
 }
 
-export default function Subscribe (props : Props) {
+export function Subscribe (props : Props) {
 
     const queryClient = new QueryClient();
 

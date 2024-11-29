@@ -6,7 +6,6 @@ import { SearchBar, SearchModel } from './Search';
 import {NotificationsList} from "./Notifications/NotificationsList";
 import {UserPlaylists, Save} from "./Playlists";
 
-import Subscribe from "./Subscribe";
 import {CommentsList} from "./Comments/CommentsList";
 import {UserReplies} from "./Comments/UserReplies";
 import LineChart from "./LineChart";
@@ -14,6 +13,8 @@ import LineChart from "./LineChart";
 import ImageUpload from "./ImageUpload";
 import ImageLoaded from "./ImageLoaded";
 import Thumbnails from "./Thumbnails";
+
+import {Subscribe, Report} from "./Actions";
 
 register(Subscribe, 'subscribe-button');
 register(Interaction, 'interaction-button', [], { shadow: false });
@@ -32,5 +33,6 @@ register(ImageLoaded, 'image-loaded', ['hover'], { shadow: false });
 register(Save, 'save-video', [], { shadow: false });
 register(SearchModel, 'search-model', [], { shadow: false });
 register(Thumbnails, 'thumbnails-select', [], { shadow: false });
+register(Report, 'report-button', [], { shadow: false });
 
 

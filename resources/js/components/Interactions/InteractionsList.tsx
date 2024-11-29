@@ -1,6 +1,6 @@
 import { useState, useEffect} from 'preact/hooks';
 import {useInView} from "react-intersection-observer";
-import Subscribe from "@/components/Subscribe";
+import {Subscribe} from "@/components/Actions";
 import {QueryClient, QueryClientProvider, useInfiniteQuery} from "@tanstack/react-query";
 import {getInteractions} from "@/api/clipzone";
 import {Fragment} from "preact";

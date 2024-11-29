@@ -13,7 +13,8 @@ import {
     NotificationType,
     PlaylistType,
     PlaylistCreateData,
-    PlaylistSaveData
+    PlaylistSaveData,
+    ReportData
 } from "@/types";
 
 const API_URL =  '/api';
@@ -105,4 +106,8 @@ export async function createPlaylist(data: PlaylistCreateData): Promise<Playlist
 
 export async function savePlaylist(data: PlaylistSaveData): Promise<void> {
     return jsonFetch(API_URL + `/playlists/save`, 'POST', data);
+}
+
+export async function report(data: ReportData): Promise<void> {
+    return jsonFetch(API_URL + `/report`, 'POST', data);
 }

@@ -116,10 +116,12 @@
                             @endif
                             <save-video video="{{$video->id}}" ></save-video>
                             @can('report', $video)
-                                <button class="btn btn-secondary btn-sm rounded-4 px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$video->id}}" data-type="{{\App\Models\Video::class}}">
-                                    <i class="fa-regular fa-flag"></i>&nbsp;
-                                    {{__('Report')}}
-                                </button>
+                                <report-button
+                                    button-class="btn btn-sm btn-secondary rounded-4 px-3"
+                                    reported-class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm"
+                                    id="{{$video->id}}"
+                                    type="video"
+                                ></report-button>
                             @else
                                 @if($video->reportByAuthUser)
                                     <div class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm">

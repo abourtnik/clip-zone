@@ -93,15 +93,28 @@ export type CommentType = {
     replies?: ResponsesPaginator,
 }
 
+export const REPORT_REASONS = [
+    "Sexual Content",
+    "Violent or repulsive content",
+    "Hateful or abusive content",
+    "Harassment or bullying",
+    "Harmful or dangerous acts",
+    "Misinformation",
+    "Child abuse",
+    "Promotes terrorism",
+    "Infringes my rights",
+    "Captions issue"
+] as const;
+
 export const CommentDataSchema = z.object({
     content: z.string().min(1).max(5000),
     parent_id: z.coerce.number().optional()
-})
+});
 
 export const PlaylistCreateDataSchema = z.object({
     title: z.string().min(1).max(150),
     status: z.enum(['0', '1', '2']),
-})
+});
 
 export const PlaylistSaveDataSchema = z.object({
     video_id: z.coerce.number(),
@@ -111,11 +124,19 @@ export const PlaylistSaveDataSchema = z.object({
             checked: z.boolean()
         })
     ).min(1)
-})
+});
+
+export const ReportDataSchema = z.object({
+    id: z.coerce.number(),
+    type: z.enum(['App\\Models\\Video', 'App\\Models\\Comment', 'App\\Models\\User']),
+    reason: z.enum(REPORT_REASONS),
+    comment: z.string().max(5000).optional(),
+});
 
 export type CommentData = z.infer<typeof CommentDataSchema>
 export type PlaylistCreateData = z.infer<typeof PlaylistCreateDataSchema>
 export type PlaylistSaveData = z.infer<typeof PlaylistSaveDataSchema>
+export type ReportData = z.infer<typeof ReportDataSchema>
 
 export type UserVideosSort = 'latest' | 'popular' | 'oldest'
 export type InteractionsFilters = 'all' | 'up' | 'down'

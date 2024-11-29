@@ -230,10 +230,12 @@
                                     <li class="list-group-item ps-0">
                                         @auth
                                             @can('report', $user)
-                                                <button class="btn btn-secondary rounded-4 btn-sm px-3" data-bs-toggle="modal" data-bs-target="#report" data-id="{{$user->id}}" data-type="{{\App\Models\User::class}}">
-                                                    <i class="fa-regular fa-flag"></i>&nbsp;
-                                                    {{ __('Report') }}
-                                                </button>
+                                                <report-button
+                                                    button-class="btn btn-secondary rounded-4 btn-sm px-3"
+                                                    reported-class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm"
+                                                    id="{{$user->id}}"
+                                                    type="user"
+                                                ></report-button>
                                             @else
                                                 @if($user->reportByAuthUser)
                                                     <div class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm">

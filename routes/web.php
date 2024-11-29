@@ -240,7 +240,7 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     });
 
     // Reports
-    Route::controller(ReportController::class)->prefix('report')->name('reports.')->group(function () {
+    Route::controller(ReportController::class)->prefix('reports')->name('reports.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::post('/{report}/cancel', 'cancel')->name('cancel');
     });
