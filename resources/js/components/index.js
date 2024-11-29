@@ -15,6 +15,7 @@ import ImageLoaded from "./ImageLoaded";
 import Thumbnails from "./Thumbnails";
 
 import {Subscribe, Report} from "./Actions";
+import {AutoplaySwitcher, ThemeSwitcher} from "./Switchs";
 
 register(Subscribe, 'subscribe-button');
 register(Interaction, 'interaction-button', [], { shadow: false });
@@ -34,5 +35,7 @@ register(Save, 'save-video', [], { shadow: false });
 register(SearchModel, 'search-model', [], { shadow: false });
 register(Thumbnails, 'thumbnails-select', [], { shadow: false });
 register(Report, 'report-button', [], { shadow: false });
+register(AutoplaySwitcher, 'autoplay-switch', [], { shadow: false });
+register(ThemeSwitcher, 'theme-switch', [], { shadow: false });
 
 
