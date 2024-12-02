@@ -1,13 +1,12 @@
 import {useEffect, useState} from "preact/hooks";
+import {AUTOPLAY_VIDEO_KEY} from "./keys";
 
-const STORAGE_KEY = 'autoplay-video';
+export function VideoAutoplaySwitcher() {
 
-export function AutoplaySwitcher() {
-
-    const [checked, setChecked] = useState<boolean>(JSON.parse(localStorage.getItem(STORAGE_KEY) || 'true'));
+    const [checked, setChecked] = useState<boolean>(JSON.parse(localStorage.getItem(AUTOPLAY_VIDEO_KEY) || 'true'));
 
     useEffect(() => {
-        localStorage.setItem(STORAGE_KEY, checked.toString());
+        localStorage.setItem(AUTOPLAY_VIDEO_KEY, checked.toString());
     }, [checked])
 
     return (

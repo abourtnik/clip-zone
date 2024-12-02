@@ -160,7 +160,7 @@
                     </form>
                     <theme-switch id="theme-switcher-global"/>
                 </div>
-                <autoplay-switch/>
+                <video-autoplay-switch/>
             </div>
             <hr class="w-90">
             <div class="ps-4 pb-2">

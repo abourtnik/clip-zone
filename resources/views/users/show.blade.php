@@ -113,17 +113,10 @@
                             <div class="row mt-4 mx-0 flex-row">
                                 <div class="col-12 col-xl-7 col-xxl-5 px-0">
                                     <div class="ratio ratio-16x9">
-                                        <video
-                                            controls
-                                            class="rounded-2"
-                                            controlsList="nodownload"
-                                            poster="{{$user->pinned_video->thumbnail_url}}"
-                                            oncontextmenu="return false;"
-                                            autoplay
-                                            playsinline
-                                        >
-                                            <source src="{{$user->pinned_video->file_url}}" type="{{Video::MIMETYPE}}">
-                                        </video>
+                                        <video-player
+                                            thumbnail_url="{{$user->pinned_video->thumbnail_url}}"
+                                            file_url="{{$user->pinned_video->file_url}}"
+                                        />
                                     </div>
                                 </div>
                                 <div class="col-12 col-xl-5 col-xxl-7 mt-3 m-xl-0">

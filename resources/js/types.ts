@@ -53,6 +53,13 @@ export type PlaylistType = {
     videos_count?: number
 }
 
+export type SubtitleType = {
+    id: number,
+    name: string,
+    language: string,
+    file_url: string,
+}
+
 export type CommentType = {
     id: number,
     content: string,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\VideoStatus;
 use App\Events\Video\VideoViewed;
+use App\Http\Resources\SubtitleResource;
 use App\Models\Playlist;
 use App\Models\Subtitle;
 use App\Models\Thumbnail;
@@ -58,7 +59,6 @@ class VideoController extends Controller
             'video' => $video
                 ->load([
                     'user' => fn($q) => $q->withCount('subscribers'),
-                    'subtitles' => fn($q) => $q->public()->orderBy('name'),
                     'reportByAuthUser'
                 ])
                 ->loadCount([
@@ -73,9 +73,9 @@ class VideoController extends Controller
                 ]),
             'videos' => $suggestedVideos,
             'nextVideo' => $this->videoService->getNextVideo($suggestedVideos, $playlist, $currentIndex),
-            't' => $request->query('t', 0),
             'playlist' => $playlist,
             'currentIndex' => $currentIndex,
+            'subtitles' => SubtitleResource::collection($video->subtitles()->public()->orderBy('name')->get())->toJson(),
         ]);
     }
 

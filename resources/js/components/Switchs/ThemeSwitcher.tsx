@@ -1,6 +1,5 @@
 import {useEffect, useState} from "preact/hooks";
-
-const STORAGE_KEY = 'theme';
+import {THEME_KEY} from "./keys";
 
 type Theme = 'light' | 'dark';
 
@@ -10,10 +9,10 @@ type Props = {
 
 export function ThemeSwitcher({id} : Props) {
 
-    const [theme, setTheme] = useState<Theme>(localStorage.getItem(STORAGE_KEY) as Theme || 'light');
+    const [theme, setTheme] = useState<Theme>(localStorage.getItem(THEME_KEY) as Theme || 'light');
 
     useEffect(() => {
-        localStorage.setItem(STORAGE_KEY, theme);
+        localStorage.setItem(THEME_KEY, theme);
         window.dispatchEvent(new CustomEvent('theme-changed', {
             detail: {
                 theme: theme,

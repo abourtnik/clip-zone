@@ -29,24 +29,12 @@
                         </div>
                     </div>
                 @else
-                    <video
-                        controls
-                        class="w-100 border border-1 rounded"
-                        controlsList="nodownload"
-                        poster="{{$video->thumbnail_url}}"
-                        oncontextmenu="return false;"
-                        playsinline
-                    >
-                        <source src="{{$video->file_url}}#t={{$t}}" type="{{Video::MIMETYPE}}">
-                        @foreach($video->subtitles as $subtitle)
-                            <track
-                                label="{{$subtitle->name}}"
-                                kind="subtitles"
-                                srclang="{{$subtitle->language}}"
-                                src="{{$subtitle->file_url}}"
-                            />
-                        @endforeach
-                    </video>
+                    <video-player
+                        thumbnail_url="{{$video->thumbnail_url}}"
+                        file_url="{{$video->file_url}}"
+                        next_video="{{$nextVideo->route}}"
+                        subtitles="{{$subtitles}}"
+                    />
                 @endif
             </div>
             <div class="px-3 px-lg-0">
@@ -295,10 +283,7 @@
                             <i class="fa-solid fa-forward-step"></i>
                             <span>{{__('Next Video')}}</span>
                         </a>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" role="switch" id="autoplay">
-                            <label class="form-check-label" for="autoplay">{{__('Autoplay')}}</label>
-                        </div>
+                        <autoplay-switch />
                     </div>
                     <hr>
                 @endif
@@ -407,38 +392,7 @@
 @pushIf($video->is_uploaded, 'scripts')
     <script>
 
-        // Volume
-
         const video = document.querySelector("video");
-
-        const volume = JSON.parse(localStorage.getItem('volume')) || {value: 0.5, muted: false};
-
-        video.volume = volume.value;
-        video.muted = volume.muted;
-
-        video.onvolumechange = (event) => {
-            localStorage.setItem("volume", JSON.stringify({
-                value: event.target.volume.toFixed(2),
-                muted: event.target.muted
-            }));
-        };
-
-        // Autoplay
-
-        let autoplay = JSON.parse(localStorage.getItem('autoplay') || false);
-
-        document.getElementById('autoplay').checked = autoplay;
-
-        document.getElementById('autoplay').addEventListener('change', (event) => {
-            localStorage.setItem("autoplay", event.currentTarget.checked);
-            autoplay = event.currentTarget.checked;
-        })
-
-        video.addEventListener('ended', (event) => {
-            if(autoplay) {
-                window.location.replace('{{$nextVideo->route}}');
-            }
-        }, false);
 
         // TimeCode
 
@@ -454,11 +408,5 @@
             })
         }
 
-        // Video autoplay
-        let autoplayVideo = JSON.parse(localStorage.getItem('autoplay-video') || true);
-
-        if (autoplayVideo) {
-            video.autoplay = true
-        }
     </script>
 @endPushIf

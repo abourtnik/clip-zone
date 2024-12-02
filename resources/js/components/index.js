@@ -1,6 +1,6 @@
 import register from 'preact-custom-element';
 
-import { VideoUpload, VideosList, UserVideos } from './Videos';
+import { VideoUpload, VideosList, UserVideos, Player } from './Videos';
 import { InteractionList, Interaction } from './Interactions';
 import { SearchBar, SearchModel } from './Search';
 import {NotificationsList} from "./Notifications/NotificationsList";
@@ -15,7 +15,7 @@ import ImageLoaded from "./ImageLoaded";
 import Thumbnails from "./Thumbnails";
 
 import {Subscribe, Report} from "./Actions";
-import {AutoplaySwitcher, ThemeSwitcher} from "./Switchs";
+import {VideoAutoplaySwitcher, ThemeSwitcher, AutoplayNextVideoSwitcher} from "./Switchs";
 
 register(Subscribe, 'subscribe-button');
 register(Interaction, 'interaction-button', [], { shadow: false });
@@ -35,7 +35,9 @@ register(Save, 'save-video', [], { shadow: false });
 register(SearchModel, 'search-model', [], { shadow: false });
 register(Thumbnails, 'thumbnails-select', [], { shadow: false });
 register(Report, 'report-button', [], { shadow: false });
-register(AutoplaySwitcher, 'autoplay-switch', [], { shadow: false });
+register(VideoAutoplaySwitcher, 'video-autoplay-switch', [], { shadow: false });
+register(AutoplayNextVideoSwitcher, 'autoplay-switch', [], { shadow: false });
 register(ThemeSwitcher, 'theme-switch', [], { shadow: false });
+register(Player, 'video-player', [], { shadow: false });
 
 
