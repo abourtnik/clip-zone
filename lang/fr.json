@@ -169,5 +169,6 @@
     "Latest" : "Les plus récentes",
     "Begin with subscribe to your first channel" : "Commencez par vous abonner à votre première chaîne",
     "Invalid login credentials. Please try again or reset your password. <br><a class=\"text-danger fw-bold text-decoration-none\" href=\"/contact\">Contact</a> our support team for help.'" : "Envoyez-moi les instructions",
-    "No description provided": "Aucune description"
+    "No description provided": "Aucune description",
+    "Next": "A suivre"
 }

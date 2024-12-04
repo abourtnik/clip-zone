@@ -348,7 +348,7 @@
                         <div class="card card-body bg-light-dark cursor-pointer" x-show="!open" @click="open=true">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex flex-column gap-1 w-95">
-                                    <div> <span class="fw-bold">A suivre :</span> {{$nextVideo->title}} </div>
+                                    <div> <span class="fw-bold">{{__('Next')}} :</span> {{$nextVideo->title}} </div>
                                     <small class="text-sm">{{Str::limit($playlist->title, 45)}} • <span class="text-muted text-sm">{{$currentIndex + 1}}/{{$playlist->videos_count}}</span></small>
                                 </div>
                                 <i class="fa-solid fa-chevron-down"></i>
