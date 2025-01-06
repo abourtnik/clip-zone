@@ -75,8 +75,11 @@ class OAuthController
             // Check if username already exist
             $usernameExist = User::where('username', $socialUsername)->exists();
 
+            $username = $usernameExist ? $socialUsername .'-'. random_int(10, 1000)  : $socialUsername;
+
             $user = User::create([
-                'username' => $usernameExist ? $socialUsername .'-'. random_int(10, 1000)  : $socialUsername,
+                'username' => $username,
+                'slug' => User::generateSlug($username),
                 'password' => '',
                 'email' => $socialUser->getEmail(),
                 'email_verified_at' => Carbon::now(),
