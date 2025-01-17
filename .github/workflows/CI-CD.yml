@@ -8,8 +8,8 @@ jobs:
     name: Run Test and PHP Stan
     runs-on: ubuntu-latest
     services:
-      mysql:
-        image: mysql:5.7
+      mariadb:
+        image: mariadb:latest
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
@@ -22,7 +22,7 @@ jobs:
         with:
           php-version: '8.1'
       - name: Verify unittest DB exists
-        run: mysql --host 127.0.0.1 --port 3306 --user=root -p -e "SHOW DATABASES"
+        run: mariadb --host 127.0.0.1 --port 3306 --user=root -e "SHOW DATABASES"
       - name: 📦 Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: 🏗 Directory Permissions
