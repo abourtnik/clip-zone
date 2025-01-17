@@ -12,8 +12,6 @@ jobs:
         image: mysql:latest
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_USER: laravel
-          MYSQL_PASSWORD: password
           MYSQL_DATABASE: clipzone
         ports:
           - 3306/tcp
