@@ -22,7 +22,7 @@ jobs:
         with:
           php-version: '8.1'
       - name: Verify unittest DB exists
-        run: mariadb --host 127.0.0.1 --port 3306 --user=root -e "SHOW DATABASES"
+        run: mysql --host 127.0.0.1 --port 3306 --user=root -e "SHOW DATABASES"
       - name: 📦 Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: 🏗 Directory Permissions
