@@ -9,11 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mysql:
-        image: mysql:5.7
+        image: mysql:latest
         env:
-          MYSQL_ROOT_PASSWORD: testrootpass
-          TZ: 'Europe/Paris'
-          MYSQL_DATABASE: test
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_USER: laravel
+          MYSQL_PASSWORD: password
+          MYSQL_DATABASE: clipzone
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
