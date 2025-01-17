@@ -32,7 +32,7 @@ jobs:
       - name: 🏗 Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
       - name: 🏗 Execute tests (Unit and Feature tests) via PHPUnit
-        run: php artisan optimize && php artisan test --env=testing --stop-on-failure
+        run:  php artisan test --env=testing --stop-on-failure
       - name: 🏗 Execute PHP Stan
         run: ./vendor/bin/phpstan analyse
   deploy:
