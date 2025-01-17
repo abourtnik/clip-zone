@@ -7,10 +7,6 @@ jobs:
   test:
     name: Run Test and PHP Stan
     runs-on: ubuntu-latest
-    env:
-      DB_DATABASE: laravel
-      DB_USERNAME: root
-      DB_PASSWORD: password
     services:
       mysql:
         image: mysql:5.7
