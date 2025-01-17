@@ -13,8 +13,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
-      - name: 🏗 Prepare The Environment
-        run: cp .env.testing .env
       - name: 📦 Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: 🏗 Generate Application Key
@@ -22,7 +20,7 @@ jobs:
       - name: 🏗 Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
       - name: 🏗 Execute tests (Unit and Feature tests) via PHPUnit
-        run: php artisan test --stop-on-failure --env=testing
+        run: make test
       - name: 🏗 Execute PHP Stan
         run: ./vendor/bin/phpstan analyse
   deploy:
