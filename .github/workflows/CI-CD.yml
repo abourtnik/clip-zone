@@ -11,10 +11,7 @@ jobs:
       mysql:
         image: mysql:5.7
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: false
-          MYSQL_ROOT_PASSWORD: secret
-          MYSQL_PASSWORD: secret
-          MYSQL_DATABASE: laravel
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
         ports:
           - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -24,10 +21,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.1'
-      - name: Start mysql service
-        run: sudo /etc/init.d/mysql start
       - name: Verify unittest DB exists
-        run: mysql --host 127.0.0.1 --port 3306 --user=root --password="secret" -e "SHOW DATABASES"
+        run: mysql --host 127.0.0.1 --port 3306 --user=root -p -e "SHOW DATABASES"
       - name: 📦 Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: 🏗 Directory Permissions
