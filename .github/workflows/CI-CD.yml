@@ -11,7 +11,8 @@ jobs:
       mysql:
         image: mysql:latest
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: clipzone
         ports:
           - 3306/tcp
@@ -27,7 +28,7 @@ jobs:
       - name: 🏗 Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
       - name: 🏗 Execute tests (Unit and Feature tests) via PHPUnit
-        run: php artisan test --env=testing --stop-on-failure
+        run: php artisan optimize && php artisan test --env=testing --stop-on-failure
       - name: 🏗 Execute PHP Stan
         run: ./vendor/bin/phpstan analyse
   deploy:
