@@ -30,7 +30,7 @@ class InteractionFactory extends Factory
      *
      * @return $this
      */
-    public function configure()
+    public function configure() : static
     {
         return $this->sequence(
             fn ($sequence) => ['user_id' => fake()->unique($sequence->index === 0)->randomElement(User::pluck('id'))]

@@ -19,8 +19,17 @@ class ThumbnailFactory extends Factory
     public function definition() : array
     {
         return [
-            'file' => fake()->word(),
+            'file' => fake()->regexify('^[a-zA-Z0-9]{40}\.jpg$'),
         ];
+    }
+
+    public function configure(): static
+    {
+        return $this->sequence(
+            fn ($sequence) => [
+                'is_active' => $sequence->index === 0,
+            ]
+        );
     }
 
     /**

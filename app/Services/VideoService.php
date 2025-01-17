@@ -51,7 +51,7 @@ class VideoService {
         return $user_videos->merge($category_videos)->merge($random_videos);
     }
 
-    public function getNextVideo (Collection $suggestedVideos, ?Playlist $playlist, ?int $currentIndex) : NextVideo {
+    public function getNextVideo (Collection $suggestedVideos, ?Playlist $playlist, ?int $currentIndex) : NextVideo | null {
 
         if ($playlist && ($currentIndex + 1 !== $playlist->videos_count)) {
 
@@ -65,6 +65,10 @@ class VideoService {
 
             return new SuggestedVideo($suggestedVideos->first());
 
+        }
+
+        if ($suggestedVideos->isEmpty()) {
+            return null;
         }
 
         return new SuggestedVideo($suggestedVideos->first());

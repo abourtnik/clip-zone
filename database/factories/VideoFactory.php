@@ -60,4 +60,13 @@ class VideoFactory extends Factory
             ];
         });
     }
+
+    public function withStatus($status) : Factory
+    {
+        return $this->state(function (array $attributes) use ($status) {
+            return [
+                'status' => $status,
+            ];
+        });
+    }
 }

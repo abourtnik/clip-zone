@@ -165,7 +165,7 @@ Route::prefix('videos/{video:uuid}/comments')->name('comments.')
     ->controller(CommentController::class)
     ->middleware('throttle:api')
     ->group(function () {
-        Route::get('/', 'index');
+        Route::get('/', 'index')->name('index');
         Route::get('/{comment}/replies', 'replies')->name('replies');
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', 'store')->name('store');

@@ -32,7 +32,7 @@
                     <video-player
                         thumbnail_url="{{$video->thumbnail_url}}"
                         file_url="{{$video->file_url}}"
-                        next_video="{{$nextVideo->route}}"
+                        next_video="{{$nextVideo?->route}}"
                         subtitles="{{$subtitles}}"
                     />
                 @endif
@@ -348,7 +348,9 @@
                         <div class="card card-body bg-light-dark cursor-pointer" x-show="!open" @click="open=true">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex flex-column gap-1 w-95">
+                                    @if($nextVideo)
                                     <div> <span class="fw-bold">{{__('Next')}} :</span> {{$nextVideo->title}} </div>
+                                    @endif
                                     <small class="text-sm">{{Str::limit($playlist->title, 45)}} • <span class="text-muted text-sm">{{$currentIndex + 1}}/{{$playlist->videos_count}}</span></small>
                                 </div>
                                 <i class="fa-solid fa-chevron-down"></i>

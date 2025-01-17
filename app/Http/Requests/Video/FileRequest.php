@@ -48,7 +48,10 @@ class FileRequest extends FormRequest
                 // file mimetype only available on first chunk other chunk mimetype are application/octet-stream
                 Rule::when($this->get('resumableChunkNumber') == 1, [new MimetypeEnum(VideoType::class)]),
                 'max:'.self::CHUNK_SIZE // Chunk size 10mo
-            ]
+            ],
+            'resumableIdentifier' => 'required|string',
+            'resumableChunkNumber' => 'required|integer|min:1',
+            'resumableTotalChunks' => 'required|integer|min:1',
         ];
     }
 
@@ -59,7 +62,7 @@ class FileRequest extends FormRequest
      */
     public function messages(): array
     {
-        $fileSize = Number::fileSize($this->get('resumableTotalSize'));
+        $fileSize = Number::fileSize($this->get('resumableTotalSize', 0));
         $maxSize = Number::fileSize(config('plans.'.Auth::user()->plan.'.max_file_size'));
 
         return [
