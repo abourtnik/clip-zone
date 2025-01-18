@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2|^8.1",
+        "php": "^8.3",
         "barryvdh/laravel-dompdf": "^2.0",
         "diglactic/laravel-breadcrumbs": "^8.0",
         "doctrine/dbal": "^3.6",

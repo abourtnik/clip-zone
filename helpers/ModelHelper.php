@@ -630,7 +630,7 @@ namespace App\Models{
  * @property string|null $description
  * @property string|null $country
  * @property string|null $website
- * @property int $show_subscribers
+ * @property bool $show_subscribers
  * @property \Illuminate\Support\Carbon|null $banned_at
  * @property int|null $pinned_video_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -678,6 +678,8 @@ namespace App\Models{
  * @property-read int|null $subscriptions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Video> $subscriptions_videos
  * @property-read int|null $subscriptions_videos_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
  * @property-read mixed $type
  * @property-read mixed $uploaded_videos
  * @property-read mixed $uploaded_videos_size
@@ -759,9 +761,9 @@ namespace App\Models{
  * @property string|null $language
  * @property \Illuminate\Support\Carbon|null $scheduled_date
  * @property \Illuminate\Support\Carbon|null $publication_date Date when video become public for the first time
- * @property int $allow_comments
+ * @property bool $allow_comments
  * @property string $default_comments_sort
- * @property int $show_likes
+ * @property bool $show_likes
  * @property int|null $pinned_comment_id
  * @property \Illuminate\Support\Carbon|null $banned_at
  * @property \Illuminate\Support\Carbon|null $created_at
