@@ -22,9 +22,7 @@ jobs:
       - name: 🏗 Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
-      - name: Verify unittest DB exists
-        run: mysql --host 127.0.0.1 --port 3306 --user=root --password=root -e "SHOW DATABASES"
+          php-version: '8.3'
       - name: 📦 Install Composer Dependencies
         run: composer install --no-progress --prefer-dist --optimize-autoloader
       - name: 🏗 Directory Permissions
