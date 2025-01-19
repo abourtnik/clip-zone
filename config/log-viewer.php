@@ -12,6 +12,10 @@ return [
 
     'enabled' => env('LOG_VIEWER_ENABLED', true),
 
+    'api_only' => env('LOG_VIEWER_API_ONLY', false),
+
+    'require_auth_in_production' => true,
+
     /*
     |--------------------------------------------------------------------------
     | Log Viewer Domain
@@ -69,7 +73,8 @@ return [
 
     'middleware' => [
         'web',
-        'admin'
+        \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
+        'admin',
     ],
 
     /*
@@ -85,6 +90,8 @@ return [
         \Opcodes\LogViewer\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         \Opcodes\LogViewer\Http\Middleware\AuthorizeLogViewer::class,
     ],
+
+    'api_stateful_domains' => env('LOG_VIEWER_API_STATEFUL_DOMAINS') ? explode(',', env('LOG_VIEWER_API_STATEFUL_DOMAINS')) : null,
 
     /*
     |--------------------------------------------------------------------------
@@ -108,6 +115,7 @@ return [
         //         'username' => 'username',
         //         'password' => 'password',
         //     ],
+        //     'verify_server_certificate' => true,
         // ],
         //
         // 'production' => [
@@ -119,6 +127,7 @@ return [
         //     'headers' => [
         //         'X-Foo' => 'Bar',
         //     ],
+        //     'verify_server_certificate' => true,
         // ],
     ],
 
@@ -132,9 +141,12 @@ return [
     'include_files' => [
         '*.log',
         '**/*.log',
+
         // You can include paths to other log types as well, such as apache, nginx, and more.
-        '/var/log/httpd/*',
-        '/var/log/nginx/*',
+        // This key => value pair can be used to rename and group multiple paths into one folder in the UI.
+        '/var/log/httpd/*' => 'Apache',
+        '/var/log/nginx/*' => 'Nginx',
+
         // MacOS Apple Silicon logs
         '/opt/homebrew/var/log/nginx/*',
         '/opt/homebrew/var/log/httpd/*',
@@ -142,6 +154,7 @@ return [
         '/opt/homebrew/var/log/postgres*log',
         '/opt/homebrew/var/log/redis*log',
         '/opt/homebrew/var/log/supervisor*log',
+
         // '/absolute/paths/supported',
     ],
 
@@ -159,6 +172,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Hide unknown files.
+    |--------------------------------------------------------------------------
+    | The include/exclude options above might catch files which are not
+    | logs supported by Log Viewer. In that case, you can hide them
+    | from the UI and API calls by setting this to true.
+    |
+    */
+
+    'hide_unknown_files' => true,
+
+    /*
+    |--------------------------------------------------------------------------
     |  Shorter stack trace filters.
     |--------------------------------------------------------------------------
     | Lines containing any of these strings will be excluded from the full log.
@@ -166,21 +191,11 @@ return [
     |
     */
 
-    'hide_unknown_files' => true,
-
     'shorter_stack_trace_excludes' => [
         '/vendor/symfony/',
         '/vendor/laravel/framework/',
         '/vendor/barryvdh/laravel-debugbar/',
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Log matching patterns
-    |--------------------------------------------------------------------------
-    | Regexes for matching log files
-    |
-    */
 
     /*
     |--------------------------------------------------------------------------
@@ -195,6 +210,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Cache key prefix
+    |--------------------------------------------------------------------------
+    | Log Viewer prefixes all the cache keys created with this value. If for
+    | some reason you would like to change this prefix, you can do so here.
+    | The format of Log Viewer cache keys is:
+    | {prefix}:{version}:{rest-of-the-key}
+    |
+    */
+
+    'cache_key_prefix' => 'lv',
+
+    /*
+    |--------------------------------------------------------------------------
     | Chunk size when scanning log files lazily
     |--------------------------------------------------------------------------
     | The size in MB of files to scan before updating the progress bar when searching across all files.
@@ -202,5 +230,6 @@ return [
     */
 
     'lazy_scan_chunk_size_in_mb' => 50,
+
     'strip_extracted_context' => true,
 ];

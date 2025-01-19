@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    const REPLIES_PER_PAGE = 10;
+    const int REPLIES_PER_PAGE = 10;
 
     public function __construct()
     {
