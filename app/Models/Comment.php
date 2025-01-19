@@ -20,14 +20,13 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Str;
-use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 /**
  * @mixin IdeHelperComment
  */
 class Comment extends Model implements Likeable, Reportable
 {
-    use HasLike, HasReport, HasEagerLimit, Filterable, HasFactory, HasActivity;
+    use HasLike, HasReport, Filterable, HasFactory, HasActivity;
 
     protected $guarded = ['id'];
 
@@ -35,7 +34,7 @@ class Comment extends Model implements Likeable, Reportable
         'banned_at'
     ];
 
-    public const SHORT_CONTENT_LIMIT = 500;
+    public const int SHORT_CONTENT_LIMIT = 500;
 
     /**
      * -------------------- RELATIONS --------------------

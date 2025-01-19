@@ -17,8 +17,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register() : void
     {
-        Cashier::ignoreMigrations();
-
         $this->app->singleton(YoutubeService::class, fn() => new YoutubeService(config('services.youtube.api_key')));
     }
 

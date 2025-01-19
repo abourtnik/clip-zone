@@ -21,6 +21,8 @@ use App\Observers\VideoObserver;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Event;
 
 
 class EventServiceProvider extends ServiceProvider
@@ -31,9 +33,6 @@ class EventServiceProvider extends ServiceProvider
      * @var array<class-string, array<int, class-string>>
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
-        ],
         Login::class => [
             SuccessfulLogin::class,
         ],
@@ -69,5 +68,13 @@ class EventServiceProvider extends ServiceProvider
     public function shouldDiscoverEvents() : bool
     {
         return false;
+    }
+
+    protected function configureEmailVerification(): void
+    {
+        if (! isset($this->listen[Registered::class]) ||
+            ! in_array(\Illuminate\Auth\Listeners\SendEmailVerificationNotification::class, Arr::wrap($this->listen[Registered::class]))) {
+            Event::listen(Registered::class, SendEmailVerificationNotification::class);
+        }
     }
 }

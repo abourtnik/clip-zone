@@ -1,4 +1,5 @@
 import {memo} from 'preact/compat';
+import {StateUpdater} from 'preact/hooks';
 import {NotificationType, Paginator} from "@/types";
 import moment from "moment/moment";
 import {Dropdown} from 'react-bootstrap';
@@ -9,9 +10,10 @@ import {produce} from "immer";
 
 type Props = {
     notification: NotificationType,
+    setUnread: StateUpdater<number>
 }
 
-const Notification = memo(({notification} : Props) => {
+const Notification = memo(({notification, setUnread} : Props) => {
 
     const queryClient = useQueryClient();
 
@@ -25,7 +27,11 @@ const Notification = memo(({notification} : Props) => {
                         page.data = page.data.filter(n => n.id !== notification.id);
                     });
                 });
-            })
+            });
+            if (!notification.is_read) {
+                setUnread(v => v - 1);
+            }
+
         }
     });
 
@@ -44,6 +50,7 @@ const Notification = memo(({notification} : Props) => {
                     });
                 });
             })
+            notification.is_read ? setUnread(v => v + 1) : setUnread(v => v - 1);
         }
     });
 

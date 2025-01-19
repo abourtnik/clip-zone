@@ -11,12 +11,13 @@ import {produce} from "immer";
 import {Button} from "@/components/commons";
 
 type Props = {
-    count : number
+    count : string
 }
 
 const Main = ({count} : Props) => {
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState<boolean>(false);
+    const [unread, setUnread] = useState<number>(parseInt(count));
 
     const { ref, inView} = useInView();
 
@@ -53,6 +54,7 @@ const Main = ({count} : Props) => {
             });
         })
         bell!.classList.add('fa-shake')
+        setUnread(v => v + 1);
         await new Audio('/sounds/notification.mp3').play()
         setTimeout(() => {
             bell!.classList.remove('fa-shake')
@@ -62,6 +64,7 @@ const Main = ({count} : Props) => {
     const {mutate: readAll, isPending}= useErrorMutation({
         mutationFn: () => readAllNotifications(),
         onSuccess: () => {
+            setUnread(0);
             queryClient.setQueryData(['notifications'], (oldData: InfiniteData<Paginator<NotificationType>> | undefined) => {
                 if (!oldData) return undefined;
                 return produce(oldData, draft => {
@@ -74,8 +77,6 @@ const Main = ({count} : Props) => {
             })
         }
     });
-
-    const unread = notifications?.pages?.flatMap(page => page.data).filter(notification => !notification.is_read).length ?? count;
 
     useEffect( () => {
         window.PRIVATE_CHANNEL.notification(addNotification);
@@ -134,34 +135,35 @@ const Main = ({count} : Props) => {
                             </div>
                         </div>
                     }
-                    {
-                        notifications &&
-                            notifications?.pages.flatMap((page => page.data)).length > 0 ?
-                                <ul className="list-group list-group-flush overflow-auto h-100">
-                                    {notifications.pages.map((group, i) => (
-                                        <Fragment key={i}>
-                                            {group.data.map((notification) => <Notification key={notification.id}
-                                                                                            notification={notification}/>)}
-                                        </Fragment>
-                                    ))}
-                                </ul>
-                                :
-                                <div className="d-flex flex-column justify-content-center align-items-center p-5">
-                                    <i className="fa-solid fa-bell-slash fa-2x"></i>
-                                    <h5 className="mt-3 fs-6">Your notifications live here</h5>
-                                    <p className="text-muted text-center text-sm">Subscribe to your favorite channels to get
-                                        notified about their latest videos.</p>
+                    <div>
+                        {
+                            notifications &&
+                                notifications?.pages.flatMap((page => page.data)).length > 0 ?
+                                    <ul className="list-group list-group-flush overflow-auto h-100">
+                                        {notifications.pages.map((group, i) => (
+                                            <Fragment key={i}>
+                                                {group.data.map((notification) => <Notification key={notification.id} notification={notification} setUnread={setUnread}/>)}
+                                            </Fragment>
+                                        ))}
+                                    </ul>
+                                    :
+                                    <div className="d-flex flex-column justify-content-center align-items-center p-5">
+                                        <i className="fa-solid fa-bell-slash fa-2x"></i>
+                                        <h5 className="mt-3 fs-6">Your notifications live here</h5>
+                                        <p className="text-muted text-center text-sm">Subscribe to your favorite channels to get
+                                            notified about their latest videos.</p>
+                                    </div>
+                        }
+                        {
+                            isFetchingNextPage &&
+                            <div className={'d-flex justify-content-center align-items-center py-3'}>
+                                <div class="spinner-border text-primary spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Loading...</span>
                                 </div>
-                    }
-                    {
-                        isFetchingNextPage &&
-                        <div className={'d-flex justify-content-center align-items-center py-3'}>
-                            <div class="spinner-border text-primary spinner-border-sm" role="status">
-                                <span class="visually-hidden">Loading...</span>
                             </div>
-                        </div>
-                    }
-                    {hasNextPage && <span ref={ref}></span>}
+                        }
+                        {hasNextPage && <span ref={ref}></span>}
+                    </div>
                 </div>
             </Offcanvas>
         </>

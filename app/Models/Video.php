@@ -23,7 +23,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
-use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 use Symfony\Component\Intl\Languages;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -32,7 +31,7 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class Video extends Model implements Likeable, Reportable
 {
-    use HasFactory, HasLike, HasReport, HasEagerLimit, Filterable, Searchable;
+    use HasFactory, HasLike, HasReport, Filterable, Searchable;
 
     protected $guarded = ['id'];
 
@@ -53,11 +52,11 @@ class Video extends Model implements Likeable, Reportable
      */
     protected $with = ['thumbnail'];
 
-    public const THUMBNAIL_FOLDER = 'thumbnails';
-    public const VIDEO_FOLDER = 'videos';
-    public const CHUNK_FOLDER = 'chunks';
-    public const MIMETYPE = 'video/mp4';
-    public const AVAILABLE_LANGUAGES = ['ar', 'en', 'fr', 'zh', 'nl', 'de', 'hi', 'it', 'ko', 'es', 'pt', 'ru'];
+    public const string THUMBNAIL_FOLDER = 'thumbnails';
+    public const string VIDEO_FOLDER = 'videos';
+    public const string CHUNK_FOLDER = 'chunks';
+    public const string MIMETYPE = 'video/mp4';
+    public const array AVAILABLE_LANGUAGES = ['ar', 'en', 'fr', 'zh', 'nl', 'de', 'hi', 'it', 'ko', 'es', 'pt', 'ru'];
 
     public static function languages (): array {
         return array_filter(Languages::getNames(app()->getLocale()), function ($code) {
@@ -65,7 +64,7 @@ class Video extends Model implements Likeable, Reportable
         }, ARRAY_FILTER_USE_KEY);
     }
 
-    public const GENERATED_THUMBNAILS = 3;
+    public const int GENERATED_THUMBNAILS = 3;
 
     /**
      * -------------------- RELATIONS --------------------

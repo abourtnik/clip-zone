@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 use Symfony\Component\Intl\Languages;
 
 /**
@@ -15,15 +14,13 @@ use Symfony\Component\Intl\Languages;
  */
 class Subtitle extends Model
 {
-    use HasEagerLimit;
-
     protected $guarded = ['id'];
 
     protected $casts = [
         'status' => SubtitleStatus::class,
     ];
 
-    public const FILE_FOLDER = 'subtitles';
+    public const string FILE_FOLDER = 'subtitles';
 
 
     /**

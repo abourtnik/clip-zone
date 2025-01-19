@@ -13,14 +13,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
-use Staudenmeir\EloquentEagerLimit\HasEagerLimit;
 
 /**
  * @mixin IdeHelperPlaylist
  */
 class Playlist extends Model
 {
-    use HasFactory, HasEagerLimit, Filterable;
+    use HasFactory, Filterable;
 
     protected $guarded = ['id'];
 
