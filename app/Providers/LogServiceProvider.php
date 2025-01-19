@@ -25,6 +25,10 @@ class LogServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        LogViewer::auth(function ($request) {
+            return $request->user() && $request->user()->is_admin;
+        });
+
         LogViewer::extend('cron', CronLog::class);
     }
 }
