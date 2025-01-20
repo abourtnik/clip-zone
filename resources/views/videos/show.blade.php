@@ -4,7 +4,7 @@
 
 @section('title', $video->title)
 @section('description', Str::limit($video->description, 155))
-@section('image', $video->thumbnail_url)
+@section('image'){{$video->thumbnail_url}}@stop
 
 @section('class', 'mt-0 mt-lg-3 ms-0')
 
