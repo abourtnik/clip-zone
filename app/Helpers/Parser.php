@@ -4,12 +4,12 @@ namespace App\Helpers;
 
 class Parser
 {
-    const PARSERS = [
+    const array PARSERS = [
         'links' => 'parseLinks',
         'timecodes' => 'parseTimeCodes',
     ];
 
-    CONST VALID_DOMAIN = [
+    CONST array VALID_DOMAIN = [
         'aero',
         'asia',
         'biz',

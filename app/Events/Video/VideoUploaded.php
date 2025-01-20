@@ -38,8 +38,7 @@ class VideoUploaded implements ShouldBroadcast
     public function broadcastWith(): array {
 
         return [
-            'url' => $this->video->file_url,
-            'mimetype' => $this->video->mimetype,
+            'url' => $this->video->file_url
         ];
     }
 }

@@ -24,6 +24,8 @@ class GenerateThumbnails implements ShouldQueue
 
     public Video $video;
 
+    public bool $deleteWhenMissingModels = true;
+
     /**
      * Create a new job instance.
      *

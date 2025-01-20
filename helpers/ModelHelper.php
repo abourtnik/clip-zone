@@ -13,7 +13,7 @@
 
 namespace App\Models{
 /**
- * App\Models\Activity
+ * 
  *
  * @property int $id
  * @property int $user_id
@@ -22,15 +22,15 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon $perform_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $subject
  * @property-read mixed $type
- * @method static \Illuminate\Database\Eloquent\Builder|Activity filter(array $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Activity newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Activity newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Activity query()
- * @method static \Illuminate\Database\Eloquent\Builder|Activity whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Activity wherePerformAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Activity whereSubjectId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Activity whereSubjectType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Activity whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Activity filter(array $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Activity newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Activity newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Activity query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Activity whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Activity wherePerformAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Activity whereSubjectId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Activity whereSubjectType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Activity whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -39,7 +39,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Category
+ * 
  *
  * @property int $id
  * @property string $title
@@ -54,19 +54,19 @@ namespace App\Models{
  * @property-read mixed $route
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Video> $videos
  * @property-read int|null $videos_count
- * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category ordered(string $direction = 'asc')
- * @method static \Illuminate\Database\Eloquent\Builder|Category query()
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereBackground($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereIcon($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereInMenu($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category wherePosition($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category ordered(string $direction = 'asc')
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereBackground($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereIcon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereInMenu($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category wherePosition($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Category whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -75,7 +75,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Comment
+ * 
  *
  * @property int $id
  * @property int $video_id
@@ -114,21 +114,21 @@ namespace App\Models{
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Video $video
  * @method static \Database\Factories\CommentFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Comment filter(array $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Comment newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment public()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment query()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment replies()
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereBannedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereContent($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereIp($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Comment whereVideoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment filter(array $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment public()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment replies()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereBannedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereContent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereIp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereVideoId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -137,7 +137,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Export
+ * 
  *
  * @property int $id
  * @property string|null $file
@@ -147,15 +147,15 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $is_completed
  * @property-read mixed $path
- * @method static \Illuminate\Database\Eloquent\Builder|Export newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Export newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Export query()
- * @method static \Illuminate\Database\Eloquent\Builder|Export whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Export whereFile($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Export whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Export whereSize($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Export whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Export whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Export newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Export newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Export query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Export whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Export whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Export whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Export whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Export whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Export whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -164,7 +164,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Interaction
+ * 
  *
  * @property int $id
  * @property int $user_id
@@ -175,16 +175,16 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $likeable
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\InteractionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Interaction filter(array $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Interaction newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Interaction newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Interaction query()
- * @method static \Illuminate\Database\Eloquent\Builder|Interaction whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Interaction whereLikeableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Interaction whereLikeableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Interaction wherePerformAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Interaction whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Interaction whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction filter(array $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction whereLikeableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction whereLikeableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction wherePerformAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -193,36 +193,36 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Notification
+ * 
  *
  * @property string $id
  * @property string $type
  * @property string $notifiable_type
  * @property int $notifiable_id
- * @property array $data
+ * @property array<array-key, mixed> $data
  * @property \Illuminate\Support\Carbon|null $read_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $is_read
  * @property-read mixed $message
- * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $notifiable
+ * @property-read \Illuminate\Database\Eloquent\Model $notifiable
  * @property-read mixed $url
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $user
  * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> all($columns = ['*'])
  * @method static \Illuminate\Notifications\DatabaseNotificationCollection<int, static> get($columns = ['*'])
- * @method static \Illuminate\Database\Eloquent\Builder|Notification newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Notification newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Notification query()
- * @method static \Illuminate\Database\Eloquent\Builder|DatabaseNotification read()
- * @method static \Illuminate\Database\Eloquent\Builder|DatabaseNotification unread()
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereData($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereNotifiableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereNotifiableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereReadAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Notification whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification read()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification unread()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereNotifiableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereNotifiableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereReadAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Notification whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -231,7 +231,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\PasswordReset
+ * 
  *
  * @property int $id
  * @property int $user_id
@@ -239,13 +239,13 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property-read mixed $is_expired
  * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset query()
- * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset whereToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PasswordReset whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -254,19 +254,19 @@ namespace App\Models{
 
 namespace App\Models\Pivots{
 /**
- * App\Models\Pivots\FavoritePlaylist
+ * 
  *
  * @property int $id
  * @property int $playlist_id
  * @property int $user_id
  * @property \Illuminate\Support\Carbon $added_at
- * @method static \Illuminate\Database\Eloquent\Builder|FavoritePlaylist newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|FavoritePlaylist newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|FavoritePlaylist query()
- * @method static \Illuminate\Database\Eloquent\Builder|FavoritePlaylist whereAddedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FavoritePlaylist whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FavoritePlaylist wherePlaylistId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|FavoritePlaylist whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FavoritePlaylist newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FavoritePlaylist newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FavoritePlaylist query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FavoritePlaylist whereAddedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FavoritePlaylist whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FavoritePlaylist wherePlaylistId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|FavoritePlaylist whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -275,20 +275,20 @@ namespace App\Models\Pivots{
 
 namespace App\Models\Pivots{
 /**
- * App\Models\Pivots\PlaylistVideo
+ * 
  *
  * @property int $id
  * @property int $playlist_id
  * @property int $video_id
  * @property int $position
  * @method static \Database\Factories\Pivots\PlaylistVideoFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|PlaylistVideo newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PlaylistVideo newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|PlaylistVideo query()
- * @method static \Illuminate\Database\Eloquent\Builder|PlaylistVideo whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PlaylistVideo wherePlaylistId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PlaylistVideo wherePosition($value)
- * @method static \Illuminate\Database\Eloquent\Builder|PlaylistVideo whereVideoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo wherePlaylistId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo wherePosition($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo whereVideoId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -297,7 +297,7 @@ namespace App\Models\Pivots{
 
 namespace App\Models\Pivots{
 /**
- * App\Models\Pivots\Subscription
+ * 
  *
  * @property int $id
  * @property int $subscriber_id
@@ -307,15 +307,15 @@ namespace App\Models\Pivots{
  * @property-read \App\Models\User|null $subscriber
  * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\Pivots\SubscriptionFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription filter(array $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription query()
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereReadAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereSubscribeAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereSubscriberId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription filter(array $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereReadAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereSubscribeAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereSubscriberId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -324,7 +324,7 @@ namespace App\Models\Pivots{
 
 namespace App\Models{
 /**
- * App\Models\Plan
+ * 
  *
  * @property int $id
  * @property string $name
@@ -334,16 +334,16 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $period
- * @method static \Illuminate\Database\Eloquent\Builder|Plan newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Plan newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Plan query()
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereDuration($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereStripeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Plan whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Plan newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Plan newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Plan query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Plan whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Plan whereDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Plan whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Plan whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Plan wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Plan whereStripeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Plan whereUpdatedAt($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -352,7 +352,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Playlist
+ * 
  *
  * @property int $id
  * @property string $uuid
@@ -367,24 +367,25 @@ namespace App\Models{
  * @property-read mixed $route
  * @property-read mixed $type
  * @property-read \App\Models\User $user
+ * @property-read \App\Models\Pivots\PlaylistVideo|\App\Models\Pivots\FavoritePlaylist|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Video> $videos
  * @property-read int|null $videos_count
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist active()
  * @method static \Database\Factories\PlaylistFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist filter(array $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist query()
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Playlist whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist filter(array $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereUuid($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -393,7 +394,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Report
+ * 
  *
  * @property int $id
  * @property int $user_id
@@ -410,19 +411,19 @@ namespace App\Models{
  * @property-read mixed $type
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\ReportFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Report filter(array $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Report newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Report newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Report query()
- * @method static \Illuminate\Database\Eloquent\Builder|Report whereComment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Report whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Report whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Report whereReason($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Report whereReportableId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Report whereReportableType($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Report whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Report whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Report whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report filter(array $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report whereComment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report whereReportableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report whereReportableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Report whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -431,20 +432,20 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Search
+ * 
  *
  * @property int $id
  * @property int|null $user_id
  * @property string $query
  * @property \Illuminate\Support\Carbon $perform_at
  * @property-read \App\Models\Video|null $user
- * @method static \Illuminate\Database\Eloquent\Builder|Search newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Search newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Search query()
- * @method static \Illuminate\Database\Eloquent\Builder|Search whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Search wherePerformAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Search whereQuery($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Search whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Search newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Search newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Search query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Search whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Search wherePerformAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Search whereQuery($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Search whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -453,7 +454,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Subscription
+ * 
  *
  * @property int $id
  * @property string $stripe_status
@@ -475,22 +476,22 @@ namespace App\Models{
  * @property-read \App\Models\Plan|null $plan
  * @property-read mixed $status
  * @property-read \App\Models\User|null $user
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription active()
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription query()
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereCardExpiredAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereCardLast4($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereEndsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereNextPayment($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription wherePlanId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereStripeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereStripeStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereTrialEndsAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subscription whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereCardExpiredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereCardLast4($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereEndsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereNextPayment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription wherePlanId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereStripeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereStripeStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereTrialEndsAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subscription whereUserId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -499,7 +500,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Subtitle
+ * 
  *
  * @property int $id
  * @property int $video_id
@@ -513,18 +514,18 @@ namespace App\Models{
  * @property-read mixed $is_public
  * @property-read mixed $language_name
  * @property-read \App\Models\Video $video
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle public()
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle query()
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle whereFile($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle whereLanguage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Subtitle whereVideoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle public()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereVideoId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -533,7 +534,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Thumbnail
+ * 
  *
  * @property int $id
  * @property int $video_id
@@ -545,16 +546,16 @@ namespace App\Models{
  * @property-read mixed $url
  * @property-read \App\Models\Video $video
  * @method static \Database\Factories\ThumbnailFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail query()
- * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereFile($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereIsActive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Thumbnail whereVideoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail whereVideoId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -563,7 +564,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Transaction
+ * 
  *
  * @property int $id
  * @property string $stripe_id
@@ -587,23 +588,23 @@ namespace App\Models{
  * @property-read mixed $route
  * @property-read \App\Models\Subscription|null $subscription
  * @property-read \App\Models\User|null $user
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction query()
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereAmount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereCity($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereCountry($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereFee($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction wherePostalCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereStripeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereSubscriptionId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereTax($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Transaction whereVatId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereAmount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction wherePostalCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereStripeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereSubscriptionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereTax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Transaction whereVatId($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -612,18 +613,18 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\User
+ * 
  *
  * @property int $id
  * @property string $username
  * @property string|null $slug
  * @property string $email
- * @property-write string $password
+ * @property string $password
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property string|null $confirmation_token
  * @property \Illuminate\Support\Carbon|null $last_login_at
  * @property string|null $last_login_ip
- * @property-read int|null $is_admin
+ * @property int|null $is_admin
  * @property string|null $remember_token
  * @property string|null $avatar
  * @property string|null $banner
@@ -647,6 +648,7 @@ namespace App\Models{
  * @property-read mixed $country_name
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $dislikes
  * @property-read int|null $dislikes_count
+ * @property-read \App\Models\Pivots\Subscription|\App\Models\Pivots\FavoritePlaylist|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Playlist> $favorites_playlist
  * @property-read int|null $favorites_playlist_count
  * @property-read mixed $first_active_video
@@ -703,38 +705,38 @@ namespace App\Models{
  * @property-read int|null $views_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Interaction[] $videos_comments_interactions
  * @property-read int|null $videos_comments_interactions_count
- * @method static \Illuminate\Database\Eloquent\Builder|User active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User active()
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|User filter(array $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|User hasExpiredGenericTrial()
- * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|User onGenericTrial()
- * @method static \Illuminate\Database\Eloquent\Builder|User query()
- * @method static \Illuminate\Database\Eloquent\Builder|User whereAvatar($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereBannedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereBanner($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereConfirmationToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCountry($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereFacebookId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereGoogleId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereIsAdmin($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereLastLoginAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereLastLoginIp($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User wherePinnedVideoId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereShowSubscribers($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereStripeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereWebsite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User filter(array $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User hasExpiredGenericTrial()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User onGenericTrial()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAvatar($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBannedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBanner($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereConfirmationToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFacebookId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereGoogleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIsAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastLoginAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastLoginIp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePinnedVideoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereShowSubscribers($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereStripeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUsername($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereWebsite($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -743,7 +745,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\Video
+ * 
  *
  * @property int $id
  * @property string $uuid
@@ -753,7 +755,7 @@ namespace App\Models{
  * @property string|null $file
  * @property string $original_file_name
  * @property string|null $original_mimetype
- * @property-read string|null $duration
+ * @property string|null $duration
  * @property int|null $size size in bytes
  * @property int $user_id
  * @property int|null $category_id
@@ -822,43 +824,43 @@ namespace App\Models{
  * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\View> $views
  * @property-read int|null $views_count
- * @method static \Illuminate\Database\Eloquent\Builder|Video active()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video active()
  * @method static \Database\Factories\VideoFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Video filter(array $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|Video newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Video newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Video notActive()
- * @method static \Illuminate\Database\Eloquent\Builder|Video public($includeAuthVideo = false)
- * @method static \Illuminate\Database\Eloquent\Builder|Video query()
- * @method static \Illuminate\Database\Eloquent\Builder|Video valid()
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereAllowComments($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereBannedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereDefaultCommentsSort($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereDescription($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereDuration($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereFile($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereIsLive($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereIsShort($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereLanguage($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereOriginalFileName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereOriginalMimetype($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video wherePinnedCommentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video wherePublicationDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereScheduledDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereShowLikes($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereSize($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereSlug($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereTitle($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereUploadedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereUuid($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video whereYoutubeId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Video withoutShorts()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video filter(array $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video notActive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video public($includeAuthVideo = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video valid()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereAllowComments($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereBannedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereDefaultCommentsSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereDuration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereFile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereIsLive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereIsShort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereLanguage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereOriginalFileName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereOriginalMimetype($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video wherePinnedCommentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video wherePublicationDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereScheduledDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereShowLikes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereSize($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereSlug($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereUploadedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereYoutubeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video withoutShorts()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -867,7 +869,7 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\View
+ * 
  *
  * @property int $id
  * @property int $video_id
@@ -877,15 +879,15 @@ namespace App\Models{
  * @property-read \App\Models\Video|null $user
  * @property-read \App\Models\Video $video
  * @method static \Database\Factories\ViewFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder|View filter(array $filters = [])
- * @method static \Illuminate\Database\Eloquent\Builder|View newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|View newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|View query()
- * @method static \Illuminate\Database\Eloquent\Builder|View whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|View whereIp($value)
- * @method static \Illuminate\Database\Eloquent\Builder|View whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|View whereVideoId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|View whereViewAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View filter(array $filters = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereIp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereVideoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereViewAt($value)
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
