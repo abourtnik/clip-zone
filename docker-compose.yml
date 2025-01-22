@@ -45,15 +45,15 @@ services:
         healthcheck:
             test: [ "CMD", "mysqladmin", "ping" ]
         restart: unless-stopped
-    node:
-        image: node:18-alpine
-        container_name: node_container
+    bun:
+        image: oven/bun
+        container_name: bun_container
         ports:
             - "5173:5173"
         volumes:
             - ./:/usr/src/app
         working_dir: /usr/src/app
-        command: npm run dev
+        command: bun run dev
         networks:
             - application
     redis:

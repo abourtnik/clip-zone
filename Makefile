@@ -1,4 +1,4 @@
-.PHONY: help, exec, start, stop, optimize, deploy, install, test, logs, init, stripe, analyse, helpers
+.PHONY: help, connect, bun, reset, start, stop, optimize, install, init, deploy, test, logs, stripe, restart-horizon, analyse, helpers
 .DEFAULT_GOAL=help
 
 help: ## Show help options
@@ -7,8 +7,8 @@ help: ## Show help options
 connect: ## Enter in docker container
 	docker exec -it php_container /bin/bash
 
-node: ## Enter in docker container
-	docker exec -it node_container /bin/sh
+bun: ## Enter in docker container
+	docker exec -it bun_container /bin/sh
 
 reset: ## Reset database and run seeders
 	docker exec -it php_container php artisan migrate:fresh --seed
@@ -27,8 +27,8 @@ install: ## Install application
 	php artisan migrate --force
 	php artisan queue:restart
 	php artisan scout:sync-index-settings
-	npm install
-	npm run build
+	#bun install
+	#bun run build
 	php artisan optimize
 	php artisan cache:clear
 
