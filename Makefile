@@ -27,8 +27,8 @@ install: ## Install application
 	php artisan migrate --force
 	php artisan queue:restart
 	php artisan scout:sync-index-settings
-	#bun install
-	#bun run build
+	bun install
+	bun run build
 	php artisan optimize
 	php artisan cache:clear
 
