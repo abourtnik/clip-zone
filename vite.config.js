@@ -11,7 +11,7 @@ export default defineConfig({
     },
     build: {
         outDir: 'public/build',
-        manifest: true,
+        manifest: "manifest.json",
         rollupOptions: {
             input: {
                 main: 'resources/js/app.js', // Replace with your primary JS file

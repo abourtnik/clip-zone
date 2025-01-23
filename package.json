@@ -12,7 +12,7 @@
         "@types/numeral": "^2.0.5",
         "@types/react": "^18.3.18",
         "@types/react-dom": "^18.3.5",
-        "laravel-vite-plugin": "^0.6.1",
+        "laravel-vite-plugin": "^1.2.0",
         "postcss": "^8.5.1",
         "sass": "^1.83.4",
         "typescript": "^5.7.3",
