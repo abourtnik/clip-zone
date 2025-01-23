@@ -4,7 +4,6 @@ import '../sass/app.scss';
 import * as bootstrap from 'bootstrap'
 import Alpine from 'alpinejs'
 import TomSelect from "tom-select";
-import 'htmx.org';
 import Cropper from 'cropperjs';
 import Sortable from 'sortablejs';
 import Echo from "laravel-echo";

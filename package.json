@@ -1,5 +1,6 @@
 {
     "name": "clip-zone.com",
+    "type": "module",
     "private": true,
     "scripts": {
         "dev": "vite",
@@ -27,11 +28,10 @@
         "chart.js": "^4.4.7",
         "clsx": "^2.1.1",
         "cropperjs": "^1.6.2",
-        "htmx.org": "^1.9.12",
         "i18next": "^23.16.8",
         "i18next-icu": "^2.3.0",
         "immer": "^10.1.1",
-        "laravel-echo": "^1.18.0",
+        "laravel-echo": "^1.19.0",
         "moment": "^2.30.1",
         "numeral": "^2.0.6",
         "preact": "^10.25.4",

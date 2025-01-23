@@ -53,6 +53,7 @@ services:
         volumes:
             - ./:/usr/src/app
         working_dir: /usr/src/app
+        #command: tail -f /dev/null
         command: bun run dev
         networks:
             - application

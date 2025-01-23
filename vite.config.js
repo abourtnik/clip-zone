@@ -9,11 +9,29 @@ export default defineConfig({
             host: 'localhost',
         },
     },
+    build: {
+        outDir: 'public/build',
+        manifest: true,
+        rollupOptions: {
+            input: {
+                main: 'resources/js/app.js', // Replace with your primary JS file
+            },
+        },
+        chunkSizeWarningLimit: 1600
+    },
     plugins: [
         laravel({
             input: ['resources/sass/app.scss', 'resources/js/app.js'],
             refresh: true,
         }),
         preact()
-    ]
+    ],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                api: 'modern-compiler',
+                silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'mixed-decls']
+            }
+        }
+    }
 });
