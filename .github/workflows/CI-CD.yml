@@ -47,4 +47,5 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           script: |
             cd /home/anton/www/clip-zone.com
+            source ~/.bashrc
             make deploy
