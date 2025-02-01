@@ -20,7 +20,9 @@ class CommentTest extends TestCase
      */
     public function test_comments_list(): void
     {
-        $video = Video::factory()->withStatus(VideoStatus::PUBLIC->value)->forUser()->create();
+        $video = Video::factory()->withStatus(VideoStatus::PUBLIC->value)->forUser()->create([
+            'allow_comments' => true
+        ]);
 
         Comment::factory()->forUser()->for($video)->count(3)->createQuietly();
 
