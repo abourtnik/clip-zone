@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Storage;
 
 class VideoMetadata
 {
-    public const VIDEO_EXTENSION = 'mp4';
+    public const string VIDEO_EXTENSION = 'mp4';
 
     private static FFProbe $FFProbe;
     private static FFMpeg $FFMpeg;

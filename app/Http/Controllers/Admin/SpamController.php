@@ -11,18 +11,18 @@ class SpamController
 {
     public function index(SpamService $spamService): View {
         return view('admin.spams.index', [
-            'words' => $spamService->getWordsAsString()
+            'words' => $spamService->getWordsAsString(),
+            'emails' => $spamService->getEmailsAsString()
         ]);
     }
 
     public function update(SpamService $spamService, Request $request): RedirectResponse {
 
-        $words = $request->get('words') ?? '';
+        $data = $request->only('words', 'emails');
 
-        $spamService->update($words);
+        $spamService->update($data);
 
         return redirect()->route('admin.spams.index')
             ->with('success', "Updated successfully");
-
     }
 }
