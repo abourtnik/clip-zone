@@ -3,7 +3,7 @@
     "type": "module",
     "private": true,
     "scripts": {
-        "dev": "vite",
+        "dev": "bunx --bun vite",
         "build": "vite build"
     },
     "devDependencies": {

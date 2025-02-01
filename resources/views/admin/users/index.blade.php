@@ -39,9 +39,8 @@
                             <img class="rounded" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar" style="width: 50px;">
                         </a>
                         <div>
-                            <div class="d-flex gap-1 align-items-center">
+                            <div class="d-flex gap-1 flex-column">
                                 <a href="{{$user->route}}" class="text-decoration-none">{{$user->username}}</a>
-                                <span>•</span>
                                 <span class="text-muted text-sm">{{'@'.$user->slug}}</span>
                                 @if($user->is_premium)
                                     <i class="fa-solid fa-star text-warning"></i>

@@ -13,6 +13,17 @@ class VideoPolicy
 {
     use HandlesAuthorization;
 
+    public const array ADMIN_ABILITIES = ['view', 'show', 'download', 'file', 'thumbnail', 'thumbnails'];
+
+    public function before(?User $user, string $ability): bool|null
+    {
+        if (in_array($ability, self::ADMIN_ABILITIES) && $user?->is_admin) {
+            return true;
+        }
+
+        return null;
+    }
+
     /**
      * Determine whether the user can view any models.
      *
@@ -33,7 +44,7 @@ class VideoPolicy
      */
     public function view(User $user, Video $video): Response|bool
     {
-        return ($video->user()->is($user) && $video->is_created) || $user->is_admin
+        return $video->user()->is($user) && $video->is_created
             ? Response::allow()
             : Response::denyWithStatus(404);
     }
@@ -47,10 +58,6 @@ class VideoPolicy
      */
     public function show(?User $user, Video $video): Response|bool
     {
-        if ($user?->is_admin) {
-            return Response::allow();
-        }
-
         return $video->is_public || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(404, $video->is_banned ? 'This video was banned' : 'This video is private');
@@ -79,10 +86,6 @@ class VideoPolicy
      */
     public function file(?User $user, Video $video): Response|bool
     {
-        if ($user?->is_admin) {
-            return Response::allow();
-        }
-
         return $video->is_public || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(403, 'This video is private');

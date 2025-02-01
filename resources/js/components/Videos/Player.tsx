@@ -63,7 +63,7 @@ export function Player ({thumbnail_url, file_url, next_video, subtitles} : Props
             <video
                 ref={video}
                 controls
-                className="w-100 border border-1 rounded"
+                className="w-100 border border-1 rounded h-100"
                 controlsList="nodownload"
                 poster={thumbnail_url}
                 onContextMenu={(e: any) => e.preventDefault()}
