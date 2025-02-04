@@ -33,8 +33,11 @@ function Main ({responsive = true} : Props) {
 
     const {index, navigate, resetIndex} = useKeyboardNavigate({
         length: results && results.items.length + 1,
-        onSelect: (index) => {
+        onSelect: (index: number) => {
             window.location.href = results!.items[index]?.url ?? '/search?q=' + query;
+        },
+        onDefaultSelect: () => {
+            window.location.href = '/search?q=' + query;
         }
     });
 

@@ -46,7 +46,7 @@ services:
             test: [ "CMD", "mysqladmin", "ping" ]
         restart: unless-stopped
     bun:
-        image: oven/bun
+        image: oven/bun:1.2.2-alpine
         container_name: bun_container
         ports:
             - "5173:5173"

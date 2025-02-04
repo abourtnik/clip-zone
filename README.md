@@ -16,7 +16,7 @@ Open Source Youtube Clone
 
 ## Technical detail
 
-* Backend : PHP 8.1, Laravel 10, MySQL
+* Backend : PHP 8.3, Laravel 11, MySQL, Redis, Bun, Meilisearch
 * Frontend : Preact, Alpine JS, Boostrap 5.3
 
 ## Installation

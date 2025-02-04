@@ -19,9 +19,7 @@
                     {{ __('Manage') }}
                 </a>
             </div>
-            <div class="row gx-3 gy-4 row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5 mb-5">
-                @each('videos.card', $videos, 'video')
-            </div>
+            <videos-area url="{{route('users.subscriptions-videos')}}" />
         @endif
     @else
         <div class="h-full">

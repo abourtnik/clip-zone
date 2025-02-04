@@ -38,7 +38,8 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
 
     const {index, navigate, resetIndex} = useKeyboardNavigate({
         length: results?.data.length,
-        onSelect: select
+        onSelect: select,
+        onDefaultSelect: () => null
     });
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

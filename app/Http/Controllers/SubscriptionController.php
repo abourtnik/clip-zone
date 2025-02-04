@@ -19,13 +19,6 @@ class SubscriptionController extends Controller
         if ($subscription_count) {
             return view('subscription.index', [
                 'subscription_count' => $subscription_count,
-                'videos' => Auth::user()
-                    ->subscriptions_videos()
-                    ->active()
-                    ->with('user')
-                    ->withCount('views')
-                    ->latest('publication_date')
-                    ->get()
             ]);
         } else {
             return view('subscription.index', [

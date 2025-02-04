@@ -100,8 +100,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         // SUBSCRIPTIONS
         Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {
-            Route::get('/subscriptions-videos', 'subscriptionsVideos');
-            Route::get('/subscriptions-channels', 'subscriptionsChannels');
+            Route::get('/subscriptions-videos', 'subscriptionsVideos')->name('subscriptions-videos');
+            Route::get('/subscriptions-channels', 'subscriptionsChannels')->name('subscriptions-channels');
         });
     });
 });
