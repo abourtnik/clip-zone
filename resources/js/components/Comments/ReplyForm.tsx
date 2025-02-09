@@ -84,7 +84,7 @@ export function ReplyForm ({comment, reply, setShowReplyForm} : Props) {
                         ref={textarea}
                         className="form-control"
                         id={"reply-" + comment.id}
-                        rows="3"
+                        rows={3}
                         name="content"
                         placeholder={t('Add a reply ...')}
                         required

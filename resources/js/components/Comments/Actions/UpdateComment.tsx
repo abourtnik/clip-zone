@@ -55,7 +55,7 @@ export const UpdateComment = memo(({comment, edit, setEdit} : Props) => {
             {
                 edit ?
                     <form className={'my-3'} onSubmit={handleSubmit}>
-                        <textarea className="form-control" rows="3" name="content" required>{comment.content}</textarea>
+                        <textarea className="form-control" rows={3} name="content" required>{comment.content}</textarea>
                         <div className={'d-flex gap-1 mt-2'}>
                             <Button type={'submit'} loading={isPending}>
                                 {t('Save')}

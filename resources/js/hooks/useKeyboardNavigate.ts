@@ -3,11 +3,15 @@ import {useState, KeyboardEvent} from "react";
 type Options = {
     length: number | undefined,
     onSelect: (index: number) => void,
-    onDefaultSelect: () => void
+    onDefaultSelect?: () => void
 }
 export function useKeyboardNavigate (options: Options) {
 
-    const {length, onSelect, onDefaultSelect} = options;
+    const {
+        length,
+        onSelect,
+        onDefaultSelect = () => null
+    } = options;
 
     const [index, setIndex] = useState<number | null>(null);
 

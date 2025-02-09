@@ -103,7 +103,7 @@ export function Main ({video}: Props) {
                             <i class="fa-solid fa-triangle-exclamation fa-3x"></i>
                             <h3 class="h5 my-3 fw-normal">Something went wrong !</h3>
                             <p class="text-muted">If the issue persists please contact us.</p>
-                            <button className="btn btn-primary rounded-5 text-uppercase btn-sm" onClick={refetch}>
+                            <button className="btn btn-primary rounded-5 text-uppercase btn-sm" onClick={() => refetch()}>
                                 Try again
                             </button>
                         </div>

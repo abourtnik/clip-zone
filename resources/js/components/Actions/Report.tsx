@@ -87,7 +87,7 @@ export function Main ({buttonClass, reportedClass, type, id} : Props)  {
                                 <textarea
                                     className="form-control"
                                     id="comment"
-                                    rows="3"
+                                    rows={3}
                                     name="comment"
                                     onChange={(e: any) => setCount(e.currentTarget.value.length)}
                                     maxLength={5000}

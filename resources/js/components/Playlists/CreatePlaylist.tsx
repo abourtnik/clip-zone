@@ -60,8 +60,8 @@ export function CreatePlaylist ({open, setOpen} : Props) {
                             id="title"
                             name="title"
                             required
-                            minLength="1"
-                            maxLength="150"
+                            minLength={1}
+                            maxLength={150}
                             onChange={(e: any) => setCount(e.currentTarget.value.length)}
                         />
                         <div className="form-text">
@@ -71,7 +71,7 @@ export function CreatePlaylist ({open, setOpen} : Props) {
                     <div className="mb-3">
                         <label htmlFor="status" className="form-label">Visibility</label>
                         <select className="form-control" name="status" id="status" required>
-                            <option selected="" value="0">Public</option>
+                            <option selected value="0">Public</option>
                             <option value="1">Private</option>
                             <option value="2">Unlisted</option>
                         </select>

@@ -23,7 +23,7 @@ export function ThemeSwitcher({id} : Props) {
     }, [theme])
 
     useEffect(() => {
-        const event =  (e) => {
+        const event =  (e: CustomEventInit) => {
             if (e.detail.id !== id) {
                 setTheme(e.detail.theme)
             }

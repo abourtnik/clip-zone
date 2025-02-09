@@ -1,5 +1,4 @@
 import {memo} from 'preact/compat';
-import {StateUpdater} from 'preact/hooks';
 import {NotificationType, Paginator} from "@/types";
 import moment from "moment/moment";
 import {Dropdown} from 'react-bootstrap';
@@ -10,7 +9,7 @@ import {produce} from "immer";
 
 type Props = {
     notification: NotificationType,
-    setUnread: StateUpdater<number>
+    setUnread: (value: number | ((prev: number) => number)) => void
 }
 
 const Notification = memo(({notification, setUnread} : Props) => {
@@ -73,7 +72,7 @@ const Notification = memo(({notification, setUnread} : Props) => {
                 <Dropdown.Menu>
                     {notification.is_read && <Dropdown.Item as={'button'} onClick={() => handle('unread')}>Mark as unread</Dropdown.Item>}
                     {!notification.is_read && <Dropdown.Item as={'button'}  onClick={() => handle('read')}>Mark as read</Dropdown.Item>}
-                    <Dropdown.Item as={'button'} onClick={remove}>Delete</Dropdown.Item>
+                    <Dropdown.Item as={'button'} onClick={() => remove()}>Delete</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
         </div>

@@ -8,8 +8,8 @@ jobs:
     name: Run Test and PHP Stan
     runs-on: ubuntu-latest
     services:
-      mysql:
-        image: mariadb:10.3
+      mariadb:
+        image: mariadb:11.6.2
         env:
           MYSQL_ROOT_PASSWORD: root
           MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'

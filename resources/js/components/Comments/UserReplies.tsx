@@ -69,7 +69,7 @@ function Main ({comment, video} : Props) {
                        <div>
                            <h1 className="h3 mb-3 fw-normal">Something went wrong !</h1>
                            <p className="text-muted">If the issue persists please contact us.</p>
-                           <button className="btn btn-primary rounded-5 text-uppercase" onClick={refetch}>
+                           <button className="btn btn-primary rounded-5 text-uppercase" onClick={() => refetch()}>
                                Try again
                            </button>
                        </div>

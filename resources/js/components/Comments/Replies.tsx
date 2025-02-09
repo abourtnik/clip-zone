@@ -70,9 +70,11 @@ export function Replies({comment, showReplies}: Props) {
                                         </div>
                                         <span>{t('Loading ...')}</span>
                                     </div> :
-                                    <button type={'button'}
-                                            className={'btn btn-sm text-primary fw-bold d-flex align-items-center gap-2'}
-                                            onClick={fetchNextPage}>
+                                    <button
+                                        type={'button'}
+                                        className={'btn btn-sm text-primary fw-bold d-flex align-items-center gap-2'}
+                                        onClick={() => fetchNextPage()}
+                                    >
                                         <i className="fa-regular fa-plus"></i>
                                         <span>{t('Show more responses')}</span>
                                     </button>

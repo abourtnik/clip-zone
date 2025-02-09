@@ -62,7 +62,7 @@ export const AddComment = memo(({video_id, placeholder = 'Add a comment...', lab
                                     ref={textarea}
                                     className="form-control"
                                     id="message-content"
-                                    rows="4"
+                                    rows={4}
                                     name="content"
                                     placeholder={t(placeholder)}
                                     required

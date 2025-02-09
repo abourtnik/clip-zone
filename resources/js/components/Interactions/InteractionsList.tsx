@@ -82,7 +82,7 @@ function Main ({target} : Props) {
                     <i class="fa-solid fa-triangle-exclamation fa-3x"></i>
                     <h3 class="h5 my-3 fw-normal">Something went wrong !</h3>
                     <p class="text-muted">If the issue persists please contact us.</p>
-                    <button className="btn btn-primary rounded-5 text-uppercase" onClick={refetch}>
+                    <button className="btn btn-primary rounded-5 text-uppercase" onClick={() => refetch()}>
                         Try again
                     </button>
                 </div>

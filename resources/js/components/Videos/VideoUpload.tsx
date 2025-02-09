@@ -136,11 +136,12 @@ export function VideoUpload ({endpoint, maxsize} : Props) {
                         loading &&
                         <div className={'w-100'}>
                             <div className="progress w-100 mt-4 border">
-                                <div className="progress-bar progress-bar-striped progress-bar-animated"
+                                <div
+                                    className="progress-bar progress-bar-striped progress-bar-animated"
                                      role="progressbar"
                                      aria-valuenow={progress}
-                                     aria-valuemin="0"
-                                     aria-valuemax="100"
+                                     aria-valuemin={0}
+                                     aria-valuemax={100}
                                      style={{width: progress + '%'}}
                                 >
                                 </div>
