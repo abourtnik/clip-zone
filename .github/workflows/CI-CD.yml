@@ -9,9 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     services:
       mariadb:
-        image: mariadb:11.6.2
+        image: mariadb:10.3
         env:
           MYSQL_ROOT_PASSWORD: root
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
           MYSQL_DATABASE: clipzone
         ports:
           - 3306:3306
