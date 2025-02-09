@@ -12,7 +12,6 @@ jobs:
         image: mariadb:11.6.2
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
           MYSQL_DATABASE: clipzone
         ports:
           - 3306:3306
