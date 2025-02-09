@@ -1,8 +1,15 @@
 import { useState} from 'preact/hooks';
 
-export default function ImageLoaded ({source, title, imgclass, hover}) {
+type Props = {
+    source: string,
+    title: string,
+    imgclass: string,
+    hover: boolean
+}
 
-    const [loading, setLoading] = useState(true);
+export default function ImageLoaded ({source, title, imgclass, hover} : Props) {
+
+    const [loading, setLoading] = useState<boolean>(true);
 
     const imageLoad = () => {
         setLoading(false);

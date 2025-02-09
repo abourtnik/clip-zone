@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'preact/hooks';
 import { createContext } from 'preact';
 import { clsx } from 'clsx';
 import ImageUpload from "./ImageUpload";
-import config from "../config";
+import config from "../../config";
 
 // Must be synchronized with app/Enums/ThumbnailStatus.php
 const STATUS = {

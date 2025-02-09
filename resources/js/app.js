@@ -8,6 +8,7 @@ import Cropper from 'cropperjs';
 import Sortable from 'sortablejs';
 import Echo from "laravel-echo";
 import Pusher from 'pusher-js';
+import Chart from 'chart.js/auto';
 
 // LANG
 import './lang/config';
@@ -20,6 +21,7 @@ window.Alpine = Alpine
 window.Cropper = Cropper
 window.Sortable = Sortable
 window.Pusher = Pusher;
+window.Chart = Chart;
 
 
 // Laravel Echo

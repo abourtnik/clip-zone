@@ -9,8 +9,10 @@
             <div class="card shadow border-primary h-100">
                 <div class="card-body">
                     <h4 class="card-title text-center text-primary mb-3">Views Evolution</h4>
-                    @if($views)
-                        <line-chart class="d-block" style="height: 547px" data="{{json_encode($views)}}" />
+                    @if($video->views_count)
+                        <div class="d-block" style="height: 547px">
+                            <x-chartjs-component :chart="$chart" />
+                        </div>
                     @else
                         <div class="d-flex flex-column justify-content-center align-items-center" style="height: 600px">
                             <i class="fa-solid fa-eye-slash fa-2x"></i>

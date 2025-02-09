@@ -12,6 +12,7 @@
         "fakerphp/faker": "^1.9.1",
         "guzzlehttp/guzzle": "^7.2",
         "http-interop/http-factory-guzzle": "^1.2",
+        "icehouse-ventures/laravel-chartjs": "^4.1",
         "kris/laravel-form-builder": "^1.52",
         "lab404/laravel-impersonate": "^1.7",
         "laravel/cashier": "^15.0",
@@ -32,6 +33,7 @@
         "pusher/pusher-php-server": "^7.2",
         "spatie/eloquent-sortable": "^4.0",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
+        "staudenmeir/laravel-cte": "^1.11",
         "symfony/intl": "^6.1"
     },
     "require-dev": {

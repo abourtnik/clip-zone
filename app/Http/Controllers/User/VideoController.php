@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Charts\VideoStatsChart;
 use App\Enums\VideoStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\StoreVideoRequest;
@@ -16,7 +17,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class VideoController extends Controller
@@ -78,23 +78,6 @@ class VideoController extends Controller
     }
 
     public function show(Video $video): View {
-
-       $created_at = $video->created_at->format('Y-m-d');
-       $today = now()->subDay()->format('Y-m-d');
-
-       DB::statement('SET @num = -1;');
-
-       $views = DB::query()->selectRaw('DATE(dates.date) as date,  COUNT(views.id) as count')
-        ->fromSub(function ($query) use ($created_at, $today) {
-            $query->selectRaw("DATE_ADD('".$created_at."', interval @num := @num+1 day) AS date")->from('views')->havingRaw("DATE_ADD('".$created_at."', interval @num day) <= '".$today."'");
-        }, 'dates')
-        ->leftJoin('views as views', function($join) use ($video) {
-            $join->on(DB::raw('dates.date'), '=', DB::raw('DATE(views.view_at)'))->where('views.video_id', $video->id);
-        })
-       ->groupBy('date')
-       ->get()
-       ->toArray();
-
         return view('users.videos.show', [
             'video' => $video->loadCount([
                 'views',
@@ -103,7 +86,7 @@ class VideoController extends Controller
                 'comments',
                 'interactions'
             ]),
-            'views' => $views
+            'chart' => (new VideoStatsChart($video))->build()
         ]);
     }
 

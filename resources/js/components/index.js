@@ -8,11 +8,10 @@ import {UserPlaylists, Save} from "./Playlists";
 
 import {CommentsList} from "./Comments/CommentsList";
 import {UserReplies} from "./Comments/UserReplies";
-import LineChart from "./LineChart";
 
-import ImageUpload from "./ImageUpload";
-import ImageLoaded from "./ImageLoaded";
-import Thumbnails from "./Thumbnails";
+import ImageUpload from "./Images/ImageUpload";
+import ImageLoaded from "./Images/ImageLoaded";
+import Thumbnails from "./Images/Thumbnails";
 
 import {Subscribe, Report} from "./Actions";
 import {VideoAutoplaySwitcher, ThemeSwitcher, AutoplayNextVideoSwitcher} from "./Switchs";
@@ -23,7 +22,6 @@ register(CommentsList, 'comments-area', [], { shadow: false });
 register(VideosList, 'videos-area', [], { shadow: false });
 register(InteractionList, 'interactions-area', [], { shadow: false });
 register(SearchBar, 'search-bar', [], { shadow: false });
-register(LineChart, 'line-chart', [], { shadow: false });
 register(UserReplies, 'user-replies', [], { shadow: false });
 register(UserVideos, 'user-videos', [], { shadow: false });
 register(UserPlaylists, 'playlist-videos', [], { shadow: false });
