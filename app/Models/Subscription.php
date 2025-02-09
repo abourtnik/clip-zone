@@ -15,7 +15,7 @@ class Subscription extends Model
 {
     protected $guarded = ['id'];
 
-    protected $table = 'premium_subscriptions';
+    protected $table = 'premiums';
 
     protected $casts = [
         'next_payment' => 'datetime',
