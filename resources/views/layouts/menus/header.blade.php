@@ -4,7 +4,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsive-sidebar">
                 <span class="navbar-toggler-icon" style="width: 1.2em;height: 1.2em;"></span>
             </button>
-            <a @class(['navbar-brand text-danger fw-bold', 'is-premium' => Auth::user()?->is_premium, 'show_sidebar' => $show_sidebar]) href="{{route('pages.home')}}">
+            <a @class(['navbar-brand text-danger fw-bold me-1', 'is-premium' => Auth::user()?->is_premium, 'show_sidebar' => $show_sidebar]) href="{{route('pages.home')}}">
                 {{config('app.name')}} @if(Auth::user()?->is_premium) <span class="text-warning">Premium</span> @endif
             </a>
         </div>
@@ -32,13 +32,13 @@
                 </li>
                 @else
                     <li class="nav-item">
-                        <a class="btn bg-transparent text-primary" href="{{route('login')}}">
+                        <a class="btn btn-sm bg-transparent text-primary" href="{{route('login')}}">
                             {{ __('Sign In') }}
                         </a>
                     </li>
                     <li class="nav-item d-flex align-items-center">
                         <a class="btn btn-sm btn-primary d-flex gap-2 align-items-center" href="{{route('registration')}}">
-                            <span>{{ __('Register') }}</span>
+                            {{ __('Register') }}
                         </a>
                     </li>
                 @endauth

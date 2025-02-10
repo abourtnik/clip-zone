@@ -150,7 +150,7 @@
             <hr class="w-90">
             <div class="d-flex flex-column gap-3">
                 <div class="d-flex gap-2 align-items-center justify-content-evenly">
-                    <form action="{{route('lang.update')}}" method="POST">
+                    <form action="{{route('lang.update')}}" method="POST" class="w-60">
                         @csrf()
                         <select onchange="this.form.submit()" class="form-select form-select-sm text-sm" aria-label="Locale" name="locale">
                             @foreach(config('languages') as $lang => $info)
@@ -163,7 +163,7 @@
                 <video-autoplay-switch/>
             </div>
             <hr class="w-90">
-            <div class="ps-4 pb-2">
+            <div class="ps-3 pb-2">
                 <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('pages.terms')}}">{{__('Terms of Service')}} •</a>
                 <a class="text-muted text-sm fw-bold text-decoration-none" href="{{route('contact.show')}}">{{__('Contact')}}</a>
                 <div class="mt-2 text-muted d-flex flex-column gap-1">

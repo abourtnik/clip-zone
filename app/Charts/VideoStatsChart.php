@@ -97,9 +97,7 @@ class VideoStatsChart
                         'weight' => 'bold',
                         'size' => 17,
                     ],
-                    'borderWidth' => 2,
-                    'callbacks' => [
-                    ]
+                    'borderWidth' => 2
                 ]
             ]
         ];

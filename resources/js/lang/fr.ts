@@ -43,4 +43,6 @@ export default {
     "I like this": "J'aime ce contenu",
     "I dislike this": "Je n'aime pas ce contenu",
     "Oldest": "Les plus anciennes",
+    "Videos auto-play": "Lecture automatique des videos",
+    "Autoplay": "Lecture automatique",
 }

@@ -1,7 +1,10 @@
 import {useEffect, useState} from "preact/hooks";
 import {AUTOPLAY_VIDEO_KEY} from "./keys";
+import {useTranslation} from "react-i18next";
 
 export function VideoAutoplaySwitcher() {
+
+    const { t } = useTranslation();
 
     const [checked, setChecked] = useState<boolean>(JSON.parse(localStorage.getItem(AUTOPLAY_VIDEO_KEY) || 'true'));
 
@@ -11,7 +14,7 @@ export function VideoAutoplaySwitcher() {
 
     return (
         <div className="d-flex gap-2 align-items-center justify-content-evenly">
-            <span className="text-sm text-black">Videos auto-play</span>
+            <span className="text-sm text-black text-center w-60">{t('Videos auto-play')}</span>
             <div className="input-switch d-inline-block position-relative cursor-pointer">
                 <input checked={checked} type="checkbox" id="autoplay-video" aria-label="Activer la lecture automatique" class="autoplay-switcher" onChange={() => setChecked(v => !v)} />
                 <label for="autoplay-video">
