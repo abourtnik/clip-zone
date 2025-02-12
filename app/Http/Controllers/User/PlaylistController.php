@@ -6,9 +6,7 @@ use App\Enums\PlaylistStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Playlist\StorePlaylistRequest;
 use App\Http\Requests\Playlist\UpdatePlaylistRequest;
-use App\Http\Resources\Video\VideoListResource;
 use App\Models\Playlist;
-use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +25,7 @@ class PlaylistController extends Controller
                 ->where('user_id', Auth::user()->id)
                 ->with('videos')
                 ->withCount(['videos'])
+                ->latest('created_at')
                 ->paginate(15)
                 ->withQueryString()
         ]);
@@ -34,14 +33,7 @@ class PlaylistController extends Controller
 
     public function create(): View {
         return view('users.playlists.create', [
-            'status' => PlaylistStatus::get(),
-            'videos' => VideoListResource::collection(
-                old('videos') ? Video::whereIn('id', old('videos'))
-                    ->with('user')
-                    ->with('views')
-                    ->when(ctype_digit(implode('', old('videos'))), fn($q) => $q->orderByRaw('FIELD(id,' . implode(',', old('videos')).")"))
-                    ->get() : []
-            )->toJson()
+            'status' => PlaylistStatus::get()
         ]);
     }
 
@@ -69,14 +61,7 @@ class PlaylistController extends Controller
 
         return view('users.playlists.edit', [
             'playlist' => $playlist,
-            'status' => PlaylistStatus::get(),
-            'videos' => VideoListResource::collection(
-                old('videos') ? Video::whereIn('id', old('videos'))
-                    ->with('user')
-                    ->with('views')
-                    ->when(ctype_digit(implode('', old('videos'))), fn($q) => $q->orderByRaw('FIELD(id,' . implode(',', old('videos')).")"))
-                    ->get() : $playlist->videos->load('user')->loadCount('views')
-            )->toJson()
+            'status' => PlaylistStatus::get()
         ]);
     }
 

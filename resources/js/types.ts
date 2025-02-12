@@ -152,7 +152,7 @@ export type CommentsSort = 'top' | 'newest'
 export type Paginator<T> = {
     data: T[],
     links: {
-        next: string
+        next: string | null
     },
     meta: {
         current_page: number,

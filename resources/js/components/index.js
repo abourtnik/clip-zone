@@ -4,7 +4,7 @@ import { VideoUpload, VideosList, UserVideos, Player } from './Videos';
 import { InteractionList, Interaction } from './Interactions';
 import { SearchBar, SearchModel } from './Search';
 import {NotificationsList} from "./Notifications/NotificationsList";
-import {UserPlaylists, Save} from "./Playlists";
+import {Save, Playlist} from "./Playlists";
 
 import {CommentsList} from "./Comments/CommentsList";
 import {UserReplies} from "./Comments/UserReplies";
@@ -24,7 +24,7 @@ register(InteractionList, 'interactions-area', [], { shadow: false });
 register(SearchBar, 'search-bar', [], { shadow: false });
 register(UserReplies, 'user-replies', [], { shadow: false });
 register(UserVideos, 'user-videos', [], { shadow: false });
-register(UserPlaylists, 'playlist-videos', [], { shadow: false });
+register(Playlist, 'playlist-videos', [], { shadow: false });
 register(NotificationsList, 'site-notifications', [], { shadow: false });
 register(ImageUpload, 'image-upload', ['source'], { shadow: false });
 register(VideoUpload, 'video-upload', [], { shadow: false });

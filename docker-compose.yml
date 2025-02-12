@@ -53,6 +53,9 @@ services:
         volumes:
             - ./:/usr/src/app
         working_dir: /usr/src/app
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+            - CHOKIDAR_IGNORE_INITIAL=true
         #command: tail -f /dev/null
         command: bun run dev
         networks:

@@ -23,18 +23,22 @@ class VideoListResource extends JsonResource
      */
     public function toArray(Request $request) : array
     {
+        $isPrivate = $this->user->isNot(Auth::user()) && !$this->is_public;
+
         return [
             'id' => $this->id,
-            'uuid' => $this->uuid,
-            'title' => $this->title,
-            'short_title' => $this->short_title,
-            'thumbnail' => $this->thumbnail_url,
-            'formated_duration' => $this->duration,
-            'views' => $this->views_count,
-            'route' => $this->route,
-            'publication_date' => $this->publication_date,
-            'user' => UserListResource::make($this->user),
-            'is_private' => $this->when($this->user->isNot(Auth::user()) && !$this->is_public, true),
+            $this->mergeWhen(!$isPrivate, [
+                'uuid' => $this->uuid,
+                'title' => $this->title,
+                'short_title' => $this->short_title,
+                'thumbnail' => $this->thumbnail_url,
+                'formated_duration' => $this->duration,
+                'views' => $this->views_count,
+                'route' => $this->route,
+                'publication_date' => $this->publication_date,
+                'user' => UserListResource::make($this->user),
+            ]),
+            'is_private' => $this->when($isPrivate, true),
         ];
     }
 }

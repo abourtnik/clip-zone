@@ -90,10 +90,8 @@ export async function getPlaylistVideos(playlist_uuid: string | null, page: numb
     return jsonFetch(API_URL + `/playlists/${playlist_uuid}/videos?page=`+ page);
 }
 
-export async function searchVideos(query: string, exceptIds: number[]): Promise<VideoType[]> {
-    return jsonFetch(API_URL + `/search/videos?q=${query}`, 'POST', {
-        except_ids: exceptIds
-    });
+export async function searchVideos(query: string): Promise<{data: VideoType[]}> {
+    return jsonFetch(API_URL + `/search/videos?q=${query}`, 'POST');
 }
 
 export async function getUserPlaylists(user_id: number, page: number = 1, video_id: number): Promise<Paginator<PlaylistType>> {

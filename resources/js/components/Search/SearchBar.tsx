@@ -130,7 +130,7 @@ function ResultItem ({result, isSelected} : ResultItemProps) {
                     />
                 }
                 <img className={clsx('img-fluid', loading && 'd-none', !loading && 'd-block')} width={100} src={result.thumbnail} alt="" onLoad={imageLoad} />
-                <div className={'text-sm'}>
+                <div className={'text-sm text-break'}>
                     <div className={'text-black'} dangerouslySetInnerHTML={{__html: result._formatted.title}}></div>
                     <div className={'text-muted'} dangerouslySetInnerHTML={{__html: result._formatted.user}}></div>
                 </div>

@@ -20,7 +20,7 @@
     <form action="{{ route('user.playlists.store') }}" method="POST">
         @csrf
         <div class="row">
-            <div class="col-xl-6 mb-4 mb-xl-0">
+            <div class="col-12 col-xxl-4 mb-4 mb-xxl-0">
                 <div class="card shadow-soft">
                     <div class="card-body">
                         <h5 class="text-primary">Details</h5>
@@ -56,11 +56,7 @@
                                 x-ref="description"
                                 @keyup="count = $refs.description.value.length"
                             >{{old('description')}}</textarea>
-                            <div class="d-flex flex-wrap align-items-center justify-content-between">
-                                <div class="form-text">
-                                    Writing descriptions with keywords can help viewers find your
-                                    videos more easily through search.
-                                </div>
+                            <div class="d-flex flex-wrap align-items-center justify-content-end">
                                 <div class="form-text">
                                     <span x-text="count"></span> / <span>{{config('validation.playlist.description.max')}}</span>
                                 </div>
@@ -77,8 +73,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-6">
-                <playlist-videos initial="{{$videos}}"/>
+            <div class="col-12 col-xxl-8">
+                <playlist-videos />
             </div>
         </div>
         <div class="d-flex justify-content-between mt-3">

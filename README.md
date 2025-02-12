@@ -24,7 +24,7 @@ Open Source Youtube Clone
 * Clone project
 * Run `make init` command on the root folder
 
-Then go to `http://localhost:8080
+Then go to `http://localhost:8080`
 
 ## Run seeder
 
