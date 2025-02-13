@@ -31,7 +31,7 @@
     <script async defer data-website-id="32676102-17e3-4534-9023-f3aa1eb8300a" src="https://stats.antonbourtnik.fr/umami.js"></script>
     @endif
 
-    @vite(['resources/js/app.js'])
+    @vite(['resources/js/app.ts'])
 </head>
 <body>
     <main class="h-100 overflow-auto position-relative">
