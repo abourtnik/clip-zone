@@ -314,7 +314,7 @@
                                                         <small class="text-muted">{{$index + 1}}</small>
                                                     @endif
                                                     <div class="position-relative">
-                                                        <image-loaded source="{{$p_video->thumbnail_url}}" title="{{$p_video->title}}" imgClass="rounded"/>
+                                                        <image-loaded source="{{$p_video->thumbnail_url}}" title="{{$p_video->title}}" class="rounded"/>
                                                         <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                                                             {{$p_video->duration}}
                                                         </small>

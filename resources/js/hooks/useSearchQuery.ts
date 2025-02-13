@@ -8,16 +8,17 @@ type Options<TData> = {
     key: string,
     searchFn: (query: string) => Promise<TData>,
     debounce?: number
+    minLength?: number
 }
 
-export function useSearchQuery<TData = unknown> ({query, key, searchFn, debounce = 300} : Options<TData>) : UseQueryResult<TData> {
+export function useSearchQuery<TData = unknown> ({query, key, searchFn, debounce = 300, minLength = 0} : Options<TData>) : UseQueryResult<TData> {
 
     const debouncedSearchQuery = useDebounce(query, debounce);
 
     const queryResult = useQuery({
         queryKey: [key, debouncedSearchQuery],
         queryFn: () => searchFn(debouncedSearchQuery),
-        enabled: debouncedSearchQuery.trim().length > 0
+        enabled: debouncedSearchQuery.trim().length > 0 && debouncedSearchQuery.trim().length >= minLength
     })
 
     useEffect(() => {

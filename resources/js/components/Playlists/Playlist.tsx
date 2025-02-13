@@ -9,6 +9,7 @@ import {OverlayTrigger, Tooltip} from "react-bootstrap";
 import {createContext, Fragment} from "preact";
 import {useInView} from "react-intersection-observer";
 import {produce} from "immer";
+import ImageLoaded from "@/components/Images/ImageLoaded";
 
 type Props = {
     uuid?: string
@@ -191,8 +192,7 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                                                     <div
                                                         className={'d-flex align-items-start gap-2 justify-content-start px-3 py-2'}>
                                                         <div className={'position-relative'}>
-                                                            <img style={{width: '150px', height: '84px'}}
-                                                                 src={video.thumbnail}/>
+                                                            <ImageLoaded style={{width: '150px', height: '84px'}} source={video.thumbnail} title={video.title}/>
                                                             <small
                                                                 className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded"
                                                                 style="font-size: 0.70rem;">
@@ -200,13 +200,9 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                                                             </small>
                                                         </div>
                                                         <div>
-                                                            <div
-                                                                className={'text-black fw-bold text-sm mb-1 text-break'}>{video.title}</div>
-                                                            <div
-                                                                className={'text-muted text-sm'}>{video.user.username}</div>
-                                                            <div
-                                                                className={'text-muted text-sm'}>{video.views} views
-                                                                • {moment(video.publication_date).fromNow()}</div>
+                                                            <div className={'text-black fw-bold text-sm mb-1 text-break'}>{video.title}</div>
+                                                            <div className={'text-muted text-sm'}>{video.user.username}</div>
+                                                            <div className={'text-muted text-sm'}>{video.views} views • {moment(video.publication_date).fromNow()}</div>
                                                         </div>
                                                     </div>
                                             }
@@ -272,7 +268,7 @@ function SearchResult ({video, index, results} : SearchResultProps) {
         <li style={{cursor: 'pointer'}} className={'list-group-item p-0'} onClick={() => addVideo(index)} >
             <div className="d-flex align-items-start gap-2 justify-content-start px-3 py-2 hover-primary">
                 <div className={'position-relative'}>
-                    <img style={{width: '150px', height: '84px'}} src={video.thumbnail} alt=""/>
+                    <ImageLoaded style={{width: '150px', height: '84px'}} source={video.thumbnail} title={video.title}/>
                     <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                         {video.formated_duration}
                     </small>

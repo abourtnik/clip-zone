@@ -2,7 +2,7 @@
     <div class="position-relative h-100">
         <a href="{{$video->route}}">
             <div class="position-relative">
-                <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" imgClass="img-fluid rounded-4 w-100" :hover="hover"/>
+                <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" class="img-fluid rounded-4 w-100" :hover="hover"/>
                 <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                     {{$video->duration}}
                 </small>

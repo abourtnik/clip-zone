@@ -1,7 +1,7 @@
 <article @class(["d-flex flex-wrap flex-sm-nowrap position-relative gap-0 gap-sm-2 suggested_video", "mb-4 mb-sm-2" => !isset($playlist_video)]) x-data="{hover:false}">
     <a href="{{$video->route}}">
         <div class="position-relative">
-            <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" imgClass="rounded-1-sm" :hover="hover"/>
+            <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" class="rounded-1-sm" :hover="hover"/>
             <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                 {{$video->duration}}
             </small>
