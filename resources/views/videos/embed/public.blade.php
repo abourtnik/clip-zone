@@ -36,7 +36,7 @@
             background-repeat: no-repeat;
         }
     </style>
-    @vite(['resources/js/app.js'])
+    @vite(['resources/js/app.ts'])
 </head>
 <body class="w-100 h-100" x-data="{player:true, share: false, title: true}">
     <div id="player" class="w-100 h-100 position-relative" @mouseover="title = true" @mouseleave="!document.getElementById('video').paused ? title = false : null">

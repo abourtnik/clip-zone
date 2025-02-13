@@ -19,7 +19,7 @@
 
     <meta name="robots" content="noindex">
 
-    @vite(['resources/js/app.js'])
+    @vite(['resources/js/app.ts'])
 </head>
 <body class="w-100 h-100">
     <div id="player" class="w-100 h-100 position-relative bg-dark">
