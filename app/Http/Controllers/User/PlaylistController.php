@@ -69,13 +69,15 @@ class PlaylistController extends Controller
 
         $validated = $request->validated();
 
-        $videos = [];
+        $videos = $request->get('videos', []);
 
-        foreach ($request->get('videos', []) as $key => $value) {
-            $videos[$value] = ['position' => $key];
+        $playlist->videos()->detach();
+
+        foreach ($videos as $key => $id) {
+            $playlist->videos()->attach([
+                $id => ['position' => $key]
+            ]);
         }
-
-        $playlist->videos()->sync($videos);
 
         $playlist->update($validated);
 
