@@ -14,7 +14,7 @@ export default defineConfig({
         manifest: "manifest.json",
         rollupOptions: {
             input: {
-                main: 'resources/js/app.js', // Replace with your primary JS file
+                main: 'resources/js/app.ts',
             },
         },
         chunkSizeWarningLimit: 1600
