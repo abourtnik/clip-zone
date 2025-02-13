@@ -1,3 +1,6 @@
+import { Alpine as AlpineType } from 'alpinejs'
+
+
 export {};
 
 declare global {
@@ -6,5 +9,11 @@ declare global {
         resumable: Resumable
         PRIVATE_CHANNEL: any;
         LANG: string;
+        Alpine: AlpineType
+        Cropper: any
+        Sortable: any
+        Pusher : any
+        Chart: any
+        Echo : any
     }
 }

@@ -8,8 +8,10 @@
     },
     "devDependencies": {
         "@preact/preset-vite": "^2.10.0",
+        "@types/alpinejs": "^3.13.11",
         "@types/bootstrap": "^5.2.10",
         "@types/numeral": "^2.0.5",
+        "@types/preact-custom-element": "^4.0.4",
         "@types/react": "^18.3.18",
         "@types/react-dom": "^18.3.5",
         "laravel-vite-plugin": "^1.2.0",

@@ -4,6 +4,7 @@ import '../sass/app.scss';
 import * as bootstrap from 'bootstrap'
 import Alpine from 'alpinejs'
 import TomSelect from "tom-select";
+import {TomInput} from "tom-select/dist/cjs/types/core";
 import Cropper from 'cropperjs';
 import Sortable from 'sortablejs';
 import Echo from "laravel-echo";
@@ -14,7 +15,7 @@ import Chart from 'chart.js/auto';
 import './lang/config';
 
 // Components
-import './components/index.js'
+import './components/index'
 
 window.bootstrap = bootstrap;
 window.Alpine = Alpine
@@ -47,10 +48,10 @@ tooltips.map(element => new bootstrap.Tooltip(element))
 const popovers = [...document.querySelectorAll('[data-bs-toggle="popover"]')]
 popovers.map(element => {
 
-    let options = {};
+    let options : {content? : string, html? : boolean} = {};
 
     if (element.hasAttribute('data-bs-content-id')) {
-        options.content = document.getElementById(element.getAttribute('data-bs-content-id')).innerHTML
+        options.content = document.getElementById(element.getAttribute('data-bs-content-id')!)!.innerHTML
         options.html = true;
     }
 
@@ -58,7 +59,7 @@ popovers.map(element => {
 });
 
 document.querySelectorAll('.select-multiple').forEach((element)=>{
-    new TomSelect(element,{
+    new TomSelect(element as TomInput,{
         plugins: {
             remove_button:{
                 title:'Remove this item',
@@ -72,15 +73,17 @@ document.querySelectorAll('.select-multiple').forEach((element)=>{
 const ajaxButtons = [...document.querySelectorAll('.ajax-button')];
 ajaxButtons.map(element => element.addEventListener('click', async e => {
 
-    const url = e.currentTarget.dataset.url;
-    const method = e.currentTarget.dataset.method ?? 'GET';
-    const body = e.currentTarget.dataset.body ?? null;
+    const target = e.currentTarget as HTMLElement;
+
+    const url = target.dataset.url as string;
+    const method = target.dataset.method ?? 'GET';
+    const body = target.dataset.body ?? null;
 
     await fetch(url, {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')!.getAttribute('content') as string
         },
         method: method,
         credentials: 'include',

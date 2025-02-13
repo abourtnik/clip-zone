@@ -9,6 +9,10 @@ type Props = {
     maxsize: number
 }
 
+interface CustomConfigurationHash extends Resumable.ConfigurationHash {
+    permanentErrors?: number[];
+}
+
 export function VideoUpload ({endpoint, maxsize} : Props) {
 
     const { t } = useTranslation();
@@ -60,7 +64,7 @@ export function VideoUpload ({endpoint, maxsize} : Props) {
             permanentErrors: [400, 401, 403, 404, 409, 413, 415, 419, 422, 500, 501],
             setChunkTypeFromFile : true,
             generateUniqueIdentifier: () => uniqueId.toString(),
-        });
+        } as CustomConfigurationHash);
 
         window.resumable = resumable;
 

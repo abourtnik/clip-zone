@@ -1,7 +1,9 @@
 {
     "compilerOptions": {
-        "target": "es2019",
-        "lib": ["es2019", "dom", "dom.iterable"],
+        "target": "esnext",
+        "module": "esnext",
+        "types": ["vite/client"],
+        "lib": ["es2019", "dom", "dom.iterable", "WebWorker"],
         "jsx": "react-jsx",
         "jsxImportSource": "preact",
         "jsxFactory": "h",
