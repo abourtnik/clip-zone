@@ -165,6 +165,16 @@ export type Paginator<T> = {
     count?: number
 }
 
+export type CursorPaginator<T> = {
+    data: T[],
+    meta: {
+        path: string,
+        per_page: number,
+        next_cursor: string | null,
+        prev_cursor: string | null,
+    },
+}
+
 export type ResponsesPaginator = {
     data: CommentType[],
     next_page: number | null,

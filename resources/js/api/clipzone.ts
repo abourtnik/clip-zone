@@ -23,6 +23,12 @@ export async function getVideos(url: string, page: number = 1): Promise<Paginato
     return jsonFetch(url + `${url.includes('?') ? '&' : '?'}page=`+ page);
 }
 
+/*
+export async function getVideos(url: string, cursor: string | null): Promise<CursorPaginator<VideoType>> {
+    return jsonFetch(url + `${url.includes('?') ? '&' : '?'}` + (cursor ? `cursor=` + cursor  : ''));
+}
+ */
+
 export async function subscribe(user_id: number): Promise<void> {
     return jsonFetch(API_URL + `/subscribe/${user_id}`, 'POST');
 }

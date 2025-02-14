@@ -19,7 +19,7 @@ function Main ({url} : Props) {
         isLoading,
         isError,
         refetch,
-        isFetching,
+        isFetchingNextPage,
         fetchNextPage,
         hasNextPage,
     } = useInfiniteQuery({
@@ -35,7 +35,7 @@ function Main ({url} : Props) {
     });
 
     useEffect( () => {
-        if (inView && !isFetching && !isError) {
+        if (inView && !isFetchingNextPage && !isError) {
             fetchNextPage()
         }
     }, [inView]);
@@ -79,7 +79,7 @@ function Main ({url} : Props) {
                     </>
                 }
                 {
-                    (isFetching || isLoading) &&
+                    (isFetchingNextPage || isLoading) &&
                     [...Array(12).keys()].map(i => <VideoSkeleton key={i}/>)
                 }
                 {hasNextPage && <span ref={ref}></span>}

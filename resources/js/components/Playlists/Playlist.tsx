@@ -189,8 +189,7 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                                                         <div className={'text-sm'}>The author update video status to private</div>
                                                     </div>
                                                     :
-                                                    <div
-                                                        className={'d-flex align-items-start gap-2 justify-content-start px-3 py-2'}>
+                                                    <div className={'d-flex flex-column flex-xl-row align-items-start gap-2 justify-content-start px-3 py-2'}>
                                                         <div className={'position-relative'}>
                                                             <ImageLoaded style={{width: '150px', height: '84px'}} source={video.thumbnail} title={video.title}/>
                                                             <small
@@ -266,7 +265,7 @@ function SearchResult ({video, index, results} : SearchResultProps) {
 
     return (
         <li style={{cursor: 'pointer'}} className={'list-group-item p-0'} onClick={() => addVideo(index)} >
-            <div className="d-flex align-items-start gap-2 justify-content-start px-3 py-2 hover-primary">
+            <div className="d-flex flex-column flex-xl-row align-items-start gap-2 justify-content-start px-3 py-2 hover-primary">
                 <div className={'position-relative'}>
                     <ImageLoaded style={{width: '150px', height: '84px'}} source={video.thumbnail} title={video.title}/>
                     <small className="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">

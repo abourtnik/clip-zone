@@ -38,12 +38,6 @@
                                 <i class="fa-solid fa-heart"></i>
                                 <span>Remove from favorites</span>
                             </button>
-                            @if($playlist->user->is(Auth::user()))
-                                <a href="{{route('user.playlists.edit', $playlist)}}" class="btn btn-info btn-sm d-flex gap-2 align-items-center">
-                                    <i class="fa-solid fa-pen"></i>
-                                    <span>Edit playlist</span>
-                                </a>
-                            @endif
                         @else
                             <button
                                 type="button"
@@ -60,7 +54,14 @@
                             </button>
                         @endauth
                     </div>
-
+                    @if($playlist->user->is(Auth::user()))
+                        <div class="d-flex align-items-start mt-2">
+                            <a href="{{route('user.playlists.edit', $playlist)}}" class="btn btn-info btn-sm d-flex gap-2">
+                                <i class="fa-solid fa-pen"></i>
+                                <span>Edit playlist</span>
+                            </a>
+                        </div>
+                    @endif
                     <div class="mt-3">
                         <x-expand-item max="150" color="dark">
                             {{$playlist->description}}
@@ -96,7 +97,7 @@
                         </ul>
                     </div>
                 @else
-                    <div class="alert alert-info">
+                    <div class="alert alert-info mb-0">
                         This playlist does not contain any videos at the moment.
                     </div>
                 @endif
