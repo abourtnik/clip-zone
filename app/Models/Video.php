@@ -431,6 +431,7 @@ class Video extends Model implements Likeable, Reportable
             'user' => $this->user->username,
             'views' => $this->views_count,
             'duration' => (int) $this->getRawOriginal('duration'),
+            'formated_duration' => $this->duration,
             'url' => $this->route,
             'thumbnail' => $this->thumbnail_url,
             'publication_date' => $this->publication_date->timestamp
