@@ -209,6 +209,11 @@ const Comment = memo(({comment} : Props) => {
             </div>
         </article>
     )
-});
+}, compare);
+
+function compare(prev: Props, next: Props) {
+    return prev.comment.content === next.comment.content &&
+        prev.comment.replies_count === next.comment.replies_count;
+}
 
 export default Comment;

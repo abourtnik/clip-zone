@@ -15,7 +15,7 @@ export const Expand = memo(({comment} : Props) => {
 
     return (
         <div className={comment.is_long ? 'my-2' : 'mt-2 mb-3'} style={{whiteSpace: 'pre-line'}}>
-            <div className={'text-sm'} dangerouslySetInnerHTML={{__html: expand ? comment.parsed_content : comment.short_content}}></div>
+            <div className={'text-sm text-break'} dangerouslySetInnerHTML={{__html: expand ? comment.parsed_content : comment.short_content}}></div>
             {comment.is_long && <button onClick={() => setExpand(v => !v)} className={'text-primary bg-transparent ps-0 text-sm mt-1'}>{expand ? t('Show less'): t('Read more')}</button>}
         </div>
     )

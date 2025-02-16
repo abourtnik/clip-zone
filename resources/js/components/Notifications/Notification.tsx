@@ -77,6 +77,6 @@ const Notification = memo(({notification, setUnread} : Props) => {
             </Dropdown>
         </div>
     )
-})
+}, (prev, next) => prev.notification.is_read === next.notification.is_read);
 
 export default Notification;
