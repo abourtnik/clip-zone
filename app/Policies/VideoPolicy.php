@@ -58,7 +58,7 @@ class VideoPolicy
      */
     public function show(?User $user, Video $video): Response|bool
     {
-        return $video->is_public || $video->user()->is($user)
+        return $video->is_public || $video->user()->is($user) || $video->user()->is(auth('sanctum')->user())
             ? Response::allow()
             : Response::denyWithStatus(404, $video->is_banned ? 'This video was banned' : 'This video is private');
     }
