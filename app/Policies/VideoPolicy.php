@@ -86,7 +86,7 @@ class VideoPolicy
      */
     public function file(?User $user, Video $video): Response|bool
     {
-        return $video->is_public || $video->user()->is($user)
+        return $video->is_public || $video->user()->is($user) || $video->user()->is(auth('sanctum')->user())
             ? Response::allow()
             : Response::denyWithStatus(403, 'This video is private');
     }
@@ -100,7 +100,7 @@ class VideoPolicy
      */
     public function thumbnail(?User $user, Video $video): Response|bool
     {
-        return $video->is_public || $video->user->is($user)
+        return $video->is_public || $video->user->is($user) || $video->user()->is(auth('sanctum')->user())
             ? Response::allow()
             : Response::denyWithStatus(403, 'This video is private');
     }
