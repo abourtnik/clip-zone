@@ -362,7 +362,7 @@
                                         <td>
                                             <dynamic-input value="{{$device->name}}" name="name" url="{{route('devices.update', $device)}}" maxlength="50" />
                                         </td>
-                                        <td>{{$device->last_used_at->diffForHumans()}}</td>
+                                        <td>{{$device->last_used_at?->diffForHumans()}}</td>
                                         <td>{{$device->created_at->diffForHumans()}}</td>
                                     </tr>
                                 @endforeach
