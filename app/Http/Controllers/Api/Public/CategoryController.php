@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Public;
 
 use App\Http\Resources\Video\VideoListResource;
 use App\Models\Category;

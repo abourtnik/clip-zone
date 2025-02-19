@@ -1,19 +1,25 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Models\Video;
-use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\Admin\SearchController as SearchAdminController;
 use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\Api\InteractionController;
 use App\Http\Controllers\Api\LoginController;
-use App\Http\Controllers\Api\PlaylistController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\VideoController;
-use App\Http\Controllers\Api\ReportController;
-use App\Http\Controllers\Api\SearchController;
-use App\Http\Controllers\Api\NotificationController;
-use App\Http\Controllers\User\SearchController as SearchUserController;
-use App\Http\Controllers\Admin\SearchController as SearchAdminController;
+use App\Http\Controllers\Api\Private\DeviceController;
+use App\Http\Controllers\Api\Private\InteractionController;
+use App\Http\Controllers\Api\Private\NotificationController;
+use App\Http\Controllers\Api\Private\PlaylistController;
+use App\Http\Controllers\Api\Private\ReportController;
+use App\Http\Controllers\Api\Private\SearchController;
+use App\Http\Controllers\Api\Private\UserController;
+use App\Http\Controllers\Api\Private\VideoController;
+use App\Http\Controllers\Api\Private\SubscribeController;
+use App\Http\Controllers\Api\Public\CategoryController;
+use App\Http\Controllers\Api\Public\PlaylistController as PublicPlaylistController;
+use App\Http\Controllers\Api\Public\SearchController as SearchPublicController;
+use App\Http\Controllers\Api\Public\UserController as PublicUserController;
+use App\Http\Controllers\Api\Public\VideoController as PublicVideoController;
+use App\Models\Video;
+use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -28,13 +34,13 @@ use App\Http\Controllers\Admin\SearchController as SearchAdminController;
 
 
 /**
- * -------------------- PRIVATE --------------------
+ * -------------------- PRIVATE USER --------------------
  */
 
 Route::middleware('auth:sanctum')->group(function () {
 
     // SUBSCRIBE
-    Route::post("subscribe/{user}", [UserController::class, 'subscribe'])
+    Route::post("subscribe/{user}", [SubscribeController::class, 'subscribe'])
         ->name('subscribe')
         ->can('subscribe', 'user')
         ->middleware('throttle:subscribe')
@@ -82,26 +88,31 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/read-all', 'readAll')->name('read-all');
         });
 
-        // SEARCH USER
-        Route::controller(SearchUserController::class)->prefix('search')->name('search.')->group(function () {
+        // SEARCH
+        Route::controller(SearchController::class)->prefix('search')->name('search.')->group(function () {
             Route::get('/users', 'users')->name('users');
             Route::post('/videos', 'videos')->name('videos');
         });
 
-        // SEARCH ADMIN
-        Route::controller(SearchAdminController::class)
-            ->prefix('admin/search')
-            ->name('admin.search.')
-            ->middleware('admin')
+        // CURRENT USER
+        Route::prefix('me')
+            ->name('me.')
+            ->controller(UserController::class)
             ->group(function () {
-                Route::get('/users', 'users')->name('users');
+                Route::get('/', 'user')->name('user');
                 Route::get('/videos', 'videos')->name('videos');
-            });
+                Route::get('/playlists', 'playlists')->name('playlists');
+                Route::get('/subscriptions-videos', 'subscriptionsVideos')->name('subscriptions-videos');
+                Route::get('/subscriptions-channels', 'subscriptionsChannels')->name('subscriptions-channels');
+                Route::post('/logout', 'logout')->name('logout');
+        });
 
-        // SUBSCRIPTIONS
-        Route::prefix('users')->name('users.')->controller(UserController::class)->group(function () {
-            Route::get('/subscriptions-videos', 'subscriptionsVideos')->name('subscriptions-videos');
-            Route::get('/subscriptions-channels', 'subscriptionsChannels')->name('subscriptions-channels');
+        // DEVICES
+        Route::prefix('devices')
+            ->name('devices.')
+            ->controller(DeviceController::class)
+            ->group(function () {
+                Route::post('/{device}/update', 'update')->name('update');
         });
     });
 });
@@ -116,17 +127,13 @@ Route::middleware('throttle:api')->group(function () {
     // AUTH
     Route::controller(LoginController::class)->group(function () {
         Route::post('/login', 'login');
-        Route::middleware('auth:sanctum')->group(function () {
-            Route::get('/me', 'me');
-            Route::post('/logout', 'logout');
-        });
     });
 
     // SEARCH
-    Route::get("search", [SearchController::class, 'search'])->name('search');
+    Route::get("search", [SearchPublicController::class, 'search'])->name('search');
 
     // VIDEOS
-    Route::prefix('videos')->name('videos.')->controller(VideoController::class)->group(function () {
+    Route::prefix('videos')->name('videos.')->controller(PublicVideoController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/trend', 'trend')->name('trend');
         Route::get('/{video:uuid}', 'show')->can('show', 'video');
@@ -135,7 +142,7 @@ Route::middleware('throttle:api')->group(function () {
     // USERS
     Route::prefix('users')
         ->name('users.')
-        ->controller(UserController::class)
+        ->controller(PublicUserController::class)
         ->middleware('can:show,user')
         ->group(function () {
             Route::get('/{user:id}', 'show')->name('show');
@@ -146,7 +153,7 @@ Route::middleware('throttle:api')->group(function () {
     // PLAYLISTS
     Route::prefix('playlists')
         ->name('playlists.')
-        ->controller(PlaylistController::class)
+        ->controller(PublicPlaylistController::class)
         ->middleware('can:show,playlist')
         ->group(function () {
             Route::get('/{playlist:uuid}', 'show')->name('show');
@@ -174,4 +181,22 @@ Route::prefix('videos/{video:uuid}/comments')->name('comments.')
             Route::post('/{comment}/pin', 'pin')->name('pin');
             Route::post('/{comment}/unpin', 'unpin')->name('unpin');
         });
+});
+
+/**
+ * -------------------- ADMIN --------------------
+ */
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth:sanctum', 'admin'])
+    ->group(function () {
+
+        // SEARCH
+        Route::controller(SearchAdminController::class)
+            ->name('search.')
+            ->group(function () {
+                Route::get('/users', 'users')->name('users');
+                Route::get('/videos', 'videos')->name('videos');
+            });
 });

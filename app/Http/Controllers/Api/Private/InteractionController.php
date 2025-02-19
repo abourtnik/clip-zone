@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Private;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
 use App\Http\Requests\Interaction\InteractionRequest;
 use App\Http\Resources\InteractionsResource;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class InteractionController extends Controller

@@ -115,3 +115,7 @@ export async function savePlaylist(data: PlaylistSaveData): Promise<void> {
 export async function report(data: ReportData): Promise<void> {
     return jsonFetch(API_URL + `/report`, 'POST', data);
 }
+
+export async function input(endpoint: string, data: {}): Promise<{ [key: string]: string }> {
+    return jsonFetch(endpoint, 'POST', data);
+}

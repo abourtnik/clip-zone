@@ -3,7 +3,7 @@ import {useState} from "preact/hooks";
 import {REPORT_REASONS, ReportData, ReportDataSchema} from "@/types";
 import {useErrorMutation} from "@/hooks";
 import {report} from "@/api/clipzone";
-import {Button} from "@/components/commons";
+import {Button} from "@/components/Commons";
 import {Fragment} from "preact";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 

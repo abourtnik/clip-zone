@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Public;
 
 use App\Events\SearchPerformed;
+use App\Http\Controllers\Controller;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Meilisearch\Endpoints\Indexes;
-use App\Http\Controllers\Controller;
 
 class SearchController extends Controller
 {

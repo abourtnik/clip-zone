@@ -1,4 +1,4 @@
-import {Button} from '@/components/commons'
+import {Button} from '@/components/Commons'
 import { memo } from 'preact/compat';
 import {useTranslation} from "react-i18next";
 import {useErrorMutation} from "@/hooks/useErrorMutation";

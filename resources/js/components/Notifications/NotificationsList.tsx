@@ -8,7 +8,7 @@ import {Fragment} from "preact";
 import {useErrorMutation} from "@/hooks";
 import {NotificationType, Paginator} from "@/types";
 import {produce} from "immer";
-import {Button} from "@/components/commons";
+import {Button} from "@/components/Commons";
 
 type Props = {
     count : string

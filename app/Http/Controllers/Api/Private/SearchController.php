@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Api\Private;
 
 use App\Enums\VideoStatus;
-use App\Http\Resources\Video\VideoListResource;
 use App\Http\Resources\User\UserSearchResource;
+use App\Http\Resources\Video\VideoListResource;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Builder;

@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Private;
 
 use App\Http\Requests\Playlist\StorePlaylistRequest;
 use App\Http\Requests\Video\SaveRequest;
 use App\Http\Resources\Playlist\PlaylistListResource;
-use App\Http\Resources\Playlist\PlaylistShowResource;
-use App\Http\Resources\Video\VideoListResource;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 use App\Models\Pivots\PlaylistVideo;
 use App\Models\Playlist;
 use App\Models\Video;
@@ -17,27 +14,6 @@ use Illuminate\Support\Str;
 
 class PlaylistController
 {
-    public function show(Playlist $playlist): PlaylistShowResource
-    {
-        return new PlaylistShowResource(
-            $playlist->load([
-                'videos' => fn($q) => $q->withCount('views')->with('user')
-            ])->loadCount([
-                'videos'
-            ])
-        );
-    }
-
-    public function videos(Playlist $playlist): ResourceCollection
-    {
-        return VideoListResource::collection(
-            $playlist->videos()
-                ->with('user')
-                ->withCount('views')
-                ->paginate(24)
-        );
-    }
-
     public function store(StorePlaylistRequest $request): PlaylistListResource {
 
         $validated = $request->safe()->merge([

@@ -50,7 +50,7 @@
                         <div class="rounded-4 px-2 py-1 bg-danger text-white">
                             <i class="fa-2x fa-solid fa-triangle-exclamation"></i>
                         </div>
-                        <strong id="toast-message"></strong>
+                        <strong id="toast-message" class="text-break"></strong>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
                 </div>

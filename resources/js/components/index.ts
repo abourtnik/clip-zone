@@ -15,6 +15,7 @@ import Thumbnails from "./Images/Thumbnails";
 
 import {Subscribe, Report} from "./Actions";
 import {VideoAutoplaySwitcher, ThemeSwitcher, AutoplayNextVideoSwitcher} from "./Switchs";
+import {DynamicInput} from "./Commons";
 
 register(Subscribe, 'subscribe-button');
 register(Interaction, 'interaction-button', [], { shadow: false });
@@ -37,5 +38,6 @@ register(VideoAutoplaySwitcher, 'video-autoplay-switch', [], { shadow: false });
 register(AutoplayNextVideoSwitcher, 'autoplay-switch', [], { shadow: false });
 register(ThemeSwitcher, 'theme-switch', [], { shadow: false });
 register(Player, 'video-player', [], { shadow: false });
+register(DynamicInput, 'dynamic-input', [], { shadow: false });
 
 

@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\Services\SpamService;
 use Closure;
+use Illuminate\Support\Str;
 use Illuminate\Contracts\Validation\ValidationRule;
 
 class SpamEmails implements ValidationRule
@@ -19,10 +20,8 @@ class SpamEmails implements ValidationRule
 
         $emails = $spamService->getEmails();
 
-        $domain = explode('@', $value)[1] ?? '';
-
         foreach ($emails as $email) {
-            if (str_contains(strtolower('@'.$domain),strtolower($email))) {
+            if (Str::contains($value, $email, true)){
                 $fail('Spam detected');
             }
         }

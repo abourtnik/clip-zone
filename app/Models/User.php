@@ -167,6 +167,10 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         return $this->hasOne(PremiumSubscription::class);
     }
 
+    public function devices () : HasMany {
+        return $this->hasMany(Device::class, 'tokenable_id');
+    }
+
     /**
      * -------------------- ATTRIBUTES --------------------
      */

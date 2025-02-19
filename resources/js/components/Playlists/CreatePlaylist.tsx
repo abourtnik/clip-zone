@@ -1,4 +1,4 @@
-import {Button} from "@/components/commons";
+import {Button} from "@/components/Commons";
 import {useRef, useState} from "preact/hooks";
 import {InfiniteData, useQueryClient} from "@tanstack/react-query";
 import {useErrorMutation} from "@/hooks";

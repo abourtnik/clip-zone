@@ -1,4 +1,4 @@
-import {Button} from '@/components/commons'
+import {Button} from '@/components/Commons'
 import {useTranslation} from "react-i18next";
 import {CommentData, CommentType, CommentDataSchema, ResponsesPaginator, Paginator} from "@/types";
 import {useErrorMutation} from "@/hooks/useErrorMutation";
