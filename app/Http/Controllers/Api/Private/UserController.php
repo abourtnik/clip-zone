@@ -6,6 +6,7 @@ use App\Events\UserSubscribed;
 use App\Http\Resources\AccountResource;
 use App\Http\Resources\Playlist\PlaylistListResource;
 use App\Http\Resources\User\UserListResource;
+use App\Http\Resources\Video\MyVideoListResource;
 use App\Http\Resources\Video\VideoListResource;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,18 +21,14 @@ class UserController
 
     public function videos(Request $request): ResourceCollection
     {
-        $sort = $request->get('sort', 'latest');
-
-        return VideoListResource::collection(
+        return MyVideoListResource::collection(
             $request
                 ->user()
                 ->videos()
-                ->withCount('views')
-                ->with('user')
-                ->when($sort === 'latest', fn($query) => $query->latest('publication_date'))
-                ->when($sort === 'popular', fn($query) => $query->orderByRaw('views_count DESC'))
-                ->when($sort === 'oldest', fn($query) => $query->oldest('publication_date'))
-                ->cursorPaginate(24)
+                ->withCount(['views', 'likes','comments'])
+                ->latest('updated_at')
+                ->latest('id')
+                ->cursorPaginate(15)
         );
     }
 

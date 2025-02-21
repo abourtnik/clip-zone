@@ -68,7 +68,9 @@ class UserController
             $user->playlists()
                 ->active()
                 ->withCount('videos')
+                ->having('videos_count', '>', 0)
                 ->with('videos')
+                ->latest('updated_at')
                 ->paginate(15)
         );
     }

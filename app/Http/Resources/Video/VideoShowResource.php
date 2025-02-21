@@ -52,7 +52,8 @@ class VideoShowResource extends JsonResource
             'route' => $this->route,
             'user' => UserListResource::make($this->user),
             'comments' => $this->comments_count,
-            'publication_date' => $this->publication_date,
+            'publication_date' => $this->publication_date ?? $this->created_at,
+            'status' => $this->status,
             'first_comment' => $this->when($this->comments_count , function () {
                 return [
                     'content' => $this->comments->first()->content,

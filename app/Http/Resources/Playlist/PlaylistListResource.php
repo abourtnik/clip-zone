@@ -27,6 +27,8 @@ class PlaylistListResource extends JsonResource
             'uuid' => $this->uuid,
             'title' => Str::limit($this->title, 90),
             'thumbnail' => $this->first_video?->thumbnail_url,
+            'route' => $this->route,
+            'is_active' => $this->is_active,
             'icon' => $this->status->icon(),
             'status' => $this->status->name,
             'has_video' => $this->whenHas('has_video'),

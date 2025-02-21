@@ -36,7 +36,7 @@ class UserController
                             })
                         ->active()
                         ->latest('updated_at')
-                        ->limit(6);
+                        ->limit(12);
                 },
                 'pinned_video' => fn($q) => $q->withCount('views'),
                 'reportByAuthUser'

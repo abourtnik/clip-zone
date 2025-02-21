@@ -11,6 +11,17 @@ class PlaylistPolicy
 {
     use HandlesAuthorization;
 
+    public const array ADMIN_ABILITIES = ['show'];
+
+    public function before(?User $user, string $ability): bool|null
+    {
+        if (in_array($ability, self::ADMIN_ABILITIES) && $user?->is_admin) {
+            return true;
+        }
+
+        return null;
+    }
+
     /**
      * Determine whether the user can view any models.
      *
@@ -43,7 +54,7 @@ class PlaylistPolicy
      */
     public function show(?User $user, Playlist $playlist): Response|bool
     {
-        return $playlist->is_active || $playlist->user()->is($user)
+        return $playlist->is_active || $playlist->user()->is($user) || $playlist->user()->is(auth('sanctum')->user())
             ? Response::allow()
             : Response::denyWithStatus(404, 'This playlist is private');
     }

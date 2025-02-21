@@ -9,6 +9,7 @@ use App\Models\Pivots\PlaylistVideo;
 use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -66,6 +67,13 @@ class PlaylistController
         }
 
         return response()->json(null, 201);
+    }
+
+    public function delete(Playlist $playlist): Response
+    {
+        $playlist->delete();
+
+        return response()->noContent();
     }
 
 }

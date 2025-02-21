@@ -31,6 +31,8 @@ class PlaylistShowResource extends JsonResource
             'thumbnail' => $this->first_video?->thumbnail_url,
             'description' => $this->description,
             'icon' => $this->status->icon(),
+            'is_active' => $this->is_active,
+            'route' => $this->route,
             'videos_count' => $this->whenCounted('videos'),
             'user' => UserListResource::make($this->user),
             'videos' => VideoListResource::collection($this->whenLoaded('videos'))

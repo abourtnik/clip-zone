@@ -12,6 +12,17 @@ class CommentPolicy
 {
     use HandlesAuthorization;
 
+    public const array ADMIN_ABILITIES = ['viewAny'];
+
+    public function before(?User $user, string $ability): bool|null
+    {
+        if (in_array($ability, self::ADMIN_ABILITIES) && $user?->is_admin) {
+            return true;
+        }
+
+        return null;
+    }
+
     /**
      * Determine whether the user can view any models.
      *
@@ -21,11 +32,7 @@ class CommentPolicy
      */
     public function viewAny(?User $user, Video $video) : Response|bool
     {
-        if ($user?->is_admin) {
-            return Response::allow();
-        }
-
-        return ($video->is_public && $video->allow_comments) || $video->user()->is($user)
+        return ($video->is_public && $video->allow_comments) || $video->user()->is($user) || $video->user()->is(auth('sanctum')->user())
             ? Response::allow()
             : Response::denyWithStatus(404, !$video->is_public ? 'This video is private' : 'Comments are turned off');
     }

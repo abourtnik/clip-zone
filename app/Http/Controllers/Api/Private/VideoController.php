@@ -11,6 +11,7 @@ use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Http\Response;
 
 class VideoController
 {
@@ -56,5 +57,12 @@ class VideoController
         return response()->json([
             "done" => $percentage
         ]);
+    }
+
+    public function delete(Video $video): Response
+    {
+        $video->delete();
+
+        return response()->noContent();
     }
 }

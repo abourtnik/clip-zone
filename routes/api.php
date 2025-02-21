@@ -46,11 +46,15 @@ Route::middleware('auth:sanctum')->group(function () {
         ->middleware('throttle:subscribe')
         ->missing(fn() => abort(404, 'User not found'));
 
-    // UPLOAD
-    Route::post('/videos/upload', [VideoController::class, 'upload'])
-        ->name('videos.upload')
-        ->middleware('throttle:upload')
-        ->can('upload', Video::class);
+    // VIDEOS
+    Route::controller(VideoController::class)->prefix('videos')->name('videos.')->group(function () {
+        Route::post('/upload', 'upload')
+            ->name('upload')
+            ->middleware('throttle:upload')
+            ->can('upload', Video::class);
+        Route::delete('/{video:uuid}', 'delete')
+            ->name('delete');
+    });
 
     Route::middleware('throttle:api')->group(function () {
 
@@ -68,6 +72,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::controller(PlaylistController::class)->prefix('playlists')->name('playlists.')->group(function () {
             Route::post('/', 'store')->name('store');
             Route::post('/save', 'save')->name('save');
+            Route::delete('/{playlist:uuid}', 'delete')->name('delete');
         });
 
         // NOTIFICATIONS
