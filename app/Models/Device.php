@@ -16,6 +16,7 @@ class Device extends Model
 
     protected $casts = [
         'last_used_at' => 'datetime',
+        'expires_at' => 'datetime'
     ];
 
     public function user () : BelongsTo {

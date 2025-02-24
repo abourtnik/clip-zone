@@ -354,16 +354,30 @@
                                     <th scope="col" style="min-width: 200px">Device</th>
                                     <th scope="col" style="min-width: 120px">Last activity</th>
                                     <th scope="col" style="min-width: 120px">Created at</th>
+                                    <th scope="col" style="min-width: 200px">Expires at</th>
+                                    <th scope="col" style="min-width: 6px">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($user->devices as $device)
-                                    <tr x-data="{ edit: false, name: '{{$device->name}}' }">
+                                    <tr>
                                         <td>
                                             <dynamic-input value="{{$device->name}}" name="name" url="{{route('devices.update', $device)}}" maxlength="50" />
                                         </td>
                                         <td>{{$device->last_used_at?->diffForHumans()}}</td>
                                         <td>{{$device->created_at->diffForHumans()}}</td>
+                                        <td>{{$device->expires_at?->format('d F Y H:i') ?? 'Never'}}</td>
+                                        <td>
+                                            <button
+                                                class="btn btn-danger btn-sm"
+                                                title="Delete device"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#delete_device"
+                                                data-route="{{route('devices.delete', $device)}}"
+                                            >
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -432,5 +446,6 @@
         </div>
     </div>
     @include('users.profile.modals.delete_account', $user)
+    @include('users.profile.modals.delete_device')
     @include('users.partials.crop')
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Private;
 
 use App\Http\Requests\Device\UpdateDeviceRequest;
 use App\Models\Device;
+use Illuminate\Http\RedirectResponse;
 
 class DeviceController
 {
@@ -14,6 +15,13 @@ class DeviceController
         return response()->json([
             'name' => $device->name,
         ]);
+    }
+
+    public function delete(Device $device): RedirectResponse
+    {
+        $device->delete();
+
+        return back();
     }
 
 }

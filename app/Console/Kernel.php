@@ -43,6 +43,11 @@ class Kernel extends ConsoleKernel
         // Sync views_count for videos index Meilisearch
         $schedule->command(ImportCommand::class, ['App\Models\Video'])
             ->dailyAt('3:00');
+
+        // Clear expired tokens
+        $schedule->command('sanctum:prune-expired')
+            ->daily()
+            ->appendOutputTo($LOG_PATH);
     }
 
     /**

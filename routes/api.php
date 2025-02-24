@@ -118,6 +118,7 @@ Route::middleware('auth:sanctum')->group(function () {
             ->controller(DeviceController::class)
             ->group(function () {
                 Route::post('/{device}/update', 'update')->name('update');
+                Route::delete('/{device}', 'delete')->name('delete');
         });
     });
 });
