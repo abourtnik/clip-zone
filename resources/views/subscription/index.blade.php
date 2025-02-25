@@ -19,7 +19,7 @@
                     {{ __('Manage') }}
                 </a>
             </div>
-            <videos-area url="{{route('users.subscriptions-videos')}}" />
+            <videos-area url="{{route('me.subscriptions-videos')}}" />
         @endif
     @else
         <div class="h-full">

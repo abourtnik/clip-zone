@@ -58,7 +58,7 @@ class UserController
                 ->when($sort === 'latest', fn($query) => $query->latest('publication_date'))
                 ->when($sort === 'popular', fn($query) => $query->orderByRaw('views_count DESC'))
                 ->when($sort === 'oldest', fn($query) => $query->oldest('publication_date'))
-                ->paginate(24)
+                ->cursorPaginate(24)
         );
     }
 
@@ -71,7 +71,7 @@ class UserController
                 ->having('videos_count', '>', 0)
                 ->with('videos')
                 ->latest('updated_at')
-                ->paginate(15)
+                ->cursorPaginate(15)
         );
     }
 }

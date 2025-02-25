@@ -47,7 +47,7 @@ class UserController
                         'videos as has_video' => fn($q) => $q->where('video_id', $video_id)
                     ]);
                 })
-                ->paginate(15)
+                ->cursorPaginate(15)
         );
     }
 
@@ -67,7 +67,7 @@ class UserController
                 ->with('user')
                 ->withCount('views')
                 ->latest('publication_date')
-                ->paginate(15)
+                ->cursorPaginate(15)
         );
     }
 

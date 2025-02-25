@@ -1,10 +1,9 @@
 import {Fragment} from "preact";
-import {useEffect} from 'preact/hooks';
 import {Video} from "./Video";
-import { useInView } from 'react-intersection-observer';
 import {VideoSkeleton} from "@/components/Skeletons/VideoSkeleton";
-import {QueryClient, QueryClientProvider, useInfiniteQuery} from "@tanstack/react-query";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {getVideos} from '@/api/clipzone'
+import {useCursorQuery} from "@/hooks";
 
 type Props = {
     url: string,
@@ -12,33 +11,19 @@ type Props = {
 
 function Main ({url} : Props) {
 
-    const { ref, inView} = useInView()
-
     const {
         data: videos,
         isLoading,
         isError,
         refetch,
         isFetchingNextPage,
-        fetchNextPage,
         hasNextPage,
-    } = useInfiniteQuery({
+        ref,
+    } = useCursorQuery({
         queryKey: ['videos', url],
         queryFn: ({pageParam}) => getVideos(url, pageParam),
-        initialPageParam: 1,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.meta.current_page === lastPage.meta.last_page) {
-                return undefined
-            }
-            return lastPageParam + 1
-        }
     });
 
-    useEffect( () => {
-        if (inView && !isFetchingNextPage && !isError) {
-            fetchNextPage()
-        }
-    }, [inView]);
 
     return (
         <>

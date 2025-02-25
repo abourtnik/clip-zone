@@ -17,7 +17,7 @@ class CategoryController
                 ->with('user')
                 ->withCount('views')
                 ->latest('publication_date')
-                ->paginate(24)
+                ->cursorPaginate(24)
         );
     }
 }

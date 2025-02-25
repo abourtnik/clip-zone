@@ -16,7 +16,7 @@ class VideoController
                 ->with('user')
                 ->withCount('views')
                 ->latest('publication_date')
-                ->paginate(24)
+                ->cursorPaginate(24)
         );
     }
 
@@ -27,7 +27,7 @@ class VideoController
                 ->with('user')
                 ->withCount('views')
                 ->orderBy('views_count', 'desc')
-                ->paginate(24)
+                ->cursorPaginate(24)
         );
     }
 
