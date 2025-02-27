@@ -4,16 +4,16 @@ namespace App\Http\Controllers\Api\Public;
 
 use App\Events\SearchPerformed;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SearchRequest;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Meilisearch\Endpoints\Indexes;
 
 class SearchController extends Controller
 {
-    public function search (Request $request): JsonResponse {
+    public function search (SearchRequest $request): JsonResponse {
 
-        $q = $request->get('q');
+        $q = $request->validated('q');
 
         SearchPerformed::dispatch($q);
 

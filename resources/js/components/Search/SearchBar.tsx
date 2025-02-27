@@ -67,6 +67,7 @@ function Main ({responsive = true} : Props) {
                         name="q"
                         value={query}
                         onKeyDown={navigate}
+                        maxLength={255}
                     />
                     {
                         isFetching &&

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Admin;
 
+use App\Http\Requests\SearchRequest;
 use App\Http\Resources\User\UserSearchResource;
 use App\Http\Resources\Video\VideoSearchResource;
 use App\Models\User;
@@ -12,9 +13,9 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class SearchController
 {
-    public function users(Request $request): ResourceCollection {
+    public function users(SearchRequest $request): ResourceCollection {
 
-        $q = $request->get('q');
+        $q = $request->validated('q');
 
         $match = '%'.$q.'%';
 

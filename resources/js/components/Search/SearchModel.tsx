@@ -61,6 +61,7 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
                     placeholder={'Search ' + name + ' ...'}
                     onKeyDown={navigate}
                     value={query}
+                    maxLength={255}
                 />
                 {
                     isFetching &&

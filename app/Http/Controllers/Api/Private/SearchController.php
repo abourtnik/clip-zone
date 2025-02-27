@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Private;
 
 use App\Enums\VideoStatus;
+use App\Http\Requests\SearchRequest;
 use App\Http\Resources\User\UserSearchResource;
 use App\Http\Resources\Video\VideoListResource;
 use App\Models\User;
@@ -14,9 +15,9 @@ use Illuminate\Support\Facades\Auth;
 
 class SearchController
 {
-    public function users(Request $request): ResourceCollection {
+    public function users(SearchRequest $request): ResourceCollection {
 
-        $q = $request->get('q');
+        $q = $request->validated('q');
 
         $match = '%'.$q.'%';
 

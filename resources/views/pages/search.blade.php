@@ -54,7 +54,7 @@
             @else
                 <div class="d-flex justify-content-center align-items-center h-100">
                     <div class="w-100 border p-4 bg-light text-center">
-                        <h2>{{ __('No results found') }} {{ $search ? 'for "'. $search . '"' : '' }}</h2>
+                        <h2 class="text-break">{{ __('No results found') }} {{ $search ? 'for "'. $search . '"' : '' }}</h2>
                         <div class="text-muted">{{ __('Try different keywords or remove search filters') }}</div>
                     </div>
                 </div>
