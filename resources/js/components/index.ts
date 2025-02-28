@@ -1,4 +1,5 @@
 import register from 'preact-custom-element';
+import r2wc from "@r2wc/react-to-web-component"
 
 import { VideoUpload, VideosList, UserVideos, Player } from './Videos';
 import { InteractionList, Interaction } from './Interactions';
@@ -18,7 +19,6 @@ import {VideoAutoplaySwitcher, ThemeSwitcher, AutoplayNextVideoSwitcher} from ".
 import {DynamicInput} from "./Commons";
 
 register(Subscribe, 'subscribe-button');
-register(Interaction, 'interaction-button', [], { shadow: false });
 register(CommentsList, 'comments-area', [], { shadow: false });
 register(VideosList, 'videos-area', [], { shadow: false });
 register(InteractionList, 'interactions-area', [], { shadow: false });
@@ -39,5 +39,19 @@ register(AutoplayNextVideoSwitcher, 'autoplay-switch', [], { shadow: false });
 register(ThemeSwitcher, 'theme-switch', [], { shadow: false });
 register(Player, 'video-player', [], { shadow: false });
 register(DynamicInput, 'dynamic-input', [], { shadow: false });
+
+const InteractionsButtons = r2wc(Interaction, {
+    props: {
+        model: "string",
+        target: "number",
+        likes: "number",
+        dislikes: "number",
+        liked: "boolean",
+        disliked: "boolean",
+        showCount: "boolean",
+    },
+});
+
+customElements.define("interaction-buttons", InteractionsButtons)
 
 

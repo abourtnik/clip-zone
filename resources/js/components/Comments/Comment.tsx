@@ -81,16 +81,12 @@ const Comment = memo(({comment} : Props) => {
                             {
                                 window.USER ?
                                     <Interaction
-                                        active={JSON.stringify({
-                                            'like': comment.liked_by_auth_user,
-                                            'dislike': comment.disliked_by_auth_user
-                                        })}
                                         model={comment.class}
                                         target={comment.id}
-                                        count={JSON.stringify({
-                                            'likes_count': comment.likes_count,
-                                            'dislikes_count': comment.dislikes_count
-                                        })}
+                                        likes={comment.likes_count}
+                                        dislikes={comment.dislikes_count}
+                                        liked={comment.liked_by_auth_user}
+                                        disliked={comment.disliked_by_auth_user}
                                     />
                                     :
                                     <div className="d-flex justify-content-between bg-light-dark rounded-4">

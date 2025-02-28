@@ -8,8 +8,10 @@ import {interact} from "@/api/clipzone";
 type Props = {
     model: 'App\\Models\\Video' | 'App\\Models\\Comment',
     target: number,
-    count: string,
-    active: string,
+    likes: number,
+    dislikes: number,
+    liked?: boolean,
+    disliked?: boolean,
     showCount?: boolean
 }
 
@@ -45,12 +47,9 @@ const reducer = (state: State, action: Action) : State => {
     }
 }
 
-function Main ({model, target, count, active, showCount = true} : Props) {
+function Main ({model, target, likes, dislikes, liked = false, disliked = false, showCount = true} : Props) {
 
     const { t } = useTranslation();
-
-    const {like, dislike}: {like: boolean, dislike: boolean} = JSON.parse(active)
-    const {likes_count, dislikes_count}: {likes_count: number, dislikes_count: number} = JSON.parse(count)
 
     const {mutate} = useErrorMutation({
         mutationFn: (type: 'like' | 'dislike') => interact(type, target, model),
@@ -58,10 +57,10 @@ function Main ({model, target, count, active, showCount = true} : Props) {
     })
 
     const [state, dispatch] = useReducer(reducer, {
-        liked: like,
-        disliked : dislike,
-        counterLike : likes_count,
-        counterDislike : dislikes_count
+        liked: liked,
+        disliked : disliked,
+        counterLike : likes,
+        counterDislike : dislikes
     })
 
     const handleClick = async (type: Action) => {

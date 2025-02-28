@@ -66,14 +66,16 @@
                     <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date?->translatedFormat('d F Y') ?? $video->created_at->translatedFormat('d F Y')}}</div>
                     @auth
                         <div class="d-flex flex-wrap gap-2 align-items-center">
-                            <interaction-button
-                                active="{{ json_encode(['like' => $video->liked_by_auth_user, 'dislike' => $video->disliked_by_auth_user ])}}"
+                            <interaction-buttons
                                 model="{{get_class($video)}}"
                                 target="{{$video->id}}"
-                                count="{{ json_encode(['likes_count' => $video->likes_count, 'dislikes_count' => $video->dislikes_count ])}}"
-                                @if(!$video->show_likes) show-count @endif
+                                likes="{{$video->likes_count}}"
+                                dislikes="{{$video->dislikes_count}}"
+                                liked="{{$video->liked_by_auth_user}}"
+                                disliked="{{$video->disliked_by_auth_user}}"
+                                show-count="{{!$video->show_likes}}"
                             >
-                            </interaction-button>
+                            </interaction-buttons>
                             @if($video->is_public)
                                 <button class="btn btn-info rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                                     <i class="fa-solid fa-share"></i>&nbsp;
