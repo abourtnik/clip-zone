@@ -396,11 +396,11 @@
 @pushIf($video->is_uploaded, 'scripts')
     <script>
 
-        const video = document.querySelector("video");
-
         // TimeCode
 
         function time (timecode) {
+
+            const video = document.querySelector("video");
 
             video.currentTime = timecode;
             video.play()

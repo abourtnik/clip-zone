@@ -26,8 +26,8 @@ class CommentResource extends JsonResource
             'id' => $this->id,
             'class' => Comment::class,
             'content' => $this->content,
-            'parsed_content' => $this->parsed_content,
-            'short_content' => $this->short_content,
+            'parsed_content' => nl2br($this->parsed_content),
+            'short_content' => nl2br($this->short_content),
             'is_long' => $this->is_long,
             'user' => [
                 'id' => $this->user->id,

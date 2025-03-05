@@ -40,7 +40,7 @@ register(ThemeSwitcher, 'theme-switch', [], { shadow: false });
 register(Player, 'video-player', [], { shadow: false });
 register(DynamicInput, 'dynamic-input', [], { shadow: false });
 
-const InteractionsButtons = r2wc(Interaction, {
+customElements.define("interaction-buttons", r2wc(Interaction, {
     props: {
         model: "string",
         target: "number",
@@ -50,8 +50,6 @@ const InteractionsButtons = r2wc(Interaction, {
         disliked: "boolean",
         showCount: "boolean",
     },
-});
-
-customElements.define("interaction-buttons", InteractionsButtons)
+}));
 
 
