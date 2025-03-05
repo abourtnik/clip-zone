@@ -155,6 +155,8 @@ class VideoTest extends TestCase
                     ->whereType('title', 'string')
                     ->whereType('short_title', 'string')
                     ->whereType('short_description', 'string')
+                    ->whereType('description', 'string')
+                    ->whereType('description_is_long', 'boolean')
                     ->whereType('thumbnail', 'string')
                     ->whereType('duration', 'integer')
                     ->whereType('formated_duration', 'string')

@@ -15,7 +15,7 @@ services:
             - mariadb
         restart: unless-stopped
     nginx:
-        image: nginx:latest
+        image: nginx:1.22.0-alpine
         container_name: nginx_container
         networks:
             - application
@@ -30,7 +30,7 @@ services:
             - php
         restart: unless-stopped
     mariadb:
-        image: mariadb:latest
+        image: mariadb:11.6.2
         container_name: mariadb_container
         ports:
             - "3306:3306"
@@ -46,7 +46,7 @@ services:
             test: [ "CMD", "mysqladmin", "ping" ]
         restart: unless-stopped
     bun:
-        image: oven/bun:1.2.2-alpine
+        image: oven/bun:1.2.0
         container_name: bun_container
         ports:
             - "5173:5173"
@@ -61,7 +61,7 @@ services:
         networks:
             - application
     redis:
-        image: redis:latest
+        image: redis:6.0.16
         container_name: redis_container
         ports:
             - "6379:6379"
