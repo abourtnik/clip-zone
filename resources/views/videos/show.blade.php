@@ -65,7 +65,7 @@
                 <div class="mt-3 d-flex flex-column flex-xxl-row gap-3 justify-content-between align-items-start align-items-xxl-center">
                     <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date?->translatedFormat('d F Y') ?? $video->created_at->translatedFormat('d F Y')}}</div>
                     @auth
-                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                        <div class="d-flex gap-2 align-items-center overflow-auto" >
                             <interaction-buttons
                                 model="{{get_class($video)}}"
                                 target="{{$video->id}}"
@@ -77,20 +77,20 @@
                             >
                             </interaction-buttons>
                             @if($video->is_public)
-                                <button class="btn bg-light-dark rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                                <button class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                                     <i class="fa-solid fa-share"></i>&nbsp;
                                     {{__('Share')}}
                                 </button>
                             @endif
                             @if($video->is_uploaded)
                                 @can('download', $video)
-                                    <a href="{{route('video.download', $video)}}" class="btn bg-light-dark rounded-4 btn-sm px-3" title="Download video">
+                                    <a href="{{route('video.download', $video)}}" class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0" title="Download video">
                                         <i class="fa-solid fa-download"></i>&nbsp;
                                         {{__('Download')}}
                                     </a>
                                 @else
                                     <button
-                                        class="btn bg-light-dark rounded-4 btn-sm px-3"
+                                        class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0"
                                         title="Download video"
                                         data-bs-toggle="popover"
                                         data-bs-placement="right"
@@ -104,17 +104,17 @@
                                     </button>
                                 @endcan
                             @endif
-                            <save-video video="{{$video->id}}" ></save-video>
+                            <save-video class="flex-shrink-0" video="{{$video->id}}" ></save-video>
                             @can('report', $video)
                                 <report-button
-                                    button-class="btn btn-sm bg-light-dark rounded-4 px-3"
+                                    button-class="btn btn-sm bg-light-dark rounded-4 px-3 flex-shrink-0"
                                     reported-class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm"
                                     id="{{$video->id}}"
                                     type="video"
                                 ></report-button>
                             @else
                                 @if($video->reportByAuthUser)
-                                    <div class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm">
+                                    <div class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm flex-shrink-0">
                                         <i class="fa-regular fa-flag"></i>
                                         <span>{{__('Reported')}} {{$video->reportByAuthUser->created_at->diffForHumans()}}</span>
                                     </div>
