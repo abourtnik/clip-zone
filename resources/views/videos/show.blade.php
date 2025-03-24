@@ -65,7 +65,7 @@
                 <div class="mt-3 d-flex flex-column flex-xxl-row gap-3 justify-content-between align-items-start align-items-xxl-center">
                     <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date?->translatedFormat('d F Y') ?? $video->created_at->translatedFormat('d F Y')}}</div>
                     @auth
-                        <div class="d-flex gap-2 align-items-center overflow-auto" >
+                        <div class="d-flex gap-2 align-items-center overflow-auto w-100">
                             <interaction-buttons
                                 model="{{get_class($video)}}"
                                 target="{{$video->id}}"
