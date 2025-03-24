@@ -41,8 +41,9 @@ export function Main ({buttonClass, reportedClass, type, id} : Props)  {
         <>
             {
                 !reported &&
-                <button className={buttonClass} onClick={() => setOpen(true)}>
-                    <i class="fa-regular fa-flag"></i>&nbsp;Report
+                <button className={buttonClass + ' d-flex gap-2 items-center'} onClick={() => setOpen(true)}>
+                    <i class="fa-regular fa-flag"></i>
+                    <span>Report</span>
                 </button>
             }
             {

@@ -4,6 +4,7 @@ import numeral from 'numeral'
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {useErrorMutation} from "@/hooks/useErrorMutation";
 import {interact} from "@/api/clipzone";
+import {clsx} from "clsx";
 
 type Props = {
     model: 'App\\Models\\Video' | 'App\\Models\\Comment',
@@ -72,7 +73,10 @@ function Main ({model, target, likes, dislikes, liked = false, disliked = false,
         <div className={'d-flex justify-content-between bg-light-dark rounded-4'}>
             <button
                 onClick={() => handleClick('LIKE')}
-                className={'hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-end ' + (state.liked ? 'text-success' : 'text-black') + (!showCount || state.counterLike === 0 ? ' py-2' : '')}
+                className={clsx("hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-end", {
+                    "text-black": state.liked,
+                    "py-2": !showCount || state.counterLike === 0,
+                })}
                 data-bs-toggle="tooltip"
                 data-bs-title={t("I like this")}
                 data-bs-placement="bottom"
@@ -86,7 +90,9 @@ function Main ({model, target, likes, dislikes, liked = false, disliked = false,
             <div className="vr h-75 my-auto"></div>
             <button
                 onClick={() => handleClick('DISLIKE')}
-                className={'hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-start ' + (state.disliked ? 'text-danger' : 'text-black')}
+                className={clsx("over-grey btn btn-sm border border-0 px-3 rounded-5 rounded-start", {
+                    "text-black": state.disliked,
+                })}
                 data-bs-toggle="tooltip"
                 data-bs-title={t("I dislike this")}
                 data-bs-placement="bottom"

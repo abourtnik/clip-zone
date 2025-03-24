@@ -77,20 +77,20 @@
                             >
                             </interaction-buttons>
                             @if($video->is_public)
-                                <button class="btn btn-info rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                                <button class="btn bg-light-dark rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                                     <i class="fa-solid fa-share"></i>&nbsp;
                                     {{__('Share')}}
                                 </button>
                             @endif
                             @if($video->is_uploaded)
                                 @can('download', $video)
-                                    <a href="{{route('video.download', $video)}}" class="btn btn-primary rounded-4 btn-sm px-3" title="Download video">
+                                    <a href="{{route('video.download', $video)}}" class="btn bg-light-dark rounded-4 btn-sm px-3" title="Download video">
                                         <i class="fa-solid fa-download"></i>&nbsp;
                                         {{__('Download')}}
                                     </a>
                                 @else
                                     <button
-                                        class="btn btn-primary rounded-4 btn-sm px-3"
+                                        class="btn bg-light-dark rounded-4 btn-sm px-3"
                                         title="Download video"
                                         data-bs-toggle="popover"
                                         data-bs-placement="right"
@@ -107,7 +107,7 @@
                             <save-video video="{{$video->id}}" ></save-video>
                             @can('report', $video)
                                 <report-button
-                                    button-class="btn btn-sm btn-secondary rounded-4 px-3"
+                                    button-class="btn btn-sm bg-light-dark rounded-4 px-3"
                                     reported-class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm"
                                     id="{{$video->id}}"
                                     type="video"
@@ -154,12 +154,12 @@
                                     @endif
                                 </button>
                             </div>
-                            <button class="btn btn-info rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                            <button class="btn bg-light-dark rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                                 <i class="fa-solid fa-share"></i>&nbsp;
                                 {{__('Share')}}
                             </button>
                             <button
-                                class="btn btn-secondary rounded-4 btn-sm px-3"
+                                class="btn bg-light-dark rounded-4 btn-sm px-3"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
                                 data-bs-title="{{__('Need to report the video ?')}}"
@@ -190,7 +190,7 @@
                         @if(Auth::guest())
                             <button
                                 type="button"
-                                class="btn btn-danger"
+                                class="btn btn-dark rounded-4 px-3"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
                                 data-bs-title="{{__('Want to subscribe to this channel ?')}}"
@@ -198,7 +198,7 @@
                                 data-bs-html="true"
                                 data-bs-content="{{__('Sign in to subscribe to this channel.')}}<hr><a href='/login' class='btn btn-primary btn-sm'>{{__('Sign In')}}</a>"
                             >
-                                {{ __('Subscribe') }}
+                                <span class="text-sm">{{ __('Subscribe') }}</span>
                             </button>
                         @elseif(auth()->user()->isNot($video->user))
                             <subscribe-button

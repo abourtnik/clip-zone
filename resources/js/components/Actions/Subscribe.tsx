@@ -1,8 +1,9 @@
 import { useState } from 'preact/hooks';
 import {useTranslation} from "react-i18next";
 import {subscribe} from "@/api/clipzone";
-import {QueryClient, QueryClientProvider,} from '@tanstack/react-query'
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {useErrorMutation} from "@/hooks/useErrorMutation";
+import {clsx} from "clsx";
 
 type Props = {
     isSubscribe?: boolean,
@@ -22,12 +23,18 @@ function Main ({isSubscribe = true, user, size = null} : Props) {
 
     const [subscribed, setSubscribed] = useState<boolean>(isSubscribe);
 
-    const className = (subscribed ? 'btn-secondary text-white' : 'btn-danger') + (size ? ' btn-' + size : '');
-
     return (
-        <button onClick={() => mutate()} className={'btn rounded-4 px-3 ' + className} disabled={isPending}>
+        <button
+            onClick={() => mutate()}
+            className={clsx("btn rounded-4 px-3", {
+                "bg-light-dark text-dark": subscribed,
+                "btn-dark": !subscribed,
+                ['btn-' + size]: size,
+            })}
+            disabled={isPending}
+        >
             {isPending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>}
-            {subscribed ? t('Subscribed') : t('Subscribe')}
+            <span className={'text-sm'}>{subscribed ? t('Subscribed') : t('Subscribe')}</span>
         </button>
     )
 }

@@ -224,7 +224,7 @@
                                         @auth
                                             @can('report', $user)
                                                 <report-button
-                                                    button-class="btn btn-secondary rounded-4 btn-sm px-3"
+                                                    button-class="btn bg-light-dark rounded-4 btn-sm px-3 "
                                                     reported-class="rounded-4 d-flex alert alert-secondary px-3 py-2 align-items-center gap-2 mb-0 text-sm"
                                                     id="{{$user->id}}"
                                                     type="user"
@@ -239,7 +239,7 @@
                                             @endcan
                                         @else
                                             <button
-                                                class="btn btn-secondary rounded-4 btn-sm px-3"
+                                                class="btn bg-light-dark rounded-4 btn-sm px-3"
                                                 data-bs-toggle="popover"
                                                 data-bs-placement="right"
                                                 data-bs-title="{{ __('Need to report the user ?') }}"

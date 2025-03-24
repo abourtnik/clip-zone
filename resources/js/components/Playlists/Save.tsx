@@ -78,7 +78,7 @@ export function Main ({video}: Props) {
         <>
             <button
                 type={'button'}
-                className="btn btn-warning btn-sm rounded-4 px-4"
+                className="btn bg-light-dark btn-sm rounded-4 px-4"
                 title="Save video"
                 onClick={() => setOpen(true)}
             >
