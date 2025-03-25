@@ -65,7 +65,7 @@ function Main ({url} : Props) {
                 }
                 {
                     (isFetchingNextPage || isLoading) &&
-                    [...Array(12).keys()].map(i => <VideoSkeleton key={i}/>)
+                    [...Array(16).keys()].map(i => <VideoSkeleton key={i}/>)
                 }
                 {hasNextPage && <span ref={ref}></span>}
             </div>
