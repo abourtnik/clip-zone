@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @mixin IdeHelperCategory
+ * @mixin IdeHelperDevice
  */
 class Device extends Model
 {

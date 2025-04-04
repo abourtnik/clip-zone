@@ -27,8 +27,8 @@ class UserFilters extends MySQLFilter
         return $this->builder
             ->when($value === 'banned', fn($query) => $query->whereNotNull('banned_at'))
             ->when($value === 'not_confirmed', fn($query) => $query->whereNull('email_verified_at'))
-            ->when($value === 'premium', fn($query) => $query->whereHas('premium_subscription', function ($query) {
-                $query->active();
+            ->when($value === 'premium', fn($query) => $query->whereHas('premium_subscription', function (Builder $query) {
+                $query->scopes('active');
             }));
     }
 }

@@ -8,11 +8,3 @@ parameters:
     level: 1
     scanDirectories:
         - ./helpers
-
-#    ignoreErrors:
-#        - '#PHPDoc tag @var#'
-#
-#    excludePaths:
-#        - ./*/*/FileToBeExcluded.php
-#
-#    checkMissingIterableValueType: false

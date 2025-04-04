@@ -38,7 +38,7 @@
                 @endif
             </div>
             <div class="px-3 px-lg-0">
-                <div class="mt-3 d-flex align-items-center gap-3">
+                <div class="mt-3 d-flex align-items-center gap-3 flex-wrap">
                     @if($video->is_planned)
                         <div class="d-flex alert alert-warning px-2 py-1 align-items-center gap-2 mb-0">
                             <i class="fa-solid fa-clock"></i>
@@ -65,7 +65,7 @@
                 <div class="mt-3 d-flex flex-column flex-xxl-row gap-3 justify-content-between align-items-start align-items-xxl-center">
                     <div class="text-muted">{{trans_choice('views', $video->views_count)}} • {{$video->publication_date?->translatedFormat('d F Y') ?? $video->created_at->translatedFormat('d F Y')}}</div>
                     @auth
-                        <div class="d-flex gap-2 align-items-center overflow-auto w-100">
+                        <div class="d-flex gap-2 align-items-center overflow-auto col-12 w-auto">
                             <interaction-buttons
                                 model="{{get_class($video)}}"
                                 target="{{$video->id}}"

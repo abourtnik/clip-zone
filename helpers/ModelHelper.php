@@ -140,6 +140,40 @@ namespace App\Models{
  * 
  *
  * @property int $id
+ * @property string $tokenable_type
+ * @property int $tokenable_id
+ * @property string $name
+ * @property string $token
+ * @property string|null $abilities
+ * @property \Illuminate\Support\Carbon|null $last_used_at
+ * @property \Illuminate\Support\Carbon|null $expires_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User|null $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereAbilities($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereExpiresAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereLastUsedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereTokenableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereTokenableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
+	#[\AllowDynamicProperties]
+	class IdeHelperDevice {}
+}
+
+namespace App\Models{
+/**
+ * 
+ *
+ * @property int $id
  * @property string|null $file
  * @property int|null $size size in bytes
  * @property \App\Enums\ExportStatus $status
@@ -646,6 +680,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
  * @property-read int|null $comments_count
  * @property-read mixed $country_name
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Device> $devices
+ * @property-read int|null $devices_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $dislikes
  * @property-read int|null $dislikes_count
  * @property-read \App\Models\Pivots\Subscription|\App\Models\Pivots\FavoritePlaylist|null $pivot
