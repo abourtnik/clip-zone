@@ -27,7 +27,7 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @if ($attributes->get('statistics', false) && config('app.statistics_enabled'))
+    @if ($attributes->get('statistics', false) && config('app.statistics_enabled') && !auth()->user()?->is_admin)
     <script defer src="https://stats.antonbourtnik.fr/script.js" data-website-id="4023828e-765e-4411-b34b-66712803430b"></script>
     @endif
 
