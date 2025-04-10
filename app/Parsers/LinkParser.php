@@ -1,14 +1,9 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Parsers;
 
-class Parser
+class LinkParser implements Parseable
 {
-    const array PARSERS = [
-        'links' => 'parseLinks',
-        'timecodes' => 'parseTimeCodes',
-    ];
-
     CONST array VALID_DOMAIN = [
         'aero',
         'asia',
@@ -288,46 +283,11 @@ class Parser
         'zw'
     ];
 
-
-    public static function applyParsers(string|null $string, array $parsers): string|null {
-
-        $result = htmlspecialchars($string);
-
-        foreach ($parsers as $parser) {
-
-            if (!in_array($parser, array_keys(self::PARSERS))) {
-                throw new \Exception('Invalid parser :'. $parser);
-            }
-
-            $method = self::PARSERS[$parser];
-
-            $result = self::$method($result);
-        }
-
-        return $result;
-    }
-
-    private static function parseLinks(string $string): string|null {
-
+    public function parse(string $string): string
+    {
         $regex = '/(https?:\/\/)?([a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.('.implode('|', self::VALID_DOMAIN).')(:[0-9]{1,5})?(\/\S*)?)/im';
 
         return preg_replace($regex, '<a class="text-decoration-none" href="//${2}" target="_blank" title="$0" rel="external nofollow">$0</a>', $string);
     }
 
-    private static function parseTimeCodes(string $string): string|null
-    {
-        $regex = '/(\d{1,2}:){1,2}\d{2}/m';
-
-        return preg_replace_callback($regex, function ($matches) {
-
-            $times = array_reverse(explode(':', $matches[0]));
-
-            $timeCode = array_reduce(array_keys($times), function($carry, $index) use ($times) {
-                return $carry + $times[$index] * pow(60, $index);
-            }  , 0);
-
-            return "<button style='vertical-align: inherit' onclick='time($timeCode)' class='btn btn-link btn-sm p-0 text-decoration-none' data-timecode='$timeCode'>{$matches[0]}</button>";
-
-        }, $string);
-    }
 }

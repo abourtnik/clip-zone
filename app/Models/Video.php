@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Enums\ThumbnailStatus;
 use App\Enums\VideoStatus;
-use App\Helpers\Parser;
+use App\Parsers\LinkParser;
+use App\Parsers\TimeCodeParser;
+use App\Parsers\Parser;
 use App\Models\Interfaces\Reportable;
 use App\Models\Traits\Filterable;
 use App\Models\Traits\HasLike;
@@ -247,14 +249,14 @@ class Video extends Model implements Likeable, Reportable
     protected function shortDescription(): Attribute
     {
         return Attribute::make(
-            get: fn () => Parser::applyParsers(Str::limit($this->description, 200), ['links', 'timecodes'])
+            get: fn () => Parser::apply(Str::limit($this->description, 200), [LinkParser::class, TimeCodeParser::class])
         );
     }
 
     protected function parsedDescription(): Attribute
     {
         return Attribute::make(
-            get: fn () => Parser::applyParsers($this->description, ['links', 'timecodes'])
+            get: fn () => Parser::apply($this->description, [LinkParser::class, TimeCodeParser::class])
         );
     }
 

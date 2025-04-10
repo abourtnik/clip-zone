@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-use App\Helpers\Parser;
+use App\Parsers\LinkParser;
+use App\Parsers\TimeCodeParser;
+use App\Parsers\Parser;
 use App\Models\Interfaces\Likeable;
 use App\Models\Interfaces\Reportable;
 use App\Models\Traits\Filterable;
@@ -104,14 +106,14 @@ class Comment extends Model implements Likeable, Reportable
     protected function shortContent(): Attribute
     {
         return Attribute::make(
-            get: fn () => Parser::applyParsers(Str::limit($this->content, self::SHORT_CONTENT_LIMIT), ['links', 'timecodes'])
+            get: fn () => Parser::apply(Str::limit($this->content, self::SHORT_CONTENT_LIMIT), [LinkParser::class, TimeCodeParser::class])
         );
     }
 
     protected function parsedContent(): Attribute
     {
         return Attribute::make(
-            get: fn () => Parser::applyParsers($this->content, ['links', 'timecodes'])
+            get: fn () => Parser::apply($this->content, [LinkParser::class, TimeCodeParser::class])
         );
     }
 
