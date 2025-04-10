@@ -20,10 +20,9 @@
     <meta property="og:image" content="@yield('image', asset('images/logo.png'))" />
     <meta property="og:language" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
 
-    <link rel="shortcut icon" href="{{asset('favicon.ico')}}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{asset('/images/icons/apple-touch-icon.png')}}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{asset('/images/icons/favicon-32x32.png')}}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('/images/icons/favicon-16x16.png')}}">
+    <link rel="icon" href="{{asset('/icons/favicon.ico')}}" sizes="any">
+    <link rel="apple-touch-icon" href="{{asset('/icons/apple-touch-icon.png')}}">
+    <link rel="manifest" href="/manifest.json" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
