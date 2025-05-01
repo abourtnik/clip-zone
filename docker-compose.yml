@@ -117,8 +117,8 @@ services:
             MINIO_ROOT_USER: minio
             MINIO_ROOT_PASSWORD: password
         volumes:
-            - ./docker/data/minio:/data/minio
-        command: 'minio server /data/minio --console-address ":8900"'
+            - ./docker/data/minio:/data
+        command: 'minio server /data --console-address ":8900"'
         networks:
             - application
     queues:
