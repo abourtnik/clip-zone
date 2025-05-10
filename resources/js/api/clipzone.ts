@@ -94,8 +94,8 @@ export async function searchVideos(query: string): Promise<{data: VideoType[]}> 
     return jsonFetch(API_URL + `/search/videos?q=${query}`, 'POST');
 }
 
-export async function getUserPlaylists(user_id: number, page: number = 1, video_id: number): Promise<Paginator<PlaylistType>> {
-    return jsonFetch(API_URL + `/users/${user_id}/playlists?page=${page}&video_id=${video_id}`);
+export async function getMyPlaylists(video_id: number, cursor: string | null): Promise<CursorPaginator<PlaylistType>> {
+    return jsonFetch(API_URL + `/me/playlists?video_id=${video_id}` + (cursor ? `&cursor=` + cursor  : ''));
 }
 
 export async function createPlaylist(data: PlaylistCreateData): Promise<PlaylistType> {

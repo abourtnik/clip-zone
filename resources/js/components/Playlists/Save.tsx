@@ -1,12 +1,11 @@
 import {Modal} from "react-bootstrap";
-import {useEffect, useState} from "preact/hooks";
-import {InfiniteData, QueryClient, QueryClientProvider, useInfiniteQuery, useQueryClient} from "@tanstack/react-query";
-import {getUserPlaylists, savePlaylist} from "@/api/clipzone";
+import {useState} from "preact/hooks";
+import {InfiniteData, QueryClient, QueryClientProvider, useQueryClient} from "@tanstack/react-query";
+import {getMyPlaylists, savePlaylist} from "@/api/clipzone";
 import {Fragment} from "preact";
 import {PlaylistSaveDataSchema, PlaylistSaveData, PlaylistType, Paginator} from "@/types";
-import {useInView} from "react-intersection-observer";
 import {CreatePlaylist} from "@/components/Playlists/CreatePlaylist";
-import {useErrorMutation} from "@/hooks";
+import {useCursorQuery, useErrorMutation} from "@/hooks";
 import clsx from "clsx";
 import {produce} from "immer";
 
@@ -20,28 +19,19 @@ export function Main ({video}: Props) {
     const [openCreate, setOpenCreate] = useState(false);
     const [saved, setSaved] = useState(false);
 
-    const { ref, inView} = useInView();
-
     const {
         data: playlists,
         isLoading,
         isError,
-        isFetchingNextPage,
-        fetchNextPage,
-        hasNextPage,
         refetch,
-    } = useInfiniteQuery({
+        isFetchingNextPage,
+        hasNextPage,
+        ref,
+    } = useCursorQuery({
         queryKey: ['save'],
-        queryFn: ({pageParam}) => getUserPlaylists(window.USER!.id, pageParam, video),
-        initialPageParam: 1,
+        queryFn: ({pageParam}) => getMyPlaylists(video, pageParam),
         enabled: open,
         staleTime: Infinity,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.meta.current_page === lastPage.meta.last_page) {
-                return undefined
-            }
-            return lastPageParam + 1
-        }
     });
 
     const {mutate, isPending} = useErrorMutation({
@@ -52,12 +42,6 @@ export function Main ({video}: Props) {
             setTimeout(() => setSaved(false), 3000)
         }
     })
-
-    useEffect( () => {
-        if (inView && !isFetchingNextPage && !isError) {
-            fetchNextPage()
-        }
-    }, [inView]);
 
     const handleSubmit = (e: any) => {
 
@@ -89,7 +73,7 @@ export function Main ({video}: Props) {
                 <Modal.Header closeButton>
                     <h5 className="modal-title">Save Video to ...</h5>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className={'overflow-y-auto'} style={{'max-height': '500px'}}>
                     {
                         isLoading &&
                         <div className={'alert alert-primary d-flex align-items-center gap-3 mb-0'}>
@@ -209,7 +193,7 @@ function Playlist ({playlist} : PlaylistProps) {
                         checked={playlist.has_video}
                         onChange={handleChange}
                     />
-                    <label className="form-check-label" htmlFor={'playlist-' + playlist.id}>
+                    <label className="form-check-label text-break" htmlFor={'playlist-' + playlist.id}>
                         {playlist.title}
                     </label>
                 </div>

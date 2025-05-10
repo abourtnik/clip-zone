@@ -51,7 +51,7 @@ class SaveRequest extends FormRequest
                 'required',
                 'numeric',
                 Rule::exists('playlists', 'id')->where(function (Builder $query){
-                    return $query->where('user_id', Auth::user()->id);
+                    return $query->where('user_id', $this->user()->id);
                 })
             ],
             'playlists.*.checked' => [

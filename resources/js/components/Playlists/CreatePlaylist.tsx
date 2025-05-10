@@ -26,7 +26,7 @@ export function CreatePlaylist ({open, setOpen} : Props) {
             queryClient.setQueryData(['save'], (oldData: InfiniteData<Paginator<PlaylistType>> | undefined) => {
                     if (!oldData) return undefined
                     return produce(oldData, draft => {
-                        draft.pages[0].data.push(playlist);
+                        draft.pages[draft.pages.length - 1].data.push(playlist);
                     });
                 }
             )

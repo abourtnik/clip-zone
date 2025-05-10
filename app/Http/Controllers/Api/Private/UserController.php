@@ -40,6 +40,7 @@ class UserController
             $request
                 ->user()
                 ->playlists()
+                ->latest('created_at')
                 ->withCount('videos')
                 ->with('videos')
                 ->when($video_id, function ($query) use ($video_id) {
