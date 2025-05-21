@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+use Illuminate\Validation\Rule;
 class SearchRequest extends FormRequest
 {
     /**
@@ -24,7 +24,11 @@ class SearchRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'q' => 'sometimes|required|string|max:255'
+            'q' => [
+                Rule::requiredIf(request()->is('api/*')),
+                'string',
+                'max:255',
+            ]
        ];
     }
 
