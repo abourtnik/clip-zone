@@ -22,15 +22,12 @@ Open Source Youtube Clone
 ## Installation
 
 * Clone project
-* Run `make init` command on the root folder
+* Run `make install` command on the root folder
+* Setup keys for minio and stripe
 
-Then go to `http://localhost:8080`
-
-## Run seeder
-
-```shell
-make reset
-```
+## Start project
+* Run `make start` to start docker containers
+* Then go to `http://localhost:8080`
 
 ## Storage
 

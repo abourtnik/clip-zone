@@ -13,7 +13,7 @@ use App\Models\Pivots\PlaylistVideo;
 use App\Models\View;
 use Illuminate\Database\Seeder;
 
-class LocalSeeder extends Seeder
+class ModelSeeder extends Seeder
 {
 
     //use WithoutModelEvents;
