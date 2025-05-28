@@ -34,16 +34,15 @@ update: ## Update application
 
 install: ## Install application
 	cp .env.local .env
-	docker compose up php bun -d
+	docker compose up php mariadb bun redis -d
 	docker exec -it php_container composer install
 	docker exec -it php_container php artisan key:generate
-	docker exec -it php_container php artisan storage:link
+	#docker exec -it php_container php artisan storage:link
 	docker exec -it php_container php artisan db:create
 	docker exec -it php_container php artisan migrate
 	docker exec -it php_container php artisan db:seed
 	docker exec -it php_container php artisan optimize
 	docker exec -it php_container php artisan cache:clear
-	docker exec -it bun_container bun install
 	docker compose down
 
 deploy: ## Deploy application
