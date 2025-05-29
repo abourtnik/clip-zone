@@ -37,7 +37,7 @@ window.Echo = new Echo({
     forceTLS: false,
     encrypted: true,
     disableStats: true,
-    enabledTransports: ['ws', 'wss'],
+    enabledTransports: ['ws', 'wss']
 });
 
 Alpine.start()
