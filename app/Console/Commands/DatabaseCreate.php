@@ -12,14 +12,14 @@ class DatabaseCreate extends Command
      *
      * @var string
      */
-    protected $signature = 'db:create';
+    protected $signature = 'db:create {name?}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new MySQL database based on the database config file';
+    protected $description = 'Create a new MySQL database based on the database config file or the provided name';
 
     /**
      * Execute the console command.
@@ -28,7 +28,7 @@ class DatabaseCreate extends Command
      */
     public function handle() : int
     {
-        $name = config("database.connections.mysql.database");
+        $name = $this->argument('name') ?: config("database.connections.mysql.database");
 
         config(["database.connections.mysql.database" => null]);
 

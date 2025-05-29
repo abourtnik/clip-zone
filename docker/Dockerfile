@@ -1,7 +1,7 @@
 FROM php:8.3.16-fpm-alpine
 
 # Install dependencies
-RUN apk --no-cache add curl git wget bash
+RUN apk --no-cache add curl git wget bash ffmpeg
 
 # Add PHP extensions
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/

@@ -1,6 +1,6 @@
 services:
     php:
-        image: abourtnik/laravel
+        image: abourtnik/laravel:1.1
         container_name: php_container
         working_dir: /var/www/html
         volumes:
@@ -123,7 +123,7 @@ services:
             - application
     queues:
         container_name: queues_container
-        image: abourtnik/laravel
+        image: abourtnik/laravel:1.1
         working_dir: /var/www/html
         command: php artisan horizon
         volumes:

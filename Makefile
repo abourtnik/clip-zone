@@ -39,11 +39,16 @@ install: ## Install application
 	docker exec -it php_container php artisan key:generate
 	#docker exec -it php_container php artisan storage:link
 	docker exec -it php_container php artisan db:create
+	docker exec -it php_container php artisan db:create clipzone_test
 	docker exec -it php_container php artisan migrate
 	docker exec -it php_container php artisan db:seed
+	docker exec -it php_container php artisan scout:sync-index-settings
+	docker exec -it php_container artisan log-viewer:publish
+	make helpers
 	docker exec -it php_container php artisan optimize
 	docker exec -it php_container php artisan cache:clear
 	docker compose down
+	make start
 
 deploy: ## Deploy application
 	git pull origin main

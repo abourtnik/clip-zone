@@ -20,7 +20,7 @@ class VideoMetadata
     private static function getFFProbe() {
         if (!isset(self::$FFProbe)) {
             self::$FFProbe = FFProbe::create([
-                'ffprobe.binaries' => storage_path('bin/ffprobe')
+                'ffprobe.binaries' => '/usr/bin/ffprobe'
             ]);
         }
         return self::$FFProbe;
@@ -29,8 +29,8 @@ class VideoMetadata
     private static function getFFMpeg() {
         if (!isset(self::$FFMpeg)) {
             self::$FFMpeg = FFMpeg::create([
-                'ffmpeg.binaries' => storage_path('bin/ffmpeg'),
-                'ffprobe.binaries' => storage_path('bin/ffprobe')
+                'ffmpeg.binaries' => '/usr/bin/ffmpeg',
+                'ffprobe.binaries' => '/usr/bin/ffprobe'
             ]);
         }
         return self::$FFMpeg;
