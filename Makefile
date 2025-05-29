@@ -33,7 +33,7 @@ update: ## Update application
 	php artisan cache:clear
 
 install: ## Install application
-	cp .env.local .env
+	cp .env.example .env
 	docker compose up php mariadb bun redis -d
 	docker exec -it php_container composer install
 	docker exec -it php_container php artisan key:generate
@@ -65,7 +65,7 @@ stripe: ## See Stripe Webhook logs
 	docker logs -f stripe_container
 
 restart-horizon: ## Restart Horizon
-	docker compose restart queues_container
+	docker restart queues_container
 
 analyse: ## Execute Larastan
 	docker exec -it php_container ./vendor/bin/phpstan analyse --memory-limit=2G
