@@ -34,7 +34,7 @@ update: ## Update application
 
 install: ## Install application
 	cp .env.example .env
-	docker compose up php mariadb bun redis -d
+	docker compose up php mariadb bun redis meilisearch -d
 	docker exec -it php_container composer install
 	docker exec -it php_container php artisan key:generate
 	#docker exec -it php_container php artisan storage:link
@@ -43,7 +43,7 @@ install: ## Install application
 	docker exec -it php_container php artisan migrate
 	docker exec -it php_container php artisan db:seed
 	docker exec -it php_container php artisan scout:sync-index-settings
-	docker exec -it php_container artisan log-viewer:publish
+	docker exec -it php_container php artisan log-viewer:publish
 	make helpers
 	docker exec -it php_container php artisan optimize
 	docker exec -it php_container php artisan cache:clear
