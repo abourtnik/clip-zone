@@ -1,0 +1,44 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Public Access",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "*"
+                ]
+            },
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::clipzone/avatars/*",
+                "arn:aws:s3:::clipzone/banners/*",
+                "arn:aws:s3:::clipzone/categories/*"
+            ]
+        },
+        {
+            "Sid": "Video Access",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "*"
+                ]
+            },
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": [
+                "arn:aws:s3:::clipzone/videos/*"
+            ],
+            "Condition": {
+                "StringLike": {
+                    "aws:UserAgent": [
+                        "SECRET"
+                    ]
+                }
+            }
+        }
+    ]
+}

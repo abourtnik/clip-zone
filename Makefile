@@ -44,6 +44,10 @@ install: ## Install application
 	docker exec -it php_container php artisan db:seed
 	docker exec -it php_container php artisan scout:sync-index-settings
 	docker exec -it php_container php artisan log-viewer:publish
+	docker exec -it minio_container mc alias set dockerminio http://minio:9000 minio password
+	docker exec -it minio_container mc mb dockerminio/clipzone
+	docker exec -it minio_container mc admin accesskey create dockerminio minio --access-key minio-id --secret-key minio-secret
+	docker exec -it minio_container mc anonymous set-json /home/policy.json dockerminio/clipzone
 	make helpers
 	docker exec -it php_container php artisan optimize
 	docker exec -it php_container php artisan cache:clear

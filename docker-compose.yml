@@ -108,7 +108,7 @@ services:
         networks:
             - application
     minio:
-        image: minio/minio:latest
+        image: minio/minio:RELEASE.2025-04-22T22-12-26Z
         container_name: minio_container
         ports:
             - "9000:9000"
@@ -118,6 +118,7 @@ services:
             MINIO_ROOT_PASSWORD: password
         volumes:
             - ./docker/data/minio:/data
+            - ./docker/policy.json:/home/policy.json
         command: 'minio server /data --console-address ":8900"'
         networks:
             - application
