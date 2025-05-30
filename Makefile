@@ -37,13 +37,13 @@ install: ## Install application
 	docker compose up php mariadb bun redis meilisearch minio -d
 	docker exec -it php_container composer install
 	docker exec -it php_container php artisan key:generate
-	#docker exec -it php_container php artisan storage:link
 	docker exec -it php_container php artisan db:create
 	docker exec -it php_container php artisan db:create clipzone_test
 	docker exec -it php_container php artisan migrate
 	docker exec -it php_container php artisan db:seed
 	docker exec -it php_container php artisan scout:sync-index-settings
 	docker exec -it php_container php artisan log-viewer:publish
+	docker exec -it php_container mkdir -p storage/app/videos storage/app/spams storage/app/thumbnails
 	docker exec -it minio_container mc alias set dockerminio http://minio:9000 minio password
 	docker exec -it minio_container mc mb dockerminio/clipzone
 	docker exec -it minio_container mc admin accesskey create dockerminio minio --access-key minio-id --secret-key minio-secret
