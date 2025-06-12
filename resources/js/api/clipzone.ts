@@ -91,7 +91,7 @@ export async function getPlaylistVideos(playlist_uuid: string | null, page: numb
 }
 
 export async function searchVideos(query: string): Promise<{data: VideoType[]}> {
-    return jsonFetch(API_URL + `/search/videos?q=${query}`, 'POST');
+    return jsonFetch(API_URL + `/search/videos?q=${query}`);
 }
 
 export async function getMyPlaylists(video_id: number, cursor: string | null): Promise<CursorPaginator<PlaylistType>> {

@@ -2,11 +2,11 @@
 
 namespace App\Providers;
 
+use App\Listeners\AccountEventSubscriber;
 use App\Listeners\ActivityEventSubscriber;
 use App\Listeners\ExportEventSubscriber;
 use App\Listeners\BackgroundEventSubscriber;
 use App\Listeners\SearchEventSubscriber;
-use App\Listeners\SendEmailVerificationNotification;
 use App\Listeners\SuccessfulLogin;
 use App\Listeners\UserEventSubscriber;
 use App\Listeners\VideoEventSubscriber;
@@ -19,10 +19,7 @@ use App\Observers\CommentObserver;
 use App\Observers\UserObserver;
 use App\Observers\VideoObserver;
 use Illuminate\Auth\Events\Login;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Event;
 
 
 class EventServiceProvider extends ServiceProvider
@@ -44,7 +41,8 @@ class EventServiceProvider extends ServiceProvider
         ExportEventSubscriber::class,
         BackgroundEventSubscriber::class,
         ActivityEventSubscriber::class,
-        SearchEventSubscriber::class
+        SearchEventSubscriber::class,
+        AccountEventSubscriber::class
     ];
 
     /**
@@ -68,13 +66,5 @@ class EventServiceProvider extends ServiceProvider
     public function shouldDiscoverEvents() : bool
     {
         return false;
-    }
-
-    protected function configureEmailVerification(): void
-    {
-        if (! isset($this->listen[Registered::class]) ||
-            ! in_array(\Illuminate\Auth\Listeners\SendEmailVerificationNotification::class, Arr::wrap($this->listen[Registered::class]))) {
-            Event::listen(Registered::class, SendEmailVerificationNotification::class);
-        }
     }
 }

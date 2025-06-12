@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\OAuthController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegistrationController;
+use App\Http\Controllers\Auth\EmailVerification;
 
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\UserController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\PremiumController;
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\LangController;
 
+use App\Http\Controllers\User\PageController as UserPageController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\User\PlaylistController as PlaylistUserController;;
@@ -64,7 +66,7 @@ Route::post('stripe-webhook', [StripeWebhookController::class, 'index'])
     ->middleware(VerifyWebhookSignature::class)
     ->name('stripe_webhook');
 
-Route::name('premium.')->middleware(['auth', 'can:premiumSubscribe,App\Models\User'])->controller(PremiumController::class)->group(function () {
+Route::name('premium.')->middleware(['auth', 'can:premiumSubscribe,App\Models\User', 'verified'])->controller(PremiumController::class)->group(function () {
     Route::get('/subscribe/{plan}', 'subscribe')
         ->name('subscribe');
 });
@@ -179,7 +181,6 @@ Route::controller(OAuthController::class)->name('oauth.')->prefix('oauth')->grou
 Route::controller(RegistrationController::class)->middleware('guest')->group(function () {
     Route::get('/register', 'show')->name('registration');
     Route::post('/register', 'register')->name('registration.perform');
-    Route::get('/register/verify/{id}/{token}', 'confirm')->name('registration.confirm');
 });
 
 // PASSWORD RESET
@@ -190,16 +191,32 @@ Route::controller(PasswordController::class)->middleware('guest')->group(functio
     Route::post('/reset-password', 'update')->name('password.update');
 });
 
+// EMAIL VERIFICATION
+Route::controller(EmailVerification::class)->middleware('auth')->name('verification.')->group(function () {
+    Route::get('/email/verify', 'notice')->name('notice');
+    Route::get('/email/verify/{id}/{hash}', 'verify')->name('verify')->middleware('signed');
+    Route::post('/email/verification-notification', 'send')->name('send')->middleware('rate:1');
+    Route::get('/email/verify-update/{id}/{hash}', 'verifyUpdate')->name('verify.update')->middleware('signed');
+    Route::post('/email/verification-notification-update', 'sendUpdate')->name('send.update')->middleware('rate:1');
+    Route::post('/email/verification-notification-update-cancel', 'cancelUpdate')->name('verify.update.cancel');
+});
+
 // USER
 Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function () {
 
+    // Pages
+    Route::controller(UserPageController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/subscribers', 'subscribers')->name('subscribers');
+    });
+
     // Profile
     Route::controller(ProfileController::class)->group(function () {
-        Route::get('/', 'index')->name('index');
         Route::get('/edit', 'edit')->name('edit');
         Route::put('/update', 'update')->name('update');
-        Route::post('/update-password', 'updatePassword')->name('update-password');
-        Route::delete('/delete', 'delete')->name('delete');
+        Route::post('/update-phone', 'updatePhone')->name('update.phone');
+        Route::post('/update-password', 'updatePassword')->name('update.password')->middleware('password.confirm');;
+        Route::delete('/delete', 'delete')->name('delete')->middleware('password.confirm');;
     });
 
     // Videos
@@ -232,7 +249,7 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     Route::resource('videos.subtitles', SubtitleController::class)->shallow();
 
     // Playlists
-    Route::resource('playlists', PlaylistUserController::class)->except(['show']);
+    Route::resource('playlists', PlaylistUserController::class)->except(['show'])->middlewareFor(['create', 'store'], 'verified');
 
     // Activity
     Route::controller(ActivityController::class)->prefix('activity')->name('activity.')->group(function () {
@@ -259,8 +276,6 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
             ->name('click')
             ->can('click', 'notification');
     });
-
-    Route::get('/subscribers', [ProfileController::class, 'subscribers'])->name('subscribers');
 });
 
 // ADMIN
@@ -278,6 +293,7 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
             ->name('ban')
             ->can('ban', 'user');
         Route::post('/{user}/confirm', 'confirm')->name('confirm');
+        Route::post('/{user}/premium', 'premium')->name('premium');
         Route::get('/export', 'export')->name('export');
     });
 

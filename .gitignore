@@ -44,3 +44,5 @@ storage/app/words.txt
 # IDE Helpers
 .phpstorm.meta.php
 _ide_helper.php
+
+TODO.md

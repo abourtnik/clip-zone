@@ -38,10 +38,6 @@ class LoginController
 
             RateLimiter::clear($this->throttleKey());
 
-            if (!$user->hasVerifiedEmail()) {
-                return back()->with('error', __('auth.email_not_verified'))->onlyInput('username');
-            }
-
             Auth::login($user, $remember);
 
             return redirect()->intended(route('user.index'));

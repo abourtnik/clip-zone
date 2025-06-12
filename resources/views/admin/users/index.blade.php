@@ -27,7 +27,7 @@
                 <th scope="col" style="min-width: 180px;">Registered</th>
                 <th scope="col" style="min-width: 180px;">Last login</th>
                 <th scope="col" style="min-width: 110px;">Ban</th>
-                <th scope="col" style="min-width: 146px;">Actions</th>
+                <th scope="col" style="min-width: 200px;">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -114,12 +114,21 @@
                     @endif
                 </td>
                 <td class="align-middle">
-                    <div class="d-flex gap-1">
+                    <div class="d-flex gap-1 align-items-center">
                         @if($user->hasVerifiedEmail())
                             <a target="_blank" class="btn btn-primary btn-sm" href="{{route('impersonate', $user)}}">
                                 <i class="fa-solid fa-user-ninja"></i>
                                 Ninja
                             </a>
+                            @if(!$user->is_premium)
+                                <form method="POST" action="{{route('admin.users.premium', $user)}}">
+                                    @csrf
+                                    <button type="submit" class="btn btn-warning btn-sm text-white">
+                                        <i class="fa-solid fa-star"></i>
+                                        Premium
+                                    </button>
+                                </form>
+                            @endif
                         @else
                             <form method="POST" action="{{route('admin.users.confirm', $user)}}">
                                 @csrf

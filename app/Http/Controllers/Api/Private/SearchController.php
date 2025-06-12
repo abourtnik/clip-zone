@@ -9,7 +9,6 @@ use App\Http\Resources\Video\VideoListResource;
 use App\Models\User;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,7 +16,7 @@ class SearchController
 {
     public function users(SearchRequest $request): ResourceCollection {
 
-        $q = $request->validated('q');
+        $q = $request->string('q');
 
         $match = '%'.$q.'%';
 
@@ -40,9 +39,9 @@ class SearchController
         );
     }
 
-    public function videos(Request $request): ResourceCollection {
+    public function videos(SearchRequest $request): ResourceCollection {
 
-        $q = $request->get('q');
+        $q = $request->string('q');
 
         $match = '%'.$q.'%';
 

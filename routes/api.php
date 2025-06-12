@@ -43,34 +43,41 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post("subscribe/{user}", [SubscribeController::class, 'subscribe'])
         ->name('subscribe')
         ->can('subscribe', 'user')
-        ->middleware('throttle:subscribe')
+        ->middleware(['throttle:subscribe', 'verified'])
         ->missing(fn() => abort(404, 'User not found'));
 
     // VIDEOS
-    Route::controller(VideoController::class)->prefix('videos')->name('videos.')->group(function () {
-        Route::post('/upload', 'upload')
-            ->name('upload')
-            ->middleware('throttle:upload')
-            ->can('upload', Video::class);
-        Route::delete('/{video:uuid}', 'delete')
-            ->name('delete');
+    Route::controller(VideoController::class)
+        ->prefix('videos')
+        ->name('videos.')
+        ->middleware('verified')
+        ->group(function () {
+            Route::post('/upload', 'upload')
+                ->name('upload')
+                ->middleware('throttle:upload')
+                ->can('upload', Video::class);
+            Route::delete('/{video:uuid}', 'delete')
+                ->name('delete');
     });
 
     Route::middleware('throttle:api')->group(function () {
 
         // INTERACTIONS
-        Route::name('interactions.')->controller(InteractionController::class)->group(function () {
-            Route::get('/videos/{video:id}/interactions', 'list')->name('list');
-            Route::post('/like', 'like')->name('like');
-            Route::post('/dislike', 'dislike')->name('dislike');
+        Route::name('interactions.')
+            ->controller(InteractionController::class)
+            ->middleware('verified')
+            ->group(function () {
+                Route::get('/videos/{video:id}/interactions', 'list')->name('list');
+                Route::post('/like', 'like')->name('like');
+                Route::post('/dislike', 'dislike')->name('dislike');
         });
 
         // REPORT
-        Route::post('/report', [ReportController::class, 'report'])->name('report');
+        Route::post('/report', [ReportController::class, 'report'])->name('report')->middleware('verified');
 
         // PLAYLIST
         Route::controller(PlaylistController::class)->prefix('playlists')->name('playlists.')->group(function () {
-            Route::post('/', 'store')->name('store');
+            Route::post('/', 'store')->name('store')->middleware('verified');
             Route::post('/save', 'save')->name('save');
             Route::delete('/{playlist:uuid}', 'delete')->name('delete');
         });
@@ -96,10 +103,10 @@ Route::middleware('auth:sanctum')->group(function () {
         // SEARCH
         Route::controller(SearchController::class)->prefix('search')->name('search.')->group(function () {
             Route::get('/users', 'users')->name('users');
-            Route::post('/videos', 'videos')->name('videos');
+            Route::get('/videos', 'videos')->name('videos');
         });
 
-        // CURRENT USER
+        // CURRENT USER (for MOBILE)
         Route::prefix('me')
             ->name('me.')
             ->controller(UserController::class)
@@ -181,7 +188,7 @@ Route::prefix('videos/{video:uuid}/comments')->name('comments.')
         Route::get('/', 'index')->name('index');
         Route::get('/{comment}/replies', 'replies')->name('replies');
         Route::middleware('auth:sanctum')->group(function () {
-            Route::post('/', 'store')->name('store');
+            Route::post('/', 'store')->name('store')->middleware('verified');
             Route::put('/{comment}', 'update')->name('update');
             Route::delete('/{comment}', 'delete')->name('delete');
             Route::post('/{comment}/pin', 'pin')->name('pin');

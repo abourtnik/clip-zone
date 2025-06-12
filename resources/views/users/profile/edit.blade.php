@@ -30,6 +30,23 @@
         </div>
         <div class="col-12 col-xl-8">
             <div class="card shadow-soft my-3">
+                @if (!$user->hasVerifiedEmail())
+                    <div class="alert alert-primary fw-bold d-flex flex-column flex-lg-row align-items-center justify-content-between gap-4 radius-end-0 radius-start-0">
+                        <div class="text-center">Please verify your email address for access all features</div>
+                        <form
+                            method="POST"
+                            action="{{route('verification.send')}}"
+                            x-data="{timer: {{ session()->get("verification.send|$user->id:next")?->isFuture() ? (int) now()->diffInSeconds(session()->get("verification.send|$user->id:next")) : 0}}}"
+                            x-init="const t = setInterval(() => timer === 0 ? clearInterval(t) : timer--, 1000)"
+                        >
+                            @csrf
+                            <button type="submit" class="btn btn-primary btn-sm d-flex align-items-center gap-1" :disabled="timer > 0">
+                                <span>{{ __('Resend verification email') }}</span>
+                                <div x-show="timer > 0">(<span x-text="timer"></span>)</div>
+                            </button>
+                        </form>
+                    </div>
+                @endif
                 <form action="{{ route('user.update') }}" method="POST" enctype="multipart/form-data">
                     <div class="card-body">
                         @method('PUT')
@@ -174,7 +191,34 @@
                             </div>
                             <div class="col-12 col-sm-6 mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required value="{{old('email', $user->email)}}">
+                                <input type="email" class="form-control" id="email" name="email" required value="{{old('email', $user->email)}}" @disabled($user->getTemporaryEmailForVerification())>
+                                @if($user->getTemporaryEmailForVerification())
+                                    <p class="form-text text-danger text-sm mb-1">
+                                        Please confirm your new email : <strong>{{$user->getTemporaryEmailForVerification()}}</strong> by clicking the link in the confirmation email sent to you.
+                                    </p>
+                                    <div class="d-flex align-items-center gap-1 justify-content-start">
+                                        <button
+                                            type="submit"
+                                            form="resend-notification-form"
+                                            class="flex gap-1 btn btn-link btn-sm p-0 text-decoration-none"
+                                            x-data="{timer: {{ session()->get("verification.send.update|$user->id:next")?->isFuture() ? (int) now()->diffInSeconds(session()->get("verification.send.update|$user->id:next")) : 0}}}"
+                                            x-init="const t = setInterval(() => timer === 0 ? clearInterval(t) : timer--, 1000)"
+                                            :disabled="timer > 0"
+                                        >
+                                            <span>{{ __('Resend verification email') }}</span>
+                                            <span x-show="timer > 0">(<span x-text="timer"></span>)</span>
+                                        </button>
+                                        <span>·</span>
+                                        <button
+                                            type="submit"
+                                            form="cancel-notification-form"
+                                            class="btn btn-link btn-sm p-0 text-decoration-none"
+                                        >
+                                            {{ __('Cancel') }}
+                                        </button>
+                                    </div>
+
+                                @endif
                             </div>
                             <div class="col-12 col-sm-6 mb-3">
                                 <label for="country" class="form-label">Country</label>
@@ -193,6 +237,12 @@
                             Update Profile
                         </button>
                     </div>
+                </form>
+                <form id="resend-notification-form" class="d-none" method="POST" action="{{route('verification.send.update')}}">
+                    @csrf
+                </form>
+                <form id="cancel-notification-form" class="d-none" method="POST" action="{{route('verification.verify.update.cancel')}}">
+                    @csrf
                 </form>
             </div>
         </div>
@@ -390,12 +440,57 @@
     </div>
     <div class="row align-items-start my-3">
         <div class="col-12 col-xl-4">
+            <h2>Security</h2>
+            <p class="text-muted">Manage your account security</p>
+        </div>
+        <div class="col-12 col-xl-8">
+            <div class="card shadow-soft my-3">
+                <form action="{{ route('user.update.phone') }}" method="POST">
+                    <div class="card-body">
+                        @csrf
+                        <div class="row">
+                            <div class="col-12 col-sm-6 mb-3" x-data="{selected: {flag : '🇫🇷', code : '+33'}}">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <div class="input-group mb-3">
+                                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span x-text="selected.flag"></span>
+                                        <span x-text="selected.code"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @foreach(['🇫🇷' => '+33', '🇺🇸' => '+1'] as $flag => $code)
+                                            <li x-show="selected.flag !== '{{$flag}}'">
+                                                <button class="dropdown-item d-flex align-items-center gap-2" @click="selected = {flag : '{{$flag}}', code : '{{$code}}' }">
+                                                    <span>{{$flag}}</span>
+                                                    <span>{{$code}}</span>
+                                                </button>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                    <input type="hidden" name="code" :value="selected.code" required>
+                                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                                    <button class="btn btn-primary" type="submit">Send Code</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-user-lock"></i>
+                            Update Security Information
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-start my-3">
+        <div class="col-12 col-xl-4">
             <h2>Update Password</h2>
             <p class="text-muted">Ensure your account using a long, random password to stay secure.</p>
         </div>
         <div class="col-12 col-xl-8">
             <div class="card shadow-soft my-3">
-                <form action="{{ route('user.update-password') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('user.update.password') }}" method="POST" enctype="multipart/form-data">
                     <div class="card-body">
                         @csrf
                         <div class="row">

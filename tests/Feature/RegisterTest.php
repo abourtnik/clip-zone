@@ -2,7 +2,7 @@
 
 namespace Feature;
 
-use App\Notifications\Account\VerifyEmail;
+use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -35,8 +35,7 @@ class RegisterTest extends TestCase
                 'password_confirmation' => 'aaaaaaaa',
                 'cgu' => true,
             ])
-            ->assertRedirectToRoute('login')
-            ->assertSessionHas('success');;
+            ->assertRedirectToRoute('user.edit');
 
         $this->assertDatabaseCount('users', 1);
 

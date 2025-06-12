@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\VideoStatus;
 use App\Events\UserBanned;
 use App\Exports\UsersExport;
-use App\Filters\UserFilters;
+use App\Models\Plan;
 use App\Models\User;
 use App\Services\ExportService;
 use Illuminate\Contracts\View\View;
@@ -52,14 +52,19 @@ class UserController
 
         UserBanned::dispatch($user);
 
-        return redirect()->route('admin.users.index');
+        return redirect(url()->previous());
     }
 
     public function confirm (User $user) : RedirectResponse {
 
         $user->markEmailAsVerified();
 
-        return redirect()->route('admin.users.index');
+        return redirect(url()->previous());
+    }
+
+    public function premium (User $user) : RedirectResponse {
+
+        return redirect(url()->previous());
     }
 
     public function export (Request $request, ExportService $exportService): RedirectResponse {

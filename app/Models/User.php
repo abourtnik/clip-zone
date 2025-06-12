@@ -10,9 +10,9 @@ use App\Models\Pivots\Subscription;
 use App\Models\Subscription as PremiumSubscription;
 use App\Models\Traits\Filterable;
 use App\Models\Traits\HasReport;
-use App\Notifications\Account\PasswordUpdate;
+use App\Models\Traits\MustVerifyPhone;
+use App\Models\Traits\MustVerifyUpdatedEmail;
 use App\Notifications\Account\ResetPassword;
-use App\Notifications\Account\VerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -39,7 +39,7 @@ use Symfony\Component\Intl\Countries;
 
 class User extends Authenticatable implements MustVerifyEmail, Reportable
 {
-    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable, Filterable, HasApiTokens;
+    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable, Filterable, HasApiTokens, MustVerifyUpdatedEmail, MustVerifyPhone;
 
     protected $guarded = ['id', 'is_admin'];
 
@@ -55,8 +55,8 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         'last_login_at' => 'datetime'
     ];
 
-    public const AVATAR_FOLDER = 'avatars';
-    public const BANNER_FOLDER = 'banners';
+    public const string AVATAR_FOLDER = 'avatars';
+    public const string BANNER_FOLDER = 'banners';
 
     /**
      * -------------------- RELATIONS --------------------
@@ -352,15 +352,6 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     }
 
     /**
-     * Send e-mail for verify account.
-     *
-     * @return void
-     */
-    public function sendEmailVerificationNotification () : void {
-        $this->notify(new VerifyEmail);
-    }
-
-    /**
      * Send a password reset notification to the user.
      *
      * @param  string  $token
@@ -369,37 +360,6 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     public function sendPasswordResetNotification($token) : void
     {
         $this->notify(new ResetPassword($token));
-    }
-
-
-    /**
-     * Mark the given user's email as verified.
-     *
-     * @return bool
-     */
-    public function markEmailAsVerified(): bool
-    {
-        return $this->forceFill([
-            'email_verified_at' => $this->freshTimestamp(),
-            'confirmation_token' => null,
-        ])->save();
-    }
-
-    /**
-     * Update User Password
-     *
-     * @param string $password
-     * @return void
-     */
-    public function updatePassword(string $password): void
-    {
-        $this->update([
-            'password' => $password
-        ]);
-
-        $this->setRememberToken(Str::random(60));
-
-        $this->notify(new PasswordUpdate());
     }
 
     /**

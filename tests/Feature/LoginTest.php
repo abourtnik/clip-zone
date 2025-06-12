@@ -59,26 +59,6 @@ class LoginTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_login_email_not_verified() :void
-    {
-        $user = User::factory()->create([
-            'email' => 'test@test.fr',
-            'password' => ($password = Hash::make('password')),
-            'email_verified_at' => null
-        ]);
-
-        $response = $this->from(route('login'))->post(route('login.perform'), [
-            'username' => $user->email,
-            'password' => $password
-        ]);
-
-        $response->assertRedirect(route('login'));
-        $response->assertSessionHas('error', __('auth.email_not_verified'));
-
-        $this->assertTrue(session()->hasOldInput('username'));
-        $this->assertGuest();
-    }
-
     public function test_login_banned_user() :void
     {
         $user = User::factory()->create([
