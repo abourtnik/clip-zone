@@ -18,7 +18,7 @@
                             <form
                                 method="POST"
                                 action="{{route('verification.send')}}"
-                                x-data="{timer: {{ session()->get("verification.send|$user->id:next")?->isFuture() ? (int) now()->diffInSeconds(session()->get("verification.send|$user->id:next")) : 0}}}"
+                                x-data="{timer: {{ session()->get('verification.send|'.auth()->user()->id.':next')?->isFuture() ? (int) now()->diffInSeconds(session()->get('verification.send|'.auth()->user()->id.':next')) : 0}}}"
                                 x-init="const t = setInterval(() => timer === 0 ? clearInterval(t) : timer--, 1000)"
                             >
                                 @csrf
