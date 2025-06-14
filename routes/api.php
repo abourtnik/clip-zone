@@ -56,8 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
                 ->name('upload')
                 ->middleware('throttle:upload')
                 ->can('upload', Video::class);
-            Route::delete('/{video:uuid}', 'delete')
-                ->name('delete');
+            Route::delete('/{video:uuid}', 'delete')->name('delete')->can('delete', Video::class);;
     });
 
     Route::middleware('throttle:api')->group(function () {
@@ -67,7 +66,7 @@ Route::middleware('auth:sanctum')->group(function () {
             ->controller(InteractionController::class)
             ->middleware('verified')
             ->group(function () {
-                Route::get('/videos/{video:id}/interactions', 'list')->name('list');
+                Route::get('/videos/{video:id}/interactions', 'list')->name('list')->can('interactions', 'video');
                 Route::post('/like', 'like')->name('like');
                 Route::post('/dislike', 'dislike')->name('dislike');
         });
@@ -79,7 +78,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::controller(PlaylistController::class)->prefix('playlists')->name('playlists.')->group(function () {
             Route::post('/', 'store')->name('store')->middleware('verified');
             Route::post('/save', 'save')->name('save');
-            Route::delete('/{playlist:uuid}', 'delete')->name('delete');
+            Route::delete('/{playlist:uuid}', 'delete')->name('delete')->can('delete', 'playlist');
         });
 
         // NOTIFICATIONS

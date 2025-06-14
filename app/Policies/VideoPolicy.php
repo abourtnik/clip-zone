@@ -245,4 +245,18 @@ class VideoPolicy
             ? Response::allow()
             : Response::denyWithStatus(403, 'You are not authorized to interact with this video');
     }
+
+    /**
+     * Determine whether the user can see video interactions.
+     *
+     * @param User $user
+     * @param Video $video
+     * @return Response|bool
+     */
+    public function interactions(User $user, Video $video): Response|bool
+    {
+        return $video->is_active || $video->user->is($user)
+            ? Response::allow()
+            : Response::denyWithStatus(403, 'You are not authorized to see his video interactions');
+    }
 }
