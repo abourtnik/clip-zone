@@ -9,6 +9,7 @@ use App\Http\Requests\Playlist\UpdatePlaylistRequest;
 use App\Models\Playlist;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -95,5 +96,11 @@ class PlaylistController extends Controller
         $playlist->delete();
 
         return redirect()->route('user.playlists.index');
+    }
+
+    public function favorite (Playlist $playlist) : Response {
+
+        Auth::user()->favorites_playlist()->toggle($playlist->id);
+        return response()->noContent();
     }
 }

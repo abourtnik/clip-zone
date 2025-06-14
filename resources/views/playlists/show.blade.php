@@ -30,11 +30,23 @@
                         </a>
                         @endif
                         @auth
-                            <button x-show.important="!favorite" @click="favorite = true;" class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button" data-url="{{route('playlist.favorite', $playlist)}}">
+                            <button
+                                x-show.important="!favorite"
+                                @click="favorite = true;"
+                                class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button"
+                                data-url="{{route('user.playlists.favorite', $playlist)}}"
+                                data-method="POST"
+                            >
                                 <i class="fa-regular fa-heart"></i>
                                 <span>Add to favorites</span>
                             </button>
-                            <button x-show.important="favorite" @click="favorite = false;" class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button" data-url="{{route('playlist.remove-favorite', $playlist)}}">
+                            <button
+                                x-show.important="favorite"
+                                @click="favorite = false;"
+                                class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button"
+                                data-url="{{route('user.playlists.favorite', $playlist)}}"
+                                data-method="POST"
+                            >
                                 <i class="fa-solid fa-heart"></i>
                                 <span>Remove from favorites</span>
                             </button>

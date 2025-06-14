@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\VideoStatus;
 use App\Models\Playlist;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 
 class PlaylistController
@@ -32,17 +30,5 @@ class PlaylistController
                 ->latest('added_at')
                 ->get()
         ]);
-    }
-
-    public function favorite (Playlist $playlist) : Response {
-
-        Auth::user()->favorites_playlist()->attach($playlist->id);
-        return response()->noContent();
-    }
-
-    public function removeFavorite (Playlist $playlist) : Response {
-
-        Auth::user()->favorites_playlist()->detach($playlist->id);
-        return response()->noContent();
     }
 }

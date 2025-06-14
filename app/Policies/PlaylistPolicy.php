@@ -98,4 +98,18 @@ class PlaylistPolicy
             ? Response::allow()
             : Response::denyWithStatus(403);
     }
+
+    /**
+     * Determine whether the user can favorite the playlist.
+     *
+     * @param  User $user
+     * @param  Playlist $playlist
+     * @return Response|bool
+     */
+    public function favorite(User $user, Playlist $playlist): Response|bool
+    {
+        return $playlist->is_active || $playlist->user()->is($user) || $playlist->user()->is(auth('sanctum')->user())
+            ? Response::allow()
+            : Response::denyWithStatus(404, 'This playlist is private');
+    }
 }

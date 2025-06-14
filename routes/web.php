@@ -119,8 +119,6 @@ Route::controller(PlaylistController::class)->name('playlist.')->group(function 
     Route::get('/playlist/{playlist:uuid}', 'show')
         ->name('show')
         ->can('show', 'playlist');
-    Route::get('/{playlist}/favorite', 'favorite')->name('favorite');
-    Route::get('/{playlist}/remove-favorite', 'removeFavorite')->name('remove-favorite');
     Route::get('/playlists/manage', 'manage')->name('manage')->middleware('auth');
 });
 
@@ -250,6 +248,7 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
 
     // Playlists
     Route::resource('playlists', PlaylistUserController::class)->except(['show'])->middlewareFor(['create', 'store'], 'verified');
+    Route::post('playlists/{playlist}/favorite', [PlaylistUserController::class, 'favorite'])->name('playlists.favorite')->can('favorite', 'playlist');
 
     // Activity
     Route::controller(ActivityController::class)->prefix('activity')->name('activity.')->group(function () {
