@@ -61,9 +61,7 @@ class UserPolicy
      */
     public function ban (User $user, User $model): Response|bool
     {
-        return !$model->is_premium
-            ? Response::allow()
-            : Response::denyWithStatus(403, 'You can\'t ban premium user');
+        return !$model->is_premium && !$model->is_admin && !$model->is_banned;
     }
 
     /**
@@ -77,5 +75,17 @@ class UserPolicy
         return $user->has_current_subscription
             ? Response::denyWithStatus(403, "You already have an active subscription.")
             : Response::allow();
+    }
+
+    /**
+     * Determine whether admin can delete user.
+     *
+     * @param User $user
+     * @param User $model
+     * @return Response|bool
+     */
+    public function delete (User $user, User $model): Response|bool
+    {
+        return !$model->is_premium && !$model->is_admin;
     }
 }

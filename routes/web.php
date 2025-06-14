@@ -294,6 +294,7 @@ Route::prefix('admin')->middleware('admin')->name('admin.')->group(function () {
             ->can('ban', 'user');
         Route::post('/{user}/confirm', 'confirm')->name('confirm');
         Route::post('/{user}/premium', 'premium')->name('premium');
+        Route::delete('/{user}/delete', 'delete')->name('delete');
         Route::get('/export', 'export')->name('export');
     });
 

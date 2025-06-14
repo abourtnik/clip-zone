@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Enums\VideoStatus;
 use App\Events\UserBanned;
 use App\Exports\UsersExport;
-use App\Models\Plan;
 use App\Models\User;
+use App\Notifications\Account\DeleteAccount;
 use App\Services\ExportService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -63,6 +63,15 @@ class UserController
     }
 
     public function premium (User $user) : RedirectResponse {
+
+        return redirect(url()->previous());
+    }
+
+    public function delete (User $user) : RedirectResponse {
+
+        $user->notify(new DeleteAccount());
+
+        $user->delete();
 
         return redirect(url()->previous());
     }

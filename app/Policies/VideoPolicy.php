@@ -13,7 +13,7 @@ class VideoPolicy
 {
     use HandlesAuthorization;
 
-    public const array ADMIN_ABILITIES = ['view', 'show', 'download', 'file', 'thumbnail', 'thumbnails'];
+    public const array ADMIN_ABILITIES = ['view', 'show', 'file', 'thumbnail', 'thumbnails'];
 
     public function before(?User $user, string $ability): bool|null
     {
@@ -72,7 +72,11 @@ class VideoPolicy
      */
     public function download(User $user, Video $video): Response|bool
     {
-        return $video->is_uploaded && (($video->is_public && $user->is_premium) || $video->user()->is($user))
+        if (!$video->is_uploaded) {
+            return false;
+        }
+
+        return ($video->is_public && $user->is_premium) || $video->user()->is($user) || $user->is_admin
             ? Response::allow()
             : Response::denyWithStatus(403, 'You are not authorized to download this video');
     }

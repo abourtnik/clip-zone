@@ -8,17 +8,17 @@
             <div class="modal-body">
                 <div class="mb-2 p-2 bg-light-dark text-black">
                     <div class="d-flex align-items-center gap-2 mb-2">
-                        <img id="video_image" style="width: 120px;height: 68px" src="" alt="" class="video_poster video_alt">
+                        <img style="width: 120px;height: 68px" :src="video.poster" :alt="`${video.title} poster`">
                         <div>
-                            <small id="video_title"></small>
-                            <div id="video_infos" class="text-muted video_infos text-sm mt-1"></div>
+                            <small  x-text="video.title"></small>
+                            <div  class="text-muted video_infos text-sm mt-1" x-text="video.infos"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <form id="video_route" method="POST" action="">
+                <form method="POST" :action="video.route">
                     @csrf
                     <button type="submit" class="btn btn-danger">
                         <i class="fa-solid fa-ban"></i> &nbsp;
@@ -29,19 +29,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.getElementById('ban_video').addEventListener('show.bs.modal', event => {
-        const button = event.relatedTarget
-
-        const title = button.dataset.title;
-        const infos = button.dataset.infos;
-        const poster = button.dataset.poster;
-        const route = button.dataset.route;
-
-        document.getElementById('video_title').innerText = title;
-        document.getElementById('video_infos').innerText = infos;
-        document.getElementById('video_image').setAttribute('src', poster);
-        document.getElementById('video_route').setAttribute('action', route);
-    })
-</script>

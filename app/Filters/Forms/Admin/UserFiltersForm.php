@@ -41,7 +41,7 @@ class UserFiltersForm extends FilterForm
     {
         return [
             'banned' => 'Banned',
-            'not_confirmed' => 'Not confirmed',
+            'unverified' => 'Unverified',
             'premium' => 'Premium'
         ];
     }

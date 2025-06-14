@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\Auth\EmailVerificationUpdateRequest;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Validation\ValidationException;
 
 class EmailVerification
 {
@@ -31,6 +33,12 @@ class EmailVerification
 
     public function verifyUpdate(EmailVerificationUpdateRequest $request)
     {
+        $emailExists = User::query()->where('email', $request->user()->getTemporaryEmailForVerification())->exists();
+
+        if ($emailExists) {
+            return redirect()->route('user.edit')->with(['error' =>'This email is already in use !']);
+        }
+
         $request->fulfill();
 
         return redirect()->route('user.edit');

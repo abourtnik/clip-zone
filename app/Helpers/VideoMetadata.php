@@ -62,6 +62,7 @@ class VideoMetadata
 
         try {
             $frame = $video->frame(TimeCode::fromSeconds($time));
+            $frame->filters()->custom('scale=720:404:force_original_aspect_ratio=1, pad=720:404:-1:-1:color=black');
             $frame->save($filePath, true);
             return $filename;
         } catch (\Exception $e) {

@@ -6,7 +6,7 @@
 
 @section('content')
     @if($videos->total() || request()->all())
-    <div x-data="{selected:[]}">
+    <div x-data="{selected:[], video: {}}">
         {{ Breadcrumbs::render('videos') }}
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2 class="mb-0">My Videos</h2>
@@ -182,11 +182,11 @@
                                     data-poster="{{$video->thumbnail_url}}"
                                     data-route="{{route('user.videos.destroy', $video)}}"
                                     data-download="{{route('video.download', $video)}}"
-                                    data-alt="{{$video->title}} Thumbnail"
+                                    data-can-download="{{auth()->user()->can('download', $video)}}"
                                     data-comments="{{trans_choice('comments', $video->comments_count)}}"
                                     data-likes="{{trans_choice('likes', $video->likes_count)}}"
                                     data-dislikes="{{trans_choice('dislikes', $video->dislikes_count)}}"
-                                    data-elements='{{json_encode(['title' => '', 'infos' => '', 'poster' => 'src', 'route' => 'action', 'download' => 'href', 'alt' => 'alt', 'comments' => '', 'likes' => '', 'dislikes' => ''])}}'
+                                    @click="video = $el.dataset;"
                                 >
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
