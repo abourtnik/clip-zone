@@ -74,7 +74,7 @@ trait MustVerifyPhone
      */
     public function getPhoneWithoutPrefix() : ?string
     {
-        return Str::replace(' ', '', $this->phone->formatNational());
+        return Str::replace(' ', '', $this->getPhone()?->formatNational());
     }
 
     /**
@@ -90,9 +90,9 @@ trait MustVerifyPhone
     public function jsonPhone(): false|string
     {
         return json_encode([
-            'flag' => collect(config('phone.countries'))->firstWhere('code', $this->getPhone()->getCountry())['flag'] ?? '🇫🇷',
-            'prefix' => collect(config('phone.countries'))->firstWhere('code', $this->getPhone()->getCountry())['prefix'] ?? '+33',
-            'code' => $this->getPhone()->getCountry()
+            'flag' => collect(config('phone.countries'))->firstWhere('code', $this->getPhone()?->getCountry())['flag'] ?? '🇫🇷',
+            'prefix' => collect(config('phone.countries'))->firstWhere('code', $this->getPhone()?->getCountry())['prefix'] ?? '+33',
+            'code' => $this->getPhone()?->getCountry() ?? 'FR',
         ], JSON_HEX_QUOT);
     }
 }

@@ -22,11 +22,13 @@ class UpdateUserRequest extends FormRequest
         return true;
     }
 
-    public function prepareForValidation()
+    public function prepareForValidation(): void
     {
-        $this->merge([
-            'phone' => $this->get('prefix').$this->get('phone')
-        ]);
+        if (null !== $this->get('phone')) {
+            $this->merge([
+                'phone' => $this->get('prefix') . $this->get('phone')
+            ]);
+        }
     }
 
     /**
@@ -68,17 +70,20 @@ class UpdateUserRequest extends FormRequest
                 Rule::dimensions()->minWidth(98)->minHeight(98)
             ],
             'phone' => [
-                'required',
+                'sometimes',
+                'nullable',
                 'string',
                 (new Phone)->countryField('code')->type('mobile')
             ],
             'code' => [
-                'required',
+                'sometimes',
+                'nullable',
                 'string',
                 Rule::in(array_column(config('phone.countries'), 'code'))
             ],
             'prefix' => [
-                'required',
+                'sometimes',
+                'nullable',
                 'string',
                 Rule::in(array_column(config('phone.countries'), 'prefix'))
             ],

@@ -225,7 +225,7 @@
                                 </ul>
                                 <input type="hidden" name="prefix" :value="selected.prefix" required>
                                 <input type="hidden" name="code" :value="selected.code" required>
-                                <input type="tel" class="form-control" id="phone" name="phone" value="{{old('phone', $user->getPhoneWithoutPrefix())}}" required>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="{{old('phone', $user->getPhoneWithoutPrefix())}}">
                                 @if($user->hasVerifiedPhone())
                                     <span
                                         class="input-group-text"
