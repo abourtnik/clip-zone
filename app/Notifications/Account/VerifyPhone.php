@@ -2,11 +2,11 @@
 
 namespace App\Notifications\Account;
 
+use App\Channels\SmsChannel;
+use App\Channels\SmsMessage;
 use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\URL;
 
 class VerifyPhone extends Notification
 {
@@ -18,7 +18,7 @@ class VerifyPhone extends Notification
      */
     public function via(User $notifiable): array|string
     {
-        return ['sms'];
+        return app()->isLocal() ? 'mail' : SmsChannel::class;
     }
 
     /**
@@ -29,39 +29,17 @@ class VerifyPhone extends Notification
      */
     public function toMail(User $notifiable): MailMessage
     {
-        $verificationUrl = $this->verificationUrl($notifiable);
-
-        return $this->buildMailMessage($verificationUrl, $notifiable);
-    }
-
-    /**
-     * Get the verify email notification mail message for the given URL.
-     *
-     * @param string $url
-     * @param User $notifiable
-     * @return MailMessage
-     */
-    protected function buildMailMessage(string $url, User $notifiable): MailMessage
-    {
         return (new MailMessage)
-            ->subject('Welcome on ' .Config::get('app.name'). ' !')
-            ->markdown('mails.account.verify', compact('url', 'notifiable'));
+            ->greeting('Hello ' . $notifiable->username . '!')
+            ->line('Enter this code: ' . $notifiable->getPhoneCodeVerification() . ' to validate your phone number ' .$notifiable->getPhone());
     }
 
     /**
-     * Get the verification URL for the given notifiable.
-     *
-     * @param User $notifiable
-     * @return string
+     * Get the sms representation of the notification.
      */
-    protected function verificationUrl(User $notifiable) : string
+    public function toSms(User $notifiable): SmsMessage
     {
-        return URL::route(
-            'registration.confirm',
-            [
-                'id' => $notifiable->getKey(),
-                'token' => $notifiable->confirmation_token,
-            ]
-        );
+        return (new SmsMessage)
+            ->line('Enter this code: ' . $notifiable->getPhoneCodeVerification() . ' to validate your phone number');
     }
 }

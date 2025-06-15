@@ -87,13 +87,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer d-flex justify-content-between">
+                <div class="card-footer d-flex flex-column flex-sm-row gap-2 justify-content-between">
                     <a class="btn btn-success d-flex align-items-center gap-2" href="{{$user->route}}">
-                        <i class="fa-solid fa-eye d-none d-sm-block"></i>
+                        <i class="fa-solid fa-eye"></i>
                         <span>Show my channel</span>
                     </a>
                     <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
-                        <i class="fa-solid fa-user-edit d-none d-sm-block"></i>
+                        <i class="fa-solid fa-user-edit"></i>
                         <span>Update Channel</span>
                     </button>
                 </div>

@@ -653,9 +653,9 @@ namespace App\Models{
  * @property string $username
  * @property string|null $slug
  * @property string $email
+ * @property string|null $temporary_email
  * @property string $password
  * @property \Illuminate\Support\Carbon|null $email_verified_at
- * @property string|null $confirmation_token
  * @property \Illuminate\Support\Carbon|null $last_login_at
  * @property string|null $last_login_ip
  * @property int|null $is_admin
@@ -668,11 +668,14 @@ namespace App\Models{
  * @property bool $show_subscribers
  * @property \Illuminate\Support\Carbon|null $banned_at
  * @property int|null $pinned_video_id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $stripe_id
  * @property string|null $facebook_id
  * @property string|null $google_id
+ * @property string|null $stripe_id
+ * @property \Propaganistas\LaravelPhone\PhoneNumber|null $phone
+ * @property \Illuminate\Support\Carbon|null $phone_verified_at
+ * @property string|null $phone_confirmation_code
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Activity> $activity
  * @property-read int|null $activity_count
  * @property-read mixed $avatar_url
@@ -752,7 +755,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBannedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBanner($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereConfirmationToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCountry($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDescription($value)
@@ -765,11 +767,15 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastLoginAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastLoginIp($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhoneConfirmationCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhoneVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePinnedVideoId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereShowSubscribers($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSlug($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereStripeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTemporaryEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUsername($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereWebsite($value)
@@ -804,12 +810,12 @@ namespace App\Models{
  * @property bool $show_likes
  * @property int|null $pinned_comment_id
  * @property \Illuminate\Support\Carbon|null $banned_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $uploaded_at
  * @property string|null $youtube_id Youtube ID
  * @property int $is_live
  * @property int $is_short
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Category|null $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $comment_interactions
  * @property-read int|null $comment_interactions_count

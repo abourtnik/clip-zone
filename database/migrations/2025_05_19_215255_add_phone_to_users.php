@@ -16,7 +16,6 @@ return new class extends Migration
                 $table->string('temporary_email')->nullable();
             });
             $table->string('phone')->nullable()->unique();
-            $table->string('temporary_phone')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('phone_confirmation_code')->nullable();
             $table->dropColumn('confirmation_token');
@@ -29,7 +28,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['temporary_email', 'phone', 'temporary_phone','phone_verified_at', 'phone_confirmation_code']);
+            $table->dropColumn(['temporary_email', 'phone','phone_verified_at', 'phone_confirmation_code']);
             $table->string('confirmation_token')->nullable();
         });
     }

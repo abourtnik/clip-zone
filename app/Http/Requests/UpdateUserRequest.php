@@ -7,6 +7,7 @@ use App\Rules\MimetypeEnum;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Propaganistas\LaravelPhone\Rules\Phone;
 use Symfony\Component\Intl\Countries;
 
 class UpdateUserRequest extends FormRequest
@@ -19,6 +20,13 @@ class UpdateUserRequest extends FormRequest
     public function authorize() : bool
     {
         return true;
+    }
+
+    public function prepareForValidation()
+    {
+        $this->merge([
+            'phone' => $this->get('prefix').$this->get('phone')
+        ]);
     }
 
     /**
@@ -58,6 +66,21 @@ class UpdateUserRequest extends FormRequest
                 new MimetypeEnum(ImageType::class),
                 'max:2048', // 2mo
                 Rule::dimensions()->minWidth(98)->minHeight(98)
+            ],
+            'phone' => [
+                'required',
+                'string',
+                (new Phone)->countryField('code')->type('mobile')
+            ],
+            'code' => [
+                'required',
+                'string',
+                Rule::in(array_column(config('phone.countries'), 'code'))
+            ],
+            'prefix' => [
+                'required',
+                'string',
+                Rule::in(array_column(config('phone.countries'), 'prefix'))
             ],
             'banner' => [
                 'sometimes',

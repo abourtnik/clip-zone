@@ -4,7 +4,7 @@ namespace App\Http\Requests\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PhoneUpdateRequest extends FormRequest
+class CodeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,7 @@ class PhoneUpdateRequest extends FormRequest
     public function rules() : array
     {
         return [
-            'phone' => [
-                'required',
-            ],
-            'code' => [
-                'required',
-            ]
+            'code' => ['required', 'digits:5']
         ];
     }
 }

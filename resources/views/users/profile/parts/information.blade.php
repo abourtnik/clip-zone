@@ -27,7 +27,7 @@
                     @method('PUT')
                     @csrf
                     <div @class(["d-flex justify-content-between align-items-center", "flex-column" => $user->premium_subscription, 'flex-column flex-lg-row' => !$user->premium_subscription])>
-                        <div class="d-flex align-items-center justify-content-start gap-5">
+                        <div class="d-flex align-items-center justify-content-start flex-column flex-sm-row gap-2 gap-sm-5">
                             <div
                                 class="position-relative overflow-hidden rounded-circle border border-secondary"
                                 x-data="{hover:false}"
@@ -71,7 +71,7 @@
                         @if($user->premium_subscription)
                             <hr class="w-100">
                             <div class="alert alert-info w-100">
-                                <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-between flex-column flex-sm-row gap-2">
                                     <div class="fw-bold">My subscription : {{$user->premium_subscription->plan->price}}  € / {{$user->premium_subscription->plan->period}}</div>
                                     <div>
                                         <span>Status :</span>
@@ -192,7 +192,6 @@
                                         {{ __('Cancel') }}
                                     </button>
                                 </div>
-
                             @endif
                         </div>
                         <div class="col-12 col-sm-6 mb-3">
@@ -204,6 +203,68 @@
                                 @endforeach
                             </select>
                         </div>
+                    </div>
+                    <hr class="w-100">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 mb-3" x-data="{selected: {{$user->jsonPhone()}}}">
+                            <label for="phone" class="form-label">Phone</label>
+                            <div class="input-group mb-3">
+                                <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span x-text="selected.flag"></span>
+                                    <span x-text="selected.prefix"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    @foreach(config('phone.countries') as $country)
+                                        <li x-show="selected.code !== '{{$country['code']}}'">
+                                            <button type="button" class="dropdown-item d-flex align-items-center gap-2" @click="selected = {{{json_encode($country)}}}">
+                                                <span>{{$country['flag']}}</span>
+                                                <span>{{$country['prefix']}}</span>
+                                            </button>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                                <input type="hidden" name="prefix" :value="selected.prefix" required>
+                                <input type="hidden" name="code" :value="selected.code" required>
+                                <input type="tel" class="form-control" id="phone" name="phone" value="{{old('phone', $user->getPhoneWithoutPrefix())}}" required>
+                                @if($user->hasVerifiedPhone())
+                                    <span
+                                        class="input-group-text"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-trigger="hover"
+                                        data-bs-title="Phone number verified"
+                                    >
+                                        <i class="fa-solid fa-check text-success"></i>
+                                    </span>
+                                @endif
+                            </div>
+                            @if($user->waitForPhoneCode())
+                                <p class="form-text text-danger text-sm mb-1">
+                                    Please confirm your phone number by entering the 5-digit code we just sent you.
+                                </p>
+                                <div class="d-flex align-items-center gap-1 justify-content-start">
+                                    <button
+                                        type="submit"
+                                        form="send-notification-form-mobile"
+                                        class="flex gap-1 btn btn-link btn-sm p-0 text-decoration-none"
+                                        x-data="{timer: {{ session()->get("phone.send|$user->id:next")?->isFuture() ? (int) now()->diffInSeconds(session()->get("phone.send|$user->id:next")) : 0}}}"
+                                        x-init="const t = setInterval(() => timer === 0 ? clearInterval(t) : timer--, 1000)"
+                                        :disabled="timer > 0"
+                                    >
+                                        <span>{{ __('Resend verification code') }}</span>
+                                        <span x-show="timer > 0">(<span x-text="timer"></span>)</span>
+                                    </button>
+                                </div>
+                            @endif
+                        </div>
+                        @if($user->waitForPhoneCode())
+                            <div class="col-12 col-sm-6 mb-3">
+                                <label for="code" class="form-label">Code</label>
+                                <div class="input-group">
+                                    <input form="verify-phone-code" type="text" class="form-control" id="code" name="code" minlength="5" maxlength="5">
+                                    <button class="btn btn-primary" type="submit" form="verify-phone-code">Verify</button>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="card-footer d-flex justify-content-end">
@@ -217,6 +278,12 @@
                 @csrf
             </form>
             <form id="cancel-notification-form" class="d-none" method="POST" action="{{route('verification.verify.update.cancel')}}">
+                @csrf
+            </form>
+            <form id="send-notification-form-mobile" class="d-none" method="POST" action="{{route('phone.send')}}">
+                @csrf
+            </form>
+            <form id="verify-phone-code" class="d-none" method="POST" action="{{route('phone.verify')}}">
                 @csrf
             </form>
         </div>

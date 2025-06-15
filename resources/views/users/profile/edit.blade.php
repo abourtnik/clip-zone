@@ -1,6 +1,6 @@
 @extends('layouts.user')
 
-@section('title', 'Channel settings')
+@section('title', 'Account settings')
 
 @section('content')
     @if ($errors->any())
@@ -27,7 +27,6 @@
     @include('users.profile.parts.channel')
     @include('users.profile.parts.socials')
     @include('users.profile.parts.devices')
-    @include('users.profile.parts.security')
     @include('users.profile.parts.password')
     @include('users.profile.parts.delete')
 

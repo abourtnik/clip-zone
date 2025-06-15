@@ -5,7 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Events\Account\EmailUpdated;
 use App\Events\Account\PasswordUpdated;
 use App\Helpers\File;
-use App\Http\Requests\Profile\PhoneUpdateRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use App\Notifications\Account\DeleteAccount;
@@ -41,15 +40,11 @@ class ProfileController
             EmailUpdated::dispatch($request->get('email'));
         }
 
+        if ($user->wasChanged('phone')) {
+            $request->user()->sendPhoneVerificationNotification();
+        }
+
         return redirect()->route('user.edit')->with(['status' => 'Your profile information has been updated successfully !']);
-    }
-
-    public function updatePhone(PhoneUpdateRequest $request)
-    {
-        $phone = $request->string('code'). $request->string('phone');
-
-        return redirect()->route('user.edit');
-
     }
 
     public function updatePassword(Request $request): RedirectResponse {

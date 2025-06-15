@@ -26,5 +26,8 @@ return [
     ],
     'youtube' => [
         'api_key' => env('YOUTUBE_API_KEY', ''),
+    ],
+    'brevo' => [
+        'api_key' => env('BREVO_API_KEY', ''),
     ]
 ];

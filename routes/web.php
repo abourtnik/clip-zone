@@ -16,6 +16,7 @@ use App\Http\Controllers\Auth\OAuthController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\EmailVerification;
+use App\Http\Controllers\Auth\PhoneVerification;
 
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\UserController;
@@ -139,7 +140,6 @@ Route::controller(SubscriptionController::class)->name('subscription.')->group(f
     Route::get('/subscriptions', 'index')->name('index');
     Route::get('/manage', 'manage')->name('manage')->middleware('auth');
     Route::get('/discover', 'discover')->name('discover');
-
 });
 
 // HISTORY
@@ -190,13 +190,26 @@ Route::controller(PasswordController::class)->middleware('guest')->group(functio
 });
 
 // EMAIL VERIFICATION
-Route::controller(EmailVerification::class)->middleware('auth')->name('verification.')->group(function () {
-    Route::get('/email/verify', 'notice')->name('notice');
-    Route::get('/email/verify/{id}/{hash}', 'verify')->name('verify')->middleware('signed');
-    Route::post('/email/verification-notification', 'send')->name('send')->middleware('rate:1');
-    Route::get('/email/verify-update/{id}/{hash}', 'verifyUpdate')->name('verify.update')->middleware('signed');
-    Route::post('/email/verification-notification-update', 'sendUpdate')->name('send.update')->middleware('rate:1');
-    Route::post('/email/verification-notification-update-cancel', 'cancelUpdate')->name('verify.update.cancel');
+Route::controller(EmailVerification::class)
+    ->middleware('auth')
+    ->name('verification.')
+    ->group(function () {
+        Route::get('/email/verify', 'notice')->name('notice');
+        Route::get('/email/verify/{id}/{hash}', 'verify')->name('verify')->middleware('signed');
+        Route::post('/email/verification-notification', 'send')->name('send')->middleware('rate:1');
+        Route::get('/email/verify-update/{id}/{hash}', 'verifyUpdate')->name('verify.update')->middleware('signed');
+        Route::post('/email/verification-notification-update', 'sendUpdate')->name('send.update')->middleware('rate:1');
+        Route::post('/email/verification-notification-update-cancel', 'cancelUpdate')->name('verify.update.cancel');
+});
+
+// PHONE VERIFICATION
+Route::controller(PhoneVerification::class)
+    ->middleware('auth')
+    ->name('phone.')
+    ->prefix('phone')
+    ->group(function () {
+        Route::post('/verification-notification', 'send')->name('send')->middleware('rate:1');
+        Route::post('/verify', 'verify')->name('verify');
 });
 
 // USER
@@ -212,7 +225,6 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     Route::controller(ProfileController::class)->group(function () {
         Route::get('/edit', 'edit')->name('edit');
         Route::put('/update', 'update')->name('update');
-        Route::post('/update-phone', 'updatePhone')->name('update.phone');
         Route::post('/update-password', 'updatePassword')->name('update.password')->middleware('password.confirm');;
         Route::delete('/delete', 'delete')->name('delete')->middleware('password.confirm');;
     });

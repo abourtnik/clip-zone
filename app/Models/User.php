@@ -29,6 +29,7 @@ use Illuminate\Support\Str;
 use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
+use Propaganistas\LaravelPhone\Casts\E164PhoneNumberCast;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Symfony\Component\Intl\Countries;
@@ -52,7 +53,9 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         'email_verified_at' => 'datetime',
         'show_subscribers' => 'boolean',
         'banned_at' => 'datetime',
-        'last_login_at' => 'datetime'
+        'last_login_at' => 'datetime',
+        'phone' => E164PhoneNumberCast::class,
+        'phone_verified_at' => 'datetime'
     ];
 
     public const string AVATAR_FOLDER = 'avatars';

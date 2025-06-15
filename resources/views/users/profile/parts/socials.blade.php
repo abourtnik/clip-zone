@@ -5,7 +5,7 @@
     </div>
     <div class="col-12 col-xl-8">
         <div class="card shadow-soft my-3">
-            <div class="card-body d-flex gap-2">
+            <div class="card-body d-flex flex-column flex-sm-row gap-2">
                 @if($user->facebook_id)
                     <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.unlink', ['service' => 'facebook'])}}" style="background-color: #47639e">
                         <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle d-none d-sm-block"></i>
