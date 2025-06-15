@@ -24,7 +24,6 @@ function Main ({url} : Props) {
         queryFn: ({pageParam}) => getVideos(url, pageParam),
     });
 
-
     return (
         <>
             {

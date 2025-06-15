@@ -70,8 +70,8 @@ export async function searchModel(endpoint: string, query: string): Promise<Sear
     return jsonFetch(endpoint + '?q=' + query);
 }
 
-export async function getNotifications(page: number = 1): Promise<Paginator<NotificationType>> {
-    return jsonFetch(API_URL + '/notifications?page=' + page);
+export async function getNotifications(cursor: string | null): Promise<CursorPaginator<NotificationType>> {
+    return jsonFetch(API_URL + '/notifications' + (cursor ? `?cursor=` + cursor  : ''));
 }
 
 export async function handleNotification(id: number, type: 'read' | 'unread'): Promise<void> {

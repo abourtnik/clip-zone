@@ -1,14 +1,13 @@
 import {useEffect, useState} from 'preact/hooks';
 import Notification from "@/components/Notifications/Notification";
-import {useInView} from "react-intersection-observer";
-import {InfiniteData, QueryClient, QueryClientProvider, useInfiniteQuery, useQueryClient} from "@tanstack/react-query";
+import {InfiniteData, QueryClient, QueryClientProvider, useQueryClient} from "@tanstack/react-query";
 import {getNotifications, readAllNotifications} from "@/api/clipzone";
 import {Offcanvas} from 'react-bootstrap';
 import {Fragment} from "preact";
-import {useErrorMutation} from "@/hooks";
+import {useCursorQuery, useErrorMutation} from "@/hooks";
 import {NotificationType, Paginator} from "@/types";
 import {produce} from "immer";
-import {Button} from "@/components/Commons";
+import {Button, ApiError} from "@/components/Commons";
 
 type Props = {
     count : string
@@ -19,8 +18,6 @@ const Main = ({count} : Props) => {
     const [open, setOpen] = useState<boolean>(false);
     const [unread, setUnread] = useState<number>(parseInt(count));
 
-    const { ref, inView} = useInView();
-
     const queryClient = useQueryClient();
 
     const {
@@ -29,20 +26,14 @@ const Main = ({count} : Props) => {
         isError,
         refetch,
         isFetchingNextPage,
-        fetchNextPage,
         hasNextPage,
-    } = useInfiniteQuery({
+        error,
+        ref,
+    } = useCursorQuery({
         queryKey: ['notifications'],
         queryFn: ({pageParam}) => getNotifications(pageParam),
-        initialPageParam: 1,
         enabled: open,
         staleTime: Infinity,
-        getNextPageParam: (lastPage, allPages, lastPageParam) => {
-            if (lastPage.meta.current_page === lastPage.meta.last_page) {
-                return undefined
-            }
-            return lastPageParam + 1
-        }
     });
 
     const addNotification = async (notification: NotificationType) => {
@@ -82,13 +73,6 @@ const Main = ({count} : Props) => {
         window.PRIVATE_CHANNEL.notification(addNotification);
     }, []);
 
-    useEffect( () => {
-        if (inView && !isFetchingNextPage && !isError) {
-            fetchNextPage()
-        }
-    }, [inView]);
-
-
     return (
         <>
             <button id="notifications_button" class="btn nav-link bg-transparent btn-sm d-flex align-items-center gap-2 position-relative" onClick={() => setOpen(true)}>
@@ -122,22 +106,10 @@ const Main = ({count} : Props) => {
                             </div>
                         </div>
                     }
-                    {
-                        isError &&
-                        <div className={'d-flex justify-content-center align-items-center h-100'}>
-                            <div class="border border-1 bg-light text-center p-3">
-                                <i class="fa-solid fa-triangle-exclamation fa-3x"></i>
-                                <h3 class="h5 my-3 fw-normal">Something went wrong !</h3>
-                                <p class="text-muted">If the issue persists please contact us.</p>
-                                <button className="btn btn-primary rounded-5 text-uppercase btn-sm" onClick={() => refetch()}>
-                                    Try again
-                                </button>
-                            </div>
-                        </div>
-                    }
+                    {isError && <ApiError refetch={refetch} error={error}/>}
                     <div>
                         {
-                            notifications &&
+                            notifications && (
                                 notifications?.pages.flatMap((page => page.data)).length > 0 ?
                                     <ul className="list-group list-group-flush overflow-auto h-100">
                                         {notifications.pages.map((group, i) => (
@@ -153,6 +125,7 @@ const Main = ({count} : Props) => {
                                         <p className="text-muted text-center text-sm">Subscribe to your favorite channels to get
                                             notified about their latest videos.</p>
                                     </div>
+                            )
                         }
                         {
                             isFetchingNextPage &&

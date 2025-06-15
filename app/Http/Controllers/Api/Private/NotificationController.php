@@ -18,7 +18,7 @@ class NotificationController extends Controller
             NotificationResource::collection(
                 Notification::where(['notifiable_type' => User::class, 'notifiable_id' => Auth::id()])
                     ->latest()
-                    ->paginate(20)
+                    ->cursorPaginate(24)
             )
         );
     }
