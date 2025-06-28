@@ -60,7 +60,7 @@ deploy: ## Deploy application
 
 test: ## Run PHP test
 	docker exec -it php_container php artisan config:clear
-	docker exec -it php_container php artisan test --env=testing --stop-on-failure
+	docker exec -it php_container php artisan test --env=testing --stop-on-failure $(if $(FILTER),--filter $(FILTER),)
 
 logs: ## See last logs
 	docker exec -it php_container tail -f storage/logs/laravel.log

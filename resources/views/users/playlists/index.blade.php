@@ -6,6 +6,7 @@
 
 @section('content')
     @if($playlists->total() || request()->all())
+    <div x-data={playlist:{}}>
         {{ Breadcrumbs::render('playlists') }}
         <div class="d-flex justify-content-between align-items-center my-3">
             <h2>My Playlists</h2>
@@ -82,6 +83,7 @@
                                     data-thumbnail="{{$playlist->first_video?->thumbnail_url}}"
                                     data-infos="{{trans_choice('videos', $playlist->videos_count) . ' • ' . $playlist->created_at->diffForHumans()}}"
                                     data-route="{{route('user.playlists.destroy', $playlist)}}"
+                                    @click="playlist = $el.dataset;"
                                 >
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
@@ -102,6 +104,7 @@
         </div>
         {{ $playlists->links() }}
         @include('users.playlists.modals.delete')
+    </div>
     @else
         <div class="card shadow">
             <div class="card-body d-flex justify-content-center align-items-center">

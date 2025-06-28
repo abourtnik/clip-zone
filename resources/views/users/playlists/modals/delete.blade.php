@@ -9,12 +9,15 @@
                 <div class="card mb-3 border-dark bg-light-dark">
                     <div class="row g-0">
                         <div class="col-4">
-                            <img id="playlist_thumbnail" src="" class="img-fluid rounded-start h-100" alt="" style="object-fit: cover;">
+                            <img x-show="playlist.thumbnail" :src="playlist.thumbnail" class="img-fluid rounded-start h-100" :alt="`${playlist.title} thumbnail`" style="object-fit: cover;">
+                            <div x-show.important="!playlist.thumbnail" class="bg-secondary text-white d-flex justify-content-center align-items-center w-100 h-100">
+                                <i class="fa-solid fa-image fa-2x"></i>
+                            </div>
                         </div>
                         <div class="col-8">
                             <div class="card-body">
-                                <h5 id="playlist_title" class="card-title"></h5>
-                                <small id="playlist_infos" class="text-muted"></small>
+                                <h5 class="card-title" x-text="playlist.title"></h5>
+                                <small class="text-muted" x-text="playlist.infos"></small>
                             </div>
                         </div>
                     </div>
@@ -23,7 +26,7 @@
             <div class="modal-footer">
                 <div class="d-flex gap-1">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form id="form-delete" method="POST" action="">
+                    <form method="POST" :action="playlist.route">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">
@@ -36,19 +39,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.getElementById('delete_playlist').addEventListener('show.bs.modal', event => {
-        const button = event.relatedTarget
-
-        const title = button.dataset.title;
-        const thumbnail = button.dataset.thumbnail;
-        const infos = button.dataset.infos;
-        const route = button.dataset.route;
-
-        document.getElementById('playlist_title').innerText = title;
-        document.getElementById('playlist_thumbnail').setAttribute('src', thumbnail);
-        document.getElementById('playlist_infos').innerText = infos;
-        document.getElementById('form-delete').setAttribute('action', route);
-    })
-</script>
