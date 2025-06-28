@@ -48,6 +48,11 @@ class Kernel extends ConsoleKernel
         $schedule->command('sanctum:prune-expired')
             ->daily()
             ->appendOutputTo($LOG_PATH);
+
+        // Deleting Expired Password Reset Tokens
+        $schedule->command('auth:clear-resets')
+            ->everyFifteenMinutes()
+            ->appendOutputTo($LOG_PATH);
     }
 
     /**

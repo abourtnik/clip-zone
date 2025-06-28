@@ -12,7 +12,7 @@ use App\Models\Traits\Filterable;
 use App\Models\Traits\HasReport;
 use App\Models\Traits\MustVerifyPhone;
 use App\Models\Traits\MustVerifyUpdatedEmail;
-use App\Notifications\Account\ResetPassword;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -40,7 +40,7 @@ use Symfony\Component\Intl\Countries;
 
 class User extends Authenticatable implements MustVerifyEmail, Reportable
 {
-    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable, Filterable, HasApiTokens, MustVerifyUpdatedEmail, MustVerifyPhone;
+    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable, Filterable, HasApiTokens, MustVerifyUpdatedEmail, MustVerifyPhone, CanResetPassword;
 
     protected $guarded = ['id', 'is_admin'];
 
@@ -355,17 +355,6 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     }
 
     /**
-     * Send a password reset notification to the user.
-     *
-     * @param  string  $token
-     * @return void
-     */
-    public function sendPasswordResetNotification($token) : void
-    {
-        $this->notify(new ResetPassword($token));
-    }
-
-    /**
      * @return bool
      */
     public function canImpersonate() : bool
@@ -387,6 +376,14 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     public function stripeName(): string
     {
         return $this->username;
+    }
+
+    /**
+     * Get the customer name that should be synced to Stripe.
+     */
+    public function stripePhone(): ?string
+    {
+        return $this->hasVerifiedPhone() ? $this->phone : null;
     }
 
     public static function generateSlug(string $username) : string {

@@ -185,7 +185,7 @@ Route::controller(RegistrationController::class)->middleware('guest')->group(fun
 Route::controller(PasswordController::class)->middleware('guest')->group(function () {
     Route::get('/forgot-password', 'forgot')->name('password.forgot');
     Route::post('/forgot-password', 'email')->name('password.email');
-    Route::get('/reset-password/{id}/{token}', 'reset')->name('password.reset');
+    Route::get('/reset-password/{token}', 'reset')->name('password.reset');
     Route::post('/reset-password', 'update')->name('password.update');
 });
 
