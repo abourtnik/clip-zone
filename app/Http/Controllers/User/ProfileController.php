@@ -36,7 +36,7 @@ class ProfileController
 
         $user->update($validated);
 
-        if ($request->get('email') !== $user->email && !$user->getTemporaryEmailForVerification()) {
+        if ($request->get('email') && $request->get('email') !== $user->email && !$user->getTemporaryEmailForVerification()) {
             EmailUpdated::dispatch($request->get('email'));
         }
 

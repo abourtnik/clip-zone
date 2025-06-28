@@ -71,6 +71,7 @@ class UpdateUserRequest extends FormRequest
             ],
             'phone' => [
                 'sometimes',
+                Rule::requiredIf(!is_null($this->user()->getPhone())),
                 'nullable',
                 'string',
                 (new Phone)->countryField('code')->type('mobile')
