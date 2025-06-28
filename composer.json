@@ -16,7 +16,7 @@
         "kris/laravel-form-builder": "^1.52",
         "lab404/laravel-impersonate": "^1.7",
         "laravel/cashier": "^15.0",
-        "laravel/framework": "^v11.44.1",
+        "laravel/framework": "^v11.45.1",
         "laravel/horizon": "^5.21",
         "laravel/sanctum": "^4.0",
         "laravel/scout": "^10.8",
