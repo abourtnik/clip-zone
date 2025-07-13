@@ -6,7 +6,7 @@ use App\Enums\ThumbnailStatus;
 use App\Enums\VideoStatus;
 use App\Helpers\Number;
 use App\Http\Requests\Video\FileRequest;
-use App\Jobs\BuildFullFileFromChunks;
+use App\Jobs\ProcessVideo;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -45,7 +45,7 @@ class VideoController
                 ]);
             }
 
-            BuildFullFileFromChunks::dispatch($folder, $video, $chunk->getClientOriginalExtension());
+            ProcessVideo::dispatch($folder, $video, $chunk->getClientOriginalExtension());
 
             return response()->json([
                 'route' => route('user.videos.create', $video)

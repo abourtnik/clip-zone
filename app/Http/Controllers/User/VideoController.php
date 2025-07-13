@@ -7,10 +7,8 @@ use App\Enums\VideoStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\StoreVideoRequest;
 use App\Http\Requests\Video\UpdateVideoRequest;
-use App\Http\Resources\ThumbnailResource;
 use App\Models\Category;
 use App\Models\Playlist;
-use App\Models\Thumbnail;
 use App\Models\Video;
 use App\Services\ThumbnailService;
 use Illuminate\Contracts\View\View;
@@ -53,10 +51,7 @@ class VideoController extends Controller
             'status' => VideoStatus::getActive(),
             'categories' => Category::all(),
             'languages' => Video::languages(),
-            'playlists' => Auth::user()->playlists,
-            'thumbnails' => ThumbnailResource::collection(
-                Thumbnail::query()->where('video_id', $video->id)->with('video')->get()
-            )->toJson()
+            'playlists' => Auth::user()->playlists
         ]);
     }
 
@@ -102,9 +97,6 @@ class VideoController extends Controller
             'status' => VideoStatus::getActive(),
             'categories' => Category::all(),
             'languages' => Video::languages(),
-            'thumbnails' => ThumbnailResource::collection(
-                Thumbnail::query()->where('video_id', $video->id)->with('video')->get()
-            )->toJson(),
             'playlists' => Playlist::query()
                 ->where('user_id', Auth::id())
                 ->withExists([

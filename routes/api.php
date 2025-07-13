@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Private\NotificationController;
 use App\Http\Controllers\Api\Private\PlaylistController;
 use App\Http\Controllers\Api\Private\ReportController;
 use App\Http\Controllers\Api\Private\SearchController;
+use App\Http\Controllers\Api\Private\ThumbnailController;
 use App\Http\Controllers\Api\Private\UserController;
 use App\Http\Controllers\Api\Private\VideoController;
 use App\Http\Controllers\Api\Private\SubscribeController;
@@ -126,6 +127,15 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::post('/{device}/update', 'update')->name('update');
                 Route::delete('/{device}', 'delete')->name('delete');
         });
+
+        // THUMBNAILS
+        Route::name('thumbnails.')
+            ->controller(ThumbnailController::class)
+            ->group(function () {
+                Route::get('/videos/{video:id}/thumbnails', 'index')
+                    ->name('list')
+                    ->can('thumbnails', 'video');
+            });
     });
 });
 

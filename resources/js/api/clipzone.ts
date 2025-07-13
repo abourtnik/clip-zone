@@ -14,7 +14,9 @@ import {
     PlaylistType,
     PlaylistCreateData,
     PlaylistSaveData,
-    ReportData, CursorPaginator
+    ReportData,
+    CursorPaginator,
+    ThumbnailType
 } from "@/types";
 
 const API_URL =  '/api';
@@ -112,4 +114,8 @@ export async function report(data: ReportData): Promise<void> {
 
 export async function input(endpoint: string, data: {}): Promise<{ [key: string]: string }> {
     return jsonFetch(endpoint, 'POST', data);
+}
+
+export async function getThumbnails(video_id: number): Promise<{data: ThumbnailType[]}> {
+    return jsonFetch(API_URL + `/videos/${video_id}/thumbnails`);
 }

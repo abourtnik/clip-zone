@@ -12,7 +12,8 @@ import {UserReplies} from "./Comments/UserReplies";
 
 import ImageUpload from "./Images/ImageUpload";
 import ImageLoaded from "./Images/ImageLoaded";
-import Thumbnails from "./Images/Thumbnails";
+
+import {Thumbnails} from "./Videos/Thumbnails";
 
 import {Subscribe, Report} from "./Actions";
 import {VideoAutoplaySwitcher, ThemeSwitcher, AutoplayNextVideoSwitcher} from "./Switchs";

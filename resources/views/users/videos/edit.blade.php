@@ -1,5 +1,6 @@
 @use('App\Models\Video')
 @use('App\Enums\VideoStatus')
+@use('Diglactic\Breadcrumbs\Breadcrumbs')
 
 @extends('layouts.user')
 
@@ -203,10 +204,10 @@
                                 </div>
                             </div>
                         </div>
-                        <h6 class="text-primary mt-4">Thumbnail *</h6>
+                        <h6 class="text-primary mt-4">Thumbnail</h6>
                         <hr class="mt-2">
                         <div class="text-sm text-muted mb-3">Select or upload a picture that shows what's in your video. A good thumbnail stands out and draws viewers' attention.</div>
-                        <thumbnails-select data={{$thumbnails}}></thumbnails-select>
+                        <thumbnails-select video="{{$video->id}}"></thumbnails-select>
                         <h6 class="text-primary mt-4">Comments and ratings</h6>
                         <hr class="mt-2">
                         <div class="d-flex flex-column gap-1">

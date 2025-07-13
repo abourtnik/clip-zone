@@ -1,14 +1,14 @@
 import { useRef } from 'preact/hooks';
 import configuration from "@/config";
 import {show as showToast} from "@/functions/toast";
-import {ChangeEvent} from "react";
+import {ChangeEvent, InputHTMLAttributes} from "react";
 
 const MB = 1048576;
 
 type Props = {
     name: string,
     config: 'avatar' | 'banner'| 'thumbnail',
-}
+} & InputHTMLAttributes<HTMLInputElement>
 
 export default function ImageUpload ({name, config, ...attributes} : Props) {
 

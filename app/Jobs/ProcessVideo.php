@@ -13,10 +13,12 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Bus;
+use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 
-class BuildFullFileFromChunks implements ShouldQueue
+class ProcessVideo implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -66,35 +68,47 @@ class BuildFullFileFromChunks implements ShouldQueue
 
         Storage::disk('local')->deleteDirectory(Video::CHUNK_FOLDER.'/'.$this->folder);
 
-        $this->video->update([
-            'original_mimetype' => Storage::disk('local')->mimeType($path)
-        ]);
-
         // Convert video to mp4 and remove original
         $path = VideoMetadata::convert($path);
-
-        $this->updateVideo($path);
-
-        GenerateThumbnails::dispatch($this->video);
 
         if (config('filesystems.default') === 's3') {
             $this->uploadToS3($path);
         } else {
-            $this->video->update([
-                'uploaded_at' => now()
-            ]);
+            $this->video->update(['uploaded_at' => now()]);
         }
+
+        // Generate thumbnails
+        $duration = $this->updateVideo($path);
+        $timecodes = [1, intval(round($duration / 2)), intval($duration - 1)];
+        $thumbnails = $this->video->thumbnails()->orderBy('id')->get();
+
+        $thumbnailJobs = [];
+
+        foreach ($timecodes as $index => $time) {
+            $thumbnail = $thumbnails->get($index);
+            $thumbnailJobs[] = new GenerateThumbnail($thumbnail, $time);
+        }
+
+        $videoFile = $this->video->file;
+
+        Bus::batch($thumbnailJobs)
+            ->name("GenerateThumbnails for video : {$this->video->id}")
+            ->finally(function (Batch $batch) use ($videoFile) {
+                // Delete video
+                Storage::disk('local')->delete(Video::VIDEO_FOLDER . DIRECTORY_SEPARATOR . $videoFile);
+            })
+            ->dispatch();
 
         VideoUploaded::dispatch($this->video);
     }
 
     /**
-     * Create Video from uploaded file.
+     * Update Video from uploaded file.
      *
      * @param string $path
-     *
+     * @return int $duration
      */
-    private function updateVideo (string $path): void {
+    private function updateVideo (string $path): int {
 
         $filePath = Storage::disk('local')->path($path);
 
@@ -103,9 +117,12 @@ class BuildFullFileFromChunks implements ShouldQueue
         $this->video->update([
             'file' => pathinfo($path, PATHINFO_BASENAME),
             'duration' => round($duration),
+            'original_mimetype' => Storage::disk('local')->mimeType($path),
             'size' => Storage::disk('local')->size($path),
             'is_short' => $this->isShort($duration, $filePath)
         ]);
+
+        return $duration;
     }
 
     /**
