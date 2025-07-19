@@ -4,9 +4,12 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\ValidationException;
 
 class RegisterRequest extends FormRequest
 {
+    private const int MAX_ATTEMPTS = 1;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -44,5 +47,24 @@ class RegisterRequest extends FormRequest
             ],
             'cgu' => ['accepted']
         ];
+    }
+
+    protected function passedValidation() :void
+    {
+        $key = $this->throttleKey();
+
+        if (RateLimiter::tooManyAttempts($key, self::MAX_ATTEMPTS)) {
+
+            throw ValidationException::withMessages([
+                'throttle' => __('throttle.general')
+            ]);
+        }
+
+        RateLimiter::increment($key);
+    }
+
+    protected function throttleKey(): string
+    {
+        return 'register' . '|' . $this->ip();
     }
 }

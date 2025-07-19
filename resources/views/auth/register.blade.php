@@ -11,6 +11,11 @@
                         <img class="img-fluid" src="{{asset('images/pages/register.png')}}" alt="Register">
                     </div>
                     <div class="col-12 col-xl-6 py-5 px-3 px-sm-5">
+                        @error('throttle')
+                        <div class="alert alert-danger">
+                            {{ $message }}
+                        </div>
+                        @enderror
                         <h1 class="h3 mb-5 fw-normal text-center">{{__('Create your Account !')}}</h1>
                         <form method="POST" action="{{route('registration.perform')}}">
                             @csrf

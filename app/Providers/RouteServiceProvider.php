@@ -73,10 +73,10 @@ class RouteServiceProvider extends ServiceProvider
     private function response (Request $request, array $headers): JsonResponse|RedirectResponse {
         if ($request->wantsJson()) {
             return response()->json([
-                'message' => 'We have received too many requests, please wait before renewing your action'
+                'message' => __('throttle.general')
             ], 429, $headers);
         }
 
-        return back()->with('error', "We have received too many requests, please wait before renewing your action");
+        return back()->with('error', __('throttle.general'));
     }
 }
