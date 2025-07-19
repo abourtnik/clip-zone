@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
@@ -60,11 +61,22 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(130)->by($request->user()->id . $request->get('resumableIdentifier'))
                 ->response(fn(Request $request, array $headers) => $this->response($request, $headers));
         });
+
+        foreach (['login' => 5, 'contact' => 3] as $route => $limit) {
+            RateLimiter::for($route, function (Request $request) use ($limit) {
+                return Limit::perMinute($limit)->by($request->ip())
+                    ->response(fn(Request $request, array $headers) => $this->response($request, $headers));
+            });
+        }
     }
 
-    private function response (Request $request, array $headers): JsonResponse {
-        return response()->json([
-            'message' => 'We have received too many requests, please wait before renewing your action'
-        ], 429);
+    private function response (Request $request, array $headers): JsonResponse|RedirectResponse {
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'We have received too many requests, please wait before renewing your action'
+            ], 429, $headers);
+        }
+
+        return back()->with('error', "We have received too many requests, please wait before renewing your action");
     }
 }

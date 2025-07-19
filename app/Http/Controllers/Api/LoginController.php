@@ -6,7 +6,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Resources\AccountResource;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\Auth\RegisterUserRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +16,7 @@ class RegistrationController
         return view('auth.register');
     }
 
-    public function register(RegisterUserRequest $request): RedirectResponse
+    public function register(RegisterRequest $request): RedirectResponse
     {
         $validated = $request
             ->safe()

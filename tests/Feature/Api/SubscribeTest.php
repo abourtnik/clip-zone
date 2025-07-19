@@ -55,11 +55,10 @@ class SubscribeTest extends TestCase
         $user1 = User::factory()->create();
         $user2 = User::factory()->create();
 
-        $this->actingAs($user1)->post(route('subscribe', $user2))->assertNoContent();
-        $this->actingAs($user1)->post(route('subscribe', $user2))->assertNoContent();
-        $this->actingAs($user1)->post(route('subscribe', $user2))->assertNoContent();
-        $this->actingAs($user1)->post(route('subscribe', $user2))->assertNoContent();
-        $this->actingAs($user1)->post(route('subscribe', $user2))->assertNoContent();
-        $this->actingAs($user1)->post(route('subscribe', $user2))->assertTooManyRequests();
+        foreach (range(1, 5) as $i) {
+            $this->actingAs($user1)->post(route('subscribe', $user2))->assertNoContent();
+        }
+
+        $this->actingAs($user1)->postJson(route('subscribe', $user2))->assertTooManyRequests();
     }
 }

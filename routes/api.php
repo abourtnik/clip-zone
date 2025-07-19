@@ -148,7 +148,7 @@ Route::middleware('throttle:api')->group(function () {
 
     // AUTH
     Route::controller(LoginController::class)->group(function () {
-        Route::post('/login', 'login');
+        Route::post('/login', 'login')->middleware(['throttle:login']);
     });
 
     // SEARCH
