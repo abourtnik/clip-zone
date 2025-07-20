@@ -3,6 +3,7 @@ import {useTranslation} from "react-i18next";
 import moment from 'moment';
 import {VideoType} from "@/types";
 import {memo} from "preact/compat";
+import numeral from "numeral";
 
 type Props = {
     video : VideoType
@@ -49,7 +50,7 @@ export const Video = memo(({video} : Props) => {
                         <a href={video.user.route} className="position-relative text-decoration-none">
                             <small>{video.user.username}</small>
                         </a>
-                        <small className="text-muted d-block">{t( 'Views', { count:  video.views } )} • {moment(video.publication_date).fromNow()}</small>
+                        <small className="text-muted d-block">{t( 'Views', { count: video.views, formatted: numeral(video.views).format('0.[0]a') } )} • {moment(video.publication_date).fromNow()}</small>
                     </div>
                 </div>
             </div>
