@@ -32,11 +32,11 @@ class VideosUpdate extends Command
      */
     public function handle() : int
     {
-        $videos = Video::query()->withCount('views')->get();
+        $videos = Video::query()->withCount('viewsHistory')->get();
 
         foreach ($videos as $video) {
 
-            $views = $video->views_count;
+            $views = $video->viewsHistory_count;
 
             $video->update([
                 'views' => $views
