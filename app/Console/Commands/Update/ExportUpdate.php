@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Update;
 
 use App\Enums\ExportStatus;
 use App\Models\Export;
@@ -21,7 +21,7 @@ class ExportUpdate extends Command
      *
      * @var string
      */
-    protected $description = 'Update exports';
+    protected $description = 'Update exports table';
 
     /**
      * Execute the console command.

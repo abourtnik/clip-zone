@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Update;
 
-use App\Helpers\Number;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Database\QueryException;
@@ -21,7 +20,7 @@ class UsersUpdate extends Command
      *
      * @var string
      */
-    protected $description = 'Update users';
+    protected $description = 'Update users table';
 
     /**
      * Execute the console command.

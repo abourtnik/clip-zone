@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\YoutubeSync;
 
 use App\Models\Comment;
 use App\Models\User;
