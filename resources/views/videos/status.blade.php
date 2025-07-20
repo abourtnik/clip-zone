@@ -16,6 +16,11 @@
         <i class="fa-solid fa-hourglass-half"></i>&nbsp;
         Processing
     </span>
+@elseif($video->is_banned)
+    <span class="badge bg-danger">
+        <i class="fa-solid fa-ban"></i>&nbsp;
+        Banned {{$video->banned_at->diffForHumans()}}
+    </span>
 @elseif($video->is_unlisted)
     <span class="badge bg-info">
         <i class="fa-solid fa-eye-slash"></i>&nbsp;
@@ -35,11 +40,6 @@
     <span class="badge bg-secondary">
         <i class="fa-solid fa-file"></i>&nbsp;
         Draft
-    </span>
-@elseif($video->is_banned)
-    <span class="badge bg-danger">
-        <i class="fa-solid fa-ban"></i>&nbsp;
-        Banned {{$video->banned_at->diffForHumans()}}
     </span>
 @else
     <span class="badge bg-primary">

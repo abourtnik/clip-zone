@@ -9,6 +9,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Routing\Route as RouteAlias;
+use Illuminate\Support\Str;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -37,6 +39,19 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+        });
+
+        Route::bind('reportable', function (string $value, RouteAlias $route) {
+
+            $type = $route->parameter('type');
+
+            $modelClass = 'App\\Models\\' . Str::studly($type);
+
+            if (!class_exists($modelClass)) {
+                abort(404, "Model class $modelClass does not exist.");
+            }
+
+            return $modelClass::findOrFail($value);
         });
     }
 

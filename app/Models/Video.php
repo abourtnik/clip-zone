@@ -205,7 +205,6 @@ class Video extends Model implements Likeable, Reportable
     {
         return Attribute::make(
             get: fn () => $this->status === VideoStatus::BANNED
-
         );
     }
 
@@ -213,7 +212,6 @@ class Video extends Model implements Likeable, Reportable
     {
         return Attribute::make(
             get: fn () => is_null($this->uploaded_at)
-
         );
     }
 
@@ -228,7 +226,6 @@ class Video extends Model implements Likeable, Reportable
     {
         return Attribute::make(
             get: fn () => $this->status === VideoStatus::FAILED
-
         );
     }
 

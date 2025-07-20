@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enums\ReportStatus;
 use App\Models\Comment;
 use App\Models\Report;
 use App\Models\User;
@@ -9,15 +10,17 @@ use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class AdminController
 {
     public function index(): View {
 
-        $reports = Report::select('reportable_type', 'reportable_id', DB::raw('MIN(created_at) as first_report_at'), DB::raw('count(*) as reports_count'))
+        $reports = Report::select(
+            'reportable_type',
+            'reportable_id',
+            DB::raw('MIN(created_at) as first_report_at'),
+            DB::raw('count(*) as reports_count')
+        )
             ->with([
                 'reportable' => function (MorphTo $morphTo) {
                     $morphTo->morphWith([
@@ -27,6 +30,7 @@ class AdminController
                     ]);
                 }
             ])
+            ->where('status', ReportStatus::PENDING)
             ->groupBy('reportable_type', 'reportable_id')
             ->orderBy('reports_count', 'desc')
             ->orderBy('first_report_at', 'asc')
@@ -40,10 +44,5 @@ class AdminController
             'reports_count' => Report::count(),
             'reports' => $reports
         ]);
-    }
-
-    public function download(string $model): StreamedResponse
-    {
-        return Storage::download('exports/'.$model.'.csv');
     }
 }

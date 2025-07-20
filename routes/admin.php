@@ -16,8 +16,6 @@ Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function ()
     // Dashboard
     Route::get('/', [AdminController::class, 'index'])->name('index');
 
-    Route::get('/download/{model}', [AdminController::class, 'download'])->name('download');
-
     // Users
     Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
         Route::get('/', 'index')->name('index');
@@ -45,8 +43,8 @@ Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function ()
     // Reports
     Route::controller(ReportController::class)->prefix('reports')->name('reports.')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::post('/{report}/accept', 'accept')->name('accept');
-        Route::post('/{report}/reject', 'reject')->name('reject');
+        Route::post('/{type}/{reportable}/block', 'block')->name('block');
+        Route::post('/{type}/{reportable}/cancel', 'cancel')->name('cancel');
     });
 
     // Categories

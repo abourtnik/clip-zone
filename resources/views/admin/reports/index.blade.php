@@ -15,13 +15,12 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th style="width: 10%">Report By</th>
+                    <th style="min-width: 150px">Report By</th>
                     <th style="width: 10%">Type</th>
                     <th class="w-30">Content</th>
                     <th class="w-30">Reason</th>
-                    <th >Status</th>
-                    <th style="width: 7%">Date</th>
-                    <th style="width: 7%">Action</th>
+                    <th>Status</th>
+                    <th style="min-width: 150px">Date</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -46,9 +45,11 @@
                             <div class="badge bg-danger">
                                 {{$report->reason->value}}
                             </div>
-                            <x-expand-item>
-                                {{$report->comment}}
-                            </x-expand-item>
+                            <div class="mt-2">
+                                <x-expand-item>
+                                    {{$report->comment}}
+                                </x-expand-item>
+                            </div>
                         </td>
                         <td class="align-middle">
                             <div class="badge bg-{{$report->status->color()}}">
@@ -57,26 +58,6 @@
                         </td>
                         <td class="align-middle text-sm">
                             {{$report->created_at->diffForHumans()}}
-                        </td>
-                        <td class="align-middle">
-                            @if($report->is_pending)
-                                <div class="d-flex flex-column gap-2">
-                                    <form class="w-100" method="POST" action="{{route('admin.reports.accept', $report)}}">
-                                        @csrf
-                                        <button type="submit" class="btn btn-success btn-sm w-100">
-                                            <i class="fa-solid fa-check"></i>&nbsp;
-                                            Accept
-                                        </button>
-                                    </form>
-                                    <form class="w-100" method="POST" action="{{route('admin.reports.reject', $report)}}">
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger btn-sm w-100">
-                                            <i class="fa-solid fa-xmark"></i>&nbsp;
-                                            Reject
-                                        </button>
-                                    </form>
-                                </div>
-                            @endif
                         </td>
                     </tr>
                 @empty

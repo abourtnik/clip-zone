@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\ReportStatus;
+use App\Enums\VideoStatus;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
+use App\Models\Interfaces\Reportable;
 use App\Models\Report;
 use App\Models\User;
 use App\Models\Video;
@@ -33,22 +35,36 @@ class ReportController extends Controller
         ]);
     }
 
-    public function accept (Report $report) : RedirectResponse {
+    public function block (string $type, Reportable $reportable) : RedirectResponse {
 
-        $report->update([
-           'status' => ReportStatus::ACCEPTED
-        ]);
+        $updateInformation = ['banned_at' => now()];
 
-        return redirect()->route('admin.reports.index');
+        if ($reportable instanceof User) {
+            $updateInformation['status'] = VideoStatus::BANNED;
+        }
+
+        $reportable->update($updateInformation);
+
+        Report::query()
+            ->where('reportable_type', $reportable->getMorphClass())
+            ->where('reportable_id', $reportable->id)
+            ->update([
+                'status' => ReportStatus::BLOCKED
+            ]);
+
+        return redirect()->route('admin.index');
 
     }
 
-    public function reject (Report $report) : RedirectResponse {
+    public function cancel (string $type, Reportable $reportable) : RedirectResponse {
 
-        $report->update([
-            'status' => ReportStatus::REJECTED
-        ]);
+        Report::query()
+            ->where('reportable_type', $reportable->getMorphClass())
+            ->where('reportable_id', $reportable->id)
+            ->update([
+                'status' => ReportStatus::CANCELLED
+            ]);
 
-        return redirect()->route('admin.reports.index');
+        return redirect()->route('admin.index');
     }
 }

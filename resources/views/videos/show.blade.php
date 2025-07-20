@@ -44,6 +44,11 @@
                             <i class="fa-solid fa-clock"></i>
                             <strong>{{__('Planned')}} - {{$video->scheduled_date->format('d M Y H:i')}}</strong>
                         </div>
+                    @elseif($video->is_banned)
+                        <div class="d-flex alert alert-danger px-2 py-1 align-items-center gap-2 mb-0">
+                            <i class="fa-solid fa-cancel"></i>
+                            <strong>{{__('Banned')}}</strong>
+                        </div>
                     @elseif($video->is_private)
                         <div class="d-flex alert alert-danger px-2 py-1 align-items-center gap-2 mb-0">
                             <i class="fa-solid fa-lock"></i>
