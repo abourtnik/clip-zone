@@ -12,7 +12,7 @@
         <div class="position-absolute top-0 right-0 w-100 h-100 bg-dark bg-opacity-50"></div>
         <strong class="position-absolute bottom-0 end-0 text-white p-2 z-1">{{trans_choice('videos', $category->videos_count)}}</strong>
     </div>
-    <div class="container-fluid mt-3 my-3">
+    <div class="container-fluid px-0 px-sm-3 mt-3">
         @if($category->videos_count)
             <videos-area url="{{route('categories.videos', $category)}}" />
         @else

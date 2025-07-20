@@ -2,7 +2,7 @@
 
 @section('title', 'History')
 
-@section('class', 'px-3')
+@section('class', 'px-0 px-sm-3 mt-0 mt-sm-3')
 
 @section('content')
     @forelse($data as $date => $views)

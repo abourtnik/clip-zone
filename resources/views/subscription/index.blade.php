@@ -2,7 +2,7 @@
 
 @section('title', 'Subscriptions')
 
-@section('class', 'px-3')
+@section('class', 'px-0 px-sm-3 mt-0 mt-sm-3')
 
 @section('content')
     @auth
@@ -12,7 +12,7 @@
                 @each('subscription.partials.user', $users, 'user')
             </div>
         @else
-            <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-3 p-3">
                 <h5 class="mb-0">{{ __('Latest') }}</h5>
                 <a href="{{route('subscription.manage')}}" class="btn btn-primary btn-sm">
                     <i class="fa-solid fa-users"></i>
