@@ -79,8 +79,8 @@
                         </td>
                         <td class="align-middle">
                             @if(!$video->is_draft)
-                                @if($video->views_count)
-                                    <span class="badge bg-secondary">{{$video->views_count}} views</span>
+                                @if($video->views)
+                                    <span class="badge bg-secondary">{{$video->views}} views</span>
                                 @else
                                     <span class="badge bg-secondary">No views</span>
                                 @endif
@@ -135,7 +135,7 @@
                                         data-bs-target="#ban_video"
                                         @click="video = $el.dataset"
                                         data-title="{{$video->title}}"
-                                        data-infos="{{trans_choice('views', $video->views_count)}} • {{$video->created_at->format('d F Y')}}"
+                                        data-infos="{{trans_choice('views', $video->views)}} • {{$video->created_at->format('d F Y')}}"
                                         data-poster="{{$video->thumbnail_url}}"
                                         data-route="{{route('admin.videos.ban', $video)}}"
                                     >

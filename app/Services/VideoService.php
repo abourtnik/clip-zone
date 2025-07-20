@@ -18,10 +18,9 @@ class VideoService {
             ->where('user_id', $parentVideo->user->id)
             ->active()
             ->with(['user'])
-            ->withCount(['views'])
             ->when($parentVideo->category, fn($q) => $q->orderByRaw("FIELD(category_id, ".$parentVideo->category->id.") DESC"))
             ->inRandomOrder()
-            ->orderBy('views_count', 'desc')
+            ->orderBy('views', 'desc')
             ->limit(3)
             ->get();
 
@@ -30,9 +29,8 @@ class VideoService {
                 ->where('category_id', $parentVideo->category->id)
                 ->active()
                 ->with(['user'])
-                ->withCount(['views'])
                 ->inRandomOrder()
-                ->orderBy('views_count', 'desc')
+                ->orderBy('views', 'desc')
                 ->limit(6 - $user_videos->count())
                 ->get();
         } else {
@@ -42,9 +40,8 @@ class VideoService {
         $random_videos = Video::whereNotIn('id', [$parentVideo->id, ...$user_videos->pluck('id'), ...$category_videos->pluck('id')])
             ->active()
             ->with(['user'])
-            ->withCount(['views'])
             ->inRandomOrder()
-            ->orderBy('views_count', 'desc')
+            ->orderBy('views', 'desc')
             ->limit(9 - ($user_videos->count() + $category_videos->count()))
             ->get();
 

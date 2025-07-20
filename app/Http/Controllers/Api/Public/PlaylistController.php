@@ -13,7 +13,7 @@ class PlaylistController
     {
         return new PlaylistShowResource(
             $playlist->load([
-                'videos' => fn($q) => $q->withCount('views')->with('user')
+                'videos' => fn($q) => $q->with('user')
             ])->loadCount([
                 'videos'
             ])
@@ -25,7 +25,6 @@ class PlaylistController
         return VideoListResource::collection(
             $playlist->videos()
                 ->with('user')
-                ->withCount('views')
                 ->paginate(24)
         );
     }

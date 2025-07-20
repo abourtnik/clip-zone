@@ -25,7 +25,7 @@ class UserController
             $request
                 ->user()
                 ->videos()
-                ->withCount(['views', 'likes','comments'])
+                ->withCount(['likes','comments'])
                 ->latest('updated_at')
                 ->latest('id')
                 ->cursorPaginate(15)
@@ -66,7 +66,6 @@ class UserController
                 ->subscriptions_videos()
                 ->active()
                 ->with('user')
-                ->withCount('views')
                 ->latest('publication_date')
                 ->cursorPaginate(15)
         );

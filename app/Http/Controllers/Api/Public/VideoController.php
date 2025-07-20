@@ -14,7 +14,6 @@ class VideoController
         return VideoListResource::collection(
             Video::active()
                 ->with('user')
-                ->withCount('views')
                 ->latest('publication_date')
                 ->cursorPaginate(24)
         );
@@ -25,8 +24,7 @@ class VideoController
         return VideoListResource::collection(
             Video::active()
                 ->with('user')
-                ->withCount('views')
-                ->orderBy('views_count', 'desc')
+                ->orderBy('views', 'desc')
                 ->cursorPaginate(24)
         );
     }
@@ -45,7 +43,7 @@ class VideoController
                     },
                     'reportByAuthUser'
                 ])
-                ->loadCount(['views', 'comments', 'likes', 'dislikes'])
+                ->loadCount(['comments', 'likes', 'dislikes'])
                 ->loadExists([
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', auth('sanctum')->user()?->id),
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', auth('sanctum')->user()?->id),

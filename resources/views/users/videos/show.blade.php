@@ -9,7 +9,7 @@
             <div class="card shadow border-primary h-100">
                 <div class="card-body">
                     <h4 class="card-title text-center text-primary mb-3">Views Evolution</h4>
-                    @if($video->views_count)
+                    @if($video->views)
                         <div class="d-block" style="height: 547px">
                             <x-chartjs-component :chart="$chart" />
                         </div>
@@ -44,7 +44,7 @@
                             <hr>
                             <div class="d-flex align-items-center justify-content-center gap-4">
                                 <i class="fa-solid fa-eye fa-2x"></i>
-                                <p class="card-text text-center fs-3">{{$video->views_count}}</p>
+                                <p class="card-text text-center fs-3">{{$video->views}}</p>
                             </div>
                         </div>
                     </div>

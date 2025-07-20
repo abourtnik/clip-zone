@@ -17,10 +17,9 @@ class UserController
             $user
                 ->loadCount(['subscribers', 'videos', 'videos_views'])
                 ->load([
-                    'pinned_video' => fn($q) => $q->withCount('views'),
+                    'pinned_video',
                     'videos' => function ($q) {
                         $q->with('user')
-                            ->withCount('views')
                             ->active()
                             ->latest('publication_date')
                             ->limit(8);
@@ -29,7 +28,6 @@ class UserController
                         $q->withCount('videos')
                             ->withWhereHas('videos', function($q) {
                                 $q->active()
-                                    ->withCount('views')
                                     ->with('user')
                                     ->limit(8);
                             })
@@ -53,10 +51,9 @@ class UserController
             $user->videos()
                 ->active()
                 ->when($excludePinned, fn($query) => $query->where('id', '!=', $user->pinned_video->id))
-                ->withCount('views')
                 ->with('user')
                 ->when($sort === 'latest', fn($query) => $query->latest('publication_date'))
-                ->when($sort === 'popular', fn($query) => $query->orderByRaw('views_count DESC'))
+                ->when($sort === 'popular', fn($query) => $query->orderBy('views', 'DESC'))
                 ->when($sort === 'oldest', fn($query) => $query->oldest('publication_date'))
                 ->cursorPaginate(24)
         );

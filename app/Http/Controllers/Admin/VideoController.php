@@ -17,7 +17,7 @@ class VideoController
                     'category:id,title',
                     'user' => fn($q) => $q->withCount(['videos', 'subscribers'])
                 ])
-                ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
+                ->withCount(['likes', 'dislikes', 'interactions', 'comments'])
                 ->latest('created_at')
                 ->paginate(15)
                 ->withQueryString()

@@ -32,7 +32,7 @@ class VideoController extends Controller
                     'category:id,title',
                     'user:id,pinned_video_id',
                 ])
-                ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
+                ->withCount(['likes', 'dislikes', 'interactions', 'comments'])
                 ->latest('updated_at')
                 ->latest('id')
                 ->paginate(15)
@@ -76,7 +76,6 @@ class VideoController extends Controller
     public function show(Video $video): View {
         return view('users.videos.show', [
             'video' => $video->loadCount([
-                'views',
                 'likes',
                 'dislikes',
                 'comments',

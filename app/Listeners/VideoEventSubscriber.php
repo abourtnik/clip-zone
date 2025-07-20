@@ -60,7 +60,8 @@ class VideoEventSubscriber
         $ip = request()->getClientIp();
 
         RateLimiter::attempt('show-video:'.$video->id.':'.$ip, $perMinute = 1, function() use ($video, $ip) {
-            $video->views()->create([
+            $video->increment('views');
+            $video->viewsHistory()->create([
                 'ip' => $ip,
                 'user_id' => Auth::user()?->id
             ]);

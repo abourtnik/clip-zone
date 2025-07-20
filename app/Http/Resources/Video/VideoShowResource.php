@@ -50,7 +50,7 @@ class VideoShowResource extends JsonResource
             'thumbnail' => $this->thumbnail_url,
             'duration' => (int) $this->getRawOriginal('duration'),
             'formated_duration' => $this->duration,
-            'views' => $this->views_count,
+            'views' => $this->views,
             'route' => $this->route,
             'user' => UserListResource::make($this->user),
             'comments' => $this->comments_count,

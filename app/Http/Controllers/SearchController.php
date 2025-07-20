@@ -27,9 +27,7 @@ class SearchController extends Controller
                 return $index->rawSearch($query, $options);
             })
             ->query(function (Builder $query){
-                return $query
-                    ->with('user')
-                    ->withCount('views');
+                return $query->with('user');
             })
             ->orderBy('views', 'desc')
             ->orderBy('publication_date', 'desc')

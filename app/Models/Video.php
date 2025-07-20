@@ -80,7 +80,7 @@ class Video extends Model implements Likeable, Reportable
         return $this->belongsTo(Category::class);
     }
 
-    public function views (): HasMany {
+    public function viewsHistory (): HasMany {
         return $this->hasMany(View::class, 'video_id');
     }
 
@@ -402,8 +402,7 @@ class Video extends Model implements Likeable, Reportable
     {
         return $query
             ->active()
-            ->with(['user:id,username', 'category:id,title'])
-            ->withCount('views');
+            ->with(['user:id,username', 'category:id,title']);
     }
 
     /**
@@ -415,8 +414,7 @@ class Video extends Model implements Likeable, Reportable
             ->load([
                 'user:id,username',
                 'category:id,title'
-            ])
-            ->loadCount('views');
+            ]);
     }
 
     public function toSearchableArray() : array
@@ -428,7 +426,7 @@ class Video extends Model implements Likeable, Reportable
             'description' => $this->description,
             'category' => $this->category?->title,
             'user' => $this->user->username,
-            'views' => $this->views_count,
+            'views' => $this->views,
             'duration' => (int) $this->getRawOriginal('duration'),
             'formated_duration' => $this->duration,
             'url' => $this->route,

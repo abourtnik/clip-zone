@@ -109,7 +109,7 @@
                                         <td class="align-middle">
                                             @include('videos.status')
                                         </td>
-                                        <td class="align-middle">{{$video->views_count}}</td>
+                                        <td class="align-middle">{{$video->views}}</td>
                                         <td class="align-middle">
                                             @if($video->comments_count)
                                                 <a href="{{route('user.comments.index') .'?video='.$video->id}}" class="badge bg-info text-decoration-none">

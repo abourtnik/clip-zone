@@ -12,8 +12,7 @@ class PlaylistController
         return view('playlists.show', [
             'playlist' => $playlist
                 ->load([
-                    'videos' => fn($q) => $q->withCount('views')
-                        ->with('user')
+                    'videos' => fn($q) => $q->with('user')
                 ])
                 ->loadCount([
                     'videos'

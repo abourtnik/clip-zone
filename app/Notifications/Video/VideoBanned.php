@@ -51,7 +51,7 @@ class VideoBanned extends Notification
             ->subject(Lang::get('Your video was suspended'))
             ->markdown('mails.video.ban', [
                 'notifiable' => $notifiable,
-                'video' => $this->video->loadCount('views'),
+                'video' => $this->video,
             ]);
     }
 

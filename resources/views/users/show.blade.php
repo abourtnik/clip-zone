@@ -121,7 +121,7 @@
                                 </div>
                                 <div class="col-12 col-xl-5 col-xxl-7 mt-3 m-xl-0">
                                     <a href="{{$user->pinned_video->route}}" class="text-decoration-none text-black fw-bold">{{$user->pinned_video->title}}</a>
-                                    <div class="text-muted text-sm my-2">{{trans_choice('views', $user->pinned_video->views_count)}} • {{$user->pinned_video->created_at->diffForHumans()}}</div>
+                                    <div class="text-muted text-sm my-2">{{trans_choice('views', $user->pinned_video->views)}} • {{$user->pinned_video->created_at->diffForHumans()}}</div>
                                     <div class="text-sm">
                                         <p class="mb-0">{!! nl2br($user->pinned_video->short_description) !!}</p>
                                         @if($user->pinned_video->description_is_long)

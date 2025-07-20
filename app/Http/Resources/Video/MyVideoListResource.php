@@ -37,7 +37,7 @@ class MyVideoListResource extends JsonResource
             'short_title' => $this->short_title,
             'thumbnail' => $this->thumbnail_url,
             'formated_duration' => $this->duration,
-            'views' => $this->views_count,
+            'views' => $this->views,
             'date' => $date,
             'is_public' => $this->is_public,
             'status' => $this->status,

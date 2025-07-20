@@ -33,7 +33,7 @@ class VideoListResource extends JsonResource
                 'short_title' => $this->short_title,
                 'thumbnail' => $this->thumbnail_url,
                 'formated_duration' => $this->duration,
-                'views' => $this->views_count,
+                'views' => $this->views,
                 'route' => $this->route,
                 'publication_date' => $this->publication_date,
                 'user' => UserListResource::make($this->user),

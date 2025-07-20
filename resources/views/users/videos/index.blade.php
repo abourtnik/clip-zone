@@ -99,9 +99,9 @@
                         </td>
                         <td class="align-middle">
                             @if($video->is_created)
-                                @if($video->views_count)
+                                @if($video->views)
                                     <a href="{{route('user.videos.show', $video)}}" class="badge bg-info text-decoration-none">
-                                        {{trans_choice('views', $video->views_count)}}
+                                        {{trans_choice('views', $video->views)}}
                                     </a>
                                 @else
                                     <div class="badge bg-secondary">
@@ -178,7 +178,7 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#delete_video"
                                     data-title="{{$video->title}}"
-                                    data-infos="{{trans_choice('views', $video->views_count)}} • {{$video->created_at->format('d F Y')}}"
+                                    data-infos="{{trans_choice('views', $video->views)}} • {{$video->created_at->format('d F Y')}}"
                                     data-poster="{{$video->thumbnail_url}}"
                                     data-route="{{route('user.videos.destroy', $video)}}"
                                     data-download="{{route('video.download', $video)}}"

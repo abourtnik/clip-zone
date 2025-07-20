@@ -21,7 +21,6 @@ class UserController
             'user' => $user->load([
                 'videos' => function ($q) {
                     $q->with('user')
-                        ->withCount('views')
                         ->active()
                         ->latest('publication_date')
                         ->limit(8);
@@ -30,7 +29,6 @@ class UserController
                     $q->withCount('videos')
                       ->withWhereHas('videos', function($q) {
                             $q->active()
-                                ->withCount('views')
                                 ->with('user')
                                 ->limit(8);
                             })
@@ -38,7 +36,7 @@ class UserController
                         ->latest('updated_at')
                         ->limit(12);
                 },
-                'pinned_video' => fn($q) => $q->withCount('views'),
+                'pinned_video',
                 'reportByAuthUser'
             ])->loadCount([
                 'subscribers',

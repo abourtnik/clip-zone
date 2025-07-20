@@ -62,7 +62,6 @@ class VideoController extends Controller
                     'reportByAuthUser'
                 ])
                 ->loadCount([
-                    'views',
                     'likes',
                     'dislikes',
                     'comments'
