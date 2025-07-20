@@ -36,7 +36,7 @@ class VideosUpdate extends Command
 
         foreach ($videos as $video) {
 
-            $views = $video->viewsHistory_count;
+            $views = $video->views_history_count;
 
             $video->update([
                 'views' => $views
