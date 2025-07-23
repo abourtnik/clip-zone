@@ -18,7 +18,7 @@ class PageController extends Controller
                 'videos' => function ($query) {
                     $query
                         ->filter()
-                        ->withCount(['likes', 'dislikes', 'interactions', 'comments', 'views'])
+                        ->withCount(['likes', 'dislikes', 'interactions', 'comments'])
                         ->orderBy('created_at', 'desc')
                         ->limit(5);
                 },
