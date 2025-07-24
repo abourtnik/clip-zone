@@ -51,8 +51,6 @@ class VideoController extends Controller
             $currentIndex = $playlist?->videos->find($video->id)?->pivot->position;
         }
 
-        event(new VideoViewed($video));
-
         $suggestedVideos = $this->videoService->getSuggestedVideos($video);
 
         return view('videos.show', [

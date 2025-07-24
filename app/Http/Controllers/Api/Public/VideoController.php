@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\Public;
 use App\Http\Resources\Video\VideoListResource;
 use App\Http\Resources\Video\VideoShowResource;
 use App\Models\Video;
+use App\Services\ViewService;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Response;
 
 class VideoController
 {
@@ -50,5 +52,12 @@ class VideoController
                     'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', auth('sanctum')->user()?->id),
                 ])
         );
+    }
+
+    public function view(Video $video, ViewService $viewService): Response
+    {
+        $viewService->incrementView($video);
+
+        return response()->noContent();
     }
 }

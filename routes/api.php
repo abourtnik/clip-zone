@@ -159,6 +159,7 @@ Route::middleware('throttle:api')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/trend', 'trend')->name('trend');
         Route::get('/{video:uuid}', 'show')->can('show', 'video');
+        Route::post('/{video:uuid}/view', 'view')->can('show', 'video');
     });
 
     // USERS

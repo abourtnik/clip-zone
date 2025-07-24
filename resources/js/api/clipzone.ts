@@ -119,3 +119,7 @@ export async function input(endpoint: string, data: {}): Promise<{ [key: string]
 export async function getThumbnails(video_id: number): Promise<{data: ThumbnailType[]}> {
     return jsonFetch(API_URL + `/videos/${video_id}/thumbnails`);
 }
+
+export async function viewVideo(video_uuid: string): Promise<void> {
+    return jsonFetch(API_URL + `/videos/${video_uuid}/view`, 'POST');
+}

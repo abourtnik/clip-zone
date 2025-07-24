@@ -6,14 +6,11 @@ use App\Events\Video\VideoBanned;
 use App\Events\Video\VideoError;
 use App\Events\Video\VideoPublished;
 use App\Events\Video\VideoUploaded;
-use App\Events\Video\VideoViewed;
 use App\Notifications\Activity\NewVideo;
 use App\Notifications\Video\VideoBanned as VideoBannedNotification;
 use App\Notifications\Video\VideoUploaded as VideoUploadedNotification;
 use App\Notifications\Video\VideoError as VideoErrorNotification;
 use Illuminate\Events\Dispatcher;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
 
 class VideoEventSubscriber
 {
@@ -52,23 +49,6 @@ class VideoEventSubscriber
     }
 
     /**
-     * Handle video view events.
-     */
-    public function insertView(VideoViewed $event): void {
-
-        $video = $event->video;
-        $ip = request()->getClientIp();
-
-        RateLimiter::attempt('show-video:'.$video->id.':'.$ip, $perMinute = 1, function() use ($video, $ip) {
-            $video->increment('views');
-            $video->viewsHistory()->create([
-                'ip' => $ip,
-                'user_id' => Auth::user()?->id
-            ]);
-        });
-    }
-
-    /**
      * Register the listeners for the subscriber.
      *
      * @return array<string, string>
@@ -80,7 +60,6 @@ class VideoEventSubscriber
             VideoBanned::class => 'sendVideoBannedNotification',
             VideoUploaded::class => 'sendVideoUploadedNotification',
             VideoError::class => 'sendVideoErrorNotification',
-            VideoViewed::class => 'insertView',
         ];
     }
 }

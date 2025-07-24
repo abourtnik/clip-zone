@@ -114,6 +114,7 @@
                                 <div class="col-12 col-xl-7 col-xxl-5 px-0">
                                     <div class="ratio ratio-16x9">
                                         <video-player
+                                            video_id="{{$user->pinned_video->uuid}}"
                                             thumbnail_url="{{$user->pinned_video->thumbnail_url}}"
                                             file_url="{{$user->pinned_video->file_url}}"
                                         />

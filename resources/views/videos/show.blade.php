@@ -30,6 +30,7 @@
                     </div>
                 @else
                     <video-player
+                        video_id="{{$video->uuid}}"
                         thumbnail_url="{{$video->thumbnail_url}}"
                         file_url="{{$video->file_url}}"
                         next_video="{{$nextVideo?->route}}"
