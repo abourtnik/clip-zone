@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ViewService
 {
-    public const int COOLDOWN_MINUTES = 3;
+    public const int COOLDOWN_MINUTES = 5;
 
     private function hasRecentView(Video $video): bool {
 
@@ -26,7 +26,9 @@ class ViewService
 
     private function skipIncrementView(Video $video) : bool
     {
-        return Auth::user()?->is_admin || $video->user->is(Auth::user()) || $this->hasRecentView($video);
+        $manager = app('impersonate');
+
+        return Auth::user()?->is_admin || $video->user->is(Auth::user()) || $manager->isImpersonating() || $this->hasRecentView($video);
     }
 
     public function incrementView(Video $video): void
@@ -39,7 +41,8 @@ class ViewService
 
         $video->viewsHistory()->create([
             'ip' => request()->getClientIp(),
-            'user_id' => Auth::user()?->id
+            'user_id' => Auth::user()?->id,
+            'user_agent' => request()->userAgent()
         ]);
     }
 }
