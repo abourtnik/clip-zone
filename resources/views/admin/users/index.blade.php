@@ -118,14 +118,6 @@
                                 <a target="_blank" class="btn btn-sm btn-primary" href="{{route('impersonate', $user)}}" title="Impersonate user">
                                     <i class="fa-solid fa-user-ninja"></i>
                                 </a>
-                                @if(!$user->is_premium)
-                                    <form method="POST" action="{{route('admin.users.premium', $user)}}">
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-warning text-white" title="Make user premium">
-                                            <i class="fa-solid fa-star"></i>
-                                        </button>
-                                    </form>
-                                @endif
                                 @if(!$user->hasVerifiedEmail())
                                     <form method="POST" action="{{route('admin.users.confirm', $user)}}" title="Verify user">
                                         @csrf

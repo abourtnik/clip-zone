@@ -23,7 +23,6 @@ Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function ()
             ->name('ban')
             ->can('ban', 'user');
         Route::post('/{user}/confirm', 'confirm')->name('confirm');
-        Route::post('/{user}/premium', 'premium')->name('premium');
         Route::delete('/{user}/delete', 'delete')->name('delete');
         Route::get('/export', 'export')->name('export');
     });

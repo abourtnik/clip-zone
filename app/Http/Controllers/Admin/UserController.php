@@ -62,11 +62,6 @@ class UserController
         return redirect(url()->previous());
     }
 
-    public function premium (User $user) : RedirectResponse {
-
-        return redirect(url()->previous());
-    }
-
     public function delete (User $user) : RedirectResponse {
 
         $user->notify(new DeleteAccount());
