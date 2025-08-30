@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://www.clip-zone.com/images/logo.png" alt="ClipZone logo" height="200">
+<img src="https://www.clip-zone.com/images/logo.png" alt="ClipZone logo" height="100">
 
 # 🎬 ClipZone
 
