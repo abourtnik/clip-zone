@@ -23,7 +23,7 @@
                 <span>{{config('plans.trial_period.period')}} {{ __('days trial') }} • {{ __('Then') }}</span>
                 @endif
                 @foreach($plans as $plan)
-                    <span x-show="plan === {{$plan->id}}">{{$plan->price}} € / {{ __($plan->period)}} </span>
+                    <span x-show="plan === {{$plan->id}}">{{$plan->price}} / {{ __($plan->period)}} </span>
                 @endforeach
                 <span>• {{ __('Cancel anytime') }}</span>
             </h3>
@@ -52,7 +52,7 @@
                     @foreach($plans as $plan)
                         <div class="card shadow" x-show="plan === {{$plan->id}}">
                             <div class="card-body">
-                                <h5 class="card-title fs-1 text-primary text-center">{{$plan->price}} € / {{ __($plan->period) }}</h5>
+                                <h5 class="card-title fs-1 text-primary text-center">{{$plan->price}} / {{ __($plan->period) }}</h5>
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex align-items-center gap-4 py-3">

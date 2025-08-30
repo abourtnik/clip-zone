@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->float('price');
+            $table->unsignedInteger('price')->comment('in centimes');
             $table->smallInteger('duration')->comment('in month');
             $table->string('stripe_id')->nullable()->index()->unique();
             $table->timestamps();
