@@ -73,22 +73,23 @@
                                 <a href="{{route('user.playlists.edit', $playlist)}}" class="btn btn-primary btn-sm" title="Edit Playlist">
                                     <i class="fa-solid fa-pen"></i>
                                 </a>
-                                <button
-                                    type="button"
-                                    title="Delete video"
-                                    class="btn btn-danger btn-sm"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#delete_playlist"
-                                    data-title="{{$playlist->title}}"
-                                    data-thumbnail="{{$playlist->first_video?->thumbnail_url}}"
-                                    data-infos="{{trans_choice('videos', $playlist->videos_count) . ' • ' . $playlist->created_at->diffForHumans()}}"
-                                    data-route="{{route('user.playlists.destroy', $playlist)}}"
-                                    @click="playlist = $el.dataset;"
-                                >
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
+                                @if($playlist->is_deletable)
+                                    <button
+                                        type="button"
+                                        title="Delete video"
+                                        class="btn btn-danger btn-sm"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#delete_playlist"
+                                        data-title="{{$playlist->title}}"
+                                        data-thumbnail="{{$playlist->first_video?->thumbnail_url}}"
+                                        data-infos="{{trans_choice('videos', $playlist->videos_count) . ' • ' . $playlist->created_at->diffForHumans()}}"
+                                        data-route="{{route('user.playlists.destroy', $playlist)}}"
+                                        @click="playlist = $el.dataset;"
+                                    >
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
+                                @endif
                             </div>
-
                         </td>
                     </tr>
                 @empty

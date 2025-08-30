@@ -143,6 +143,7 @@ namespace App\Models{
  * @property string $tokenable_type
  * @property int $tokenable_id
  * @property string $name
+ * @property string|null $type
  * @property string $token
  * @property string|null $abilities
  * @property \Illuminate\Support\Carbon|null $last_used_at
@@ -162,6 +163,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereTokenableId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereTokenableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Device whereUpdatedAt($value)
  * @mixin \Eloquent
  */
@@ -261,29 +263,6 @@ namespace App\Models{
  */
 	#[\AllowDynamicProperties]
 	class IdeHelperNotification {}
-}
-
-namespace App\Models{
-/**
- * 
- *
- * @property int $id
- * @property int $user_id
- * @property string $token
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property-read mixed $is_expired
- * @property-read \App\Models\User $user
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset whereToken($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|PasswordReset whereUserId($value)
- * @mixin \Eloquent
- */
-	#[\AllowDynamicProperties]
-	class IdeHelperPasswordReset {}
 }
 
 namespace App\Models\Pivots{
@@ -394,6 +373,7 @@ namespace App\Models{
  * @property string|null $description
  * @property int $user_id
  * @property \App\Enums\PlaylistStatus $status
+ * @property bool $is_deletable
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $first_video
@@ -415,6 +395,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereIsDeletable($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereUpdatedAt($value)
@@ -814,6 +795,7 @@ namespace App\Models{
  * @property string|null $youtube_id Youtube ID
  * @property int $is_live
  * @property int $is_short
+ * @property int $views
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Category|null $category
@@ -863,9 +845,9 @@ namespace App\Models{
  * @property-read int|null $thumbnails_count
  * @property-read mixed $type
  * @property-read \App\Models\Thumbnail|null $uploadedThumbnail
- * @property-read \App\Models\User|null $user
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\View> $views
- * @property-read int|null $views_count
+ * @property-read \App\Models\User $user
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\View> $viewsHistory
+ * @property-read int|null $views_history_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video active()
  * @method static \Database\Factories\VideoFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video filter(array $filters = [])
@@ -901,6 +883,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereUploadedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereViews($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereYoutubeId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video withoutShorts()
  * @mixin \Eloquent
@@ -917,6 +900,7 @@ namespace App\Models{
  * @property int $video_id
  * @property int|null $user_id
  * @property string $ip
+ * @property string|null $user_agent
  * @property \Illuminate\Support\Carbon $view_at
  * @property-read \App\Models\Video|null $user
  * @property-read \App\Models\Video $video
@@ -927,6 +911,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereIp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereUserAgent($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereVideoId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereViewAt($value)

@@ -20,11 +20,13 @@ use Illuminate\Support\Facades\Auth;
 class Playlist extends Model
 {
     use HasFactory, Filterable;
+    public const string WATCH_LATER_PLAYLIST = 'Watch Later';
 
     protected $guarded = ['id'];
 
     protected $casts = [
         'status' => PlaylistStatus::class,
+        'is_deletable' => 'boolean'
     ];
 
     public function user() : BelongsTo

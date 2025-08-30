@@ -33,6 +33,11 @@ return [
                     'new_tab' => true,
                 ],
                 [
+                    'title' => 'Watch later',
+                    'icon' => 'clock',
+                    'route' => 'pages.later',
+                ],
+                [
                     'title' => 'Liked videos',
                     'icon' => 'thumbs-up',
                     'route' => 'pages.liked',

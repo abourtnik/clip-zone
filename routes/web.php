@@ -29,6 +29,7 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/terms', 'terms')->name('terms');
     Route::middleware('auth')->group(function () {
         Route::get('/liked', 'liked')->name('liked');
+        Route::get('/later', 'later')->name('later');
     });
     Route::get('/premium', 'premium')->name('premium');
 });

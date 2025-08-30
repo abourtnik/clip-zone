@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
+use App\Services\UserService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\Auth;
 
 class RegistrationController
 {
@@ -16,7 +15,7 @@ class RegistrationController
         return view('auth.register');
     }
 
-    public function register(RegisterRequest $request): RedirectResponse
+    public function register(RegisterRequest $request, UserService $userService): RedirectResponse
     {
         $validated = $request
             ->safe()
@@ -26,11 +25,7 @@ class RegistrationController
             ])
             ->except('cgu');
 
-        $user = User::create($validated);
-
-        Auth::login($user);
-
-        event(new Registered($user));
+        $userService->register($validated);
 
         return redirect()->route('user.edit');
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Plan;
+use App\Models\Playlist;
 use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
@@ -42,6 +43,24 @@ class PageController
 
         return view('pages.liked', [
             'data' => $interactions
+        ]);
+    }
+
+    public function later(): View {
+
+        $playlist = Auth::user()
+            ->playlists()
+            ->where('title', Playlist::WATCH_LATER_PLAYLIST)
+            ->first();
+
+        return view('playlists.show', [
+            'playlist' => $playlist
+                ->load([
+                    'videos' => fn($q) => $q->with('user')
+                ])
+                ->loadCount([
+                    'videos'
+                ]),
         ]);
     }
 

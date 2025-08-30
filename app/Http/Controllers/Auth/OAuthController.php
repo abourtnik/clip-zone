@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,10 @@ use Laravel\Socialite\Contracts\User as SocialUser;
 
 class OAuthController
 {
+    public function __construct(
+        protected UserService $userService,
+    ){}
+
     public function connect(string $service): RedirectResponse {
         return Socialite::driver($service)
             ->with(['auth_type' => 'rerequest'])
@@ -55,6 +60,10 @@ class OAuthController
 
     public function link(string $service, SocialUser $user): RedirectResponse {
 
+        if (User::where($service.'_id', $user->getId())->exists()) {
+            return redirect()->route('user.edit')->with(['error' => 'This '.ucfirst($service).' account is already linked to another user']);
+        }
+
         Auth::user()->update([
             $service.'_id' => $user->getId()
         ]);
@@ -77,7 +86,7 @@ class OAuthController
 
             $username = $usernameExist ? $socialUsername .'-'. random_int(10, 1000)  : $socialUsername;
 
-            $user = User::create([
+            $user = $this->userService->register([
                 'username' => $username,
                 'slug' => User::generateSlug($username),
                 'password' => '',
@@ -103,7 +112,7 @@ class OAuthController
             ]);
         }
 
-        Auth::login($user, true);
+        Auth::login($user);
 
         return redirect()->intended(route('user.index'));
     }

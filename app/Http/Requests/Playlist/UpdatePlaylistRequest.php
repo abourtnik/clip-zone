@@ -27,9 +27,11 @@ class UpdatePlaylistRequest extends FormRequest
      */
     public function rules() : array
     {
+        $isDeletable = $this->route('playlist')->is_deletable;
+
         return [
             'title' => [
-                'required',
+                Rule::requiredIf($isDeletable),
                 'string',
                 'max:'.config('validation.playlist.title.max')
             ],
@@ -39,7 +41,8 @@ class UpdatePlaylistRequest extends FormRequest
                 'max:'.config('validation.playlist.description.max')
             ],
             'status' => [
-                'required',
+                Rule::requiredIf($isDeletable),
+                Rule::prohibitedIf(!$isDeletable),
                 new Enum(PlaylistStatus::class)
             ],
             'videos' => 'nullable|array',

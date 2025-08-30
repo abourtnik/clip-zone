@@ -5,7 +5,7 @@
 @section('content')
     <div class="row justify-content-center gy-3">
         <div class="col-md-12 col-lg-5 col-xl-4 col-xxl-4 text-black">
-            <div x-data="{favorite: {{$favorite_by_auth_user ? 'true' : 'false'}}}" class="text-black h-100 card">
+            <div x-data="{favorite: {{$playlist->is_deletable && $favorite_by_auth_user ? 'true' : 'false'}}}" class="text-black h-100 card">
                 @if($playlist->first_video)
                     <img class="img-fluid card-img-top" src="{{$playlist->first_video->thumbnail_url}}" alt="{{$playlist->title}}">
                 @endif
@@ -30,26 +30,28 @@
                         </a>
                         @endif
                         @auth
-                            <button
-                                x-show.important="!favorite"
-                                @click="favorite = true;"
-                                class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button"
-                                data-url="{{route('user.playlists.favorite', $playlist)}}"
-                                data-method="POST"
-                            >
-                                <i class="fa-regular fa-heart"></i>
-                                <span>Add to favorites</span>
-                            </button>
-                            <button
-                                x-show.important="favorite"
-                                @click="favorite = false;"
-                                class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button"
-                                data-url="{{route('user.playlists.favorite', $playlist)}}"
-                                data-method="POST"
-                            >
-                                <i class="fa-solid fa-heart"></i>
-                                <span>Remove from favorites</span>
-                            </button>
+                            @can('favorite', $playlist)
+                                <button
+                                    x-show.important="!favorite"
+                                    @click="favorite = true;"
+                                    class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button"
+                                    data-url="{{route('user.playlists.favorite', $playlist)}}"
+                                    data-method="POST"
+                                >
+                                    <i class="fa-regular fa-heart"></i>
+                                    <span>Add to favorites</span>
+                                </button>
+                                <button
+                                    x-show.important="favorite"
+                                    @click="favorite = false;"
+                                    class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button"
+                                    data-url="{{route('user.playlists.favorite', $playlist)}}"
+                                    data-method="POST"
+                                >
+                                    <i class="fa-solid fa-heart"></i>
+                                    <span>Remove from favorites</span>
+                                </button>
+                            @endcan
                         @else
                             <button
                                 type="button"

@@ -40,6 +40,7 @@ class UserController
             $request
                 ->user()
                 ->playlists()
+                ->orderBy('is_deletable', 'ASC')
                 ->latest('created_at')
                 ->withCount('videos')
                 ->with('videos')
