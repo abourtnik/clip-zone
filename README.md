@@ -15,6 +15,8 @@
 <img src="https://img.shields.io/badge/Donate-blue?logo=paypal" alt="Donate Paypal">
 </a>
 
+*A customizable, community-driven platform to upload, share, and stream videos. Fully open source and self-hostable.*
+
 </div>
 
 ---
@@ -59,5 +61,8 @@ If you discover security vulnerabilities, please email **contact@antonbourtnik.f
 ---
 
 <div align="center">
-** Made with ❤️ by [Anton Bourtnik](https://github.com/abourtnik) **
+
+**Made with ❤️ by [Anton Bourtnik](https://github.com/abourtnik)**
+
+[Website](https://www.antonbourtnik.fr) • [Support](mailto:contact@antonbourtnik.fr)
 </div>
