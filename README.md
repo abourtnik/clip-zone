@@ -1,6 +1,13 @@
-ClipZone
-=====
+<div align="center">
 
+<img src="https://www.clip-zone.com/images/logo.png" alt="ClipZone logo" height="200">
+
+# 🎬 ClipZone
+
+**Open Source Video Sharing Platform**
+
+[![Laravel Version](https://img.shields.io/badge/Laravel-11.0+-FF2D20?style=flat&logo=laravel)](https://laravel.com)
+![GitHub License](https://img.shields.io/github/license/abourtnik/clip-zone)
 <a href="https://github.com/abourtnik/clip-zone/actions">
 <img src="https://github.com/abourtnik/clip-zone/actions/workflows/CI-CD.yml/badge.svg" alt="Build Status">
 </a>
@@ -8,36 +15,49 @@ ClipZone
 <img src="https://img.shields.io/badge/Donate-blue?logo=paypal" alt="Donate Paypal">
 </a>
 
-Open Source Youtube Clone
+</div>
 
-<p align="center">
-    <img src="https://www.clip-zone.com/images/logo.png" alt="ClipZone logo" height="200">
-</p>
+---
 
-## Technical detail
+## 🔧 Technical detail
 
-* Backend : PHP 8.3, Laravel 11, Mariadb 11, Redis, Bun, Meilisearch
-* Frontend : Preact, Alpine JS, Boostrap 5.3, Typescript
+- Backend : PHP 8.3, Laravel 11, Mariadb 11, Redis, Bun, Meilisearch
+- Frontend : Preact, Alpine JS, Boostrap 5.3, Typescript
+- Database Structure : https://dbdiagram.io/d/clip-zone-com-68a5c934466887cb45d5144e
 
-## Installation
+---
 
-* Clone project
-* Run `make install` command on the root folder
-* Optional : Create stripe account and update STRIPE env variables
+## 📦 Installation
 
-## Start project
-* Run `make start` to start docker containers
-* Then go to `http://localhost:8080`
+- Clone project
+- Run `make install` command on the root folder
+- Optional : Create stripe account and update STRIPE env variables
 
-## Contributing
+---
+
+## 🚀 Start project
+- Run `make start` to start docker containers
+- Then go to `http://localhost:8080`
+
+---
+
+## 🤝 Contributing
 
 We encourage you to contribute to ClipZone !!
 
-Trying to report a possible security vulnerability in ClipZone ? Consider using email :
-**contact@antonbourtnik.fr** with clear description of security vulnerability.
+---
 
-## License
+## 📜 License
 ClipZone is made available under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
 
-## Credits
-ClipZone is created and maintained by [Anton Bourtnik](https://github.com/abourtnik)
+---
+
+## 🔒 Security
+
+If you discover security vulnerabilities, please email **contact@antonbourtnik.fr** instead of using the issue tracker.
+
+---
+
+<div align="center">
+** Made with ❤️ by [Anton Bourtnik](https://github.com/abourtnik) **
+</div>
