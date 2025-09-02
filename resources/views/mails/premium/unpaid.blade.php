@@ -2,7 +2,7 @@
 
 # Dear {{$notifiable->username}}.
 
-Your last payment of **@money($amount)** for {{ config('app.name') }} Premium was unsuccessful.
+Your last payment of **{{ $amount }}** for {{ config('app.name') }} Premium was unsuccessful.
 
 Please update your payment method to continue to profit premium features.
 

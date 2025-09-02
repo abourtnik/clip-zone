@@ -14,7 +14,7 @@ class Plan extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'price' => MoneyCast::class,
+        'price' => MoneyCast::class.':0',
     ];
 
     public function period() : Attribute {

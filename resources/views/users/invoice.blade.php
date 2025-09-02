@@ -50,23 +50,23 @@
         <tbody>
             <tr>
                 <td>Premium account {{$transaction->subscription->plan->name}} plan - From {{$transaction->date->format('d/m/Y')}} to {{$transaction->subscription->next_payment->format('d/m/Y')}}</td>
-                <td>@money($transaction->amount_without_tax)</td>
+                <td>{{ $transaction->amount_without_tax }}</td>
             </tr>
         </tbody>
         <tfoot>
             <tr class="active">
                 <th scope="row" colspan="2" class="text-right">
-                    Excluding taxes : @money($transaction->amount_without_tax)
+                    Excluding taxes : {{ $transaction->amount_without_tax }}
                 </th>
             </tr>
             <tr class="active">
                 <th scope="row" colspan="2" class="text-right">
-                    TVA (20%) : @money($transaction->tax)
+                    TVA (20%) : {{ $transaction->tax }}
                 </th>
             </tr>
             <tr class="active">
                 <th scope="row" colspan="2" class="text-right">
-                    Total : @money($transaction->amount)
+                    Total : {{ $transaction->amount }}
                 </th>
             </tr>
         </tfoot>

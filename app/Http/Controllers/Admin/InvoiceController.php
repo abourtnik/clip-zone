@@ -11,7 +11,7 @@ class InvoiceController
             'invoices' => Transaction::query()
                 ->with('user')
                 ->latest('date')
-                ->get()
+                ->paginate()
         ]);
     }
 }

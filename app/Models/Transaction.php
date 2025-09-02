@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\MoneyCast;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,12 +16,15 @@ class Transaction extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'date' => 'datetime'
+        'date' => 'datetime',
+        'amount' => MoneyCast::class,
+        'tax' => MoneyCast::class,
+        'fee' => MoneyCast::class,
     ];
 
     public $timestamps = false;
 
-    public const INVOICE_FOLDER = 'invoices';
+    public const string INVOICE_FOLDER = 'invoices';
 
     public function user() : BelongsTo
     {
@@ -32,17 +36,11 @@ class Transaction extends Model
         return $this->belongsTo(Subscription::class);
     }
 
-    protected function formatedAmount(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => number_format($this->amount/ 100, 2)
-        );
-    }
-
     protected function amountWithoutTax(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->amount - $this->tax
+            get: fn () => (new MoneyCast())
+                ->get($this, 'amount_without_tax',  $this->getRawOriginal('amount') - $this->getRawOriginal('tax'), ['country' => $this->country])
         );
     }
 

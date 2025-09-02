@@ -28,7 +28,7 @@
                             Premium account {{$invoice->date->format('d F Y')}}
                         </td>
                         <td class="align-middle">
-                            @money($invoice->amount)
+                            {{ $invoice->amount }}
                         </td>
                         <td class="align-middle">
                             <div class="d-flex gap-1">

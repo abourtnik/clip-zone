@@ -28,13 +28,13 @@
                         </small>
                     </td>
                     <td class="align-middle">
-                        @money($invoice->amount)
+                        {{ $invoice->amount }}
                     </td>
                     <td class="align-middle">
-                        @money($invoice->tax)
+                        {{ $invoice->tax }}
                     </td>
                     <td class="align-middle">
-                        @money($invoice->fee)
+                        {{ $invoice->fee }}
                     </td>
                     <td class="align-middle">
                         {{$invoice->user->username}}
@@ -52,4 +52,5 @@
             </tbody>
         </table>
     </div>
+    {{ $invoices->links() }}
 @endsection
