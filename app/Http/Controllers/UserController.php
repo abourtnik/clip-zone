@@ -22,7 +22,7 @@ class UserController
                 'videos' => function ($q) {
                     $q->with('user')
                         ->active()
-                        ->latest('publication_date')
+                        ->latest('published_at')
                         ->limit(8);
                 },
                 'playlists' => function ($q) {

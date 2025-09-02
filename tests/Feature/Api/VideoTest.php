@@ -52,7 +52,7 @@ class VideoTest extends TestCase
                     ->whereType('formated_duration', 'string')
                     ->whereType('views', 'integer')
                     ->whereType('route', 'string')
-                    ->whereType('publication_date', 'string')
+                    ->whereType('published_at', 'string')
                     ->has('user', fn (AssertableJson $json) =>
                         $json->whereType('id', 'integer')
                             ->whereType('username', 'string')
@@ -102,7 +102,7 @@ class VideoTest extends TestCase
                     ->whereType('formated_duration', 'string')
                     ->whereType('views', 'integer')
                     ->whereType('route', 'string')
-                    ->whereType('publication_date', 'string')
+                    ->whereType('published_at', 'string')
                     ->has('user', fn (AssertableJson $json) =>
                     $json->whereType('id', 'integer')
                         ->whereType('username', 'string')

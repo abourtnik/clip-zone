@@ -58,10 +58,10 @@ class VideoController extends Controller
     public function store(StoreVideoRequest $request, Video $video): RedirectResponse {
         $validated = $request->safe()->merge([
             'slug' => Str::slug($request->get('title')),
-            'scheduled_date' => $request->get('scheduled_date'),
-            'publication_date' => match((int) $request->get('status')) {
+            'scheduled_at' => $request->get('scheduled_at'),
+            'published_at' => match((int) $request->get('status')) {
                 VideoStatus::PUBLIC->value => now(),
-                VideoStatus::PLANNED->value => $request->get('scheduled_date'),
+                VideoStatus::PLANNED->value => $request->get('scheduled_at'),
                 default => null,
             }
         ])->toArray();
@@ -111,13 +111,13 @@ class VideoController extends Controller
 
         $validated = $request->safe()->merge([
             'slug' => Str::slug($request->get('title')),
-            'scheduled_date' => match((int) $request->get('status')) {
-                VideoStatus::PLANNED->value => $request->get('scheduled_date'),
+            'scheduled_at' => match((int) $request->get('status')) {
+                VideoStatus::PLANNED->value => $request->get('scheduled_at'),
                 default => null,
             },
-            'publication_date' => $video->publication_date?->isPast() ? $video->publication_date : match((int) $request->get('status')) {
+            'published_at' => $video->published_at?->isPast() ? $video->published_at : match((int) $request->get('status')) {
                 VideoStatus::PUBLIC->value => now(),
-                VideoStatus::PLANNED->value => $request->get('scheduled_date'),
+                VideoStatus::PLANNED->value => $request->get('scheduled_at'),
                 default => null,
              }
         ])->toArray();

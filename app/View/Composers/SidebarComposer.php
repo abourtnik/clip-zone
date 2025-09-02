@@ -29,7 +29,7 @@ class SidebarComposer
                     ->subscriptions()
                     ->withExists([
                         'videos as has_new_video' => function($query) {
-                            return $query->active()->where('publication_date', '>', DB::raw('subscriptions.read_at'));
+                            return $query->active()->where('published_at', '>', DB::raw('subscriptions.read_at'));
                         }
                     ])
                     ->latest('subscribe_at')

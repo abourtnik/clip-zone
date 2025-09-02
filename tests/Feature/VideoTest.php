@@ -30,7 +30,7 @@ class VideoTest extends TestCase
             'status' => VideoStatus::DRAFT,
             'category_id' => null,
             'language' => null,
-            'publication_date' => null,
+            'published_at' => null,
             'user_id' => $this->user->id,
             'allow_comments' => true,
             'show_likes' => true,
@@ -40,7 +40,7 @@ class VideoTest extends TestCase
             'status' => VideoStatus::PUBLIC,
             'category_id' => null,
             'language' => null,
-            'publication_date' => null,
+            'published_at' => null,
             'user_id' => $this->user->id,
             'allow_comments' => true,
             'show_likes' => true,
@@ -72,8 +72,8 @@ class VideoTest extends TestCase
         $updated = Video::all()->first();
 
         $this->assertEquals(VideoStatus::PUBLIC, $updated->status);
-        $this->assertNotNull($updated->publication_date);
-        $this->assertNull($updated->scheduled_date);
+        $this->assertNotNull($updated->published_at);
+        $this->assertNull($updated->scheduled_at);
     }
 
     public function test_created_private_video() :void
@@ -91,8 +91,8 @@ class VideoTest extends TestCase
         $updated = Video::all()->first();
 
         $this->assertEquals(VideoStatus::PRIVATE, $updated->status);
-        $this->assertNull($updated->publication_date);
-        $this->assertNull($updated->scheduled_date);
+        $this->assertNull($updated->published_at);
+        $this->assertNull($updated->scheduled_at);
     }
 
     public function test_created_protected_video() :void
@@ -110,8 +110,8 @@ class VideoTest extends TestCase
         $updated = Video::all()->first();
 
         $this->assertEquals(VideoStatus::UNLISTED, $updated->status);
-        $this->assertNull($updated->publication_date);
-        $this->assertNull($updated->scheduled_date);
+        $this->assertNull($updated->published_at);
+        $this->assertNull($updated->scheduled_at);
     }
 
     public function test_created_planned_video() :void
@@ -120,7 +120,7 @@ class VideoTest extends TestCase
             ...$this->video->toArray(),
             ...[
                 'status' => VideoStatus::PLANNED->value,
-                'scheduled_date' => Carbon::now()->addMinutes(30),
+                'scheduled_at' => Carbon::now()->addMinutes(30),
                 'thumbnail' => $this->thumbnail->id,
             ]
         ]);
@@ -130,9 +130,9 @@ class VideoTest extends TestCase
         $updated = Video::all()->first();
 
         $this->assertEquals(VideoStatus::PLANNED, $updated->status);
-        $this->assertNotNull($updated->publication_date);
-        $this->assertNotNull($updated->scheduled_date);
-        $this->assertEquals($updated->publication_date, $updated->scheduled_date);
+        $this->assertNotNull($updated->published_at);
+        $this->assertNotNull($updated->scheduled_at);
+        $this->assertEquals($updated->published_at, $updated->scheduled_at);
     }
 
     public function test_updated_public_video_to_public_video() :void
@@ -141,7 +141,7 @@ class VideoTest extends TestCase
 
         $video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
-            'publication_date' => $date,
+            'published_at' => $date,
             'user_id' => $this->user->id
         ]);
 
@@ -158,8 +158,8 @@ class VideoTest extends TestCase
         $updated = Video::find($video->id);
 
         $this->assertEquals(VideoStatus::PUBLIC, $updated->status);
-        $this->assertTrue($date->is($updated->publication_date));
-        $this->assertNull($updated->scheduled_date);
+        $this->assertTrue($date->is($updated->published_at));
+        $this->assertNull($updated->scheduled_at);
     }
 
     public function test_updated_public_video_to_private_video() :void
@@ -168,7 +168,7 @@ class VideoTest extends TestCase
 
         $video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
-            'publication_date' => $date,
+            'published_at' => $date,
             'user_id' => $this->user->id,
         ]);
 
@@ -185,8 +185,8 @@ class VideoTest extends TestCase
         $updated = Video::find($video->id);
 
         $this->assertEquals(VideoStatus::PRIVATE, $updated->status);
-        $this->assertTrue($date->is($updated->publication_date));
-        $this->assertNull($updated->scheduled_date);
+        $this->assertTrue($date->is($updated->published_at));
+        $this->assertNull($updated->scheduled_at);
     }
 
     public function test_updated_public_video_to_unlisted_video() :void
@@ -195,7 +195,7 @@ class VideoTest extends TestCase
 
         $video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
-            'publication_date' => $date,
+            'published_at' => $date,
             'user_id' => $this->user->id,
         ]);
 
@@ -212,18 +212,18 @@ class VideoTest extends TestCase
         $updated = Video::find($video->id);
 
         $this->assertEquals(VideoStatus::UNLISTED, $updated->status);
-        $this->assertTrue($date->is($updated->publication_date));
-        $this->assertNull($updated->scheduled_date);
+        $this->assertTrue($date->is($updated->published_at));
+        $this->assertNull($updated->scheduled_at);
     }
 
     public function test_updated_public_video_to_planned_video() :void
     {
         $date = Carbon::now()->subMinute(1);
-        $scheduled_date = Carbon::now()->addMinutes(30);
+        $scheduled_at = Carbon::now()->addMinutes(30);
 
         $video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
-            'publication_date' => $date,
+            'published_at' => $date,
             'user_id' => $this->user->id,
         ]);
 
@@ -231,7 +231,7 @@ class VideoTest extends TestCase
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::PLANNED->value,
-                'scheduled_date' => $scheduled_date,
+                'scheduled_at' => $scheduled_at,
                 'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
@@ -241,15 +241,15 @@ class VideoTest extends TestCase
         $updated = Video::find($video->id);
 
         $this->assertEquals(VideoStatus::PLANNED, $updated->status);
-        $this->assertTrue($date->is($updated->publication_date));
-        $this->assertTrue($scheduled_date->is($updated->scheduled_date));
+        $this->assertTrue($date->is($updated->published_at));
+        $this->assertTrue($scheduled_at->is($updated->scheduled_at));
     }
 
     public function test_updated_private_video_to_public_video() :void
     {
         $video = Video::factory()->create([
             'status' => VideoStatus::PRIVATE,
-            'publication_date' => null,
+            'published_at' => null,
             'user_id' => $this->user->id,
         ]);
 
@@ -266,15 +266,15 @@ class VideoTest extends TestCase
         $updated = Video::find($video->id);
 
         $this->assertEquals(VideoStatus::PUBLIC, $updated->status);
-        $this->assertNotNull($updated->publication_date);
-        $this->assertNull($updated->scheduled_date);
+        $this->assertNotNull($updated->published_at);
+        $this->assertNull($updated->scheduled_at);
     }
 
     public function test_updated_private_video_to_private_video() :void
     {
         $video = Video::factory()->create([
             'status' => VideoStatus::PRIVATE,
-            'publication_date' => null,
+            'published_at' => null,
             'user_id' => $this->user->id,
         ]);
 
@@ -291,15 +291,15 @@ class VideoTest extends TestCase
         $updated = Video::find($video->id);
 
         $this->assertEquals(VideoStatus::PRIVATE, $updated->status);
-        $this->assertNull($updated->publication_date);
-        $this->assertNull($updated->scheduled_date);
+        $this->assertNull($updated->published_at);
+        $this->assertNull($updated->scheduled_at);
     }
 
     public function test_updated_private_video_to_unlisted_video() :void
     {
         $video = Video::factory()->create([
             'status' => VideoStatus::PRIVATE,
-            'publication_date' => null,
+            'published_at' => null,
             'user_id' => $this->user->id,
         ]);
 
@@ -316,17 +316,17 @@ class VideoTest extends TestCase
         $updated = Video::find($video->id);
 
         $this->assertEquals(VideoStatus::UNLISTED, $updated->status);
-        $this->assertNull($updated->publication_date);
-        $this->assertNull($updated->scheduled_date);
+        $this->assertNull($updated->published_at);
+        $this->assertNull($updated->scheduled_at);
     }
 
     public function test_updated_private_video_to_planned_video() :void
     {
-        $scheduled_date = Carbon::now()->addMinutes(30);
+        $scheduled_at = Carbon::now()->addMinutes(30);
 
         $video = Video::factory()->create([
             'status' => VideoStatus::PRIVATE,
-            'publication_date' => null,
+            'published_at' => null,
             'user_id' => $this->user->id,
         ]);
 
@@ -334,7 +334,7 @@ class VideoTest extends TestCase
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::PLANNED->value,
-                'scheduled_date' => $scheduled_date,
+                'scheduled_at' => $scheduled_at,
                 'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
@@ -344,18 +344,18 @@ class VideoTest extends TestCase
         $updated = Video::find($video->id);
 
         $this->assertEquals(VideoStatus::PLANNED, $updated->status);
-        $this->assertTrue($updated->publication_date->is($scheduled_date));
-        $this->assertTrue($updated->scheduled_date->is($scheduled_date));
+        $this->assertTrue($updated->published_at->is($scheduled_at));
+        $this->assertTrue($updated->scheduled_at->is($scheduled_at));
     }
 
     public function test_updated_planned_video_to_public_video() :void
     {
-        $scheduled_date = Carbon::now()->addMinutes(30);
+        $scheduled_at = Carbon::now()->addMinutes(30);
 
         $video = Video::factory()->create([
             'status' => VideoStatus::PLANNED,
-            'publication_date' => $scheduled_date,
-            'scheduled_date' => $scheduled_date,
+            'published_at' => $scheduled_at,
+            'scheduled_at' => $scheduled_at,
             'user_id' => $this->user->id,
         ]);
 
@@ -372,18 +372,18 @@ class VideoTest extends TestCase
         $updated = Video::find($video->id);
 
         $this->assertEquals(VideoStatus::PUBLIC, $updated->status);
-        $this->assertFalse($scheduled_date->is($updated->publication_date));
-        $this->assertNull($updated->scheduled_date);
+        $this->assertFalse($scheduled_at->is($updated->published_at));
+        $this->assertNull($updated->scheduled_at);
     }
 
     public function test_updated_planned_video_to_private_video() :void
     {
-        $scheduled_date = Carbon::now()->addMinutes(30);
+        $scheduled_at = Carbon::now()->addMinutes(30);
 
         $video = Video::factory()->create([
             'status' => VideoStatus::PLANNED,
-            'publication_date' => $scheduled_date,
-            'scheduled_date' => $scheduled_date,
+            'published_at' => $scheduled_at,
+            'scheduled_at' => $scheduled_at,
             'user_id' => $this->user->id,
         ]);
 
@@ -400,18 +400,18 @@ class VideoTest extends TestCase
         $updated = Video::find($video->id);
 
         $this->assertEquals(VideoStatus::PRIVATE, $updated->status);
-        $this->assertNull($updated->publication_date);
-        $this->assertNull($updated->scheduled_date);
+        $this->assertNull($updated->published_at);
+        $this->assertNull($updated->scheduled_at);
     }
 
     public function test_updated_planned_video_to_planned_video() :void
     {
-        $scheduled_date = Carbon::now()->addMinutes(30);
+        $scheduled_at = Carbon::now()->addMinutes(30);
 
         $video = Video::factory()->create([
             'status' => VideoStatus::PLANNED,
-            'publication_date' => $scheduled_date,
-            'scheduled_date' => $scheduled_date,
+            'published_at' => $scheduled_at,
+            'scheduled_at' => $scheduled_at,
             'user_id' => $this->user->id,
         ]);
 
@@ -419,7 +419,7 @@ class VideoTest extends TestCase
             ...$video->toArray(),
             ...[
                 'status' => VideoStatus::PLANNED->value,
-                'scheduled_date' => Carbon::now()->addMinutes(40),
+                'scheduled_at' => Carbon::now()->addMinutes(40),
                 'thumbnail' => Thumbnail::factory()->active()->create(['video_id' => $video->id])->id,
             ]
         ]);
@@ -429,7 +429,7 @@ class VideoTest extends TestCase
         $updated = Video::find($video->id);
 
         $this->assertEquals(VideoStatus::PLANNED, $updated->status);
-        $this->assertTrue($updated->publication_date->is(Carbon::now()->addMinutes(40)));
-        $this->assertTrue($updated->scheduled_date->is(Carbon::now()->addMinutes(40)));
+        $this->assertTrue($updated->published_at->is(Carbon::now()->addMinutes(40)));
+        $this->assertTrue($updated->scheduled_at->is(Carbon::now()->addMinutes(40)));
     }
 }

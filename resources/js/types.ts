@@ -9,7 +9,7 @@ export type VideoType = {
     formated_duration: string,
     views: number,
     route: string,
-    publication_date: string | number,
+    published_at: string | number,
     user: UserType
     is_private?: boolean
 }

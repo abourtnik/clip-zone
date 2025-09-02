@@ -201,7 +201,7 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                                                         <div>
                                                             <div className={'text-black fw-bold text-sm mb-1 text-break'}>{video.title}</div>
                                                             <div className={'text-muted text-sm'}>{video.user.username}</div>
-                                                            <div className={'text-muted text-sm'}>{video.views} views • {moment(video.publication_date).fromNow()}</div>
+                                                            <div className={'text-muted text-sm'}>{video.views} views • {moment(video.published_at).fromNow()}</div>
                                                         </div>
                                                     </div>
                                             }
@@ -280,7 +280,7 @@ function SearchResult ({video, index, results} : SearchResultProps) {
                         {video.user.username}
                     </div>
                     <div className={'text-muted text-sm'}>
-                        {video.views} views • {moment(video.publication_date).fromNow()}
+                        {video.views} views • {moment(video.published_at).fromNow()}
                     </div>
                 </div>
             </div>

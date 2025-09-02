@@ -16,11 +16,11 @@ class SearchFilters extends MeilisearchFilter
 
     public function date (string $duration): string {
         return match ($duration) {
-            'hour' => 'publication_date ' .now()->subHour()->timestamp. ' TO '. now()->timestamp,
-            'today' => 'publication_date ' .now()->startOfDay()->timestamp. ' TO '. now()->timestamp,
-            'week' => 'publication_date ' .now()->startOfWeek()->timestamp. ' TO '. now()->timestamp,
-            'month' => 'publication_date ' .now()->startOfMonth()->timestamp. ' TO '. now()->timestamp,
-            'year' => 'publication_date ' .now()->startOfYear()->timestamp. ' TO '. now()->timestamp,
+            'hour' => 'published_at ' .now()->subHour()->timestamp. ' TO '. now()->timestamp,
+            'today' => 'published_at ' .now()->startOfDay()->timestamp. ' TO '. now()->timestamp,
+            'week' => 'published_at ' .now()->startOfWeek()->timestamp. ' TO '. now()->timestamp,
+            'month' => 'published_at ' .now()->startOfMonth()->timestamp. ' TO '. now()->timestamp,
+            'year' => 'published_at ' .now()->startOfYear()->timestamp. ' TO '. now()->timestamp,
         };
     }
 }

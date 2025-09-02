@@ -43,7 +43,7 @@ class PageTest extends TestCase
     public function test_planned_video_show(): void
     {
         $video = Video::factory()->withStatus(VideoStatus::PLANNED->value)->forUser()->create([
-            'scheduled_date' => now()->addMinutes(30)
+            'scheduled_at' => now()->addMinutes(30)
         ]);
 
         $response = $this->get($video->route);
@@ -54,7 +54,7 @@ class PageTest extends TestCase
     public function test_planned_public_video_show(): void
     {
         $video = Video::factory()->withStatus(VideoStatus::PLANNED->value)->forUser()->create([
-            'scheduled_date' => now()->subMinutes(30)
+            'scheduled_at' => now()->subMinutes(30)
         ]);
 
         $response = $this->get($video->route);
