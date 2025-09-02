@@ -12,7 +12,7 @@ type Props = {
     subtitles?: string
 }
 
-const VIEW_COUNT_DURATION = 2;
+const VIEW_COUNT_DURATION = 1;
 
 export function Main ({video_id, thumbnail_url, file_url, next_video, subtitles} : Props) {
 
