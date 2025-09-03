@@ -173,7 +173,7 @@ class VideoTest extends TestCase
                             ->etc()
                     )
                     ->whereType('comments', 'integer')
-                    ->whereType('publication_date', 'string')
+                    ->whereType('published_at', 'string')
                     ->whereType('status', 'integer')
                     ->whereType('first_comment', 'string|null')
                     ->whereType('suggested', 'array')
