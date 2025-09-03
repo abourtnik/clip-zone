@@ -193,14 +193,14 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     public function firstActiveVideo (): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->videos()->active()->latest('publication_date')->first()
+            get: fn () => $this->videos()->active()->latest('published_at')->first()
         );
     }
 
     public function othersActiveVideos (): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->videos()->whereNot('id', $this->first_active_video->id)->active()->latest('publication_date')
+            get: fn () => $this->videos()->whereNot('id', $this->first_active_video->id)->active()->latest('published_at')
         );
     }
 

@@ -84,11 +84,11 @@ class SyncVideosInteractions extends Command
             ->pluck('id');
     }
 
-    private function generateInteraction(Video $video, int $count) {
+    private function generateInteraction(Video $video, int $count) : void {
 
         $interactionsCount = $count;
 
-        $users = $this->getUsers([], $video->publication_date);
+        $users = $this->getUsers([], $video->published_at);
 
         if ($users->count() < $count) {
             $interactionsCount = $users->count();
@@ -98,7 +98,7 @@ class SyncVideosInteractions extends Command
             $video->interactions()->createQuietly([
                 'user_id' => $users->get($i),
                 'status' => fake()->boolean(95),
-                'perform_at' => fake()->dateTimeBetween($video->publication_date)
+                'perform_at' => fake()->dateTimeBetween($video->published_at)
             ]);
         }
     }

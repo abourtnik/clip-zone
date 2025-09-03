@@ -62,7 +62,7 @@ class SearchController
                         ->orWhereRelation('user', 'username', 'LIKE', $match)
                 )
                 ->with('user')
-                ->latest('publication_date')
+                ->latest('published_at')
                 ->limit(24)
                 ->get()
         );
