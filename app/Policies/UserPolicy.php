@@ -30,7 +30,7 @@ class UserPolicy
      */
     public function show(?User $user, User $model): Response|bool
     {
-        return $model->is_active
+        return $model->is_active || $user?->is($model)
             ? Response::allow()
             : Response::denyWithStatus(404, 'This user doesn\'t exist');
     }
@@ -109,7 +109,7 @@ class UserPolicy
      */
     public function avatar (?User $user, User $model): Response|bool
     {
-        return $model->is_active;
+        return $model->is_active || $user?->is($model);
     }
 
     /**
@@ -121,6 +121,6 @@ class UserPolicy
      */
     public function banner (?User $user, User $model): Response|bool
     {
-        return $model->is_active;
+        return $model->is_active || $user?->is($model);
     }
 }
