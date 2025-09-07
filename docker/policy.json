@@ -13,8 +13,6 @@
                 "s3:GetObject"
             ],
             "Resource": [
-                "arn:aws:s3:::clipzone/avatars/*",
-                "arn:aws:s3:::clipzone/banners/*",
                 "arn:aws:s3:::clipzone/categories/*"
             ]
         },

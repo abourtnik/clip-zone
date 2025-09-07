@@ -59,7 +59,9 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     ];
 
     public const string AVATAR_FOLDER = 'avatars';
+    public const string DEFAULT_AVATAR = '/images/default_men.png';
     public const string BANNER_FOLDER = 'banners';
+    public const string DEFAULT_BANNER = '/images/default_banner.jpg';
 
     /**
      * -------------------- RELATIONS --------------------
@@ -180,13 +182,13 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
 
     public function avatarUrl() : Attribute {
         return Attribute::make(
-            get: fn () => $this->avatar ? Storage::url(self::AVATAR_FOLDER.'/'.$this->avatar) : asset('/images/default_men.png')
+            get: fn () => route('user.avatar', $this)
         );
     }
 
     public function bannerUrl() : Attribute {
         return Attribute::make(
-            get: fn () => $this->banner ? Storage::url(self::BANNER_FOLDER.'/'.$this->banner) : asset('/images/default_banner.jpg')
+            get: fn () => route('user.banner', $this)
         );
     }
 

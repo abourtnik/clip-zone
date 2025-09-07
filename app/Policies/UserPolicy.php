@@ -10,6 +10,17 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
+    public const array ADMIN_ABILITIES = ['avatar', 'banner'];
+
+    public function before(?User $user, string $ability): bool|null
+    {
+        if (in_array($ability, self::ADMIN_ABILITIES) && $user?->is_admin) {
+            return true;
+        }
+
+        return null;
+    }
+
     /**
      * Determine whether the user can view other user.
      *
@@ -87,5 +98,29 @@ class UserPolicy
     public function delete (User $user, User $model): Response|bool
     {
         return !$model->is_premium && !$model->is_admin;
+    }
+
+    /**
+     * Determine whether user can view other user avatar.
+     *
+     * @param User|null $user
+     * @param User $model
+     * @return Response|bool
+     */
+    public function avatar (?User $user, User $model): Response|bool
+    {
+        return $model->is_active;
+    }
+
+    /**
+     * Determine whether user can view other user banner.
+     *
+     * @param User|null $user
+     * @param User $model
+     * @return Response|bool
+     */
+    public function banner (?User $user, User $model): Response|bool
+    {
+        return $model->is_active;
     }
 }

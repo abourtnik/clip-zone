@@ -21,24 +21,6 @@ export function Main({uuid} : Props) {
 
     const { ref, inView} = useInView();
 
-    const initialData = {
-        pageParams: [1],
-        pages: [{
-            data: [] as VideoType[],
-            meta: {
-                current_page: 1,
-                from: 1,
-                last_page: 1,
-                per_page: 24,
-                to: 1,
-                total: 0,
-            },
-            links:{
-                next: null
-            }
-        }]
-    }
-
     const {
         data: videos,
         isLoading,
@@ -49,7 +31,6 @@ export function Main({uuid} : Props) {
         hasNextPage,
     } = useInfiniteQuery({
         queryKey: ['playlist', uuid, 'videos'],
-        initialData: uuid === undefined ? initialData : undefined,
         queryFn: ({pageParam}) => getPlaylistVideos(uuid ?? null, pageParam),
         initialPageParam: 1,
         enabled: uuid !== undefined,
@@ -254,7 +235,25 @@ function SearchResult ({video, index, results} : SearchResultProps) {
 
     const addVideo = (index: number) => {
         queryClient.setQueriesData({queryKey: ['playlist', uuid, 'videos']}, (oldData: InfiniteData<Paginator<VideoType>> | undefined) => {
-                if (!oldData) return undefined
+                if (!oldData) {
+                    return {
+                        pages: [{
+                            data: [results.data[index]],
+                            meta: {
+                                current_page: 1,
+                                from: 1,
+                                last_page: 1,
+                                per_page: 24,
+                                to: 1,
+                                total: 0,
+                            },
+                            links:{
+                                next: null
+                            }
+                        }],
+                        pageParams: [1],
+                    };
+                }
                 return produce(oldData, draft => {
                     draft.pages[0].data.unshift(results.data[index]);
                     draft.pages[0].meta.total = draft.pages[0].meta.total! + 1;
