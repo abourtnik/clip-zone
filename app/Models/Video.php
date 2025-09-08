@@ -41,8 +41,8 @@ class Video extends Model implements Likeable, Reportable
         'allow_comments' => 'boolean',
         'show_likes' => 'boolean',
         'status' => VideoStatus::class,
-        'publication_date' => 'datetime',
-        'scheduled_date' => 'datetime',
+        'published_at' => 'datetime',
+        'scheduled_at' => 'datetime',
         'banned_at' => 'datetime',
         'uploaded_at' => 'datetime'
     ];
@@ -142,7 +142,7 @@ class Video extends Model implements Likeable, Reportable
                 !$this->is_uploading &&
                 (
                     $this->status === VideoStatus::PUBLIC ||
-                    ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now()))
+                    ($this->status === VideoStatus::PLANNED && $this->scheduled_at->lte(now()))
                 )
 
         );
@@ -155,7 +155,7 @@ class Video extends Model implements Likeable, Reportable
                 !$this->is_uploading &&
                 (
                     $this->status === VideoStatus::PUBLIC ||
-                    ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now())) ||
+                    ($this->status === VideoStatus::PLANNED && $this->scheduled_at->lte(now())) ||
                     $this->status === VideoStatus::UNLISTED
                 )
 
@@ -172,7 +172,7 @@ class Video extends Model implements Likeable, Reportable
     protected function isPlanned(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status === VideoStatus::PLANNED && $this->scheduled_date->gt(now())
+            get: fn () => $this->status === VideoStatus::PLANNED && $this->scheduled_at->gt(now())
 
         );
     }
@@ -274,7 +274,7 @@ class Video extends Model implements Likeable, Reportable
     protected function realStatus(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->scheduled_date->lte(now())) ? VideoStatus::PUBLIC : $this->status
+            get: fn () => $this->status === VideoStatus::PUBLIC || ($this->status === VideoStatus::PLANNED && $this->scheduled_at->lte(now())) ? VideoStatus::PUBLIC : $this->status
         );
     }
 
@@ -327,7 +327,7 @@ class Video extends Model implements Likeable, Reportable
             ->whereNotNull('uploaded_at')
             ->orWhere(function($query) {
                 $query->where('status', VideoStatus::PLANNED)
-                    ->where('scheduled_date', '<=', now());
+                    ->where('scheduled_at', '<=', now());
             });
     }
 
@@ -343,7 +343,7 @@ class Video extends Model implements Likeable, Reportable
             ->whereNotNull('uploaded_at')
             ->orWhere(function($query) use ($includeAuthVideo) {
                 $query->where('status', VideoStatus::PLANNED)
-                    ->where('scheduled_date', '<=', now())
+                    ->where('scheduled_at', '<=', now())
                     ->when($includeAuthVideo, fn($q) => $q->orWhere('user_id', Auth::id()));
             });
     }
@@ -359,7 +359,7 @@ class Video extends Model implements Likeable, Reportable
         return $query->whereIn('status', [VideoStatus::PRIVATE, VideoStatus::BANNED, VideoStatus::DRAFT, VideoStatus::FAILED])
             ->orWhere(function($query) {
                 $query->where('status', VideoStatus::PLANNED)
-                    ->where('scheduled_date', '>', now());
+                    ->where('scheduled_at', '>', now());
             })
             ->orWhereNull('uploaded_at');
     }
@@ -431,7 +431,7 @@ class Video extends Model implements Likeable, Reportable
             'formated_duration' => $this->duration,
             'url' => $this->route,
             'thumbnail' => $this->thumbnail_url,
-            'publication_date' => $this->publication_date->timestamp
+            'published_at' => $this->published_at->timestamp
         ];
     }
 

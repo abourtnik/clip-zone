@@ -29,7 +29,7 @@ class ReportTest extends TestCase
             'status' => VideoStatus::PUBLIC,
             'category_id' => null,
             'language' => null,
-            'publication_date' => now(),
+            'published_at' => now(),
             'user_id' => $this->user->id,
             'allow_comments' => true,
             'show_likes' => true,
@@ -77,7 +77,7 @@ class ReportTest extends TestCase
     {
         $video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
-            'publication_date' => now(),
+            'published_at' => now(),
             'user_id' => $this->user->id,
         ]);
 
@@ -98,7 +98,7 @@ class ReportTest extends TestCase
     {
         $video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
-            'publication_date' => now(),
+            'published_at' => now(),
             'user_id' => $this->user->id,
         ]);
 
@@ -135,7 +135,7 @@ class ReportTest extends TestCase
     {
         $video = Video::factory()->create([
             'status' => VideoStatus::PRIVATE,
-            'publication_date' => now(),
+            'published_at' => now(),
             'user_id' => User::factory()->create()->id,
         ]);
 
@@ -154,7 +154,7 @@ class ReportTest extends TestCase
     {
         $video = Video::factory()->create([
             'status' => VideoStatus::PLANNED,
-            'scheduled_date' => now()->addMinutes(30),
+            'scheduled_at' => now()->addMinutes(30),
             'user_id' => User::factory()->create()->id,
         ]);
 
@@ -173,7 +173,7 @@ class ReportTest extends TestCase
     {
         $video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
-            'publication_date' => now(),
+            'published_at' => now(),
             'user_id' => User::factory()->create()->id,
         ]);
 
@@ -212,7 +212,7 @@ class ReportTest extends TestCase
     {
         $video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
-            'publication_date' => now(),
+            'published_at' => now(),
             'user_id' => User::factory()->create()->id,
         ]);
 
@@ -237,7 +237,7 @@ class ReportTest extends TestCase
     {
         $video = Video::factory()->create([
             'status' => VideoStatus::PUBLIC,
-            'publication_date' => now(),
+            'published_at' => now(),
             'user_id' => User::factory()->create()->id,
         ]);
 

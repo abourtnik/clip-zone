@@ -23,7 +23,7 @@
                 <div class="text-sm d-flex flex-wrap gap-1 align-items-center text-muted">
                     <div>{{trans_choice('views', $video->views)}}</div>
                     <div>•</div>
-                    <div>{{$video->publication_date->diffForHumans()}}</div>
+                    <div>{{$video->published_at->diffForHumans()}}</div>
                 </div>
             </div>
         </div>

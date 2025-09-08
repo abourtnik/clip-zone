@@ -90,10 +90,10 @@
                                 <small>{{$video->created_at->format('d F Y H:i')}}</small>
                                 <div class="text-sm text-muted">Uploaded</div>
                             @elseif($video->is_planned)
-                                <small>{{$video->scheduled_date->format('d F Y H:i')}}</small>
+                                <small>{{$video->scheduled_at->format('d F Y H:i')}}</small>
                                 <div class="text-sm text-muted">Scheduled</div>
                             @else
-                                <small>{{$video->publication_date->format('d F Y H:i')}}</small>
+                                <small>{{$video->published_at->format('d F Y H:i')}}</small>
                                 <div class="text-sm text-muted">Published</div>
                             @endif
                         </td>

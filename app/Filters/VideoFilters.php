@@ -12,7 +12,7 @@ class VideoFilters extends MySQLFilter
 {
     use DateFilter, UserFilter;
 
-    protected string $dateField = 'publication_date';
+    protected string $dateField = 'published_at';
 
     public function search(string $search): Builder
     {
@@ -24,7 +24,7 @@ class VideoFilters extends MySQLFilter
     public function status(string $status): Builder
     {
         return $this->builder->when($status == VideoStatus::PUBLIC->value, fn(Builder $query) => $query->scopes('active'))
-            ->when($status == VideoStatus::PLANNED->value, fn($query) => $query->where('status', VideoStatus::PLANNED->value)->where('scheduled_date', '>', now()))
+            ->when($status == VideoStatus::PLANNED->value, fn($query) => $query->where('status', VideoStatus::PLANNED->value)->where('scheduled_at', '>', now()))
             ->when(in_array($status, [VideoStatus::PRIVATE->value, VideoStatus::UNLISTED->value, VideoStatus::BANNED->value, VideoStatus::DRAFT->value, VideoStatus::FAILED->value]), fn($query) => $query->where('status', $status));
     }
 

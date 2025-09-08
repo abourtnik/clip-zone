@@ -41,7 +41,7 @@ class SaveRequest extends FormRequest
                     return $query->whereIn('status', [VideoStatus::PUBLIC, VideoStatus::UNLISTED])
                         ->orWhere(function($query) {
                             $query->where('status', VideoStatus::PLANNED)
-                                ->where('scheduled_date', '<=', now());
+                                ->where('scheduled_at', '<=', now());
                         })->orWhere('user_id', Auth::user()->id);
                 }),
             ],
