@@ -21,7 +21,7 @@ class VideoTest extends TestCase
     public function test_videos_index(): void
     {
         $videos = Video::factory(10)
-            ->withStatus(VideoStatus::PUBLIC->value)
+            ->withStatus(VideoStatus::PUBLIC)
             ->forUser()
             ->has(
                 Thumbnail::factory()
@@ -71,7 +71,7 @@ class VideoTest extends TestCase
     public function test_videos_trend(): void
     {
         $videos = Video::factory(10)
-            ->withStatus(VideoStatus::PUBLIC->value)
+            ->withStatus(VideoStatus::PUBLIC)
             ->forUser()
             ->has(
                 Thumbnail::factory()
@@ -126,7 +126,7 @@ class VideoTest extends TestCase
     public function test_video_show_public(): void
     {
         $video = Video::factory()
-            ->withStatus(VideoStatus::PUBLIC->value)
+            ->withStatus(VideoStatus::PUBLIC)
             ->forUser()
             ->has(
                 Thumbnail::factory()
@@ -188,7 +188,7 @@ class VideoTest extends TestCase
     public function test_video_show_private(): void
     {
         $video = Video::factory()
-            ->withStatus(VideoStatus::PRIVATE->value)
+            ->withStatus(VideoStatus::PRIVATE)
             ->forUser()
             ->create();
 
