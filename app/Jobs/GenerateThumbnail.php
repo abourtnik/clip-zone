@@ -21,7 +21,7 @@ class GenerateThumbnail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Batchable;
 
-    public int $timeout = 180; // 3 minutes
+    public int $timeout = 120; // 2 minutes
 
     public Thumbnail $thumbnail;
 
