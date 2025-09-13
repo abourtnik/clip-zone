@@ -35,7 +35,7 @@ class PremiumEarningsChart
     {
         $data = DB::query()
             ->selectRaw("DATE_FORMAT(m.month_start, '%Y-%m') AS month")
-            ->selectRaw('COALESCE(SUM(t.amount), 0) AS total_amount')
+            ->selectRaw('COALESCE(SUM(t.amount), 0) / 100 AS total_amount')
             ->from('months', 'm')
             ->leftJoin('transactions as t', DB::raw("DATE_FORMAT(t.date, '%Y-%m')"), '=', DB::raw("DATE_FORMAT(m.month_start, '%Y-%m')"))
             ->groupBy("m.month_start")
