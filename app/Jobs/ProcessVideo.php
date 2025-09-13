@@ -22,7 +22,7 @@ class ProcessVideo implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $timeout = 1800; // 30 minutes
+    public int $timeout = 300; // 5 minutes
 
     public string $folder;
     public Video $video;

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Charts\PremiumEarningsChart;
 use App\Enums\ReportStatus;
 use App\Models\Comment;
 use App\Models\Report;
@@ -42,7 +43,8 @@ class AdminController
             'users_count' => User::count(),
             'comments_count' => Comment::count(),
             'reports_count' => Report::count(),
-            'reports' => $reports
+            'reports' => $reports,
+            'chart' => (new PremiumEarningsChart())->build()
         ]);
     }
 }
