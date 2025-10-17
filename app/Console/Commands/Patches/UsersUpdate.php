@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Update;
+namespace App\Console\Commands\Patches;
 
 use App\Models\User;
 use Illuminate\Console\Command;

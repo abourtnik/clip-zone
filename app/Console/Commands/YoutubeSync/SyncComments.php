@@ -14,7 +14,6 @@ use Illuminate\Support\Str;
 
 class SyncComments extends Command
 {
-
     private YoutubeService $youtubeService;
 
     public function __construct(YoutubeService $youtubeService)
@@ -28,7 +27,7 @@ class SyncComments extends Command
      *
      * @var string
      */
-    protected $signature = 'comments:sync {from?} {to?}';
+    protected $signature = 'comments:sync {video}';
 
     /**
      * The console command description.
@@ -44,30 +43,26 @@ class SyncComments extends Command
      */
     public function handle() : int
     {
-        list('from' => $from, 'to' => $to) = $this->arguments();
+        $videoId = $this->argument('video');
 
-        $videos = Video::query()
+        $video = Video::query()
             ->whereNotNull('youtube_id')
             ->where('allow_comments', true)
-            ->when($from, fn($query) => $query->where('id', '>=' , $from))
-            ->when($to, fn($query) => $query->where('id', '<=' , $to))
-            ->get();
+            ->where('id', $videoId)
+            ->first();
 
-        foreach ($videos as $video) {
+        $this->info('Sync comments for video : ' .$video->title. ' ...');
 
-            $this->info('Sync comments for video : ' .$video->title. ' ...');
+        $video->comments->each->delete();
 
-            $video->comments->each->delete();
+        $data = $this->youtubeService->getComments($video->youtube_id);
 
-            $data = $this->youtubeService->getComments($video->youtube_id);
-
-            $this->saveComments($data['items'], $video, null);
-        }
+        $this->saveComments($data['items'], $video, null);
 
         return Command::SUCCESS;
     }
 
-    private function saveComments (array $items, Video $video, ?Comment $parent) {
+    private function saveComments (array $items, Video $video, ?Comment $parent) :void {
 
         $count = count($items);
 
@@ -116,25 +111,24 @@ class SyncComments extends Command
 
     }
 
-    private function getUsers (array $excludeIds, Carbon $createdBefore): Collection {
+    private function getUsers (Carbon $createdBefore): Collection {
 
         return User::query()
             ->active()
-            ->when($excludeIds, fn($q) => $q->whereNotIn('id', $excludeIds))
             ->where('created_at', '<', $createdBefore)
-            ->whereNotIn('id', [6, 7, 9, 10, 12, 14, 15, 16, 19, 20, 21, 23])
+            ->where('email', 'LIKE', '%@youtube.com%')
             ->inRandomOrder()
             ->get()
             ->pluck('id');
     }
 
-    private function generateInteraction(Comment $comment, int $count, Carbon $afterDate) {
+    private function generateInteraction(Comment $comment, int $count, Carbon $afterDate): void {
 
         $usedUsers = [];
 
         for ($i = $count; $i > 0; $i--) {
 
-            $users = $this->getUsers([], $afterDate)->diff($usedUsers);
+            $users = $this->getUsers($afterDate)->diff($usedUsers);
 
             $userId = $users->random();
 
@@ -204,7 +198,7 @@ class SyncComments extends Command
 
             return User::create([
                 'username' => $channel['title'],
-                'slug' => Str::remove('@', $channel['customUrl']),
+                'slug' => isset($channel['customUrl']) ? Str::remove('@', $channel['customUrl']) : User::generateSlug($channel['title']),
                 'email' => Str::slug($channel['title']) .'-'. Carbon::now()->timestamp .'@youtube.com',
                 'password' => Str::random(),
                 'email_verified_at' => Carbon::create($channel['publishedAt'])->addSeconds(rand(10, 300)),

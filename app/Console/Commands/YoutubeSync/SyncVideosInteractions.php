@@ -24,7 +24,7 @@ class SyncVideosInteractions extends Command
      *
      * @var string
      */
-    protected $signature = 'interactions:sync {from?} {to?}';
+    protected $signature = 'interactions:sync {video}';
 
     /**
      * The console command description.
@@ -40,55 +40,54 @@ class SyncVideosInteractions extends Command
      */
     public function handle() : int
     {
-        list('from' => $from, 'to' => $to) = $this->arguments();
+        $videoId = $this->argument('video');
 
-        $videos = Video::query()
+        $video = Video::query()
             ->whereNotNull('youtube_id')
-            ->when($from, fn($query) => $query->where('id', '>=' , $from))
-            ->when($to, fn($query) => $query->where('id', '<=' , $to))
-            ->get();
+            ->where('id', $videoId)
+            ->first();
 
-        foreach ($videos as $video) {
+        $this->info('Sync interactions for video : ' .$video->title. ' ...');
+        $video->interactions->each->delete();
 
-            $this->info('Sync interactions for video : ' .$video->title. ' ...');
-            $video->interactions->each->delete();
+        $data = $this->youtubeService->getVideo($video->youtube_id);
 
-            $data = $this->youtubeService->getVideo($video->youtube_id);
+        $likeCount =  $data['items'][0]['statistics']['likeCount'] ?? null;
 
-            $likeCount =  $data['items'][0]['statistics']['likeCount'] ?? null;
-
-            if (is_null($likeCount)) {
-                $this->info('Likes are not public : ' .$video->title);
-                continue;
-            }
-
-            $count = round($likeCount / 10000);
-
-            $this->info($count. ' likes for : '. $video->title);
-
-            $this->generateInteraction($video, $count);
+        if (is_null($likeCount)) {
+            $this->info('Likes are not public : ' .$video->title);
+            return Command::SUCCESS;
         }
+
+        if ($likeCount > 1000) {
+            $count = 1000;
+        } else {
+            $count = $likeCount;
+        }
+
+        $this->info($count. ' likes for : '. $video->title);
+
+        $this->generateInteraction($video, $count);
 
         return Command::SUCCESS;
     }
 
-    private function getUsers (array $excludeIds, Carbon $createdBefore): Collection {
+    private function getUsers (Carbon $createdBefore): Collection {
 
         return User::query()
             ->active()
-            ->when($excludeIds, fn($q) => $q->whereNotIn('id', $excludeIds))
             ->where('created_at', '<', $createdBefore)
-            ->whereNotIn('id', [6, 7, 9, 10, 12, 14, 15, 16, 19, 20, 21, 23])
+            ->where('email', 'LIKE', '%@youtube.com%')
             ->inRandomOrder()
             ->get()
             ->pluck('id');
     }
 
-    private function generateInteraction(Video $video, int $count) {
+    private function generateInteraction(Video $video, int $count): void {
 
         $interactionsCount = $count;
 
-        $users = $this->getUsers([], $video->publication_date);
+        $users = $this->getUsers($video->publication_date);
 
         if ($users->count() < $count) {
             $interactionsCount = $users->count();
