@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands\Patches;
 
-use App\Enums\ThumbnailStatus;
-use App\Enums\VideoStatus;
-use App\Helpers\VideoMetadata;
+use App\Jobs\GenerateThumbnail;
 use App\Models\Video;
+use Illuminate\Bus\Batch;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Bus;
 
 class VideosUpdate extends Command
 {
@@ -30,17 +29,38 @@ class VideosUpdate extends Command
      *
      * @return int
      */
+
+    const array IDS = [211, 193, 191, 190, 189, 187, 164, 163, 160];
+
     public function handle() : int
     {
-        $videos = Video::query()->withCount('viewsHistory')->get();
+       $videos = Video::query()->whereIn('id', self::IDS)->get();
 
         foreach ($videos as $video) {
 
-            $views = $video->views_history_count;
+            $duration = (int) $video->getRawOriginal('duration');
 
-            $video->update([
-                'views' => $views
-            ]);
+            $timecodes = [1, intval(round($duration / 2)), intval($duration - 1)];
+
+            $thumbnails = $video->thumbnails()->orderBy('id')->get();
+
+            $this->info('Video id : ' .$video->id);
+            $this->info(implode(',', $thumbnails->pluck('file')->toArray()));
+
+            $thumbnailJobs = [];
+
+            foreach ($timecodes as $index => $time) {
+                $thumbnail = $thumbnails->get($index);
+                $thumbnailJobs[] = new GenerateThumbnail($thumbnail, $time);
+            }
+
+            Bus::batch($thumbnailJobs)
+                ->name("GenerateThumbnails for video : {$video->id}")
+                ->then(function (Batch $batch) {
+                    // Delete video
+                    //Storage::disk('local')->delete(Video::VIDEO_FOLDER . DIRECTORY_SEPARATOR . $videoFile);
+                })
+                ->dispatch();
         }
 
         return Command::SUCCESS;
