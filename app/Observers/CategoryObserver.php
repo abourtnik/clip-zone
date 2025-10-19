@@ -13,7 +13,7 @@ class CategoryObserver
      * @param Category $category
      * @return void
      */
-    public function created(Category $category)
+    public function created(Category $category): void
     {
         $category->update(['slug' => Str::slug($category->title)]);
     }

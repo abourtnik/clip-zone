@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
             ->dailyAt('12:00')
             ->appendOutputTo($LOG_PATH);
         $schedule->command(DeleteUnconfirmedUsers::class)
-            ->dailyAt('1:00')
+            ->hourly()
             ->appendOutputTo($LOG_PATH);
         $schedule->command(DeleteExpiredChunks::class)
             ->dailyAt('2:00')

@@ -20,7 +20,7 @@ class DeleteUnconfirmedUsers extends Command
      *
      * @var string
      */
-    protected $description = 'Remove unconfirmed users after their token are expired';
+    protected $description = 'Remove unconfirmed users after their are expired';
 
     /**
      * Execute the console command.
@@ -29,11 +29,12 @@ class DeleteUnconfirmedUsers extends Command
      */
     public function handle() : int
     {
-        $count = User::whereNull('email_verified_at')
-            ->where('created_at', '<', now()->subMinutes(Config::get('auth.verification.expire', 60)))
-            ->delete();
+        $count = User::query()
+            ->whereNull('email_verified_at')
+            ->where('created_at', '<', now()->subMinutes(Config::get('auth.verification.expire', 1440)))
+            ->forceDelete();
 
-        $this->info(now()->format('Y-m-d H:i:s',).' - Delete ' .$count. ' unconfirmed users');
+        $this->info(now()->format('Y-m-d H:i:s').' - Delete ' .$count. ' unconfirmed users');
 
         return Command::SUCCESS;
     }

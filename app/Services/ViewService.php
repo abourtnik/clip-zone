@@ -28,7 +28,7 @@ class ViewService
     {
         $manager = app('impersonate');
 
-        return Auth::user()?->is_admin || $video->user->is(Auth::user()) || $manager->isImpersonating() || $this->hasRecentView($video);
+        return $video->user->is(Auth::user()) || $manager->isImpersonating() || $this->hasRecentView($video);
     }
 
     public function incrementView(Video $video): void

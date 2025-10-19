@@ -24,7 +24,7 @@ class UserService {
         return $user;
     }
 
-    public function createDefaultPlaylists(User $user): void
+    private function createDefaultPlaylists(User $user): void
     {
         $user->playlists()->create([
             'uuid' => (string) Str::uuid(),
