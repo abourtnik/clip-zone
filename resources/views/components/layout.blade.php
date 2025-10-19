@@ -9,9 +9,9 @@
     <meta name="copyright" content="{{config('app.url')}}" />
     <meta name="author" content="Anton Bourtnik" />
 
-    <meta name="theme-color" content="#FF6174" />
-    <meta name="msapplication-navbutton-color" content="#FF6174" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#FF6174" />
+    <meta name="theme-color" content="#FFFFFF" />
+    <meta name="msapplication-navbutton-color" content="#FFFFFF" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="#FFFFFF" />
 
     <meta property="og:site_name" content="{{config('app.name')}}" />
     <meta property="og:url" content="{{url()->full()}}" />
