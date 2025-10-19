@@ -133,13 +133,11 @@ function Interaction ({interaction} : {interaction: InteractionType}) {
         <li className="list-group-item d-flex flex-wrap justify-content-between align-items-center">
             <div className={'d-flex align-items-center gap-2 gap-sm-4'}>
                 <div className={'p-2 badge bg-' + (interaction.status ? 'success' : 'danger')}>
-                    {interaction.status ? <i className="fa-solid fa-thumbs-up"></i> :
-                        <i className="fa-solid fa-thumbs-down"></i>}
+                    {interaction.status ? <i className="fa-solid fa-thumbs-up"></i> : <i className="fa-solid fa-thumbs-down"></i>}
                 </div>
                 <div className={'d-flex align-items-center gap-2 ap-sm-4'}>
                     <a href={interaction.user.route} className="d-flex align-items-center gap-2 text-decoration-none">
-                        <img className="rounded" src={interaction.user.avatar}
-                             alt={interaction.user.username + ' avatar'} style="width: 40px;"/>
+                        <img className="rounded" src={interaction.user.avatar} alt={interaction.user.username + ' avatar'} style="width: 40px;"/>
                     </a>
                     <div className={'d-flex flex-column'}>
                         <span className={'text-sm'}>{interaction.user.username}</span>

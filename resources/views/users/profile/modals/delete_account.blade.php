@@ -17,8 +17,7 @@
                         <ul>
                             <li>{{trans_choice('videos', $user->videos->count())}}</li>
                             <li>{{trans_choice('comments', $user->comments->count())}}</li>
-                            <li>{{trans_choice('likes', $user->likes->count())}}</li>
-                            <li>{{trans_choice('dislikes', $user->dislikes->count())}}</li>
+                            <li>{{trans_choice('playlists', $user->playlists->count())}}</li>
                         </ul>
                     </div>
                     <div class="w-100">

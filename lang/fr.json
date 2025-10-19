@@ -10,6 +10,7 @@
     "dislikes": "[0,1] :count dislike|[2,*] :count dislikes",
     "reports": "[0,1] :count signalement|[2,*] :count signalements",
     "interactions": "[0,1] :count interaction|[2,*] :count interactions",
+    "playlists": "[0,1] :count playlist|[2,*] :count playlists",
     "sign_in": "[0,1] :count signalement|[2,*] :count signalements",
     "Sign In": "Se connecter",
     "Sign Up": "S'inscrire",
