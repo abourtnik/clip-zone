@@ -22,7 +22,7 @@ class ProcessVideo implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public int $timeout = 1800; // 30 minutes
+    public int $timeout = 300; // 5 minutes
 
     public string $folder;
     public Video $video;
@@ -93,7 +93,7 @@ class ProcessVideo implements ShouldQueue
 
         Bus::batch($thumbnailJobs)
             ->name("GenerateThumbnails for video : {$this->video->id}")
-            ->finally(function (Batch $batch) use ($videoFile) {
+            ->then(function (Batch $batch) use ($videoFile) {
                 // Delete video
                 Storage::disk('local')->delete(Video::VIDEO_FOLDER . DIRECTORY_SEPARATOR . $videoFile);
             })

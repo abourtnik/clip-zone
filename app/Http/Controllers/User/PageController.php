@@ -47,7 +47,9 @@ class PageController extends Controller
                                     Video::class => ['user']
                                 ]);
                             },
-                            'user'
+                            'user' => function ($query) {
+                                $query->withTrashed();
+                            }
                         ])
                         ->orderBy('perform_at', 'desc')
                         ->limit(5);

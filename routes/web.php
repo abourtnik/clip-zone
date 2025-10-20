@@ -100,6 +100,14 @@ Route::controller(UserController::class)->name('user.')->group(function () {
     Route::get('/@{user:slug}', 'show')
         ->name('show')
         ->can('show', 'user');
+    Route::prefix('users')->group(function () {
+        Route::get('{user}/avatar', 'avatar')
+            ->name('avatar')
+            ->can('avatar', 'user');
+        Route::get('{user}/banner', 'banner')
+            ->name('banner')
+            ->can('banner', 'user');
+    });
 });
 
 // SEARCH

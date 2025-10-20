@@ -68,9 +68,11 @@ class InteractionController extends Controller
                 ->interactions()
                 ->with([
                     'user' => function ($query) {
-                        $query->withExists([
-                            'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', auth('sanctum')->user()->id)
-                        ]);
+                        $query
+                            ->withExists([
+                                'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', auth('sanctum')->user()->id)
+                            ])
+                            ->withTrashed();
                     },
                     'likeable'
                 ])

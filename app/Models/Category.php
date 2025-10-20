@@ -18,7 +18,7 @@ class Category extends Model implements Sortable
 
     protected $guarded = ['id'];
 
-    public const IMAGE_FOLDER = 'categories';
+    public const string IMAGE_FOLDER = 'categories';
 
     public function videos () : HasMany {
         return $this->hasMany(Video::class);

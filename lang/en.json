@@ -9,5 +9,6 @@
     "likes": "[0,1] :count like|[2,*] :count likes",
     "dislikes": "[0,1] :count dislike|[2,*] :count dislikes",
     "reports": "[0,1] :count report|[2,*] :count reports",
-    "interactions": "[0,1] :count interaction|[2,*] :count interaction"
+    "interactions": "[0,1] :count interaction|[2,*] :count interaction",
+    "playlists": "[0,1] :count playlists|[2,*] :count playlists"
 }

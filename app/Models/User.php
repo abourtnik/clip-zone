@@ -21,10 +21,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Cashier\Billable;
@@ -40,7 +40,7 @@ use Symfony\Component\Intl\Countries;
 
 class User extends Authenticatable implements MustVerifyEmail, Reportable
 {
-    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable, Filterable, HasApiTokens, MustVerifyUpdatedEmail, MustVerifyPhone, CanResetPassword;
+    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable, Filterable, HasApiTokens, MustVerifyUpdatedEmail, MustVerifyPhone, CanResetPassword, SoftDeletes;
 
     protected $guarded = ['id', 'is_admin'];
 
@@ -59,7 +59,9 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     ];
 
     public const string AVATAR_FOLDER = 'avatars';
+    public const string DEFAULT_AVATAR = '/images/default_men.png';
     public const string BANNER_FOLDER = 'banners';
+    public const string DEFAULT_BANNER = '/images/default_banner.jpg';
 
     /**
      * -------------------- RELATIONS --------------------
@@ -180,13 +182,13 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
 
     public function avatarUrl() : Attribute {
         return Attribute::make(
-            get: fn () => $this->avatar ? Storage::url(self::AVATAR_FOLDER.'/'.$this->avatar) : asset('/images/default_men.png')
+            get: fn () => route('user.avatar', $this)
         );
     }
 
     public function bannerUrl() : Attribute {
         return Attribute::make(
-            get: fn () => $this->banner ? Storage::url(self::BANNER_FOLDER.'/'.$this->banner) : asset('/images/default_banner.jpg')
+            get: fn () => route('user.banner', $this)
         );
     }
 

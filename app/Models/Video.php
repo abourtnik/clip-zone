@@ -14,6 +14,7 @@ use App\Models\Interfaces\Likeable;
 use App\Models\Traits\HasReport;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -33,7 +34,7 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class Video extends Model implements Likeable, Reportable
 {
-    use HasFactory, HasLike, HasReport, Filterable, Searchable;
+    use HasFactory, HasLike, HasReport, Filterable, Searchable, SoftDeletes;
 
     protected $guarded = ['id'];
 

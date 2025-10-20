@@ -20,6 +20,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Str;
 
@@ -28,7 +29,7 @@ use Illuminate\Support\Str;
  */
 class Comment extends Model implements Likeable, Reportable
 {
-    use HasLike, HasReport, Filterable, HasFactory, HasActivity;
+    use HasLike, HasReport, Filterable, HasFactory, HasActivity, SoftDeletes;
 
     protected $guarded = ['id'];
 

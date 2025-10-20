@@ -33,7 +33,10 @@ class PageTest extends TestCase
 
     public function test_private_video_show(): void
     {
-        $video = Video::factory()->withStatus(VideoStatus::PRIVATE->value)->forUser()->create();
+        $video = Video::factory()
+            ->forUser()
+            ->withStatus(VideoStatus::PRIVATE)
+            ->create();
 
         $response = $this->get($video->route);
 
@@ -42,9 +45,12 @@ class PageTest extends TestCase
 
     public function test_planned_video_show(): void
     {
-        $video = Video::factory()->withStatus(VideoStatus::PLANNED->value)->forUser()->create([
-            'scheduled_at' => now()->addMinutes(30)
-        ]);
+        $video = Video::factory()
+            ->forUser()
+            ->withStatus(VideoStatus::PLANNED)
+            ->create([
+                'scheduled_at' => now()->addMinutes(30)
+            ]);
 
         $response = $this->get($video->route);
 
@@ -53,9 +59,12 @@ class PageTest extends TestCase
 
     public function test_planned_public_video_show(): void
     {
-        $video = Video::factory()->withStatus(VideoStatus::PLANNED->value)->forUser()->create([
-            'scheduled_at' => now()->subMinutes(30)
-        ]);
+        $video = Video::factory()
+            ->forUser()
+            ->withStatus(VideoStatus::PLANNED)
+            ->create([
+                'scheduled_at' => now()->subMinutes(30)
+            ]);
 
         $response = $this->get($video->route);
 
@@ -65,7 +74,10 @@ class PageTest extends TestCase
 
     public function test_video_show(): void
     {
-        $video = Video::factory()->withStatus(VideoStatus::PUBLIC->value)->forUser()->create();
+        $video = Video::factory()
+            ->forUser()
+            ->withStatus(VideoStatus::PUBLIC)
+            ->create();
 
         $response = $this->get($video->route);
 

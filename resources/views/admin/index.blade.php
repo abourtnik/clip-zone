@@ -1,3 +1,5 @@
+@use('Illuminate\Support\Number')
+
 @extends('layouts.admin')
 
 @section('title', 'Dashboard')
@@ -12,7 +14,7 @@
                         <hr>
                         <div class="d-flex align-items-center justify-content-center gap-4">
                             <i class="fa-solid fa-video fa-2x"></i>
-                            <p class="card-text text-center fs-1">{{$videos_count}}</p>
+                            <p class="card-text text-center fs-1">{{Number::format($videos_count)}}</p>
                         </div>
                     </div>
                 </div>
@@ -24,7 +26,7 @@
                         <hr>
                         <div class="d-flex align-items-center justify-content-center gap-4">
                             <i class="fa-solid fa-user fa-2x"></i>
-                            <p class="card-text text-center fs-1">{{$users_count}}</p>
+                            <p class="card-text text-center fs-1">{{Number::format($users_count)}}</p>
                         </div>
                     </div>
                 </div>
@@ -36,7 +38,7 @@
                         <hr>
                         <div class="d-flex align-items-center justify-content-center gap-4">
                             <i class="fa-solid fa-comment fa-2x"></i>
-                            <p class="card-text text-center fs-1">{{$comments_count}}</p>
+                            <p class="card-text text-center fs-1">{{Number::format($comments_count)}}</p>
                         </div>
                     </div>
                 </div>
@@ -48,9 +50,17 @@
                         <hr>
                         <div class="d-flex align-items-center justify-content-center gap-4">
                             <i class="fa-solid fa-flag fa-2x"></i>
-                            <p class="card-text text-center fs-1">{{$reports_count}}</p>
+                            <p class="card-text text-center fs-1">{{Number::format($reports_count)}}</p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="card shadow border-primary h-100 mb-4">
+            <div class="card-body">
+                <h4 class="card-title text-center text-primary mb-3">Premium Gains</h4>
+                <div class="d-block" style="height: 547px">
+                    <x-chartjs-component :chart="$chart" />
                 </div>
             </div>
         </div>

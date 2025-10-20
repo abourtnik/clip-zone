@@ -7,6 +7,11 @@ type Props = {
     id: string
 }
 
+const COLORS: Record<Theme, string> = {
+    'light' : '#FFFFFF',
+    'dark': '#22254D'
+}
+
 export function ThemeSwitcher({id} : Props) {
 
     const [theme, setTheme] = useState<Theme>(localStorage.getItem(THEME_KEY) as Theme || 'light');
@@ -20,6 +25,9 @@ export function ThemeSwitcher({id} : Props) {
             }
         }));
         document.documentElement.setAttribute('data-bs-theme', theme)
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', COLORS[theme])
+        document.querySelector('meta[name="msapplication-navbutton-color"]')?.setAttribute('content', COLORS[theme])
+        document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]')?.setAttribute('content', COLORS[theme])
     }, [theme])
 
     useEffect(() => {

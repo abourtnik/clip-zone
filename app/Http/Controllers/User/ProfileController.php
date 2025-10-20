@@ -6,8 +6,8 @@ use App\Events\Account\EmailUpdated;
 use App\Events\Account\PasswordUpdated;
 use App\Helpers\File;
 use App\Http\Requests\UpdateUserRequest;
+use App\Jobs\DeleteUser;
 use App\Models\User;
-use App\Notifications\Account\DeleteAccount;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -60,9 +60,8 @@ class ProfileController
 
     public function delete(): RedirectResponse {
 
-        Auth::user()->notify(new DeleteAccount());
+        DeleteUser::dispatch(Auth::user());
 
-        User::find(Auth::id())->delete();
         Auth::logout();
 
         return redirect()->route('pages.home');

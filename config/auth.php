@@ -120,7 +120,7 @@ return [
     */
 
     'verification' => [
-        'expire' => 60
+        'expire' => 1440 // 1 day
     ]
 
 ];
