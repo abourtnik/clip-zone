@@ -18,13 +18,13 @@ class SearchController extends Controller
         SearchPerformed::dispatch($q);
 
         $videos = Video::search($q, function(Indexes $index, $query, $options) {
-            $options['attributesToRetrieve'] = ['title', 'url', 'thumbnail', 'user', 'uuid', 'views', 'publication_date', 'formated_duration'];
+            $options['attributesToRetrieve'] = ['title', 'url', 'thumbnail', 'user', 'uuid', 'views', 'published_at', 'formated_duration'];
             $options['attributesToHighlight'] = ['title', 'user'];
             $options['attributesToCrop'] = ['title:15'];
             return $index->rawSearch($query, $options);
         })
             ->orderBy('views', 'desc')
-            ->orderBy('publication_date', 'desc')
+            ->latest('published_at')
             ->take(10)
             ->raw();
 

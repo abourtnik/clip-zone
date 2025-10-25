@@ -43,7 +43,7 @@
                     @if($video->is_planned)
                         <div class="d-flex alert alert-warning px-2 py-1 align-items-center gap-2 mb-0">
                             <i class="fa-solid fa-clock"></i>
-                            <strong>{{__('Planned')}} - {{$video->scheduled_date->format('d M Y H:i')}}</strong>
+                            <strong>{{__('Planned')}} - {{$video->scheduled_at->format('d M Y H:i')}}</strong>
                         </div>
                     @elseif($video->is_banned)
                         <div class="d-flex alert alert-danger px-2 py-1 align-items-center gap-2 mb-0">
@@ -69,7 +69,7 @@
                     <h1 class="mb-0 h5 text-break">{{$video->title}}</h1>
                 </div>
                 <div class="mt-3 d-flex flex-column flex-xxl-row gap-3 justify-content-between align-items-start align-items-xxl-center">
-                    <div class="text-muted">{{trans_choice('views', $video->views)}} • {{$video->publication_date?->translatedFormat('d F Y') ?? $video->created_at->translatedFormat('d F Y')}}</div>
+                    <div class="text-muted">{{trans_choice('views', $video->views)}} • {{$video->published_at?->translatedFormat('d F Y') ?? $video->created_at->translatedFormat('d F Y')}}</div>
                     @auth
                         <div class="d-flex gap-2 align-items-center overflow-auto col-12 col-sm-auto">
                             <interaction-buttons

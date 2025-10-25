@@ -21,12 +21,12 @@ class MyVideoListResource extends JsonResource
      */
     public function toArray(Request $request) : array
     {
-        $date = $this->publication_date;
+        $date = $this->published_at;
 
         if ($this->is_private || $this->is_unlisted || $this->is_draft|| $this->is_failed) {
             $date = $this->created_at;
         } elseif ($this->is_planned) {
-            $date = $this->scheduled_date;
+            $date = $this->scheduled_at;
         }
 
         return [

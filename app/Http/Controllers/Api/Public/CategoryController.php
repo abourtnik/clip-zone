@@ -15,7 +15,7 @@ class CategoryController
             Video::active()
                 ->whereRelation('category', 'id', $category->id)
                 ->with('user')
-                ->latest('publication_date')
+                ->latest('published_at')
                 ->cursorPaginate(24)
         );
     }

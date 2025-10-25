@@ -49,7 +49,7 @@ class PageTest extends TestCase
             ->forUser()
             ->withStatus(VideoStatus::PLANNED)
             ->create([
-                'scheduled_date' => now()->addMinutes(30)
+                'scheduled_at' => now()->addMinutes(30)
             ]);
 
         $response = $this->get($video->route);
@@ -63,7 +63,7 @@ class PageTest extends TestCase
             ->forUser()
             ->withStatus(VideoStatus::PLANNED)
             ->create([
-                'scheduled_date' => now()->subMinutes(30)
+                'scheduled_at' => now()->subMinutes(30)
             ]);
 
         $response = $this->get($video->route);

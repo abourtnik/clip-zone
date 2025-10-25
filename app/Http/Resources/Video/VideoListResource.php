@@ -35,7 +35,7 @@ class VideoListResource extends JsonResource
                 'formated_duration' => $this->duration,
                 'views' => $this->views,
                 'route' => $this->route,
-                'publication_date' => $this->publication_date,
+                'published_at' => $this->published_at,
                 'user' => UserListResource::make($this->user),
             ]),
             'is_private' => $this->when($isPrivate, true),

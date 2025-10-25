@@ -35,7 +35,7 @@ class VideoFactory extends Factory
             'duration' => fake()->numberBetween(5, 4000),
             'original_mimetype' => Video::MIMETYPE,
             'status' => fake()->randomElement([VideoStatus::PUBLIC->value, VideoStatus::PRIVATE->value, VideoStatus::UNLISTED->value]),
-            'publication_date' => $date,
+            'published_at' => $date,
             'category_id' => Category::inRandomOrder()->first()?->id,
             'language' => fake()->randomElement(Video::AVAILABLE_LANGUAGES),
             'allow_comments' => fake()->boolean(90),

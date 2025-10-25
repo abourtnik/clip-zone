@@ -16,7 +16,7 @@ class VideoController
         return VideoListResource::collection(
             Video::active()
                 ->with('user')
-                ->latest('publication_date')
+                ->latest('published_at')
                 ->cursorPaginate(24)
         );
     }

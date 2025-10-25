@@ -16,7 +16,7 @@ class VideoObserver
      */
     public function updating(Video $video) : void
     {
-        if ($video->status === VideoStatus::PUBLIC && is_null($video->getOriginal('publication_date'))) {
+        if ($video->status === VideoStatus::PUBLIC && is_null($video->getOriginal('published_at'))) {
             VideoPublished::dispatch($video);
         }
     }

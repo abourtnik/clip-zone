@@ -67,7 +67,7 @@ class UserController
                 ->subscriptions_videos()
                 ->active()
                 ->with('user')
-                ->latest('publication_date')
+                ->latest('published_at')
                 ->cursorPaginate(15)
         );
     }

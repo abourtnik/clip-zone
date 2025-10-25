@@ -30,7 +30,7 @@ class SearchController extends Controller
                 return $query->with('user');
             })
             ->orderBy('views', 'desc')
-            ->orderBy('publication_date', 'desc')
+            ->latest('published_at')
             ->paginate(12)
             ->withQueryString();
 

@@ -31,8 +31,8 @@ class SendVideoPublishedEvent extends Command
     public function handle() : int
     {
         $videos = Video::where('status', VideoStatus::PLANNED)
-            ->where('scheduled_date', now()->startOfMinute())
-            ->where('publication_date', now()->startOfMinute())
+            ->where('scheduled_at', now()->startOfMinute())
+            ->where('published_at', now()->startOfMinute())
             ->get();
 
         foreach ($videos as $video) {

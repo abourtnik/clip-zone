@@ -341,7 +341,7 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
- * @property float $price
+ * @property string|false $price in centimes
  * @property int $duration in month
  * @property string|null $stripe_id
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -583,9 +583,9 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $stripe_id
- * @property int $amount amount in centimes
- * @property int $tax tax in centimes
- * @property int $fee stripe fee for transaction
+ * @property string|false $amount amount in centimes
+ * @property string|false $tax tax in centimes
+ * @property string|false $fee stripe fee for transaction
  * @property \Illuminate\Support\Carbon $date
  * @property int|null $user_id
  * @property int|null $subscription_id
@@ -596,7 +596,6 @@ namespace App\Models{
  * @property string $country
  * @property string|null $vat_id
  * @property-read mixed $amount_without_tax
- * @property-read mixed $formated_amount
  * @property-read mixed $invoice_name
  * @property-read mixed $invoice_path
  * @property-read mixed $invoice_url
@@ -784,8 +783,8 @@ namespace App\Models{
  * @property int|null $category_id
  * @property \App\Enums\VideoStatus $status
  * @property string|null $language
- * @property \Illuminate\Support\Carbon|null $scheduled_date
- * @property \Illuminate\Support\Carbon|null $publication_date Date when video become public for the first time
+ * @property \Illuminate\Support\Carbon|null $scheduled_at
+ * @property \Illuminate\Support\Carbon|null $published_at Date when video become public for the first time
  * @property bool $allow_comments
  * @property string $default_comments_sort
  * @property bool $show_likes
@@ -872,8 +871,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereOriginalFileName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereOriginalMimetype($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video wherePinnedCommentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Video wherePublicationDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereScheduledDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video wherePublishedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereScheduledAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereShowLikes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereSize($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereSlug($value)

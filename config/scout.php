@@ -139,11 +139,11 @@ return [
             Video::class => [
                 'filterableAttributes' => [
                     'duration',
-                    'publication_date'
+                    'published_at'
                 ],
                 'sortableAttributes' => [
                   'views',
-                  'publication_date'
+                  'published_at'
                 ],
                 'searchableAttributes' => [
                     'title',
