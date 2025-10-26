@@ -42,6 +42,9 @@ class VideoController extends Controller
 
     public function create(Video $video): View|RedirectResponse {
 
+        // Refresh video data to get real uploaded_at
+        $video->refresh();
+
         if (!$video->is_draft) {
             return redirect()->route('user.videos.edit', $video);
         }

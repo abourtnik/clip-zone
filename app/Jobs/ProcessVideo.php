@@ -73,9 +73,9 @@ class ProcessVideo implements ShouldQueue
 
         if (config('filesystems.default') === 's3') {
             $this->uploadToS3($path);
-        } else {
-            $this->video->update(['uploaded_at' => now()]);
         }
+
+        $this->video->update(['uploaded_at' => now()]);
 
         // Generate thumbnails
         $duration = $this->updateVideo($path);
@@ -100,6 +100,7 @@ class ProcessVideo implements ShouldQueue
             ->dispatch();
 
         VideoUploaded::dispatch($this->video);
+
     }
 
     /**
@@ -137,10 +138,6 @@ class ProcessVideo implements ShouldQueue
         $stream = Storage::disk('local')->readStream($path);
 
         Storage::disk('s3')->writeStream($path, $stream);
-
-        $this->video->update([
-            'uploaded_at' => now()
-        ]);
     }
 
     /**
