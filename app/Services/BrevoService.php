@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class BrevoService
 {
@@ -15,7 +16,7 @@ class BrevoService
         $this->apiKey = $apiKey;
     }
 
-    public function sendTransactionalSMS(string $number, string $content) : array|null
+    public function sendTransactionalSMS(string $number, string $content) : int
     {
         $response = Http::withHeaders([
             'Accept' => 'application/json',
@@ -28,6 +29,11 @@ class BrevoService
             'type' => 'transactional',
         ]);
 
-        return $response->json();
+        if ($response->failed()) {
+            Log::error('Failed to send SMS: ' . $response->body());
+            //$response->throw();
+        }
+
+        return $response->status();
     }
 }
