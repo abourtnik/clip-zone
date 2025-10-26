@@ -21,7 +21,6 @@
         "laravel/sanctum": "^4.0",
         "laravel/scout": "^10.8",
         "laravel/socialite": "^5.8",
-        "laravel/telescope": "^5.0",
         "laravel/tinker": "^2.7",
         "league/flysystem-aws-s3-v3": "^3.0",
         "maatwebsite/excel": "^3.1",

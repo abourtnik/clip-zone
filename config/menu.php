@@ -150,12 +150,6 @@ return [
             'new_tab' => true,
         ],
         [
-            'title' => 'Telescope',
-            'icon' => 'cube',
-            'route' => 'admin.telescope',
-            'new_tab' => true,
-        ],
-        [
             'title' => 'Horizon',
             'icon' => 'bars-progress',
             'route' => 'admin.horizon',

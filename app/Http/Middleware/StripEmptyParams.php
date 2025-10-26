@@ -9,8 +9,8 @@ use Illuminate\Http\RedirectResponse;
 
 class StripEmptyParams
 {
-    protected $except = [
-        'admin/telescope/*'
+    protected array $except = [
+        //'admin/telescope/*'
     ];
 
     /**

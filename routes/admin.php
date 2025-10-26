@@ -79,9 +79,6 @@ Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function ()
     // Logs
     Route::get('/logs', fn() => redirect('logs'))->name('logs');
 
-    // Telescope
-    Route::get('/telescope', fn() => redirect('telescope'))->name('telescope');
-
     // Horizon
     Route::get('/horizon', fn() => redirect('horizon'))->name('horizon');
 
