@@ -44,37 +44,37 @@ class StripeWebhookController extends Controller
 
     public function onInvoicePaid (array $data) : Response  {
 
-        if ($data['amount_paid'] !== 0) {
-
-            $user = $this->getUserFromStripeId($data['customer']);
-            $subscription = Subscription::where('stripe_id', $data['subscription'])->firstOrFail();
-
-            // Get Stripe Fee
-            $charge = Cashier::stripe()->charges->retrieve($data['charge'],
-                ['expand' => ['balance_transaction']]
-            );
-
-            $transaction = Transaction::create([
-                'stripe_id' => $data['payment_intent'],
-                'amount' => $data['amount_paid'],
-                'tax' => $data['tax'] ?? 0,
-                'fee' => $charge->balance_transaction->fee,
-                'date' => Carbon::createFromTimestamp($data['created']),
-                'user_id' => $user->id,
-                'subscription_id' => $subscription->id,
-                'name' => $data['customer_name'],
-                'address' => $data['customer_address']['line1'] . ' ' .$data['customer_address']['line2'],
-                'city' => $data['customer_address']['city'],
-                'postal_code' => $data['customer_address']['postal_code'],
-                'country' => $data['customer_address']['country'],
-                'vat_id' => $data['customer_tax_ids'] ? $data['customer_tax_ids'][0]['value'] : null,
-            ]);
-
-            $this->invoiceService->generate($transaction);
-
-            $user->notify(new Invoice($transaction));
+        if ($data['amount_paid'] === 0) {
+            return response()->noContent();
         }
 
+        $user = $this->getUserFromStripeId($data['customer']);
+        $subscription = Subscription::where('stripe_id', $data['subscription'])->firstOrFail();
+
+        // Get Stripe Fee
+        $charge = Cashier::stripe()->charges->retrieve($data['charge'],
+            ['expand' => ['balance_transaction']]
+        );
+
+        $transaction = Transaction::create([
+            'stripe_id' => $data['payment_intent'],
+            'amount' => $data['amount_paid'],
+            'tax' => $data['tax'] ?? 0,
+            'fee' => $charge->balance_transaction->fee,
+            'date' => Carbon::createFromTimestamp($data['created']),
+            'user_id' => $user->id,
+            'subscription_id' => $subscription->id,
+            'name' => $data['customer_name'],
+            'address' => $data['customer_address']['line1'] . ' ' .$data['customer_address']['line2'],
+            'city' => $data['customer_address']['city'],
+            'postal_code' => $data['customer_address']['postal_code'],
+            'country' => $data['customer_address']['country'],
+            'vat_id' => $data['customer_tax_ids'] ? $data['customer_tax_ids'][0]['value'] : null,
+        ]);
+
+        $this->invoiceService->generate($transaction);
+
+        $user->notify(new Invoice($transaction));
 
         return response()->noContent();
     }

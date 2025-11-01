@@ -1,6 +1,6 @@
 services:
     php:
-        image: abourtnik/laravel:1.1
+        image: abourtnik/laravel:1.2
         container_name: php_container
         working_dir: /var/www/html
         volumes:
