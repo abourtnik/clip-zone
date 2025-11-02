@@ -11,7 +11,7 @@ class PremiumController extends Controller
     public function subscribe (Plan $plan)  {
 
         $checkoutOptions = [
-            'success_url' => route('pages.home', ['success' => true]),
+            'success_url' => route('pages.home', ['premium' => true]),
             'cancel_url' => route('pages.premium'),
             'billing_address_collection' => 'required',
             'automatic_tax' => [

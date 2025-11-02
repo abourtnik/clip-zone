@@ -16,7 +16,7 @@ class PageController
 {
     public function home(Request $request): View {
         return view('pages.home', [
-            'success' => $request->has('success')
+            'showPremiumModal' => $request->has('premium') && Auth::user()?->is_premium
         ]);
     }
 

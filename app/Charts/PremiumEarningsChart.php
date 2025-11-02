@@ -14,7 +14,7 @@ class PremiumEarningsChart
     public string $name = 'premium_earnings_chart';
     public string $type = 'line';
 
-    private Carbon $firstTransactionDate;
+    private ?Carbon $firstTransactionDate;
 
     public function __construct() {
         $this->firstTransactionDate = Transaction::query()->oldest('date')->value('date');
@@ -33,6 +33,10 @@ class PremiumEarningsChart
 
     private function data() : array
     {
+        if (!$this->firstTransactionDate) {
+            return [];
+        }
+
         $data = DB::query()
             ->selectRaw("DATE_FORMAT(m.month_start, '%Y-%m') AS month")
             ->selectRaw('COALESCE(SUM(t.amount), 0) / 100 AS total_amount')
@@ -68,6 +72,10 @@ class PremiumEarningsChart
 
     private function labels(): array
     {
+        if (!$this->firstTransactionDate) {
+            return [];
+        }
+
         return collect(CarbonPeriod::since($this->firstTransactionDate)->month()->until(now()->subDay()))->map(fn ($date) => $date->format('M Y'))->toArray();
     }
 

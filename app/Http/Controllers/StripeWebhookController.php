@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\Stripe\SubscriptionCreated;
-use App\Jobs\Stripe\SubscriptionUpdated;
 use App\Models\Plan;
 use App\Models\Subscription;
 use App\Models\Transaction;
@@ -11,13 +9,13 @@ use App\Models\User;
 use App\Notifications\Premium\Cancel;
 use App\Notifications\Premium\Invoice;
 use App\Notifications\Premium\Unpaid;
+use App\Notifications\Premium\Welcome;
 use App\Services\InvoiceService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Laravel\Cashier\Cashier;
-use Stripe\Subscription as StripeSubscription;
 
 class StripeWebhookController extends Controller
 {
@@ -27,7 +25,7 @@ class StripeWebhookController extends Controller
 
     public function index(Request $request): Response
     {
-        Log::channel('stripe')->info($request->get('type'));
+        Log::channel('stripe')->info($request->get('type'). ' ('.$request->get('id').')');
 
         $request->headers->set('Accept', 'application/json');
 
@@ -47,6 +45,9 @@ class StripeWebhookController extends Controller
         if ($data['amount_paid'] === 0) {
             return response()->noContent();
         }
+
+        // For API-version 2025-10-29.clover
+        // $subscriptionId = $data['parent']['subscription_details']['subscription'];
 
         $user = $this->getUserFromStripeId($data['customer']);
         $subscription = Subscription::where('stripe_id', $data['subscription'])->firstOrFail();
@@ -92,17 +93,75 @@ class StripeWebhookController extends Controller
 
     public function onSubscriptionCreated (array $data) : Response  {
 
-        SubscriptionCreated::dispatch($data);
+        $user = User::where('stripe_id', $data['customer'])->firstOrFail();
+
+        $plan = Plan::where('stripe_id', $data['plan']['id'])->firstOrFail();
+
+        $default_payment_method = Cashier::stripe()->subscriptions->retrieve($data['id'])->default_payment_method;
+
+        $paymentMethod = Cashier::stripe()->paymentMethods->retrieve($default_payment_method);
+
+        // User Cancel Subscription and Renew
+        if ($user->premium_subscription) {
+            $user->premium_subscription()->update([
+                'next_payment' => Carbon::createFromTimestamp($data['current_period_end']),
+                'stripe_status' => $data['status'],
+                'plan_id' => $plan->id,
+                'stripe_id' => $data['id'],
+                'ends_at' => null,
+                'card_last4' => $paymentMethod->card->last4,
+                'card_expired_at' => Carbon::createFromDate($paymentMethod->card->exp_year, $paymentMethod->card->exp_month)->endOfMonth()
+            ]);
+        }
+
+        else {
+            Subscription::create([
+                'next_payment' => Carbon::createFromTimestamp($data['current_period_end']),
+                'stripe_status' => $data['status'],
+                'user_id' => $user->id,
+                'plan_id' => $plan->id,
+                'stripe_id' => $data['id'],
+                'trial_ends_at' => Carbon::createFromTimestamp($data['trial_end']),
+                'card_last4' => $paymentMethod->card->last4,
+                'card_expired_at' => Carbon::createFromDate($paymentMethod->card->exp_year, $paymentMethod->card->exp_month)->endOfMonth()
+            ]);
+        }
+
+        $user->load('premium_subscription');
+
+        $user->notify(new Welcome());
 
         return response()->noContent();
     }
 
     public function onSubscriptionUpdated (array $data) : Response  {
 
-        SubscriptionUpdated::dispatch($data);
+        $subscription = Subscription::where('stripe_id', $data['id'])->firstOrFail();
+
+        $subscription->update([
+            'stripe_status' => $data['status']
+        ]);
+
+        // For API-version 2025-10-29.clover
+        // $firstItem = $data['items']['data'][0];
+        // $firstItem['current_period_end']
+
+        if ($data['cancel_at_period_end']) {
+            $subscription->update([
+                'ends_at' => $subscription->on_trial
+                    ? $subscription->trial_ends_at
+                    : Carbon::createFromTimestamp($data['current_period_end'])
+            ]);
+
+            return response()->noContent();
+        }
+
+        $subscription->update([
+            'next_payment' => Carbon::createFromTimestamp($data['current_period_end']),
+            'ends_at' => null
+        ]);
 
         return response()->noContent();
-
     }
 
     public function onCustomerUpdated (array $data) : Response  {
@@ -138,13 +197,5 @@ class StripeWebhookController extends Controller
 
     private function getUserFromStripeId (string $id) : User {
         return User::where('stripe_id', $id)->firstOrFail();
-    }
-
-    private function getPlanFromStripeId (string $id) : Plan {
-        return Plan::where('stripe_id', $id)->firstOrFail();
-    }
-
-    private function isSubscriptionIncomplete (string $status) : bool {
-        return in_array($status, [StripeSubscription::STATUS_INCOMPLETE, StripeSubscription::STATUS_INCOMPLETE_EXPIRED]);
     }
 }
