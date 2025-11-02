@@ -24,7 +24,7 @@
 </div>
 
 <script>
-    window.addEventListener('load', function () {
+    document.addEventListener('DOMContentLoaded', function () {
         new bootstrap.Modal('#premium').show()
     })
 </script>
