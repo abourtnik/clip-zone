@@ -32,9 +32,7 @@
             ],
             "Condition": {
                 "StringLike": {
-                    "aws:UserAgent": [
-                        "SECRET"
-                    ]
+                    "aws:UserAgent": "SECRET"
                 }
             }
         }

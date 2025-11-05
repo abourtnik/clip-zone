@@ -33,8 +33,8 @@ class SendTrialsEnd extends Command
         $subscriptions = Subscription::query()
             ->whereNull('ends_at')
             ->whereDate('trial_ends_at', '>', Carbon::now())
-            ->whereDate('trial_ends_at', '=', Carbon::now()->add('days', config('plans.trial_period.email_reminder'))
-        )->get();
+            ->whereDate('trial_ends_at', '=', Carbon::now()->add('days', config('plans.trial_period.email_reminder')))
+            ->get();
 
         foreach ($subscriptions as $subscription) {
             $subscription->user->notify(new TrialEnd());

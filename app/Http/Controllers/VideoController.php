@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enums\VideoStatus;
-use App\Events\Video\VideoViewed;
 use App\Http\Resources\SubtitleResource;
 use App\Models\Playlist;
 use App\Models\Subtitle;
@@ -16,7 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class VideoController extends Controller
 {
@@ -76,12 +74,15 @@ class VideoController extends Controller
         ]);
     }
 
-    public function download (Video $video): StreamedResponse
+    public function download (Video $video): RedirectResponse
     {
-        return Storage::download(Video::VIDEO_FOLDER .'/'. $video->file);
+        return redirect()->route('video.file', $video);
     }
 
-    public function file (Video $video) : void {}
+    public function file (Video $video) : Response
+    {
+        return response()->noContent(200);
+    }
 
     public function thumbnail (Video $video): Response
     {
