@@ -90,7 +90,7 @@
                             @endif
                             @if($video->is_uploaded)
                                 @can('download', $video)
-                                    <a href="{{route('video.download', $video)}}" class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0" title="Download video">
+                                    <a download="{{$video->title}}" href="{{route('video.download', $video)}}" class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0" title="Download video">
                                         <i class="fa-solid fa-download"></i>&nbsp;
                                         {{__('Download')}}
                                     </a>

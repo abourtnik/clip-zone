@@ -33,7 +33,7 @@
                 </div>
             </div>
             <div class="modal-footer d-flex" :class="{ 'justify-content-between': video.canDownload, 'justify-content-end': !video.canDownload }">
-                <a :href="video.download" class="btn btn-info text-white" x-show="video.canDownload">
+                <a :download="video.title" :href="video.download" class="btn btn-info text-white" x-show="video.canDownload">
                     <i class="fa-solid fa-download"></i> &nbsp;
                     Download video
                 </a>
