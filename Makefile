@@ -78,3 +78,6 @@ helpers: ## Generate Laravel Helpers
 	docker exec -it php_container php artisan ide-helper:generate
 	docker exec -it php_container php artisan ide-helper:models -F helpers/ModelHelper.php -M
 	docker exec -it php_container php artisan ide-helper:meta
+
+update-bucket-policy: ## Update bucket policy (PRODUCTION)
+	/usr/local/bin/s3cmd setpolicy clipzone-policy.json s3://clipzone
