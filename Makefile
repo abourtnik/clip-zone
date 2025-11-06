@@ -1,4 +1,4 @@
-.PHONY: help, connect, bun, reset, start, stop, optimize, update, install, deploy, test, logs, stripe, restart-horizon, analyse, helpers
+.PHONY: help, connect, bun, reset, start, stop, optimize, update, install, deploy, test, logs, stripe, restart-horizon, analyse, helpers, update-bucket-policy
 .DEFAULT_GOAL=help
 
 help: ## Show help options
