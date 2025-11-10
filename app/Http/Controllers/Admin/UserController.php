@@ -24,10 +24,9 @@ class UserController
                     'comments',
                     'interactions'
                 ])
-                ->whereNull('is_admin')
                 ->orderBy('created_at', 'desc')
                 ->paginate(15)
-                ->withQueryString(),
+                ->withQueryString()
         ]);
     }
 
