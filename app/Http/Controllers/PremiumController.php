@@ -30,6 +30,10 @@ class PremiumController extends Controller
             Arr::forget($checkoutOptions, 'subscription_data');
         }
 
+        if (is_null($plan->stripe_id)) {
+            throw new \Exception('Please configure Stripe before continue : https://stripe.com');
+        }
+
         return Auth::user()->newSubscription($plan->id, $plan->stripe_id)
             ->checkout($checkoutOptions);
     }

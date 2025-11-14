@@ -1,4 +1,4 @@
-.PHONY: help, connect, bun, reset, start, stop, optimize, update, install, deploy, test, logs, stripe, restart-horizon, analyse, helpers, update-bucket-policy
+.PHONY: help, connect, bun, reset, start, stop, optimize, update, install, install-production, deploy, test, logs, stripe, restart-horizon, analyse, helpers, update-bucket-policy
 .DEFAULT_GOAL=help
 
 help: ## Show help options
@@ -15,6 +15,11 @@ reset: ## Reset database and run seeders
 
 start: ## Start dev server
 	docker compose -p clipzone up -d
+	@echo "\nDevelopment servers launched !\n"
+	@echo "🌏  Web: http://localhost:8080"
+	@echo "✉️  Mails: http://localhost:1080"
+	@echo "🛢️  Database: http://localhost:8091"
+	@echo "🗄️  Minio: http://localhost:8900"
 
 stop: ## Stop dev server
 	docker compose -p clipzone down
@@ -49,6 +54,26 @@ install: ## Install application
 	docker exec -it minio_container mc admin accesskey create dockerminio minio --access-key minio-id --secret-key minio-secret
 	docker exec -it minio_container mc anonymous set-json /home/policy.json dockerminio/clipzone
 	make helpers
+	docker exec -it php_container php artisan optimize
+	docker exec -it php_container php artisan cache:clear
+	docker compose down
+	make start
+
+install-production: ## Install Production application
+	cp .env.production .env
+	docker compose up php mariadb bun redis meilisearch minio -d
+	docker exec -it php_container composer install --optimize-autoloader --no-dev
+	docker exec -it php_container php artisan key:generate
+	docker exec -it php_container php artisan db:create
+	docker exec -it php_container php artisan migrate
+	docker exec -it php_container php artisan db:seed
+	docker exec -it php_container php artisan scout:sync-index-settings
+	docker exec -it php_container php artisan log-viewer:publish
+	docker exec -it php_container mkdir -p storage/app/private/{videos,spams,thumbnails}
+	docker exec -it minio_container mc alias set dockerminio http://minio:9000 minio password
+	docker exec -it minio_container mc mb dockerminio/clipzone
+	docker exec -it minio_container mc admin accesskey create dockerminio minio --access-key minio-id --secret-key minio-secret
+	docker exec -it minio_container mc anonymous set-json /home/policy.json dockerminio/clipzone
 	docker exec -it php_container php artisan optimize
 	docker exec -it php_container php artisan cache:clear
 	docker compose down
