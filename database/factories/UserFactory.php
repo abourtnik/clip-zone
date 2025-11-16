@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\PlaylistStatus;
+use App\Models\Playlist;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\User;
@@ -16,7 +18,7 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition() : array
+    public function definition(): array
     {
         $date = fake()->dateTimeBetween('-20 years');
 
@@ -46,7 +48,7 @@ class UserFactory extends Factory
      *
      * @return Factory
      */
-    public function unverified() : Factory
+    public function unverified(): Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
@@ -58,7 +60,7 @@ class UserFactory extends Factory
      *
      * @return Factory
      */
-    public function banned() : Factory
+    public function banned(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
@@ -72,12 +74,24 @@ class UserFactory extends Factory
      *
      * @return Factory
      */
-    public function admin() : Factory
+    public function admin(): Factory
     {
         return $this->state(function (array $attributes) {
             return [
                 'is_admin' => true,
             ];
+        });
+    }
+
+    public function withDefaultPlaylist(): Factory
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->playlists()->create([
+                'uuid' => (string) Str::uuid(),
+                'title' => Playlist::WATCH_LATER_PLAYLIST,
+                'status' => PlaylistStatus::PRIVATE,
+                'is_deletable' => false
+            ]);
         });
     }
 }

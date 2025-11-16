@@ -15,10 +15,18 @@ class UserSeeder extends Seeder
     public function run() : void
     {
         // Admin
-        User::factory()->admin()->create(['username' => 'admin', 'password' => 'admin']);
+        User::factory()
+            ->admin()
+            ->withDefaultPlaylist()
+            ->create([
+                'username' => 'admin',
+                'password' => 'admin'
+            ]);
 
         // Basic users
-        User::factory(4)->create();
+        User::factory(4)
+            ->withDefaultPlaylist()
+            ->create();
 
     }
 }

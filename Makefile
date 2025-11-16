@@ -60,7 +60,7 @@ install: ## Install application
 	make start
 
 install-production: ## Install Production application
-	cp .env.production .env
+	cp .env.prod .env
 	docker compose up php mariadb bun redis meilisearch minio -d
 	docker exec -it php_container composer install --optimize-autoloader --no-dev
 	docker exec -it php_container php artisan key:generate
