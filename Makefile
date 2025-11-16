@@ -65,8 +65,8 @@ install-production: ## Install Production application
 	docker exec -it php_container composer install --optimize-autoloader --no-dev
 	docker exec -it php_container php artisan key:generate
 	docker exec -it php_container php artisan db:create
-	docker exec -it php_container php artisan migrate -force
-	docker exec -it php_container php artisan db:seed -force
+	docker exec -it php_container php artisan migrate --force
+	docker exec -it php_container php artisan db:seed --force
 	docker exec -it php_container php artisan scout:sync-index-settings
 	docker exec -it php_container php artisan log-viewer:publish
 	docker exec -it php_container mkdir -p storage/app/private/{videos,spams,thumbnails}
