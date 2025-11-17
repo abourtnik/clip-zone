@@ -62,7 +62,7 @@ class SpamService {
     public function update(array $data): void
     {
         foreach ($data as $key => $value) {
-            Storage::disk('local')->put(self::SPAM_FOLDER.DIRECTORY_SEPARATOR.$key.'.txt', $value);
+            Storage::disk('local')->put(self::SPAM_FOLDER.DIRECTORY_SEPARATOR.$key.'.txt', $value ?? '');
         }
     }
 }
