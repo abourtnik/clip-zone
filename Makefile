@@ -1,6 +1,8 @@
 .PHONY: help, connect, bun, reset, start, stop, optimize, update, install, install-production, deploy, test, logs, stripe, restart-horizon, analyse, helpers, update-bucket-policy
 .DEFAULT_GOAL=help
 
+DOMAIN ?= localhost
+
 help: ## Show help options
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -60,7 +62,13 @@ install: ## Install application
 	make start
 
 install-production: ## Install Production application
+	@echo "Using domain: $(DOMAIN)"
 	cp .env.prod .env
+	@sed -i '' "s|^APP_URL=.*|APP_URL=http://$(DOMAIN):8080|" .env
+	@sed -i '' "s|^SESSION_DOMAIN=.*|SESSION_DOMAIN=$(DOMAIN)|" .env
+	@sed -i '' "s|^PUSHER_WEBSOCKETS_HOST=.*|PUSHER_WEBSOCKETS_HOST=$(DOMAIN)|" .env
+	@sed -i '' "s|^SANCTUM_STATEFUL_DOMAINS=.*|SANCTUM_STATEFUL_DOMAINS=$(DOMAIN)|" .env
+	@sed -i '' "s|^LOG_VIEWER_API_STATEFUL_DOMAINS=.*|LOG_VIEWER_API_STATEFUL_DOMAINS=$(DOMAIN)|" .env
 	docker compose up php mariadb bun redis meilisearch minio -d
 	docker exec -it php_container composer install --optimize-autoloader --no-dev
 	docker exec -it php_container php artisan key:generate

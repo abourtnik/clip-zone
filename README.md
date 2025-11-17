@@ -29,10 +29,18 @@
 
 ---
 
-## 📦 Installation
+## 📦 Local Installation
 
 - Clone project
 - Run `make install` command on the root folder
+- Optional : Create stripe account and update STRIPE env variables
+
+---
+
+## 📦 Production Installation
+
+- Clone project
+- Run `make install-production DOMAIN=example.com` command on the root folder, replacing `example.com` with your domain
 - Optional : Create stripe account and update STRIPE env variables
 
 ---
