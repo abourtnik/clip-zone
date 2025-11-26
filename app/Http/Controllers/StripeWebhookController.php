@@ -62,7 +62,7 @@ class StripeWebhookController extends Controller
             'amount' => $data['amount_paid'],
             'tax' => $data['tax'] ?? 0,
             'fee' => $charge->balance_transaction->fee,
-            'date' => Carbon::createFromTimestamp($data['created']),
+            'date' => Carbon::createFromTimestamp($data['created'], config('app.timezone')),
             'user_id' => $user->id,
             'subscription_id' => $subscription->id,
             'name' => $data['customer_name'],
@@ -104,7 +104,7 @@ class StripeWebhookController extends Controller
         // User Cancel Subscription and Renew
         if ($user->premium_subscription) {
             $user->premium_subscription()->update([
-                'next_payment' => Carbon::createFromTimestamp($data['current_period_end']),
+                'next_payment' => Carbon::createFromTimestamp($data['current_period_end'], config('app.timezone')),
                 'stripe_status' => $data['status'],
                 'plan_id' => $plan->id,
                 'stripe_id' => $data['id'],
@@ -116,12 +116,12 @@ class StripeWebhookController extends Controller
 
         else {
             Subscription::create([
-                'next_payment' => Carbon::createFromTimestamp($data['current_period_end']),
+                'next_payment' => Carbon::createFromTimestamp($data['current_period_end'], config('app.timezone')),
                 'stripe_status' => $data['status'],
                 'user_id' => $user->id,
                 'plan_id' => $plan->id,
                 'stripe_id' => $data['id'],
-                'trial_ends_at' => Carbon::createFromTimestamp($data['trial_end']),
+                'trial_ends_at' => Carbon::createFromTimestamp($data['trial_end'], config('app.timezone')),
                 'card_last4' => $paymentMethod->card->last4,
                 'card_expired_at' => Carbon::createFromDate($paymentMethod->card->exp_year, $paymentMethod->card->exp_month)->endOfMonth()
             ]);
@@ -150,14 +150,14 @@ class StripeWebhookController extends Controller
             $subscription->update([
                 'ends_at' => $subscription->on_trial
                     ? $subscription->trial_ends_at
-                    : Carbon::createFromTimestamp($data['current_period_end'])
+                    : Carbon::createFromTimestamp($data['current_period_end'], config('app.timezone'))
             ]);
 
             return response()->noContent();
         }
 
         $subscription->update([
-            'next_payment' => Carbon::createFromTimestamp($data['current_period_end']),
+            'next_payment' => Carbon::createFromTimestamp($data['current_period_end'], config('app.timezone')),
             'ends_at' => null
         ]);
 
