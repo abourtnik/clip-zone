@@ -76,7 +76,7 @@ class PremiumEarningsChart
             return [];
         }
 
-        return collect(CarbonPeriod::since($this->firstTransactionDate)->month()->until(now()->subDay()))->map(fn ($date) => $date->format('M Y'))->toArray();
+        return collect(CarbonPeriod::since($this->firstTransactionDate)->month()->until(now()->endOfMonth()))->map(fn ($date) => $date->format('M Y'))->toArray();
     }
 
     private function options() : array
