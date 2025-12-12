@@ -127,6 +127,16 @@ export const REPORT_REASONS = [
     "Captions issue"
 ] as const;
 
+export type HistoryType = {
+    data: {
+        date: Date;
+        views: {
+            id: number;
+            video: VideoType;
+        }[];
+    }[];
+};
+
 export const CommentDataSchema = z.object({
     content: z.string().min(1).max(5000),
     parent_id: z.coerce.number().optional()

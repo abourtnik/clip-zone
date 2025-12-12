@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\Private\UserController;
 use App\Http\Controllers\Api\Private\VideoController;
 use App\Http\Controllers\Api\Private\SubscribeController;
 use App\Http\Controllers\Api\Public\CategoryController;
+use App\Http\Controllers\Api\Private\HistoryController;
 use App\Http\Controllers\Api\Public\PlaylistController as PublicPlaylistController;
 use App\Http\Controllers\Api\Public\SearchController as SearchPublicController;
 use App\Http\Controllers\Api\Public\UserController as PublicUserController;
@@ -109,15 +110,23 @@ Route::middleware('auth:sanctum')->group(function () {
         // CURRENT USER (for MOBILE)
         Route::prefix('me')
             ->name('me.')
-            ->controller(UserController::class)
             ->group(function () {
-                Route::get('/', 'user')->name('user');
-                Route::get('/videos', 'videos')->name('videos');
-                Route::get('/playlists', 'playlists')->name('playlists');
-                Route::get('/subscriptions-videos', 'subscriptionsVideos')->name('subscriptions-videos');
-                Route::get('/subscriptions-channels', 'subscriptionsChannels')->name('subscriptions-channels');
-                Route::post('/logout', 'logout')->name('logout');
+                Route::controller(UserController::class)->group(function () {
+                    Route::get('/', 'user')->name('user');
+                    Route::get('/videos', 'videos')->name('videos');
+                    Route::get('/playlists', 'playlists')->name('playlists');
+                    Route::get('/subscriptions-videos', 'subscriptionsVideos')->name('subscriptions-videos');
+                    Route::get('/subscriptions-channels', 'subscriptionsChannels')->name('subscriptions-channels');
+                    Route::post('/logout', 'logout')->name('logout');
+                });
+                Route::controller(HistoryController::class)->group(function () {
+                    Route::get('/history', 'index')->name('history');
+                    Route::delete('/history/{view}', 'clear')->name('clear')->can('clear', 'view');
+                    Route::post('/history/clear-day', 'clearDay')->name('clear-day');
+                    Route::post('/history/clear-all', 'clearAll')->name('clear-all');
+                });
         });
+
 
         // DEVICES
         Route::prefix('devices')

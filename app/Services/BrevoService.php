@@ -27,6 +27,8 @@ class BrevoService
             'recipient' => $number,
             'content' => $content,
             'type' => 'transactional',
+            'tag' => ['phone_validation', 'user-'.auth()->user()->id],
+            'organisationPrefix' => config('app.name'),
         ]);
 
         if ($response->failed()) {

@@ -5,11 +5,18 @@ import {VideoType} from "@/types";
 import {memo} from "preact/compat";
 import numeral from "numeral";
 
-type Props = {
-    video : VideoType
+type VideoAction = {
+    label: string,
+    icon: string,
+    action: () => void
 }
 
-export const Video = memo(({video} : Props) => {
+type Props = {
+    video : VideoType
+    actions? : VideoAction[]
+}
+
+export const Video = memo(({video, actions} : Props) => {
 
     const { t } = useTranslation();
 
@@ -41,17 +48,39 @@ export const Video = memo(({video} : Props) => {
                     </div>
                     <span className={'position-absolute inset'} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}></span>
                 </a>
-                <div className="d-flex pt-2 px-3 px-sm-0">
-                    <a href={video.user.route} style="height: 36px;" className="position-relative" title={video.user.username}>
-                        <img className="rounded-circle" src={video.user.avatar} alt={video.user.username + ' avatar'} style={{width: '36px'}} />
-                    </a>
-                    <div className="ml-2">
-                        <a href={video.route} className="fw-bolder text-decoration-none text-black d-block position-relative text-break" title={video.title}>{video.short_title}</a>
-                        <a href={video.user.route} className="position-relative text-decoration-none">
-                            <small>{video.user.username}</small>
+                <div className={'d-flex justify-content-between align-items-start pt-2 px-3 px-sm-0'}>
+                    <div className="d-flex">
+                        <a href={video.user.route} style="height: 36px;" className="position-relative" title={video.user.username}>
+                            <img className="rounded-circle" src={video.user.avatar} alt={video.user.username + ' avatar'} style={{width: '36px'}} />
                         </a>
-                        <small className="text-muted d-block">{t( 'Views', { count: video.views, formatted: numeral(video.views).format('0.[0]a') } )} • {moment(video.published_at).fromNow()}</small>
+                        <div className="ml-2">
+                            <a href={video.route} className="fw-bolder text-decoration-none text-black d-block position-relative text-break" title={video.title}>{video.short_title}</a>
+                            <a href={video.user.route} className="position-relative text-decoration-none">
+                                <small>{video.user.username}</small>
+                            </a>
+                            <small className="text-muted d-block">{t( 'Views', { count: video.views, formatted: numeral(video.views).format('0.[0]a') } )} • {moment(video.published_at).fromNow()}</small>
+                        </div>
                     </div>
+                    {
+                        (actions && actions.length > 0) &&
+                        <div className={'dropdown'}>
+                            <button className={'bg-transparent btn-sm dropdown-toggle without-caret rounded-circle dot d-flex align-items-center justify-content-center dropdown-button'} type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
+                                <i className="fa-solid fa-ellipsis-vertical"></i>
+                            </button>
+                            <ul className="dropdown-menu">
+                                {
+                                    actions.map((action, index) => (
+                                        <li key={index}>
+                                            <button className="dropdown-item d-flex align-items-center gap-3" onClick={action.action}>
+                                                <i className={"fa-solid fa-" + action.icon}></i>
+                                                {t(action.label)}
+                                            </button>
+                                        </li>
+                                    ))
+                                }
+                            </ul>
+                        </div>
+                    }
                 </div>
             </div>
         </article>

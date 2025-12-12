@@ -53,7 +53,7 @@ const Comment = memo(({comment} : Props) => {
                         </div>
                         {
                             <div className={'dropdown'}>
-                                <button className={'bg-transparent btn-sm dropdown-toggle without-caret'} type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
+                                <button className={'bg-transparent btn-sm dropdown-toggle without-caret rounded-circle dot d-flex align-items-center justify-content-center dropdown-button'} type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="true">
                                     <i className="fa-solid fa-ellipsis-vertical"></i>
                                 </button>
                                 <ul className="dropdown-menu">

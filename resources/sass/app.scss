@@ -99,3 +99,7 @@ body {
     font-weight: bold;
     border-bottom: 4px solid $primary;
 }
+
+.dropdown-button:hover {
+    background-color: lightgrey !important;
+}

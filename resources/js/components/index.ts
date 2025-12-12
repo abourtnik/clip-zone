@@ -1,10 +1,11 @@
 import register from 'preact-custom-element';
 import r2wc from "@r2wc/react-to-web-component"
 
-import { VideoUpload, VideosList, UserVideos, Player } from './Videos';
+import { VideoUpload, VideosList, UserVideos, Player} from './Videos';
 import { InteractionList, Interaction } from './Interactions';
 import { SearchBar, SearchModel } from './Search';
 import {NotificationsList} from "./Notifications/NotificationsList";
+import {HistoryList} from "./History/HistoryList";
 import {Save, Playlist} from "./Playlists";
 
 import {CommentsList} from "./Comments/CommentsList";
@@ -40,6 +41,7 @@ register(AutoplayNextVideoSwitcher, 'autoplay-switch', [], { shadow: false });
 register(ThemeSwitcher, 'theme-switch', [], { shadow: false });
 register(Player, 'video-player', [], { shadow: false });
 register(DynamicInput, 'dynamic-input', [], { shadow: false });
+register(HistoryList, 'user-history', [], { shadow: false });
 
 customElements.define("interaction-buttons", r2wc(Interaction, {
     props: {

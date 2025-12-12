@@ -16,7 +16,8 @@ import {
     PlaylistSaveData,
     ReportData,
     CursorPaginator,
-    ThumbnailType
+    ThumbnailType,
+    HistoryType
 } from "@/types";
 
 const API_URL =  '/api';
@@ -122,4 +123,20 @@ export async function getThumbnails(video_id: number): Promise<{data: ThumbnailT
 
 export async function viewVideo(video_uuid: string): Promise<void> {
     return jsonFetch(API_URL + `/videos/${video_uuid}/view`, 'POST');
+}
+
+export async function getMyHistory(): Promise<HistoryType> {
+    return jsonFetch(API_URL + `/me/history`);
+}
+
+export async function removeFromHistory(view_id: number): Promise<void> {
+    return jsonFetch(API_URL + `/me/history/${view_id}`, 'DELETE');
+}
+
+export async function clearHistoryDay(date: Date): Promise<void> {
+    return jsonFetch(API_URL + `/me/history/clear-day`, 'POST', {date});
+}
+
+export async function clearHistoryAll(): Promise<void> {
+    return jsonFetch(API_URL + `/me/history/clear-all`, 'POST');
 }

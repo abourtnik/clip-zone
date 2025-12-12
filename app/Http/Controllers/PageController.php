@@ -16,16 +16,22 @@ class PageController
 {
     public function home(Request $request): View {
         return view('pages.home', [
-            'showPremiumModal' => $request->has('premium') && Auth::user()?->is_premium
+            'showPremiumModal' => $request->has('premium') && Auth::check()
         ]);
     }
 
-    public function trend(): View {
+    public function trend(): View
+    {
         return view('pages.trend');
     }
 
-    public function liked(): View {
+    public function history(): View
+    {
+        return view('pages.history');
+    }
 
+    public function liked(): View
+    {
         $interactions = Auth::user()
             ->interactions()
             ->whereHasMorph('likeable', [Video::class], fn($query) => $query->active())
@@ -46,8 +52,8 @@ class PageController
         ]);
     }
 
-    public function later(): View {
-
+    public function later(): View
+    {
         $playlist = Auth::user()
             ->playlists()
             ->where('title', Playlist::WATCH_LATER_PLAYLIST)
@@ -64,8 +70,8 @@ class PageController
         ]);
     }
 
-    public function category(string $slug): View {
-
+    public function category(string $slug): View
+    {
         $category = Category::where('slug', $slug)->firstOrFail();
 
         return view('pages.category', [

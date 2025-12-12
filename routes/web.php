@@ -3,7 +3,6 @@
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PlaylistController;
-use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SubscriptionController;
@@ -30,6 +29,7 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::middleware('auth')->group(function () {
         Route::get('/liked', 'liked')->name('liked');
         Route::get('/later', 'later')->name('later');
+        Route::get('/history', 'history')->name('history');
     });
     Route::get('/premium', 'premium')->name('premium');
 });
@@ -122,18 +122,11 @@ Route::controller(SubscriptionController::class)->name('subscription.')->group(f
     Route::get('/discover', 'discover')->name('discover');
 });
 
-// HISTORY
-Route::controller(HistoryController::class)->name('history.')->middleware('auth')->group(function () {
-    Route::get('/history', 'index')->name('index');
-    Route::get('/history-clear', 'clear')->name('clear');
-});
-
 // CONTACT
 Route::controller(ContactController::class)->name('contact.')->group(function () {
     Route::get('/contact', 'show')->name('show');
     Route::post('/contact', 'contact')->name('contact')->middleware('throttle:contact');
 });
-
 
 require __DIR__.'/auth.php';
 require __DIR__.'/user.php';

@@ -24,7 +24,7 @@ return [
                 [
                     'title' => 'History',
                     'icon' => 'history',
-                    'route' => 'history.index',
+                    'route' => 'pages.history',
                 ],
                 [
                     'title' => 'Your videos',
