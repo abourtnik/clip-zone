@@ -1,7 +1,7 @@
 import { useState } from 'preact/hooks';
 import {VideosList} from "@/components/Videos";
 import {useTranslation} from "react-i18next";
-import {UserVideosSort} from "@/types";
+import {VideosSort} from "@/types";
 
 type Props = {
     user: number
@@ -11,11 +11,11 @@ export function UserVideos ({user} : Props) {
 
     const { t } = useTranslation();
 
-    const [sort, setSort] = useState<UserVideosSort>('latest');
+    const [sort, setSort] = useState<VideosSort>('latest');
 
-    const activeButton = (type : UserVideosSort) => sort === type ? 'primary ' : 'outline-primary ';
+    const activeButton = (type : VideosSort) => sort === type ? 'primary ' : 'outline-primary ';
 
-    const selectSort = async (type: UserVideosSort) => {
+    const selectSort = async (type: VideosSort) => {
         if (type !== sort) {
             setSort(type)
         }

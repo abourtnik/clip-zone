@@ -5,9 +5,10 @@ import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {useErrorMutation} from "@/hooks/useErrorMutation";
 import {interact} from "@/api/clipzone";
 import {clsx} from "clsx";
+import {InteractionsModel} from "@/types";
 
 type Props = {
-    model: 'App\\Models\\Video' | 'App\\Models\\Comment',
+    model: InteractionsModel,
     target: number,
     likes: number,
     dislikes: number,

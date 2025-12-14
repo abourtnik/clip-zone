@@ -1,6 +1,5 @@
 import { Alpine as AlpineType } from 'alpinejs'
 
-
 export {};
 
 declare global {
