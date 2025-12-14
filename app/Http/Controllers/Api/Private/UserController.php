@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class UserController
 {
@@ -79,7 +80,7 @@ class UserController
                 ->user()
                 ->subscriptions()
                 ->withExists([
-                    'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', auth('sanctum')->user()?->id),
+                    'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', Auth::id()),
                 ])
                 ->withCount('subscribers')
                 ->latest('subscribe_at')

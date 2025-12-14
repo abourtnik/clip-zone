@@ -54,7 +54,7 @@ class PlaylistPolicy
      */
     public function show(?User $user, Playlist $playlist): Response|bool
     {
-        return $playlist->is_active || $playlist->user()->is($user) || $playlist->user()->is(auth('sanctum')->user())
+        return $playlist->is_active || $playlist->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(404, 'This playlist is private');
     }
@@ -108,7 +108,7 @@ class PlaylistPolicy
      */
     public function favorite(User $user, Playlist $playlist): Response|bool
     {
-        return ($playlist->is_active || $playlist->user()->is($user) || $playlist->user()->is(auth('sanctum')->user())) && $playlist->is_deletable
+        return ($playlist->is_active || $playlist->user()->is($user)) && $playlist->is_deletable
             ? Response::allow()
             : Response::denyWithStatus(404, 'This playlist is private');
     }

@@ -41,7 +41,7 @@ class ViewService
 
         $video->viewsHistory()->create([
             'ip' => request()->getClientIp(),
-            'user_id' => auth('sanctum')->user()?->id,
+            'user_id' => Auth::id(),
             'user_agent' => request()->userAgent()
         ]);
     }

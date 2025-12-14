@@ -8,6 +8,7 @@ use App\Models\Video;
 use App\Services\ViewService;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class VideoController
 {
@@ -40,16 +41,16 @@ class VideoController
                         return $q
                             ->withCount('subscribers')
                             ->withExists([
-                                'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', auth('sanctum')->user()?->id),
+                                'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', Auth::id()),
                             ]);
                     },
                     'reportByAuthUser'
                 ])
                 ->loadCount(['comments', 'likes', 'dislikes'])
                 ->loadExists([
-                    'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', auth('sanctum')->user()?->id),
-                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', auth('sanctum')->user()?->id),
-                    'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', auth('sanctum')->user()?->id),
+                    'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
+                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
+                    'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                 ])
         );
     }

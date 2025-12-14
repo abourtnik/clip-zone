@@ -8,6 +8,7 @@ use App\Http\Resources\Video\VideoListResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class UserController
 {
@@ -37,7 +38,7 @@ class UserController
                     },
                 ])
                 ->loadExists([
-                    'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', auth('sanctum')->user()?->id),
+                    'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', Auth::id()),
                 ])
         );
     }

@@ -32,7 +32,7 @@ class CommentPolicy
      */
     public function viewAny(?User $user, Video $video) : Response|bool
     {
-        return ($video->is_public && $video->allow_comments) || $video->user()->is($user) || $video->user()->is(auth('sanctum')->user())
+        return ($video->is_public && $video->allow_comments) || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(404, !$video->is_public ? 'This video is private' : 'Comments are turned off');
     }

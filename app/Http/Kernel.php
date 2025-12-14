@@ -51,6 +51,7 @@ class Kernel extends HttpKernel
             //'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\Language::class,
+            \App\Http\Middleware\OptionalAuthSanctum::class,
         ],
     ];
 

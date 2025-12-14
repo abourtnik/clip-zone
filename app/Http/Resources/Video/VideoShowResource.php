@@ -33,7 +33,7 @@ class VideoShowResource extends JsonResource
                 'likes' => $this->likes_count,
                 'dislikes' => $this->dislikes_count,
             ]),
-            $this->mergeWhen(auth('sanctum')->check(), [
+            $this->mergeWhen(auth()->check(), [
                 'liked_by_auth_user' => $this->resource->liked_by_auth_user,
                 'disliked_by_auth_user' => $this->resource->disliked_by_auth_user,
                 'reported_by_auth_user' => $this->resource->reported_by_auth_user,

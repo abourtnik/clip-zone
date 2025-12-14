@@ -30,7 +30,7 @@ class UserListResource extends JsonResource
             $this->mergeWhen($this->show_subscribers && $this, [
                 'subscribers' => $this->whenCounted('subscribers_count')
             ]),
-            $this->mergeWhen(auth('sanctum')->check(), [
+            $this->mergeWhen(auth()->check(), [
                 'subscribed_by_auth_user' => $this->resource->subscribed_by_auth_user,
             ]),
             'videos_count' => $this->whenCounted('videos'),

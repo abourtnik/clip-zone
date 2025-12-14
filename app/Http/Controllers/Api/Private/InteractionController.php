@@ -70,7 +70,7 @@ class InteractionController extends Controller
                     'user' => function ($query) {
                         $query
                             ->withExists([
-                                'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', auth('sanctum')->user()->id)
+                                'subscribers as subscribed_by_auth_user' => fn($q) => $q->where('subscriber_id', Auth::id())
                             ])
                             ->withTrashed();
                     },
