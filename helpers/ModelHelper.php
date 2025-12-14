@@ -13,8 +13,6 @@
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property string $subject_type
@@ -39,8 +37,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $title
  * @property string|null $slug
@@ -75,8 +71,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $video_id
  * @property int $user_id
@@ -86,6 +80,7 @@ namespace App\Models{
  * @property string|null $banned_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property mixed $0
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $dislikes
  * @property-read int|null $dislikes_count
@@ -117,18 +112,22 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment public()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment replies()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereBannedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereContent($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereIp($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereParentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment whereVideoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -137,8 +136,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $tokenable_type
  * @property int $tokenable_id
@@ -173,8 +170,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string|null $file
  * @property int|null $size size in bytes
@@ -200,8 +195,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property string $likeable_type
@@ -229,8 +222,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property string $id
  * @property string $type
  * @property string $notifiable_type
@@ -267,8 +258,6 @@ namespace App\Models{
 
 namespace App\Models\Pivots{
 /**
- * 
- *
  * @property int $id
  * @property int $playlist_id
  * @property int $user_id
@@ -288,8 +277,6 @@ namespace App\Models\Pivots{
 
 namespace App\Models\Pivots{
 /**
- * 
- *
  * @property int $id
  * @property int $playlist_id
  * @property int $video_id
@@ -310,8 +297,6 @@ namespace App\Models\Pivots{
 
 namespace App\Models\Pivots{
 /**
- * 
- *
  * @property int $id
  * @property int $subscriber_id
  * @property int $user_id
@@ -337,8 +322,6 @@ namespace App\Models\Pivots{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $name
  * @property string|false $price in centimes
@@ -365,8 +348,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $uuid
  * @property string $title
@@ -376,6 +357,7 @@ namespace App\Models{
  * @property bool $is_deletable
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read mixed $first_video
  * @property-read mixed $is_active
  * @property-read mixed $route
@@ -391,8 +373,10 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereIsDeletable($value)
@@ -401,6 +385,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereUuid($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -409,8 +395,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $user_id
  * @property string $reportable_type
@@ -447,8 +431,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int|null $user_id
  * @property string $query
@@ -469,8 +451,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $stripe_status
  * @property \Illuminate\Support\Carbon|null $next_payment
@@ -515,8 +495,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $video_id
  * @property string $name
@@ -525,6 +503,7 @@ namespace App\Models{
  * @property \App\Enums\SubtitleStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $deleted_at
  * @property-read mixed $file_url
  * @property-read mixed $is_public
  * @property-read mixed $language_name
@@ -534,6 +513,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle public()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereFile($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereLanguage($value)
@@ -549,8 +529,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $video_id
  * @property string|null $file
@@ -579,8 +557,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $stripe_id
  * @property string|false $amount amount in centimes
@@ -627,8 +603,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $username
  * @property string|null $slug
@@ -656,6 +630,7 @@ namespace App\Models{
  * @property string|null $phone_confirmation_code
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Activity> $activity
  * @property-read int|null $activity_count
  * @property-read mixed $avatar_url
@@ -731,12 +706,14 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User onGenericTrial()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAvatar($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBannedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereBanner($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCountry($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
@@ -759,6 +736,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUsername($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereWebsite($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -767,8 +746,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property string $uuid
  * @property string $title
@@ -797,6 +774,7 @@ namespace App\Models{
  * @property int $views
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\Category|null $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $comment_interactions
  * @property-read int|null $comment_interactions_count
@@ -853,6 +831,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video notActive()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video public($includeAuthVideo = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video valid()
@@ -861,6 +840,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereDefaultCommentsSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereFile($value)
@@ -884,7 +864,9 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereUuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereViews($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereYoutubeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video withTrashed(bool $withTrashed = true)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video withoutShorts()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -893,27 +875,30 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * 
- *
  * @property int $id
  * @property int $video_id
  * @property int|null $user_id
  * @property string $ip
  * @property string|null $user_agent
  * @property \Illuminate\Support\Carbon $view_at
- * @property-read \App\Models\Video|null $user
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \App\Models\User|null $user
  * @property-read \App\Models\Video $video
  * @method static \Database\Factories\ViewFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereIp($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereUserAgent($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereVideoId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View whereViewAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|View withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]

@@ -29,7 +29,7 @@ class HistoryController
                 }
             )
             ->where('views.user_id', $request->user()->id)
-            ->whereHas('video', fn($q) => $q->active())
+            ->whereHas('video', fn($q) => $q->public(true))
             ->with(['video' => fn($q) => $q->with('user')])
             ->orderBy('views.view_at', 'DESC')
             ->get();
