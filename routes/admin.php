@@ -82,6 +82,9 @@ Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function ()
     // Horizon
     Route::get('/horizon', fn() => redirect('horizon'))->name('horizon');
 
+    // IMPERSONATE
+    Route::impersonate();
+
 });
 
 

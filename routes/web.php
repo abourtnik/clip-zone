@@ -17,9 +17,6 @@ use Laravel\Cashier\Http\Middleware\VerifyWebhookSignature;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-// IMPERSONATE
-Route::impersonate();
-
 // PAGES
 Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/', 'home')->name('home');

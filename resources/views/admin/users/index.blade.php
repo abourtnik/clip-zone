@@ -116,7 +116,7 @@
                         <td class="align-middle">
                             <div class="d-flex gap-1 align-items-center">
                                 @if(!$user->is_admin)
-                                    <a target="_blank" class="btn btn-sm btn-primary" href="{{route('impersonate', $user)}}" title="Impersonate user">
+                                    <a target="_blank" class="btn btn-sm btn-primary" href="{{route('admin.impersonate', $user)}}" title="Impersonate user">
                                         <i class="fa-solid fa-user-ninja"></i>
                                     </a>
                                 @endif

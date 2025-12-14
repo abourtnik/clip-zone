@@ -59,7 +59,7 @@
             <theme-switch id="theme-switcher-account"/>
         </div>
         @impersonating($guard = null)
-        <a class="text-danger list-group-item py-2" href="{{route('impersonate.leave')}}">
+        <a class="text-danger list-group-item py-2" href="{{route('admin.impersonate.leave')}}">
             <i style="width: 24px" class="fa-solid fa-right-from-bracket"></i>
             <span>{{ __('Leave') }}</span>
         </a>
