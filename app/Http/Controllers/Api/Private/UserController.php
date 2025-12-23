@@ -9,6 +9,8 @@ use App\Http\Resources\User\UserListResource;
 use App\Http\Resources\Video\MyVideoListResource;
 use App\Http\Resources\Video\VideoListResource;
 use App\Models\User;
+use App\Playlists\Types\LikedVideosPlaylist;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
@@ -35,7 +37,7 @@ class UserController
 
     public function playlists(Request $request): ResourceCollection
     {
-        $video_id = $request->get('video_id');
+        $videoId = $request->get('video_id');
 
         return PlaylistListResource::collection(
             $request
@@ -45,10 +47,12 @@ class UserController
                 ->latest('created_at')
                 ->withCount('videos')
                 ->with('videos')
-                ->when($video_id, function ($query) use ($video_id) {
-                    $query->withExists([
-                        'videos as has_video' => fn($q) => $q->where('video_id', $video_id)
-                    ]);
+                ->when($videoId, function (Builder $query) use ($videoId) {
+                    $query
+                        ->withExists([
+                            'videos as has_video' => fn(Builder $query) => $query->where('video_id', $videoId)
+                        ])
+                        ->whereNot('title', LikedVideosPlaylist::getName());
                 })
                 ->cursorPaginate(15)
         );

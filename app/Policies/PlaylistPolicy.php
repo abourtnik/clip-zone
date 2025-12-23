@@ -80,7 +80,7 @@ class PlaylistPolicy
      */
     public function update(User $user, Playlist $playlist) : Response|bool
     {
-        return $playlist->user->is($user)
+        return $playlist->is_deletable && $playlist->user->is($user)
             ? Response::allow()
             : Response::denyWithStatus(403);
     }

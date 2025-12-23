@@ -35,12 +35,18 @@ return [
                 [
                     'title' => 'Watch later',
                     'icon' => 'clock',
-                    'route' => 'pages.later',
+                    'route' => 'custom-playlist.show',
+                    'params' => [
+                        'type' => \App\Enums\CustomPlaylistType::WATCH_LATER
+                    ]
                 ],
                 [
                     'title' => 'Liked videos',
                     'icon' => 'thumbs-up',
-                    'route' => 'pages.liked',
+                    'route' => 'custom-playlist.show',
+                    'params' => [
+                        'type' => \App\Enums\CustomPlaylistType::LIKED_VIDEOS
+                    ]
                 ]
             ],
         ],

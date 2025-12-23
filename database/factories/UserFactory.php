@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Enums\PlaylistStatus;
-use App\Models\Playlist;
+use App\Playlists\PlaylistManager;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\User;
@@ -83,15 +83,18 @@ class UserFactory extends Factory
         });
     }
 
-    public function withDefaultPlaylist(): Factory
+    public function withDefaultPlaylists(): Factory
     {
         return $this->afterCreating(function (User $user) {
-            $user->playlists()->create([
-                'uuid' => (string) Str::uuid(),
-                'title' => Playlist::WATCH_LATER_PLAYLIST,
-                'status' => PlaylistStatus::PRIVATE,
-                'is_deletable' => false
-            ]);
+
+            foreach (PlaylistManager::$types as $playlistClass) {
+                $user->playlists()->create([
+                    'uuid' => Str::uuid()->toString(),
+                    'title' => $playlistClass::getName(),
+                    'status' => PlaylistStatus::PRIVATE,
+                    'is_deletable' => false
+                ]);
+            }
         });
     }
 }

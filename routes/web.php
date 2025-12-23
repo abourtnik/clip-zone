@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\VideoController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\User\CustomPlaylistController;
 use App\Http\Controllers\PlaylistController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SearchController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\PremiumController;
 
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\LangController;
+
+use App\Enums\CustomPlaylistType;
 
 use Laravel\Cashier\Http\Middleware\VerifyWebhookSignature;
 
@@ -24,11 +27,17 @@ Route::name('pages.')->controller(PageController::class)->group(function () {
     Route::get('/categories/{slug}', 'category')->name('category');
     Route::get('/terms', 'terms')->name('terms');
     Route::middleware('auth')->group(function () {
-        Route::get('/liked', 'liked')->name('liked');
-        Route::get('/later', 'later')->name('later');
         Route::get('/history', 'history')->name('history');
     });
     Route::get('/premium', 'premium')->name('premium');
+});
+
+// CUSTOM PLAYLISTS
+Route::middleware('auth')->name('custom-playlist.')->controller(CustomPlaylistController::class)->group(function () {
+    Route::get('/playlist/{type}', 'show')
+        ->whereIn('type', CustomPlaylistType::cases())
+        ->name('show');
+    Route::post('/watch-later/clear', 'clearWatchedVideos')->name('clear-watched-videos');
 });
 
 // PREMIUM

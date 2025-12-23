@@ -5,7 +5,7 @@
 @section('content')
     <div class="row justify-content-center gy-3">
         <div class="col-md-12 col-lg-5 col-xl-4 col-xxl-4 text-black">
-            <div x-data="{favorite: {{$favorite_by_auth_user ? 'true' : 'false'}}}" class="text-black h-100 card">
+            <div class="text-black h-100 card">
                 @if($playlist->first_video)
                     <img class="img-fluid card-img-top" src="{{$playlist->first_video->thumbnail_url}}" alt="{{$playlist->title}}">
                 @endif
@@ -22,58 +22,14 @@
                         <div class="text-sm">Created {{$playlist->created_at->diffForHumans()}}</div>
                     </div>
                     <div class="text-sm mb-3">Updated {{$playlist->updated_at->diffForHumans()}}</div>
-                    <div class="d-flex gap-2">
-                        @if($playlist->first_video)
-                        <a href="{{$playlist->first_video->routeWithParams(['list' => $playlist->uuid])}}" class="btn btn-danger btn-sm d-flex gap-2 align-items-center">
-                            <i class="fa-solid fa-play"></i>
-                            <span>Play All</span>
-                        </a>
-                        @endif
-                        @auth
-                            @can('favorite', $playlist)
-                                <button
-                                    x-show.important="!favorite"
-                                    @click="favorite = true;"
-                                    class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button"
-                                    data-url="{{route('user.playlists.favorite', $playlist)}}"
-                                    data-method="POST"
-                                >
-                                    <i class="fa-regular fa-heart"></i>
-                                    <span>Add to favorites</span>
-                                </button>
-                                <button
-                                    x-show.important="favorite"
-                                    @click="favorite = false;"
-                                    class="btn btn-primary d-flex align-items-center gap-2 btn-sm ajax-button"
-                                    data-url="{{route('user.playlists.favorite', $playlist)}}"
-                                    data-method="POST"
-                                >
-                                    <i class="fa-solid fa-heart"></i>
-                                    <span>Remove from favorites</span>
-                                </button>
-                            @endcan
-                        @else
-                            <button
-                                type="button"
-                                class="btn btn-primary btn-sm"
-                                data-bs-toggle="popover"
-                                data-bs-placement="right"
-                                data-bs-title="Want to save this playlist ?"
-                                data-bs-trigger="focus"
-                                data-bs-html="true"
-                                data-bs-content="Sign in to save this playlist.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
-                            >
-                                <i class="fa-regular fa-heart"></i>
-                                <span>Add to favorites</span>
-                            </button>
-                        @endauth
-                    </div>
-                    @if($playlist->user->is(Auth::user()))
-                        <div class="d-flex align-items-start mt-2">
-                            <a href="{{route('user.playlists.edit', $playlist)}}" class="btn btn-info btn-sm d-flex gap-2">
-                                <i class="fa-solid fa-pen"></i>
-                                <span>Edit playlist</span>
-                            </a>
+                    @if($actions->count() && $playlist->videos_count)
+                        <div class="d-flex gap-2">
+                            @foreach($actions as $label => $route)
+                                <form action="{{$route}}" method="POST">
+                                    @csrf()
+                                    <button class="btn btn-primary btn-sm" type="submit">{{$label}}</button>
+                                </form>
+                            @endforeach
                         </div>
                     @endif
                     <div class="mt-3">

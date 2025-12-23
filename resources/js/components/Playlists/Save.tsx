@@ -1,12 +1,11 @@
 import {Modal} from "react-bootstrap";
 import {useState} from "preact/hooks";
-import {InfiniteData, QueryClient, QueryClientProvider, useQueryClient} from "@tanstack/react-query";
+import {InfiniteData, QueryClient, QueryClientProvider, useIsMutating, useQueryClient} from "@tanstack/react-query";
 import {getMyPlaylists, savePlaylist} from "@/api/clipzone";
 import {Fragment} from "preact";
 import {PlaylistSaveDataSchema, PlaylistSaveData, PlaylistType, Paginator} from "@/types";
 import {CreatePlaylist} from "@/components/Playlists/CreatePlaylist";
 import {useCursorQuery, useErrorMutation} from "@/hooks";
-import clsx from "clsx";
 import {produce} from "immer";
 
 type Props = {
@@ -17,7 +16,10 @@ export function Main ({video}: Props) {
 
     const [open, setOpen] = useState(false);
     const [openCreate, setOpenCreate] = useState(false);
-    const [saved, setSaved] = useState(false);
+
+    const isSaving = useIsMutating({
+        mutationKey: ['playlist.save'],
+    });
 
     const {
         data: playlists,
@@ -33,30 +35,6 @@ export function Main ({video}: Props) {
         enabled: open,
         staleTime: Infinity,
     });
-
-    const {mutate, isPending} = useErrorMutation({
-        mutationFn: (data: PlaylistSaveData) => savePlaylist(data),
-        mutationKey: ['playlist.save'],
-        onSuccess: () => {
-            setSaved(true);
-            setTimeout(() => setSaved(false), 3000)
-        }
-    })
-
-    const handleSubmit = (e: any) => {
-
-        e.preventDefault();
-
-        const data = {
-            video_id : video,
-            playlists : [ ...document.querySelectorAll('input[name="playlists[]"]') as NodeListOf<HTMLInputElement>].map(input  => ({
-                'id': input.dataset.id,
-                'checked': input.checked
-            }))
-        };
-
-        mutate(PlaylistSaveDataSchema.parse(data));
-    }
 
     return (
         <>
@@ -95,11 +73,10 @@ export function Main ({video}: Props) {
                     {
                         playlists && (
                             playlists?.pages.flatMap((page => page.data)).length > 0 ?
-                                <form id={'playlists-from'} onSubmit={handleSubmit}>
+                                <form id={'playlists-from'}>
                                     {playlists.pages.map((group, i) => (
                                         <Fragment key={i}>
-                                            {group.data.map((playlist) => <Playlist key={playlist.id}
-                                                                                    playlist={playlist}/>)}
+                                            {group.data.map((playlist) => <Playlist key={playlist.id} playlist={playlist} video={video}/>)}
                                         </Fragment>
                                     ))}
                                 </form>
@@ -127,22 +104,10 @@ export function Main ({video}: Props) {
                             <i className="fa-solid fa-plus"></i>&nbsp;
                             Create new playlist
                         </button>
-                        <button type={'submit'} form={'playlists-from'} className={clsx('btn', !saved && 'btn-primary', saved && 'btn-success')} disabled={isPending || saved}>
-                            {isPending &&
-                                <div className={'d-flex align-items-center gap-2'}>
-                                    <span className="spinner-border spinner-border-sm" role="status"
-                                          aria-hidden="true"></span>
-                                    <span>Save</span>
-                                </div>
-                            }
-                            {(!isPending && !saved) && <span>Save</span>}
-                            {saved &&
-                                <div className={'d-flex align-items-center gap-2'}>
-                                    <i className="fa-solid fa-check"></i>
-                                    <span>Saved</span>
-                                </div>
-                            }
-                        </button>
+                        {
+                            (isSaving > 0) &&
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        }
                     </div>
                     <CreatePlaylist open={openCreate} setOpen={setOpenCreate}/>
                 </Modal.Footer>
@@ -153,31 +118,43 @@ export function Main ({video}: Props) {
 
 type PlaylistProps = {
     playlist: PlaylistType
+    video: number,
 }
 
-function Playlist ({playlist} : PlaylistProps) {
+function Playlist ({playlist, video} : PlaylistProps) {
 
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
 
-    const handleChange = (event: any) => {
-        const checkbox = event.target as HTMLInputElement;
-        const id = checkbox.dataset.id as string;
-
-        queryClient.setQueryData(['save'], (oldData: InfiniteData<Paginator<PlaylistType>> | undefined) => {
-                if (!oldData) return undefined
-                return produce(oldData, draft => {
-                    draft.pages.forEach(page => {
-                        page.data.forEach(p => {
-                            if (p.id === parseInt(id)) {
-                                p.has_video = checkbox.checked;
-                            }
+    const {mutate} = useErrorMutation({
+        mutationFn: (data: PlaylistSaveData) => savePlaylist(data),
+        mutationKey: ['playlist.save', playlist.uuid],
+        onMutate: () => {
+            queryClient.setQueryData(['save'], (oldData: InfiniteData<Paginator<PlaylistType>> | undefined) => {
+                    if (!oldData) return undefined
+                    return produce(oldData, draft => {
+                        draft.pages.forEach(page => {
+                            page.data.forEach(p => {
+                                if (p.id === playlist.id) {
+                                    p.has_video = !p.has_video;
+                                }
+                            });
                         });
                     });
-                });
-            }
-        )
-    }
+                }
+            )
+        },
+    });
 
+
+    const handleChange = (event: any) => {
+
+        const data = {
+            playlist_id: playlist.id,
+            video_id: video,
+        };
+
+        mutate(PlaylistSaveDataSchema.parse(data));
+    }
 
     return (
         <div className="form-check mb-3">
@@ -185,11 +162,9 @@ function Playlist ({playlist} : PlaylistProps) {
                 <div>
                     <input
                         className="form-check-input"
-                        name="playlists[]"
+                        name={'playlist-' + playlist.id}
                         type="checkbox"
-                        value={playlist.id}
                         id={'playlist-' + playlist.id}
-                        data-id={playlist.id}
                         checked={playlist.has_video}
                         onChange={handleChange}
                     />

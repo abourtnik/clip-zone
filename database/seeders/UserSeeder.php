@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         // Admin
         User::factory()
             ->admin()
-            ->withDefaultPlaylist()
+            ->withDefaultPlaylists()
             ->create([
                 'username' => 'admin',
                 'password' => 'admin'
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
 
         // Basic users
         User::factory(4)
-            ->withDefaultPlaylist()
+            ->withDefaultPlaylists()
             ->create();
 
     }

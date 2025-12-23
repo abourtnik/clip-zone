@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Video;
 
 use App\Enums\VideoStatus;
+use App\Playlists\Types\LikedVideosPlaylist;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -39,25 +40,20 @@ class SaveRequest extends FormRequest
                 'required',
                 Rule::exists('videos', 'id')->where(function (Builder $query){
                     return $query->whereIn('status', [VideoStatus::PUBLIC, VideoStatus::UNLISTED])
-                        ->orWhere(function($query) {
+                        ->orWhere(function(Builder $query) {
                             $query->where('status', VideoStatus::PLANNED)
                                 ->where('scheduled_at', '<=', now());
                         })->orWhere('user_id', Auth::user()->id);
                 }),
             ],
-            'playlists' => 'required|array',
-            'playlists.*' => 'required|array:id,checked',
-            'playlists.*.id' => [
+            'playlist_id' => [
                 'required',
-                'numeric',
                 Rule::exists('playlists', 'id')->where(function (Builder $query){
-                    return $query->where('user_id', $this->user()->id);
+                    return $query
+                        ->where('user_id', $this->user()->id)
+                        ->whereNot('title', LikedVideosPlaylist::getName());
                 })
             ],
-            'playlists.*.checked' => [
-                'required',
-                'boolean',
-            ]
         ];
     }
 
@@ -70,8 +66,7 @@ class SaveRequest extends FormRequest
     {
         return [
             'video_id.exists' => 'This video is not exist or is private',
-            'playlists.*.id.exists' => 'Playlist in position :position not exists on our records',
-            'playlists.*.id.numeric' => 'Playlist in position :position must be type numeric',
+            'playlist_id.exists' => 'This playlist is not exist or is private',
         ];
     }
 }

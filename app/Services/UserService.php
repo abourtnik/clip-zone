@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Enums\PlaylistStatus;
-use App\Models\Playlist;
 use App\Models\User;
+use App\Playlists\PlaylistManager;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -26,11 +26,13 @@ class UserService {
 
     private function createDefaultPlaylists(User $user): void
     {
-        $user->playlists()->create([
-            'uuid' => (string) Str::uuid(),
-            'title' => Playlist::WATCH_LATER_PLAYLIST,
-            'status' => PlaylistStatus::PRIVATE,
-            'is_deletable' => false
-        ]);
+        foreach (PlaylistManager::$types as $playlist) {
+            $user->playlists()->create([
+                'uuid' => Str::uuid()->toString(),
+                'title' => $playlist::getName(),
+                'status' => PlaylistStatus::PRIVATE,
+                'is_deletable' => false
+            ]);
+        }
     }
 }

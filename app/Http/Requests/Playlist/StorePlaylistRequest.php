@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Playlist;
 
+use App\Enums\CustomPlaylistType;
 use App\Enums\PlaylistStatus;
 use App\Models\Video;
 use Illuminate\Foundation\Http\FormRequest;
@@ -33,7 +34,8 @@ class StorePlaylistRequest extends FormRequest
             'title' => [
                 'required',
                 'string',
-                'max:'.config('validation.playlist.title.max')
+                'max:'.config('validation.playlist.title.max'),
+                 Rule::notIn(CustomPlaylistType::get())
             ],
             'description' => [
                 'nullable',
@@ -65,6 +67,7 @@ class StorePlaylistRequest extends FormRequest
             'videos.required' => 'You can\'t create playlist without videos',
             'videos.*.exists' => 'Video in position :position not exists on our records',
             'videos.*.numeric' => 'Video in position :position must be type numeric',
+            'title.not_in' => 'Playlist title can\'t be one of the default playlists : '.CustomPlaylistType::nameToString()
         ];
     }
 }

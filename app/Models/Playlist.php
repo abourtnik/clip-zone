@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Auth;
 class Playlist extends Model
 {
     use HasFactory, Filterable, SoftDeletes;
-    public const string WATCH_LATER_PLAYLIST = 'Watch Later';
 
     protected $guarded = ['id'];
 

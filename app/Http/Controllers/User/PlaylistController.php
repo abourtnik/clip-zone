@@ -24,6 +24,7 @@ class PlaylistController extends Controller
         return view('users.playlists.index', [
             'playlists' => Playlist::filter()
                 ->where('user_id', Auth::user()->id)
+                ->where('is_deletable', true)
                 ->with('videos')
                 ->withCount(['videos'])
                 ->latest('created_at')
@@ -41,7 +42,7 @@ class PlaylistController extends Controller
     public function store(StorePlaylistRequest $request): RedirectResponse {
 
         $validated = $request->safe()->merge([
-            'uuid' => (string) Str::uuid(),
+            'uuid' => Str::uuid()->toString(),
             'user_id' => Auth::user()->id
         ])->toArray();
 

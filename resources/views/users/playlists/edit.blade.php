@@ -42,16 +42,13 @@
                                 maxlength="{{config('validation.playlist.title.max')}}"
                                 x-ref="title"
                                 @keyup="count = $refs.title.value.length"
-                                @disabled(!$playlist->is_deletable)
                             >
-                            @if($playlist->is_deletable)
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="form-text">A catchy title can help you hook viewers.</div>
-                                    <div class="form-text">
-                                        <span x-text="count"></span> / <span>{{config('validation.playlist.title.max')}}</span>
-                                    </div>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="form-text">A catchy title can help you hook viewers.</div>
+                                <div class="form-text">
+                                    <span x-text="count"></span> / <span>{{config('validation.playlist.title.max')}}</span>
                                 </div>
-                            @endif
+                            </div>
                         </div>
                         <div class="mb-3" x-data="{ count: 0 }" x-init="count = $refs.description.value.length">
                             <label for="description" class="form-label">Description</label>
@@ -70,16 +67,14 @@
                                 </div>
                             </div>
                         </div>
-                        @if($playlist->is_deletable)
-                            <div class="col-12 mt-3">
-                                <label for="status" class="form-label">Visibility</label>
-                                <select class="form-control" name="status" id="status" required>
-                                    @foreach($status as $id => $name)
-                                        <option @selected(old('status', $playlist->status->value) == $id) value="{{$id}}">{{$name}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        @endif
+                        <div class="col-12 mt-3">
+                            <label for="status" class="form-label">Visibility</label>
+                            <select class="form-control" name="status" id="status" required>
+                                @foreach($status as $id => $name)
+                                    <option @selected(old('status', $playlist->status->value) == $id) value="{{$id}}">{{$name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>

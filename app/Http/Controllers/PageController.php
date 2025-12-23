@@ -30,46 +30,6 @@ class PageController
         return view('pages.history');
     }
 
-    public function liked(): View
-    {
-        $interactions = Auth::user()
-            ->interactions()
-            ->whereHasMorph('likeable', [Video::class], fn($query) => $query->active())
-            ->where('status', true)
-            ->where('likeable_type', Video::class)
-            ->with(['likeable' => function (MorphTo $morphTo) {
-                $morphTo->morphWith([
-                    Video::class => ['user'],
-                ]);
-            }])
-            ->latest('perform_at')
-            ->get()
-            ->groupBy(fn ($item) => Carbon::parse($item->perform_at)->format('Y-m-d'))
-            ->all();
-
-        return view('pages.liked', [
-            'data' => $interactions
-        ]);
-    }
-
-    public function later(): View
-    {
-        $playlist = Auth::user()
-            ->playlists()
-            ->where('title', Playlist::WATCH_LATER_PLAYLIST)
-            ->first();
-
-        return view('playlists.show', [
-            'playlist' => $playlist
-                ->load([
-                    'videos' => fn($q) => $q->with('user')
-                ])
-                ->loadCount([
-                    'videos'
-                ]),
-        ]);
-    }
-
     public function category(string $slug): View
     {
         $category = Category::where('slug', $slug)->firstOrFail();
