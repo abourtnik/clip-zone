@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Api\Private;
 
+use App\Events\Video\VideoInteracted;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Interaction\InteractionRequest;
 use App\Http\Resources\InteractionsResource;
+use App\Models\User;
 use App\Models\Video;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
@@ -21,28 +24,22 @@ class InteractionController extends Controller
 
         $this->authorize('interact', $likeable);
 
-        $interaction = $likeable->interactions()->whereRelation('user', 'id', Auth::user()->id)->first();
+        $interaction = $likeable->interactions()
+            ->where('user_id', Auth::id())
+            ->first();
 
-        if ($interaction) {
-
+        if ($interaction && $interaction->status === $status) {
             $interaction->delete();
-
-            if ($interaction->status != $status) {
-                Auth::user()->interactions()->create([
-                    'likeable_type' => get_class($likeable),
-                    'likeable_id' => $likeable->id,
-                    'status' => $status,
-                ]);
-            }
+            $this->dispatchEvent($likeable, Auth::user(), $interaction->status, null);
+            return response()->noContent();
         }
 
-        else {
-            Auth::user()->interactions()->create([
-                'likeable_type' => get_class($likeable),
-                'likeable_id' => $likeable->id,
-                'status' => $status,
-            ]);
-        }
+        $likeable->interactions()->updateOrCreate(
+            ['user_id' => Auth::id()],
+            ['status' => $status, 'perform_at' => now()]
+        );
+
+        $this->dispatchEvent($likeable, Auth::user(), $interaction->status ?? null, $status);
 
         return response()->noContent();
 
@@ -83,5 +80,17 @@ class InteractionController extends Controller
                 ->paginate(40)
                 ->withQueryString()
         );
+    }
+
+    private function dispatchEvent(Model $likeable, User $user, ?bool $previousStatus, ?bool $currentStatus): void
+    {
+        if ($likeable instanceof Video) {
+            VideoInteracted::dispatch(
+                $likeable,
+                $user,
+                $previousStatus,
+                $currentStatus
+            );
+        }
     }
 }

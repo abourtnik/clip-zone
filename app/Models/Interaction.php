@@ -22,6 +22,7 @@ class Interaction extends Model
 
     protected $casts = [
         'perform_at' => 'datetime',
+        'status' => 'boolean',
     ];
 
     public function user() : BelongsTo
