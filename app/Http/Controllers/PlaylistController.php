@@ -10,13 +10,11 @@ class PlaylistController
 {
     public function show (Playlist $playlist) : View {
         return view('playlists.show', [
-            'playlist' => $playlist
-                ->load([
-                    'videos' => fn($q) => $q->with('user')
-                ])
-                ->loadCount([
-                    'videos'
-                ]),
+            'playlist' => $playlist,
+            'videos' => $playlist
+                ->videos()
+                ->with('user')
+                ->get(),
             'favorite_by_auth_user' => Auth::user()?->favorites_playlist()->where('playlist_id', $playlist->id)->exists()
         ]);
     }

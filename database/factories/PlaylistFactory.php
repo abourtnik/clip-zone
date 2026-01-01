@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\PlaylistSort;
 use App\Enums\PlaylistStatus;
 use App\Models\Playlist;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -24,7 +25,8 @@ class PlaylistFactory extends Factory
             'uuid' => fake()->uuid(),
             'title' => fake()->text(rand(5, config('validation.playlist.title.max'))),
             'description' => fake()->realText(config('validation.playlist.description.max')),
-            'status' => fake()->randomElement([PlaylistStatus::PUBLIC->value, PlaylistStatus::PRIVATE->value, PlaylistStatus::UNLISTED->value]),
+            'status' => fake()->randomElement(PlaylistStatus::cases()),
+            'sort' => fake()->randomElement(PlaylistSort::cases()),
             'created_at' => $date,
             'updated_at' => $date,
         ];

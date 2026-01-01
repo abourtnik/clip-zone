@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Playlist;
 
 use App\Enums\CustomPlaylistType;
+use App\Enums\PlaylistSort;
 use App\Enums\PlaylistStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -30,6 +31,7 @@ class UpdatePlaylistRequest extends FormRequest
     {
         return [
             'title' => [
+                'required',
                 'string',
                 'max:'.config('validation.playlist.title.max'),
                 Rule::notIn(CustomPlaylistType::get())
@@ -40,7 +42,12 @@ class UpdatePlaylistRequest extends FormRequest
                 'max:'.config('validation.playlist.description.max')
             ],
             'status' => [
+                'required',
                 new Enum(PlaylistStatus::class)
+            ],
+            'sort' => [
+                'required',
+                new Enum(PlaylistSort::class)
             ],
             'videos' => 'nullable|array',
             'videos.*' => [

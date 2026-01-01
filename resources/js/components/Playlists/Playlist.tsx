@@ -51,49 +51,57 @@ export function Main({uuid} : Props) {
 
     return(
         <PlaylistContext.Provider value={{uuid: uuid}}>
-            <div className="card shadow-soft pb-0">
+            <div className="card shadow-soft pb-0 h-100">
                 <div className="card-body px-0 pb-0">
                     <h5 className="text-primary px-3">Manage videos</h5>
                     <hr className={'mb-0'}/>
-                    <div className={'d-flex'}>
+                    <div className={'d-flex'} style={{height: '733px'}}>
                         <div className="w-50 border-end">
                             <div className={'text-center border-bottom d-flex align-items-center justify-content-center'} style={{height: '71px'}}>
                                 <h6 className={'mb-0'}>Playlist videos</h6>
                             </div>
-                            <div className={'overflow-auto'} style="height:590px">
-                                {
-                                    isLoading &&
-                                    <div className={'d-flex justify-content-center align-items-center h-100'}>
-                                        <div class="spinner-border text-primary" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
-                                    </div>
-                                }
-                                {
-                                    isError &&
-                                    <div className={'d-flex justify-content-center align-items-center h-100'}>
-                                        <div class="border border-1 bg-light text-center p-3">
-                                            <i class="fa-solid fa-triangle-exclamation fa-3x"></i>
-                                            <h3 class="h5 my-3 fw-normal">Something went wrong !</h3>
-                                            <p class="text-muted">If the issue persists please contact us.</p>
-                                            <button className="btn btn-primary rounded-5 text-uppercase btn-sm" onClick={() => refetch()}>
-                                                Try again
-                                            </button>
-                                        </div>
-                                    </div>
-                                }
-                                <div className={'h-100'}>
-                                    {videos && <SelectedVideos videos={videos}/>}
+                            <div style="height:662px">
+                                <div className={'overflow-auto'} style="height:620px">
                                     {
-                                        isFetchingNextPage &&
-                                        <div className={'d-flex justify-content-center align-items-center py-3'}>
-                                            <div class="spinner-border text-primary spinner-border-sm" role="status">
+                                        isLoading &&
+                                        <div className={'d-flex justify-content-center align-items-center h-100'}>
+                                            <div class="spinner-border text-primary" role="status">
                                                 <span class="visually-hidden">Loading...</span>
                                             </div>
                                         </div>
                                     }
-                                    {hasNextPage && <span ref={ref}></span>}
+                                    {
+                                        isError &&
+                                        <div className={'d-flex justify-content-center align-items-center h-100'}>
+                                            <div class="border border-1 bg-light text-center p-3">
+                                                <i class="fa-solid fa-triangle-exclamation fa-3x"></i>
+                                                <h3 class="h5 my-3 fw-normal">Something went wrong !</h3>
+                                                <p class="text-muted">If the issue persists please contact us.</p>
+                                                <button className="btn btn-primary rounded-5 text-uppercase btn-sm" onClick={() => refetch()}>
+                                                    Try again
+                                                </button>
+                                            </div>
+                                        </div>
+                                    }
+                                    <div className={'h-100'}>
+                                        {videos && <SelectedVideos videos={videos}/>}
+                                        {
+                                            isFetchingNextPage &&
+                                            <div className={'d-flex justify-content-center align-items-center py-3'}>
+                                                <div class="spinner-border text-primary spinner-border-sm" role="status">
+                                                    <span class="visually-hidden">Loading...</span>
+                                                </div>
+                                            </div>
+                                        }
+                                        {hasNextPage && <span ref={ref}></span>}
+                                    </div>
                                 </div>
+                                {
+                                    videos &&
+                                    <div className={'text-center py-2 bg-primary-subtle border'}>
+                                        {videos.pages.flatMap((page => page.data)).length} videos
+                                    </div>
+                                }
                             </div>
                         </div>
                         <Search/>
@@ -187,13 +195,7 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                                                     </div>
                                             }
                                         </div>
-                                        <OverlayTrigger placement="top"
-                                                        overlay={
-                                                            <Tooltip>
-                                                                Remove
-                                                            </Tooltip>
-                                                        }
-                                        >
+                                        <OverlayTrigger placement="top" overlay={<Tooltip>Remove</Tooltip>}>
                                             <button
                                                 className="bg-transparent py-1 btn-sm"
                                                 type="button"
@@ -202,7 +204,6 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                                                 <i className="fa-solid fa-xmark"></i>
                                             </button>
                                         </OverlayTrigger>
-
                                     </div>
                                     <input type="hidden" name={'videos[]'} value={video.id}/>
                                 </li>
@@ -298,7 +299,7 @@ function Search() {
     });
 
     return (
-        <div className="w-50  pt-3 px-0">
+        <div className="w-50 pt-3 px-0">
             <div className={'position-relative pb-3 border-bottom'}>
                 <form className="d-flex w-100 position-relative px-3">
                     <input
@@ -321,7 +322,7 @@ function Search() {
                     }
                 </form>
             </div>
-            <div className={'overflow-auto'} style="height:590px">
+            <div className={'overflow-auto'} style="max-height:662px">
                 {
                     results && results.data.length > 0 && (
                         <ul className={'list-group list-group-flush mb-0'}>

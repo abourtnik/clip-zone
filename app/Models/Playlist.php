@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PlaylistSort;
 use App\Enums\PlaylistStatus;
 use App\Models\Pivots\FavoritePlaylist;
 use App\Models\Pivots\PlaylistVideo;
@@ -13,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 
 /**
  * @mixin IdeHelperPlaylist
@@ -26,7 +26,8 @@ class Playlist extends Model
 
     protected $casts = [
         'status' => PlaylistStatus::class,
-        'is_deletable' => 'boolean'
+        'is_deletable' => 'boolean',
+        'sort' => PlaylistSort::class
     ];
 
     public function user() : BelongsTo
@@ -38,7 +39,8 @@ class Playlist extends Model
     {
         return $this->belongsToMany(Video::class, 'playlist_has_videos')
             ->using(PlaylistVideo::class)
-            ->orderByPivot('position', 'asc');
+            ->withPivot(['position', 'added_at'])
+            ->when($this->sort, fn($q) => $q->orderBy($this->sort->getSortedColumn(), $this->sort->getSortedDirection()));
     }
 
     public function users () : BelongsToMany {
@@ -72,12 +74,13 @@ class Playlist extends Model
         );
     }
 
-    protected function firstVideo(): Attribute
+    public function firstVideo(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->videos->first(function (Video $video, int $key) {
-                return $video->is_public || $video->user->is(Auth::user());
-            })
+            get: fn () => $this->videos()
+                ->public(true)
+                ->with('thumbnail')
+                ->first()
         );
     }
 

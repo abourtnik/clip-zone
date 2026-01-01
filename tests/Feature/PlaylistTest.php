@@ -2,6 +2,7 @@
 
 namespace Feature;
 
+use App\Enums\PlaylistSort;
 use App\Enums\PlaylistStatus;
 use App\Models\Playlist;
 use App\Models\User;
@@ -75,5 +76,68 @@ class PlaylistTest extends TestCase
         $this->actingAs($user)
             ->get(route('custom-playlist.show', ['type' => CustomPlaylistType::LIKED_VIDEOS]))
             ->assertOk();
+    }
+
+    public function test_create_playlist_view(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->get(route('user.playlists.create'))
+            ->assertOk();
+    }
+
+    public function test_create_playlist(): void
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+             ->post(route('user.playlists.store'), [
+                'title' => 'Test playlist',
+                'status' => PlaylistStatus::PUBLIC->value,
+                'sort' => PlaylistSort::MANUAL->value
+            ])
+            ->assertRedirect(route('user.playlists.index'));
+
+        $this->assertDatabaseHas('playlists', [
+            'title' => 'Test playlist',
+            'status' => PlaylistStatus::PUBLIC
+        ]);
+    }
+
+    public function test_update_playlist_view(): void
+    {
+        $user = User::factory()->create();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->create();
+
+        $this->actingAs($user)
+            ->get(route('user.playlists.edit', $playlist))
+            ->assertOk();
+    }
+
+    public function test_update_playlist(): void
+    {
+        $user = User::factory()->create();
+
+        $playlist = Playlist::factory()
+            ->for($user)
+            ->create();
+
+        $this->actingAs($user)
+            ->put(route('user.playlists.update', $playlist), [
+                'title' => 'Rename playlist',
+                'status' => PlaylistStatus::PUBLIC->value,
+                'sort' => PlaylistSort::MANUAL->value
+            ])
+            ->assertRedirect(route('user.playlists.index'));
+
+        $this->assertDatabaseHas('playlists', [
+            'title' => 'Rename playlist',
+            'status' => PlaylistStatus::PUBLIC->value,
+            'sort' => PlaylistSort::MANUAL->value
+        ]);
     }
 }

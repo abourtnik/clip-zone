@@ -24,6 +24,8 @@ class PlaylistShowResource extends JsonResource
      */
     public function toArray(Request $request) : array
     {
+        $playlistVideos = $this->videos()->with('user')->get();
+
         return [
             'id' => $this->id,
             'uuid' => $this->uuid,
@@ -33,9 +35,9 @@ class PlaylistShowResource extends JsonResource
             'icon' => $this->status->icon(),
             'is_active' => $this->is_active,
             'route' => $this->route,
-            'videos_count' => $this->whenCounted('videos'),
+            'videos_count' => $playlistVideos->count(),
             'user' => UserListResource::make($this->user),
-            'videos' => VideoListResource::collection($this->whenLoaded('videos'))
+            'videos' => VideoListResource::collection($playlistVideos)
         ];
     }
 }

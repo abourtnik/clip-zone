@@ -17,4 +17,8 @@ class PlaylistVideo extends Pivot
     protected $guarded = ['id'];
 
     public $timestamps = false;
+
+    protected $casts = [
+        'added_at' => 'datetime',
+    ];
 }

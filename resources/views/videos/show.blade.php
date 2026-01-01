@@ -69,7 +69,7 @@
                     <h1 class="mb-0 h5 text-break">{{$video->title}}</h1>
                 </div>
                 <div class="mt-3 d-flex flex-column flex-xxl-row gap-3 justify-content-between align-items-start align-items-xxl-center">
-                    <div class="text-muted">{{trans_choice('views', $video->views)}} • {{$video->published_at?->translatedFormat('d F Y') ?? $video->created_at->translatedFormat('d F Y')}}</div>
+                    <div class="text-muted">{{trans_choice('views', $video->views)}} • {{$video->date->translatedFormat('d F Y')}}</div>
                     @auth
                         <div class="d-flex gap-2 align-items-center overflow-auto col-12 col-sm-auto">
                             <interaction-buttons

@@ -67,13 +67,25 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-12 mt-3">
-                            <label for="status" class="form-label">Visibility</label>
-                            <select class="form-control" name="status" id="status" required>
-                                @foreach($status as $id => $name)
-                                    <option @selected(old('status', $playlist->status->value) == $id) value="{{$id}}">{{$name}}</option>
-                                @endforeach
-                            </select>
+                        <h5 class="text-primary">Settings</h5>
+                        <hr>
+                        <div class="row">
+                            <div class="col-12 col-sm-6 mt-3">
+                                <label for="status" class="form-label">Visibility</label>
+                                <select class="form-control" name="status" id="status" required>
+                                    @foreach($status as $id => $name)
+                                        <option @selected(old('status', $playlist->status->value) == $id) value="{{$id}}">{{$name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-12 col-sm-6 mt-3">
+                                <label for="sort" class="form-label">Default videos order</label>
+                                <select class="form-control" name="sort" id="sort" required>
+                                    @foreach($sorts as $id => $name)
+                                        <option @selected(old('sort', $playlist->sort->value) == $id) value="{{$id}}">{{$name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Actions\Playlist\StorePlaylistAction;
+use App\Actions\Playlist\UpdatePlaylistAction;
+use App\Enums\PlaylistSort;
 use App\Enums\PlaylistStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Playlist\StorePlaylistRequest;
@@ -11,7 +14,6 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class PlaylistController extends Controller
 {
@@ -25,7 +27,6 @@ class PlaylistController extends Controller
             'playlists' => Playlist::filter()
                 ->where('user_id', Auth::user()->id)
                 ->where('is_deletable', true)
-                ->with('videos')
                 ->withCount(['videos'])
                 ->latest('created_at')
                 ->paginate(15)
@@ -35,26 +36,14 @@ class PlaylistController extends Controller
 
     public function create(): View {
         return view('users.playlists.create', [
-            'status' => PlaylistStatus::get()
+            'status' => PlaylistStatus::get(),
+            'sorts' => PlaylistSort::get()
         ]);
     }
 
-    public function store(StorePlaylistRequest $request): RedirectResponse {
+    public function store(StorePlaylistRequest $request, StorePlaylistAction $storePlaylistAction): RedirectResponse {
 
-        $validated = $request->safe()->merge([
-            'uuid' => Str::uuid()->toString(),
-            'user_id' => Auth::user()->id
-        ])->toArray();
-
-        $videos = $request->get('videos', []);
-
-        $playlist = Playlist::create($validated);
-
-        foreach ($videos as $key => $id) {
-            $playlist->videos()->attach([
-                $id => ['position' => $key]
-            ]);
-        }
+        $storePlaylistAction->execute($request);
 
         return redirect()->route('user.playlists.index');
     }
@@ -63,29 +52,16 @@ class PlaylistController extends Controller
 
         return view('users.playlists.edit', [
             'playlist' => $playlist,
-            'status' => PlaylistStatus::get()
+            'status' => PlaylistStatus::get(),
+            'sorts' => PlaylistSort::get()
         ]);
     }
 
-    public function update(UpdatePlaylistRequest $request, Playlist $playlist): RedirectResponse {
+    public function update(UpdatePlaylistRequest $request, Playlist $playlist, UpdatePlaylistAction $updatePlaylistAction): RedirectResponse {
 
-        $validated = $request->validated();
+        $updatePlaylistAction->execute($request, $playlist);
 
-        $videos = $request->get('videos', []);
-
-        $playlist->videos()->detach();
-
-        foreach ($videos as $key => $id) {
-            $playlist->videos()->attach([
-                $id => ['position' => $key]
-            ]);
-        }
-
-        $playlist->update($validated);
-
-        $playlist->touch();
-
-        if ($request->get('action') === 'save') {
+        if ($request->string('action')->is('save')) {
             return redirect(route('user.playlists.edit', $playlist));
         }
 

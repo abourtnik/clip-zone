@@ -83,7 +83,9 @@ class UpdateVideoRequest extends FormRequest
             'playlists.*' => [
                 'numeric',
                 Rule::exists('playlists', 'id')->where(function (Builder $query){
-                    return $query->where('user_id', Auth::user()->id);
+                    return $query
+                        ->where('user_id', Auth::user()->id)
+                        ->where('is_deletable', true);
                 })
             ]
         ];

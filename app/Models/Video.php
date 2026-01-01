@@ -308,7 +308,24 @@ class Video extends Model implements Likeable, Reportable
     protected function languageName(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => ucfirst(Languages::getName($this->language, app()->getLocale())),
+            get: fn () => ucfirst(Languages::getName($this->language, app()->getLocale())),
+        );
+    }
+
+    protected function date(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                if ($this->is_private || $this->is_unlisted || $this->is_draft || $this->is_failed){
+                    return $this->created_at;
+                }
+
+                if ($this->is_planned){
+                    return $this->scheduled_at;
+                }
+
+                return $this->published_at;
+            }
         );
     }
 
@@ -336,9 +353,10 @@ class Video extends Model implements Likeable, Reportable
      * Scope a query to only include public videos.
      *
      * @param Builder $query
+     * @param bool $includeAuthVideo
      * @return Builder
      */
-    public function scopePublic(Builder $query, $includeAuthVideo = false): Builder
+    public function scopePublic(Builder $query, bool $includeAuthVideo = false): Builder
     {
         return $query->whereIn('status', [VideoStatus::PUBLIC, VideoStatus::UNLISTED])
             ->whereNotNull('uploaded_at')

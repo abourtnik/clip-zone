@@ -17,17 +17,17 @@
                         {{$playlist->status->name()}}
                     </span>
                     <div class="d-flex align-items-center gap-1 mb-2">
-                        <div class="text-sm">{{trans_choice('videos', $playlist->videos_count)}}</div>
+                        <div class="text-sm">{{trans_choice('videos', $videos->count())}}</div>
                         <div class="text-sm">•</div>
                         <div class="text-sm">Created {{$playlist->created_at->diffForHumans()}}</div>
                     </div>
                     <div class="text-sm mb-3">Updated {{$playlist->updated_at->diffForHumans()}}</div>
                     <div class="d-flex gap-2">
                         @if($playlist->first_video)
-                        <a href="{{$playlist->first_video->routeWithParams(['list' => $playlist->uuid])}}" class="btn btn-danger btn-sm d-flex gap-2 align-items-center">
-                            <i class="fa-solid fa-play"></i>
-                            <span>Play All</span>
-                        </a>
+                            <a href="{{$playlist->first_video->routeWithParams(['list' => $playlist->uuid])}}" class="btn btn-danger btn-sm d-flex gap-2 align-items-center">
+                                <i class="fa-solid fa-play"></i>
+                                <span>Play All</span>
+                            </a>
                         @endif
                         @auth
                             @can('favorite', $playlist)
@@ -86,10 +86,10 @@
         </div>
         <div class="col-md-12 col-lg-7 col-xl-8 col-xxl-8">
             <div class="card card-body p-0">
-                @if($playlist->videos_count)
+                @if($videos->count())
                     <div class="overflow-auto" style="height: 700px">
                         <ul class="list-group list-group-flush">
-                            @foreach($playlist->videos as $key => $video)
+                            @foreach($videos as $key => $video)
                                 <div class="d-flex gap-3 align-items-center list-group-item list-group-item-action px-2 px-sm-3 py-3 py-sm-3">
                                     @if($video->user->is(Auth::user()) || $video->is_public)
                                         @include('videos.card-secondary', ['video' => $video, 'playlist_video' => true])

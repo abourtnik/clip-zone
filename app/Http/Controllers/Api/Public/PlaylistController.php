@@ -11,13 +11,7 @@ class PlaylistController
 {
     public function show(Playlist $playlist): PlaylistShowResource
     {
-        return new PlaylistShowResource(
-            $playlist->load([
-                'videos' => fn($q) => $q->with('user')
-            ])->loadCount([
-                'videos'
-            ])
-        );
+        return new PlaylistShowResource($playlist);
     }
 
     public function videos(Playlist $playlist): ResourceCollection

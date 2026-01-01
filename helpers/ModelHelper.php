@@ -199,7 +199,7 @@ namespace App\Models{
  * @property int $user_id
  * @property string $likeable_type
  * @property int $likeable_id
- * @property int $status
+ * @property bool $status
  * @property \Illuminate\Support\Carbon $perform_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $likeable
  * @property-read \App\Models\User $user
@@ -281,10 +281,12 @@ namespace App\Models\Pivots{
  * @property int $playlist_id
  * @property int $video_id
  * @property int $position
+ * @property \Illuminate\Support\Carbon $added_at
  * @method static \Database\Factories\Pivots\PlaylistVideoFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo whereAddedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo wherePlaylistId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|PlaylistVideo wherePosition($value)
@@ -354,6 +356,7 @@ namespace App\Models{
  * @property string|null $description
  * @property int $user_id
  * @property \App\Enums\PlaylistStatus $status
+ * @property \App\Enums\PlaylistSort $sort
  * @property bool $is_deletable
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -380,6 +383,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereIsDeletable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereSort($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Playlist whereUpdatedAt($value)
@@ -697,7 +701,7 @@ namespace App\Models{
  * @property-read int|null $videos_views_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\View> $views
  * @property-read int|null $views_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Interaction[] $videos_comments_interactions
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $videos_comments_interactions
  * @property-read int|null $videos_comments_interactions_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User active()
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
@@ -780,6 +784,7 @@ namespace App\Models{
  * @property-read int|null $comment_interactions_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Comment> $comments
  * @property-read int|null $comments_count
+ * @property-read mixed $date
  * @property-read mixed $description_is_long
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $dislikes
  * @property-read int|null $dislikes_count
@@ -832,7 +837,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video notActive()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video onlyTrashed()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Video public($includeAuthVideo = false)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video public(bool $includeAuthVideo = false)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video valid()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereAllowComments($value)
