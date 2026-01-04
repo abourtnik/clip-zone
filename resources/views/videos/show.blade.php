@@ -295,7 +295,7 @@
                     </div>
                     <hr>
                 @endif
-                @if($playlist)
+                @if($playlist && $playlistVideos->isNotEmpty())
                     <div x-data="{open: window.innerWidth > 992}" class="mx-2 mx-sm-0">
                         <div class="card card-body px-0 pb-0" x-show="open" style="max-height: 620px">
                             <div class="d-flex justify-content-between px-3 w-100">
@@ -311,29 +311,29 @@
                             </div>
                             <hr class="mb-0">
                             <div class="overflow-y-auto">
-                                @foreach($playlist->videos as $index => $p_video)
-                                    @if($p_video->user->is(Auth::user()) || $p_video->is_public)
-                                        <article @class(["px-2 py-2 hover-primary playlist_video", 'selected' => $p_video->is($video)])>
-                                            <a href="{{$p_video->routeWithParams(['list' => $playlist->uuid])}}" class="d-flex flex-column flex-sm-row gap-2 text-decoration-none text-black">
+                                @foreach($playlistVideos as $index => $playlistVideo)
+                                    @if($playlistVideo->user->is(Auth::user()) || $playlistVideo->is_public)
+                                        <article @class(["px-2 py-2 hover-primary playlist_video", 'selected' => $playlistVideo->is($video)])>
+                                            <a href="{{$playlistVideo->routeWithParams(['list' => $playlist->uuid])}}" class="d-flex flex-column flex-sm-row gap-2 text-decoration-none text-black">
                                                 <div class="d-flex align-items-center gap-3">
-                                                    @if($p_video->is($video))
+                                                    @if($playlistVideo->is($video))
                                                         <i class="fa-solid fa-play text-muted text-sm"></i>
                                                     @else
                                                         <small class="text-muted">{{$index + 1}}</small>
                                                     @endif
                                                     <div class="position-relative">
-                                                        <image-loaded source="{{$p_video->thumbnail_url}}" title="{{$p_video->title}}" class="rounded"/>
+                                                        <image-loaded source="{{$playlistVideo->thumbnail_url}}" title="{{$playlistVideo->title}}" class="rounded"/>
                                                         <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
-                                                            {{$p_video->duration}}
+                                                            {{$playlistVideo->duration}}
                                                         </small>
                                                     </div>
                                                 </div>
                                                 <div class="text-center text-sm-start">
-                                                    <h6 class="fw-bold text-sm mb-1 overflow-hidden text-break" title="{{$p_video->title}}">
-                                                        {{Str::limit($p_video->title, 50)}}
+                                                    <h6 class="fw-bold text-sm mb-1 overflow-hidden text-break" title="{{$playlistVideo->title}}">
+                                                        {{Str::limit($playlistVideo->title, 50)}}
                                                     </h6>
-                                                    <small class="text-muted text-sm" title="{{$p_video->user->username}}">
-                                                        {{$p_video->user->username}}
+                                                    <small class="text-muted text-sm" title="{{$playlistVideo->user->username}}">
+                                                        {{$playlistVideo->user->username}}
                                                     </small>
                                                 </div>
                                             </a>

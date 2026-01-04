@@ -2,76 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Video\ShowVideoAction;
 use App\Enums\VideoStatus;
-use App\Http\Resources\SubtitleResource;
-use App\Models\Playlist;
 use App\Models\Subtitle;
 use App\Models\Thumbnail;
 use App\Models\Video;
-use App\Services\VideoService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
 {
-    public function __construct(private readonly VideoService $videoService)
-    {
-    }
-
-    public function show (string $slug, Video $video, Request $request) : View|RedirectResponse {
+    public function show (string $slug, Video $video, ShowVideoAction $showVideoAction) : View|RedirectResponse {
 
         if ($video->slug !== $slug) {
             return redirect($video->route, 301);
         }
 
-        $list = $request->query('list');
-
-        $playlist = null;
-        $currentIndex = null;
-
-        if ($request->query('list')) {
-            $playlist = Playlist::query()
-                ->where('uuid', $list)
-                ->where(function ($query) {
-                    $query->active()
-                        ->orWhere('user_id', Auth::id());
-                })
-                ->with([
-                    'videos' => fn($query) => $query->with('user')->withPivot('position')
-                ])
-                ->withCount('videos')
-                ->first();
-
-            $currentIndex = $playlist?->videos->find($video->id)?->pivot->position;
-        }
-
-        $suggestedVideos = $this->videoService->getSuggestedVideos($video);
-
-        return view('videos.show', [
-            'video' => $video
-                ->load([
-                    'user' => fn($q) => $q->withCount('subscribers'),
-                    'reportByAuthUser'
-                ])
-                ->loadCount([
-                    'likes',
-                    'dislikes',
-                    'comments'
-                ])
-                ->loadExists([
-                    'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                    'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
-                ]),
-            'videos' => $suggestedVideos,
-            'nextVideo' => $this->videoService->getNextVideo($suggestedVideos, $playlist, $currentIndex),
-            'playlist' => $playlist,
-            'currentIndex' => $currentIndex,
-            'subtitles' => SubtitleResource::collection($video->subtitles()->public()->orderBy('name')->get())->toJson(),
-        ]);
+        return view('videos.show', $showVideoAction->data($video));
     }
 
     public function download (Video $video): RedirectResponse
@@ -111,8 +60,7 @@ class VideoController extends Controller
     public function embed (Video $video): View
     {
         return view(match ($video->real_status) {
-            VideoStatus::PUBLIC => 'videos.embed.public',
-            VideoStatus::UNLISTED => 'videos.embed.public',
+            VideoStatus::PUBLIC, VideoStatus::UNLISTED => 'videos.embed.public',
             VideoStatus::PRIVATE => 'videos.embed.private',
             VideoStatus::BANNED => 'videos.embed.banned',
             default => 'videos.embed.missing'
