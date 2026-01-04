@@ -18,7 +18,7 @@ class SpamWords implements ValidationRule
         $spamService = new SpamService();
 
         if ($spamService->checkIfSpam($value)) {
-            $fail('Spam detected');
+            $fail(__('Spam detected'));
         }
     }
 }

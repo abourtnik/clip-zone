@@ -7,12 +7,15 @@ import {HistoryType} from "@/types";
 import {produce} from "immer";
 import {Button, Modal} from "react-bootstrap";
 import {useState} from "preact/hooks";
+import {useTranslation} from "react-i18next";
 
 function Main () {
 
     const queryClient = useQueryClient();
 
     const [confirm, setConfirm] = useState<boolean>(false);
+
+    const { t } = useTranslation();
 
     const {
         data: history,
@@ -78,7 +81,7 @@ function Main () {
                                 <div className={'d-flex justify-content-end p-2 mb-3'}>
                                     <button className="btn btn-danger btn-sm d-flex align-items-center gap-2" onClick={() => setConfirm(true)}>
                                         <i className="fa-solid fa-trash"></i>
-                                        <span>Clear watch history</span>
+                                        <span>{t('Clear watch history')}</span>
                                     </button>
                                 </div>
                                 {history.data.map((item, i) => (
@@ -96,10 +99,10 @@ function Main () {
                                         </div>
                                         <div class="col-12 col-lg-6 py-5 px-3 px-sm-5 d-flex align-items-center justify-content-center text-center">
                                             <div>
-                                                <h1 class="h3 mb-3 fw-normal">Your history is empty</h1>
-                                                <p class="text-muted">Watch videos and they will appear here</p>
-                                                <a href="https://www.clip-zone.com" class="btn btn-outline-primary rounded-5 text-uppercase">
-                                                    See videos
+                                                <h1 class="h3 mb-3 fw-normal">{t('Your history is empty')}</h1>
+                                                <p class="text-muted">{t('Watch videos and they will appear here')}</p>
+                                                <a href="/" class="btn btn-outline-primary rounded-5 text-uppercase">
+                                                    {t('See videos')}
                                                 </a>
                                             </div>
                                         </div>
@@ -118,15 +121,15 @@ function Main () {
             </div>
             <Modal show={confirm} onHide={() => setConfirm(false)}>
                 <Modal.Header closeButton>
-                    <h5 className="modal-title">Clear watch history ?</h5>
+                    <h5 className="modal-title">{t('Clear watch history') + ' ?'}</h5>
                 </Modal.Header>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setConfirm(false)}>
-                        Close
+                        {t('Cancel')}
                     </Button>
                     <Button variant="danger" onClick={handleDelete} disabled={isPending}>
                         {isPending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>}
-                        Delete
+                        {t('Delete')}
                     </Button>
                 </Modal.Footer>
             </Modal>

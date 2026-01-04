@@ -20,8 +20,8 @@
                 <div class="row mt-5">
                     <div class="col-10 offset-1 border p-4 bg-light text-center bg-light">
                         <i class="fa-solid fa-video-slash fa-7x mb-3"></i>
-                        <h2>No videos found</h2>
-                        <p class="text-muted">Sorry, no videos are available yet. Please check back later for updates.</p>
+                        <h2>{{__('No videos found')}}</h2>
+                        <p class="text-muted">{{__('Sorry, no videos are available yet. Please check back later for updates.')}}</p>
                     </div>
                 </div>
             </div>

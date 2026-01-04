@@ -2,7 +2,7 @@
 
 @extends('layouts.user')
 
-@section('title', 'Channel dashboard')
+@section('title', __('Channel dashboard'))
 
 @section('content')
     {!! form(FormBuilder::create(DashboardFiltersForm::class)) !!}
@@ -10,7 +10,7 @@
         <div class="col-12 col-sm-4 col-md-4 col-xl-3 col-xxl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
-                    <h5 class="card-title text-center text-primary">Videos</h5>
+                    <h5 class="card-title text-center text-primary">{{ __('Videos') }}</h5>
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-video fa-2x"></i>
@@ -22,7 +22,7 @@
         <div class="col-12 col-sm-4 col-md-4 col-xl-3 col-xxl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
-                    <h5 class="card-title text-center text-primary">Subscribers</h5>
+                    <h5 class="card-title text-center text-primary">{{ __('Subscribers') }}</h5>
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-user fa-2x"></i>
@@ -34,7 +34,7 @@
         <div class="col-12 col-sm-4 col-md-4 col-xl-3 col-xxl mb-4 mb-xl-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
-                    <h5 class="card-title text-center text-primary">Views</h5>
+                    <h5 class="card-title text-center text-primary">{{ __('Views') }}</h5>
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-eye fa-2x"></i>
@@ -46,7 +46,7 @@
         <div class="col-12 col-sm-6 col-md-6 col-xl-3 col-xxl mb-4 mb-sm-0">
             <div class="card shadow border-primary">
                 <div class="card-body">
-                    <h5 class="card-title text-center text-primary">Comments</h5>
+                    <h5 class="card-title text-center text-primary">{{ __('Comments') }}</h5>
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-comment fa-2x"></i>
@@ -58,7 +58,7 @@
         <div class="col-12 col-sm-6 col-md-6 col-xl mt-0 mt-xl-4 mt-xxl-0">
             <div class="card shadow border-primary">
                 <div class="card-body text-center">
-                    <h5 class="card-title text-center text-primary">Interactions</h5>
+                    <h5 class="card-title text-center text-primary">{{ __('Interactions') }}</h5>
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-5">
                         <div class="d-flex align-items-center justify-content-center gap-2">
@@ -80,7 +80,7 @@
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-video"></i>
                     <h5 class="card-title mb-0">
-                        Last uploaded videos
+                        {{ __('Last uploaded videos') }}
                     </h5>
                 </div>
                 <div class="card-body">
@@ -89,12 +89,12 @@
                             <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col" class="w-35" style="min-width: 250px">Video</th>
-                                <th scope="col" class="w-15" >Status</th>
-                                <th scope="col" class="w-10">Views</th>
-                                <th scope="col" class="w-10">Comments</th>
-                                <th scope="col" class="w-20">Interactions</th>
-                                <th scope="col" class="w-10">Actions</th>
+                                <th scope="col" class="w-35" style="min-width: 250px">{{ __('Video') }}</th>
+                                <th scope="col" class="w-15" >{{ __('Status') }}</th>
+                                <th scope="col" class="w-10">{{ __('Views') }}</th>
+                                <th scope="col" class="w-10">{{ __('Comments') }}</th>
+                                <th scope="col" class="w-20">{{ __('Interactions') }}</th>
+                                <th scope="col" class="w-10">{{ __('Actions') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -117,7 +117,7 @@
                                                 </a>
                                             @else
                                                 <div class="badge bg-secondary">
-                                                    No comments
+                                                    {{ __('No comments') }}
                                                 </div>
                                             @endif
                                         </td>
@@ -142,7 +142,7 @@
                                     <tr class="bg-light">
                                         <td colspan="7" class="text-center">
                                             <i class="fa-solid fa-video-slash fa-2x my-3"></i>
-                                            <p class="fw-bold">No matching video for this period</p>
+                                            <p class="fw-bold">{{ __('No matching videos for this period') }}</p>
                                         </td>
                                     </tr>
                                 @endforelse
@@ -152,10 +152,10 @@
                     @else
                         <div class="text-center my-3">
                             <i class="fa-solid fa-upload fa-2x"></i>
-                            <h5 class="my-3">Import your first video</h5>
+                            <h5 class="my-3">{{ __('Import your first video') }}</h5>
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#video_create">
                                 <i class="fa-solid fa-plus"></i>
-                                Import
+                                {{ __('Import') }}
                             </button>
                         </div>
                     @endif
@@ -164,11 +164,11 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <a href="{{route('user.videos.index')}}" class="btn btn-primary btn-sm">
                             <i class="fa-solid fa-eye"></i>&nbsp;
-                            See all videos
+                            {{ __('See all videos') }}
                         </a>
                         <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#video_create">
                             <i class="fa-solid fa-upload"></i>
-                            Import new video
+                            {{ __('Import new video') }}
                         </button>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-user"></i>
                     <h5 class="card-title mb-0">
-                        Last subscribers
+                        {{ __('Last subscribers')}}
                     </h5>
                 </div>
                 <div class="card-body">
@@ -188,9 +188,9 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">Channel</th>
-                                <th scope="col" style="min-width: 100px;">Date</th>
-                                <th scope="col">Subscribers</th>
+                                <th scope="col">{{ __('Channel') }}</th>
+                                <th scope="col" style="min-width: 100px;">{{ __('Date') }}</th>
+                                <th scope="col">{{ __('Subscribers') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -217,7 +217,7 @@
                                 <tr class="bg-light">
                                     <td colspan="7" class="text-center">
                                         <i class="fa-solid fa-user-slash fa-2x my-3"></i>
-                                        <p class="fw-bold">No matching subscribers for this period</p>
+                                        <p class="fw-bold">{{ __('No matching subscribers for this period') }}</p>
                                     </td>
                                 </tr>
                             @endforelse
@@ -227,7 +227,7 @@
                     @else
                         <div class="text-center my-3">
                             <i class="fa-solid fa-user-slash fa-2x"></i>
-                            <h5 class="my-3">No subscriber yet</h5>
+                            <h5 class="my-3">{{ __('No subscriber yet') }}</h5>
                         </div>
                     @endif
                 </div>
@@ -235,7 +235,7 @@
                     <div class="d-flex gap-2">
                         <a href="{{route('user.subscribers')}}" class="btn btn-primary btn-sm">
                             <i class="fa-solid fa-eye"></i>&nbsp;
-                            See all subscribers
+                            {{ __('See all subscribers') }}
                         </a>
                     </div>
                 </div>
@@ -248,7 +248,7 @@
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-comment"></i>
                     <h5 class="card-title mb-0">
-                        Last comments on my videos
+                        {{ __('Last comments on my videos') }}
                     </h5>
                 </div>
                 <div class="card-body">
@@ -257,9 +257,9 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col" class="w-20" >Video</th>
-                                    <th scope="col" class="w-55" style="min-width: 260px">Comment</th>
-                                    <th scope="col" class="w-10">Replies</th>
+                                    <th scope="col" class="w-20" >{{ __('Video') }}</th>
+                                    <th scope="col" class="w-55" style="min-width: 260px">{{ __('Comment') }}</th>
+                                    <th scope="col" class="w-10">{{ __('Replies') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -295,7 +295,7 @@
                                                 </div>
                                             @else
                                                 <div class="badge bg-secondary">
-                                                    No replies
+                                                    {{ __('No replies') }}
                                                 </div>
                                             @endif
                                         </td>
@@ -304,7 +304,7 @@
                                     <tr class="bg-light">
                                         <td colspan="7" class="text-center">
                                             <i class="fa-solid fa-comment-slash fa-2x my-3"></i>
-                                            <p class="fw-bold">No matching comments for this period</p>
+                                            <p class="fw-bold">{{ __('No matching comments for this period') }}</p>
                                         </td>
                                     </tr>
                                 @endforelse
@@ -314,7 +314,7 @@
                     @else
                         <div class="text-center my-3">
                             <i class="fa-solid fa-comment-slash fa-2x"></i>
-                            <h5 class="my-3">No comments yet</h5>
+                            <h5 class="my-3">{{ __('No comments yet') }}</h5>
                         </div>
                     @endif
                 </div>
@@ -322,7 +322,7 @@
                     <div class="d-flex gap-2">
                         <a href="{{route('user.comments.index')}}" class="btn btn-primary btn-sm">
                             <i class="fa-solid fa-eye"></i>&nbsp;
-                            See all comments
+                            {{ __('See all comments') }}
                         </a>
                     </div>
                 </div>
@@ -333,7 +333,7 @@
                 <div class="card-header d-flex align-items-center gap-3 p-3">
                     <i class="fa-solid fa-thumbs-up"></i>
                     <h5 class="card-title mb-0">
-                        Last interactions on my videos
+                        {{ __('Last interactions on my videos') }}
                     </h5>
                 </div>
                 <div class="card-body">
@@ -342,9 +342,9 @@
                             <table class="table">
                             <thead>
                             <tr>
-                                <th scope="col">Video</th>
-                                <th scope="col" style="min-width: 150px;">User</th>
-                                <th scope="col">Interaction</th>
+                                <th scope="col">{{ __('Video') }}</th>
+                                <th scope="col" style="min-width: 150px;">{{ __('User') }}</th>
+                                <th scope="col">{{ __('Interaction') }}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -380,7 +380,7 @@
                                     <tr class="bg-light">
                                         <td colspan="7" class="text-center">
                                             <i class="fa-solid fa-bell-slash fa-2x my-3"></i>
-                                            <p class="fw-bold">No matching interactions for this period</p>
+                                            <p class="fw-bold">{{ __('No matching interactions for this period') }}</p>
                                         </td>
                                     </tr>
                                 @endforelse
@@ -390,7 +390,7 @@
                     @else
                         <div class="text-center my-3">
                             <i class="fa-solid fa-eye-slash fa-2x"></i>
-                            <h5 class="my-3">No interactions yet</h5>
+                            <h5 class="my-3">{{ __('No interactions yet') }}</h5>
                         </div>
                     @endif
                 </div>
@@ -398,7 +398,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <a href="{{route('user.videos.index')}}" class="btn btn-primary btn-sm">
                             <i class="fa-solid fa-eye"></i>&nbsp;
-                            See all interactions
+                            {{ __('See all interactions') }}
                         </a>
                     </div>
                 </div>

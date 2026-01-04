@@ -6,6 +6,7 @@ import {report} from "@/api/clipzone";
 import {Button} from "@/components/Commons";
 import {Fragment} from "preact";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     buttonClass: string,
@@ -26,7 +27,9 @@ export function Main ({buttonClass, reportedClass, type, id} : Props)  {
         onSuccess: () => {
             setReported(true);
         }
-    })
+    });
+
+    const { t } = useTranslation();
 
     const handleSubmit = (event: any) => {
 
@@ -43,29 +46,30 @@ export function Main ({buttonClass, reportedClass, type, id} : Props)  {
                 !reported &&
                 <button className={buttonClass + ' d-flex gap-2 items-center'} onClick={() => setOpen(true)}>
                     <i class="fa-regular fa-flag"></i>
-                    <span>Report</span>
+                    <span>{t('Report')}</span>
                 </button>
             }
             {
                 reported &&
                 <div class={reportedClass}>
                     <i class="fa-regular fa-flag"></i>
-                   <span>Reported a few seconds ago</span>
+                   <span>{t('Reported a few seconds ago')}</span>
                 </div>
             }
             <Modal size={'lg'} show={open} onHide={() => setOpen(false)} animation={true}>
                 <Modal.Header closeButton>
-                    <h5 className="modal-title">Report {type}</h5>
+                    <h5 className="modal-title">
+                        {t('report.type', {type: t(type)})}
+                    </h5>
                 </Modal.Header>
                 <Modal.Body className="ms-3 mt-2">
                     {
                         reported &&
                         <div className={'text-center'}>
                             <img className="img-fluid" src="/images/reports/ok.jpg" alt="Report success"/>
-                            <h3 className="my-4">Thanks for reporting</h3>
+                            <h3 className="my-4">{t('Thanks for reporting')}</h3>
                             <p className="text-muted mt-4">
-                                If we find this content to be in violation of our Community Guidelines, we will remove
-                                it.
+                                {t('If we find this content to be in violation of our Community Guidelines, we will remove it.')}
                             </p>
                         </div>
                     }
@@ -77,14 +81,14 @@ export function Main ({buttonClass, reportedClass, type, id} : Props)  {
                                     <div className="form-check mb-3">
                                         <input className="form-check-input" type="radio" name="reason" id={'reason-' + index} value={reason} required/>
                                         <label className="form-check-label" htmlFor={'reason-' + index}>
-                                            {reason}
+                                            {t(reason)}
                                         </label>
                                     </div>
                                 ))
                             }
                             <hr/>
                             <div className="mb-3">
-                                <label htmlFor="comment" className="form-label">Provide additional details</label>
+                                <label htmlFor="comment" className="form-label">{t('Provide additional details')}</label>
                                 <textarea
                                     className="form-control"
                                     id="comment"
@@ -99,11 +103,13 @@ export function Main ({buttonClass, reportedClass, type, id} : Props)  {
                             </div>
                             <input type="hidden" name="id" value={id}/>
                             <input type="hidden" name="type" value={'App\\Models\\' + type.charAt(0).toUpperCase() + type.slice(1)}/>
-                            <p className="text-muted text-sm mt-4">
-                                Reported videos, comments and users are reviewed by staff 24 hours a day,
-                                7 days a week to determine whether they violate Community Guidelines.
-                                You can follow the progress of your reports from your account : <a target="_blank" className="text-decoration-none" href="/profile/reports">See my reports</a>
-                            </p>
+                            <div className="text-muted text-sm mt-3">
+                                <span className={'mb-0'}>
+                                    {t('Reported videos, comments and users are reviewed by staff 24 hours a day, 7 days a week to determine whether they violate Community Guidelines.You can follow the progress of your reports from your account')}
+                                </span>
+                                <span> : </span>
+                                <a target="_blank" className="text-decoration-none" href="/profile/reports">{t('See my reports')}</a>
+                            </div>
                         </form>
                     }
                 </Modal.Body>
@@ -111,15 +117,15 @@ export function Main ({buttonClass, reportedClass, type, id} : Props)  {
                     {
                         !reported &&
                         <Fragment>
-                            <button type="button" className="btn btn-secondary" onClick={() => setOpen(false)}>Cancel</button>
+                            <button type="button" className="btn btn-secondary" onClick={() => setOpen(false)}>{t('Cancel')}</button>
                             <Button small={false} form={'report-form'} type="submit" loading={isPending} color={'primary'}>
-                                Report
+                                {t('Report')}
                             </Button>
                         </Fragment>
                     }
                     {
                         reported &&
-                        <button type="button" className="btn btn-secondary" onClick={() => setOpen(false)}>Close</button>
+                        <button type="button" className="btn btn-secondary" onClick={() => setOpen(false)}>{t('Close')}</button>
                     }
 
                 </Modal.Footer>

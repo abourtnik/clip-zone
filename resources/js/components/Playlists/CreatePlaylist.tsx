@@ -5,6 +5,7 @@ import {useErrorMutation} from "@/hooks";
 import {PlaylistCreateDataSchema, Paginator, PlaylistType, PlaylistCreateData} from "@/types";
 import {createPlaylist} from "@/api/clipzone";
 import {produce} from "immer";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     open: boolean
@@ -17,7 +18,9 @@ export function CreatePlaylist ({open, setOpen} : Props) {
 
     const form = useRef<HTMLFormElement>(null);
 
-    const queryClient = useQueryClient()
+    const queryClient = useQueryClient();
+
+    const { t } = useTranslation();
 
     const {mutate, isPending} = useErrorMutation({
         mutationFn: (data: PlaylistCreateData) => createPlaylist(data),
@@ -53,7 +56,7 @@ export function CreatePlaylist ({open, setOpen} : Props) {
                 open &&
                 <form ref={form} onSubmit={handleSubmit} className="card card-body bg-light">
                     <div className="mb-3">
-                        <label htmlFor="title" className="form-label">Title</label>
+                        <label htmlFor="title" className="form-label">{t('Title')}</label>
                         <input
                             type="text"
                             className="form-control"
@@ -69,17 +72,19 @@ export function CreatePlaylist ({open, setOpen} : Props) {
                         </div>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="status" className="form-label">Visibility</label>
+                        <label htmlFor="status" className="form-label">{t('Visibility')}</label>
                         <select className="form-control" name="status" id="status" required>
-                            <option selected value="0">Public</option>
-                            <option value="1">Private</option>
-                            <option value="2">Unlisted</option>
+                            <option selected value="0">{t('Public')}</option>
+                            <option value="1">{t('Private')}</option>
+                            <option value="2">{t('Unlisted')}</option>
                         </select>
                     </div>
                     <div className="d-flex gap-2 justify-content-end">
-                        <button onClick={() => setOpen(false)} type="button" className="btn btn-secondary btn-sm">Cancel</button>
+                        <button onClick={() => setOpen(false)} type="button" className="btn btn-secondary btn-sm">
+                            {t('Cancel')}
+                        </button>
                         <Button type={'submit'} loading={isPending} color={'success'}>
-                            Create
+                            {t('Create')}
                         </Button>
                     </div>
                 </form>

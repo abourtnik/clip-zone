@@ -7,6 +7,7 @@ import HistoryItem from "@/components/History/HistoryItem";
 import moment from "moment/moment";
 import {Button, Modal} from "react-bootstrap";
 import {useState} from "preact/hooks";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     item: {
@@ -23,6 +24,8 @@ export default function HistoryDate ({item} : Props) {
     const queryClient = useQueryClient();
 
     const [confirm, setConfirm] = useState<boolean>(false);
+
+    const { t } = useTranslation();
 
     const {
         mutateAsync,
@@ -41,8 +44,8 @@ export default function HistoryDate ({item} : Props) {
     });
 
     const calendarDate: string = moment(item.date).calendar({
-            sameDay: '[Today]',
-            lastDay: '[Yesterday]',
+            sameDay: `[${t('Today')}]`,
+            lastDay: `[${t('Yesterday')}]`,
             lastWeek: 'dddd',
             sameElse: function () {
                 if (new Date(item.date).getFullYear() === new Date().getFullYear()) {
@@ -74,15 +77,17 @@ export default function HistoryDate ({item} : Props) {
             </div>
             <Modal show={confirm} onHide={() => setConfirm(false)}>
                 <Modal.Header closeButton>
-                    <h5 className="modal-title">Clear {calendarDate} history ?</h5>
+                    <h5 className="modal-title">
+                        {t('clearHistory', {date: calendarDate})}
+                    </h5>
                 </Modal.Header>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setConfirm(false)}>
-                        Close
+                        {t('Close')}
                     </Button>
                     <Button variant="danger" onClick={handleDelete} disabled={isPending}>
                         {isPending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>}
-                        Delete
+                        {t('Delete')}
                     </Button>
                 </Modal.Footer>
             </Modal>

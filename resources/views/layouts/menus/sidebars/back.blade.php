@@ -17,7 +17,7 @@
                 @foreach(config('menu.'.$type) as $menu)
                     <x-sidebar-item route="{{route($menu['route'])}}" newTab="{{$menu['new_tab'] ?? false}}" style="height: 3rem">
                         <i style="width: 24px" class="fa-solid fa-{{$menu['icon']}}"></i>
-                        <span class="text-sm">{{$menu['title']}}</span>
+                        <span class="text-sm">{{__($menu['title'])}}</span>
                     </x-sidebar-item>
                 @endforeach
             </ul>
@@ -34,10 +34,10 @@
                             @if(auth()->user()->is_premium)
                                 <div class="badge bg-warning">
                                     <i class="fa-solid fa-star"></i>
-                                    <span>Premium account</span>
+                                    <span>{{ __('Premium account') }}</span>
                                 </div>
                             @else
-                                <div class="badge bg-secondary">Standard account</div>
+                                <div class="badge bg-secondary">{{ __('Standard account') }}</div>
                             @endif
                         </div>
                     </a>

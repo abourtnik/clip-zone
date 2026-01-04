@@ -64,7 +64,7 @@
                     @elseif(!Auth::check())
                         <button
                             type="button"
-                            class="btn btn-danger rounded-4 px-3"
+                            class="btn btn-dark rounded-4 px-3"
                             data-bs-toggle="popover"
                             data-bs-placement="right"
                             data-bs-title="{{ __('Want to subscribe to this channel ?') }}"

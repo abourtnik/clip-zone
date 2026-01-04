@@ -19,14 +19,14 @@
                     <div class="d-flex align-items-center gap-1 mb-2">
                         <div class="text-sm">{{trans_choice('videos', $videos->count())}}</div>
                         <div class="text-sm">•</div>
-                        <div class="text-sm">Created {{$playlist->created_at->diffForHumans()}}</div>
+                        <div class="text-sm">{{ __('Created') }} {{$playlist->created_at->diffForHumans()}}</div>
                     </div>
-                    <div class="text-sm mb-3">Updated {{$playlist->updated_at->diffForHumans()}}</div>
+                    <div class="text-sm mb-3">{{ __('Updated') }} {{$playlist->updated_at->diffForHumans()}}</div>
                     <div class="d-flex gap-2">
                         @if($playlist->first_video)
                             <a href="{{$playlist->first_video->routeWithParams(['list' => $playlist->uuid])}}" class="btn btn-danger btn-sm d-flex gap-2 align-items-center">
                                 <i class="fa-solid fa-play"></i>
-                                <span>Play All</span>
+                                <span>{{ __('Play All') }}</span>
                             </a>
                         @endif
                         @auth
@@ -39,7 +39,7 @@
                                     data-method="POST"
                                 >
                                     <i class="fa-regular fa-heart"></i>
-                                    <span>Add to favorites</span>
+                                    <span>{{ __('Add to favorites') }}</span>
                                 </button>
                                 <button
                                     x-show.important="favorite"
@@ -49,7 +49,7 @@
                                     data-method="POST"
                                 >
                                     <i class="fa-solid fa-heart"></i>
-                                    <span>Remove from favorites</span>
+                                    <span>{{ __('Remove from favorites') }}</span>
                                 </button>
                             @endcan
                         @else
@@ -58,13 +58,13 @@
                                 class="btn btn-primary btn-sm"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
-                                data-bs-title="Want to save this playlist ?"
+                                data-bs-title="{{ __('Want to save this playlist ?') }}"
                                 data-bs-trigger="focus"
                                 data-bs-html="true"
-                                data-bs-content="Sign in to save this playlist.<hr><a href='/login' class='btn btn-primary btn-sm'>Sign in</a>"
+                                data-bs-content="{{ __('Sign in to save this playlist') }}.<hr><a href='/login' class='btn btn-primary btn-sm'>{{ __('Sign In') }}</a>"
                             >
                                 <i class="fa-regular fa-heart"></i>
-                                <span>Add to favorites</span>
+                                <span>{{ __('Add to favorites') }}</span>
                             </button>
                         @endauth
                     </div>
@@ -99,8 +99,8 @@
                                                 <div class="bg-secondary text-white d-flex flex-column justify-content-center align-items-center w-100 gap-2" style="height: 100px">
                                                     <i class="fa-solid fa-lock fa-1x"></i>
                                                     <div class="text-center text-sm">
-                                                        <div class='text-sm fw-bold'>This video is private</div>
-                                                        <div class='text-sm'>The author update video status to private</div>
+                                                        <div class='text-sm fw-bold'>{{ __('This video is private') }}</div>
+                                                        <div class='text-sm'>{{ __('The author update video status to private') }}</div>
                                                     </div>
                                                 </div>
                                             </div>

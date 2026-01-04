@@ -7,6 +7,7 @@ import {PlaylistSaveDataSchema, PlaylistSaveData, PlaylistType, Paginator} from 
 import {CreatePlaylist} from "@/components/Playlists/CreatePlaylist";
 import {useCursorQuery, useErrorMutation} from "@/hooks";
 import {produce} from "immer";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     video: number
@@ -20,6 +21,8 @@ export function Main ({video}: Props) {
     const isSaving = useIsMutating({
         mutationKey: ['playlist.save'],
     });
+
+    const { t } = useTranslation();
 
     const {
         data: playlists,
@@ -40,33 +43,33 @@ export function Main ({video}: Props) {
         <>
             <button
                 type={'button'}
-                className="btn bg-light-dark btn-sm rounded-4 px-4"
+                className="btn bg-light-dark btn-sm rounded-4 px-4 d-flex align-items-center gap-1"
                 title="Save video"
                 onClick={() => setOpen(true)}
             >
                 <i class="fa-regular fa-bookmark"></i>&nbsp;
-                Save
+                {t('Save')}
             </button>
             <Modal show={open} onHide={() => setOpen(false)}>
                 <Modal.Header closeButton>
-                    <h5 className="modal-title">Save Video to ...</h5>
+                    <h5 className="modal-title">{t('Save Video to ...')}</h5>
                 </Modal.Header>
                 <Modal.Body className={'overflow-y-auto'} style={{'max-height': '500px'}}>
                     {
                         isLoading &&
                         <div className={'alert alert-primary d-flex align-items-center gap-3 mb-0'}>
                             <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                            <span>Loading your playlists ...</span>
+                            <span>{t('Loading your playlists ...')}</span>
                         </div>
                     }
                     {
                         isError &&
                         <div class="border border-1 bg-light text-center p-3">
                             <i class="fa-solid fa-triangle-exclamation fa-3x"></i>
-                            <h3 class="h5 my-3 fw-normal">Something went wrong !</h3>
-                            <p class="text-muted">If the issue persists please contact us.</p>
+                            <h3 class="h5 my-3 fw-normal">{t('Something went wrong !')}</h3>
+                            <p class="text-muted">{t('If the issue persists please contact us.')}</p>
                             <button className="btn btn-primary rounded-5 text-uppercase btn-sm" onClick={() => refetch()}>
-                                Try again
+                                {t('Try again')}
                             </button>
                         </div>
                     }
@@ -83,8 +86,8 @@ export function Main ({video}: Props) {
                                 :
                                 <div className="d-flex flex-column justify-content-center align-items-center p-5">
                                     <i className="fa-solid fa-bell-slash fa-2x"></i>
-                                    <h5 className="mt-3 fs-6">Your don't have playlists yet</h5>
-                                    <p className="text-muted text-center text-sm">Create your first playlist to start saving videos</p>
+                                    <h5 className="mt-3 fs-6">{t('Your don\'t have playlists yet')}</h5>
+                                    <p className="text-muted text-center text-sm">{t('Create your first playlist to start saving videos')}</p>
                                 </div>
                         )
                     }
@@ -92,7 +95,7 @@ export function Main ({video}: Props) {
                         isFetchingNextPage &&
                         <div className={'d-flex justify-content-center align-items-center py-3'}>
                             <div class="spinner-border text-primary spinner-border-sm" role="status">
-                                <span class="visually-hidden">Loading...</span>
+                                <span class="visually-hidden">{t('Loading...')}</span>
                             </div>
                         </div>
                     }
@@ -102,7 +105,7 @@ export function Main ({video}: Props) {
                     <div className="d-flex justify-content-between w-100 align-items-center">
                         <button onClick={() => setOpenCreate(v => !v)} className="btn btn-success btn-sm">
                             <i className="fa-solid fa-plus"></i>&nbsp;
-                            Create new playlist
+                            {t('Create new playlist')}
                         </button>
                         {
                             (isSaving > 0) &&

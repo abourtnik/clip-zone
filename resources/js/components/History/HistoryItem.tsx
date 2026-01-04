@@ -4,6 +4,7 @@ import {removeFromHistory} from "@/api/clipzone";
 import {useQueryClient} from "@tanstack/react-query";
 import {produce} from "immer";
 import {Video} from "@/components/Videos";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     view: {
@@ -15,6 +16,8 @@ type Props = {
 export default function HistoryItem ({view} : Props) {
 
     const queryClient = useQueryClient();
+
+    const { t } = useTranslation();
 
     const {mutate: remove}= useErrorMutation({
         mutationFn: () => removeFromHistory(view.id),
@@ -34,7 +37,7 @@ export default function HistoryItem ({view} : Props) {
 
     const actions = [
         {
-            label: 'Remove from history',
+            label: t('Remove from history'),
             icon: 'trash',
             action: remove
         }

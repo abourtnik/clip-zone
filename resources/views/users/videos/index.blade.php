@@ -2,14 +2,14 @@
 
 @extends('layouts.user')
 
-@section('title', 'Channel videos')
+@section('title', __('Channel videos'))
 
 @section('content')
     @if($videos->total() || request()->all())
     <div x-data="{selected:[], video: {}}">
         {{ Breadcrumbs::render('videos') }}
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h2 class="mb-0">My Videos</h2>
+            <h2 class="mb-0">{{ __('My Videos') }}</h2>
             <div class="d-flex align-items-center gap-1">
                 <button
                     x-show.important="selected.length > 0"
@@ -25,7 +25,7 @@
                 </button>
                 <button class="btn btn-success d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#video_create">
                     <i class="fa-solid fa-upload"></i>
-                    &nbsp;<span>Import new video</span>
+                    &nbsp;<span>{{ __('Import new video')}}</span>
                 </button>
             </div>
         </div>
@@ -45,14 +45,14 @@
                 <thead>
                     <tr style="border-top: 3px solid #0D6EFD;">
                         <th scope="col"></th>
-                        <th scope="col" class="w-40" style="min-width: 400px">Video</th>
-                        <th scope="col">Status</th>
-                        <th scope="col" style="min-width: 180px;">Date</th>
-                        <th scope="col">Views</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Comments</th>
-                        <th scope="col" style="min-width: 170px;">Interactions</th>
-                        <th scope="col">Actions</th>
+                        <th scope="col" class="w-40" style="min-width: 400px">{{ __('Video') }}</th>
+                        <th scope="col">{{ __('Status') }}</th>
+                        <th scope="col" style="min-width: 180px;">{{ __('Date') }}</th>
+                        <th scope="col">{{ __('Views') }}</th>
+                        <th scope="col">{{ __('Category') }}</th>
+                        <th scope="col">{{ __('Comments') }}</th>
+                        <th scope="col" style="min-width: 170px;">{{ __('Interactions') }}</th>
+                        <th scope="col">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -105,7 +105,7 @@
                                     </a>
                                 @else
                                     <div class="badge bg-secondary">
-                                        No views
+                                        {{ __('No views') }}
                                     </div>
                                 @endif
                             @endif
@@ -118,7 +118,7 @@
                                     </div>
                                 @else
                                     <div class="badge bg-secondary">
-                                        No category
+                                        {{ __('No category') }}
                                     </div>
                                 @endif
                             @endif
@@ -131,7 +131,7 @@
                                     </a>
                                 @else
                                     <div class="badge bg-secondary">
-                                        No comments
+                                        {{ __('No comments') }}
                                     </div>
                                 @endif
                                 @if(!$video->allow_comments)
@@ -147,12 +147,12 @@
                                 <div class="d-flex align-items-center gap-1">
                                     @if($video->interactions_count)
                                         <div class="badge bg-primary mt-2" data-bs-toggle="modal" data-bs-target="#video_likes" style="cursor: pointer;" data-id="{{$video->id}}">
-                                            Details
+                                            {{ __('Details') }}
                                         </div>
                                     @endif
                                     @if(!$video->show_likes)
                                         <div class="badge bg-danger mt-2">
-                                            Disabled
+                                            {{ __('Disabled') }}
                                         </div>
                                     @endif
                                 </div>
@@ -222,7 +222,7 @@
                     <tr>
                         <td colspan="8" class="text-center">
                             <i class="fa-solid fa-database fa-2x my-3"></i>
-                            <p class="fw-bold">No matching videos</p>
+                            <p class="fw-bold">{{ __('No matching videos') }}</p>
                         </td>
                     </tr>
                 @endforelse
@@ -239,13 +239,13 @@
             <div class="card-body d-flex justify-content-center align-items-center">
                 <div class="my-3 text-center">
                     <i class="fa-solid fa-upload fa-2x"></i>
-                    <h5 class="my-3">Import your first video</h5>
+                    <h5 class="my-3">{{ __('Import your first video') }}</h5>
                     <div class="text-muted my-3">
-                        Ready to share your talents with the world ?
+                        {{ __('Ready to share your talents with the world ?') }}
                     </div>
                     <button class="btn btn-success btn" data-bs-toggle="modal" data-bs-target="#video_create">
                         <i class="fa-solid fa-plus"></i>
-                        Import
+                        {{ __('Import') }}
                     </button>
                 </div>
             </div>

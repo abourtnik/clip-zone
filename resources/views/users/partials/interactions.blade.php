@@ -34,6 +34,6 @@
     </div>
 @else
     <div class="badge bg-secondary">
-        No interactions
+        {{ __('No interactions') }}
     </div>
 @endif

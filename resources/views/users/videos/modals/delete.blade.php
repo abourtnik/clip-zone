@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Permanently delete this video? </h5>
+                <h5 class="modal-title">{{ __('Permanently delete this video ?') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -23,8 +23,8 @@
                     </div>
                 </div>
                 <div class="alert alert-danger">
-                    <p class="fw-bold">Deleting video is permanent and can't be undone</p>
-                    <p>The deletion of a video automatically leads to the deletion of comments as well as related interactions.</p>
+                    <p class="fw-bold">{{ __('Deleting video is permanent and can\'t be undone') }}</p>
+                    <p>{{ __('The deletion of a video automatically leads to the deletion of comments as well as related interactions.') }}</p>
                     <ul>
                         <li x-text="video.comments"></li>
                         <li x-text="video.likes"></li>
@@ -35,16 +35,16 @@
             <div class="modal-footer d-flex" :class="{ 'justify-content-between': video.canDownload, 'justify-content-end': !video.canDownload }">
                 <a :download="video.title" :href="video.download" class="btn btn-info text-white" x-show="video.canDownload">
                     <i class="fa-solid fa-download"></i> &nbsp;
-                    Download video
+                    {{ __('Download video') }}
                 </a>
                 <div class="d-flex gap-1">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                     <form method="POST" :action="video.route">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger">
                             <i class="fa-solid fa-trash"></i> &nbsp;
-                            Delete video
+                            {{ __('Delete video') }}
                         </button>
                     </form>
                 </div>
