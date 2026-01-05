@@ -2,17 +2,17 @@
 
 @extends('layouts.user')
 
-@section('title', 'Channel playlists')
+@section('title', __('Channel playlists'))
 
 @section('content')
     @if($playlists->total() || request()->all())
     <div x-data={playlist:{}}>
         {{ Breadcrumbs::render('playlists') }}
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h2>My Playlists</h2>
+            <h2>{{ __('My Playlists') }}</h2>
             <a href="{{route('user.playlists.create')}}" class="btn btn-success d-flex align-items-center gap-1">
                 <i class="fa-solid fa-plus"></i>
-                <span>Create new playlist</span>
+                <span>{{ __('Create new playlist') }}</span>
             </a>
         </div>
         <hr>
@@ -21,12 +21,12 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th scope="col" class="w-40" style="min-width: 370px;">Playlist</th>
-                    <th scope="col">Visibility</th>
-                    <th scope="col" style="min-width: 120px;">Created</th>
-                    <th scope="col" style="min-width: 120px;">Updated</th>
-                    <th scope="col">Videos count</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col" class="w-40" style="min-width: 370px;">{{ __('Playlist') }}</th>
+                    <th scope="col">{{ __('Visibility') }}</th>
+                    <th scope="col" style="min-width: 120px;">{{ __('Created') }}</th>
+                    <th scope="col" style="min-width: 120px;">{{ __('Updated') }}</th>
+                    <th scope="col">{{ __('Videos count') }}</th>
+                    <th scope="col">{{ __('Actions') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -50,7 +50,7 @@
                         <td class="align-middle">
                             <span class="badge bg-{{$playlist->status->color()}}">
                                 <i class="fa-solid fa-{{$playlist->status->icon()}}"></i>&nbsp;
-                                {{$playlist->status->name()}}
+                                {{__($playlist->status->name())}}
                             </span>
                         </td>
                         <td class="align-middle">
@@ -94,7 +94,7 @@
                     <tr>
                         <td colspan="8" class="text-center">
                             <i class="fa-solid fa-database fa-2x my-3"></i>
-                            <p class="fw-bold">No matching playlists</p>
+                            <p class="fw-bold">{{ __('No matching playlists') }}</p>
                         </td>
                     </tr>
                 @endforelse
@@ -109,11 +109,11 @@
             <div class="card-body d-flex justify-content-center align-items-center">
                 <div class="my-3 text-center">
                     <i class="fa-solid fa-plus fa-2x"></i>
-                    <h5 class="my-3">Create your first Playlist</h5>
-                    <div class="text-muted my-3">Some description</div>
+                    <h5 class="my-3">{{ __('Create your first Playlist') }}</h5>
+                    <div class="text-muted my-3">{{ __('Create your first playlist to start organizing your videos.') }}</div>
                     <a href="{{route('user.playlists.create')}}" class="btn btn-success">
                         <i class="fa-solid fa-plus"></i>
-                        Create Playlist
+                        {{ __('Create new playlist') }}
                     </a>
                 </div>
             </div>

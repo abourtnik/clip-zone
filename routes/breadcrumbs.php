@@ -10,12 +10,12 @@ use Diglactic\Breadcrumbs\Generator as BreadcrumbTrail;
 // VIDEOS
 
 Breadcrumbs::for('videos', function (BreadcrumbTrail $trail) {
-    $trail->push('Videos', route('user.videos.index'));
+    $trail->push(__('Videos'), route('user.videos.index'));
 });
 
 Breadcrumbs::for('create_video', function (BreadcrumbTrail $trail, Video $video) {
     $trail->parent('videos');
-    $trail->push('Create new video', route('user.videos.create', $video));
+    $trail->push(__('Create new video'), route('user.videos.create', $video));
 });
 
 Breadcrumbs::for('edit_video', function (BreadcrumbTrail $trail, Video $video) {
@@ -32,13 +32,13 @@ Breadcrumbs::for('show_video', function (BreadcrumbTrail $trail, Video $video) {
 
 // Index
 Breadcrumbs::for('playlists', function (BreadcrumbTrail $trail) {
-    $trail->push('Playlists', route('user.playlists.index'));
+    $trail->push(__('Playlists'), route('user.playlists.index'));
 });
 
 // Playlists > Create Playlist
 Breadcrumbs::for('create_playlist', function (BreadcrumbTrail $trail) {
     $trail->parent('playlists');
-    $trail->push('Create new playlist', route('user.playlists.create'));
+    $trail->push(__('Create new playlist'), route('user.playlists.create'));
 });
 
 // Playlists > Update Playlist [Playlist]
@@ -51,7 +51,7 @@ Breadcrumbs::for('edit_playlist', function (BreadcrumbTrail $trail, Playlist $pl
 
 // Index
 Breadcrumbs::for('subtitles', function (BreadcrumbTrail $trail) {
-    $trail->push('Subtitles', route('user.subtitles.list'));
+    $trail->push(__('Subtitles'), route('user.subtitles.list'));
 });
 
 // Video Subtitles
@@ -63,7 +63,7 @@ Breadcrumbs::for('videos_subtitles', function (BreadcrumbTrail $trail, Video $vi
 // Video Subtitles > Create Subtitle
 Breadcrumbs::for('create_subtitle', function (BreadcrumbTrail $trail, Video $video) {
     $trail->parent('videos_subtitles', $video);
-    $trail->push('Create new subtitle', route('user.videos.subtitles.create', $video));
+    $trail->push(__('Create new subtitle'), route('user.videos.subtitles.create', $video));
 });
 
 // Video Subtitles > Update Subtitle [Subtitle]
@@ -75,13 +75,13 @@ Breadcrumbs::for('edit_subtitle', function (BreadcrumbTrail $trail, Subtitle $su
 // CATEGORIES
 
 Breadcrumbs::for('categories', function (BreadcrumbTrail $trail) {
-    $trail->push('Categories', route('admin.categories.index'));
+    $trail->push(__('Categories'), route('admin.categories.index'));
 });
 
 // Categories > Create Category
 Breadcrumbs::for('create_category', function (BreadcrumbTrail $trail) {
     $trail->parent('categories');
-    $trail->push('Create new category', route('admin.categories.create'));
+    $trail->push(__('Create new category'), route('admin.categories.create'));
 });
 
 // Categories > Update Category [Category]

@@ -11,19 +11,19 @@ class ActivityFiltersForm extends FilterForm
     {
         $this
             ->add('type', Field::SELECT, [
-                'label' => 'Type',
+                'label' => __('Type'),
                 'choices' => $this->getTypes(),
                 'wrapper' => ['class' => 'col-12 col-lg'],
                 'empty_value' => 'All',
                 'selected' => $this->request->get('type'),
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
-                'label' => 'Date start',
+                'label' => __('Date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
                 'value' => $this->request->get('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
-                'label' => 'Date end',
+                'label' => __('Date end'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
                 'value' => $this->request->get('date_end')
             ]);
@@ -32,14 +32,14 @@ class ActivityFiltersForm extends FilterForm
     private function getTypes () : array
     {
         return [
-            'video_likes' => 'Video Likes',
-            'comment_likes' => 'Comment Likes',
-            'video_dislikes' => 'Video Dislikes',
-            'comment_dislikes' => 'Comment Dislikes',
-            'likes' => 'Likes',
-            'dislikes' => 'Dislikes',
-            'interactions' => 'Likes & Dislikes',
-            'comments' => 'Comments'
+            'video_likes' => __('Liked videos'),
+            'comment_likes' => __('Liked comments'),
+            'video_dislikes' => __('Disliked videos'),
+            'comment_dislikes' => __('Disliked comments'),
+            'likes' => __('Likes'),
+            'dislikes' => __('Dislikes'),
+            'interactions' => __('Likes & Dislikes'),
+            'comments' => __('Comments'),
         ];
     }
 }

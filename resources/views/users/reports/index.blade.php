@@ -2,12 +2,12 @@
 
 @extends('layouts.user')
 
-@section('title', 'Channel Reports')
+@section('title', __('Channel Reports'))
 
 @section('content')
     @if($reports->total() || request()->all())
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h2>Your Reports</h2>
+            <h2>{{ __('My Reports') }}</h2>
         </div>
         <hr>
         {!! form(FormBuilder::create(ReportFiltersForm::class)) !!}
@@ -15,12 +15,12 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th class="w-10">Type</th>
-                    <th class="w-35" style="min-width: 350px;">Content</th>
-                    <th class="w-35">Reason</th>
-                    <th>Status</th>
-                    <th style="min-width: 89px;">Date</th>
-                    <th>Action</th>
+                    <th class="w-10">{{ __('Type') }}</th>
+                    <th class="w-35" style="min-width: 350px;">{{ __('Content') }}</th>
+                    <th class="w-35">{{ __('Reason') }}</th>
+                    <th>{{ __('Status') }}</th>
+                    <th style="min-width: 89px;">{{ __('Date') }}</th>
+                    <th>{{ __('Action') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -64,7 +64,7 @@
                                     class="btn btn-sm btn-primary d-flex align-items-center gap-1"
                                 >
                                     <i class="fa-solid fa-ban"></i>&nbsp;
-                                    <span>Cancel</span>
+                                    <span>{{ __('Cancel')}}</span>
                                 </button>
                             @endif
                         </td>
@@ -73,7 +73,7 @@
                     <tr>
                         <td colspan="7" class="text-center">
                             <i class="fa-solid fa-database fa-2x my-3"></i>
-                            <p class="fw-bold">No matching reports</p>
+                            <p class="fw-bold">{{ __('No matching reports') }}</p>
                         </td>
                     </tr>
                 @endforelse
@@ -86,7 +86,7 @@
             <div class="card-body d-flex justify-content-center align-items-center">
                 <div class="my-3 text-center">
                     <i class="fa-solid fa-flag fa-2x"></i>
-                    <h5 class="my-3">You haven't submitted any reports.</h5>
+                    <h5 class="my-3">{{ __('You haven\'t submitted any reports') }}</h5>
                 </div>
             </div>
         </div>

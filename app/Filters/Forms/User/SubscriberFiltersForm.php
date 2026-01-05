@@ -11,20 +11,20 @@ class SubscriberFiltersForm extends FilterForm
     {
         $this
             ->add('search', Field::SEARCH, [
-                'label' => $this->getName(),
+                'label' => __('Search'),
                 'wrapper' => ['class' => 'col-12 col-lg'],
                 'attr' => [
-                    'placeholder' => 'Search'
+                    'placeholder' => __('Search')
                 ],
                 'value' => $this->request->get('search')
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
-                'label' => 'Subscription date start',
+                'label' => __('Subscription date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
                 'value' => $this->request->get('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
-                'label' => 'Subscription date end',
+                'label' => __('Subscription date end'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
                 'value' => $this->request->get('date_end')
             ]);

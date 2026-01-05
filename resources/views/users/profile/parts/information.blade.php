@@ -1,14 +1,14 @@
 <div class="row align-items-start my-3">
     <div class="col-12 col-xl-4">
-        <h2>Profile Information</h2>
-        <p class="text-muted">Update you account profile information's and email address.</p>
+        <h2>{{ __('Profile Information') }}</h2>
+        <p class="text-muted">{{ __('Update you account profile information\'s and email address.') }}</p>
     </div>
     <div class="col-12 col-xl-8">
         <div class="card shadow-soft my-3">
             @if (!$user->hasVerifiedEmail())
                 <div class="alert alert-primary fw-bold d-flex flex-column flex-lg-row align-items-center justify-content-between gap-4 radius-end-0 radius-start-0">
                     <div class="d-flex flex-column gap-2 text-left">
-                        <div>Please verify your email address for access all features</div>
+                        <div>{{ __('Please verify your email address for access all features') }}</div>
                         <small class="text-muted text-sm">You can verify your email until {{ $user->created_at->addMinutes(config('auth.verification.expire'))->format('d F Y H:i') }}. After that time, your account will be automatically deleted.</small>
                     </div>
                     <form
@@ -45,7 +45,7 @@
                                     :class="hover ? 'opacity-100 top-50' : 'opacity-0 top-75'"
                                     style="transition: all 0.3s ease-in-out 0s;transform: translate(-50%, -50%);"
                                 >
-                                    <div class="fw-bold">Click to update avatar</div>
+                                    <div class="fw-bold">{{ __('Click to update avatar') }}</div>
                                 </div>
                                 <image-upload
                                     name="avatar"
@@ -64,10 +64,10 @@
                                 @if($user->is_premium)
                                     <div class="badge bg-warning">
                                         <i class="fa-solid fa-star"></i>
-                                        <span>Premium account</span>
+                                        <span>{{ __('Premium account') }}</span>
                                     </div>
                                 @else
-                                    <div class="badge bg-secondary">Standard account</div>
+                                    <div class="badge bg-secondary">{{ __('Standard account')}}</div>
                                 @endif
                             </div>
                         </div>
@@ -87,29 +87,29 @@
                                 @if($user->premium_subscription->is_canceled)
                                     <p>Your subscription was canceled the <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong></p>
                                     <a class="btn btn-primary" href="{{route('pages.premium')}}">
-                                        Renew my subscription
+                                        {{ __('Renew my subscription') }}
                                     </a>
                                 @elseif($user->premium_subscription->is_trial_canceled)
                                     <p>You have canceled your subscription</p>
                                     <p>It will be automatically suspended after the : <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong>.</p>
                                     <a class="btn btn-primary" href="{{$billing_profile_url}}">
-                                        Reactivate my subscription
+                                        {{ __('Reactivate my subscription') }}
                                     </a>
                                 @elseif($user->premium_subscription->on_trial)
                                     <p>You are currently on trial period until {{$user->premium_subscription->trial_ends_at->format('d F Y')}}</p>
                                     <a class="btn btn-primary" href="{{$billing_profile_url}}">
-                                        Cancel my subscription
+                                        {{ __('Cancel my subscription') }}
                                     </a>
                                 @elseif($user->premium_subscription->is_unpaid)
                                     <p class="text-danger fw-bold">Your last payment the <strong>{{$user->premium_subscription->next_payment->subDay()->format('d F Y')}}</strong> was unsuccessful.</p>
                                     <p class="text-danger fw-bold">Please update your payment method to continue to profit premium features.</p>
                                     <a class="btn btn-primary" href="{{$billing_profile_url}}">
-                                        Update payment information
+                                        {{ __('Update payment information') }}
                                     </a>
                                 @else
                                     <p>Your next bank debit will be on : <strong>{{ $user->premium_subscription->next_payment->format('d F Y') }}</strong></p>
                                     <a class="btn btn-primary" href="{{$billing_profile_url}}">
-                                        Manage my subscription
+                                        {{ __('Manage my subscription') }}
                                     </a>
                                 @endif
                             </div>
@@ -117,7 +117,7 @@
                             <hr class="w-100 d-block d-lg-none">
                             <a class="btn btn-warning text-white fw-bold d-flex align-items-center gap-2" href="{{route('pages.premium')}}">
                                 <i class="fa-solid fa-star"></i>
-                                <span>Become premium</span>
+                                <span>{{ __('Become premium') }}</span>
                             </a>
                             <div></div>
                         @endif
@@ -125,7 +125,7 @@
                     <hr>
                     <div class="row">
                         <div class="col-12 col-sm-6 mb-3">
-                            <label for="username" class="form-label">Username</label>
+                            <label for="username" class="form-label">{{ __('Username') }}</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -141,7 +141,7 @@
                             class="col-12 col-sm-6 mb-3"
                             x-data="{ slug: '{{  $user->slug }}', valid :true }"
                         >
-                            <label for="slug" class="form-label">Handle</label>
+                            <label for="slug" class="form-label">{{ __('Handle') }}</label>
                             <div class="input-group has-validation">
                                 <span class="input-group-text">@</span>
                                 <input
@@ -160,7 +160,7 @@
                                     title="Handle can only contain letters, numbers, periods (.), dashes (-), and underscores (_)"
                                 >
                                 <div class="invalid-feedback" x-show="!valid">
-                                    Handle can only contain letters, numbers, periods (.), dashes (-), and underscores (_)
+                                    {{ __('Handle can only contain letters, numbers, periods (.), dashes (-), and underscores (_)') }}
                                 </div>
                             </div>
                             <div class="form-text" x-show="valid">
@@ -168,7 +168,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-sm-6 mb-3">
-                            <label for="email" class="form-label">Email</label>
+                            <label for="email" class="form-label">{{ __('Email') }}</label>
                             <input type="email" class="form-control" id="email" name="email" required value="{{old('email', $user->email)}}" @disabled($user->getTemporaryEmailForVerification())>
                             @if($user->getTemporaryEmailForVerification())
                                 <p class="form-text text-danger text-sm mb-1">

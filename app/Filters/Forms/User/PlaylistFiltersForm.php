@@ -12,27 +12,27 @@ class PlaylistFiltersForm extends FilterForm
     {
         $this
             ->add('search', Field::SEARCH, [
-                'label' => $this->getName(),
+                'label' => __('Search'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl col-xxl-3'],
                 'attr' => [
-                    'placeholder' => 'Search'
+                    'placeholder' => __('Search')
                 ],
                 'value' => $this->request->get('search')
             ])
             ->add('status', Field::SELECT, [
-                'label' => 'Status',
+                'label' => __('Status'),
                 'choices' => PlaylistStatus::get(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->get('status'),
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
-                'label' => 'Publication date start',
+                'label' => __('Publication date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl'],
                 'value' => $this->request->get('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
-                'label' => 'Publication date start',
+                'label' => __('Publication date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl'],
                 'value' => $this->request->get('date_end')
             ]);

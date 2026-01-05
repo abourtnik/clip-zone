@@ -2,13 +2,13 @@
 
 @extends('layouts.user')
 
-@section('title', 'Channel comments')
+@section('title', __('Channel comments'))
 
 @section('content')
     @if($comments->total() || request()->all())
         <div x-data={comment:{}}>
             <div class="d-flex justify-content-between align-items-center mt-3">
-                <h2 class="mb-0">Your videos comments</h2>
+                <h2 class="mb-0">{{ __('Your videos comments') }}</h2>
             </div>
             <hr>
             {!! form(FormBuilder::create(CommentFiltersForm::class)) !!}
@@ -16,11 +16,11 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                     <tr style="border-top: 3px solid #0D6EFD;">
-                        <th class="w-40" style="min-width: 400px">Video</th>
-                        <th class="w-50" style="min-width: 400px">Comment</th>
-                        <th style="min-width: 140px">Replies</th>
-                        <th style="min-width: 170px;">Interactions</th>
-                        <th>Action</th>
+                        <th class="w-40" style="min-width: 400px">{{ __('Video') }}</th>
+                        <th class="w-50" style="min-width: 400px">{{ __('Comment') }}</th>
+                        <th style="min-width: 140px">{{ __('Replies') }}</th>
+                        <th style="min-width: 170px;">{{ __('Interactions') }}</th>
+                        <th>{{ __('Action') }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -44,7 +44,7 @@
                                             <a class="text-sm text-decoration-none" href="{{$comment->user->route}}">{{$comment->user->username}}</a>
                                             <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
                                             @if($comment->is_updated)
-                                                <small class="text-muted text-muted fw-semibold">&nbsp;• Modified</small>
+                                                <small class="text-muted text-muted fw-semibold">&nbsp;• {{ __('Modified')}}</small>
                                             @endif
                                         </div>
                                         <x-expand-item>
@@ -63,7 +63,7 @@
                                     </button>--}}
                                 @else
                                     <div class="badge bg-secondary">
-                                        No replies
+                                        {{ __('No replies') }}
                                     </div>
                                 @endif
                             </td>
@@ -81,7 +81,7 @@
                                     @click="comment = $el.dataset"
                                 >
                                     <i class="fa-solid fa-trash"></i>
-                                    Remove
+                                    {{ __('Remove') }}
                                 </button>
                             </td>
                         </tr>
@@ -89,7 +89,7 @@
                         <tr>
                             <td colspan="7" class="text-center">
                                 <i class="fa-solid fa-database fa-2x my-3"></i>
-                                <p class="fw-bold">No matching comments</p>
+                                <p class="fw-bold">{{ __('No matching comments') }}</p>
                             </td>
                         </tr>
                     @endforelse
@@ -105,11 +105,11 @@
             <div class="card-body d-flex justify-content-center align-items-center">
                 <div class="my-3 text-center">
                     <i class="fa-solid fa-comment-slash fa-2x"></i>
-                    <h5 class="my-3">No comments yet</h5>
-                    <div class="text-muted my-3">Upload more video for more comments</div>
+                    <h5 class="my-3">{{ __('No comments yet') }}</h5>
+                    <div class="text-muted my-3">{{ __('Upload more video for more comments') }}</div>
                     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#video_create">
                         <i class="fa-solid fa-plus"></i>
-                        Upload new video
+                        {{ __('Upload new video') }}
                     </button>
                 </div>
             </div>

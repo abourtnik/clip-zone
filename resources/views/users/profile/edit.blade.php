@@ -1,11 +1,11 @@
 @extends('layouts.user')
 
-@section('title', 'Account settings')
+@section('title', __('Account settings'))
 
 @section('content')
     @if ($errors->any())
         <div class="alert alert-danger mt-3">
-            <p class="fw-bold">Oups some fields are incorrect</p>
+            <p class="fw-bold">{{ __('Oups some fields are incorrect') }}</p>
             <ul>
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>

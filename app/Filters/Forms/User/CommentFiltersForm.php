@@ -13,23 +13,23 @@ class CommentFiltersForm extends FilterForm
     {
         $this
             ->add('search', Field::SEARCH, [
-                'label' => $this->getName(),
+                'label' => __('Search'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl col-xxl-3'],
                 'attr' => [
-                    'placeholder' => 'Search'
+                    'placeholder' => __('Search')
                 ],
                 'value' => $this->request->get('search')
             ])
             ->add('video', Field::ENTITY, [
                 'class' => Video::class,
-                'label' => 'Video',
+                'label' => __('Video'),
                 'property' => 'title',
                 'property_key' => 'id',
                 'query_builder' => function (Video $video) {
                     return $video->where('user_id', Auth::user()->id);
                 },
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->get('video'),
             ])
             ->add('user', 'autocomplete', [
@@ -37,12 +37,12 @@ class CommentFiltersForm extends FilterForm
                 'endpoint' => route('search.users')
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
-                'label' => 'Publication date start',
+                'label' => __('Publication date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'value' => $this->request->get('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
-                'label' => 'Publication date end',
+                'label' => __('Publication date end'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'value' => $this->request->get('date_end')
             ]);

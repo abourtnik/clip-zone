@@ -27,9 +27,8 @@ class SubtitleController extends Controller
             'videos' => Video::query()
                 ->public()
                 ->where('user_id', Auth::id())
-                ->withCount('subtitles')
                 ->with([
-                    'subtitles' => fn($q) => $q->latest('updated_at')->limit(1)
+                    'subtitles' => fn($q) => $q->latest('updated_at')
                 ])
                 ->latest()
                 ->paginate(15)

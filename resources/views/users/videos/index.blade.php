@@ -88,13 +88,13 @@
                         <td class="align-middle">
                             @if($video->is_private || $video->is_unlisted || $video->is_draft|| $video->is_failed)
                                 <small>{{$video->created_at->format('d F Y H:i')}}</small>
-                                <div class="text-sm text-muted">Uploaded</div>
+                                <div class="text-sm text-muted">{{ __('Uploaded') }}</div>
                             @elseif($video->is_planned)
                                 <small>{{$video->scheduled_at->format('d F Y H:i')}}</small>
-                                <div class="text-sm text-muted">Scheduled</div>
+                                <div class="text-sm text-muted">{{ __('Scheduled') }}</div>
                             @else
                                 <small>{{$video->published_at->format('d F Y H:i')}}</small>
-                                <div class="text-sm text-muted">Published</div>
+                                <div class="text-sm text-muted">{{ __('Published') }}</div>
                             @endif
                         </td>
                         <td class="align-middle">
