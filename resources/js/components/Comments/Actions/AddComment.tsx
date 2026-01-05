@@ -55,7 +55,7 @@ export const AddComment = memo(({video_id, placeholder = 'Add a comment...', lab
                 window.USER ?
                     <form onSubmit={handleSubmit}>
                         <div className={'d-flex align-items-start gap-2'}>
-                            <img className={'rounded-circle img-fluid'} src={window.USER.avatar} alt={'user avatar'} style="width: 50px;"/>
+                            <img className={'rounded-circle img-fluid'} src={window.USER.avatar} alt={'user avatar'} style="width: 40px;"/>
                             <div className="mb-2 w-100">
                                 <label htmlFor="message-content" className="form-label d-none"></label>
                                 <textarea

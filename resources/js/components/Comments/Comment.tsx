@@ -31,7 +31,7 @@ const Comment = memo(({comment} : Props) => {
     return (
         <article className="d-flex mb-3 gap-2">
             <a href={comment.user.route} className={'h-100'}>
-                <img className="rounded-circle img-fluid" src={comment.user.avatar} alt={comment.user.username + ' avatar'} style="width: 50px;"/>
+                <img className="rounded-circle img-fluid" src={comment.user.avatar} alt={comment.user.username + ' avatar'} style="width: 40px;"/>
             </a>
             <div className={'w-100'}>
                 <div className={'border p-3 bg-white'}>

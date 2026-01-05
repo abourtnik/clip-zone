@@ -273,7 +273,7 @@
                                 <h5 class="offcanvas-title">{{__('Comments')}}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
-                            <div id="offcanvas-body" class="offcanvas-body"></div>
+                            <div id="offcanvas-body" class="offcanvas-body bg-surface-light"></div>
                         </div>
                     </div>
                 @else
