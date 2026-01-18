@@ -18,8 +18,9 @@ export function useSearchQuery<TData = unknown> ({query, key, searchFn, debounce
     const queryResult = useQuery({
         queryKey: [key, debouncedSearchQuery],
         queryFn: () => searchFn(debouncedSearchQuery),
-        enabled: debouncedSearchQuery.trim().length > 0 && debouncedSearchQuery.trim().length >= minLength
-    })
+        enabled: debouncedSearchQuery.trim().length > 0 && debouncedSearchQuery.trim().length >= minLength,
+        refetchOnWindowFocus: false
+    });
 
     useEffect(() => {
         if (!queryResult.isFetching && queryResult.isError) {

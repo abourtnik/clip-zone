@@ -17,6 +17,9 @@ class SearchEventSubscriber
             Search::query()->create([
                 'user_id' => Auth::user()?->id,
                 'query' => $event->query,
+                'ip' => request()->ip(),
+                'lang' => request()->getPreferredLanguage(),
+                'results' => $event->results
             ]);
         }
     }

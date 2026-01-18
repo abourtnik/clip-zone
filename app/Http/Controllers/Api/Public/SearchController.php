@@ -15,8 +15,6 @@ class SearchController extends Controller
 
         $q = $request->validated('q');
 
-        SearchPerformed::dispatch($q);
-
         $videos = Video::search($q, function(Indexes $index, $query, $options) {
             $options['attributesToRetrieve'] = ['title', 'url', 'thumbnail', 'user', 'uuid', 'views', 'published_at', 'formated_duration'];
             $options['attributesToHighlight'] = ['title', 'user'];
@@ -27,6 +25,8 @@ class SearchController extends Controller
             ->latest('published_at')
             ->take(10)
             ->raw();
+
+        SearchPerformed::dispatch($q, $videos['totalHits']);
 
         return response()->json([
             'total' => $videos['totalHits'],
