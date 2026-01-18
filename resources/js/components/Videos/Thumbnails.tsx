@@ -12,6 +12,7 @@ import ImageUpload from "@/components/Images/ImageUpload";
 import {OverlayTrigger, Popover} from "react-bootstrap";
 import { create } from 'zustand'
 import {combine} from "zustand/middleware";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     video: number
@@ -37,6 +38,8 @@ function Main ({video} : Props) {
     });
 
     const queryClient = useQueryClient();
+
+    const { t } = useTranslation();
 
     const {selected, setSelected} = useSelectedStore();
 
@@ -131,6 +134,8 @@ function Upload ({thumbnail} : {thumbnail: ThumbnailType | undefined}) {
 
     const {selected, setSelected} = useSelectedStore();
 
+    const { t } = useTranslation();
+
     useEffect(() => {
         const cropped = (e: Event) => {
             const file = (e as CustomEvent<File>).detail;
@@ -171,14 +176,14 @@ function Upload ({thumbnail} : {thumbnail: ThumbnailType | undefined}) {
                                     <button className="dropdown-item btn btn-file" type={'button'}>
                                         <label htmlFor="thumbnail_file" className={'text-sm d-flex align-items-center gap-2 cursor-pointer'}>
                                             <i className="fas fa-image"></i>
-                                            <span>Change</span>
+                                            <span>{t('Change')}</span>
                                         </label>
                                     </button>
                                 </li>
                                 <li>
                                     <a download className="dropdown-item d-flex align-items-center gap-2 text-sm" href={upload}>
                                         <i className="fa-solid fa-download"></i>
-                                        <span>Download</span>
+                                        <span>{t('Download')}</span>
                                     </a>
                                 </li>
                             </ul>
@@ -206,7 +211,7 @@ function Upload ({thumbnail} : {thumbnail: ThumbnailType | undefined}) {
                                 rootClose={true}
                                 overlay={
                                     <Popover style={{position: 'fixed'}}>
-                                        <Popover.Header as="h3">Recommendations</Popover.Header>
+                                        <Popover.Header as="h3">{t('Recommendations')}</Popover.Header>
                                         <Popover.Body>
                                             <ul>
                                                 <li>Make your thumbnail 1280 by 720 pixels (16:9 ratio)</li>
@@ -225,7 +230,7 @@ function Upload ({thumbnail} : {thumbnail: ThumbnailType | undefined}) {
                             <label htmlFor="thumbnail_file" className={'rounded h-100 p-0 w-100 d-flex align-items-center justify-content-center'}>
                                 <div>
                                     <i className="fas fa-image"></i>
-                                    <div className="mt-2 fw-">Upload Thumbnail</div>
+                                    <div className="mt-2 fw-">{t('Upload Thumbnail')}</div>
                                 </div>
                             </label>
                         </div>

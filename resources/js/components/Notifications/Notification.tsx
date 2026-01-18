@@ -1,11 +1,12 @@
 import {memo} from 'preact/compat';
 import {NotificationType, Paginator} from "@/types";
-import moment from "moment/moment";
+import moment from 'moment';
 import {Dropdown} from 'react-bootstrap';
 import {useErrorMutation} from "@/hooks";
 import {deleteNotification, handleNotification} from "@/api/clipzone";
 import {InfiniteData, useQueryClient} from "@tanstack/react-query";
 import {produce} from "immer";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     notification: NotificationType,
@@ -15,6 +16,8 @@ type Props = {
 const Notification = memo(({notification, setUnread} : Props) => {
 
     const queryClient = useQueryClient();
+
+    const { t } = useTranslation();
 
     const {mutate: remove}= useErrorMutation({
         mutationFn: () => deleteNotification(notification.id),
@@ -70,9 +73,9 @@ const Notification = memo(({notification, setUnread} : Props) => {
                     <i className="fa-solid fa-ellipsis-vertical"></i>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                    {notification.is_read && <Dropdown.Item as={'button'} onClick={() => handle('unread')}>Mark as unread</Dropdown.Item>}
-                    {!notification.is_read && <Dropdown.Item as={'button'}  onClick={() => handle('read')}>Mark as read</Dropdown.Item>}
-                    <Dropdown.Item as={'button'} onClick={() => remove()}>Delete</Dropdown.Item>
+                    {notification.is_read && <Dropdown.Item as={'button'} onClick={() => handle('unread')}>{t('Mark as unread')}</Dropdown.Item>}
+                    {!notification.is_read && <Dropdown.Item as={'button'}  onClick={() => handle('read')}>{t('Mark as read')}</Dropdown.Item>}
+                    <Dropdown.Item as={'button'} onClick={() => remove()}>{t('Delete')}</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
         </div>

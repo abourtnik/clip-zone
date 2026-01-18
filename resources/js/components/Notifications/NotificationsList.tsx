@@ -8,6 +8,7 @@ import {useCursorQuery, useErrorMutation} from "@/hooks";
 import {NotificationType, Paginator} from "@/types";
 import {produce} from "immer";
 import {Button, ApiError} from "@/components/Commons";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     count : string
@@ -17,6 +18,8 @@ const Main = ({count} : Props) => {
 
     const [open, setOpen] = useState<boolean>(false);
     const [unread, setUnread] = useState<number>(parseInt(count));
+
+    const { t } = useTranslation();
 
     const queryClient = useQueryClient();
 
@@ -85,13 +88,13 @@ const Main = ({count} : Props) => {
             <Offcanvas show={open} onHide={() => setOpen(false)} placement="end" style={{width: '350px'}}>
                 <div className="offcanvas-header bg-light border d-flex justify-content-between align-items-center py-2">
                     <h6 className="offcanvas-title">
-                        Notifications {unread > 0 && <span>({unread})</span>}
+                        {t('Notifications')} {unread > 0 && <span>({unread})</span>}
                     </h6>
                     <div className="d-flex gap-1 align-items-center">
                         {
                             unread > 0 &&
                             <Button type={'button'} loading={isPending} onClick={() => readAll()} small={true}>
-                                <small>Mark all as read</small>
+                                <small>{t('Mark all as read')}</small>
                             </Button>
                         }
                             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onClick={() => setOpen(false)}></button>
@@ -102,7 +105,7 @@ const Main = ({count} : Props) => {
                         isLoading &&
                         <div className={'d-flex justify-content-center align-items-center h-100'}>
                             <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
+                                <span class="visually-hidden">{t('Loading...')}</span>
                             </div>
                         </div>
                     }
@@ -121,9 +124,8 @@ const Main = ({count} : Props) => {
                                     :
                                     <div className="d-flex flex-column justify-content-center align-items-center p-5">
                                         <i className="fa-solid fa-bell-slash fa-2x"></i>
-                                        <h5 className="mt-3 fs-6">Your notifications live here</h5>
-                                        <p className="text-muted text-center text-sm">Subscribe to your favorite channels to get
-                                            notified about their latest videos.</p>
+                                        <h5 className="mt-3 fs-6">{t('Your notifications live here')}</h5>
+                                        <p className="text-muted text-center text-sm">{t('Subscribe to your favorite channels to get notified about their latest videos')}</p>
                                     </div>
                             )
                         }
@@ -131,7 +133,7 @@ const Main = ({count} : Props) => {
                             isFetchingNextPage &&
                             <div className={'d-flex justify-content-center align-items-center py-3'}>
                                 <div class="spinner-border text-primary spinner-border-sm" role="status">
-                                    <span class="visually-hidden">Loading...</span>
+                                    <span class="visually-hidden">{t('Loading...')}</span>
                                 </div>
                             </div>
                         }

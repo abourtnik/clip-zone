@@ -10,6 +10,8 @@ import {createContext, Fragment} from "preact";
 import {useInView} from "react-intersection-observer";
 import {produce} from "immer";
 import ImageLoaded from "@/components/Images/ImageLoaded";
+import {useTranslation} from "react-i18next";
+import numeral from "numeral";
 
 type Props = {
     uuid?: string
@@ -20,6 +22,8 @@ export const PlaylistContext = createContext<{uuid?: string}>({});
 export function Main({uuid} : Props) {
 
     const { ref, inView} = useInView();
+
+    const { t } = useTranslation();
 
     const {
         data: videos,
@@ -53,12 +57,12 @@ export function Main({uuid} : Props) {
         <PlaylistContext.Provider value={{uuid: uuid}}>
             <div className="card shadow-soft pb-0 h-100">
                 <div className="card-body px-0 pb-0">
-                    <h5 className="text-primary px-3">Manage videos</h5>
+                    <h5 className="text-primary px-3">{t('Manage videos')}</h5>
                     <hr className={'mb-0'}/>
                     <div className={'d-flex'} style={{height: '733px'}}>
                         <div className="w-50 border-end">
                             <div className={'text-center border-bottom d-flex align-items-center justify-content-center'} style={{height: '71px'}}>
-                                <h6 className={'mb-0'}>Playlist videos</h6>
+                                <h6 className={'mb-0'}>{t('Playlist videos')}</h6>
                             </div>
                             <div style="height:662px">
                                 <div className={'overflow-auto'} style="height:620px">
@@ -66,7 +70,7 @@ export function Main({uuid} : Props) {
                                         isLoading &&
                                         <div className={'d-flex justify-content-center align-items-center h-100'}>
                                             <div class="spinner-border text-primary" role="status">
-                                                <span class="visually-hidden">Loading...</span>
+                                                <span class="visually-hidden">{t('Loading...')}</span>
                                             </div>
                                         </div>
                                     }
@@ -89,7 +93,7 @@ export function Main({uuid} : Props) {
                                             isFetchingNextPage &&
                                             <div className={'d-flex justify-content-center align-items-center py-3'}>
                                                 <div class="spinner-border text-primary spinner-border-sm" role="status">
-                                                    <span class="visually-hidden">Loading...</span>
+                                                    <span class="visually-hidden">{t('Loading...')}</span>
                                                 </div>
                                             </div>
                                         }
@@ -122,6 +126,8 @@ function SelectedVideos({videos}: SelectedVideosProps) {
     const queryClient = useQueryClient();
 
     const {uuid} = useContext(PlaylistContext);
+
+    const { t } = useTranslation();
 
     const remove = (index: number) => {
         queryClient.setQueriesData({queryKey: ['playlist', uuid, 'videos']}, (oldData: InfiniteData<Paginator<VideoType>> | undefined) => {
@@ -174,8 +180,8 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                                                 video.is_private ?
                                                     <div className='d-flex flex-column justify-content-center align-items-center w-100 gap-2 alert alert-secondary mb-0'>
                                                         <i className="fa-solid fa-lock fa-1x"></i>
-                                                        <div className={'text-sm fw-bold text-center'}>This video is private</div>
-                                                        <div className={'text-sm'}>The author update video status to private</div>
+                                                        <div className={'text-sm fw-bold text-center'}>{t('This video is private')}</div>
+                                                        <div className={'text-sm'}>{t('The author update video status to private')}</div>
                                                     </div>
                                                     :
                                                     <div className={'d-flex flex-column flex-xl-row align-items-start gap-2 justify-content-start px-3 py-2'}>
@@ -190,12 +196,12 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                                                         <div>
                                                             <div className={'text-black fw-bold text-sm mb-1 text-break'}>{video.title}</div>
                                                             <div className={'text-muted text-sm'}>{video.user.username}</div>
-                                                            <div className={'text-muted text-sm'}>{video.views} views • {moment(video.published_at).fromNow()}</div>
+                                                            <div className={'text-muted text-sm'}>{t( 'Views', { count: video.views, formatted: numeral(video.views).format('0.[0]a') } )} • {moment(video.published_at).fromNow()}</div>
                                                         </div>
                                                     </div>
                                             }
                                         </div>
-                                        <OverlayTrigger placement="top" overlay={<Tooltip>Remove</Tooltip>}>
+                                        <OverlayTrigger placement="top" overlay={<Tooltip>{t('Remove')}</Tooltip>}>
                                             <button
                                                 className="bg-transparent py-1 btn-sm"
                                                 type="button"
@@ -213,8 +219,8 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                 </ReactSortable>
                 :
                 <div className={'d-flex flex-column gap-1 justify-content-center align-items-center px-3 h-100 w-100'}>
-                    <div className={'fw-bold fs-5'}>No videos added</div>
-                    <p className={'text-muted text-sm text-center'}>Add videos to your playlist by selecting your videos or videos from other channels</p>
+                    <div className={'fw-bold fs-5'}>{t('No videos added')}</div>
+                    <p className={'text-muted text-sm text-center'}>{t('Add videos to your playlist by selecting your videos or videos from other channels')}</p>
                 </div>
             }
         </Fragment>
@@ -233,6 +239,8 @@ function SearchResult ({video, index, results} : SearchResultProps) {
     const queryClient = useQueryClient();
 
     const {uuid} = useContext(PlaylistContext);
+
+    const { t } = useTranslation();
 
     const addVideo = (index: number) => {
         queryClient.setQueriesData({queryKey: ['playlist', uuid, 'videos']}, (oldData: InfiniteData<Paginator<VideoType>> | undefined) => {
@@ -280,7 +288,7 @@ function SearchResult ({video, index, results} : SearchResultProps) {
                         {video.user.username}
                     </div>
                     <div className={'text-muted text-sm'}>
-                        {video.views} views • {moment(video.published_at).fromNow()}
+                        {t( 'Views', { count: video.views, formatted: numeral(video.views).format('0.[0]a') } )} • {moment(video.published_at).fromNow()}
                     </div>
                 </div>
             </div>
@@ -298,6 +306,9 @@ function Search() {
         searchFn: searchVideos,
     });
 
+    const { t } = useTranslation();
+
+
     return (
         <div className="w-50 pt-3 px-0">
             <div className={'position-relative pb-3 border-bottom'}>
@@ -307,7 +318,7 @@ function Search() {
                         onChange={(e) => setQuery(e.currentTarget.value)}
                         className="form-control rounded-5 "
                         type="search"
-                        placeholder="Search Videos"
+                        placeholder={t('Search Videos')}
                         aria-label="Search"
                         name="q"
                         value={query}
@@ -316,7 +327,7 @@ function Search() {
                         isFetching &&
                         <div className="position-absolute top-50 right-5 translate-middle">
                             <div className={'spinner-border spinner-border-sm'} role="status">
-                                <span className="visually-hidden">Loading...</span>
+                                <span className="visually-hidden">{t('Loading...')}</span>
                             </div>
                         </div>
                     }
@@ -337,8 +348,7 @@ function Search() {
                 {
                     results && results.data.length === 0 && (
                         <div className={'d-flex justify-content-center align-items-center px-3 h-100 w-100'}>
-                            <p className={'text-muted text-sm text-center'}>No results. Please try
-                                again.</p>
+                            <p className={'text-muted text-sm text-center'}>{t('No results. Please try again')}</p>
                         </div>
                     )
                 }

@@ -117,9 +117,9 @@ export function VideoUpload ({endpoint, maxsize} : Props) {
                     <div style={'border-style: dashed !important;'} className={"text-center align-items-center d-flex flex-column w-100 mx-auto py-3" + (isDrag ? ' bg-light border border-2' : '') }>
                         <img src="/images/upload.jpg" className={'mb-4'} alt=""/>
                         <strong className="mb-1">{t('Drag and drop video file to upload')}</strong>
-                        <div className="text-muted">Your video will be private until you publish them.</div>
+                        <div className="text-muted">{t('Your video will be private until you publish them')}</div>
                         <button className="btn btn-primary mt-4 text-uppercase">
-                            Select file
+                            {t('Select file')}
                         </button>
                     </div>
                 </div>
@@ -134,8 +134,8 @@ export function VideoUpload ({endpoint, maxsize} : Props) {
                 (loading && !error) &&
                 <div className="text-center align-items-center d-flex flex-column w-75 mx-auto p-3">
                     <img src="/images/uploading.gif" className={'mb-4'} alt="" style={{width: 350, height: 350}}/>
-                    <h2 className="mb-1">Your video is uploading ... </h2>
-                    <div className="text-danger fw-bold">Dont quit or reload page please</div>
+                    <h2 className="mb-1">{t('Your video is uploading ...')}</h2>
+                    <div className="text-danger fw-bold">{t('Dont quit or reload page please')}</div>
                     {
                         loading &&
                         <div className={'w-100'}>
@@ -154,7 +154,7 @@ export function VideoUpload ({endpoint, maxsize} : Props) {
                         </div>
                     }
                     <button className="btn btn-secondary mt-4 text-uppercase" onClick={cancel}>
-                        Cancel Upload
+                        {t('Cancel Upload')}
                     </button>
                 </div>
             }

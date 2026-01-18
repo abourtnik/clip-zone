@@ -3,6 +3,7 @@ import {useSearchQuery, useClickOutside, useKeyboardNavigate} from "@/hooks";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {searchModel} from "@/api/clipzone";
 import {ChangeEvent} from "react";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     endpoint: string,
@@ -27,7 +28,9 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
         searchFn: () => searchModel(endpoint, query)
     });
 
-    useClickOutside(input, () => setShowResults(false))
+    useClickOutside(input, () => setShowResults(false));
+
+    const { t } = useTranslation();
 
     const select = (index: number) => {
         const result = results!.data[index];
@@ -58,7 +61,7 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
                     type="search"
                     className="form-control"
                     id={name}
-                    placeholder={'Search ' + name + ' ...'}
+                    placeholder={t('search', {model: t(name)})}
                     onKeyDown={navigate}
                     value={query}
                     maxLength={255}
@@ -88,7 +91,7 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
                             </ul>
                             :
                             <div className={'d-flex justify-content-center align-items-center flex-column py-3'}>
-                                <strong>No results found</strong>
+                                <strong>{t('No results found')}</strong>
                             </div>
                     }
                 </div>

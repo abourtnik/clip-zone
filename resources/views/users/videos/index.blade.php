@@ -87,13 +87,13 @@
                         </td>
                         <td class="align-middle">
                             @if($video->is_private || $video->is_unlisted || $video->is_draft|| $video->is_failed)
-                                <small>{{$video->created_at->format('d F Y H:i')}}</small>
+                                <small>{{$video->created_at->translatedFormat('d F Y H:i')}}</small>
                                 <div class="text-sm text-muted">{{ __('Uploaded') }}</div>
                             @elseif($video->is_planned)
-                                <small>{{$video->scheduled_at->format('d F Y H:i')}}</small>
+                                <small>{{$video->scheduled_at->translatedFormat('d F Y H:i')}}</small>
                                 <div class="text-sm text-muted">{{ __('Scheduled') }}</div>
                             @else
-                                <small>{{$video->published_at->format('d F Y H:i')}}</small>
+                                <small>{{$video->published_at->translatedFormat('d F Y H:i')}}</small>
                                 <div class="text-sm text-muted">{{ __('Published') }}</div>
                             @endif
                         </td>
@@ -114,7 +114,7 @@
                             @if($video->is_created)
                                 @if($video->category)
                                     <div class="badge bg-primary">
-                                        {{$video->category->title}}
+                                        {{__($video->category->title)}}
                                     </div>
                                 @else
                                     <div class="badge bg-secondary">
@@ -136,7 +136,7 @@
                                 @endif
                                 @if(!$video->allow_comments)
                                     <div class="badge bg-danger">
-                                        Disabled
+                                        {{ __('Disabled') }}
                                     </div>
                                 @endif
                             @endif

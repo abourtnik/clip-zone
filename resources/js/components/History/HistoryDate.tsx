@@ -4,7 +4,7 @@ import {clearHistoryDay} from "@/api/clipzone";
 import {useQueryClient} from "@tanstack/react-query";
 import {produce} from "immer";
 import HistoryItem from "@/components/History/HistoryItem";
-import moment from "moment/moment";
+import moment from 'moment';
 import {Button, Modal} from "react-bootstrap";
 import {useState} from "preact/hooks";
 import {useTranslation} from "react-i18next";

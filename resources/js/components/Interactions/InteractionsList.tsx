@@ -8,7 +8,8 @@ import {InteractionSkeleton} from "@/components/Skeletons/InteractionSkeleton";
 import {InteractionType, InteractionsFilters} from "@/types";
 import {ChangeEvent} from "react";
 import {useDebounce} from "@/hooks/useDebounce";
-import moment from "moment/moment";
+import moment from 'moment';
+import {useTranslation} from "react-i18next";
 
 type Props = {
     target: number
@@ -21,7 +22,9 @@ function Main ({target} : Props) {
 
     const debouncedSearchQuery: string = useDebounce(search, 300);
 
-    const { ref, inView} = useInView()
+    const { ref, inView} = useInView();
+
+    const { t } = useTranslation();
 
     const {
         data: interactions,
@@ -62,19 +65,22 @@ function Main ({target} : Props) {
     return (
         <div style="height: 450px;">
             <div className={'d-flex gap-2 align-items-center'}>
-                <button onClick={() => filtering('all')} className={'btn btn-' + activeButton('all') + 'btn-sm'}>All</button>
+                <button onClick={() => filtering('all')} className={'btn btn-' + activeButton('all') + 'btn-sm'}>{t('All')}</button>
                 <button onClick={() => filtering('up')} className={'d-flex align-items-center gap-2 btn btn-' + activeButton('up') + 'btn-sm'}>
-                    <span>Only</span>
+                    <span>{t('Only')}</span>
                     <i className="fa-solid fa-thumbs-up"></i>
                 </button>
                 <button onClick={() => filtering('down')} className={'d-flex align-items-center gap-2 btn btn-' + activeButton('down') + 'btn-sm'}>
-                    <span>Only</span>
+                    <span>{t('Only')}</span>
                     <i className="fa-solid fa-thumbs-down"></i>
                 </button>
-                <input onChange={searching} type="text" className={'form-control form-control-sm'} placeholder="Search user" aria-label="Search"/>
+                <input onChange={searching} type="text" className={'form-control form-control-sm'} placeholder={t('Search user')} aria-label="Search"/>
             </div>
             <hr/>
-            <small className={'text-muted mb-1 d-block'}>{isLoading ? 'Loading ...' : interactions && interactions.pages[0].meta.total + ' Results'}</small>
+            <small className={'text-muted mb-1 d-block'}>
+                {isLoading && t('Loading ...')}
+                {interactions && t('Results', { count: interactions.pages[0].meta.total })}
+            </small>
             <hr/>
             {
                 isError &&

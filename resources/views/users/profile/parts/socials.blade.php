@@ -1,7 +1,7 @@
 <div class="row align-items-start my-3">
     <div class="col-12 col-xl-4">
-        <h2>Social Connection</h2>
-        <p class="text-muted">Link your account to a social network to use as a sign-in method</p>
+        <h2>{{ __('Social Connection') }}</h2>
+        <p class="text-muted">{{ __('Link your account to a social network to use as a sign-in method') }}</p>
     </div>
     <div class="col-12 col-xl-8">
         <div class="card shadow-soft my-3">
@@ -9,23 +9,23 @@
                 @if($user->facebook_id)
                     <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.unlink', ['service' => 'facebook'])}}" style="background-color: #47639e">
                         <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle d-none d-sm-block"></i>
-                        <span>Unlink your Facebook account</span>
+                        <span>{{ __('Unlink your Facebook account') }}</span>
                     </a>
                 @else
                     <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.connect', ['service' => 'facebook'])}}" style="background-color: #47639e">
                         <i class="fa-brands fa-facebook-f position-absolute top-50 left-5 translate-middle d-none d-sm-block"></i>
-                        <span>Link your Facebook account</span>
+                        <span>{{ __('Link your Facebook account') }}</span>
                     </a>
                 @endif
                 @if($user->google_id)
                     <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.unlink', ['service' => 'google'])}}" style="background-color: #dd4b39">
                         <i class="fa-brands fa-google position-absolute top-50 left-5 translate-middle d-none d-sm-block"></i>
-                        <span>Unlink your Google account</span>
+                        <span>{{ __('Unlink your Google account') }}</span>
                     </a>
                 @else
                     <a class="btn w-100 text-white text-center position-relative" href="{{route('oauth.connect', ['service' => 'google'])}}" style="background-color: #dd4b39">
                         <i class="fa-brands fa-google position-absolute top-50 left-5 translate-middle d-none d-sm-block"></i>
-                        <span>Link your Google account</span>
+                        <span>{{ __('Link your Google account') }}</span>
                     </a>
                 @endif
             </div>

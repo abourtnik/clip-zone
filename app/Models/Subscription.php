@@ -73,10 +73,10 @@ class Subscription extends Model
     {
         return Attribute::make(
             get: fn () => match($this->stripe_status) {
-                StripeSubscription::STATUS_ACTIVE => 'Active',
-                StripeSubscription::STATUS_TRIALING => 'In trial period',
-                StripeSubscription::STATUS_CANCELED => 'Canceled',
-                StripeSubscription::STATUS_UNPAID => 'Unpaid',
+                StripeSubscription::STATUS_ACTIVE => __('Active'),
+                StripeSubscription::STATUS_TRIALING => __('In trial period'),
+                StripeSubscription::STATUS_CANCELED => __('Canceled'),
+                StripeSubscription::STATUS_UNPAID => __('Unpaid'),
             }
         );
     }

@@ -1,7 +1,7 @@
 <div class="row align-items-start my-3">
     <div class="col-12 col-xl-4">
         <h2>{{ __('Profile Information') }}</h2>
-        <p class="text-muted">{{ __('Update you account profile information\'s and email address.') }}</p>
+        <p class="text-muted">{{ __('Update you account profile information\'s and email address') }}</p>
     </div>
     <div class="col-12 col-xl-8">
         <div class="card shadow-soft my-3">
@@ -9,7 +9,7 @@
                 <div class="alert alert-primary fw-bold d-flex flex-column flex-lg-row align-items-center justify-content-between gap-4 radius-end-0 radius-start-0">
                     <div class="d-flex flex-column gap-2 text-left">
                         <div>{{ __('Please verify your email address for access all features') }}</div>
-                        <small class="text-muted text-sm">You can verify your email until {{ $user->created_at->addMinutes(config('auth.verification.expire'))->format('d F Y H:i') }}. After that time, your account will be automatically deleted.</small>
+                        <small class="text-muted text-sm">{{ __('You can verify your email until') }} {{ $user->created_at->addMinutes(config('auth.verification.expire'))->translatedFormat('d F Y H:i') }}. {{ __('After that time, your account will be automatically deleted') }}</small>
                     </div>
                     <form
                         method="POST"
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
                             <div class="d-flex flex-column gap-2">
-                                <div class="text-muted">Member since {{$user->created_at->longAbsoluteDiffForHumans()}}</div>
+                                <div class="text-muted">{{ __('Member since :date', ['date' => $user->created_at->longAbsoluteDiffForHumans()]) }}</div>
                                 @if($user->is_premium)
                                     <div class="badge bg-warning">
                                         <i class="fa-solid fa-star"></i>
@@ -75,9 +75,9 @@
                             <hr class="w-100">
                             <div class="alert alert-info w-100">
                                 <div class="d-flex justify-content-between flex-column flex-sm-row gap-2">
-                                    <div class="fw-bold">My subscription : {{$user->premium_subscription->plan->price}}  / {{$user->premium_subscription->plan->period}}</div>
+                                    <div class="fw-bold">{{ __('My subscription') }} : {{$user->premium_subscription->plan->price}}  / {{ __($user->premium_subscription->plan->period) }}</div>
                                     <div>
-                                        <span>Status :</span>
+                                        <span>{{ __('Status') }} :</span>
                                         <strong @class(['text-danger' => !$user->premium_subscription->is_active, 'text-success' => $user->premium_subscription->is_active ])>
                                             {{$user->premium_subscription->status}}
                                         </strong>
@@ -85,29 +85,29 @@
                                 </div>
                                 <hr>
                                 @if($user->premium_subscription->is_canceled)
-                                    <p>Your subscription was canceled the <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong></p>
+                                    <p>{{ __('Your subscription was canceled the')}} <strong>{{ $user->premium_subscription->ends_at->translatedFormat('d F Y') }}</strong></p>
                                     <a class="btn btn-primary" href="{{route('pages.premium')}}">
                                         {{ __('Renew my subscription') }}
                                     </a>
                                 @elseif($user->premium_subscription->is_trial_canceled)
-                                    <p>You have canceled your subscription</p>
-                                    <p>It will be automatically suspended after the : <strong>{{ $user->premium_subscription->ends_at->format('d F Y') }}</strong>.</p>
+                                    <p>{{ __('You have canceled your subscription')}}</p>
+                                    <p>{{ __('It will be automatically suspended after the') }} : <strong>{{ $user->premium_subscription->ends_at->translatedFormat('d F Y') }}</strong>.</p>
                                     <a class="btn btn-primary" href="{{$billing_profile_url}}">
                                         {{ __('Reactivate my subscription') }}
                                     </a>
                                 @elseif($user->premium_subscription->on_trial)
-                                    <p>You are currently on trial period until {{$user->premium_subscription->trial_ends_at->format('d F Y')}}</p>
+                                    <p>{{ __('You are currently on trial period until')}} {{$user->premium_subscription->trial_ends_at->translatedFormat('d F Y')}}</p>
                                     <a class="btn btn-primary" href="{{$billing_profile_url}}">
                                         {{ __('Cancel my subscription') }}
                                     </a>
                                 @elseif($user->premium_subscription->is_unpaid)
-                                    <p class="text-danger fw-bold">Your last payment the <strong>{{$user->premium_subscription->next_payment->subDay()->format('d F Y')}}</strong> was unsuccessful.</p>
-                                    <p class="text-danger fw-bold">Please update your payment method to continue to profit premium features.</p>
+                                    <p class="text-danger fw-bold">Your last payment the <strong>{{$user->premium_subscription->next_payment->subDay()->translatedFormat('d F Y')}}</strong> was unsuccessful.</p>
+                                    <p class="text-danger fw-bold">{{ __('Please update your payment method to continue to profit premium features') }}</p>
                                     <a class="btn btn-primary" href="{{$billing_profile_url}}">
                                         {{ __('Update payment information') }}
                                     </a>
                                 @else
-                                    <p>Your next bank debit will be on : <strong>{{ $user->premium_subscription->next_payment->format('d F Y') }}</strong></p>
+                                    <p>{{ __('Your next bank debit will be on')}} : <strong>{{ $user->premium_subscription->next_payment->translatedFormat('d F Y') }}</strong></p>
                                     <a class="btn btn-primary" href="{{$billing_profile_url}}">
                                         {{ __('Manage my subscription') }}
                                     </a>
@@ -172,7 +172,7 @@
                             <input type="email" class="form-control" id="email" name="email" required value="{{old('email', $user->email)}}" @disabled($user->getTemporaryEmailForVerification())>
                             @if($user->getTemporaryEmailForVerification())
                                 <p class="form-text text-danger text-sm mb-1">
-                                    Please confirm your new email : <strong>{{$user->getTemporaryEmailForVerification()}}</strong> by clicking the link in the confirmation email sent to you.
+                                    {{ __('Please confirm your new email')}} : <strong>{{$user->getTemporaryEmailForVerification()}}</strong> by clicking the link in the confirmation email sent to you.
                                 </p>
                                 <div class="d-flex align-items-center gap-1 justify-content-start">
                                     <button
@@ -198,9 +198,9 @@
                             @endif
                         </div>
                         <div class="col-12 col-sm-6 mb-3">
-                            <label for="country" class="form-label">Country</label>
+                            <label for="country" class="form-label">{{ __('Country') }}</label>
                             <select class="form-control" name="country" id="country">
-                                <option selected value="">Select Country</option>
+                                <option selected value="">{{ __('Select Country') }}</option>
                                 @foreach($countries as $code => $name)
                                     <option @selected(old('country', $user->country) === $code) value="{{$code}}">{{$name}}</option>
                                 @endforeach
@@ -210,7 +210,7 @@
                     <hr class="w-100">
                     <div class="row">
                         <div class="col-12 col-sm-6 mb-3" x-data="{selected: {{$user->jsonPhone()}}}">
-                            <label for="phone" class="form-label">Phone</label>
+                            <label for="phone" class="form-label">{{ __('Phone') }}</label>
                             <div class="input-group mb-3">
                                 <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span x-text="selected.flag"></span>
@@ -249,7 +249,7 @@
                             </div>
                             @if($user->waitForPhoneCode())
                                 <p class="form-text text-danger text-sm mb-1">
-                                    Please confirm your phone number by entering the 5-digit code we just sent you.
+                                    {{ __('Please confirm your phone number by entering the 5-digit code we just sent you') }}
                                 </p>
                                 <div class="d-flex align-items-center gap-1 justify-content-start">
                                     <button
@@ -268,10 +268,10 @@
                         </div>
                         @if($user->waitForPhoneCode())
                             <div class="col-12 col-sm-6 mb-3">
-                                <label for="code" class="form-label">Code</label>
+                                <label for="code" class="form-label">{{ __('Code') }}</label>
                                 <div class="input-group">
                                     <input form="verify-phone-code" type="text" class="form-control" id="code" name="code" minlength="5" maxlength="5">
-                                    <button class="btn btn-primary" type="submit" form="verify-phone-code">Verify</button>
+                                    <button class="btn btn-primary" type="submit" form="verify-phone-code">{{ __('Verify') }}</button>
                                 </div>
                             </div>
                         @endif
@@ -280,7 +280,7 @@
                 <div class="card-footer d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">
                         <i class="fa-solid fa-user-edit"></i>
-                        Update Profile
+                        {{ __('Update Profile') }}
                     </button>
                 </div>
             </form>
