@@ -8,7 +8,7 @@ export function VideoSkeleton() {
                 />
             </div>
             <div className="placeholder-glow d-flex align-items-center gap-2 w-100 pt-2 px-3 px-sm-0">
-                <span className="placeholder rounded-circle" style="width: 36px; height:36px"></span>
+                <span className="placeholder rounded-circle p-3" style="width: 36px; height:36px"></span>
                 <div className={'d-flex flex-column w-100 gap-2 ml-2'}>
                     <span className="placeholder bg-secondary w-95"></span>
                     <span className="placeholder bg-secondary w-75"></span>
