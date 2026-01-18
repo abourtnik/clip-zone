@@ -14,7 +14,7 @@ class ActivityFiltersForm extends FilterForm
                 'label' => __('Type'),
                 'choices' => $this->getTypes(),
                 'wrapper' => ['class' => 'col-12 col-lg'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->get('type'),
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [

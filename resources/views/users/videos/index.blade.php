@@ -2,7 +2,7 @@
 
 @extends('layouts.user')
 
-@section('title', __('Channel videos'))
+@section('title', __('My videos'))
 
 @section('content')
     @if($videos->total() || request()->all())
@@ -19,7 +19,7 @@
                     type="button"
                 >
                     <i class="fa-solid fa-trash me-1"></i>
-                    <span>Delete</span>
+                    <span>{{ __('Delete') }}</span>
                     <span x-text="selected.length"></span>
                     <span x-text="selected.length === 1 ? 'video' : 'videos'"></span>
                 </button>
@@ -162,23 +162,23 @@
                             <div class="d-flex gap-1">
                                 @can('update', $video)
                                     @if($video->is_draft)
-                                        <a href="{{route('user.videos.create', $video)}}" class="btn btn-primary btn-sm" title="Edit draft">
+                                        <a href="{{route('user.videos.create', $video)}}" class="btn btn-primary btn-sm" title="{{ __('Edit draft') }}">
                                             <i class="fa-solid fa-pen"></i>
                                         </a>
                                     @else
-                                        <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm" title="Edit video">
+                                        <a href="{{route('user.videos.edit', $video)}}" class="btn btn-primary btn-sm" title="{{ __('Edit video') }}">
                                             <i class="fa-solid fa-pen"></i>
                                         </a>
                                     @endif
                                 @endcan
                                 <button
                                     type="button"
-                                    title="Delete video"
+                                    title="{{ __('Delete video') }}"
                                     class="btn btn-danger btn-sm"
                                     data-bs-toggle="modal"
                                     data-bs-target="#delete_video"
                                     data-title="{{$video->title}}"
-                                    data-infos="{{trans_choice('views', $video->views)}} • {{$video->created_at->format('d F Y')}}"
+                                    data-infos="{{trans_choice('views', $video->views)}} • {{$video->created_at->translatedFormat('d F Y')}}"
                                     data-poster="{{$video->thumbnail_url}}"
                                     data-route="{{route('user.videos.destroy', $video)}}"
                                     data-download="{{route('video.download', $video)}}"
@@ -191,27 +191,27 @@
                                     <i class="fa-solid fa-trash"></i>
                                 </button>
                                 @if($video->is_created)
-                                    <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="Video statistics">
+                                    <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="{{ __('See video statistics') }}">
                                         <i class="fa-solid fa-chart-simple"></i>
                                     </a>
                                 @endif
                                 @can('pin', $video)
                                     <form action="{{route('user.videos.pin', $video)}}" method="POST" class="d-inline-block">
                                         @csrf
-                                        <button class="btn btn-secondary btn-sm" title="Pin video" type="submit">
+                                        <button class="btn btn-secondary btn-sm" title="{{ __('Pin video') }}" type="submit">
                                             <i class="fa-solid fa-thumbtack"></i>
                                         </button>
                                     </form>
                                 @elsecan('unpin', $video)
                                     <form action="{{route('user.videos.unpin', $video)}}" method="POST" class="d-inline-block">
                                         @csrf
-                                        <button class="btn btn-secondary btn-sm" title="Unpin video" type="submit">
+                                        <button class="btn btn-secondary btn-sm" title="{{ __('Unpin video') }}" type="submit">
                                             <i class="fa-solid fa-link-slash"></i>
                                         </button>
                                     </form>
                                 @endcan
                                 @can('download', $video)
-                                    <a download="{{$video->title}}" href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="Download video">
+                                    <a download="{{$video->title}}" href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="{{ __('Download video') }}">
                                         <i class="fa-solid fa-download"></i>
                                     </a>
                                 @endcan

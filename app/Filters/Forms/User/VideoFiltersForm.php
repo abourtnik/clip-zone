@@ -50,10 +50,12 @@ class VideoFiltersForm extends FilterForm
     {
         $categories = Category::all()
             ->pluck('title', 'id')
-            ->toArray();
+            ->transform(function ($title) {
+                return __($title);
+            });
 
-        return array_merge([
-            'without' => __('Without categories')
-        ], $categories);
+        $categories->prepend(__('Without categories'), 'without');
+
+        return $categories->toArray();
     }
 }

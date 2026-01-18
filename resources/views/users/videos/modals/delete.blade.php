@@ -24,7 +24,7 @@
                 </div>
                 <div class="alert alert-danger">
                     <p class="fw-bold">{{ __('Deleting video is permanent and can\'t be undone') }}</p>
-                    <p>{{ __('The deletion of a video automatically leads to the deletion of comments as well as related interactions.') }}</p>
+                    <p>{{ __('The deletion of a video automatically leads to the deletion of comments as well as related interactions') }}</p>
                     <ul>
                         <li x-text="video.comments"></li>
                         <li x-text="video.likes"></li>

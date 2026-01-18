@@ -78,7 +78,7 @@ class VideoStatsChart
 
     private function labels(): array
     {
-        return collect(CarbonPeriod::since($this->video->created_at)->until(now()->subDay()))->map(fn ($date) => $date->format('d M Y'))->toArray();
+        return collect(CarbonPeriod::since($this->video->created_at)->until(now()->subDay()))->map(fn ($date) => $date->translatedFormat('d M Y'))->toArray();
     }
 
     private function options() : array

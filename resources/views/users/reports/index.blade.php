@@ -2,7 +2,7 @@
 
 @extends('layouts.user')
 
-@section('title', __('Channel Reports'))
+@section('title', __('My Reports'))
 
 @section('content')
     @if($reports->total() || request()->all())
@@ -29,7 +29,7 @@
                         <td class="align-middle">
                             <div class="d-flex align-items-center justify-content-center gap-2 badge bg-info">
                                 <i class="fa-solid fa-{{$report->icon}}"></i>
-                                {{$report->type}}
+                                {{ __($report->type) }}
                             </div>
                         </td>
                         <td class="align-middle">
@@ -37,7 +37,7 @@
                         </td>
                         <td class="align-middle">
                             <div class="badge bg-danger mb-2">
-                                {{$report->reason->value}}
+                                {{ __($report->reason->value) }}
                             </div>
                             <div>
                                 <x-expand-item>
@@ -47,7 +47,7 @@
                         </td>
                         <td class="align-middle">
                             <div class="badge bg-{{$report->status->color()}}">
-                                {{$report->status->name()}}
+                                {{ __($report->status->name()) }}
                             </div>
                         </td>
                         <td class="align-middle">

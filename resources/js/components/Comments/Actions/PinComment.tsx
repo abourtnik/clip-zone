@@ -43,20 +43,20 @@ export function PinComment ({comment} : Props) {
             </li>
             <Modal show={confirm} onHide={() => setConfirm(false)}>
                 <Modal.Header closeButton>
-                    <h5 className="modal-title">Pin this comment?</h5>
+                    <h5 className="modal-title">{t('Pin this comment ?')}</h5>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="alert alert-info">
-                        If you already pinned a comment, this will replace it
+                     {t('If you already pinned a comment, this will replace it')}
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setConfirm(false)}>
-                        Close
+                        {t('Close')}
                     </Button>
                     <Button variant="primary" onClick={handlePin} disabled={isPending}>
                         {isPending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>}
-                        Pin
+                        {t('Pin')}
                     </Button>
                 </Modal.Footer>
             </Modal>

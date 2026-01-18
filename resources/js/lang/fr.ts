@@ -99,6 +99,22 @@ export default {
     "Add videos to your playlist by selecting your videos or videos from other channels": "Ajoutez des vidéos à votre playlist en sélectionnant vos vidéos ou des vidéos provenant d'autres chaînes",
     "Only": "Seulement",
     "All": "Tout",
+    "Close": "Fermer",
     "search": "Rechercher {model}",
-    "user": "un utilisateur"
+    "user": "un utilisateur",
+    "Pin this comment ?": "Épingler ce commentaire ?",
+    "Delete this comment ?": "Supprimer ce commentaire ?",
+    "Permanently delete comment ?": "Supprimer ce commentaire ?",
+    "If you already pinned a comment, this will replace it" : "Si vous avez déjà épinglé un commentaire, ce dernier sera remplacé",
+    "Sexual Content": "Contenu sexuel",
+    "Violent or repulsive content": "Contenu violent ou répugnant",
+    "Hateful or abusive content": "Contenu haineux ou abusif",
+    "Harassment or bullying": "Harcèlement ou intimidation",
+    "Harmful or dangerous acts": "Actes nuisibles ou dangereux",
+    "Misinformation": "Désinformation",
+    "Child abuse": "Maltraitance des enfants",
+    "Promotes terrorism": "Fait la promotion du terrorisme",
+    "Infringes my rights": "Porte atteinte à mes droits",
+    "Captions issue": "Problème de sous-titres",
+    "Search user": "Rechercher un utilisateur"
 }

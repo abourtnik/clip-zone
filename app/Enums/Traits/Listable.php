@@ -10,7 +10,7 @@ trait Listable
 {
     public static function get () : array {
         return Arr::map(Arr::pluck(self::cases(), 'name', 'value'), function (string $value, int|string $key) {
-            return Str::headline(strtolower($value));
+            return __(Str::headline(strtolower($value)));
         });
     }
 

@@ -70,24 +70,24 @@ export function DeleteComment ({comment} : Props) {
             </li>
             <Modal show={confirm} onHide={() => setConfirm(false)}>
                 <Modal.Header closeButton>
-                    <h5 className="modal-title">Permanently delete comment ?</h5>
+                    <h5 className="modal-title">{t('Permanently delete comment ?')}</h5>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="alert alert-danger">
-                        <span>Delete </span>
+                        <span>{t('Delete')}</span>
                         {
-                            comment.user.id === window.USER!.id ? <span>your</span> : <span className={'fw-bold'}>{comment.user.username}</span>
+                            comment.user.id === window.USER!.id ? <span>{t('your')}</span> : <span className={'fw-bold'}>{comment.user.username}</span>
                         }
-                        <span> comment permanently ?</span>
+                        <span>comment permanently ?</span>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setConfirm(false)}>
-                        Close
+                        {t('Close')}
                     </Button>
                     <Button variant="danger" onClick={handleDelete} disabled={isPending}>
                         {isPending && <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>}
-                        Delete
+                        {t('Delete')}
                     </Button>
                 </Modal.Footer>
             </Modal>

@@ -26,7 +26,7 @@
                         <strong>@size(config('plans.'.Auth::user()->plan.'.max_file_size'))</strong>
                     </span> •
                     @if(!Auth::user()->is_premium)
-                        <span>A{{ __('Available space')}} :
+                        <span>{{ __('Available space')}} :
                             <strong>@size(($available_space > 0) ? $available_space : 0)</strong>
                         </span>
                     @else

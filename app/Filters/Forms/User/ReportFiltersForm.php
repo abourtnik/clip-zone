@@ -13,10 +13,10 @@ class ReportFiltersForm extends FilterForm
     {
         $this
             ->add('search', Field::SEARCH, [
-                'label' => $this->getName(),
+                'label' => __('Search'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl col-xxl-3'],
                 'attr' => [
-                    'placeholder' => 'Search'
+                    'placeholder' => __('Search')
                 ],
                 'value' => $this->request->get('search')
             ])
@@ -24,30 +24,30 @@ class ReportFiltersForm extends FilterForm
                 'label' => 'Type',
                 'choices' => $this->getTypes(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->get('type'),
             ])
             ->add('reason', Field::SELECT, [
                 'label' => 'Reason',
                 'choices' => ReportReason::get(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->get('reason'),
             ])
             ->add('status', Field::SELECT, [
                 'label' => 'Status',
                 'choices' => ReportStatus::get(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->get('status'),
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
-                'label' => 'Report date start',
+                'label' => __('Report date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'value' => $this->request->get('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
-                'label' => 'Report date end',
+                'label' => __('Report date end'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'value' => $this->request->get('date_end')
             ]);
@@ -56,9 +56,9 @@ class ReportFiltersForm extends FilterForm
     private function getTypes () : array
     {
         return [
-            'video' => 'Video',
-            'comment' => 'Comment',
-            'user' => 'User'
+            'video' => __('Video'),
+            'comment' => __('Comment'),
+            'user' => __('User')
         ];
     }
 }

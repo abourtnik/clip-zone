@@ -19,10 +19,10 @@
     <?php endif; ?>
 
     <div class="btn-group col-auto">
-        <button type="submit" class="btn btn-outline-secondary" title="Search">
+        <button type="submit" class="btn btn-outline-secondary" title="{{ __('Search') }}">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
-        <a href="{{ url()->current() }}" class="btn btn-outline-secondary" title="Clear">
+        <a href="{{ url()->current() }}" class="btn btn-outline-secondary" title="{{ __('Reset') }}">
             <i class="fa-solid fa-eraser"></i>
         </a>
     </div>

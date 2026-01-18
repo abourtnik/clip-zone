@@ -280,7 +280,7 @@
                 <div class="card-footer d-flex justify-content-end">
                     <button type="submit" class="btn btn-primary">
                         <i class="fa-solid fa-user-edit"></i>
-                        {{ __('Update Profile') }}
+                        {{ __('Update My Profile') }}
                     </button>
                 </div>
             </form>

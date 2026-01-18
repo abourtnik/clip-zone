@@ -8,7 +8,7 @@
         <div class="col-xl-9 order-last order-xl-first mt-2 mt-xl-0">
             <div class="card shadow border-primary h-100">
                 <div class="card-body">
-                    <h4 class="card-title text-center text-primary mb-3">Views Evolution</h4>
+                    <h4 class="card-title text-center text-primary mb-3">{{ __('Views Evolution') }}</h4>
                     @if($video->views)
                         <div class="d-block" style="height: 547px">
                             <x-chartjs-component :chart="$chart" />
@@ -16,7 +16,7 @@
                     @else
                         <div class="d-flex flex-column justify-content-center align-items-center" style="height: 600px">
                             <i class="fa-solid fa-eye-slash fa-2x"></i>
-                            <h5 class="my-3">No views yet</h5>
+                            <h5 class="my-3">{{ __('No views yet') }}</h5>
                             <small class="text-muted">Some description</small>
                         </div>
                     @endif
@@ -28,11 +28,11 @@
                 <div class="col-12 col-sm-6 col-xl-12">
                     <div class="card shadow border-primary">
                         <div class="card-body">
-                            <h5 class="card-title text-center text-primary">Uploaded</h5>
+                            <h5 class="card-title text-center text-primary">{{ __('Uploaded') }}</h5>
                             <hr>
                             <div class="d-flex align-items-center justify-content-center gap-4">
                                 <i class="fa-solid fa-upload fa-2x"></i>
-                                <p class="card-text text-center fs-5">{{$video->created_at->format('d M Y H:i')}}</p>
+                                <p class="card-text text-center fs-5">{{$video->created_at->translatedFormat('d M Y \a\t H:i')}}</p>
                             </div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                 <div class="col-12 col-sm-6 col-xl-12">
                     <div class="card shadow border-primary">
                         <div class="card-body">
-                            <h5 class="card-title text-center text-primary">Views</h5>
+                            <h5 class="card-title text-center text-primary">{{ __('Views') }}</h5>
                             <hr>
                             <div class="d-flex align-items-center justify-content-center gap-4">
                                 <i class="fa-solid fa-eye fa-2x"></i>
@@ -52,7 +52,7 @@
                 <div class="col-12 col-sm-6 col-xl-12">
                     <div class="card shadow border-primary h-100">
                         <div class="card-body">
-                            <h5 class="card-title text-center text-primary">Comments</h5>
+                            <h5 class="card-title text-center text-primary">{{ __('Comments') }}</h5>
                             <hr>
                             <div class="d-flex align-items-center justify-content-center gap-4">
                                 <i class="fa-solid fa-comment fa-2x"></i>
@@ -64,7 +64,7 @@
                 <div class="col-12 col-sm-6 col-xl-12">
                     <div class="card shadow border-primary">
                         <div class="card-body text-center">
-                            <h5 class="card-title text-center text-primary">Interactions</h5>
+                            <h5 class="card-title text-center text-primary">{{ __('Interactions') }}</h5>
                             <hr>
                             <div class="d-flex align-items-center justify-content-center gap-5">
                                 <div class="d-flex align-items-center justify-content-center gap-2">
