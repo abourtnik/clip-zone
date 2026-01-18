@@ -1,7 +1,7 @@
 <div class="row align-items-start my-3">
     <div class="col-12 col-xl-4">
-        <h2>Channel Informations</h2>
-        <p class="text-muted">Update you channel informations</p>
+        <h2>{{ __('Channel Informations') }}</h2>
+        <p class="text-muted">{{ __('Update you channel informations') }}</p>
     </div>
     <div class="col-12 col-xl-8">
         <div class="card shadow-soft my-3">
@@ -22,7 +22,7 @@
                             :class="hover ? 'opacity-100 top-50' : 'opacity-0 top-75'"
                             style="transition: all 0.3s ease-in-out 0s;transform: translate(-50%, -50%);"
                         >
-                            <div class="fw-bold">Click to update Banner</div>
+                            <div class="fw-bold">{{ __('Click to update Banner') }}</div>
                         </div>
                         <image-upload
                             name="banner"
@@ -39,7 +39,7 @@
                     </div>
                     <div class="row mt-3">
                         <div class="col-12 col-sm-6 mb-3">
-                            <label for="website" class="form-label">Website</label>
+                            <label for="website" class="form-label">{{ __('Website') }}</label>
                             <input
                                 class="form-control"
                                 type="text"
@@ -52,7 +52,7 @@
                     </div>
                     <div class="row" x-data="{ count: 0 }" x-init="count = $refs.message.value.length">
                         <div class="col-12 mb-3">
-                            <label for="description" class="form-label">Channel Description</label>
+                            <label for="description" class="form-label">{{ __('Channel Description') }}</label>
                             <textarea
                                 class="form-control"
                                 id="description"
@@ -80,21 +80,23 @@
                                     @checked(old('show_subscribers', $user->show_subscribers))
                                 >
                                 <label class="form-check-label" for="show_subscribers">
-                                    Show subscribers count
+                                    {{ __('Show my subscribers count') }}
                                 </label>
                             </div>
-                            <div class="form-text">By disabling this option, you don't appear on <a class="text-decoration-none" href="{{route('subscription.discover')}}">discover</a> page</div>
+                            <div class="form-text">
+                                {!! __('By disabling this option, you don\'t appear on <a class="text-decoration-none" href=":discover_url">discover</a> page', ['discover_url' => route('subscription.discover')]) !!}
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer d-flex flex-column flex-sm-row gap-2 justify-content-between">
                     <a class="btn btn-success d-flex align-items-center gap-2" href="{{$user->route}}">
                         <i class="fa-solid fa-eye"></i>
-                        <span>Show my channel</span>
+                        <span>{{ __('Show my channel') }}</span>
                     </a>
                     <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
                         <i class="fa-solid fa-user-edit"></i>
-                        <span>Update Channel</span>
+                        <span>{{ __('Update Channel') }}</span>
                     </button>
                 </div>
             </form>
