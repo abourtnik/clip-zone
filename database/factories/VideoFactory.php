@@ -41,6 +41,7 @@ class VideoFactory extends Factory
             'allow_comments' => fake()->boolean(90),
             'default_comments_sort' => fake()->randomElement(['top', 'newest']),
             'show_likes' => fake()->boolean(90),
+            "show_ad" => fake()->boolean(90),
             'created_at' => $date,
             'updated_at' => $date,
             'uploaded_at' => $date
