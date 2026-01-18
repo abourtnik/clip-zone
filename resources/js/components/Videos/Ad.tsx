@@ -5,7 +5,7 @@ type Props = {
     setAds: (ads: boolean) => void
 }
 
-const ADS_DURATION: number = 50;
+const ADS_DURATION: number = 5;
 
 export function Ad ({setAds} : Props) {
 

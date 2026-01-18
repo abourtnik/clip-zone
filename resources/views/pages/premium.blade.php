@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="row align-items-center h-75 mt-5">
-        <div class="col-10 offset-1 py-4 px-3 px-sm-4" x-data="{plan : 1}">
+        <div class="col-12 py-4 px-3 px-sm-4" x-data="{plan : 1}">
             @if (session('error'))
                 <div class="alert alert-danger">
                     {!! session('error') !!}
