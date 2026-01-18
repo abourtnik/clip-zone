@@ -306,8 +306,9 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         return Attribute::make(
             get: fn () => collect([
                 'id' => $this->id,
-                'avatar' => $this->avatar_url]
-            )->toJson()
+                'avatar' => $this->avatar_url,
+                'is_premium' => $this->is_premium,
+            ])->toJson()
         );
     }
 

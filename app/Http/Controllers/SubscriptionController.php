@@ -29,10 +29,8 @@ class SubscriptionController extends Controller
                     ->withCount([
                         'subscribers',
                         'videos' => fn($query) => $query->active(),
-                        'premium_subscription' => fn($query) => $query->active()
                     ])
                     ->having('videos_count', '>', 0)
-                    ->orderBy('premium_subscription_count', 'desc')
                     ->orderBy('subscribers_count', 'desc')
                     ->orderBy('videos_count', 'desc')
                     ->orderBy('created_at', 'asc')
@@ -64,11 +62,9 @@ class SubscriptionController extends Controller
                 ->withCount([
                     'subscribers',
                     'videos' => fn($query) => $query->active(),
-                    'premium_subscription' => fn($query) => $query->active()
                 ])
                 ->having('videos_count', '>', 0)
                 ->when(Auth::check(), fn($query) => $query->whereNotIn('id', Auth::user()->subscriptions()->pluck('users.id')->push(Auth::id())->toArray()))
-                ->orderBy('premium_subscription_count', 'desc')
                 ->orderBy('subscribers_count', 'desc')
                 ->orderBy('videos_count', 'desc')
                 ->orderBy('created_at', 'asc')

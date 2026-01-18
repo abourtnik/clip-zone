@@ -7,7 +7,7 @@
 
 @section('content')
     <div class="row align-items-center h-75 mt-5">
-        <div class="col-10 offset-1 border border-1 bg-light py-4 px-3 px-sm-4" x-data="{plan : 1}">
+        <div class="col-10 offset-1 py-4 px-3 px-sm-4" x-data="{plan : 1}">
             @if (session('error'))
                 <div class="alert alert-danger">
                     {!! session('error') !!}
@@ -28,7 +28,7 @@
                 <span>• {{ __('Cancel anytime') }}</span>
             </h3>
             <div class="row">
-                <div class="col-12 col-lg-6 col-xl-5 mb-3 mb-lg-0">
+                <div class="col-12 col-lg-6 col-xl-5 mb-3 mb-lg-0 h-100">
                     <div class="mb-3">
                         <div class="card h-100">
                             <div class="card-body text-center">
@@ -70,10 +70,10 @@
                                     </div>
                                 </li>
                                 <li class="list-group-item d-flex align-items-center gap-4 py-3">
-                                    <i class="fa-solid fa-user-check fa-2x text-danger"></i>
+                                    <i class="fa-solid fa-arrow-pointer fa-2x text-danger"></i>
                                     <div class="d-flex flex-column gap-1">
-                                        <div class="fw-bold">{{ __('Channel promotion') }}</div>
-                                        {{ __('Promote your channel in discovery page') }}
+                                        <div class="fw-bold">{{ __('Videos without ads') }}</div>
+                                        {{ __('Enjoy your favorite content even more, without ads') }}
                                     </div>
                                 </li>
                             </ul>
@@ -101,9 +101,9 @@
                         </div>
                     @endforeach
                 </div>
-                <div class="col-12 col-lg-6 col-xl-7">
+                <div class="col-12 col-lg-6 col-xl-7 h-100">
                     @if(!Auth::user()?->premium_subscription)
-                    <div class="card card-body bg-light mb-3 h-50">
+                    <div class="card card-body bg-white mb-3 h-50 d-flex justify-content-center align-content-center">
                         <div class="d-flex gap-2 step">
                             <div class="progression">
                                 <div class="icon bg-success">
@@ -182,12 +182,12 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="fw-bold">{{ __('Channel promotion') }}</td>
-                                    <td>
-                                        <i class="fa-solid fa-xmark fs-4 text-gray-500"></i>
-                                    </td>
+                                    <td class="fw-bold">{{ __('Ads on videos') }}</td>
                                     <td>
                                         <i class="fa-solid fa-check fs-4 text-black"></i>
+                                    </td>
+                                    <td>
+                                        <i class="fa-solid fa-xmark fs-4 text-gray-500"></i>
                                     </td>
                                 </tr>
                                 </tbody>

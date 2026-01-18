@@ -39,7 +39,6 @@ register(Report, 'report-button', [], { shadow: false });
 register(VideoAutoplaySwitcher, 'video-autoplay-switch', [], { shadow: false });
 register(AutoplayNextVideoSwitcher, 'autoplay-switch', [], { shadow: false });
 register(ThemeSwitcher, 'theme-switch', [], { shadow: false });
-register(Player, 'video-player', [], { shadow: false });
 register(DynamicInput, 'dynamic-input', [], { shadow: false });
 register(HistoryList, 'user-history', [], { shadow: false });
 
@@ -52,6 +51,17 @@ customElements.define("interaction-buttons", r2wc(Interaction, {
         liked: "boolean",
         disliked: "boolean",
         showCount: "boolean",
+    },
+}));
+
+customElements.define("video-player", r2wc(Player, {
+    props: {
+        video_id: "string",
+        thumbnail_url: "string",
+        file_url: "string",
+        next_video: "string",
+        subtitles: "json",
+        show_ad: "boolean",
     },
 }));
 

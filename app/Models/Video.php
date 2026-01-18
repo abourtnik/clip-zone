@@ -41,6 +41,7 @@ class Video extends Model implements Likeable, Reportable
     protected $casts = [
         'allow_comments' => 'boolean',
         'show_likes' => 'boolean',
+        'show_ad' => 'boolean',
         'status' => VideoStatus::class,
         'published_at' => 'datetime',
         'scheduled_at' => 'datetime',

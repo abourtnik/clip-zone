@@ -35,6 +35,7 @@
                         file_url="{{$video->file_url}}"
                         next_video="{{$nextVideo?->route}}"
                         subtitles="{{$subtitles}}"
+                        show_ad="{{$video->show_ad}}"
                     />
                 @endif
             </div>

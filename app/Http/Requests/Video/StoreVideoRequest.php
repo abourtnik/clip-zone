@@ -79,6 +79,7 @@ class StoreVideoRequest extends FormRequest
                 Rule::in(['top', 'newest']),
             ],
             'show_likes' => 'required|boolean',
+            'show_ad' => 'required|boolean',
             'playlists' => 'nullable|array',
             'playlists.*' => [
                 'numeric',

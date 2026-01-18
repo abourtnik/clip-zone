@@ -4,7 +4,7 @@ export {};
 
 declare global {
     interface Window {
-        USER: { id: number, avatar: string } | null,
+        USER: { id: number, avatar: string, is_premium: boolean } | null,
         resumable: Resumable
         PRIVATE_CHANNEL: any;
         LANG: string;
