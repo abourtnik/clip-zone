@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\Activity\ActivityCreated;
 use App\Events\Activity\ActivityDeleted;
+use App\Events\Activity\ActivityUpdated;
 use App\Models\Activity;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,18 @@ class ActivityEventSubscriber
           'subject_id' => $event->model->id,
           'perform_at' => $event->model->created_at
       ]);
+    }
+
+    /**
+     * Handle user have updated activity event.
+     */
+    public function updateActivity(ActivityUpdated $event): void {
+        Auth::user()->activity()->where([
+            'subject_type' => get_class($event->model),
+            'subject_id' => $event->model->id,
+        ])->update([
+            'perform_at' => $event->model->created_at
+        ]);
     }
 
     /**
@@ -39,6 +52,7 @@ class ActivityEventSubscriber
     {
         return [
             ActivityCreated::class => 'saveActivity',
+            ActivityUpdated::class => 'updateActivity',
             ActivityDeleted::class => 'deleteActivity',
         ];
     }

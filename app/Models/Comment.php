@@ -34,7 +34,7 @@ class Comment extends Model implements Likeable, Reportable
     protected $guarded = ['id'];
 
     protected $casts = [
-        'banned_at'
+        'banned_at' => 'datetime',
     ];
 
     public const int SHORT_CONTENT_LIMIT = 500;

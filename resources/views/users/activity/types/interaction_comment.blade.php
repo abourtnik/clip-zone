@@ -9,9 +9,17 @@
                 @endif
             </div>
             <div class="d-flex flex-column gap-2 justify-content-between col-12 col-sm-8">
-                <x-expand-item color="black">
-                    {{$activity->subject->likeable->content}}
-                </x-expand-item>
+                @if($activity->subject->likeable->trashed())
+                    <div class="alert alert-info">{{ __('This comment was deleted') }}</div>
+                @elseif($activity->subject->likeable->is_banned)
+                    <div class="alert alert-danger">{{ __('This comment was banned') }}</div>
+                @else
+                    <div class="p-3 bg-dark-subtle text-dark-emphasis">
+                        <x-expand-item >
+                            {{$activity->subject->likeable->content}}
+                        </x-expand-item>
+                    </div>
+                @endif
                 <div class="text-muted text-sm">
                     @if($activity->subject->status)
                         {{ __('You liked a comment on the video') }}

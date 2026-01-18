@@ -32,6 +32,6 @@ class Interaction extends Model
 
     public function likeable() : MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo()->withTrashed();
     }
 }
