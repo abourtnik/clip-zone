@@ -62,6 +62,7 @@ customElements.define("video-player", r2wc(Player, {
         next_video: "string",
         subtitles: "json",
         show_ad: "boolean",
+        status: "number",
     },
 }));
 

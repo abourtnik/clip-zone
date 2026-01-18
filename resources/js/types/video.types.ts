@@ -14,4 +14,14 @@ export type VideoType = {
     is_private?: boolean
 }
 
-export type VideosSort = 'latest' | 'popular' | 'oldest'
+export type VideosSort = 'latest' | 'popular' | 'oldest';
+
+export enum VideoStatus {
+    PUBLIC = 0,
+    PRIVATE = 1,
+    PLANNED = 2,
+    UNLISTED = 3,
+    DRAFT = 4,
+    BANNED = 5,
+    FAILED = 6,
+}

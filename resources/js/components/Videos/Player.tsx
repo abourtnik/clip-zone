@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from "preact/hooks";
-import {SubtitleType} from "@/types";
-import {AUTOPLAY_VIDEO_KEY, AUTOPLAY_NEXT_VIDEO_KEY} from "@/components/Switchs";
+import {SubtitleType, VideoStatus} from "@/types";
+import {AUTOPLAY_NEXT_VIDEO_KEY, AUTOPLAY_VIDEO_KEY} from "@/components/Switchs";
 import {viewVideo} from "@/api/clipzone";
 import {QueryClient, QueryClientProvider, useMutation} from "@tanstack/react-query";
 import {Ad} from "@/components/Videos/Ad";
@@ -12,11 +12,12 @@ type Props = {
     next_video?: string|null,
     subtitles?: SubtitleType[],
     show_ad?: boolean
+    status?: VideoStatus
 }
 
 const VIEW_COUNT_DURATION = 1;
 
-export function Main ({video_id, thumbnail_url, file_url, next_video, subtitles, show_ad = false} : Props) {
+export function Main ({video_id, thumbnail_url, file_url, next_video, subtitles, show_ad = false, status = VideoStatus.PUBLIC} : Props) {
 
     const video = useRef<HTMLVideoElement>(null);
     const volume = JSON.parse(localStorage.getItem('volume') as string) || {value: 0.5, muted: false};
@@ -89,7 +90,7 @@ export function Main ({video_id, thumbnail_url, file_url, next_video, subtitles,
 
     }, [showAd]);
 
-    const displayAd = showAd && !window.USER?.is_premium;
+    const displayAd = showAd && !window.USER?.is_premium && status === VideoStatus.PUBLIC;
 
     return (
         <>
