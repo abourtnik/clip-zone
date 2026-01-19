@@ -5,24 +5,24 @@
 @section('content')
     @if($invoices->total())
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h2>{{ __('Invoices') }}</h2>
+            <h2>{{ __('My Invoices') }}</h2>
         </div>
         <hr>
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <thead>
-                <tr style="border-top: 3px solid #0D6EFD;">
-                    <th scope="col" style="min-width: 300px;">{{ __('Date') }}</th>
-                    <th scope="col" style="min-width: 300px;">{{ __('Description') }}</th>
-                    <th scope="col" style="min-width: 120px;">{{ __('Price') }}</th>
-                    <th scope="col">{{ __('Actions') }}</th>
-                </tr>
+                    <tr style="border-top: 3px solid #0D6EFD;">
+                        <th scope="col" style="min-width: 300px;">{{ __('Date') }}</th>
+                        <th scope="col" style="min-width: 300px;">{{ __('Description') }}</th>
+                        <th scope="col" style="min-width: 120px;">{{ __('Price') }}</th>
+                        <th scope="col">{{ __('Actions') }}</th>
+                    </tr>
                 </thead>
                 <tbody>
                 @foreach($invoices as $invoice)
                     <tr>
                         <td class="align-middle">
-                            {{$invoice->date->format('d F Y')}}
+                            {{$invoice->date->translatedFormat('d F Y')}}
                         </td>
                         <td class="align-middle">
                             {{ __('Premium account')}} {{$invoice->date->translatedFormat('d F Y')}}
@@ -48,7 +48,7 @@
         <div class="card shadow">
             <div class="card-body d-flex justify-content-center align-items-center">
                 <div class="my-3 text-center">
-                    <i class="fa-solid eye-slash fa-2x"></i>
+                    <i class="fa-solid fa-receipt fa-2x"></i>
                     <h5 class="my-3">{{ __('No invoices') }}</h5>
                 </div>
             </div>

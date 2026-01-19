@@ -48,6 +48,7 @@ class StorePlaylistRequest extends FormRequest
                 new Enum(PlaylistStatus::class)
             ],
             'sort' => [
+                'sometimes',
                 'required',
                 new Enum(PlaylistSort::class)
             ],

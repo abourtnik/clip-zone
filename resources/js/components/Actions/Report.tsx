@@ -1,12 +1,13 @@
 import {Modal} from "react-bootstrap";
 import {useState} from "preact/hooks";
-import {REPORT_REASONS, ReportData, ReportDataSchema} from "@/types";
+import {ReportReason, ReportData, ReportDataSchema} from "@/types";
 import {useErrorMutation} from "@/hooks";
 import {report} from "@/api/clipzone";
 import {Button} from "@/components/Commons";
 import {Fragment} from "preact";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {useTranslation} from "react-i18next";
+import {enumToArray} from "@/functions/string";
 
 type Props = {
     buttonClass: string,
@@ -77,11 +78,11 @@ export function Main ({buttonClass, reportedClass, type, id} : Props)  {
                         !reported &&
                         <form onSubmit={handleSubmit} id="report-form">
                             {
-                                REPORT_REASONS.map((reason, index) => (
+                                enumToArray(ReportReason).map(({value, label}) => (
                                     <div className="form-check mb-3">
-                                        <input className="form-check-input" type="radio" name="reason" id={'reason-' + index} value={reason} required/>
-                                        <label className="form-check-label" htmlFor={'reason-' + index}>
-                                            {t(reason)}
+                                        <input className="form-check-input" type="radio" name="reason" id={'reason-' + value} value={value} required/>
+                                        <label className="form-check-label" htmlFor={'reason-' + value}>
+                                            {t(label)}
                                         </label>
                                     </div>
                                 ))

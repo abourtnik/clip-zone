@@ -2,27 +2,20 @@
 
 namespace App\Enums;
 
-use Illuminate\Support\Arr;
+use App\Enums\Traits\Listable;
 
-enum ReportReason : string {
+enum ReportReason : int {
 
-    case SEXUAL = 'Sexual Content';
-    case VIOLENT = 'Violent or repulsive content';
-    case ABUSIVE = 'Hateful or abusive content';
-    case HARASSMENT = 'Harassment or bullying';
-    case HARMFUL = 'Harmful or dangerous acts';
-    case MISINFORMATION = 'Misinformation';
-    case CHILD_ABUSE = 'Child abuse';
-    case TERRORISM = 'Promotes terrorism';
-    case INFRINGES = 'Infringes my rights';
-    case CAPTIONS = 'Captions issue';
+    use Listable;
 
-
-    public static function get(): array {
-        return Arr::pluck(self::cases(), 'value', 'name');
-    }
-
-    public static function valid(): array {
-        return Arr::pluck(self::cases(), 'value');
-    }
+    case SEXUAL_CONTENT = 0;
+    case VIOLENT_OR_REPULSIVE_CONTENT = 1;
+    case HATEFUL_OR_ABUSIVE_CONTENT = 2;
+    case HARASSMENT_OR_BULLYING = 3;
+    case HARMFUL_OR_DANGEROUS_ACTS = 4;
+    case MISINFORMATION = 5;
+    case CHILD_ABUSE = 6;
+    case PROMOTES_TERRORISM = 7;
+    case INFRINGES_MY_RIGHTS = 8;
+    case CAPTIONS_ISSUE = 9;
 }

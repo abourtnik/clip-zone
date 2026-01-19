@@ -28,7 +28,7 @@ class ReportFiltersForm extends FilterForm
                 'selected' => $this->request->get('type'),
             ])
             ->add('reason', Field::SELECT, [
-                'label' => 'Reason',
+                'label' => __('Reason'),
                 'choices' => ReportReason::get(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'empty_value' => __('All'),

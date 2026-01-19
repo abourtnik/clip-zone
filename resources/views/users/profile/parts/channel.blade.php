@@ -96,7 +96,7 @@
                     </a>
                     <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">
                         <i class="fa-solid fa-user-edit"></i>
-                        <span>{{ __('Update Channel') }}</span>
+                        <span>{{ __('Update My Channel') }}</span>
                     </button>
                 </div>
             </form>

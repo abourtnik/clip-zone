@@ -106,7 +106,7 @@ export default {
     "Delete this comment ?": "Supprimer ce commentaire ?",
     "Permanently delete comment ?": "Supprimer ce commentaire ?",
     "If you already pinned a comment, this will replace it" : "Si vous avez déjà épinglé un commentaire, ce dernier sera remplacé",
-    "Sexual Content": "Contenu sexuel",
+    "Sexual content": "Contenu sexuel",
     "Violent or repulsive content": "Contenu violent ou répugnant",
     "Hateful or abusive content": "Contenu haineux ou abusif",
     "Harassment or bullying": "Harcèlement ou intimidation",
@@ -116,5 +116,6 @@ export default {
     "Promotes terrorism": "Fait la promotion du terrorisme",
     "Infringes my rights": "Porte atteinte à mes droits",
     "Captions issue": "Problème de sous-titres",
-    "Search user": "Rechercher un utilisateur"
+    "Search user": "Rechercher un utilisateur",
+    "User": "Utilisateur",
 }

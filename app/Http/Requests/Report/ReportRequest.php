@@ -40,7 +40,7 @@ class ReportRequest extends FormRequest
         return [
             'reason' => [
                 'required',
-                Rule::in(ReportReason::valid())
+                Rule::enum(ReportReason::class)
             ],
             'comment' => [
                 'nullable',

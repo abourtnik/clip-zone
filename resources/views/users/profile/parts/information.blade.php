@@ -1,7 +1,7 @@
 <div class="row align-items-start my-3">
     <div class="col-12 col-xl-4">
         <h2>{{ __('Profile Information') }}</h2>
-        <p class="text-muted">{{ __('Update you account profile information\'s and email address') }}</p>
+        <p class="text-muted">{{ __('Update you account profile information\'s') }}</p>
     </div>
     <div class="col-12 col-xl-8">
         <div class="card shadow-soft my-3">
@@ -200,7 +200,7 @@
                         <div class="col-12 col-sm-6 mb-3">
                             <label for="country" class="form-label">{{ __('Country') }}</label>
                             <select class="form-control" name="country" id="country">
-                                <option selected value="">{{ __('Select Country') }}</option>
+                                <option selected value="">--- {{ __('Select Country') }} ---</option>
                                 @foreach($countries as $code => $name)
                                     <option @selected(old('country', $user->country) === $code) value="{{$code}}">{{$name}}</option>
                                 @endforeach

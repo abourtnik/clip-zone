@@ -2,7 +2,7 @@
 
 @extends('layouts.user')
 
-@section('title', __('Channel dashboard'))
+@section('title', __('Dashboard'))
 
 @section('content')
     {!! form(FormBuilder::create(DashboardFiltersForm::class)) !!}
@@ -161,12 +161,12 @@
                     @endif
                 </div>
                 <div class="card-footer">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <a href="{{route('user.videos.index')}}" class="btn btn-primary btn-sm">
+                    <div class="d-flex flex-column flex-sm-row align-items-center justify-content-between gap-2">
+                        <a href="{{route('user.videos.index')}}" class="btn btn-primary btn-sm w-100 w-sm-auto">
                             <i class="fa-solid fa-eye"></i>&nbsp;
                             {{ __('See all videos') }}
                         </a>
-                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#video_create">
+                        <button class="btn btn-success btn-sm w-100 w-sm-auto" data-bs-toggle="modal" data-bs-target="#video_create">
                             <i class="fa-solid fa-upload"></i>
                             {{ __('Import new video') }}
                         </button>

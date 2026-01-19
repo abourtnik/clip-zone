@@ -17,7 +17,6 @@
                         <div class="d-flex flex-column justify-content-center align-items-center" style="height: 600px">
                             <i class="fa-solid fa-eye-slash fa-2x"></i>
                             <h5 class="my-3">{{ __('No views yet') }}</h5>
-                            <small class="text-muted">Some description</small>
                         </div>
                     @endif
                 </div>
@@ -32,7 +31,7 @@
                             <hr>
                             <div class="d-flex align-items-center justify-content-center gap-4">
                                 <i class="fa-solid fa-upload fa-2x"></i>
-                                <p class="card-text text-center fs-5">{{$video->created_at->translatedFormat('d M Y \a\t H:i')}}</p>
+                                <p class="card-text text-center fs-5">{{$video->created_at->translatedFormat('d M Y')}} {{ __('at') }} {{$video->created_at->translatedFormat('H:i')}}</p>
                             </div>
                         </div>
                     </div>

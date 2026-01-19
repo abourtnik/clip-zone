@@ -52,7 +52,7 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
 
     return (
         <div className={'position-relative'}>
-            <label htmlFor={name} className="form-label fw-bold">{label ?? name.charAt(0).toUpperCase() + name.slice(1)}</label>
+            <label htmlFor={name} className="form-label fw-bold">{t(label ?? name.charAt(0).toUpperCase() + name.slice(1))}</label>
             <div className={'position-relative'}>
                 <input
                     onClick={() => setShowResults(true)}

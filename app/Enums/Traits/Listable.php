@@ -10,11 +10,11 @@ trait Listable
 {
     public static function get () : array {
         return Arr::map(Arr::pluck(self::cases(), 'name', 'value'), function (string $value, int|string $key) {
-            return __(Str::headline(strtolower($value)));
+            return __(Str::ucfirst(Str::lower(Str::replace('_', ' ', $value))));
         });
     }
 
     public function name () :string {
-        return ucfirst(strtolower($this->name));
+        return __(Str::ucfirst(Str::lower(Str::replace('_', ' ', $this->name))));
     }
 }

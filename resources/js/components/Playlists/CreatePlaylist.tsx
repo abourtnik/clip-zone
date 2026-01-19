@@ -2,10 +2,11 @@ import {Button} from "@/components/Commons";
 import {useRef, useState} from "preact/hooks";
 import {InfiniteData, useQueryClient} from "@tanstack/react-query";
 import {useErrorMutation} from "@/hooks";
-import {PlaylistCreateDataSchema, Paginator, PlaylistType, PlaylistCreateData} from "@/types";
+import {PlaylistCreateDataSchema, Paginator, PlaylistType, PlaylistCreateData, PlaylistStatus} from "@/types";
 import {createPlaylist} from "@/api/clipzone";
 import {produce} from "immer";
 import {useTranslation} from "react-i18next";
+import {enumToArray} from "@/functions/string";
 
 type Props = {
     open: boolean
@@ -74,9 +75,11 @@ export function CreatePlaylist ({open, setOpen} : Props) {
                     <div className="mb-3">
                         <label htmlFor="status" className="form-label">{t('Visibility')}</label>
                         <select className="form-control" name="status" id="status" required>
-                            <option selected value="0">{t('Public')}</option>
-                            <option value="1">{t('Private')}</option>
-                            <option value="2">{t('Unlisted')}</option>
+                            {
+                                enumToArray(PlaylistStatus).map(({value, label}) => (
+                                    <option value={value}>{t(label)}</option>
+                                ))
+                            }
                         </select>
                     </div>
                     <div className="d-flex gap-2 justify-content-end">

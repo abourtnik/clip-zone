@@ -12,9 +12,9 @@ export type PlaylistType = {
 }
 
 export enum PlaylistStatus {
-    PRIVATE = 0,
-    UNLISTED = 1,
-    PUBLIC = 2,
+    PUBLIC = 0,
+    PRIVATE = 1,
+    UNLISTED = 2,
 }
 
 export const PlaylistCreateDataSchema = z.object({

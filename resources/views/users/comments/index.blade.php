@@ -2,7 +2,7 @@
 
 @extends('layouts.user')
 
-@section('title', __('Channel comments'))
+@section('title', __('Your videos comments'))
 
 @section('content')
     @if($comments->total() || request()->all())

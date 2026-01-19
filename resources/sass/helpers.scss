@@ -137,3 +137,9 @@ em {
         border-radius: var(--bs-border-radius) !important;
     }
 }
+
+@media (min-width: map-get($grid-breakpoints, "sm")) {
+    .w-sm-auto {
+        width: auto !important;
+    }
+}

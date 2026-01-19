@@ -2,7 +2,7 @@
 
 @extends('layouts.user')
 
-@section('title', __('Channel subscribers'))
+@section('title', __('My Subscribers'))
 
 @section('content')
     @if($subscriptions->total() || request()->all())

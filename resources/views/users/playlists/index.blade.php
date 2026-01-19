@@ -2,7 +2,7 @@
 
 @extends('layouts.user')
 
-@section('title', __('Channel playlists'))
+@section('title', __('My Playlists'))
 
 @section('content')
     @if($playlists->total() || request()->all())
@@ -50,7 +50,7 @@
                         <td class="align-middle">
                             <span class="badge bg-{{$playlist->status->color()}}">
                                 <i class="fa-solid fa-{{$playlist->status->icon()}}"></i>&nbsp;
-                                {{__($playlist->status->name())}}
+                                {{ $playlist->status->name() }}
                             </span>
                         </td>
                         <td class="align-middle">

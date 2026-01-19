@@ -51,7 +51,7 @@ class ReportTest extends TestCase
         $response = $this->actingAs($this->user)->withHeaders([
             'Accept' => 'application/json'
         ])->post(route('report'), [
-            'reason' => ReportReason::ABUSIVE->value,
+            'reason' => ReportReason::SEXUAL_CONTENT->value,
             'type' => 'Bad type'
         ]);
 
@@ -64,7 +64,7 @@ class ReportTest extends TestCase
         $response = $this->actingAs($this->user)->withHeaders([
             'Accept' => 'application/json'
         ])->post(route('report'), [
-            'reason' => ReportReason::ABUSIVE->value,
+            'reason' => ReportReason::SEXUAL_CONTENT->value,
             'type' => Video::class,
             'id' => 999
         ]);
@@ -84,7 +84,7 @@ class ReportTest extends TestCase
         $response = $this->actingAs($this->user)->withHeaders([
             'Accept' => 'application/json'
         ])->post(route('report'), [
-            'reason' => ReportReason::ABUSIVE->value,
+            'reason' => ReportReason::SEXUAL_CONTENT->value,
             'type' => Video::class,
             'id' => $video->id
         ]);
@@ -110,7 +110,7 @@ class ReportTest extends TestCase
         $response = $this->actingAs($this->user)->withHeaders([
             'Accept' => 'application/json'
         ])->post(route('report'), [
-            'reason' => ReportReason::ABUSIVE->value,
+            'reason' => ReportReason::SEXUAL_CONTENT->value,
             'type' => Comment::class,
             'id' => $comment->id
         ]);
@@ -123,7 +123,7 @@ class ReportTest extends TestCase
         $response = $this->actingAs($this->user)->withHeaders([
             'Accept' => 'application/json'
         ])->post(route('report'), [
-            'reason' => ReportReason::ABUSIVE->value,
+            'reason' => ReportReason::SEXUAL_CONTENT->value,
             'type' => User::class,
             'id' => $this->user->id
         ]);
@@ -142,7 +142,7 @@ class ReportTest extends TestCase
         $response = $this->actingAs($this->user)->withHeaders([
             'Accept' => 'application/json'
         ])->post(route('report'), [
-            'reason' => ReportReason::ABUSIVE->value,
+            'reason' => ReportReason::SEXUAL_CONTENT->value,
             'type' => Video::class,
             'id' => $video->id
         ]);
@@ -161,7 +161,7 @@ class ReportTest extends TestCase
         $response = $this->actingAs($this->user)->withHeaders([
             'Accept' => 'application/json'
         ])->post(route('report'), [
-            'reason' => ReportReason::ABUSIVE->value,
+            'reason' => ReportReason::SEXUAL_CONTENT->value,
             'type' => Video::class,
             'id' => $video->id
         ]);
@@ -185,7 +185,7 @@ class ReportTest extends TestCase
         $response = $this->actingAs($this->user)->withHeaders([
             'Accept' => 'application/json'
         ])->post(route('report'), [
-            'reason' => ReportReason::ABUSIVE->value,
+            'reason' => ReportReason::SEXUAL_CONTENT->value,
             'type' => Comment::class,
             'id' => $comment->id
         ]);
@@ -200,7 +200,7 @@ class ReportTest extends TestCase
         $response = $this->actingAs($this->user)->withHeaders([
             'Accept' => 'application/json'
         ])->post(route('report'), [
-            'reason' => ReportReason::ABUSIVE->value,
+            'reason' => ReportReason::SEXUAL_CONTENT->value,
             'type' => User::class,
             'id' => $user->id
         ]);
@@ -225,7 +225,7 @@ class ReportTest extends TestCase
         $response = $this->actingAs($this->user)->withHeaders([
             'Accept' => 'application/json'
         ])->post(route('report'), [
-            'reason' => ReportReason::ABUSIVE->value,
+            'reason' => ReportReason::SEXUAL_CONTENT->value,
             'type' => Video::class,
             'id' => $video->id
         ]);
@@ -244,7 +244,7 @@ class ReportTest extends TestCase
         $response = $this->actingAs($this->user)->withHeaders([
             'Accept' => 'application/json'
         ])->post(route('report'), [
-            'reason' => ReportReason::ABUSIVE->value,
+            'reason' => ReportReason::SEXUAL_CONTENT->value,
             'type' => Video::class,
             'id' => $video->id
         ]);
@@ -257,7 +257,7 @@ class ReportTest extends TestCase
             [
                 $report->user->is($this->user),
                 $report->reportable->is($video),
-                $report->reason->name === ReportReason::ABUSIVE->name,
+                $report->reason->name === ReportReason::SEXUAL_CONTENT->name,
             ],
             [true, true, true],
         );
