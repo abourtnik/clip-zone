@@ -1,11 +1,10 @@
 @extends('layouts.default')
 
-@section('title', 'All playlists')
+@section('title', __('My Favorite Playlists'))
 
 @section('content')
     @if($playlists->count())
-    <h4>Favorite Playlists ({{$playlists->count()}})</h4>
-    <hr>
+        <h3 class="mb-4">{{ __('My Favorite Playlists')}}</h3>
     @endif
     <div class="container">
         @forelse($playlists as $playlist)
@@ -15,12 +14,8 @@
                 <div class="h-full card shadow">
                     <div class="card-body">
                         <div class="text-center">
-                            <i class="fa-brands fa-youtube fa-4x mb-3"></i>
-                            <h5 class="mb-3">Don’t miss new videos</h5>
-                            <p class="text-muted">Begin with subscribe to your first playlist</p>
-                            <a href="{{route('subscription.discover')}}" class="btn btn-outline-primary rounded-5 text-uppercase">
-                                Discover new channels
-                            </a>
+                            <i class="fa-solid fa-list fa-4x mb-3"></i>
+                            <h5 class="mb-3">{{ __('You haven\'t added any playlists to your favorites yet') }}</h5>
                         </div>
                     </div>
                 </div>

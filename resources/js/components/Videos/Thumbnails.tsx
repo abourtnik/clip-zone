@@ -39,8 +39,6 @@ function Main ({video} : Props) {
 
     const queryClient = useQueryClient();
 
-    const { t } = useTranslation();
-
     const {selected, setSelected} = useSelectedStore();
 
     useEffect(() => {
@@ -214,10 +212,10 @@ function Upload ({thumbnail} : {thumbnail: ThumbnailType | undefined}) {
                                         <Popover.Header as="h3">{t('Recommendations')}</Popover.Header>
                                         <Popover.Body>
                                             <ul>
-                                                <li>Make your thumbnail 1280 by 720 pixels (16:9 ratio)</li>
-                                                <li>Min size required is {config.thumbnail.minWidth} x {config.thumbnail.minHeight}</li>
-                                                <li>Ensure that your thumbnail is less than {config.thumbnail.maxSize}MB</li>
-                                                <li>Use a file PNG, JPEG, JPG, WEBP format</li>
+                                                <li>{t('Make your thumbnail 1280 by 720 pixels (16:9 ratio)')}</li>
+                                                <li>{t('Min size required is')} {config.thumbnail.minWidth} x {config.thumbnail.minHeight}</li>
+                                                <li>{t('Ensure that your thumbnail file is less than')} {config.thumbnail.maxSize}MB</li>
+                                                <li>{t('Use a file PNG, JPEG, JPG, WEBP format')}</li>
                                             </ul>
                                         </Popover.Body>
                                     </Popover>
@@ -248,13 +246,15 @@ const Thumbnail = memo(({thumbnail} : {thumbnail: ThumbnailType}) => {
 
     const {selected, setSelected} = useSelectedStore();
 
+    const { t } = useTranslation();
+
     return (
         <div className={'col-6'}>
             {
                 thumbnail.status === ThumbnailStatus.PENDING && (
                     <div className={'placeholder-wave h-100 w-100 position-relative'} style='min-height: 100px'>
                         <span className="placeholder h-100 w-100"></span>
-                        <span className="position-absolute top-50 start-50 translate-middle w-100 text-center text-white">Auto-generating ...</span>
+                        <span className="position-absolute top-50 start-50 translate-middle w-100 text-center text-white">{t('Auto-generating ...')}</span>
                     </div>
                 )
             }

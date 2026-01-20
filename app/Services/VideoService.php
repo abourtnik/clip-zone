@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\DTOs\NextVideoDTO;
+use App\Data\NextVideoDTO;
 use App\Models\Playlist;
 use App\Models\Video;
 use Illuminate\Database\Eloquent\Collection;

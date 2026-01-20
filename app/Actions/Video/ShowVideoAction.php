@@ -2,7 +2,7 @@
 
 namespace App\Actions\Video;
 
-use App\DTOs\NextVideoDTO;
+use App\Data\NextVideoDTO;
 use App\Http\Resources\SubtitleResource;
 use App\Models\Playlist;
 use App\Models\Video;

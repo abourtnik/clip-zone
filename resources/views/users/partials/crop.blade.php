@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Customize picture</h5>
+                <h5 class="modal-title">{{ __('Resize picture') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -11,8 +11,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button id="crop_button" type="button" class="btn btn-primary" data-bs-dismiss="modal">Done</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
+                <button id="crop_button" type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ __('Resize') }}</button>
             </div>
         </div>
     </div>

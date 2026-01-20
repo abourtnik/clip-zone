@@ -74,11 +74,11 @@ export function DeleteComment ({comment} : Props) {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="alert alert-danger">
-                        <span>{t('Delete')}</span>
                         {
-                            comment.user.id === window.USER!.id ? <span>{t('your')}</span> : <span className={'fw-bold'}>{comment.user.username}</span>
+                            comment.user.id === window.USER!.id
+                                ? t('Delete your comment permanently ?')
+                                : t('Delete {username} comment permanently ?', { username: comment.user.username })
                         }
-                        <span>comment permanently ?</span>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

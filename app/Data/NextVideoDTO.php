@@ -1,6 +1,6 @@
 <?php
 
-namespace App\DTOs;
+namespace App\Data;
 
 use App\Models\Video;
 use App\Models\Playlist;

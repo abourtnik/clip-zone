@@ -1,11 +1,10 @@
 @extends('layouts.default')
 
-@section('title', 'All subscriptions')
+@section('title', __('My Subscriptions'))
 
 @section('content')
     @if($subscriptions->count())
-        <h4>All Subscriptions ({{$subscriptions->count()}})</h4>
-        <hr>
+        <h3 class="mb-4">{{ __('My Subscriptions')}}</h3>
     @endif
     <div class="container">
         @forelse($subscriptions as $user)
@@ -33,10 +32,10 @@
                     <div class="card-body">
                         <div class="text-center">
                             <i class="fa-brands fa-youtube fa-4x mb-3"></i>
-                            <h5 class="mb-3">Don’t miss new videos</h5>
-                            <p class="text-muted">Begin with subscribe to your first channel</p>
+                            <h5 class="mb-3">{{ __('Don’t miss new videos') }}</h5>
+                            <p class="text-muted">{{ __('Begin with subscribe to your first channel') }}</p>
                             <a href="{{route('subscription.discover')}}" class="btn btn-outline-primary rounded-5 text-uppercase">
-                                Discover new channels
+                                {{ __('Discover new channels') }}
                             </a>
                         </div>
                     </div>

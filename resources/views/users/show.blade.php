@@ -76,8 +76,8 @@
                         </button>
                     @else
                         <div class="d-flex gap-2">
-                            <a href="{{route('user.edit')}}" class="btn btn-primary">Customize channel</a>
-                            <a href="{{route('user.videos.index')}}" class="btn btn-primary">Manage videos</a>
+                            <a href="{{route('user.edit')}}" class="btn btn-primary">{{ __('Customize channel') }}</a>
+                            <a href="{{route('user.videos.index')}}" class="btn btn-primary">{{ __('Manage videos') }}</a>
                         </div>
                     @endif
                 </div>
@@ -178,7 +178,7 @@
                         <user-videos user="{{$user->id}}" />
                     @else
                         <div class="alert alert-primary mt-4">
-                            {{ __('This user has no videos') }}
+                            {{ __('This channel has no videos') }}
                         </div>
                     @endif
                 </div>
@@ -189,7 +189,7 @@
                         </div>
                     @else
                         <div class="alert alert-primary mt-4">
-                            {{ __('This user has no playlists') }}
+                            {{ __('This channel has no playlists') }}
                         </div>
                     @endif
                 </div>

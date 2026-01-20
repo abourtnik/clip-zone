@@ -2,6 +2,7 @@ import { useRef } from 'preact/hooks';
 import configuration from "@/config";
 import {show as showToast} from "@/functions/toast";
 import {ChangeEvent, InputHTMLAttributes} from "react";
+import {useTranslation} from "react-i18next";
 
 const MB = 1048576;
 
@@ -13,7 +14,9 @@ type Props = {
 export default function ImageUpload ({name, config, ...attributes} : Props) {
 
     const input = useRef<HTMLInputElement>(null);
-    const button = useRef<HTMLButtonElement>(null)
+    const button = useRef<HTMLButtonElement>(null);
+
+    const { t } = useTranslation();
 
     const fileConfig = configuration[config];
 
@@ -28,12 +31,18 @@ export default function ImageUpload ({name, config, ...attributes} : Props) {
         }
 
         if(!configuration.accepted_format.includes(file.type)) {
-            showToast(`The file type is invalid (${file.type}). Allowed types are ${configuration.accepted_format.join(', ')}`)
+            showToast(t('Your file type is invalid ({type}). Allowed types are allowedTypes', {type :file.type, allowedTypes: configuration.accepted_format.join(', ')}))
             return;
         }
 
         if(file.size > (fileConfig.maxSize * MB)) {
-            showToast(`Your ${name} file is too large (${Math.round((file.size / 1000000) * 100) / 100} MB) The uploading file should not exceed ${fileConfig.maxSize} MB.`)
+            showToast(
+                t('Your file is too large ({size} MB) The uploading file should not exceed {maxSize} MB', {
+                    name: name,
+                    size: Math.round((file.size / 1000000) * 100) / 100,
+                    maxSize: fileConfig.maxSize
+                })
+            )
             return;
         }
 
@@ -42,7 +51,15 @@ export default function ImageUpload ({name, config, ...attributes} : Props) {
         image.onload = function() {
 
             if (image.width < fileConfig.minWidth || image.height < fileConfig.minHeight) {
-                showToast(`Your ${name} file is too small (${image.width} x ${image.height}). The ${name} image must be at least ${fileConfig.minWidth} x ${fileConfig.minHeight} pixels`)
+                showToast(
+                    t('Your file is too small ({width} x {height}). The uploading image must be at least {minWidth} x {minHeight} pixels', {
+                        name: name,
+                        width: image.width,
+                        height: image.height,
+                        minWidth: fileConfig.minWidth,
+                        minHeight: fileConfig.minHeight
+                    })
+                )
             } else {
                 document.getElementById('cropped_image')!.setAttribute('src', URL.createObjectURL(file));
                 button.current!.click()

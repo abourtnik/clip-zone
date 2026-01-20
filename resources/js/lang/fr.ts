@@ -118,4 +118,14 @@ export default {
     "Captions issue": "Problème de sous-titres",
     "Search user": "Rechercher un utilisateur",
     "User": "Utilisateur",
+    "Auto-generating ...": "Génération en cours ...",
+    "Delete your comment permanently ?": "Supprimer définitivement votre commentaire ?",
+    "Delete {username} comment permanently ?": "Supprimer définitivement le commenntaire de {username} ?",
+    "Make your thumbnail 1280 by 720 pixels (16:9 ratio)": "Créez une miniature de 1280 x 720 pixels (format 16:9)",
+    "Min size required is": "La taille minimale requise est",
+    "Ensure that your thumbnail file is less than": "Assurez-vous que votre fichier ait une taille inférieure à",
+    "Use a file PNG, JPEG, JPG, WEBP format": "Utilisez un fichier au format PNG, JPEG, JPG ou WEBP",
+    "Your file type is invalid ({type}). Allowed types are allowedTypes": "Votre fichier est invalide ({type}). Les types autorisés sont {allowedTypes}",
+    "Your file is too large ({size} MB) The uploading file should not exceed {maxSize} MB": "Votre fichier est trop volumineux ({size} Mo). La taille du fichier à télécharger ne doit pas excéder {maxSize} Mo",
+    "Your file is too small ({width} x {height}). The uploading image must be at least {minWidth} x {minHeight} pixels": "Votre fichier est trop petit ({width} x {height}). L'image à télécharger doit faire au moins {minWidth} x {minHeight} pixels"
 }

@@ -106,7 +106,14 @@
                         <div class="row">
                             <div class="col-12">
                                 <label for="playlists" class="form-label d-none">{{ __('Playlists') }}</label>
-                                <select id="playlists" name="playlists[]" multiple placeholder="Select Playlist..." autocomplete="off" class="select-multiple form-control">
+                                <select
+                                    id="playlists"
+                                    name="playlists[]"
+                                    multiple
+                                    placeholder="{{ __('Search Playlist') }}"
+                                    autocomplete="off"
+                                    class="select-multiple form-control"
+                                >
                                     @foreach($playlists as $playlist)
                                         <option @selected(in_array($playlist->id, old('playlists', []))) value="{{$playlist->id}}">{{Str::limit($playlist->title, 40)}}</option>
                                     @endforeach
@@ -162,7 +169,7 @@
                                         data-link="{{$video->route}}"
                                         data-bs-toggle="tooltip"
                                         data-bs-trigger="click"
-                                        data-bs-title="Link copied !"
+                                        data-bs-title="{{ __('Link copied !') }}"
                                     >
                                         <i class="fa-regular fa-copy"></i>
                                     </button>
@@ -191,7 +198,7 @@
                                     data-link="{{$video->uuid}}"
                                     data-bs-toggle="tooltip"
                                     data-bs-trigger="click"
-                                    data-bs-title="ID copied !"
+                                    data-bs-title="{{ __('ID copied !') }}"
                                 >
                                     <i class="fa-regular fa-copy"></i>
                                 </button>

@@ -13,8 +13,8 @@
             </div>
         @else
             <div class="d-flex justify-content-between align-items-center mb-3 p-3">
-                <h5 class="mb-0">{{ __('Latest') }}</h5>
-                <a href="{{route('subscription.manage')}}" class="btn btn-primary btn-sm">
+                <h3 class="mb-0">{{ __('Latest') }}</h3>
+                <a href="{{route('subscription.manage')}}" class="btn btn-primary">
                     <i class="fa-solid fa-users"></i>
                     {{ __('Manage') }}
                 </a>

@@ -124,7 +124,7 @@ Route::controller(SearchController::class)->name('search.')->group(function () {
 // SUBSCRIPTION
 Route::controller(SubscriptionController::class)->name('subscription.')->group(function () {
     Route::get('/subscriptions', 'index')->name('index');
-    Route::get('/manage', 'manage')->name('manage')->middleware('auth');
+    Route::get('/subscriptions/manage', 'manage')->name('manage')->middleware('auth');
     Route::get('/discover', 'discover')->name('discover');
 });
 
