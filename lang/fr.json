@@ -380,7 +380,7 @@
     "Popular": "Populaire",
     "Date published newest": "Date de publication la plus récente",
     "Date published oldest": "Date de publication la plus ancienne",
-    "Manual": "Manuelle",
+    "Manual": "Manuel",
     "Create Playlist": "Créer la playlist",
     "See Playlist": "Voir la playlist",
     "Playlist detail": "Détails de la playlist",
@@ -480,5 +480,14 @@
     "Your video is almost ready ..." : "Votre vidéo est presque prête...",
     "Search Playlist": "Rechercher une playlist",
     "Resize picture": "Redimensionner l'image",
-    "Resize": "Redimensionner"
+    "Resize": "Redimensionner",
+    "You posted a comment on the video": "Vous avez publié un commentaire sur la vidéo",
+    "You respond to a comment on the video": "Vous avez répondu à un commentaire sur la vidéo",
+    "This comment was deleted": "Ce commentaire a été supprimé",
+    "This comment was banned": "Ce commentaire a été banni",
+    "You liked a comment on the video": "Vous avez aimé un commentaire sur la vidéo",
+    "You disliked a comment on the video": "Vous n'avez pas aimé un commentaire sur la vidéo",
+    "You liked video": "Vous avez aimé la vidéo",
+    "You disliked video": "Vous n'avez pas aimé la vidéo",
+    "This video was banned": "Cette vidéo a été banni"
 }
