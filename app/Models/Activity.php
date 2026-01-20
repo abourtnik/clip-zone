@@ -14,7 +14,7 @@ class Activity extends Model
 {
     use Filterable;
 
-    protected $table = 'users_activity';
+    protected $table = 'activities';
 
     protected $guarded = ['id'];
 

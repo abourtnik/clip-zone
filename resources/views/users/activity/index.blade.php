@@ -11,7 +11,7 @@
     <hr>
     {!! form(FormBuilder::create(ActivityFiltersForm::class)) !!}
     <div class="row">
-        <div class="col-xl-8 order-last order-xl-first">
+        <div class="col-xl-9 order-last order-xl-first">
             @if($activities->total() || request()->all())
                 @forelse($activities as $activity)
                     @include('users.activity.types.'. $activity->type)
@@ -42,50 +42,24 @@
                 </div>
             @endif
         </div>
-        <div class="col-xl-4 order-first order-xl-last mb-3 mb-xl-0">
+        <div class="col-xl-3 order-first order-xl-last mb-3 mb-xl-0">
             <div class="card card-body">
                 <h5 class="text-primary">{{ __('Statistics') }}</h5>
-                <hr>
-                <ul class="list-group list-group-flush border-top-0">
-                    <li class="list-group-item ps-0 py-3">
-                        <div class="row">
-                            <div class="col-12 col-sm d-flex align-items-center gap-3 mb-3 mb-sm-0">
-                                <div class="rounded-circle text-white px-2 py-1 bg-success">
-                                    <i class="fa-solid fa-thumbs-up"></i>
-                                </div>
-                                <span>{{ __('Liked videos') }} : {{$user->video_likes_count}}</span>
-                            </div>
-                            <div class="col-12 col-sm d-flex align-items-center gap-3">
-                                <div class="rounded-circle text-white px-2 py-1 bg-danger">
-                                    <i class="fa-solid fa-thumbs-down"></i>
-                                </div>
-                                <span>{{ __('Disliked videos') }} : {{$user->video_dislikes_count}}</span>
-                            </div>
-                        </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item ps-0">
+                        <span>{{ __('Liked videos') }} : {{$user->video_likes_count}}</span>
                     </li>
-                    <li class="list-group-item ps-0 py-3">
-                        <div class="row">
-                            <div class="col-12 col-sm d-flex align-items-center gap-3 mb-3 mb-sm-0">
-                                <div class="rounded-circle text-white px-2 py-1 bg-success">
-                                    <i class="fa-solid fa-thumbs-up"></i>
-                                </div>
-                                <span>{{ __('Liked comments') }} : {{$user->comment_likes_count}}</span>
-                            </div>
-                            <div class="col-12 col-sm d-flex align-items-center gap-3 mb-3 mb-sm-0">
-                                <div class="rounded-circle text-white px-2 py-1 bg-danger">
-                                    <i class="fa-solid fa-thumbs-down"></i>
-                                </div>
-                                <span>{{ __('Disliked comments') }} : {{$user->comment_dislikes_count}}</span>
-                            </div>
-                        </div>
+                    <li class="list-group-item ps-0">
+                        <span>{{ __('Disliked videos') }} : {{$user->video_likes_count}}</span>
                     </li>
-                    <li class="list-group-item ps-0 d-flex align-items-center justify-content-between py-3">
-                        <div class="d-flex align-items-center gap-3">
-                            <div class="rounded-circle text-white px-2 py-1 bg-primary">
-                                <i class="fa-solid fa-comment"></i>
-                            </div>
-                            <span>{{ __('Comments') }} : {{$user->comments_count}}</span>
-                        </div>
+                    <li class="list-group-item ps-0">
+                        <span>{{ __('Liked comments') }} : {{$user->video_likes_count}}</span>
+                    </li>
+                    <li class="list-group-item ps-0">
+                        <span>{{ __('Disliked comments') }} : {{$user->video_likes_count}}</span>
+                    </li>
+                    <li class="list-group-item ps-0">
+                        <span>{{ __('Comments') }} : {{$user->video_likes_count}}</span>
                     </li>
                 </ul>
             </div>
