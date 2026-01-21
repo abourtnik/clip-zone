@@ -11,7 +11,7 @@
                 @endif
                 <div class="card-body">
                     <h2 class="h4 my-3">{{$playlist->title}}</h2>
-                    <div class="mt-3">by <a class="text-decoration-none fw-bold " href="{{$playlist->user->route}}">{{$playlist->user->username}}</a> </div>
+                    <div class="mt-3">{{ __('by') }} <a class="text-decoration-none fw-bold " href="{{$playlist->user->route}}">{{$playlist->user->username}}</a> </div>
                     <span class="badge bg-{{$playlist->status->color()}} my-3">
                         <i class="fa-solid fa-{{$playlist->status->icon()}}"></i>&nbsp;
                         {{$playlist->status->name()}}
@@ -72,7 +72,7 @@
                         <div class="d-flex align-items-start mt-2">
                             <a href="{{route('user.playlists.edit', $playlist)}}" class="btn btn-info btn-sm d-flex gap-2">
                                 <i class="fa-solid fa-pen"></i>
-                                <span>Edit playlist</span>
+                                <span>{{ __('Edit playlist') }}</span>
                             </a>
                         </div>
                     @endif
@@ -112,7 +112,7 @@
                     </div>
                 @else
                     <div class="alert alert-info mb-0">
-                        This playlist does not contain any videos at the moment.
+                        {{ __('This playlist does not contain any videos at the moment') }}
                     </div>
                 @endif
             </div>
