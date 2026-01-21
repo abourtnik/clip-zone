@@ -17,9 +17,9 @@
                 <tr style="border-top: 3px solid #0D6EFD;">
                     <th scope="col" style="min-width: 200px;">{{ __('Channel') }}</th>
                     <th scope="col" style="min-width: 174px;">{{ __('Subscribed at') }}</th>
-                    <th scope="col" style="min-width: 159px;">{{ __('Subscribers count') }}</th>
-                    <th scope="col" style="min-width: 151px;">{{ __('Registration date') }}</th>
-                    <th scope="col">{{ __('Action') }}</th>
+                    <th scope="col" style="min-width: 165px;">{{ __('Subscribers count') }}</th>
+                    <th scope="col" style="min-width: 156px;">{{ __('Registration date') }}</th>
+                    <th scope="col" style="min-width: 149px;">{{ __('Action') }}</th>
                 </tr>
                 </thead>
                 <tbody>

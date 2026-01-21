@@ -27,7 +27,7 @@ function Main ({isSubscribe = true, user, size = null} : Props) {
         <button
             onClick={() => mutate()}
             className={clsx("btn rounded-4 px-3", {
-                "bg-light-dark text-dark": subscribed,
+                "bg-light-dark text-body": subscribed,
                 "btn-dark": !subscribed,
                 ['btn-' + size]: size,
             })}

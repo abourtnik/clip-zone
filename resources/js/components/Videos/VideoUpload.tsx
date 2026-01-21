@@ -37,7 +37,12 @@ export function VideoUpload ({endpoint, maxsize} : Props) {
         }
 
         if(file.size > maxsize) {
-            setError(`Your ${name} file is too large (${formatSizeUnits(file.size)}) The uploading file should not exceed ${formatSizeUnits(maxsize)}.`)
+            setError(
+                t('Your file is too large ({size} MB) The uploading file should not exceed {maxSize} MB', {
+                    size: formatSizeUnits(file.size),
+                    maxSize: formatSizeUnits(maxsize)
+                })
+            )
             return;
         }
 

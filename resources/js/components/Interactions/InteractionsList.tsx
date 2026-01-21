@@ -64,15 +64,13 @@ function Main ({target} : Props) {
 
     return (
         <div style="height: 450px;">
-            <div className={'d-flex gap-2 align-items-center'}>
+            <div className={'d-flex flex-wrap gap-2 align-items-center'}>
                 <button onClick={() => filtering('all')} className={'btn btn-' + activeButton('all') + 'btn-sm'}>{t('All')}</button>
                 <button onClick={() => filtering('up')} className={'d-flex align-items-center gap-2 btn btn-' + activeButton('up') + 'btn-sm'}>
-                    <span>{t('Only')}</span>
-                    <i className="fa-solid fa-thumbs-up"></i>
+                    <span>{t('Only Likes')}</span>
                 </button>
                 <button onClick={() => filtering('down')} className={'d-flex align-items-center gap-2 btn btn-' + activeButton('down') + 'btn-sm'}>
-                    <span>{t('Only')}</span>
-                    <i className="fa-solid fa-thumbs-down"></i>
+                    <span>{t('Only Dislikes')}</span>
                 </button>
                 <input onChange={searching} type="text" className={'form-control form-control-sm'} placeholder={t('Search user')} aria-label="Search"/>
             </div>
@@ -138,7 +136,7 @@ function Interaction ({interaction} : {interaction: InteractionType}) {
     return (
         <li className="list-group-item d-flex flex-wrap justify-content-between align-items-center">
             <div className={'d-flex align-items-center gap-2 gap-sm-4'}>
-                <div className={'p-2 badge bg-' + (interaction.status ? 'success' : 'danger')}>
+                <div className={'p-2 badge text-' + (interaction.status ? 'success' : 'danger')}>
                     {interaction.status ? <i className="fa-solid fa-thumbs-up"></i> : <i className="fa-solid fa-thumbs-down"></i>}
                 </div>
                 <div className={'d-flex align-items-center gap-2 ap-sm-4'}>
@@ -147,7 +145,7 @@ function Interaction ({interaction} : {interaction: InteractionType}) {
                     </a>
                     <div className={'d-flex flex-column'}>
                         <span className={'text-sm'}>{interaction.user.username}</span>
-                        <div className={'text-muted text-sm'}>{moment(interaction.perform_at).fromNow()}</div>
+                        <small className={'text-muted text-sm'}>{moment(interaction.perform_at).fromNow()}</small>
                     </div>
                 </div>
             </div>

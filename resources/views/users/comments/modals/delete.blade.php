@@ -6,8 +6,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="alert alert-danger">
-                    Delete <i class="fw-bold" x-text="comment.author"></i> comment and <strong class="fw-bold" x-text="comment.repliesCount"></strong> associated replies
+                <div
+                    x-show="comment.repliesCount > 0"
+                    class="alert alert-danger"
+                    x-text="'{{__('Delete :author comment and :repliesCount associated replies', ['author' => '__AUTHOR__', 'repliesCount' => '__COUNT__'])}}'.replace('__AUTHOR__', comment.author).replace('__COUNT__', comment.repliesCount)"
+                >
+                </div>
+                <div
+                    x-show="comment.repliesCount == 0"
+                    class="alert alert-danger"
+                    x-text="'{{__('Delete :author comment', ['author' => '__AUTHOR__'])}}'.replace('__AUTHOR__', comment.author)"
+                >
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-between">

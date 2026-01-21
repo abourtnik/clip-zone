@@ -78,7 +78,7 @@ export default function HistoryDate ({item} : Props) {
             <Modal show={confirm} onHide={() => setConfirm(false)}>
                 <Modal.Header closeButton>
                     <h5 className="modal-title">
-                        {t('clearHistory', {date: calendarDate})}
+                        {t('Clear {date} history', {date: calendarDate})}
                     </h5>
                 </Modal.Header>
                 <Modal.Footer>

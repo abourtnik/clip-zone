@@ -38,7 +38,6 @@ export default function ImageUpload ({name, config, ...attributes} : Props) {
         if(file.size > (fileConfig.maxSize * MB)) {
             showToast(
                 t('Your file is too large ({size} MB) The uploading file should not exceed {maxSize} MB', {
-                    name: name,
                     size: Math.round((file.size / 1000000) * 100) / 100,
                     maxSize: fileConfig.maxSize
                 })
@@ -53,7 +52,6 @@ export default function ImageUpload ({name, config, ...attributes} : Props) {
             if (image.width < fileConfig.minWidth || image.height < fileConfig.minHeight) {
                 showToast(
                     t('Your file is too small ({width} x {height}). The uploading image must be at least {minWidth} x {minHeight} pixels', {
-                        name: name,
                         width: image.width,
                         height: image.height,
                         minWidth: fileConfig.minWidth,

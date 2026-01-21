@@ -8,7 +8,7 @@
     @if($playlists->total() || request()->all())
     <div x-data={playlist:{}}>
         {{ Breadcrumbs::render('playlists') }}
-        <div class="d-flex justify-content-between align-items-center my-3">
+        <div class="d-flex flex-column flex-sm-row gap-3 justify-content-between align-items-start align-items-md-center my-3">
             <h2>{{ __('My Playlists') }}</h2>
             <a href="{{route('user.playlists.create')}}" class="btn btn-success d-flex align-items-center gap-1">
                 <i class="fa-solid fa-plus"></i>
@@ -23,9 +23,9 @@
                 <tr style="border-top: 3px solid #0D6EFD;">
                     <th scope="col" class="w-40" style="min-width: 370px;">{{ __('Playlist') }}</th>
                     <th scope="col">{{ __('Visibility') }}</th>
-                    <th scope="col" style="min-width: 120px;">{{ __('Created') }}</th>
-                    <th scope="col" style="min-width: 120px;">{{ __('Updated') }}</th>
-                    <th scope="col">{{ __('Videos count') }}</th>
+                    <th scope="col" style="min-width: 160px;">{{ __('Created') }}</th>
+                    <th scope="col" style="min-width: 160px;">{{ __('Updated') }}</th>
+                    <th scope="col" style="min-width: 160px;">{{ __('Videos count') }}</th>
                     <th scope="col">{{ __('Actions') }}</th>
                 </tr>
                 </thead>

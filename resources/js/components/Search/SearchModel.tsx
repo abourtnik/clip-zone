@@ -61,7 +61,7 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
                     type="search"
                     className="form-control"
                     id={name}
-                    placeholder={t('search', {model: t(name)})}
+                    placeholder={t('Search {model}', {model: t(name)})}
                     onKeyDown={navigate}
                     value={query}
                     maxLength={255}
@@ -70,7 +70,7 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
                     isFetching &&
                     <div className="position-absolute top-50 right-0 translate-middle" >
                         <div className={'spinner-border spinner-border-sm'} role="status">
-                            <span className="visually-hidden">Loading...</span>
+                            <span className="visually-hidden">{t('Loading...')}</span>
                         </div>
                     </div>
                 }

@@ -60,7 +60,7 @@ export function Main ({buttonClass, reportedClass, type, id} : Props)  {
             <Modal size={'lg'} show={open} onHide={() => setOpen(false)} animation={true}>
                 <Modal.Header closeButton>
                     <h5 className="modal-title">
-                        {t('report.type', {type: t(type)})}
+                        {t('Report {type}', {type: t(type)})}
                     </h5>
                 </Modal.Header>
                 <Modal.Body className="ms-3 mt-2">

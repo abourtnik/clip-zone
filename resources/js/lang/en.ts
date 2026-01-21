@@ -5,7 +5,4 @@ export default {
     "Comments": "{count, plural, =0 {0 comments} =1 {1 comment} other {# comments}}",
     "Views": "{count, plural, =0 {0 views} =1 {1 view} other {{formatted} views}}",
     "Results": "{count, plural, =0 {0 results} =1 {1 result} other {# results}}",
-    "clearHistory": "Clear {date} history?",
-    "report.type": "Signaler {type}",
-    "search": "Search {model}",
 }

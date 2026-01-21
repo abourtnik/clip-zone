@@ -135,7 +135,7 @@
     "Downloads": "Téléchargements",
     "Unlimited videos uploads and storage space": "Importation de vidéos et espace de stockage illimité",
     "Save videos for when you really need them – like when you’re on a plane or commuting.": "Enregistrez les vidéos lorsque vous en avez vraiment besoin, par exemple lorsque vous êtes dans un avion ou en déplacement.",
-    "Videos without ads": "Videos sans publicités",
+    "Videos without ads": "Vidéos sans publicités",
     "Enjoy your favorite content even more, without ads": "Profitez encore plus de votre contenu préféré, sans publicité",
     "Ads on videos": "Publicités sur les vidéos ",
     "Plans comparison": "Comparaison des plans",
@@ -489,5 +489,14 @@
     "You disliked a comment on the video": "Vous n'avez pas aimé un commentaire sur la vidéo",
     "You liked video": "Vous avez aimé la vidéo",
     "You disliked video": "Vous n'avez pas aimé la vidéo",
-    "This video was banned": "Cette vidéo a été banni"
+    "This video was banned": "Cette vidéo a été banni",
+    "Update Playlist": "Mettre à jour la playlist",
+    "Edit Playlist": "Modifier la playlist",
+    "Delete :author comment and :repliesCount associated replies": "Supprimer le commentaire de :author et les :repliesCount réponses associées",
+    "Delete :author comment": "Supprimer le commentaire de :author",
+    "Permanently delete this playlist ?": "Supprimer définitivement cette playlist ?",
+    "Delete playlist": "Supprimer la playlist",
+    "Delete :count :video" : "Supprimer :count :video",
+    "Deleting videos is permanent and can't be undone": "La suppression des vidéos est définitive et ne peut être annulée",
+    "Permanently delete :count videos ?": "Supprimer définitivement :count vidéos ?"
 }

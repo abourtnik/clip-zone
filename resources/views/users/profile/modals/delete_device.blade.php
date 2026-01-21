@@ -10,13 +10,13 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger mb-0 fw-bold">
-                        The device will no longer be connected to this account
+                        {{ __('The device will no longer be connected to this account') }}
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Close') }}</button>
                     <button type="submit" class="btn btn-danger">
-                        Delete
+                        {{ __('Delete') }}
                     </button>
                 </div>
             </form>

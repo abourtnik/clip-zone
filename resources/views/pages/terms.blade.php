@@ -3,8 +3,8 @@
 @section('title', __('Terms of Service'))
 
 @section('content')
-    <div class="row align-items-center h-75 mt-5">
-        <div class="col-10 offset-1 border border-1 bg-light py-4 px-3 px-sm-5">
+    <div class="row align-items-center">
+        <div class="col-12 bg-light py-2 px-3 px-sm-5">
             <h1 class="mb-3">{{ __('Terms of Service') }}</h1>
             <p>{{config('app.name')}} agrees to furnish services to the Subscriber subject to the following Terms of Service. Use of {{config('app.name')}}'s service constitutes acceptance and agreement to {{config('app.name')}}'s Terms of Service.</p>
             <p>{{config('app.name')}} reserves the right to modify the Terms of Service without notice.</p>

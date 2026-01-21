@@ -72,7 +72,7 @@
                         <h5 class="text-primary mt-3">{{ __('Secondary') }}</h5>
                         <hr>
                         <div class="row">
-                            <div class="col-12 col-sm-4 mb-3">
+                            <div class="col-12 col-lg-4 mb-3">
                                 <label for="category" class="form-label">{{ __('Category') }}</label>
                                 <select class="form-control" name="category_id" id="category">
                                     <option value="" selected>--- {{ __('Select Category') }} ---</option>
@@ -82,7 +82,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-12 col-sm-4 mb-3">
+                            <div class="col-12 col-lg-4 mb-3">
                                 <label for="language" class="form-label">{{ __('Video language') }}</label>
                                 <select class="form-control" name="language" id="language">
                                     <option value="" selected>--- {{ __('Select Language') }} ---</option>
@@ -91,7 +91,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-12 col-sm-4">
+                            <div class="col-12 col-lg-4">
                                 <label for="default_comments_sort" class="form-label">{{ __('Default comments sort') }}</label>
                                 <select class="form-control" name="default_comments_sort" id="default_comments_sort">
                                     @foreach(['top' => "Top comments", 'newest' => 'Newest first'] as $value => $label)

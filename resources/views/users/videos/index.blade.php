@@ -8,9 +8,9 @@
     @if($videos->total() || request()->all())
     <div x-data="{selected:[], video: {}}">
         {{ Breadcrumbs::render('videos') }}
-        <div class="d-flex justify-content-between align-items-center my-3">
+        <div class="d-flex flex-column flex-sm-row gap-3 justify-content-between align-items-start align-items-md-center my-3">
             <h2 class="mb-0">{{ __('My Videos') }}</h2>
-            <div class="d-flex align-items-center gap-1">
+            <div class="d-flex flex-column flex-sm-row align-items-start align-items-md-center gap-1">
                 <button
                     x-show.important="selected.length > 0"
                     class="btn btn-danger d-flex align-items-center gap-1"
@@ -19,9 +19,7 @@
                     type="button"
                 >
                     <i class="fa-solid fa-trash me-1"></i>
-                    <span>{{ __('Delete') }}</span>
-                    <span x-text="selected.length"></span>
-                    <span x-text="selected.length === 1 ? 'video' : 'videos'"></span>
+                    <span x-text="'{{ __('Delete :count :video', ['count' => '__COUNT__', 'video' => '__VIDEO__']) }}'.replace('__COUNT__', selected.length).replace('__VIDEO__', selected.length > 1 ? 'videos' : 'video')"></span>
                 </button>
                 <button class="btn btn-success d-flex align-items-center gap-1" data-bs-toggle="modal" data-bs-target="#video_create">
                     <i class="fa-solid fa-upload"></i>

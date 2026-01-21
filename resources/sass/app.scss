@@ -60,7 +60,6 @@ body {
 
 .input-file label {
     background-color: rgba(0,0,0,.05);
-    border: 1px dashed rgba(0,0,0,.4);
     color: #000;
     cursor: pointer;
     display: inline-block;
@@ -70,6 +69,7 @@ body {
     text-align: center;
     transition: all .2s;
     width: 100%;
+    border-style: dashed !important;
 }
 
 .input-file input {

@@ -225,10 +225,10 @@ function Upload ({thumbnail} : {thumbnail: ThumbnailType | undefined}) {
                                     <i className="fa-solid fa-circle-info"></i>
                                 </button>
                             </OverlayTrigger>
-                            <label htmlFor="thumbnail_file" className={'rounded h-100 p-0 w-100 d-flex align-items-center justify-content-center'}>
-                                <div>
+                            <label htmlFor="thumbnail_file" className={'rounded h-100 p-0 w-100 d-flex align-items-center justify-content-center border border-1 border-secondary'}>
+                                <div className="text-body">
                                     <i className="fas fa-image"></i>
-                                    <div className="mt-2 fw-">{t('Upload Thumbnail')}</div>
+                                    <div className="mt-2 fw-bold">{t('Upload Thumbnail')}</div>
                                 </div>
                             </label>
                         </div>
