@@ -10,6 +10,7 @@ import {ChangeEvent} from "react";
 import {useDebounce} from "@/hooks/useDebounce";
 import moment from 'moment';
 import {useTranslation} from "react-i18next";
+import {ApiError} from "@/components/Commons";
 
 type Props = {
     target: number
@@ -31,6 +32,7 @@ function Main ({target} : Props) {
         isLoading,
         isError,
         refetch,
+        error,
         isFetching,
         fetchNextPage,
         hasNextPage,
@@ -81,15 +83,7 @@ function Main ({target} : Props) {
             </small>
             <hr/>
             {
-                isError &&
-                <div class="border border-1 bg-light text-center p-3">
-                    <i class="fa-solid fa-triangle-exclamation fa-3x"></i>
-                    <h3 class="h5 my-3 fw-normal">Something went wrong !</h3>
-                    <p class="text-muted">If the issue persists please contact us.</p>
-                    <button className="btn btn-primary rounded-5 text-uppercase" onClick={() => refetch()}>
-                        Try again
-                    </button>
-                </div>
+                isError && <ApiError error={error} refetch={refetch}/>
             }
             <div className="my-3" style="overflow-y: auto;height:330px;">
                 <ul className="list-group">

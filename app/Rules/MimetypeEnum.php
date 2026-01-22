@@ -31,7 +31,7 @@ class MimetypeEnum implements ValidationRule
         );
 
         if ($validator->fails()) {
-            $fail('Invalid :attribute format');
+            $fail(__('Invalid :attribute format'));
         }
     }
 }

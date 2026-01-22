@@ -7,7 +7,7 @@ import {Fragment} from "preact";
 import {useCursorQuery, useErrorMutation} from "@/hooks";
 import {NotificationType, Paginator} from "@/types";
 import {produce} from "immer";
-import {Button, ApiError} from "@/components/Commons";
+import {Button, ApiError, Loader} from "@/components/Commons";
 import {useTranslation} from "react-i18next";
 
 type Props = {
@@ -104,12 +104,15 @@ const Main = ({count} : Props) => {
                     {
                         isLoading &&
                         <div className={'d-flex justify-content-center align-items-center h-100'}>
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">{t('Loading...')}</span>
-                            </div>
+                            <Loader/>
                         </div>
                     }
-                    {isError && <ApiError refetch={refetch} error={error}/>}
+                    {
+                        isError &&
+                        <div className={'mt-3'}>
+                            <ApiError refetch={refetch} error={error}/>
+                        </div>
+                    }
                     <div>
                         {
                             notifications && (

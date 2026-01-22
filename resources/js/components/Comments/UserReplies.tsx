@@ -8,6 +8,7 @@ import {getCommentsReplies} from "@/api/clipzone";
 import {useTranslation} from "react-i18next";
 import {QueryClient, QueryClientProvider, useInfiniteQuery} from "@tanstack/react-query";
 import {AddComment} from "@/components/Comments/Actions";
+import {ApiError} from "@/components/Commons";
 
 type Props = {
     comment: number,
@@ -25,6 +26,7 @@ function Main ({comment, video} : Props) {
         data: replies,
         isLoading,
         isError,
+        error,
         refetch,
         isFetching,
         fetchNextPage,
@@ -57,25 +59,7 @@ function Main ({comment, video} : Props) {
                </div>
            </div>
            <AddComment video_id={video} placeholder={'Add a reply...'} label={'Write reply'}/>
-           {
-               isError &&
-               <div className="d-flex border border-1 bg-light">
-                   <div
-                       className="col-6 d-none d-lg-flex px-0 border-end border-gray-200 d-flex justify-content-center align-items-center bg-white">
-                       <i className="fa-solid fa-triangle-exclamation fa-10x"></i>
-                   </div>
-                   <div
-                       className="col-12 col-lg-6 py-5 px-3 px-sm-5 d-flex align-items-center justify-content-center text-center">
-                       <div>
-                           <h1 className="h3 mb-3 fw-normal">Something went wrong !</h1>
-                           <p className="text-muted">If the issue persists please contact us.</p>
-                           <button className="btn btn-primary rounded-5 text-uppercase" onClick={() => refetch()}>
-                               Try again
-                           </button>
-                       </div>
-                   </div>
-               </div>
-           }
+           {isError && <ApiError refetch={refetch} error={error}/>}
            <div>
                {
                    replies &&

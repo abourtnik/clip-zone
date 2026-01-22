@@ -132,4 +132,7 @@ export default {
     "Your file is too small ({width} x {height}). The uploading image must be at least {minWidth} x {minHeight} pixels": "Votre fichier est trop petit ({width} x {height}). L'image à télécharger doit faire au moins {minWidth} x {minHeight} pixels",
     "Only Likes": "Seulement les Likes",
     "Only Dislikes": "Seulement les Dislikes",
+    "Something went wrong": "Une erreur s'est produite",
+    "Unknown error": "Erreur inconnue",
+    "Try again": "Merci de reessayer"
 }

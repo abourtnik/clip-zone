@@ -23,7 +23,7 @@ export function UserVideos ({user} : Props) {
 
     return (
         <>
-            <div className="d-flex align-items-center gap-2 my-4">
+            <div className="d-flex flex-wrap align-items-center gap-2 my-4">
                 <button onClick={() => selectSort('latest')} className={'btn btn-' + activeButton('latest') + 'btn-sm'} type="button">{t('Latest')}</button>
                 <button onClick={() => selectSort('popular')} className={'btn btn-' + activeButton('popular') + 'btn-sm'} type="button">{t('Popular')}</button>
                 <button onClick={() => selectSort('oldest')} className={'btn btn-' + activeButton('oldest') + 'btn-sm'} type="button">{t('Oldest')}</button>

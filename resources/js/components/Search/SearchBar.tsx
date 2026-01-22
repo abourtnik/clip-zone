@@ -6,6 +6,7 @@ import {useSearchQuery, useClickOutside, useKeyboardNavigate} from "@/hooks";
 import {search} from "@/api/clipzone";
 import {SearchVideoType} from "@/types";
 import {ChangeEvent, FormEvent} from "react";
+import {Loader} from "@/components/Commons";
 
 type Props = {
     query?: string,
@@ -72,9 +73,7 @@ function Main ({responsive = true} : Props) {
                     {
                         isFetching &&
                         <div className="position-absolute top-50 right-0 translate-middle" >
-                            <div className={'spinner-border spinner-border-sm'} role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div>
+                            <Loader small={true}/>
                         </div>
                     }
                 </div>

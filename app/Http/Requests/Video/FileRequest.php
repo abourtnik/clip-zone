@@ -12,7 +12,7 @@ use Closure;
 
 class FileRequest extends FormRequest
 {
-    public const CHUNK_SIZE = 10_240; // 10 MB
+    public const int CHUNK_SIZE = 10_240; // 10 MB
 
 
     /**
@@ -37,7 +37,7 @@ class FileRequest extends FormRequest
                 'required',
                 function (string $attribute, string $value, Closure $fail) {
                     if (mb_strlen(pathinfo($value, PATHINFO_FILENAME), 'UTF-8') > 100) {
-                        $fail("Your file name does not exceed 100 characters");
+                        $fail(__("Your file name does not exceed 100 characters"));
                     }
                 },
             ],
@@ -66,8 +66,8 @@ class FileRequest extends FormRequest
         $maxSize = Number::fileSize(config('plans.'.Auth::user()->plan.'.max_file_size'));
 
         return [
-            'resumableTotalSize.max' => 'Your file file is too large ('.$fileSize.') The uploading file should not exceed ' .$maxSize,
-            'resumableFilename.max' => 'Your file name does not exceed 100 characters',
+            'resumableTotalSize.max' => __('Your file is too large (:fileSize) The uploading file should not exceed :maxSize', ['fileSize' => $fileSize, 'maxSize' => $maxSize]),
+            'resumableFilename.max' => __('Your file name does not exceed 100 characters'),
         ];
     }
 }

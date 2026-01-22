@@ -403,6 +403,8 @@
     "Connected Devices": "Appareils connectés",
     "See devices using your account": "Voir les appareils utilisant votre compte",
     "Device": "Appareil",
+    "Delete device :device ?": "Supprimer l\\'appareil :device ?",
+    "The device will no longer be connected to this account": "Cette appareil ne sera plus connecté à ce compte",
     "Last activity": "Dernière activité",
     "Created at": "Créé le",
     "Expires at": "Expire le",
@@ -498,5 +500,8 @@
     "Delete playlist": "Supprimer la playlist",
     "Delete :count :video" : "Supprimer :count :video",
     "Deleting videos is permanent and can't be undone": "La suppression des vidéos est définitive et ne peut être annulée",
-    "Permanently delete :count videos ?": "Supprimer définitivement :count vidéos ?"
+    "Permanently delete :count videos ?": "Supprimer définitivement :count vidéos ?",
+    "Invalid :attribute format": "Format invalide pour :attribute",
+    "Your file name does not exceed 100 characters": "Le nom de votre fichier ne peut pas excéder plus 100 caractères",
+    "Your file is too large (:fileSize) The uploading file should not exceed :maxSize": "Votre fichier est trop volumineux (:fileSize). La taille du fichier à télécharger ne doit pas excéder maxSize Mo"
 }

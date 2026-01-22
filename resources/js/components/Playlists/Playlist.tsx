@@ -12,6 +12,7 @@ import {produce} from "immer";
 import ImageLoaded from "@/components/Images/ImageLoaded";
 import {useTranslation} from "react-i18next";
 import numeral from "numeral";
+import {ApiError, Loader} from "@/components/Commons";
 
 type Props = {
     uuid?: string
@@ -30,6 +31,7 @@ export function Main({uuid} : Props) {
         isLoading,
         isError,
         refetch,
+        error,
         isFetchingNextPage,
         fetchNextPage,
         hasNextPage,
@@ -69,22 +71,13 @@ export function Main({uuid} : Props) {
                                     {
                                         isLoading &&
                                         <div className={'d-flex justify-content-center align-items-center h-100'}>
-                                            <div class="spinner-border text-primary" role="status">
-                                                <span class="visually-hidden">{t('Loading...')}</span>
-                                            </div>
+                                            <Loader/>
                                         </div>
                                     }
                                     {
                                         isError &&
                                         <div className={'d-flex justify-content-center align-items-center h-100'}>
-                                            <div class="border border-1 bg-light text-center p-3">
-                                                <i class="fa-solid fa-triangle-exclamation fa-3x"></i>
-                                                <h3 class="h5 my-3 fw-normal">Something went wrong !</h3>
-                                                <p class="text-muted">If the issue persists please contact us.</p>
-                                                <button className="btn btn-primary rounded-5 text-uppercase btn-sm" onClick={() => refetch()}>
-                                                    Try again
-                                                </button>
-                                            </div>
+                                            <ApiError refetch={refetch} error={error}/>
                                         </div>
                                     }
                                     <div className={'h-100'}>
@@ -218,9 +211,9 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                     ))}
                 </ReactSortable>
                 :
-                <div className={'d-flex flex-column gap-1 justify-content-center align-items-center px-3 h-100 w-100'}>
+                <div className={'d-flex flex-column gap-2 justify-content-center align-items-center px-3 h-100 w-100 text-center'}>
                     <div className={'fw-bold fs-5'}>{t('No videos added')}</div>
-                    <p className={'text-muted text-sm text-center'}>{t('Add videos to your playlist by selecting your videos or videos from other channels')}</p>
+                    <p className={'text-muted text-sm'}>{t('Add videos to your playlist by selecting your videos or videos from other channels')}</p>
                 </div>
             }
         </Fragment>

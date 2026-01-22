@@ -5,7 +5,12 @@
                 @csrf
                 @method('DELETE')
                 <div class="modal-header">
-                    <h5 class="modal-title">Delete device <span class="fw-bold" x-text="device.name"></span> ? </h5>
+                    <h5
+                        class="modal-title"
+                        x-text="'{{ __('Delete device :device ?', ['device' => '__DEVICE__']) }}'.replace('__DEVICE__', device.name)"
+                    >
+
+                    </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

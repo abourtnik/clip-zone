@@ -8,6 +8,7 @@ import {CreatePlaylist} from "@/components/Playlists/CreatePlaylist";
 import {useCursorQuery, useErrorMutation} from "@/hooks";
 import {produce} from "immer";
 import {useTranslation} from "react-i18next";
+import {ApiError, Loader} from "@/components/Commons";
 
 type Props = {
     video: number
@@ -29,6 +30,7 @@ export function Main ({video}: Props) {
         isLoading,
         isError,
         refetch,
+        error,
         isFetchingNextPage,
         hasNextPage,
         ref,
@@ -58,20 +60,12 @@ export function Main ({video}: Props) {
                     {
                         isLoading &&
                         <div className={'alert alert-primary d-flex align-items-center gap-3 mb-0'}>
-                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <Loader small={true}/>
                             <span>{t('Loading your playlists ...')}</span>
                         </div>
                     }
                     {
-                        isError &&
-                        <div class="border border-1 bg-light text-center p-3">
-                            <i class="fa-solid fa-triangle-exclamation fa-3x"></i>
-                            <h3 class="h5 my-3 fw-normal">{t('Something went wrong !')}</h3>
-                            <p class="text-muted">{t('If the issue persists please contact us.')}</p>
-                            <button className="btn btn-primary rounded-5 text-uppercase btn-sm" onClick={() => refetch()}>
-                                {t('Try again')}
-                            </button>
-                        </div>
+                        isError && <ApiError error={error} refetch={refetch}/>
                     }
                     {
                         playlists && (

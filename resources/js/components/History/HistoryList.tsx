@@ -8,6 +8,7 @@ import {produce} from "immer";
 import {Button, Modal} from "react-bootstrap";
 import {useState} from "preact/hooks";
 import {useTranslation} from "react-i18next";
+import {ApiError} from "@/components/Commons";
 
 function Main () {
 
@@ -21,6 +22,7 @@ function Main () {
         data: history,
         isLoading,
         isError,
+        error,
         refetch,
     } = useQuery({
         queryKey: ['history'],
@@ -52,24 +54,9 @@ function Main () {
         <>
             {
                 isError &&
-                <div class="row align-items-center h-75 mt-5 ">
-                    <div class="col-10 offset-1 col-xxl-8 offset-xxl-2 border border-1 bg-light">
-                        <div class="row">
-                            <div
-                                class="col-6 d-none d-lg-flex px-0 border-end border-gray-200 d-flex justify-content-center align-items-center bg-white">
-                                <i class="fa-solid fa-triangle-exclamation fa-10x"></i>
-                            </div>
-                            <div
-                                class="col-12 col-lg-6 py-5 px-3 px-sm-5 d-flex align-items-center justify-content-center text-center">
-                                <div>
-                                    <h1 class="h3 mb-3 fw-normal">Something went wrong !</h1>
-                                    <p class="text-muted">If the issue persists please contact us.</p>
-                                    <button className="btn btn-primary rounded-5 text-uppercase" onClick={() => refetch()}>
-                                        Try again
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                <div className={'row align-items-center h-75 mt-5'}>
+                    <div className={'col-10 offset-1 col-xxl-8 offset-xxl-2'}>
+                        <ApiError refetch={refetch} error={error}/>
                     </div>
                 </div>
             }

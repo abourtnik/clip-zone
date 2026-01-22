@@ -4,6 +4,7 @@ import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {searchModel} from "@/api/clipzone";
 import {ChangeEvent} from "react";
 import {useTranslation} from "react-i18next";
+import {Loader} from "@/components/Commons";
 
 type Props = {
     endpoint: string,
@@ -69,9 +70,7 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
                 {
                     isFetching &&
                     <div className="position-absolute top-50 right-0 translate-middle" >
-                        <div className={'spinner-border spinner-border-sm'} role="status">
-                            <span className="visually-hidden">{t('Loading...')}</span>
-                        </div>
+                        <Loader small={true} />
                     </div>
                 }
             </div>

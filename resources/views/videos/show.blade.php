@@ -288,7 +288,7 @@
         <hr class="d-block d-lg-none">
             <div class="col-lg-4 col-xl-4 col-xxl-3 px-0 px-sm-3 px-lg-2">
                 @if($nextVideo)
-                    <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0">
+                    <div class="d-flex align-items-center justify-content-between gap-2 px-2 px-sm-0 flex-wrap">
                         <a href="{{$nextVideo->route}}" class="btn btn-sm btn-primary d-flex align-items-center justify-content-center gap-2">
                             <i class="fa-solid fa-forward-step"></i>
                             <span>{{__('Next Video')}}</span>

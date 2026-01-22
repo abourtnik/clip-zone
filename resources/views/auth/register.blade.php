@@ -101,8 +101,8 @@
                                 @enderror
                             </div>
                             <button class="w-100 btn btn-lg btn-primary" type="submit">{{ __('Register') }}</button>
-                            <div class="mt-4 mb-3 text-muted text-center d-flex justify-content-center">
-                                <p class="mr-2">{{ __('Already have an account ?') }}</p>
+                            <div class="mt-4 mb-3 text-muted text-center d-flex justify-content-center flex-wrap mb-3 gap-1 gap-sm-0">
+                                <span class="mr-2 text-body">{{ __('Already have an account ?') }}</span>
                                 <a href="{{route('login')}}" class="font-weight-bold text-decoration-none">
                                     <strong>{{ __('Sign In') }}</strong>
                                 </a>

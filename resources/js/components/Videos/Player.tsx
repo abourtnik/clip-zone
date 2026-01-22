@@ -67,25 +67,25 @@ export function Main ({video_id, thumbnail_url, file_url, next_video, subtitles,
     };
 
     useEffect(() => {
-        video.current?.addEventListener('loadedmetadata', handleLoaded);
-        video.current?.addEventListener('timeupdate', handleTimeUpdate);
-        video.current?.addEventListener('volumechange', handleVolumeChange);
-        video.current?.addEventListener('ended', handleVideoEnded);
-
-        return () => {
-            video.current?.removeEventListener('loadedmetadata', handleLoaded);
-            video.current?.removeEventListener('timeupdate', handleTimeUpdate);
-            video.current?.removeEventListener('volumechange', handleVolumeChange);
-            video.current?.removeEventListener('ended', handleVideoEnded);
-        }
-    }, []);
-
-    useEffect(() => {
 
         const autoplayVideo = JSON.parse(localStorage.getItem(AUTOPLAY_VIDEO_KEY) || 'true');
 
         if (autoplayVideo && !showAd) {
             video.current!.autoplay = true;
+        }
+
+        if (!showAd) {
+            video.current?.addEventListener('loadedmetadata', handleLoaded);
+            video.current?.addEventListener('timeupdate', handleTimeUpdate);
+            video.current?.addEventListener('volumechange', handleVolumeChange);
+            video.current?.addEventListener('ended', handleVideoEnded);
+
+            return () => {
+                video.current?.removeEventListener('loadedmetadata', handleLoaded);
+                video.current?.removeEventListener('timeupdate', handleTimeUpdate);
+                video.current?.removeEventListener('volumechange', handleVolumeChange);
+                video.current?.removeEventListener('ended', handleVideoEnded);
+            }
         }
 
     }, [showAd]);

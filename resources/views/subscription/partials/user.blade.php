@@ -18,7 +18,7 @@
         @else
             <button
                 type="button"
-                class="btn btn-danger btn-sm position-relative mx-auto mb-2"
+                class="btn btn-dark rounded-4 px-3 btn-sm position-relative mx-auto mb-2"
                 data-bs-toggle="popover"
                 data-bs-placement="right"
                 data-bs-title="{{ __('Want to subscribe to this channel ?') }}"

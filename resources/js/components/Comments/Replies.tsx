@@ -6,6 +6,7 @@ import {CommentType} from "@/types";
 import {useTranslation} from "react-i18next";
 import {useEffect} from "preact/hooks";
 import {show as showToast} from "@/functions/toast";
+import {Loader} from "@/components/Commons";
 
 type Props = {
     comment: CommentType,
@@ -65,9 +66,7 @@ export function Replies({comment, showReplies}: Props) {
                             {
                                 isFetching ?
                                     <div className={'d-flex gap-2 align-items-center text-primary text-sm fw-bold'}>
-                                        <div className="spinner-border spinner-border-sm" role="status">
-                                            <span className="visually-hidden">{t('Loading ...')}</span>
-                                        </div>
+                                        <Loader small={true}/>
                                         <span>{t('Loading ...')}</span>
                                     </div> :
                                     <button

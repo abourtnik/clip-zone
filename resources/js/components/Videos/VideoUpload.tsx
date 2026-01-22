@@ -140,7 +140,7 @@ export function VideoUpload ({endpoint, maxsize} : Props) {
                 <div className="text-center align-items-center d-flex flex-column w-75 mx-auto p-3">
                     <img src="/images/uploading.gif" className={'mb-4'} alt="" style={{width: 350, height: 350}}/>
                     <h2 className="mb-1">{t('Your video is uploading ...')}</h2>
-                    <div className="text-danger fw-bold">{t('Dont quit or reload page please')}</div>
+                    <div className="alert alert-danger my-3 fw-bold">{t('Dont quit or reload page please')}</div>
                     {
                         loading &&
                         <div className={'w-100'}>

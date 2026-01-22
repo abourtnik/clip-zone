@@ -43,8 +43,7 @@
                                 x-ref="title"
                                 @keyup="count = $refs.title.value.length"
                             >
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="form-text">{{ __('A catchy title can help you hook viewers') }}</div>
+                            <div class="d-flex align-items-center justify-content-end">
                                 <div class="form-text">
                                     <span x-text="count"></span> / <span>{{config('validation.playlist.title.max')}}</span>
                                 </div>
