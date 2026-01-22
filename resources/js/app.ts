@@ -4,7 +4,7 @@ import '../sass/app.scss';
 import * as bootstrap from 'bootstrap'
 import Alpine from 'alpinejs'
 import TomSelect from "tom-select";
-import {TomInput} from "tom-select/dist/cjs/types/core";
+import {TomOption, TomInput} from "tom-select/dist/cjs/types/core";
 import Cropper from 'cropperjs';
 import Sortable from 'sortablejs';
 import Echo from "laravel-echo";
@@ -59,7 +59,18 @@ popovers.map(element => {
 });
 
 document.querySelectorAll('.select-multiple').forEach((element)=>{
-    new TomSelect(element as TomInput,{
+    new TomSelect(element as TomInput, {
+        render: {
+            option: function(data: TomOption, escape: Function) {
+                return '<div class="text-body">' + escape(data.text) + '</div>';
+            },
+            item: function(data: TomOption, escape: Function ) {
+                return '<div class="bg-body-secondary text-body border border-1">' + escape(data.text) + '</div>';
+            },
+            no_results:function(data: TomOption,escape: Function){
+                return '<div class="no-results">No results found for "'+escape(data.input)+'"</div>';
+            },
+        },
         plugins: {
             remove_button:{
                 title:'Remove this item',
