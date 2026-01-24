@@ -27,6 +27,7 @@ class AccountResource extends JsonResource
             'token' => $this->createToken($request->device_name, ['*'], now()->addMinutes(config('sanctum.expiration')))->plainTextToken,
             'avatar_url' => $this->avatar_url,
             'is_premium' => $this->is_premium,
+            'language' => $this->language,
             'created_at' => $this->created_at,
         ];
     }

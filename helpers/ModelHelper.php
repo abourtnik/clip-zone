@@ -77,11 +77,10 @@ namespace App\Models{
  * @property int|null $parent_id
  * @property string $content
  * @property string $ip
- * @property string|null $banned_at
+ * @property \Illuminate\Support\Carbon|null $banned_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
- * @property mixed $0
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $dislikes
  * @property-read int|null $dislikes_count
  * @property-read mixed $dislikes_ratio
@@ -438,14 +437,20 @@ namespace App\Models{
  * @property int $id
  * @property int|null $user_id
  * @property string $query
+ * @property string|null $ip
+ * @property string|null $lang
+ * @property int $results
  * @property \Illuminate\Support\Carbon $perform_at
  * @property-read \App\Models\Video|null $user
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Search newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Search newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Search query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Search whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Search whereIp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Search whereLang($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Search wherePerformAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Search whereQuery($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Search whereResults($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Search whereUserId($value)
  * @mixin \Eloquent
  */
@@ -632,6 +637,7 @@ namespace App\Models{
  * @property \Propaganistas\LaravelPhone\PhoneNumber|null $phone
  * @property \Illuminate\Support\Carbon|null $phone_verified_at
  * @property string|null $phone_confirmation_code
+ * @property string $language
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -725,6 +731,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereGoogleId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIsAdmin($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLanguage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastLoginAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastLoginIp($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
@@ -776,6 +783,7 @@ namespace App\Models{
  * @property int $is_live
  * @property int $is_short
  * @property int $views
+ * @property bool $show_ad
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
@@ -858,6 +866,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video wherePinnedCommentId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video wherePublishedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereScheduledAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereShowAd($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereShowLikes($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereSize($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereSlug($value)

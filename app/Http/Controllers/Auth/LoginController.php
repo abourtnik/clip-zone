@@ -28,6 +28,8 @@ class LoginController
 
             Auth::login($user, $remember);
 
+            session()->put('app_locale', $user->language);
+
             return redirect()->intended(route('user.index'));
         }
 
@@ -41,10 +43,17 @@ class LoginController
      * @return RedirectResponse
      */
     public function logout (Request $request): RedirectResponse {
+
+        $locale = session('app_locale');
+
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        if ($locale) {
+            session()->put('app_locale', $locale);
+        }
 
         return redirect()->route('pages.home');
     }
