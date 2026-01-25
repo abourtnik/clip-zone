@@ -1,7 +1,7 @@
 // SUGGESTED VIDEOS
 
 .suggested_video {
-    .suggested_video_img {
+    img {
         height: 94px;
         @media (max-width: map-get($grid-breakpoints, "sm")) {
             height: inherit;

@@ -1,7 +1,7 @@
 <article @class(["d-flex flex-wrap flex-sm-nowrap position-relative gap-0 gap-sm-2 suggested_video", "mb-4 mb-sm-2" => !isset($playlist_video)]) x-data="{hover:false}">
     <a href="{{$video->route}}">
         <div class="position-relative">
-            <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" class="rounded-1-sm suggested_video_img" :hover="hover"/>
+            <image-loaded source="{{$video->thumbnail_url}}" title="{{$video->title}}" class="rounded-1-sm" :hover="hover"/>
             <small class="position-absolute bottom-0 right-0 p-1 m-1 text-white bg-dark fw-bold rounded" style="font-size: 0.70rem;">
                 {{$video->duration}}
             </small>
@@ -11,7 +11,7 @@
     <div class="pt-2 px-2 px-sm-0">
         <div class="d-flex gap-2">
             <a href="{{$video->user->route}}" style=";height: 36px;" class="position-relative d-block d-sm-none" title={{$video->user->username}}>
-                <img class="rounded-circle" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar"  style="width: 36px">
+                <img class="rounded-circle" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar"  style="width: 36px;max-width: none;">
             </a>
             <div>
                 <a href="{{$video->route}}" class="d-block fw-bold position-relative text-decoration-none text-black text-sm mb-1 overflow-hidden text-break" title="{{$video->title}}" style="max-height: 40px">
