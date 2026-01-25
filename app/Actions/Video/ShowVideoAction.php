@@ -3,7 +3,6 @@
 namespace App\Actions\Video;
 
 use App\Data\NextVideoDTO;
-use App\Http\Resources\SubtitleResource;
 use App\Models\Playlist;
 use App\Models\Video;
 use App\Services\VideoService;
@@ -40,7 +39,6 @@ class ShowVideoAction
             'playlist' => $this->playlist,
             'playlistVideos' => $this->playlistVideos,
             'currentIndex' => $this->currentIndex,
-            'subtitles' => $this->getSubtitles(),
         ];
     }
 
@@ -107,19 +105,5 @@ class ShowVideoAction
         // if index not found search return false but is transformed to 0 because currentIndex is int
         $this->currentIndex = $this->playlistVideos
             ->search(fn(Video $video) => $video->id === $this->video->id);
-
-    }
-
-
-    private function getSubtitles(): string
-    {
-        $subtitles = $this
-            ->video
-            ->subtitles()
-            ->public()
-            ->orderBy('name')
-            ->get();
-
-        return SubtitleResource::collection($subtitles)->toJson();
     }
 }

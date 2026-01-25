@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Public;
 
 use App\Http\Resources\Video\VideoListResource;
+use App\Http\Resources\Video\VideoPlayerResource;
 use App\Http\Resources\Video\VideoShowResource;
 use App\Models\Video;
 use App\Services\ViewService;
@@ -53,6 +54,11 @@ class VideoController
                     'reports as reported_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                 ])
         );
+    }
+
+    public function player (Video $video): VideoPlayerResource
+    {
+        return new VideoPlayerResource($video);
     }
 
     public function view(Video $video, ViewService $viewService): Response

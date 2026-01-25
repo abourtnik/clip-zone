@@ -1,4 +1,4 @@
-import {UserType} from "@/types";
+import {SubtitleType, UserType} from "@/types";
 
 export type VideoType = {
     id: number,
@@ -12,6 +12,13 @@ export type VideoType = {
     published_at: string | number,
     user: UserType
     is_private?: boolean
+}
+
+export type VideoPlayerType = {
+    thumbnail: string,
+    file: string,
+    show_ad: boolean,
+    subtitles: SubtitleType[],
 }
 
 export type VideosSort = 'latest' | 'popular' | 'oldest';

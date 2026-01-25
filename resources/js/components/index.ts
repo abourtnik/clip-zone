@@ -56,13 +56,8 @@ customElements.define("interaction-buttons", r2wc(Interaction, {
 
 customElements.define("video-player", r2wc(Player, {
     props: {
-        video_id: "string",
-        thumbnail_url: "string",
-        file_url: "string",
+        video_uuid: "string",
         next_video: "string",
-        subtitles: "json",
-        show_ad: "boolean",
-        status: "number",
     },
 }));
 

@@ -1,4 +1,4 @@
-import {CursorPaginator, VideoType, ThumbnailType} from "@/types";
+import {CursorPaginator, VideoType, ThumbnailType, VideoPlayerType} from "@/types";
 import {jsonFetch} from "@/functions/api";
 import {API_URL} from "./config";
 
@@ -16,4 +16,8 @@ export async function getThumbnails(video_id: number): Promise<{data: ThumbnailT
 
 export async function searchVideos(query: string): Promise<{data: VideoType[]}> {
     return jsonFetch(API_URL + `/search/videos?q=${query}`);
+}
+
+export async function player(video_uuid: string): Promise<VideoPlayerType> {
+    return jsonFetch(API_URL + `/videos/${video_uuid}/player`);
 }

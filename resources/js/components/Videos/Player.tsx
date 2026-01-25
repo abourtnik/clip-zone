@@ -1,140 +1,185 @@
 import {useEffect, useRef, useState} from "preact/hooks";
-import {SubtitleType, VideoStatus} from "@/types";
+import {SubtitleType} from "@/types";
 import {AUTOPLAY_NEXT_VIDEO_KEY, AUTOPLAY_VIDEO_KEY} from "@/components/Switchs";
-import {viewVideo} from "@/api/clipzone";
-import {QueryClient, QueryClientProvider, useMutation} from "@tanstack/react-query";
+import {viewVideo, player} from "@/api/clipzone";
+import {QueryClient, QueryClientProvider, useMutation, useQuery} from "@tanstack/react-query";
 import {Ad} from "@/components/Videos/Ad";
+import {Loader, ApiError} from "@/components/Commons";
+import {TargetedEvent} from "react";
+import {clsx} from "clsx";
 
 type Props = {
-    video_id: string,
-    thumbnail_url: string,
-    file_url: string,
+    video_uuid: string,
     next_video?: string|null,
-    subtitles?: SubtitleType[],
-    show_ad?: boolean
-    status?: VideoStatus
 }
 
-const VIEW_COUNT_DURATION = 1;
+const VIEW_COUNT_DURATION: number = 1;
 
-export function Main ({video_id, thumbnail_url, file_url, next_video, subtitles, show_ad = false, status = VideoStatus.PUBLIC} : Props) {
+export function Main ({video_uuid, next_video} : Props) {
 
-    const video = useRef<HTMLVideoElement>(null);
+    const videoElement = useRef<HTMLVideoElement>(null);
     const volume = JSON.parse(localStorage.getItem('volume') as string) || {value: 0.5, muted: false};
     const timeCode = new URLSearchParams(window.location.search).get('t') ?? false;
+    const autoplayVideo = JSON.parse(localStorage.getItem(AUTOPLAY_VIDEO_KEY) || 'true');
 
-    const [showAd, setShowAds] = useState(show_ad);
+    let watchedTime = 0;
+    let lastTime: number | null = null;
+
+    const {
+        data: video,
+        isLoading,
+        isError,
+        refetch,
+        error,
+    } = useQuery({
+        queryKey: ['video.player', video_uuid],
+        queryFn: () => player(video_uuid),
+    });
+
+    const [showAd, setShowAds] = useState<boolean|null>(null);
+    const [isReady, setIsReady] = useState<boolean>(false);
 
     const {mutate: view} = useMutation({
-        mutationFn: () => viewVideo(video_id),
-        mutationKey: ['videos.view', video_id],
+        mutationFn: () => viewVideo(video_uuid),
+        mutationKey: ['videos.view', video_uuid],
     });
 
     const hasViewed = useRef(false);
 
-    const handleVolumeChange = (event: any) => {
+    const handleVolumeChange = (event: TargetedEvent<HTMLVideoElement>) => {
         localStorage.setItem("volume", JSON.stringify({
-            value: event.target.volume.toFixed(2),
-            muted: event.target.muted
+            value: event.currentTarget.volume.toFixed(2),
+            muted: event.currentTarget.muted
         }));
     };
 
-    const handleVideoEnded = (event: any) => {
+    const handleVideoEnded = (event: TargetedEvent<HTMLVideoElement>) => {
+
         const autoplayNextVideo = JSON.parse(localStorage.getItem(AUTOPLAY_NEXT_VIDEO_KEY) || 'false');
+
         if(autoplayNextVideo && next_video) {
             window.location.replace(next_video);
         }
     };
 
-    const handleLoaded = (event: any) => {
-        video.current!.volume = volume.value;
-        video.current!.muted = volume.muted;
+    const handleLoaded = (event: TargetedEvent<HTMLVideoElement>) => {
+
+        videoElement.current!.volume = volume.value;
+        videoElement.current!.muted = volume.muted;
 
         if (timeCode) {
-            video.current!.currentTime = parseInt(timeCode);
+            videoElement.current!.currentTime = parseInt(timeCode);
         }
     };
 
-    const handleTimeUpdate = (event: any) => {
+    const handleTimeUpdate = (event: TargetedEvent<HTMLVideoElement>) => {
 
-        const time = event.target.currentTime;
+        const video = event.currentTarget;
 
-        if(time > VIEW_COUNT_DURATION && !hasViewed.current) {
-            hasViewed.current = true;
-            view();
-            video.current?.removeEventListener('timeupdate', handleTimeUpdate);
+        if (video.paused || video.seeking) {
+            lastTime = null;
+            return;
         }
+
+        const current = video.currentTime;
+
+        if (lastTime !== null) {
+            const delta = current - lastTime;
+
+            // Ignore seeks / jumps
+            if (delta > 0 && delta < 1) {
+                watchedTime += delta;
+            }
+        }
+
+        lastTime = current;
+
+        if(watchedTime > VIEW_COUNT_DURATION && !hasViewed.current) {
+             hasViewed.current = true;
+             view();
+         }
     };
 
     useEffect(() => {
-
-        const autoplayVideo = JSON.parse(localStorage.getItem(AUTOPLAY_VIDEO_KEY) || 'true');
-
-        if (autoplayVideo && !showAd) {
-            video.current!.autoplay = true;
+        if (video) {
+            setShowAds(video.show_ad);
         }
-
-        if (!showAd) {
-            video.current?.addEventListener('loadedmetadata', handleLoaded);
-            video.current?.addEventListener('timeupdate', handleTimeUpdate);
-            video.current?.addEventListener('volumechange', handleVolumeChange);
-            video.current?.addEventListener('ended', handleVideoEnded);
-
-            return () => {
-                video.current?.removeEventListener('loadedmetadata', handleLoaded);
-                video.current?.removeEventListener('timeupdate', handleTimeUpdate);
-                video.current?.removeEventListener('volumechange', handleVolumeChange);
-                video.current?.removeEventListener('ended', handleVideoEnded);
-            }
-        }
-
-    }, [showAd]);
-
-    const displayAd = showAd && !window.USER?.is_premium && status === VideoStatus.PUBLIC;
+    }, [video]);
 
     return (
         <>
-            {displayAd && <Ad setAds={setShowAds} />}
-            {!displayAd &&
-                <video
-                    ref={video}
-                    controls
-                    className="w-100 border border-1 rounded h-100"
-                    controlsList="nodownload"
-                    poster={thumbnail_url}
-                    onContextMenu={(e: any) => e.preventDefault()}
-                    playsInline
-                >
-                    <source src={file_url} type="video/mp4"/>
-                    {
-                        subtitles && subtitles.map((subtitle: SubtitleType) => (
-                            <track
-                                key={subtitle.id}
-                                label={subtitle.name}
-                                kind="subtitles"
-                                srcLang={subtitle.language}
-                                src={subtitle.file_url}
-                            />
-                        ))
-                    }
-                </video>
+            {
+                (isLoading || showAd === null)  &&
+                <div className="d-flex justify-content-center align-items-center h-100 w-100 bg-dark">
+                    <Loader/>
+                </div>
             }
+            {
+                isError &&
+                <div className="d-flex justify-content-center align-items-center h-100 w-100 bg-dark">
+                    <ApiError error={error} refetch={refetch}/>
+                </div>
 
+            }
+            {
+                (video && showAd !== null) &&
+                <>
+                    {showAd && <Ad setAds={setShowAds} />}
+                    {
+                        !showAd &&
+                        <div className={'position-relative h-100 w-100'}>
+                            <video
+                                ref={videoElement}
+                                onTimeUpdate={handleTimeUpdate}
+                                onLoadedMetadata={handleLoaded}
+                                onVolumeChange={handleVolumeChange}
+                                onEnded={handleVideoEnded}
+                                controls={true}
+                                onCanPlay={() => setIsReady(true)}
+                                className={clsx("w-100 border border-1 rounded h-100", !isReady && 'd-none')}
+                                controlsList="nodownload"
+                                poster={video.thumbnail}
+                                onContextMenu={(e: any) => e.preventDefault()}
+                                playsInline
+                                autoPlay={autoplayVideo}
+                                muted={volume.muted}
+                            >
+                                <source src={video.file} type="video/mp4"/>
+                                {
+                                    video.subtitles.map((subtitle: SubtitleType) => (
+                                        <track
+                                            key={subtitle.id}
+                                            label={subtitle.name}
+                                            kind="subtitles"
+                                            srcLang={subtitle.language}
+                                            src={subtitle.file_url}
+                                        />
+                                    ))
+                                }
+                            </video>
+                            {
+                                !isReady &&
+                                <div className="position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark" style={{ pointerEvents: "all" }}>
+                                    <Loader/>
+                                </div>
+                            }
+                        </div>
+                    }
+                </>
+            }
         </>
-
     )
 }
 
-export function Player(props: Props) {
-
-    const queryClient = new QueryClient({
-        defaultOptions: {
-            queries: {
-                retry: false,
-            }
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: false,
         }
-    });
+    }
+});
 
+export function Player(props: Props) {
     return (
         <QueryClientProvider client={queryClient}>
             <Main {...props} />

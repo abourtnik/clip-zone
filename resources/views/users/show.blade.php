@@ -75,34 +75,36 @@
                             {{ __('Subscribe') }}
                         </button>
                     @else
-                        <div class="d-flex gap-2">
+                        <div class="d-flex flex-wrap gap-2 justify-content-center ">
                             <a href="{{route('user.edit')}}" class="btn btn-primary">{{ __('Customize channel') }}</a>
                             <a href="{{route('user.videos.index')}}" class="btn btn-primary">{{ __('Manage videos') }}</a>
                         </div>
                     @endif
                 </div>
-                <ul class="nav mx-3 mx-sm-0 border-bottom" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link user-tabs active" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
-                            {{ __('Home') }}
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a id="videos_link" class="nav-link user-tabs" data-bs-toggle="tab" data-bs-target="#videos" type="button" role="tab" aria-controls="videos" aria-selected="false">
-                            {{ __('Videos') }}
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link user-tabs" data-bs-toggle="tab" data-bs-target="#playlists" type="button" role="tab" aria-controls="playlists" aria-selected="false">
-                            {{ __('Playlists') }}
-                        </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link user-tabs" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="false">
-                            {{ __('About') }}
-                        </a>
-                    </li>
-                </ul>
+                <div class="overflow-x-auto border-bottom">
+                    <ul class="nav mx-3 mx-sm-0 flex-nowrap text-nowrap" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link user-tabs active" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                {{ __('Home') }}
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a id="videos_link" class="nav-link user-tabs" data-bs-toggle="tab" data-bs-target="#videos" type="button" role="tab" aria-controls="videos" aria-selected="false">
+                                {{ __('Videos') }}
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link user-tabs" data-bs-toggle="tab" data-bs-target="#playlists" type="button" role="tab" aria-controls="playlists" aria-selected="false">
+                                {{ __('Playlists') }}
+                            </a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link user-tabs" data-bs-toggle="tab" data-bs-target="#about" type="button" role="tab" aria-controls="about" aria-selected="false">
+                                {{ __('About') }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class="tab-content px-3 px-sm-0">
                 <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -113,11 +115,7 @@
                             <div class="row mt-4 mx-0 flex-row">
                                 <div class="col-12 col-xl-7 col-xxl-5 px-0">
                                     <div class="ratio ratio-16x9">
-                                        <video-player
-                                            video_id="{{$user->pinned_video->uuid}}"
-                                            thumbnail_url="{{$user->pinned_video->thumbnail_url}}"
-                                            file_url="{{$user->pinned_video->file_url}}"
-                                        />
+                                        <video-player video_uuid="{{$user->pinned_video->uuid}}"/>
                                     </div>
                                 </div>
                                 <div class="col-12 col-xl-5 col-xxl-7 mt-3 m-xl-0">
