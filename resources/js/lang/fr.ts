@@ -74,7 +74,7 @@ export default {
     "Thanks for reporting": "Merci pour le signalement",
     "If we find this content to be in violation of our Community Guidelines, we will remove it." : "Si nous trouvons que ce contenu enfreint nos Règles de communauté, nous le supprimerons.",
     "Your Ad Could Be Here" : "Votre annonce pourrait être ici",
-    "Interested in featuring your video ?" : "Vous souhaitez présenter votre vidéo ?",
+    "Do you want to display your ad before each video ?" : "Vous souhaitez afficher votre annonce avant chaque video ?",
     "Contact us today": "Contactez-nous aujourd'hui",
     "Ad": "Annonce",
     "Notifications" : "Notifications",

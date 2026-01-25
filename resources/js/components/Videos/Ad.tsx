@@ -28,7 +28,7 @@ export function Ad ({setAds} : Props) {
         <div className={'w-100 h-100 d-flex justify-content-center align-items-center position-relative bg-dark text-white'}>
             <div className={'text-white text-center'}>
                 <h3 className={'pb-2'}>{t('Your Ad Could Be Here')}</h3>
-                <p>{t('Interested in featuring your video ?')}</p>
+                <p>{t('Do you want to display your ad before each video ?')}</p>
                 <a className={'btn btn-primary btn-sm'} href={'/contact'}>{t('Contact us today')}</a>
             </div>
             <div className={'position-absolute bottom-5 right-5'}>
