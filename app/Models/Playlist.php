@@ -84,6 +84,20 @@ class Playlist extends Model
         );
     }
 
+    protected function title(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+
+                if ($this->is_deletable) {
+                    return $value;
+                }
+
+                return __($value);
+            }
+        );
+    }
+
     /**
      * -------------------- SCOPES --------------------
      */

@@ -503,5 +503,6 @@
     "Permanently delete :count videos ?": "Supprimer définitivement :count vidéos ?",
     "Invalid :attribute format": "Format invalide pour :attribute",
     "Your file name does not exceed 100 characters": "Le nom de votre fichier ne peut pas excéder plus 100 caractères",
-    "Your file is too large (:fileSize) The uploading file should not exceed :maxSize": "Votre fichier est trop volumineux (:fileSize). La taille du fichier à télécharger ne doit pas excéder maxSize Mo"
+    "Your file is too large (:fileSize) The uploading file should not exceed :maxSize": "Votre fichier est trop volumineux (:fileSize). La taille du fichier à télécharger ne doit pas excéder maxSize Mo",
+    "Remove watched videos": "Supprimer les vidéos regardées"
 }

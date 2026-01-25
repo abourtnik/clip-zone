@@ -1,6 +1,6 @@
 @extends('layouts.default')
 
-@section('title', __($playlist->title))
+@section('title', $playlist->title)
 
 @section('content')
     <div class="row justify-content-center gy-3">
@@ -10,7 +10,7 @@
                     <img class="img-fluid card-img-top" src="{{$playlist->first_video->thumbnail_url}}" alt="{{$playlist->title}}">
                 @endif
                 <div class="card-body">
-                    <h2 class="h4 my-3">{{__($playlist->title)}}</h2>
+                    <h2 class="h4 my-3">{{$playlist->title}}</h2>
                     <div class="mt-3">{{ __('by') }} <a class="text-decoration-none fw-bold " href="{{$playlist->user->route}}">{{$playlist->user->username}}</a> </div>
                     <span class="badge bg-{{$playlist->status->color()}} my-3">
                         <i class="fa-solid fa-{{$playlist->status->icon()}}"></i>&nbsp;
@@ -27,7 +27,7 @@
                             @foreach($actions as $label => $route)
                                 <form action="{{$route}}" method="POST">
                                     @csrf()
-                                    <button class="btn btn-primary btn-sm" type="submit">{{$label}}</button>
+                                    <button class="btn btn-primary btn-sm" type="submit">{{__($label)}}</button>
                                 </form>
                             @endforeach
                         </div>
