@@ -83,6 +83,20 @@ class UserFactory extends Factory
         });
     }
 
+    /**
+     * Indicate that the user is admin.
+     *
+     * @return Factory
+     */
+    public function stripeUser(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'stripe_id' => fake()->bothify('cus_????##???????'),
+            ];
+        });
+    }
+
     public function withDefaultPlaylists(): Factory
     {
         return $this->afterCreating(function (User $user) {

@@ -4,7 +4,7 @@ namespace App\Console\Commands\Premium;
 
 use App\Models\Subscription;
 use App\Notifications\Premium\TrialEnd;
-use Carbon\Carbon;
+use Stripe\Subscription as StripeSubscription;
 use Illuminate\Console\Command;
 
 class SendTrialsEnd extends Command
@@ -32,13 +32,13 @@ class SendTrialsEnd extends Command
     {
         $subscriptions = Subscription::query()
             ->whereNull('ends_at')
-            ->whereDate('trial_ends_at', '>', Carbon::now())
-            ->whereDate('trial_ends_at', '=', Carbon::now()->add('days', config('plans.trial_period.email_reminder')))
+            ->where('stripe_status', StripeSubscription::STATUS_TRIALING)
+            ->whereDate('trial_ends_at', '=', now()->addDays(config('plans.trial_period.email_reminder')))
             ->get();
 
         foreach ($subscriptions as $subscription) {
             $subscription->user->notify(new TrialEnd());
-            $this->info(now()->format('Y-m-d H:i:s',).' - Notify ' .$subscription->user->username. '('.$subscription->user->id.') trials end.');
+            $this->info(now()->format('Y-m-d H:i:s').' - Notify ' .$subscription->user->username. '('.$subscription->user->id.') trials end.');
         }
 
         return Command::SUCCESS;

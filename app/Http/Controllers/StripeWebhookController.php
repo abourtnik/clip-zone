@@ -11,16 +11,18 @@ use App\Notifications\Premium\Invoice;
 use App\Notifications\Premium\Unpaid;
 use App\Notifications\Premium\Welcome;
 use App\Services\InvoiceService;
+use App\Services\StripeService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use Laravel\Cashier\Cashier;
 
 class StripeWebhookController extends Controller
 {
-    public function __construct(private readonly InvoiceService $invoiceService)
-    {
+    public function __construct(
+        private readonly InvoiceService $invoiceService,
+        private readonly StripeService $stripeService
+    ) {
     }
 
     public function index(Request $request): Response
@@ -52,16 +54,11 @@ class StripeWebhookController extends Controller
         $user = $this->getUserFromStripeId($data['customer']);
         $subscription = Subscription::where('stripe_id', $data['subscription'])->firstOrFail();
 
-        // Get Stripe Fee
-        $charge = Cashier::stripe()->charges->retrieve($data['charge'],
-            ['expand' => ['balance_transaction']]
-        );
-
         $transaction = Transaction::create([
             'stripe_id' => $data['payment_intent'],
             'amount' => $data['amount_paid'],
             'tax' => $data['tax'] ?? 0,
-            'fee' => $charge->balance_transaction->fee,
+            'fee' => $this->stripeService->getTransactionFee($data['charge']),
             'date' => Carbon::createFromTimestamp($data['created'], config('app.timezone')),
             'user_id' => $user->id,
             'subscription_id' => $subscription->id,
@@ -97,9 +94,7 @@ class StripeWebhookController extends Controller
 
         $plan = Plan::where('stripe_id', $data['plan']['id'])->firstOrFail();
 
-        $default_payment_method = Cashier::stripe()->subscriptions->retrieve($data['id'])->default_payment_method;
-
-        $paymentMethod = Cashier::stripe()->paymentMethods->retrieve($default_payment_method);
+        $card = $this->stripeService->getUserCard($data['customer']);
 
         // User Cancel Subscription and Renew
         if ($user->premium_subscription) {
@@ -109,8 +104,8 @@ class StripeWebhookController extends Controller
                 'plan_id' => $plan->id,
                 'stripe_id' => $data['id'],
                 'ends_at' => null,
-                'card_last4' => $paymentMethod->card->last4,
-                'card_expired_at' => Carbon::createFromDate($paymentMethod->card->exp_year, $paymentMethod->card->exp_month)->endOfMonth()
+                'card_last4' => $card->last4,
+                'card_expired_at' => Carbon::createFromDate($card->expYear, $card->expMonth)->endOfMonth()
             ]);
         }
 
@@ -122,8 +117,8 @@ class StripeWebhookController extends Controller
                 'plan_id' => $plan->id,
                 'stripe_id' => $data['id'],
                 'trial_ends_at' => Carbon::createFromTimestamp($data['trial_end'], config('app.timezone')),
-                'card_last4' => $paymentMethod->card->last4,
-                'card_expired_at' => Carbon::createFromDate($paymentMethod->card->exp_year, $paymentMethod->card->exp_month)->endOfMonth()
+                'card_last4' => $card->last4,
+                'card_expired_at' => Carbon::createFromDate($card->expYear, $card->expMonth)->endOfMonth()
             ]);
         }
 
@@ -171,11 +166,12 @@ class StripeWebhookController extends Controller
         $subscription = Subscription::where('user_id', $user->id)->first();
 
         if ($subscription && $data['invoice_settings']['default_payment_method']) {
-            $paymentMethod = Cashier::stripe()->paymentMethods->retrieve($data['invoice_settings']['default_payment_method']);
+
+            $card = $this->stripeService->getUserCard($data['customer']);
 
             $subscription->update([
-                'card_last4' => $paymentMethod->card->last4,
-                'card_expired_at' => Carbon::createFromDate($paymentMethod->card->exp_year, $paymentMethod->card->exp_month)->endOfMonth()
+                'card_last4' => $card->last4,
+                'card_expired_at' => Carbon::createFromDate($card->expYear, $card->expMonth)->endOfMonth()
             ]);
         }
 
