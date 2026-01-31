@@ -8,10 +8,7 @@
         "php": "^8.3",
         "barryvdh/laravel-dompdf": "^3.0",
         "diglactic/laravel-breadcrumbs": "^10.0",
-        "doctrine/dbal": "^3.6",
         "fakerphp/faker": "^1.9.1",
-        "guzzlehttp/guzzle": "^7.2",
-        "http-interop/http-factory-guzzle": "^1.2",
         "icehouse-ventures/laravel-chartjs": "^4.1",
         "kris/laravel-form-builder": "^1.52",
         "lab404/laravel-impersonate": "^1.7",
@@ -29,7 +26,6 @@
         "php-ffmpeg/php-ffmpeg": "^1.1",
         "predis/predis": "^2.2",
         "propaganistas/laravel-phone": "^6.0",
-        "psr/simple-cache": "^2.0",
         "pusher/pusher-php-server": "^7.2",
         "spatie/eloquent-sortable": "^4.0",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
@@ -37,14 +33,13 @@
         "symfony/intl": "^6.1"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.7",
         "barryvdh/laravel-ide-helper": "^v3.5.4",
+        "fruitcake/laravel-debugbar": "^4.0",
         "larastan/larastan": "^v3.0.2",
         "laravel/pint": "^1.0",
         "mockery/mockery": "^1.5",
         "nunomaduro/collision": "^8.1",
-        "phpunit/phpunit": "^11.5.3",
-        "spatie/laravel-ignition": "^2.0"
+        "phpunit/phpunit": "^11.5.3"
     },
     "autoload": {
         "psr-4": {
