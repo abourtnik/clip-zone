@@ -1,5 +1,6 @@
 @if($video->is_failed)
     <button
+        tabindex="0"
         class="badge bg-danger"
         data-bs-toggle="popover"
         data-bs-placement="right"

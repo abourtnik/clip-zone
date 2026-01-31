@@ -23,8 +23,6 @@ services:
         volumes:
             - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
             - ./:/var/www/html
-        links:
-            - php
         restart: unless-stopped
     mariadb:
         image: mariadb:11.6.2
@@ -100,8 +98,6 @@ services:
             PMA_ARBITRARY: 1
             PMA_HOST: mariadb
             PMA_USER: root
-        links:
-            - mariadb
         ports:
             - "8091:80"
         networks:
@@ -110,8 +106,6 @@ services:
         image: stripe/stripe-cli:latest
         container_name: stripe_container
         command: "listen --api-key ${STRIPE_SECRET} --forward-to nginx/stripe-webhook"
-        links:
-            - nginx
         networks:
             - application
     minio:
@@ -140,7 +134,7 @@ services:
             - application
         depends_on:
             - php
-        restart: unless-stopped
+        restart: always
     websockets:
         image: 'quay.io/soketi/soketi:latest-16-alpine'
         container_name: websockets_container

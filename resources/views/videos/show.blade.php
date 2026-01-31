@@ -90,6 +90,8 @@
                                     </a>
                                 @else
                                     <button
+                                        type="button"
+                                        tabindex="0"
                                         class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0"
                                         title="Download video"
                                         data-bs-toggle="popover"
@@ -125,6 +127,8 @@
                         <div class="d-flex gap-2 align-items-center overflow-auto col-12 col-sm-auto">
                             <div class="d-flex justify-content-between bg-light-dark rounded-4">
                                 <button
+                                    type="button"
+                                    tabindex="0"
                                     class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end d-flex flex-nowrap gap-1 align-items-center"
                                     data-bs-toggle="popover"
                                     data-bs-placement="left"
@@ -140,6 +144,8 @@
                                 </button>
                                 <div class="vr h-75 my-auto"></div>
                                 <button
+                                    type="button"
+                                    tabindex="0"
                                     class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start d-flex flex-nowrap gap-1 align-items-center"
                                     data-bs-toggle="popover"
                                     data-bs-placement="right"
@@ -159,6 +165,8 @@
                                 {{__('Share')}}
                             </button>
                             <button
+                                type="button"
+                                tabindex="0"
                                 class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
@@ -189,6 +197,7 @@
                     <div>
                         @if(Auth::guest())
                             <button
+                                tabindex="0"
                                 type="button"
                                 class="btn btn-dark rounded-4 px-3"
                                 data-bs-toggle="popover"

@@ -24,6 +24,7 @@
                 data-bs-title="{{ __('Want to subscribe to this channel ?') }}"
                 data-bs-trigger="focus"
                 data-bs-html="true"
+                tabindex="0"
                 data-bs-content="{{ __('Sign in to subscribe to this channel.') }}<hr><a href='/login' class='btn btn-primary btn-sm'>{{ __('Sign In') }}</a>"
             >
                 {{ __('Subscribe') }}

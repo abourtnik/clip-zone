@@ -55,6 +55,7 @@
                         @else
                             <button
                                 type="button"
+                                tabindex="0"
                                 class="btn btn-primary btn-sm"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"

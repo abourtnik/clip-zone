@@ -64,6 +64,7 @@
                     @elseif(!Auth::check())
                         <button
                             type="button"
+                            tabindex="0"
                             class="btn btn-dark rounded-4 px-3"
                             data-bs-toggle="popover"
                             data-bs-placement="right"
@@ -238,6 +239,8 @@
                                             @endcan
                                         @else
                                             <button
+                                                type="button"
+                                                tabindex="0"
                                                 class="btn bg-light-dark rounded-4 btn-sm px-3"
                                                 data-bs-toggle="popover"
                                                 data-bs-placement="right"
