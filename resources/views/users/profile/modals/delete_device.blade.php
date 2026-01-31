@@ -15,7 +15,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="alert alert-danger mb-0 fw-bold">
-                        {{ __('The device will no longer be connected to this account') }}
+                        {{ __('The device will no longer be connected to your account') }}
                     </div>
                 </div>
                 <div class="modal-footer">

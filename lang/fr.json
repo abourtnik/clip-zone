@@ -404,7 +404,7 @@
     "See devices using your account": "Voir les appareils utilisant votre compte",
     "Device": "Appareil",
     "Delete device :device ?": "Supprimer l\\'appareil :device ?",
-    "The device will no longer be connected to this account": "Cette appareil ne sera plus connecté à ce compte",
+    "The device will no longer be connected to your account": "Cette appareil ne sera plus connecté à votre compte",
     "Last activity": "Dernière activité",
     "Created at": "Créé le",
     "Expires at": "Expire le",
@@ -504,5 +504,10 @@
     "Invalid :attribute format": "Format invalide pour :attribute",
     "Your file name does not exceed 100 characters": "Le nom de votre fichier ne peut pas excéder plus 100 caractères",
     "Your file is too large (:fileSize) The uploading file should not exceed :maxSize": "Votre fichier est trop volumineux (:fileSize). La taille du fichier à télécharger ne doit pas excéder maxSize Mo",
-    "Remove watched videos": "Supprimer les vidéos regardées"
+    "Remove watched videos": "Supprimer les vidéos regardées",
+    "Welcome to :app_name Premium !" : "Bienvenue sur :app_name Premium !",
+    "Your membership is now active and benefits start immediately" : "Votre abonnement est maintenant actif et vous pouvez commencer a profiter des avantages premiums",
+    "An email receipt has been sent to <span class=\"fw-bold\">:email<span>": "Un accusé de réception a été envoyé pae email à <span class=\"fw-bold\">:email<span>",
+    "Your membership information is available in your <a class=\"text-decoration-none\" href=\":account_url\">account</a>": "Vos informations d'adhésion sont disponibles dans votre <a class=\"text-decoration-none\" href=\":account_url\">compte</a>",
+    "Done": "Compris"
 }

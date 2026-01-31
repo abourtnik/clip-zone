@@ -16,8 +16,8 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th scope="col" style="min-width: 200px">{{ __('Device') }}</th>
-                                    <th scope="col" style="min-width: 120px">{{ __('Last activity') }}</th>
+                                    <th scope="col" style="min-width: 230px">{{ __('Device') }}</th>
+                                    <th scope="col" style="min-width: 150px">{{ __('Last activity') }}</th>
                                     <th scope="col" style="min-width: 120px">{{ __('Created at') }}</th>
                                     <th scope="col" style="min-width: 200px">{{ __('Expires at') }}</th>
                                     <th scope="col" style="min-width: 6px">{{ __('Actions') }}</th>

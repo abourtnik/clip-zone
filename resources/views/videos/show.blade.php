@@ -122,10 +122,10 @@
                             @endcan
                         </div>
                     @else
-                        <div class="d-flex gap-2 align-items-center">
+                        <div class="d-flex gap-2 align-items-center overflow-auto col-12 col-sm-auto">
                             <div class="d-flex justify-content-between bg-light-dark rounded-4">
                                 <button
-                                    class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
+                                    class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end d-flex flex-nowrap gap-1 align-items-center"
                                     data-bs-toggle="popover"
                                     data-bs-placement="left"
                                     data-bs-title="{{__('Like this video ?')}}"
@@ -140,7 +140,7 @@
                                 </button>
                                 <div class="vr h-75 my-auto"></div>
                                 <button
-                                    class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
+                                    class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start d-flex flex-nowrap gap-1 align-items-center"
                                     data-bs-toggle="popover"
                                     data-bs-placement="right"
                                     data-bs-title="{{__('Don\'t like this video ?')}}"
@@ -154,12 +154,12 @@
                                     @endif
                                 </button>
                             </div>
-                            <button class="btn bg-light-dark rounded-4 btn-sm px-3" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                            <button class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                                 <i class="fa-solid fa-share"></i>&nbsp;
                                 {{__('Share')}}
                             </button>
                             <button
-                                class="btn bg-light-dark rounded-4 btn-sm px-3"
+                                class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
                                 data-bs-title="{{__('Need to report the video ?')}}"
