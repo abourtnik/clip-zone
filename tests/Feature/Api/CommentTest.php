@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Api;
+namespace Tests\Feature\Api;
 
 use App\Enums\VideoStatus;
 use App\Models\Comment;

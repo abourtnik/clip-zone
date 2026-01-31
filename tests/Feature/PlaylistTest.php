@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature;
+namespace Tests\Feature;
 
 use App\Enums\PlaylistSort;
 use App\Enums\PlaylistStatus;
