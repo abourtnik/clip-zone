@@ -170,7 +170,7 @@
                                 class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
-                                data-bs-title="{{__('Need to report the video ?')}}"
+                                data-bs-title="{{ __('Need to report this video ?') }}"
                                 data-bs-trigger="focus"
                                 data-bs-html="true"
                                 data-bs-content="{{__('Sign in to report inappropriate content.')}}<hr><a href='/login' class='btn btn-primary btn-sm'>{{__('Sign In')}}</a>"
