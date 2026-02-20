@@ -34,8 +34,8 @@ class PremiumNotificationsTest extends TestCase
             ->for($this->user)
             ->count(2)
             ->sequence(
-                ['card_expired_at' => now()->addDay()],
-                ['card_expired_at' => now()->subDay()],
+                ['card_expired_at' => now()->endOfMonth()],
+                ['card_expired_at' => now()->addMonth()->endOfMonth()],
             )
             ->create();
 
