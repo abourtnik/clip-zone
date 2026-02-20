@@ -21,7 +21,7 @@ class CategorySeeder extends Seeder
             ['title' => 'Entertainment', 'icon' => 'champagne-glasses'],
             ['title' => 'Film & Animation', 'icon' => 'film'],
             ['title' => 'Gaming', 'icon' => 'gamepad', 'in_menu' => true, 'position' => 2],
-            ['title' => 'Howto & Style', 'icon' => 'gamepad', 'in_menu' => true],
+            ['title' => 'Howto & Style', 'icon' => 'pencil', 'in_menu' => true],
             ['title' => 'Music', 'icon' => 'music', 'in_menu' => true, 'position' => 1],
             ['title' => 'News & Politics', 'icon' => 'newspaper', 'in_menu' => true, 'position' => 3],
             ['title' => 'Nonprofits & Activism', 'icon' => 'building-columns'],
