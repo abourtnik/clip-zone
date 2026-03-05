@@ -1,4 +1,4 @@
-.PHONY: help connect bun reset start stop optimize update install install-production deploy test logs stripe restart-horizon analyse helpers update-bucket-policy
+.PHONY: help connect bun reset start stop optimize update install install-production deploy test logs stripe restart-horizon lint helpers update-bucket-policy
 
 DOMAIN ?= localhost
 
@@ -105,7 +105,7 @@ stripe: ## See Stripe Webhook logs
 restart-horizon: ## Restart Horizon
 	docker restart queues_container
 
-analyse: ## Execute Larastan
+lint: ## Execute Larastan
 	docker exec -it php_container ./vendor/bin/phpstan analyse --memory-limit=2G
 
 helpers: ## Generate Laravel Helpers
