@@ -37,9 +37,9 @@ class AccountTest extends TestCase
 
     public function test_dashboard_page ()
     {
-        $response = $this->get(route('user.index'));
-
-        $response->assertStatus(200);
+        $this
+            ->get(route('user.index'))
+            ->assertStatus(200);
     }
 
     public function test_videos_page ()
