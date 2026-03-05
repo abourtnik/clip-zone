@@ -100,7 +100,7 @@ const Main = ({count} : Props) => {
                             <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onClick={() => setOpen(false)}></button>
                     </div>
                 </div>
-                <div className="offcanvas-body px-0 pt-0 overflow-auto" style="min-height: 500px">
+                <div className="offcanvas-body p-0">
                     {
                         isLoading &&
                         <div className={'d-flex justify-content-center align-items-center h-100'}>
@@ -113,11 +113,11 @@ const Main = ({count} : Props) => {
                             <ApiError refetch={refetch} error={error}/>
                         </div>
                     }
-                    <div>
+                    <div className={'h-100 overflow-auto'}>
                         {
                             notifications && (
                                 notifications?.pages.flatMap((page => page.data)).length > 0 ?
-                                    <ul className="list-group list-group-flush overflow-auto h-100">
+                                    <ul className="list-group list-group-flush">
                                         {notifications.pages.map((group, i) => (
                                             <Fragment key={i}>
                                                 {group.data.map((notification) => <Notification key={notification.id} notification={notification} setUnread={setUnread}/>)}
