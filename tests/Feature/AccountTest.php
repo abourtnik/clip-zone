@@ -117,8 +117,8 @@ class AccountTest extends TestCase
 
     public function test_profile_page ()
     {
-        $response = $this->get(route('user.edit'));
-
-        $response->assertStatus(200);
+        $this
+            ->get(route('user.edit'))
+            ->assertStatus(200);
     }
 }
