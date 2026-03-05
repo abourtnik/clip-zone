@@ -37,7 +37,7 @@
                     @if($video->is_planned)
                         <div class="d-flex alert alert-warning px-2 py-1 align-items-center gap-2 mb-0">
                             <i class="fa-solid fa-clock"></i>
-                            <strong>{{__('Planned')}} - {{$video->scheduled_at->format('d M Y H:i')}}</strong>
+                            <strong>{{__('Planned')}} - {{$video->scheduled_at->translatedFormat('d M Y H:i')}}</strong>
                         </div>
                     @elseif($video->is_banned)
                         <div class="d-flex alert alert-danger px-2 py-1 align-items-center gap-2 mb-0">

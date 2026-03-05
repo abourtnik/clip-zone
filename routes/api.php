@@ -68,7 +68,10 @@ Route::middleware('auth:sanctum')->group(function () {
             ->controller(InteractionController::class)
             ->middleware('verified')
             ->group(function () {
-                Route::get('/videos/{video:id}/interactions', 'list')->name('list')->can('interactions', 'video');
+                Route::get('/videos/{video:id}/interactions', 'list')
+                    ->name('list')
+                    ->withTrashed()
+                    ->can('interactions', 'video');
                 Route::post('/like', 'like')->name('like');
                 Route::post('/dislike', 'dislike')->name('dislike');
         });

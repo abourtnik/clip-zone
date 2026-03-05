@@ -13,7 +13,7 @@ class VideoPolicy
 {
     use HandlesAuthorization;
 
-    public const array ADMIN_ABILITIES = ['view', 'show', 'file', 'update', 'thumbnail', 'thumbnails'];
+    public const array ADMIN_ABILITIES = ['view', 'show', 'file', 'update', 'thumbnail', 'thumbnails', 'download', 'interactions'];
 
     public function before(?User $user, string $ability): bool|null
     {
@@ -76,6 +76,10 @@ class VideoPolicy
             return false;
         }
 
+        if ($video->trashed()) {
+            return Response::denyWithStatus(404, 'This video is deleted');
+        }
+
         return ($video->is_public && $user->is_premium) || $video->user()->is($user) || $user->is_admin
             ? Response::allow()
             : Response::denyWithStatus(403, 'You are not authorized to download this video');
@@ -90,6 +94,10 @@ class VideoPolicy
      */
     public function file(?User $user, Video $video): Response|bool
     {
+        if ($video->trashed()) {
+            return Response::denyWithStatus(404, 'This video is deleted');
+        }
+
         return $video->is_public || $video->user()->is($user)
             ? Response::allow()
             : Response::denyWithStatus(403, 'This video is private');
@@ -104,6 +112,10 @@ class VideoPolicy
      */
     public function thumbnail(?User $user, Video $video): Response|bool
     {
+        if ($video->trashed()) {
+            return Response::denyWithStatus(404, 'This video is deleted');
+        }
+
         return $video->is_public || $video->user->is($user)
             ? Response::allow()
             : Response::denyWithStatus(403, 'This video is private');
@@ -255,6 +267,10 @@ class VideoPolicy
      */
     public function interactions(User $user, Video $video): Response|bool
     {
+        if ($video->trashed()) {
+            return Response::denyWithStatus(404, 'This video is deleted');
+        }
+
         return $video->is_active || $video->user->is($user)
             ? Response::allow()
             : Response::denyWithStatus(403, 'You are not authorized to see his video interactions');

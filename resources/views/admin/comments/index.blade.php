@@ -41,9 +41,12 @@
                                 <div class="d-flex flex-column gap-1">
                                     <div class="d-flex align-items-center">
                                         <a @class(['text-sm text-decoration-none', 'badge rounded-pill text-bg-secondary' => $comment->user->is($comment->video->user)]) href="{{$comment->user->route}}">{{$comment->user->username}}</a>
-                                        <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
+                                        <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->translatedFormat('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
                                         @if($comment->is_updated)
-                                            <small class="text-muted text-muted fw-semibold">&nbsp;• Modified</small>
+                                            <small class="text-muted fw-semibold">&nbsp;• Modified</small>
+                                        @endif
+                                        @if($comment->trashed())
+                                            <small class="text-danger fw-semibold">&nbsp;• Deleted</small>
                                         @endif
                                     </div>
                                     <x-expand-item>

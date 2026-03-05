@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\RedirectResponse;
 
 class CommentController extends Controller
@@ -13,12 +14,13 @@ class CommentController extends Controller
         return view('admin.comments.index', [
             'comments' => Comment::filter()
                     ->with([
-                        'video' => fn($q) => $q->with('user'),
+                        'video' => fn(BelongsTo $query) => $query->withTrashed()->with('user'),
                         'user'
                     ])
                     ->whereNull('parent_id')
                     ->withCount(['likes', 'dislikes', 'interactions', 'replies'])
                     ->orderBy('created_at', 'desc')
+                    ->withTrashed()
                     ->paginate(12)
                     ->withQueryString()
         ]);

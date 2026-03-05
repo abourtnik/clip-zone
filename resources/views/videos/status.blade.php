@@ -12,6 +12,11 @@
         <i class="fa-solid fa-circle-exclamation"></i>&nbsp;
         {{ __('Failed') }}
     </button>
+@elseif($video->trashed())
+    <span class="badge bg-danger">
+        <i class="fa-solid fa-trash"></i>&nbsp;
+        {{ __('Deleted') }} {{$video->deleted_at->diffForHumans()}}
+    </span>
 @elseif($video->is_uploading)
     <span class="badge bg-secondary">
         <i class="fa-solid fa-hourglass-half"></i>&nbsp;

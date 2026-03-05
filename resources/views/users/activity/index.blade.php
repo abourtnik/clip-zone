@@ -50,16 +50,16 @@
                         <span>{{ __('Liked videos') }} : {{$user->video_likes_count}}</span>
                     </li>
                     <li class="list-group-item ps-0">
-                        <span>{{ __('Disliked videos') }} : {{$user->video_likes_count}}</span>
+                        <span>{{ __('Disliked videos') }} : {{$user->videos_dislikes_count}}</span>
                     </li>
                     <li class="list-group-item ps-0">
-                        <span>{{ __('Liked comments') }} : {{$user->video_likes_count}}</span>
+                        <span>{{ __('Liked comments') }} : {{$user->comment_likes_count}}</span>
                     </li>
                     <li class="list-group-item ps-0">
-                        <span>{{ __('Disliked comments') }} : {{$user->video_likes_count}}</span>
+                        <span>{{ __('Disliked comments') }} : {{$user->comment_dislikes_count}}</span>
                     </li>
                     <li class="list-group-item ps-0">
-                        <span>{{ __('Comments') }} : {{$user->video_likes_count}}</span>
+                        <span>{{ __('Comments') }} : {{$user->comments_count}}</span>
                     </li>
                 </ul>
             </div>

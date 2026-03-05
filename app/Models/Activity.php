@@ -29,7 +29,7 @@ class Activity extends Model
      */
     public function subject(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo()->withTrashed();
     }
 
     protected function type(): Attribute

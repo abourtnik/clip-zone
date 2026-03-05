@@ -19,6 +19,7 @@ class VideoController
                 ])
                 ->withCount(['likes', 'dislikes', 'interactions', 'comments'])
                 ->latest('created_at')
+                ->withTrashed()
                 ->paginate(15)
                 ->withQueryString()
         ]);

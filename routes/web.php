@@ -63,13 +63,16 @@ Route::controller(VideoController::class)->name('video.')->prefix('video')->grou
         ->where('slug', '[a-z0-9A-Z\-]+');
     Route::get('file/{video:file}', 'file')
         ->name('file')
-        ->can('file', 'video');
+        ->can('file', 'video')
+        ->withTrashed();
     Route::get('{video:uuid}/thumbnail', 'thumbnail')
         ->name('thumbnail')
-        ->can('thumbnail', 'video');
+        ->can('thumbnail', 'video')
+        ->withTrashed();
     Route::get('{video:uuid}/download', 'download')
         ->name('download')
-        ->can('download', 'video');
+        ->can('download', 'video')
+        ->withTrashed();
     Route::get('{video:uuid}/subtitles/{subtitle}', 'subtitles')
         ->scopeBindings()
         ->name('subtitles')
