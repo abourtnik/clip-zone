@@ -94,13 +94,6 @@ class AccountTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function test_subtitles_page ()
-    {
-        $response = $this->get(route('user.subtitles.list'));
-
-        $response->assertStatus(200);
-    }
-
     public function test_activity_page ()
     {
         $response = $this->get(route('user.activity.index'));

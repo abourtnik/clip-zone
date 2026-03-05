@@ -19,16 +19,16 @@ class PageTest extends TestCase
      */
     public function test_home(): void
     {
-        $response = $this->get(route('pages.home'));
-
-        $response->assertStatus(200);
+        $this
+            ->get(route('pages.home'))
+            ->assertStatus(200);
     }
 
     public function test_trend(): void
     {
-        $response = $this->get(route('pages.trend'));
-
-        $response->assertStatus(200);
+        $this
+            ->get(route('pages.trend'))
+            ->assertStatus(200);
     }
 
     public function test_private_video_show(): void
@@ -38,9 +38,9 @@ class PageTest extends TestCase
             ->withStatus(VideoStatus::PRIVATE)
             ->create();
 
-        $response = $this->get($video->route);
-
-        $response->assertStatus(404);
+        $this
+            ->get($video->route)
+            ->assertStatus(404);
     }
 
     public function test_planned_video_show(): void
@@ -52,9 +52,9 @@ class PageTest extends TestCase
                 'scheduled_at' => now()->addMinutes(30)
             ]);
 
-        $response = $this->get($video->route);
-
-        $response->assertStatus(404);
+        $this
+            ->get($video->route)
+            ->assertStatus(404);
     }
 
     public function test_planned_public_video_show(): void
@@ -66,9 +66,23 @@ class PageTest extends TestCase
                 'scheduled_at' => now()->subMinutes(30)
             ]);
 
-        $response = $this->get($video->route);
+        $this
+            ->get($video->route)
+            ->assertStatus(200);
+    }
 
-        $response->assertStatus(200);
+    public function test_deleted_video_show(): void
+    {
+        $video = Video::factory()
+            ->forUser()
+            ->withStatus(VideoStatus::PUBLIC)
+            ->create([
+                'deleted_at' => now()->subMinutes(30)
+            ]);
+
+        $this
+            ->get($video->route)
+            ->assertStatus(404);
     }
 
 
@@ -79,17 +93,17 @@ class PageTest extends TestCase
             ->withStatus(VideoStatus::PUBLIC)
             ->create();
 
-        $response = $this->get($video->route);
-
-        $response->assertStatus(200);
+        $this
+            ->get($video->route)
+            ->assertStatus(200);
     }
 
     public function test_user_show(): void
     {
         $user = User::factory()->create();
 
-        $response = $this->get($user->route);
-
-        $response->assertStatus(200);
+        $this
+            ->get($user->route)
+            ->assertStatus(200);
     }
 }
