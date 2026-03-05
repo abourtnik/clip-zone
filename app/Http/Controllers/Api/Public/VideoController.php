@@ -7,6 +7,7 @@ use App\Http\Resources\Video\VideoPlayerResource;
 use App\Http\Resources\Video\VideoShowResource;
 use App\Models\Video;
 use App\Services\ViewService;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -58,7 +59,11 @@ class VideoController
 
     public function player (Video $video): VideoPlayerResource
     {
-        return new VideoPlayerResource($video);
+        return new VideoPlayerResource(
+            $video->load([
+                'subtitles' => fn(HasMany $q) => $q->public(),
+            ])
+        );
     }
 
     public function view(Video $video, ViewService $viewService): Response
