@@ -78,11 +78,6 @@ return [
             'route' => 'user.comments.index',
         ],
         [
-            'title' => 'Subtitles',
-            'icon' => 'closed-captioning',
-            'route' => 'user.subtitles.list',
-        ],
-        [
             'title' => 'Activity',
             'icon' => 'bars-staggered',
             'route' => 'user.activity.index',

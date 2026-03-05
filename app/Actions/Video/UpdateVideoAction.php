@@ -3,8 +3,10 @@
 namespace App\Actions\Video;
 
 use App\Enums\VideoStatus;
+use App\Helpers\File;
 use App\Http\Requests\Video\UpdateVideoRequest;
 use App\Models\Playlist;
+use App\Models\Subtitle;
 use App\Models\Video;
 use App\Services\ThumbnailService;
 
@@ -21,6 +23,8 @@ class UpdateVideoAction
         $video->update($validated);
 
         $this->syncPlaylists($video, $request->array('playlists'));
+
+        $this->syncSubtitles($video, $request->array('subtitles'), $request->file('subtitles'));
 
         ThumbnailService::save($request);
     }
@@ -76,5 +80,34 @@ class UpdateVideoAction
         }
 
         $video->playlists()->sync($dataToSync);
+    }
+
+    private function syncSubtitles(Video $video, ?array $subtitles, ?array $files): void
+    {
+        // Delete removed subtitles
+        $ids = collect($subtitles)->pluck('id')->filter()->toArray();
+        $video->subtitles()
+            ->whereNotIn('id', $ids)
+            ->get()
+            ->each(function(Subtitle $subtitle) {
+                File::deleteIfExist($subtitle->file, Subtitle::FILE_FOLDER);
+                $subtitle->delete();
+            });
+
+        foreach ($subtitles as $index => $subtitle) {
+
+            $data = $subtitle;
+
+            $uploadedFile = isset($files[$index]) ? $files[$index]['file'] : null;
+
+            $initialFile = isset($subtitle['id']) ? $video->subtitles()->find($subtitle['id'])?->file : null;
+
+            $data['file'] = File::storeAndDelete($uploadedFile, Subtitle::FILE_FOLDER, $initialFile);
+
+            $video->subtitles()->updateOrCreate(
+                ['id' => $subtitle['id'] ?? null],
+                $data
+            );
+        }
     }
 }

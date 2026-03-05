@@ -3,8 +3,10 @@
 namespace App\Actions\Video;
 
 use App\Enums\VideoStatus;
+use App\Helpers\File;
 use App\Http\Requests\Video\StoreVideoRequest;
 use App\Models\Playlist;
+use App\Models\Subtitle;
 use App\Models\Video;
 use App\Services\ThumbnailService;
 
@@ -21,6 +23,8 @@ class StoreVideoAction
         $video->update($validated);
 
         $this->syncPlaylists($video, $request->array('playlists'));
+
+        $this->saveSubtitles($video, $request->array('subtitles'));
 
         ThumbnailService::save($request);
     }
@@ -45,6 +49,18 @@ class StoreVideoAction
             $playlist->videos()->attach([
                 $video->id => ['position' => is_null($playlist->last_position) ? 0 : $playlist->last_position + 1]
             ]);
+        }
+    }
+
+    private function saveSubtitles(Video $video, ?array $subtitles): void
+    {
+        foreach ($subtitles as $subtitle) {
+
+            $data = array_merge($subtitle, [
+                'file' => File::storeAndDelete($subtitle['file'], Subtitle::FILE_FOLDER),
+            ]);
+
+            $video->subtitles()->create($data);
         }
     }
 }

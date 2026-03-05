@@ -120,6 +120,7 @@
                                 </select>
                             </div>
                         </div>
+                        <x-subtitles />
                     </div>
                 </div>
             </div>

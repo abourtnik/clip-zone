@@ -52,10 +52,6 @@ Route::prefix('profile')->name('user.')->middleware(['auth'])->group(function ()
     // Comments
     Route::resource('comments', CommentController::class)->only(['index', 'destroy']);
 
-    // Subtitles
-    Route::get('subtitles', [SubtitleController::class, 'list'])->name('subtitles.list');
-    Route::resource('videos.subtitles', SubtitleController::class)->shallow();
-
     // Playlists
     Route::resource('playlists', PlaylistController::class)->except(['show'])->middlewareFor(['create', 'store'], 'verified');
     Route::post('playlists/{playlist}/favorite', [PlaylistController::class, 'favorite'])->name('playlists.favorite')->can('favorite', 'playlist');

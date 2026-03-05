@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Video;
 
 use App\Enums\ImageType;
+use App\Enums\SubtitleStatus;
 use App\Enums\VideoStatus;
 use App\Models\Video;
 use App\Rules\MimetypeEnum;
@@ -10,6 +11,7 @@ use Illuminate\Database\Query\Builder;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreVideoRequest extends FormRequest
 {
@@ -88,7 +90,29 @@ class StoreVideoRequest extends FormRequest
                         ->where('user_id', Auth::user()->id)
                         ->where('is_deletable', true);
                 })
-            ]
+            ],
+            'subtitles' => 'nullable|array',
+            'subtitles.*.language' => [
+                'required',
+                Rule::in(Video::AVAILABLE_LANGUAGES),
+                'distinct',
+            ],
+            'subtitles.*.name' => [
+                'required',
+                'string',
+                'max:'.config('validation.subtitle.name.max'),
+                'distinct',
+            ],
+            'subtitles.*.status' => [
+                'required',
+                new Enum(SubtitleStatus::class)
+            ],
+            'subtitles.*.file' => [
+                'required',
+                'file',
+                'mimetypes:text/vtt,text/plain',
+                'max:2048', // 2mo
+            ],
         ];
     }
 

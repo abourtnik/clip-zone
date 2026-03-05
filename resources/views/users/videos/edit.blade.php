@@ -114,6 +114,7 @@
                                 </select>
                             </div>
                         </div>
+                       <x-subtitles :video-id="$video->id"/>
                     </div>
                 </div>
             </div>
