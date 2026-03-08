@@ -124,12 +124,12 @@
                             @endcan
                         </div>
                     @else
-                        <div class="d-flex gap-2 align-items-center overflow-auto col-12 col-sm-auto">
+                        <div class="d-flex gap-2 overflow-auto col-12 col-sm-auto">
                             <div class="d-flex justify-content-between bg-light-dark rounded-4">
                                 <button
                                     type="button"
                                     tabindex="0"
-                                    class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end d-flex flex-nowrap gap-1 align-items-center"
+                                    class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
                                     data-bs-toggle="popover"
                                     data-bs-placement="left"
                                     data-bs-title="{{__('Like this video ?')}}"
@@ -137,16 +137,18 @@
                                     data-bs-html="true"
                                     data-bs-content="{{__('Sign in to make your opinion count.')}}<hr><a href='/login' class='btn btn-primary btn-sm'>{{__('Sign In')}}</a>"
                                 >
-                                    <i class="fa-regular fa-thumbs-up"></i>
-                                    @if($video->show_likes && $video->likes_count)
-                                        <span class="ml-1">@abbreviate($video->likes_count)</span>
-                                    @endif
+                                    <div class="d-flex gap-1 align-items-center">
+                                        <i class="fa-regular fa-thumbs-up"></i>
+                                        @if($video->show_likes && $video->likes_count)
+                                            <span class="ml-1">@abbreviate($video->likes_count)</span>
+                                        @endif
+                                    </div>
                                 </button>
                                 <div class="vr h-75 my-auto"></div>
                                 <button
                                     type="button"
                                     tabindex="0"
-                                    class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start d-flex flex-nowrap gap-1 align-items-center"
+                                    class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
                                     data-bs-toggle="popover"
                                     data-bs-placement="right"
                                     data-bs-title="{{__('Don\'t like this video ?')}}"
@@ -154,10 +156,12 @@
                                     data-bs-html="true"
                                     data-bs-content="{{__('Sign in to make your opinion count.')}}<hr><a href='/login' class='btn btn-primary btn-sm'>{{__('Sign In')}}</a>"
                                 >
-                                    <i class="fa-regular fa-thumbs-down"></i>
-                                    @if($video->show_likes && $video->dislikes_count)
-                                        <span class="ml-1">@abbreviate($video->dislikes_count)</span>
-                                    @endif
+                                    <div class="d-flex gap-1  align-items-center">
+                                        <i class="fa-regular fa-thumbs-down"></i>
+                                        @if($video->show_likes && $video->dislikes_count)
+                                            <span class="ml-1">@abbreviate($video->dislikes_count)</span>
+                                        @endif
+                                    </div>
                                 </button>
                             </div>
                             <button class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">

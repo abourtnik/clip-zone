@@ -91,7 +91,7 @@ function Main ({model, target, likes, dislikes, liked = false, disliked = false,
             <div className="vr h-75 my-auto"></div>
             <button
                 onClick={() => handleClick('DISLIKE')}
-                className={clsx("over-grey btn btn-sm border border-0 px-3 rounded-5 rounded-start", {
+                className={clsx("hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-start", {
                     "text-black": state.disliked,
                 })}
                 data-bs-toggle="tooltip"
