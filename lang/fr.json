@@ -520,5 +520,6 @@
     "Select Status": "Sélectionnez un statut",
     "Update subtitles": "Mettre à jour les sous-titres",
     "Upload subtitles": "Selectionner un fichier",
-    "Download subtitles": "Télécharger les sous-titres"
+    "Download subtitles": "Télécharger les sous-titres",
+    "Links are not authorized in message": "Les liens ne sont pas autorisés dans le message"
 }

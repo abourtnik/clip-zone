@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Contact;
 
+use App\Rules\HasLinks;
 use App\Rules\SpamWords;
 use App\Rules\SpamEmails;
 use Illuminate\Foundation\Http\FormRequest;
@@ -43,7 +44,8 @@ class ContactRequest extends FormRequest
                 'string',
                 'min:'.config('validation.contact.message.min'),
                 'max:'.config('validation.contact.message.max'),
-                new SpamWords
+                new SpamWords,
+                new HasLinks
             ],
             'website' => Rule::in([null])
         ];
