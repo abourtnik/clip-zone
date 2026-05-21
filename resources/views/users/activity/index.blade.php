@@ -47,19 +47,19 @@
                 <h5 class="text-primary">{{ __('Statistics') }}</h5>
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item ps-0">
-                        <span>{{ __('Liked videos') }} : {{$user->video_likes_count}}</span>
+                        <span>{{ __('Liked videos') }} : {{$count->video_likes_count}}</span>
                     </li>
                     <li class="list-group-item ps-0">
-                        <span>{{ __('Disliked videos') }} : {{$user->videos_dislikes_count}}</span>
+                        <span>{{ __('Disliked videos') }} : {{$count->video_dislikes_count}}</span>
                     </li>
                     <li class="list-group-item ps-0">
-                        <span>{{ __('Liked comments') }} : {{$user->comment_likes_count}}</span>
+                        <span>{{ __('Liked comments') }} : {{$count->comment_likes_count}}</span>
                     </li>
                     <li class="list-group-item ps-0">
-                        <span>{{ __('Disliked comments') }} : {{$user->comment_dislikes_count}}</span>
+                        <span>{{ __('Disliked comments') }} : {{$count->comment_dislikes_count}}</span>
                     </li>
                     <li class="list-group-item ps-0">
-                        <span>{{ __('Comments') }} : {{$user->comments_count}}</span>
+                        <span>{{ __('Comments') }} : {{$count->comments_count}}</span>
                     </li>
                 </ul>
             </div>
