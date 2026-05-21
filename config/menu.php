@@ -78,7 +78,7 @@ return [
             'route' => 'user.comments.index',
         ],
         [
-            'title' => 'Activity',
+            'title' => 'Activities',
             'icon' => 'bars-staggered',
             'route' => 'user.activity.index',
         ],

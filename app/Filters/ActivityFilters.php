@@ -13,7 +13,7 @@ class ActivityFilters extends MySQLFilter
 {
     use DateFilter;
 
-    protected string $dateField = 'perform_at';
+    protected string $dateField = 'activities.perform_at';
 
     public function type(string $value): Builder
     {
