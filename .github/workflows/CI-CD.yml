@@ -32,6 +32,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: 📦 Install dependencies
         run: composer install --no-interaction --prefer-dist
+      - name: 🔧 Install mysql client
+        run: apk add --no-cache mysql-client
       - name: ⚙️ Run tests
         run: php artisan test --env=testing --stop-on-failure
   build:
