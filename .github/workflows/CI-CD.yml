@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     container: abourtnik/laravel
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: 📦 Install dependencies
         run: composer install --no-interaction --prefer-dist
       - name: ⚙️ Run PHPStan
@@ -29,7 +29,7 @@ jobs:
           --health-timeout=5s
           --health-retries=5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: 📦 Install dependencies
         run: composer install --no-interaction --prefer-dist
       - name: 🔧 Install mysql client
@@ -46,7 +46,7 @@ jobs:
       VITE_PUSHER_WEBSOCKETS_HOST: ws-eu.pusher.com
       VITE_PUSHER_PORT: 443
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: 📦 Install dependencies
         run: bun install
       - name: ⚙️ Build assets
