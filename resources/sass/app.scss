@@ -4,28 +4,20 @@
 @import "helpers";
 @import "header";
 @import "video";
-@import "progress";
 @import "swith";
 @import "dark";
 @import "tom-select/dist/scss/tom-select.bootstrap5";
 @import "cropperjs/dist/cropper.min.css";
 
+:root {
+    --sidebar-width: 260px;
+    --header-hight: 16px;
+}
 
 // LAYOUT
 
 $sidebar-width: 260px;
 $header-height: 56px;
-
-html {
-    width: 100%;
-    height: 100%;
-}
-
-body {
-    background-color: #F4F6F9;
-    width: 100%;
-    height: 100%;
-}
 
 .header {
     height: $header-height;

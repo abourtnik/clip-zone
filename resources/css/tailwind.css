@@ -1,0 +1,19 @@
+@import "tailwindcss" prefix(tw);
+@source "../views";
+
+@custom-variant dark (&:where([data-bs-theme=dark], [data-bs-theme=dark] *));
+
+@theme {
+    --color-dark-50:  #1C1E3D;
+    --color-dark-200: #25365B;
+    --color-dark-300: #22254D;
+}
+
+@layer components {
+    .tw\:btn-primary {
+        @apply tw:bg-black! tw:text-white! tw:hover:bg-slate-800! tw:dark:bg-white!  tw:dark:text-black! tw:dark:hover:bg-slate-200!;
+    }
+    .tw\:btn-secondary{
+        @apply tw:bg-gray-200! tw:dark:bg-dark-200! tw:hover:bg-gray-300! tw:dark:hover:bg-blue-500!;
+    }
+}

@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import preact from '@preact/preset-vite'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
     server: {
@@ -24,7 +25,8 @@ export default defineConfig({
             input: ['resources/js/app.ts'],
             refresh: true,
         }),
-        preact()
+        preact(),
+        tailwindcss()
     ],
     css: {
         preprocessorOptions: {

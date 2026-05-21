@@ -10,7 +10,7 @@
 </div>
 <div x-data="{subtitles: {{$subtitles}}}">
     <template x-for="(subtitle, index) in subtitles" :key="index">
-        <div class="my-3 bg-surface-light border border-1 px-2 py-3">
+        <div class="my-3 tw:bg-gray-50 border border-1 px-2 py-3">
             <div x-data="{language: '' }" class="row align-items-start row-gap-3 gx-2 row-gap-xxl-0">
                 <template x-if="subtitle.id">
                     <input type="hidden" :name="'subtitles[' + index + '][id]'" required :value="subtitle.id">
@@ -71,7 +71,7 @@
                     <div class="d-flex align-items-start">
                         <div class="d-flex flex-column gap-1 w-100 text-start">
                             <label class="border border-1 cursor-pointer rounded w-100 relative bg-white" x-data="{file:null}" style="padding: 0.25rem 0.5rem;">
-                                <input :required="!subtitle?.file" type="file" :name="'subtitles[' + index + '][file]'" @change="file = $event.target.files[0]" accept="text/vtt" class="position-absolute opacity-0 cursor-pointer inset" />
+                                <input :required="!subtitle?.file" type="file" :name="'subtitles[' + index + '][file]'" @change="file = $event.target.files[0]" accept="text/vtt" class="position-absolute opacity-0 cursor-pointer tw:inset-0" />
                                 <div class="d-flex gap-2 align-items-center">
                                     <i class="fa fa-upload text-sm"></i>
                                     <small x-show="subtitle?.file && !file">{{ __('Update subtitles')}}</small>

@@ -65,9 +65,13 @@ const Notification = memo(({notification, setUnread} : Props) => {
                         <p className="text-muted text-sm mb-0 mt-2">{moment(notification.created_at).fromNow()}</p>
                     </div>
                 </div>
-                <span style="position: absolute;inset: 0;"></span>
+                <span className={'position-absolute tw:inset-0'}></span>
             </a>
-            {!notification.is_read && <span className="bg-primary rounded-circle" style="width: 12px;height: 10px"/> }
+            {!notification.is_read && (
+                <div className={'d-flex align-items-center justify-content-center'}>
+                    <div className="bg-primary tw:rounded-full tw:w-3 tw:h-3" />
+                </div>
+            )}
             <Dropdown>
                 <Dropdown.Toggle variant="transparent" id="dropdown-basic" className="without-caret btn-sm py-1 px-2">
                     <i className="fa-solid fa-ellipsis-vertical"></i>

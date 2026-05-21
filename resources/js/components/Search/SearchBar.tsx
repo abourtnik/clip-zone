@@ -61,7 +61,7 @@ function Main ({responsive = true} : Props) {
                     <input
                         onClick={() => setShowResults(true)}
                         onChange={handleChange}
-                        className="form-control rounded-5 rounded-end radius-end-0 border border-secondary"
+                        className="form-control rounded-5 tw:rounded-e-none! border border-secondary"
                         type="search"
                         placeholder={t("Search")}
                         aria-label="Search"
@@ -77,7 +77,7 @@ function Main ({responsive = true} : Props) {
                         </div>
                     }
                 </div>
-                <button className="btn btn-outline-secondary rounded-5 rounded-start radius-start-0 px-4" type="submit">
+                <button className="btn btn-outline-secondary rounded-5 tw:rounded-s-none! px-4" type="submit">
                     <i className="fa-solid fa-magnifying-glass"></i>
                 </button>
             </div>

@@ -71,10 +71,10 @@ function Main ({model, target, likes, dislikes, liked = false, disliked = false,
     }
 
     return (
-        <div className={'d-flex justify-content-between bg-light-dark rounded-4'}>
+        <div className={'d-flex justify-content-between tw:bg-gray-200! tw:dark:bg-dark-200! rounded-4'}>
             <button
                 onClick={() => handleClick('LIKE')}
-                className={clsx("hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-end", {
+                className={clsx("tw:btn-secondary btn btn-sm border border-0 px-3 rounded-5 rounded-end", {
                     "text-black": state.liked,
                     "py-2": !showCount || state.counterLike === 0,
                 })}
@@ -91,7 +91,7 @@ function Main ({model, target, likes, dislikes, liked = false, disliked = false,
             <div className="vr h-75 my-auto"></div>
             <button
                 onClick={() => handleClick('DISLIKE')}
-                className={clsx("hover-grey btn btn-sm border border-0 px-3 rounded-5 rounded-start", {
+                className={clsx("tw:btn-secondary btn btn-sm border border-0 px-3 rounded-5 rounded-start", {
                     "text-black": state.disliked,
                 })}
                 data-bs-toggle="tooltip"
@@ -99,7 +99,7 @@ function Main ({model, target, likes, dislikes, liked = false, disliked = false,
                 data-bs-placement="bottom"
                 data-bs-trigger="hover"
             >
-                <div className={'d-flex gap-1  align-items-center'}>
+                <div className={'d-flex gap-1 align-items-center'}>
                     {state.disliked ? <i className="fa-solid fa-thumbs-down"></i> : <i className="fa-regular fa-thumbs-down"></i>}
                     { (showCount && state.counterDislike > 0) && <span className={'ml-1'}>{numeral(state.counterDislike).format('0[.]0a')}</span>}
                 </div>

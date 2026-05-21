@@ -1,4 +1,4 @@
-<nav @class(["navbar bg-white border border-start-0 px-2 sticky-top header", 'navbar-expand-md' => $show_sidebar])  x-data="{search:false}">
+<nav @class(["navbar bg-white border border-start-0 px-2 sticky-top tw:h-14", 'navbar-expand-md' => $show_sidebar])  x-data="{search:false}">
     <div class="container-fluid" x-show.important="!search" x-cloak>
         <div @class(["gap-3 d-flex align-items-center justify-content-start", "gap-md-0 justify-content-md-center" => $show_sidebar ])>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#responsive-sidebar">

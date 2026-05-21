@@ -39,19 +39,18 @@ export const Video = memo(({video, actions} : Props) => {
                         <div className={'image-box rounded-4-sm position-relative overflow-hidden' + (hover && !loading ? ' hover' : '')}>
                             <img className={'img-fluid w-100 ' + (loading ? 'd-none' : 'd-block')} src={video.thumbnail} alt={video.title} onLoad={imageLoad}/>
                         </div>
-                        <small
-                            className="position-absolute p-1 text-white bg-dark fw-bold rounded"
-                            style="font-size: 0.70rem;bottom: 8px;right: 6px;"
+                        <span
+                            className="position-absolute p-1 text-white bg-dark fw-bold rounded tw:text-[0.70rem] tw:bottom-1.5 tw:right-1.5"
                         >
                             {video.formated_duration}
-                        </small>
+                        </span>
                     </div>
-                    <span className={'position-absolute inset'} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}></span>
+                    <span className={'position-absolute tw:inset-0'} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}></span>
                 </a>
                 <div className={'d-flex justify-content-between align-items-start pt-2 px-3 px-sm-0'}>
                     <div className="d-flex">
-                        <a href={video.user.route} style="height: 36px;" className="position-relative" title={video.user.username}>
-                            <img className="rounded-circle" src={video.user.avatar} alt={video.user.username + ' avatar'} style={{width: '36px'}} />
+                        <a href={video.user.route} className="position-relative" title={video.user.username}>
+                            <img className="rounded-circle tw:w-9" src={video.user.avatar} alt={video.user.username + ' avatar'} />
                         </a>
                         <div className="ml-2">
                             <a href={video.route} className="fw-bolder text-decoration-none text-black d-block position-relative text-break" title={video.title}>{video.short_title}</a>

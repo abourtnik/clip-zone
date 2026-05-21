@@ -65,7 +65,7 @@
                         <button
                             type="button"
                             tabindex="0"
-                            class="btn btn-dark rounded-4 px-3"
+                            class="btn tw:btn-primary rounded-4 px-3"
                             data-bs-toggle="popover"
                             data-bs-placement="right"
                             data-bs-title="{{ __('Want to subscribe to this channel ?') }}"

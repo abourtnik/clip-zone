@@ -40,16 +40,9 @@
     }
 }
 
-.menu-selected {
-    background-color: #E5E5E5 !important;
-}
 
 .bg-light-dark {
     background-color: #E5E5E5 !important;
-}
-
-.bg-surface-light {
-    background-color: #F4F6F9;
 }
 
 .hover-primary:hover {
@@ -72,10 +65,6 @@
     cursor: pointer;
 }
 
-.cursor-move {
-    cursor: move;
-}
-
 .dot {
     width: 30px;
     height: 30px;
@@ -84,16 +73,6 @@
 
 .inset {
     inset: 0;
-}
-
-.radius-end-0 {
-    border-bottom-right-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-}
-
-.radius-start-0 {
-    border-bottom-left-radius: 0px !important;
-    border-top-left-radius: 0px !important;
 }
 
 input[type="search"]::-webkit-search-decoration,

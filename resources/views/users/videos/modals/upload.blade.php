@@ -12,7 +12,7 @@
                 <div class="text-sm text-muted mb-3 text-center">
                     {{ __('Accepted formats')}} : <strong>{{VideoType::nameToString()}}</strong>
                 </div>
-                <div class="fw-bold text-center alert alert-info mb-0 radius-end-0 radius-start-0 px-0">
+                <div class="fw-bold text-center alert alert-info mb-0 px-0 tw:rounded-none!">
                     <h5 class="alert-heading text-center fw-bold">{{ __('Your upload limits') }}</h5>
                     <hr>
                     @if(!Auth::user()->is_premium)

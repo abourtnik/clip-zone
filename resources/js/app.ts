@@ -1,15 +1,17 @@
 import '../sass/app.scss';
+import '../css/tailwind.css';
 
 // Libs
 import * as bootstrap from 'bootstrap'
 import Alpine from 'alpinejs'
 import TomSelect from "tom-select";
-import {TomOption, TomInput} from "tom-select/dist/cjs/types/core";
+import {TomInput, TomOption} from "@/types/tomInput";
 import Cropper from 'cropperjs';
 import Sortable from 'sortablejs';
 import Echo from "laravel-echo";
 import Pusher from 'pusher-js';
 import Chart from 'chart.js/auto';
+
 
 // LANG
 import './lang/config';
@@ -58,7 +60,7 @@ popovers.map(element => {
     return new bootstrap.Popover(element, options)
 });
 
-document.querySelectorAll('.select-multiple').forEach((element)=>{
+document.querySelectorAll<HTMLElement>('.select-multiple').forEach((element)=>{
     new TomSelect(element as TomInput, {
         render: {
             option: function(data: TomOption, escape: Function) {

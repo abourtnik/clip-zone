@@ -8,7 +8,7 @@
     <div x-data="{reportable: {}}">
         <div class="row mb-4">
             <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-xl-0">
-                <div class="card shadow border-primary">
+                <div class="card">
                     <div class="card-body">
                         <h5 class="card-title text-center text-primary">Videos</h5>
                         <hr>
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-xl-0">
-                <div class="card shadow border-primary">
+                <div class="card">
                     <div class="card-body">
                         <h5 class="card-title text-center text-primary">Users</h5>
                         <hr>
@@ -32,7 +32,7 @@
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-sm-0">
-                <div class="card shadow border-primary">
+                <div class="card">
                     <div class="card-body">
                         <h5 class="card-title text-center text-primary">Comments</h5>
                         <hr>
@@ -44,7 +44,7 @@
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-sm-0">
-                <div class="card shadow border-primary">
+                <div class="card">
                     <div class="card-body">
                         <h5 class="card-title text-center text-primary">Reports</h5>
                         <hr>
@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <div class="card shadow border-primary h-100 mb-4">
+        <div class="card h-100 mb-4">
             <div class="card-body">
                 <h4 class="card-title text-center text-primary mb-3">Premium Gains</h4>
                 <div class="d-block" style="height: 547px">

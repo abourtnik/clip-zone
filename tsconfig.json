@@ -8,7 +8,7 @@
         "jsxImportSource": "preact",
         "jsxFactory": "h",
         "jsxFragmentFactory": "Fragment",
-        "moduleResolution": "node",
+        "moduleResolution": "bundler",
         "strict": true,
         "baseUrl": ".",
         "paths": {

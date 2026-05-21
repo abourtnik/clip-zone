@@ -3,7 +3,7 @@
         <a href="{{$playlist->first_video->routeWithParams(['list' => $playlist->uuid])}}">
             <div class="position-relative">
                 <div class="card-stack position-absolute h-100 rounded-4"></div>
-                <div class="z-2" style="position: inherit;">
+                <div class="z-2 position-relative" style="position: inherit;">
                     @if($playlist->first_video)
                         <img class="img-fluid w-100 rounded-4" src="{{$playlist->first_video->thumbnail_url}}" alt="{{$playlist->title}} Thumbnail" style="width: 360px; height: 202px;object-fit: cover;">
                     @else
@@ -23,7 +23,7 @@
                     </div>
                 </div>
             </div>
-            <span style="position: absolute;inset: 0;" ></span>
+            <span class="position-absolute tw:inset-0"></span>
         </a>
         <div class="d-flex mt-2">
             <div class="ml-2">

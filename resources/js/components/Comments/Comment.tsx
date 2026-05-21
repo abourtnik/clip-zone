@@ -89,7 +89,7 @@ const Comment = memo(({comment} : Props) => {
                                         disliked={comment.disliked_by_auth_user}
                                     />
                                     :
-                                    <div className="d-flex justify-content-between bg-light-dark rounded-4">
+                                    <div className="d-flex justify-content-between tw:bg-gray-200! tw:dark:bg-dark-200! rounded-4 p-1">
                                         <OverlayTrigger
                                             trigger="click"
                                             placement={'top'}
@@ -105,7 +105,7 @@ const Comment = memo(({comment} : Props) => {
                                                 </Popover>
                                             }
                                         >
-                                            <button className="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end d-fl">
+                                            <button className="btn btn-sm tw:btn-secondary border border-0 px-3 rounded-5 rounded-end">
                                                 <div className={'d-flex gap-2 align-items-center'}>
                                                     <i className="fa-regular fa-thumbs-up"></i>
                                                     {comment.likes_count > 0 && <span>{comment.likes_count}</span>}
@@ -128,7 +128,7 @@ const Comment = memo(({comment} : Props) => {
                                                 </Popover>
                                             }
                                         >
-                                            <button className="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start">
+                                            <button className="btn btn-sm tw:btn-secondary border border-0 px-3 rounded-5 rounded-start">
                                                 <div className={'d-flex gap-2 align-items-center'}>
                                                     <i className="fa-regular fa-thumbs-down"></i>
                                                     {comment.dislikes_count > 0 && <span>{comment.dislikes_count}</span>}

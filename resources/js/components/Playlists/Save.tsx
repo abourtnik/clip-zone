@@ -45,7 +45,7 @@ export function Main ({video}: Props) {
         <>
             <button
                 type={'button'}
-                className="btn bg-light-dark btn-sm rounded-4 px-4 d-flex align-items-center gap-1"
+                className="btn tw:btn-secondary btn-sm rounded-4 px-4 d-flex align-items-center gap-1"
                 title="Save video"
                 onClick={() => setOpen(true)}
             >

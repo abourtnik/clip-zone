@@ -27,8 +27,8 @@ function Main ({isSubscribe = true, user, size = null} : Props) {
         <button
             onClick={() => mutate()}
             className={clsx("btn rounded-4 px-3", {
-                "bg-light-dark text-body": subscribed,
-                "btn-dark": !subscribed,
+                "tw:btn-secondary": subscribed,
+                "tw:btn-primary": !subscribed,
                 ['btn-' + size]: size,
             })}
             disabled={isPending}

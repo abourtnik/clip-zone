@@ -6,7 +6,7 @@
     <div class="col-12 col-xl-8">
         <div class="card shadow-soft my-3">
             @if (!$user->hasVerifiedEmail())
-                <div class="alert alert-primary fw-bold d-flex flex-column flex-lg-row align-items-center justify-content-between gap-4 radius-end-0 radius-start-0">
+                <div class="alert alert-primary fw-bold d-flex flex-column flex-lg-row align-items-center justify-content-between gap-4 tw:rounded-b-none!">
                     <div class="d-flex flex-column gap-2 text-left">
                         <div>{{ __('Please verify your email address for access all features') }}</div>
                         <small class="text-muted text-sm">{{ __('You can verify your email until') }} {{ $user->created_at->addMinutes(config('auth.verification.expire'))->translatedFormat('d F Y H:i') }}. {{ __('After that time, your account will be automatically deleted') }}</small>

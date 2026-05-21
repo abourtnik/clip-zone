@@ -166,7 +166,7 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                                 <li className={'list-group-item p-0'}>
                                     <div className="d-flex align-items-center justify-content-between gap-3 px-3 py-2">
                                         <div className={'d-flex align-items-center gap-2 d-flex w-100'}>
-                                            <div className={'handle cursor-move'}>
+                                            <div className={'handle tw:cursor-move'}>
                                                 <i className="fa-solid fa-bars"></i>
                                             </div>
                                             {

@@ -109,7 +109,7 @@ export function Main ({video_uuid, next_video} : Props) {
     return (
         <>
             {
-                (isLoading || showAd === null)  &&
+                ((isLoading || showAd === null) && !isError)  &&
                 <div className="d-flex justify-content-center align-items-center h-100 w-100 bg-dark">
                     <Loader/>
                 </div>

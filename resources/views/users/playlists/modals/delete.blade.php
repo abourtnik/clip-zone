@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="card mb-3 border-dark bg-light-dark">
+                <div class="card mb-3 border-dark tw:bg-gray-300! tw:dark:bg-dark-200!">
                     <div class="row g-0">
                         <div class="col-4">
                             <img x-show="playlist.thumbnail" :src="playlist.thumbnail" class="img-fluid rounded-start h-100" :alt="`${playlist.title} thumbnail`" style="object-fit: cover;">

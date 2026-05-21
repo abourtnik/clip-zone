@@ -1,6 +1,6 @@
 @include color-mode(dark) {
     body {
-        background-color: #1C1E3D;
+        background-color: #1C1E3D !important;
     }
     .text-black {
         color: #D4DCFF !important;
@@ -32,9 +32,6 @@
     .bg-light-dark {
         background-color: #25365B !important;
     }
-    .bg-surface-light {
-        background-color: #1C1E3D !important;
-    }
     .hover-primary:hover {
         background-color: #5396e7 !important;
     }
@@ -43,9 +40,6 @@
     }
     .switch {
         border: 1px solid #2a2e5e !important;
-    }
-    .menu-selected {
-        background-color: #5396e7 !important;
     }
     .table {
         --bs-table-bg: #22254D;

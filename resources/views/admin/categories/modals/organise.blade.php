@@ -13,7 +13,7 @@
                             <li class="list-group-item">
                                 <input type="hidden" name="categories[]" value="{{$category->id}}">
                                 <div class="d-flex align-items-center gap-2">
-                                    <div class="cursor-move handle">
+                                    <div class="tw:cursor-move handle">
                                         <i class="fa-solid fa-bars"></i>
                                     </div>
                                     <i class="fa-solid fa-{{$category->icon}}"></i>

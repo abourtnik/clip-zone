@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="mb-2 p-2 bg-light-dark text-black">
+                <div class="mb-2 p-2 tw:bg-gray-300 text-black">
                     <div class="d-flex align-items-center gap-2 mb-2">
                         <img style="width: 120px;height: 68px" :src="video.poster" :alt="`${video.title} poster`">
                         <div>

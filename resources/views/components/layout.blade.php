@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light" class="h-100 w-100">
 <head>
     <meta charset="utf-8">
     <title>@yield('title') | {{config('app.name')}}</title>
@@ -32,7 +32,7 @@
 
     @vite(['resources/js/app.ts'])
 </head>
-<body>
+<body class="h-100 w-100 tw:bg-gray-100! tw:dark:bg-dark-50!">
     <main class="h-100 overflow-auto position-relative">
         @include('layouts.menus.header')
         <div class="d-flex">

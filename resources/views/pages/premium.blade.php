@@ -105,12 +105,12 @@
                     @if(!Auth::user()?->premium_subscription)
                     <div class="card card-body bg-white mb-3 h-50 d-flex justify-content-center align-content-center">
                         <div class="d-flex gap-2 step">
-                            <div class="progression">
-                                <div class="icon bg-success">
+                            <div class="d-flex align-items-center flex-column">
+                                <div class="d-flex align-items-center justify-content-center rounded-circle bg-success tw:size-8">
                                     <i class="fa fa-gift text-white"></i>
                                 </div>
-                                <div class="line">
-                                    <div class="half-line bg-success"></div>
+                                <div class="tw:bg-gray-200 tw:w-1 tw:h-20">
+                                    <div class="h-50 bg-success tw:rounded-b-sm"></div>
                                 </div>
                             </div>
                             <div>
@@ -119,11 +119,11 @@
                             </div>
                         </div>
                         <div class="d-flex gap-2 step">
-                            <div class="progression">
-                                <div class="icon bg-white border border-secondary">
+                            <div class="d-flex align-items-center flex-column">
+                                <div class="d-flex align-items-center justify-content-center rounded-circle tw:border-1 tw:border-gray-400 tw:size-8">
                                     <i class="far fa-bell"></i>
                                 </div>
-                                <div class="line"></div>
+                                <div class="tw:bg-gray-200 tw:w-1 tw:h-20"></div>
                             </div>
                             <div>
                                 <p class="fw-bold mb-1">{{now()->add('days', config('plans.trial_period.period'))->sub('days', config('plans.trial_period.email_reminder'))->translatedFormat('j F Y')}}</p>
@@ -131,8 +131,8 @@
                             </div>
                         </div>
                         <div class="d-flex gap-2 step">
-                            <div class="progression">
-                                <div class="icon bg-white border border-secondary">
+                            <div class="d-flex align-items-center flex-column">
+                                <div class="d-flex align-items-center justify-content-center rounded-circle tw:border-1 tw:border-gray-400 tw:size-8">
                                     <i class="fa fa-star text-warning"></i>
                                 </div>
                             </div>

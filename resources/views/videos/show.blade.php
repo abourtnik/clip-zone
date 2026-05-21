@@ -13,7 +13,7 @@
         <div class="col-lg-8 col-xl-8 col-xxl-8 offset-xxl-1 px-0 px-lg-3">
             <div class="ratio ratio-16x9">
                 @if($video->is_failed)
-                    <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
+                    <div class="tw:bg-gray-300 tw:dark:bg-dark-300 border border-light d-flex justify-content-center align-items-center">
                         <div class="text-center">
                             <div class="mb-2 text-danger fw-bold">{{__('The processing of your video failed.')}}</div>
                             <div class="text-muted">
@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 @elseif($video->is_uploading)
-                    <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
+                    <div class="tw:bg-gray-300 tw:dark:bg-dark-300 border border-light d-flex justify-content-center align-items-center">
                         <div class="text-center">
                             <div class="mb-2">{{__('Your video is processing')}} ...</div>
                             <div class="text-muted text-sm">{{__('You will receive a notification once the processing is complete.')}}</div>
@@ -77,14 +77,14 @@
                             >
                             </interaction-buttons>
                             @if($video->is_public)
-                                <button class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                                <button class="btn tw:btn-secondary rounded-4 btn-sm px-3 flex-shrink-0" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                                     <i class="fa-solid fa-share"></i>&nbsp;
                                     {{__('Share')}}
                                 </button>
                             @endif
                             @if($video->is_uploaded)
                                 @can('download', $video)
-                                    <a download="{{$video->title}}" href="{{route('video.download', $video)}}" class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0" title="Download video">
+                                    <a download="{{$video->title}}" href="{{route('video.download', $video)}}" class="btn tw:btn-secondary rounded-4 btn-sm px-3 flex-shrink-0" title="Download video">
                                         <i class="fa-solid fa-download"></i>&nbsp;
                                         {{__('Download')}}
                                     </a>
@@ -92,7 +92,7 @@
                                     <button
                                         type="button"
                                         tabindex="0"
-                                        class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0"
+                                        class="btn tw:btn-secondary rounded-4 btn-sm px-3 flex-shrink-0"
                                         title="Download video"
                                         data-bs-toggle="popover"
                                         data-bs-placement="right"
@@ -109,7 +109,7 @@
                             <save-video class="flex-shrink-0" video="{{$video->id}}" ></save-video>
                             @can('report', $video)
                                 <report-button
-                                    button-class="btn btn-sm bg-light-dark rounded-4 px-3 flex-shrink-0"
+                                    button-class="btn btn-sm tw:btn-secondary rounded-4 px-3 flex-shrink-0"
                                     reported-class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm"
                                     id="{{$video->id}}"
                                     type="video"
@@ -125,11 +125,11 @@
                         </div>
                     @else
                         <div class="d-flex gap-2 overflow-auto col-12 col-sm-auto">
-                            <div class="d-flex justify-content-between bg-light-dark rounded-4">
+                            <div class="d-flex justify-content-between tw:bg-gray-200! tw:dark:bg-dark-200! rounded-4">
                                 <button
                                     type="button"
                                     tabindex="0"
-                                    class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-end"
+                                    class="btn btn-sm tw:btn-secondary border border-0 text-black px-3 rounded-5 rounded-end"
                                     data-bs-toggle="popover"
                                     data-bs-placement="left"
                                     data-bs-title="{{__('Like this video ?')}}"
@@ -148,7 +148,7 @@
                                 <button
                                     type="button"
                                     tabindex="0"
-                                    class="hover-grey btn btn-sm border border-0 text-black px-3 rounded-5 rounded-start"
+                                    class="btn btn-sm tw:btn-secondary border border-0 text-black px-3 rounded-5 rounded-start"
                                     data-bs-toggle="popover"
                                     data-bs-placement="right"
                                     data-bs-title="{{__('Don\'t like this video ?')}}"
@@ -164,14 +164,14 @@
                                     </div>
                                 </button>
                             </div>
-                            <button class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
+                            <button class="btn tw:btn-secondary rounded-4 btn-sm px-3 flex-shrink-0" title="Share video" data-bs-toggle="modal" data-bs-target="#share" data-url="{{$video->route}}">
                                 <i class="fa-solid fa-share"></i>&nbsp;
                                 {{__('Share')}}
                             </button>
                             <button
                                 type="button"
                                 tabindex="0"
-                                class="btn bg-light-dark rounded-4 btn-sm px-3 flex-shrink-0"
+                                class="btn tw:btn-secondary rounded-4 btn-sm px-3 flex-shrink-0"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
                                 data-bs-title="{{ __('Need to report this video ?') }}"
@@ -203,7 +203,7 @@
                             <button
                                 tabindex="0"
                                 type="button"
-                                class="btn btn-dark rounded-4 px-3"
+                                class="btn tw:btn-primary rounded-4 px-3"
                                 data-bs-toggle="popover"
                                 data-bs-placement="right"
                                 data-bs-title="{{__('Want to subscribe to this channel ?')}}"
@@ -280,7 +280,7 @@
                                 <h5 class="offcanvas-title">{{__('Comments')}}</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                             </div>
-                            <div id="offcanvas-body" class="offcanvas-body bg-surface-light"></div>
+                            <div id="offcanvas-body" class="offcanvas-body tw:bg-gray-50"></div>
                         </div>
                     </div>
                 @else
@@ -360,7 +360,7 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="card card-body bg-light-dark cursor-pointer" x-show="!open" @click="open=true">
+                        <div class="card card-body tw:bg-gray-200! tw:dark:bg-dark-200! cursor-pointer" x-show="!open" @click="open=true">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="d-flex flex-column gap-1 w-95">
                                     @if($nextVideo)
