@@ -33,8 +33,6 @@ update: ## Update application
 	php artisan migrate --force
 	php artisan queue:restart
 	php artisan scout:sync-index-settings
-	/home/anton/.bun/bin/bun install
-	/home/anton/.bun/bin/bun run build
 	php artisan optimize
 	php artisan cache:clear
 

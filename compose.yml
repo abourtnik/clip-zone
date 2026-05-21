@@ -53,13 +53,7 @@ services:
             - CHOKIDAR_IGNORE_INITIAL=true
             - APP_ENV=${APP_ENV}
         #command: tail -f /dev/null
-        command: /bin/bash -c "\
-            if [ ! -d /var/www/node_modules ]; then bun install; fi && \
-            if [ \"$$APP_ENV\" = \"production\" ]; then \
-            bun run build; \
-            else \
-            bun run dev; \
-            fi"
+        command: /bin/bash -c "if [ ! -d node_modules ]; then bun install; fi && bun run dev"
         networks:
             - application
     redis:
@@ -91,17 +85,6 @@ services:
             - "25:25"
         networks:
             - application
-    phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        container_name: phpmyadmin_container
-        environment:
-            PMA_ARBITRARY: 1
-            PMA_HOST: mariadb
-            PMA_USER: root
-        ports:
-            - "8091:80"
-        networks:
-            - application
     stripe:
         image: stripe/stripe-cli:latest
         container_name: stripe_container
@@ -125,7 +108,7 @@ services:
             - application
     queues:
         container_name: queues_container
-        image: abourtnik/laravel:1.1
+        image: abourtnik/laravel:1.2
         working_dir: /var/www/html
         command: php artisan horizon
         volumes:
