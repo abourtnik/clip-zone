@@ -38,7 +38,7 @@ jobs:
         run: php artisan test --env=testing --stop-on-failure
   build:
     runs-on: ubuntu-latest
-    container: oven/bun
+    container: oven/bun:1.2.0
     environment: Production
     env:
       VITE_PUSHER_APP_CLUSTER: eu

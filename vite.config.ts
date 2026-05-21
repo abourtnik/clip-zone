@@ -31,8 +31,13 @@ export default defineConfig({
     css: {
         preprocessorOptions: {
             scss: {
-                silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'mixed-decls']
+                silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'mixed-decls', 'if-function']
             }
+        }
+    },
+    resolve: {
+        alias: {
+            'sortablejs': 'sortablejs/Sortable.js'
         }
     }
 });
