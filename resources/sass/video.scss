@@ -3,7 +3,6 @@
 .suggested_video {
     img {
         height: 94px;
-        max-width: none;
         @media (max-width: map-get($grid-breakpoints, "sm")) {
             height: inherit;
             max-width: 100%;
@@ -14,7 +13,6 @@
 .playlist_video {
     img {
         height: 65px;
-        max-width: none;
         @media (max-width: map-get($grid-breakpoints, "sm")) {
             height: inherit;
             max-width: 100%;

@@ -5,7 +5,7 @@ services:
         working_dir: /var/www/html
         volumes:
             - ./:/var/www/html
-            - ./docker/php.ini:/usr/local/etc/php/php.ini
+            - ./docker/php/php.ini:/usr/local/etc/php/php.ini
         networks:
             - application
         depends_on:
@@ -41,7 +41,7 @@ services:
             test: [ "CMD", "mysqladmin", "ping" ]
         restart: unless-stopped
     bun:
-        image: oven/bun:1.2.0
+        image: abourtnik/bun
         container_name: bun_container
         ports:
             - "5173:5173"
@@ -53,7 +53,7 @@ services:
             - CHOKIDAR_IGNORE_INITIAL=true
             - APP_ENV=${APP_ENV}
         #command: tail -f /dev/null
-        command: /bin/bash -c "if [ ! -d node_modules ]; then bun install; fi && bun run dev"
+        command: /bin/sh -c "if [ ! -d node_modules ]; then bun install; fi && bun run dev"
         networks:
             - application
     redis:

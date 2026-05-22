@@ -25,7 +25,7 @@ export default function ImageLoaded ({source, title = '', hover = false, ...prop
                 <img {...props} src={placeholder} alt={'default'}/>
             }
             <div className={clsx(props.class,'image-box position-relative overflow-hidden', (hover && !loading) && 'hover')}>
-                <img {...props} className={clsx(props.class, loading && 'd-none', !loading && 'd-block')} src={source} alt={title} onLoad={imageLoad}/>
+                <img {...props} className={clsx('tw:max-w-none', props.class, loading && 'd-none', !loading && 'd-block')} src={source} alt={title} onLoad={imageLoad}/>
             </div>
         </>
     )
