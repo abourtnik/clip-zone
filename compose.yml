@@ -1,6 +1,6 @@
 services:
     php:
-        image: abourtnik/laravel:1.2
+        image: abourtnik/laravel
         container_name: php_container
         working_dir: /var/www/html
         volumes:
@@ -48,10 +48,6 @@ services:
         volumes:
             - ./:/usr/src/app
         working_dir: /usr/src/app
-        environment:
-            - CHOKIDAR_USEPOLLING=true
-            - CHOKIDAR_IGNORE_INITIAL=true
-            - APP_ENV=${APP_ENV}
         #command: tail -f /dev/null
         command: /bin/sh -c "if [ ! -d node_modules ]; then bun install; fi && bun run dev"
         networks:
@@ -108,7 +104,7 @@ services:
             - application
     queues:
         container_name: queues_container
-        image: abourtnik/laravel:1.2
+        image: abourtnik/laravel
         working_dir: /var/www/html
         command: php artisan horizon
         volumes:
