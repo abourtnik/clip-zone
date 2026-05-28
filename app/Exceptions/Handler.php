@@ -70,6 +70,23 @@ class Handler extends ExceptionHandler
         ];
     }
 
+    /**
+     * Get the default context variables for logging.
+     *
+     * @return array<string, mixed>
+     */
+    protected function context(): array
+    {
+        return array_merge(parent::context(), [
+            'url' => request()->fullUrl(),
+            'method' => request()->method(),
+            'ip' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+            'user_id' => request()->user()?->id,
+            'input' => request()->except(['password', 'token']),
+        ]);
+    }
+
     private function getMessage (Throwable $e) : string {
         if ($this->isHttpException($e)) {
             if ($e->getPrevious() instanceof TokenMismatchException){
