@@ -55,7 +55,6 @@ class ShowActivitiesAction
     private function buildCountsQuery(): Activity
     {
         return Activity::query()
-            ->select(['activities.id', 'activities.perform_at'])
             ->filter()
             ->where('activities.user_id', Auth::id())
             ->leftJoin('interactions', function (JoinClause $join) {
