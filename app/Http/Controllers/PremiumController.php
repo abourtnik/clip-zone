@@ -23,6 +23,9 @@ class PremiumController extends Controller
             'payment_method_collection' => 'always',
             'subscription_data' => [
                 'trial_period_days' => config('plans.trial_period.period')
+            ],
+            'customer_update' => [
+                'address' => 'auto'
             ]
         ];
 

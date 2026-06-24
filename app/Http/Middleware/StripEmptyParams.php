@@ -34,7 +34,10 @@ class StripEmptyParams
             return $next($request);
         }
 
-        return redirect()->route($request->route()->getName(), $cleanQuery);
+        return redirect()->route(
+            $request->route()->getName(),
+            array_merge($request->route()->parameters(), $cleanQuery)
+        );
     }
 
     /**
