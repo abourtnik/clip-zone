@@ -46,10 +46,10 @@ class FileRequest extends FormRequest
                 'required',
                 'file',
                 // file mimetype only available on first chunk other chunk mimetype are application/octet-stream
-                Rule::when($this->get('resumableChunkNumber') == 1, [new MimetypeEnum(VideoType::class)]),
+                Rule::when($this->integer('resumableChunkNumber') == 1, [new MimetypeEnum(VideoType::class)]),
                 'max:'.self::CHUNK_SIZE // Chunk size 10mo
             ],
-            'resumableIdentifier' => 'required|string',
+            'resumableIdentifier' => ['required', 'string', 'regex:/^[a-zA-Z0-9_-]{1,100}$/'],
             'resumableChunkNumber' => 'required|integer|min:1',
             'resumableTotalChunks' => 'required|integer|min:1',
         ];

@@ -17,15 +17,15 @@ class VideoController
 {
     public function upload (FileRequest $request): JsonResponse {
 
-        $folder = $request->get('resumableIdentifier');
+        $folder = sprintf('%d/%s', Auth::id(), $request->string('resumableIdentifier'));
 
         $chunk = $request->file('file');
 
-        $name = $request->get('resumableChunkNumber'). ".part";
+        $name = $request->integer('resumableChunkNumber'). ".part";
 
         $chunk->storeAs(Video::CHUNK_FOLDER.'/'.$folder, $name, 'local');
 
-        if ($request->get('resumableTotalChunks') === $request->get('resumableChunkNumber')) {
+        if ($request->integer('resumableTotalChunks') === $request->integer('resumableChunkNumber')) {
 
             $title = Str::replace('.'.$chunk->getClientOriginalExtension(), '', $chunk->getClientOriginalName());
 
@@ -34,7 +34,7 @@ class VideoController
                 'title' => $title,
                 'slug' => Str::slug($title),
                 'original_file_name' => $chunk->getClientOriginalName(),
-                'size' => $request->get('resumableTotalSize'),
+                'size' => $request->integer('resumableTotalSize'),
                 'status' => VideoStatus::DRAFT,
                 'user_id' => Auth::user()->id
             ]);
@@ -52,7 +52,7 @@ class VideoController
             ]);
         }
 
-        $percentage = ceil($request->get('resumableChunkNumber') / $request->get('resumableTotalChunks') * 100);
+        $percentage = ceil($request->integer('resumableChunkNumber') / $request->integer('resumableTotalChunks') * 100);
 
         return response()->json([
             "done" => $percentage

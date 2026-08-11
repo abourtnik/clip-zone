@@ -6,6 +6,7 @@ use App\Models\Video;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class DeleteExpiredChunks extends Command
 {
@@ -30,21 +31,26 @@ class DeleteExpiredChunks extends Command
      */
     public function handle() : int
     {
-        $folders = Storage::disk('local')->directories(Video::CHUNK_FOLDER);
+        $users = Storage::disk('local')->directories(Video::CHUNK_FOLDER);
 
         $now = now();
 
         $count = 0;
 
-        foreach ($folders as $folder) {
+        foreach ($users as $user) {
 
-            $name = explode('/', $folder)[1];
+            $chunks = Storage::disk('local')->directories($user);
 
-            $date = Carbon::createFromTimestampMs($name);
+            foreach ($chunks as $chunk) {
 
-            if ($date->addHours(1)->lt($now)) {
-                Storage::disk('local')->deleteDirectory($folder);
-                $count ++;
+                $name = Str::afterLast($chunk, '/');
+
+                $date = Carbon::createFromTimestampMs($name, config('app.timezone'));
+
+                if ($date->addHour()->lt($now)) {
+                    Storage::disk('local')->deleteDirectory($chunk);
+                    $count ++;
+                }
             }
         }
 
