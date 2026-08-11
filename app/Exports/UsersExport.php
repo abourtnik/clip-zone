@@ -45,9 +45,9 @@ class UsersExport implements FromCollection, WithHeadings, WithMapping, WithColu
             $row->id,
             $row->username,
             $row->email,
-            $row->is_admin,
-            Date::dateTimeToExcel($row->created_at),
-            Date::dateTimeToExcel($row->updated_at),
+            $row->is_admin ? 'X': '',
+            $row->created_at->format('Y-m-d H:i:s'),
+            $row->updated_at->format('Y-m-d H:i:s'),
         ];
     }
 
