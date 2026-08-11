@@ -24,7 +24,7 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can view any comments.
      *
      * @param ?User $user
      * @param Video $video
@@ -38,7 +38,7 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view the comment.
      *
      * @param User $user
      * @param Comment $comment
@@ -50,7 +50,7 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can view Comment.
+     * Determine whether the user can view comment.
      *
      * @param User|null $user
      * @param Comment $comment
@@ -62,7 +62,7 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can create the model.
+     * Determine whether the user can create the comment.
      *
      * @param User $user
      * @param Video $video
@@ -76,7 +76,7 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Determine whether the user can update the comment.
      *
      * @param  User $user
      * @param  Comment $comment
@@ -90,7 +90,7 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Determine whether the user can delete the comment.
      *
      * @param  User $user
      * @param  Comment $comment
@@ -100,11 +100,11 @@ class CommentPolicy
     {
         return ($comment->user->is($user) && $comment->video->is_public) || $comment->video->user()->is($user)
             ? Response::allow()
-            : Response::denyWithStatus(403);
+            : Response::denyWithStatus(403, 'You are not authorized to delete this comment');
     }
 
     /**
-     * Determine whether the user can report the model.
+     * Determine whether the user can report the comment.
      *
      * @param  User $user
      * @param  Comment $comment
@@ -132,7 +132,7 @@ class CommentPolicy
     }
 
     /**
-     * Determine whether the user can pin the model.
+     * Determine whether the user can pin the comment.
      *
      * @param  User $user
      * @param  Comment $comment
@@ -142,6 +142,23 @@ class CommentPolicy
     {
         return $comment->video->user->is($user) && !$comment->is_reply
             ? Response::allow()
-            : Response::denyWithStatus(403);
+            : Response::denyWithStatus(403, 'You are not authorized to pin this comment');
+    }
+
+    /**
+     * Determine whether the user can unpin the comment.
+     *
+     * @param  User $user
+     * @param  Comment $comment
+     * @return Response|bool
+     */
+    public function unpin(User $user, Comment $comment): Response|bool
+    {
+        return
+            $comment->video->pinned_comment->is($comment) &&
+            $comment->video->user->is($user) &&
+            !$comment->is_reply
+                ? Response::allow()
+                : Response::denyWithStatus(403, 'You are not authorized to unpin this comment');
     }
 }

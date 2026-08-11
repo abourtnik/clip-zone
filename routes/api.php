@@ -137,7 +137,7 @@ Route::middleware('auth:sanctum')->group(function () {
             ->controller(DeviceController::class)
             ->group(function () {
                 Route::post('/{device}/update', 'update')->name('update');
-                Route::delete('/{device}', 'delete')->name('delete');
+                Route::delete('/{device}', 'destroy')->name('destroy');
         });
 
         // THUMBNAILS
@@ -213,9 +213,9 @@ Route::prefix('videos/{video:uuid}/comments')->name('comments.')
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', 'store')->name('store')->middleware('verified');
             Route::put('/{comment}', 'update')->name('update');
-            Route::delete('/{comment}', 'delete')->name('delete');
-            Route::post('/{comment}/pin', 'pin')->name('pin');
-            Route::post('/{comment}/unpin', 'unpin')->name('unpin');
+            Route::delete('/{comment}', 'destroy')->name('destroy');
+            Route::post('/{comment}/pin', 'pin')->name('pin')->middleware('can:pin,comment');
+            Route::post('/{comment}/unpin', 'unpin')->name('unpin')->middleware('can:unpin,comment');
         });
 });
 

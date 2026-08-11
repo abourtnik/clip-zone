@@ -136,7 +136,7 @@ class CommentController extends Controller
         return new CommentResource($comment);
     }
 
-    public function delete(Video $video, Comment $comment): Response
+    public function destroy(Video $video, Comment $comment): Response
     {
         $comment->delete();
         return response()->noContent();

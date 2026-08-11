@@ -39,7 +39,7 @@
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#delete_device"
                                                 data-name="{{$device->name}}"
-                                                data-route="{{route('devices.delete', $device)}}"
+                                                data-route="{{route('devices.destroy', $device)}}"
                                                 @click="device = $el.dataset;"
                                             >
                                                 <i class="fa-solid fa-trash"></i>
