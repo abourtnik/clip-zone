@@ -15,17 +15,17 @@ class ActivityFiltersForm extends FilterForm
                 'choices' => $this->getTypes(),
                 'wrapper' => ['class' => 'col-12 col-lg'],
                 'empty_value' => __('All'),
-                'selected' => $this->request->get('type'),
+                'selected' => $this->request->string('type'),
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
                 'label' => __('Date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
-                'value' => $this->request->get('date_start')
+                'value' => $this->request->date('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
                 'label' => __('Date end'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
-                'value' => $this->request->get('date_end')
+                'value' => $this->request->date('date_end')
             ]);
     }
 

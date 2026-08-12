@@ -16,17 +16,17 @@ class SubscriberFiltersForm extends FilterForm
                 'attr' => [
                     'placeholder' => __('Search')
                 ],
-                'value' => $this->request->get('search')
+                'value' => $this->request->string('search')
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
                 'label' => __('Subscription date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
-                'value' => $this->request->get('date_start')
+                'value' => $this->request->date('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
                 'label' => __('Subscription date end'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
-                'value' => $this->request->get('date_end')
+                'value' => $this->request->date('date_end')
             ]);
     }
 }

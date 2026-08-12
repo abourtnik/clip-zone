@@ -18,38 +18,38 @@ class ReportFiltersForm extends FilterForm
                 'attr' => [
                     'placeholder' => __('Search')
                 ],
-                'value' => $this->request->get('search')
+                'value' => $this->request->string('search')
             ])
             ->add('type', Field::SELECT, [
                 'label' => 'Type',
                 'choices' => $this->getTypes(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'empty_value' => __('All'),
-                'selected' => $this->request->get('type'),
+                'selected' => $this->request->string('type'),
             ])
             ->add('reason', Field::SELECT, [
                 'label' => __('Reason'),
                 'choices' => ReportReason::get(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'empty_value' => __('All'),
-                'selected' => $this->request->get('reason'),
+                'selected' => $this->request->enum('reason', ReportReason::class)?->value,
             ])
             ->add('status', Field::SELECT, [
                 'label' => 'Status',
                 'choices' => ReportStatus::get(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'empty_value' => __('All'),
-                'selected' => $this->request->get('status'),
+                'selected' => $this->request->enum('status', ReportStatus::class)?->value,
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
                 'label' => __('Report date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'value' => $this->request->get('date_start')
+                'value' => $this->request->date('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
                 'label' => __('Report date end'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'value' => $this->request->get('date_end')
+                'value' => $this->request->date('date_end')
             ]);
     }
 

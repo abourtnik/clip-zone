@@ -4,15 +4,12 @@ namespace App\Filters;
 
 use App\Enums\VideoStatus;
 use App\Filters\Drivers\MySQLFilter;
-use App\Filters\Traits\DateFilter;
 use App\Filters\Traits\UserFilter;
 use Illuminate\Database\Eloquent\Builder;
 
 class VideoFilters extends MySQLFilter
 {
-    use DateFilter, UserFilter;
-
-    protected string $dateField = 'published_at';
+    use UserFilter;
 
     public function search(string $search): Builder
     {
@@ -32,5 +29,41 @@ class VideoFilters extends MySQLFilter
     {
         return $this->builder->when($category === 'without', fn($query) => $query->doesntHave('category'))
             ->when($category !== 'without', fn($query) => $query->whereRelation('category', 'id', $category));
+    }
+
+    public function dateStart (string $date): Builder
+    {
+        return $this->builder
+            ->whereRaw("
+                CASE
+                    WHEN status IN (?, ?, ?, ?) THEN created_at
+                    WHEN status = ? THEN scheduled_at
+                    ELSE published_at
+                END >= ?
+                ",
+                [
+                ...[VideoStatus::PRIVATE, VideoStatus::UNLISTED,  VideoStatus::DRAFT,  VideoStatus::FAILED],
+                    VideoStatus::PLANNED,
+                    $date
+                ]
+            );
+    }
+
+    public function dateEnd (string $date): Builder
+    {
+        return $this->builder
+            ->whereRaw("
+                CASE
+                    WHEN status IN (?, ?, ?, ?) THEN created_at
+                    WHEN status = ? THEN scheduled_at
+                    ELSE published_at
+                END <= ?
+                ",
+                [
+                    ...[VideoStatus::PRIVATE, VideoStatus::UNLISTED,  VideoStatus::DRAFT,  VideoStatus::FAILED],
+                    VideoStatus::PLANNED,
+                    $date
+                ]
+            );
     }
 }

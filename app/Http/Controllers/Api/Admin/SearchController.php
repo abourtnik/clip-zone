@@ -17,14 +17,9 @@ class SearchController
 
         $q = $request->validated('q');
 
-        $match = '%'.$q.'%';
-
         return UserSearchResource::collection(
             User::query()
-                ->where(function (Builder $query) use ($match) {
-                    $query->where('username', 'LIKE', $match)
-                        ->orWhere('slug', 'LIKE', $match);
-                })
+                ->whereAny(['username', 'slug'], 'LIKE', '%'.$q.'%')
                 ->limit(10)
                 ->get()
         );
@@ -32,13 +27,11 @@ class SearchController
 
     public function videos(Request $request): ResourceCollection {
 
-        $q = $request->get('q');
-
-        $match = '%'.$q.'%';
+        $q = $request->string('q');
 
         return VideoSearchResource::collection(
             Video::query()
-                ->where('title', 'LIKE', $match)
+                ->whereAny(['title'], 'LIKE','%'.$q.'%')
                 ->limit(10)
                 ->get()
         );

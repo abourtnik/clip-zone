@@ -36,8 +36,8 @@ class ProfileController
 
         $user->update($validated);
 
-        if ($request->get('email') && $request->get('email') !== $user->email && !$user->getTemporaryEmailForVerification()) {
-            EmailUpdated::dispatch($request->get('email'));
+        if ($request->string('email')->isNotEmpty() && !$request->string('email')->is($user->email) && !$user->getTemporaryEmailForVerification()) {
+            EmailUpdated::dispatch($request->string('email'));
         }
 
         if ($user->wasChanged('phone')) {
@@ -53,7 +53,7 @@ class ProfileController
             'new_password' => ['required', 'confirmed', Password::min(6)]
         ]);
 
-        PasswordUpdated::dispatch($request->get('new_password'));
+        PasswordUpdated::dispatch($request->string('new_password'));
 
         return redirect()->route('user.edit')->with(['status' => 'Your password has been updated successfully !']);
     }

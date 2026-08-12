@@ -5,6 +5,7 @@ import {searchModel} from "@/api/clipzone";
 import {ChangeEvent} from "react";
 import {useTranslation} from "react-i18next";
 import {Loader} from "@/components/Commons";
+import clsx from 'clsx';
 
 type Props = {
     endpoint: string,
@@ -76,13 +77,15 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
             </div>
             {
                 (showResults && results) &&
-                <div className={'position-absolute w-100 rounded-2 bg-white shadow-lg border border-1'} style={{top:'75px'}}>
+                <div className={'position-absolute w-100 rounded-2 bg-white shadow-lg border border-1 z-1 overflow-y-auto'} style={{top:'75px'}}>
                     {
                         results.data.length ?
                             <ul className={'list-unstyled mb-0'}>
                                 {
                                     results.data.map((result, key) => (
-                                        <li className={'text-black px-3 py-2 hover-primary cursor-pointer ' + (index === key ? 'selected' : null)} onClick={() => select(key)} key={key}>
+                                        <li
+                                            className={clsx('text-black px-3 py-2 hover-primary cursor-pointer', index === key && 'selected')}
+                                            onClick={() => select(key)} key={key}>
                                             {result.label}
                                         </li>
                                     ))

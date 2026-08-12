@@ -12,29 +12,29 @@ class CommentFiltersForm extends FilterForm
         $this
             ->add('search', Field::SEARCH, [
                 'label' => $this->getName(),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl col-xxl-3'],
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 col-xxl-1'],
                 'attr' => [
                     'placeholder' => 'Search'
                 ],
-                'value' => $this->request->get('search')
+                'value' => $this->request->string('search')
             ])
             ->add('video', 'autocomplete', [
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 col-xxl-2'],
                 'endpoint' => route('admin.search.videos')
             ])
             ->add('user', 'autocomplete', [
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 col-xxl-2'],
                 'endpoint' => route('admin.search.users')
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
                 'label' => 'Comment date start',
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'value' => $this->request->get('date_start')
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 col-xxl-2'],
+                'value' => $this->request->date('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
                 'label' => 'Comment date end',
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'value' => $this->request->get('date_end')
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl-4 col-xxl-2'],
+                'value' => $this->request->date('date_end')
             ])
             ->add('replies', Field::SELECT, [
                 'label' => 'Replies',
@@ -44,7 +44,7 @@ class CommentFiltersForm extends FilterForm
                 ],
                 'wrapper' => ['class' => 'col-12 col-lg'],
                 'empty_value' => 'All',
-                'selected' => $this->request->get('replies'),
+                'selected' => $this->request->string('replies'),
             ])
             ->add('ban', Field::SELECT, [
                 'label' => 'Banned',
@@ -54,7 +54,7 @@ class CommentFiltersForm extends FilterForm
                 ],
                 'wrapper' => ['class' => 'col-12 col-lg'],
                 'empty_value' => 'All',
-                'selected' => $this->request->get('ban'),
+                'selected' => $this->request->string('ban'),
             ]);
     }
 }

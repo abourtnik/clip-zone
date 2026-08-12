@@ -16,7 +16,7 @@ class ThumbnailService
 
         $thumbnailFile = $request->file('thumbnail_file');
 
-        $selected = $request->get('thumbnail');
+        $selected = $request->string('thumbnail')->value();
 
         if ($thumbnailFile) {
 

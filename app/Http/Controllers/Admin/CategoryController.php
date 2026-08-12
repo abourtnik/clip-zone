@@ -24,7 +24,7 @@ class CategoryController
 
     public function organize (Request $request) : RedirectResponse {
 
-        $categories = $request->get('categories');
+        $categories = $request->array('categories');
 
         foreach ($categories as $index => $id) {
             Category::find($id)->update([

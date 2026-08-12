@@ -27,17 +27,17 @@ class StripeWebhookController extends Controller
 
     public function index(Request $request): Response
     {
-        Log::channel('stripe')->info($request->get('type'). ' ('.$request->get('id').')');
+        Log::channel('stripe')->info($request->string('type'). ' ('.$request->string('id').')');
 
         $request->headers->set('Accept', 'application/json');
 
-        return match ($request->get('type')) {
-            'invoice.payment_succeeded' => $this->onInvoicePaid($request->get('data')['object']),
-            'invoice.payment_failed' => $this->onInvoiceUnPaid($request->get('data')['object']),
-            'customer.subscription.created' => $this->onSubscriptionCreated($request->get('data')['object']),
-            'customer.subscription.updated' => $this->onSubscriptionUpdated($request->get('data')['object']),
-            'customer.subscription.deleted' => $this->onSubscriptionDeleted($request->get('data')['object']),
-            'customer.updated' => $this->onCustomerUpdated($request->get('data')['object']),
+        return match ($request->string('type')->value()) {
+            'invoice.payment_succeeded' => $this->onInvoicePaid($request->array('data')['object']),
+            'invoice.payment_failed' => $this->onInvoiceUnPaid($request->array('data')['object']),
+            'customer.subscription.created' => $this->onSubscriptionCreated($request->array('data')['object']),
+            'customer.subscription.updated' => $this->onSubscriptionUpdated($request->array('data')['object']),
+            'customer.subscription.deleted' => $this->onSubscriptionDeleted($request->array('data')['object']),
+            'customer.updated' => $this->onCustomerUpdated($request->array('data')['object']),
             default => response()->noContent()
         };
     }

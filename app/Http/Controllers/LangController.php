@@ -10,12 +10,12 @@ class LangController extends Controller
 {
     public function update(LangRequest $request): RedirectResponse
     {
-        if (array_key_exists($request->get('locale'), config('languages'))) {
-            session()->put('app_locale', $request->get('locale'));
+        if (array_key_exists($request->input('locale'), config('languages'))) {
+            session()->put('app_locale', $request->string('locale')->value());
         }
 
         if (Auth::check()) {
-            Auth::user()->update(['language' => $request->get('locale')]);
+            Auth::user()->update(['language' => $request->string('locale')]);
         }
 
         return redirect()->back();

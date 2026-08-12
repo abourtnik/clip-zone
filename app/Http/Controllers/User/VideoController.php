@@ -136,7 +136,7 @@ class VideoController extends Controller
 
     public function massDelete(Request $request)
     {
-        $ids = $request->get('ids');
+        $ids = $request->array('ids');
 
         $videos = Auth::user()->videos()->whereIn('id', $ids);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Enums\CommentSort;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Comment\StoreCommentRequest;
 use App\Http\Requests\Comment\UpdateCommentRequest;
@@ -32,7 +33,7 @@ class CommentController extends Controller
      */
     public function index(Video $video, Request $request) : ResourceCollection {
 
-        $sort = $request->get('sort', 'top');
+        $sort = $request->enum('sort', CommentSort::class, CommentSort::TOP);
 
         return (CommentResource::collection(
             $video
@@ -77,7 +78,7 @@ class CommentController extends Controller
                     'likes as is_video_author_like' => fn($q) => $q->where('user_id', $video->user->id),
                 ])
                 ->when($video->pinned_comment, fn($query) => $query->orderByRaw('id <> ' .$video->pinned_comment->id))
-                ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
+                ->when($sort === CommentSort::TOP, fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
                 ->latest()
                 ->simplePaginate(20)
                 ->withQueryString()
@@ -88,7 +89,7 @@ class CommentController extends Controller
 
     public function replies (Video $video, Comment $comment, Request $request) : ResourceCollection {
 
-        $sort = $request->get('sort', 'top');
+        $sort = $request->enum('sort', CommentSort::class, CommentSort::TOP);
 
         return (new RepliesCollection(
             $comment
@@ -108,7 +109,7 @@ class CommentController extends Controller
                     'likes as liked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id()),
                     'dislikes as disliked_by_auth_user' => fn($q) => $q->where('user_id', Auth::id())
                 ])
-                ->when($sort === 'top', fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
+                ->when($sort === CommentSort::TOP, fn($query) => $query->orderByRaw('likes_count - dislikes_count DESC'))
                 ->latest()
                 ->simplePaginate(self::REPLIES_PER_PAGE)
                 ->withQueryString()

@@ -18,15 +18,10 @@ class SearchController
 
         $q = $request->string('q');
 
-        $match = '%'.$q.'%';
-
         return UserSearchResource::collection(
             User::query()
                 ->active()
-                ->where(function (Builder $query) use ($match) {
-                    $query->where('username', 'LIKE', $match)
-                        ->orWhere('slug', 'LIKE', $match);
-                })
+                ->whereAny(['username', 'slug'], 'LIKE', '%'.$q.'%')
                 ->whereHas('comments', function (Builder $query) {
                     $query
                         ->whereHas('video', function (Builder $query) {
@@ -57,8 +52,7 @@ class SearchController
                 )
                 ->where(
                     fn($query) => $query
-                        ->where('title', 'LIKE', $match)
-                        ->orWhere('description', 'LIKE', $match)
+                        ->whereAny(['title', 'description'], 'LIKE', '%'.$q.'%')
                         ->orWhereRelation('user', 'username', 'LIKE', $match)
                 )
                 ->with('user')

@@ -29,11 +29,11 @@ class PlaylistController
     public function save (SaveRequest $request): JsonResponse {
 
         $video = Video::query()
-            ->findOrFail($request->get('video_id'));
+            ->findOrFail($request->integer('video_id'));
 
         $playlist = Playlist::query()
             ->withMax('videos as last_position', 'playlist_has_videos.position')
-            ->findOrFail($request->get('playlist_id'));
+            ->findOrFail($request->integer('playlist_id'));
 
         $playlist->videos()->toggle([
             $video->id => ['position' => is_null($playlist->last_position) ? 0 : $playlist->last_position + 1]

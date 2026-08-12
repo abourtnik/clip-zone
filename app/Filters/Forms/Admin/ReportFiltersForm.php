@@ -18,7 +18,7 @@ class ReportFiltersForm extends FilterForm
                 'attr' => [
                     'placeholder' => 'Search'
                 ],
-                'value' => $this->request->get('search')
+                'value' => $this->request->string('search')
             ])
             ->add('user', 'autocomplete', [
                 'wrapper' => ['class' => 'col'],
@@ -29,31 +29,31 @@ class ReportFiltersForm extends FilterForm
                 'choices' => $this->getTypes(),
                 'wrapper' => ['class' => 'col'],
                 'empty_value' => 'All',
-                'selected' => $this->request->get('type'),
+                'selected' => $this->request->string('type'),
             ])
             ->add('reason', Field::SELECT, [
                 'label' => 'Reason',
                 'choices' => ReportReason::get(),
                 'wrapper' => ['class' => 'col'],
                 'empty_value' => 'All',
-                'selected' => $this->request->get('reason'),
+                'selected' => $this->request->enum('reason', ReportReason::class),
             ])
             ->add('status', Field::SELECT, [
                 'label' => 'Status',
                 'choices' => ReportStatus::get(),
                 'wrapper' => ['class' => 'col'],
                 'empty_value' => 'All',
-                'selected' => $this->request->get('status'),
+                'selected' => $this->request->enum('status', ReportStatus::class),
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
                 'label' => 'Report date start',
                 'wrapper' => ['class' => 'col'],
-                'value' => $this->request->get('date_start')
+                'value' => $this->request->date('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
                 'label' => 'Report date end',
                 'wrapper' => ['class' => 'col'],
-                'value' => $this->request->get('date_end')
+                'value' => $this->request->date('date_end')
             ]);
     }
 

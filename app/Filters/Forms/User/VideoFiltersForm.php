@@ -18,31 +18,31 @@ class VideoFiltersForm extends FilterForm
                 'attr' => [
                     'placeholder' => __('Search')
                 ],
-                'value' => $this->request->get('search')
+                'value' => $this->request->string('search')
             ])
             ->add('status', Field::SELECT, [
                 'label' => __('Status'),
                 'choices' => VideoStatus::getAll(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'empty_value' => __('All'),
-                'selected' => $this->request->get('status'),
+                'selected' => $this->request->enum('status', VideoStatus::class)?->value,
             ])
             ->add('category', Field::SELECT, [
                 'label' => __('Category'),
                 'choices' => $this->getCategories(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'empty_value' => __('All'),
-                'selected' => $this->request->get('category'),
+                'selected' => $this->request->string('category'),
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
                 'label' => __('Publication date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl'],
-                'value' => $this->request->get('date_start')
+                'value' => $this->request->date('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
                 'label' => __('Publication date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl'],
-                'value' => $this->request->get('date_end')
+                'value' => $this->request->date('date_end')
             ]);
     }
 

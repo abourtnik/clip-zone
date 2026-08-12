@@ -218,7 +218,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="text-center">
+                        <td colspan="9" class="text-center">
                             <i class="fa-solid fa-database fa-2x my-3"></i>
                             <p class="fw-bold">{{ __('No matching videos') }}</p>
                         </td>

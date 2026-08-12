@@ -19,7 +19,7 @@ class RequirePassword
      */
     public function handle(Request $request, Closure $next): RedirectResponse
     {
-        if(!Hash::check($request->get('current_password'), auth()->user()->password)){
+        if(!Hash::check($request->string('current_password'), auth()->user()->password)){
             return back()->with("error", __("Current Password doesn't match !"));
         }
 

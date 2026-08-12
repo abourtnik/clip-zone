@@ -13,12 +13,12 @@ class DashboardFiltersForm extends FilterForm
             ->add('date_start', Field::DATETIME_LOCAL, [
                 'label' => __('Publication date start'),
                 'wrapper' => ['class' => 'col-12 col-sm'],
-                'value' => $this->request->get('date_start')
+                'value' => $this->request->date('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
                 'label' => __('Publication date start'),
                 'wrapper' => ['class' => 'col-12 col-sm'],
-                'value' => $this->request->get('date_end')
+                'value' => $this->request->date('date_end')
             ]);
     }
 }

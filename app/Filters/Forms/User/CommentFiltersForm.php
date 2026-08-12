@@ -18,7 +18,7 @@ class CommentFiltersForm extends FilterForm
                 'attr' => [
                     'placeholder' => __('Search')
                 ],
-                'value' => $this->request->get('search')
+                'value' => $this->request->string('search')
             ])
             ->add('video', Field::ENTITY, [
                 'class' => Video::class,
@@ -30,7 +30,7 @@ class CommentFiltersForm extends FilterForm
                 },
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'empty_value' => __('All'),
-                'selected' => $this->request->get('video'),
+                'selected' => $this->request->integer('video'),
             ])
             ->add('user', 'autocomplete', [
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
@@ -39,12 +39,12 @@ class CommentFiltersForm extends FilterForm
             ->add('date_start', Field::DATETIME_LOCAL, [
                 'label' => __('Publication date start'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'value' => $this->request->get('date_start')
+                'value' => $this->request->date('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
                 'label' => __('Publication date end'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'value' => $this->request->get('date_end')
+                'value' => $this->request->date('date_end')
             ]);
     }
 }

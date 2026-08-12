@@ -16,24 +16,24 @@ class UserFiltersForm extends FilterForm
                 'attr' => [
                     'placeholder' => 'Search'
                 ],
-                'value' => $this->request->get('search')
+                'value' => $this->request->string('search')
             ])
             ->add('date_start', Field::DATETIME_LOCAL, [
                 'label' => 'Registration date start',
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl'],
-                'value' => $this->request->get('date_start')
+                'value' => $this->request->date('date_start')
             ])
             ->add('date_end', Field::DATETIME_LOCAL, [
                 'label' => 'Registration date end',
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl'],
-                'value' => $this->request->get('date_end')
+                'value' => $this->request->date('date_end')
             ])
             ->add('status', Field::SELECT, [
                 'label' => 'Status',
                 'choices' => $this->getStatus(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl'],
                 'empty_value' => 'All',
-                'selected' => $this->request->get('status'),
+                'selected' => $this->request->string('status'),
             ]);
     }
 

@@ -18,7 +18,7 @@ class PhoneVerification
 
     public function verify(CodeRequest $request): RedirectResponse
     {
-        if ($request->get('code') === Auth::user()->getPhoneCodeVerification()) {
+        if ($request->string('code')->is(Auth::user()->getPhoneCodeVerification())) {
             $request->user()->markPhoneAsVerified();
             return back();
         }

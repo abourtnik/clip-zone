@@ -37,7 +37,7 @@ class UserController
 
     public function playlists(Request $request): ResourceCollection
     {
-        $videoId = $request->get('video_id');
+        $videoId = $request->integer('video_id');
 
         return PlaylistListResource::collection(
             $request

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Private;
 
+use App\Enums\InteractionFilter;
 use App\Events\Video\VideoInteracted;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Interaction\InteractionRequest;
@@ -57,8 +58,9 @@ class InteractionController extends Controller
 
     public function list (Video $video, Request $request) : ResourceCollection {
 
-        $filter = $request->get('filter', 'all');
-        $search = $request->get('search');
+        $filter = $request->enum('filter', InteractionFilter::class, InteractionFilter::ALL);
+
+        $search = $request->string('search');
 
         return InteractionsResource::collection(
             $video
@@ -73,9 +75,9 @@ class InteractionController extends Controller
                     },
                     'likeable'
                 ])
-                ->when($filter === 'up', fn($query) => $query->where('status', true))
-                ->when($filter === 'down', fn($query) => $query->where('status', false))
-                ->when($search, fn($query) => $query->whereRelation('user', 'username', 'LIKE',  '%'.$search.'%'))
+                ->when($filter === InteractionFilter::UP, fn($query) => $query->where('status', true))
+                ->when($filter === InteractionFilter::DOWN, fn($query) => $query->where('status', false))
+                ->when($search->isNotEmpty(), fn($query) => $query->whereRelation('user', 'username', 'LIKE',  '%'.$search.'%'))
                 ->latest('perform_at')
                 ->paginate(40)
                 ->withQueryString()

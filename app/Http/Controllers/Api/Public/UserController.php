@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Public;
 
+use App\Enums\VideoSort;
 use App\Http\Resources\Playlist\PlaylistListResource;
 use App\Http\Resources\User\UserShowResource;
 use App\Http\Resources\Video\VideoListResource;
@@ -45,7 +46,8 @@ class UserController
 
     public function videos(User $user, Request $request): ResourceCollection
     {
-        $sort = $request->get('sort', 'latest');
+        $sort = $request->enum('sort', VideoSort::class, VideoSort::LATEST);
+
         $excludePinned = $request->exists('excludePinned');
 
         return VideoListResource::collection(
@@ -53,9 +55,9 @@ class UserController
                 ->active()
                 ->when($excludePinned, fn($query) => $query->where('id', '!=', $user->pinned_video->id))
                 ->with('user')
-                ->when($sort === 'latest', fn($query) => $query->latest('published_at'))
-                ->when($sort === 'popular', fn($query) => $query->orderBy('views', 'DESC'))
-                ->when($sort === 'oldest', fn($query) => $query->oldest('published_at'))
+                ->when($sort === VideoSort::LATEST, fn($query) => $query->latest('published_at'))
+                ->when($sort === VideoSort::POPULAR, fn($query) => $query->orderBy('views', 'DESC'))
+                ->when($sort === VideoSort::OLDEST, fn($query) => $query->oldest('published_at'))
                 ->cursorPaginate(24)
         );
     }

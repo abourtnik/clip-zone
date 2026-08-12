@@ -20,7 +20,7 @@ class RegistrationController
         $validated = $request
             ->safe()
             ->merge([
-                'slug' => User::generateSlug($request->get('username')),
+                'slug' => User::generateSlug($request->string('username')),
                 'is_admin' => null
             ])
             ->except('cgu');
