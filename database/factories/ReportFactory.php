@@ -26,7 +26,7 @@ class ReportFactory extends Factory
         return [
             'user_id' => $user->id,
             'reason' => fake()->randomElement(ReportReason::cases()),
-            'comment' => fake()->realText(config('validation.report.comment.max')),
+            'comment' => fake()->realTextBetween(10, 500),
             'status' => ReportStatus::PENDING->value,
             'created_at' => $date,
             'updated_at' => $date,

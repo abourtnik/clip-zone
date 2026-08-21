@@ -21,7 +21,7 @@ class CommentFactory extends Factory
         $date = fake()->dateTimeBetween('-1 year');
 
         return [
-            'content' => fake()->realText(config('validation.comment.content.max')),
+            'content' => fake()->realTextBetween(10, 500),
             'ip' => fake()->ipv4(),
             'created_at' => $date,
             'updated_at' => $date,

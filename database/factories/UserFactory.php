@@ -34,7 +34,7 @@ class UserFactory extends Factory
             'last_login_ip' => fake()->ipv4(),
             'remember_token' => Str::random(10),
             'avatar' => null,
-            'description' => fake()->realText(config('validation.user.description.max')),
+            'description' => fake()->realTextBetween(10, 500),
             'country' => fake()->countryCode(),
             'website' => fake()->domainName(),
             'show_subscribers' => fake()->boolean(90),
