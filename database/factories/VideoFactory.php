@@ -29,7 +29,7 @@ class VideoFactory extends Factory
             'uuid' => Number::unique(),
             'title' => $title,
             'slug' => Str::slug($title),
-            'description' => fake()->realTextBetween(100, 500),
+            'description' => fake()->paragraph(),
             'file' => 'default.webm',
             'original_file_name' => fake()->word() . '.avi',
             'duration' => fake()->numberBetween(5, 4000),

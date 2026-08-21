@@ -24,7 +24,7 @@ class PlaylistFactory extends Factory
         return [
             'uuid' => fake()->uuid(),
             'title' => fake()->text(rand(5, config('validation.playlist.title.max'))),
-            'description' => fake()->realTextBetween(10, 500),
+            'description' => fake()->realTextBetween(10, 200),
             'status' => fake()->randomElement(PlaylistStatus::cases()),
             'sort' => fake()->randomElement(PlaylistSort::cases()),
             'created_at' => $date,
