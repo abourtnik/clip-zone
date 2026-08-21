@@ -5,7 +5,6 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ActivityController;
 use App\Http\Controllers\User\PlaylistController;
 use App\Http\Controllers\User\CommentController;
-use App\Http\Controllers\User\SubtitleController;
 use App\Http\Controllers\User\ReportController;
 use App\Http\Controllers\User\NotificationController;
 use App\Http\Controllers\User\InvoiceController;

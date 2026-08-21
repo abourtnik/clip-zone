@@ -9,7 +9,8 @@ use Illuminate\Validation\ValidationException;
 
 class RegisterRequest extends FormRequest
 {
-    private const int MAX_ATTEMPTS = 1;
+    private const int MAX_ATTEMPTS = 3;
+    private const int DELAY = 3600; // delay in seconds
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -55,12 +56,14 @@ class RegisterRequest extends FormRequest
 
         if (RateLimiter::tooManyAttempts($key, self::MAX_ATTEMPTS)) {
 
+            $seconds = RateLimiter::availableIn($key);
+
             throw ValidationException::withMessages([
-                'throttle' => __('throttle.general')
+                'throttle' => __('throttle.register', ['seconds' => $seconds])
             ]);
         }
 
-        RateLimiter::increment($key);
+        RateLimiter::increment($key, self::DELAY);
     }
 
     protected function throttleKey(): string

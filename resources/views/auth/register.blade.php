@@ -16,6 +16,11 @@
                             {{ $message }}
                         </div>
                         @enderror
+                        @session('error')
+                        <div class="alert alert-danger">
+                            {!! $value !!}
+                        </div>
+                        @endsession
                         <h1 class="h3 mb-5 fw-normal text-center">{{__('Create your Account !')}}</h1>
                         <form method="POST" action="{{route('registration.perform')}}">
                             @csrf

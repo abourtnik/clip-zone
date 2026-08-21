@@ -31,7 +31,7 @@ Route::controller(OAuthController::class)->name('oauth.')->prefix('oauth')->grou
 // REGISTER
 Route::controller(RegistrationController::class)->middleware('guest')->group(function () {
     Route::get('/register', 'show')->name('registration');
-    Route::post('/register', 'register')->name('registration.perform');
+    Route::post('/register', 'register')->name('registration.perform')->middleware(['throttle:register']);
 });
 
 // PASSWORD RESET

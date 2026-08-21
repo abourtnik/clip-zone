@@ -23,6 +23,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     public const string HOME = '/profile';
 
+    private const array IP_RATE_LIMITS = [
+        'login'    => 5,
+        'register' => 5,
+        'contact'  => 3,
+    ];
+
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
      *
@@ -77,7 +83,7 @@ class RouteServiceProvider extends ServiceProvider
                 ->response(fn(Request $request, array $headers) => $this->response($request, $headers));
         });
 
-        foreach (['login' => 5, 'contact' => 3] as $route => $limit) {
+        foreach (self::IP_RATE_LIMITS as $route => $limit) {
             RateLimiter::for($route, function (Request $request) use ($limit) {
                 return Limit::perMinute($limit)->by($request->ip())
                     ->response(fn(Request $request, array $headers) => $this->response($request, $headers));
