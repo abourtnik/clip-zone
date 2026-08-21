@@ -2,6 +2,7 @@
 
 namespace App\Filters\Forms\User;
 
+use App\Filters\Forms\Fields\DateRange;
 use App\Filters\Forms\FilterForm;
 use Kris\LaravelFormBuilder\Field;
 
@@ -12,21 +13,16 @@ class SubscriberFiltersForm extends FilterForm
         $this
             ->add('search', Field::SEARCH, [
                 'label' => __('Search'),
-                'wrapper' => ['class' => 'col-12 col-lg'],
+                'wrapper' => ['class' => 'col-12 col-md'],
                 'attr' => [
                     'placeholder' => __('Search')
                 ],
                 'value' => $this->request->string('search')
             ])
-            ->add('date_start', Field::DATETIME_LOCAL, [
-                'label' => __('Subscription date start'),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
-                'value' => $this->request->date('date_start')
-            ])
-            ->add('date_end', Field::DATETIME_LOCAL, [
-                'label' => __('Subscription date end'),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
-                'value' => $this->request->date('date_end')
+            ->add('date', DateRange::NAME, [
+                'label' => __('Date'),
+                'wrapper' => ['class' => 'col-12 col-md'],
+                'selected' => $this->request->input('date')
             ]);
     }
 }

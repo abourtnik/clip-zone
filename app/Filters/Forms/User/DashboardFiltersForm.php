@@ -2,23 +2,18 @@
 
 namespace App\Filters\Forms\User;
 
+use App\Filters\Forms\Fields\DateRange;
 use App\Filters\Forms\FilterForm;
-use Kris\LaravelFormBuilder\Field;
 
 class DashboardFiltersForm extends FilterForm
 {
     public function buildForm(): void
     {
         $this
-            ->add('date_start', Field::DATETIME_LOCAL, [
-                'label' => __('Publication date start'),
+            ->add('date', DateRange::NAME, [
+                'label' => __('Date'),
                 'wrapper' => ['class' => 'col-12 col-sm'],
-                'value' => $this->request->date('date_start')
-            ])
-            ->add('date_end', Field::DATETIME_LOCAL, [
-                'label' => __('Publication date start'),
-                'wrapper' => ['class' => 'col-12 col-sm'],
-                'value' => $this->request->date('date_end')
+                'selected' => $this->request->input('date'),
             ]);
     }
 }

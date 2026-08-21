@@ -4,6 +4,7 @@ namespace App\Filters\Forms\User;
 
 use App\Enums\ReportReason;
 use App\Enums\ReportStatus;
+use App\Filters\Forms\Fields\DateRange;
 use App\Filters\Forms\FilterForm;
 use Kris\LaravelFormBuilder\Field;
 
@@ -14,7 +15,7 @@ class ReportFiltersForm extends FilterForm
         $this
             ->add('search', Field::SEARCH, [
                 'label' => __('Search'),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl col-xxl-3'],
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
                 'attr' => [
                     'placeholder' => __('Search')
                 ],
@@ -23,33 +24,28 @@ class ReportFiltersForm extends FilterForm
             ->add('type', Field::SELECT, [
                 'label' => 'Type',
                 'choices' => $this->getTypes(),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
                 'empty_value' => __('All'),
                 'selected' => $this->request->string('type'),
             ])
             ->add('reason', Field::SELECT, [
                 'label' => __('Reason'),
                 'choices' => ReportReason::get(),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
                 'empty_value' => __('All'),
                 'selected' => $this->request->enum('reason', ReportReason::class)?->value,
             ])
             ->add('status', Field::SELECT, [
                 'label' => 'Status',
                 'choices' => ReportStatus::get(),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
                 'empty_value' => __('All'),
                 'selected' => $this->request->enum('status', ReportStatus::class)?->value,
             ])
-            ->add('date_start', Field::DATETIME_LOCAL, [
-                'label' => __('Report date start'),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'value' => $this->request->date('date_start')
-            ])
-            ->add('date_end', Field::DATETIME_LOCAL, [
-                'label' => __('Report date end'),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'value' => $this->request->date('date_end')
+            ->add('date', DateRange::NAME, [
+                'label' => __('Date'),
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
+                'selected' => $this->request->input('date')
             ]);
     }
 

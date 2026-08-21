@@ -4,12 +4,30 @@ namespace App\Filters;
 
 use App\Enums\VideoStatus;
 use App\Filters\Drivers\MySQLFilter;
+use App\Filters\Traits\DateFilter;
 use App\Filters\Traits\UserFilter;
+use Illuminate\Contracts\Database\Query\Expression;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class VideoFilters extends MySQLFilter
 {
-    use UserFilter;
+    use DateFilter, UserFilter;
+
+    protected function getDateField(): string|Expression
+    {
+        $private  = VideoStatus::PRIVATE->value;
+        $unlisted = VideoStatus::UNLISTED->value;
+        $draft    = VideoStatus::DRAFT->value;
+        $failed   = VideoStatus::FAILED->value;
+        $planned  = VideoStatus::PLANNED->value;
+
+        return DB::raw("CASE
+            WHEN status IN ($private, $unlisted, $draft, $failed) THEN created_at
+            WHEN status = $planned THEN scheduled_at
+            ELSE published_at
+        END");
+    }
 
     public function search(string $search): Builder
     {
@@ -29,41 +47,5 @@ class VideoFilters extends MySQLFilter
     {
         return $this->builder->when($category === 'without', fn($query) => $query->doesntHave('category'))
             ->when($category !== 'without', fn($query) => $query->whereRelation('category', 'id', $category));
-    }
-
-    public function dateStart (string $date): Builder
-    {
-        return $this->builder
-            ->whereRaw("
-                CASE
-                    WHEN status IN (?, ?, ?, ?) THEN created_at
-                    WHEN status = ? THEN scheduled_at
-                    ELSE published_at
-                END >= ?
-                ",
-                [
-                ...[VideoStatus::PRIVATE, VideoStatus::UNLISTED,  VideoStatus::DRAFT,  VideoStatus::FAILED],
-                    VideoStatus::PLANNED,
-                    $date
-                ]
-            );
-    }
-
-    public function dateEnd (string $date): Builder
-    {
-        return $this->builder
-            ->whereRaw("
-                CASE
-                    WHEN status IN (?, ?, ?, ?) THEN created_at
-                    WHEN status = ? THEN scheduled_at
-                    ELSE published_at
-                END <= ?
-                ",
-                [
-                    ...[VideoStatus::PRIVATE, VideoStatus::UNLISTED,  VideoStatus::DRAFT,  VideoStatus::FAILED],
-                    VideoStatus::PLANNED,
-                    $date
-                ]
-            );
     }
 }

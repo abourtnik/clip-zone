@@ -47,7 +47,8 @@ return [
     'default_namespace' => '',
 
     'custom_fields' => [
-        'autocomplete' => \App\Filters\Forms\Fields\Autocomplete::class
+        'autocomplete' => \App\Filters\Forms\Fields\Autocomplete::class,
+        'date_range' => \App\Filters\Forms\Fields\DateRange::class
     ],
 
     'plain_form_class' => \Kris\LaravelFormBuilder\Form::class,

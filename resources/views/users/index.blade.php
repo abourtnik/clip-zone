@@ -14,7 +14,7 @@
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-video fa-2x"></i>
-                        <p class="card-text text-center fs-1">{{$user->videos_count}}</p>
+                        <p class="card-text text-center fs-1">{{$videos_count}}</p>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-user fa-2x"></i>
-                        <p class="card-text text-center fs-1">{{$user->subscribers_count}}</p>
+                        <p class="card-text text-center fs-1">{{$subscribers_count}}</p>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-eye fa-2x"></i>
-                        <p class="card-text text-center fs-1">{{$user->videos_views_count}}</p>
+                        <p class="card-text text-center fs-1">{{$videos_views_count}}</p>
                     </div>
                 </div>
             </div>
@@ -50,7 +50,7 @@
                     <hr>
                     <div class="d-flex align-items-center justify-content-center gap-4">
                         <i class="fa-solid fa-comment fa-2x"></i>
-                        <p class="card-text text-center fs-1">{{$user->videos_comments_count}}</p>
+                        <p class="card-text text-center fs-1">{{$videos_comments_count}}</p>
                     </div>
                 </div>
             </div>
@@ -63,11 +63,11 @@
                     <div class="d-flex align-items-center justify-content-center gap-5">
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <i class="fa-solid fa-thumbs-up fa-2x"></i>
-                            <p class="card-text text-center fs-1">{{$user->videos_likes_count}}</p>
+                            <p class="card-text text-center fs-1">{{$videos_likes_count}}</p>
                         </div>
                         <div class="d-flex align-items-center justify-content-center gap-2">
                             <i class="fa-solid fa-thumbs-down fa-2x"></i>
-                            <p class="card-text text-center fs-1">{{$user->videos_dislikes_count}}</p>
+                            <p class="card-text text-center fs-1">{{$videos_dislikes_count}}</p>
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($user->videos_count || request()->all())
+                    @if($videos_count || $has_filter)
                         <div class="table-responsive">
                             <table class="table">
                             <thead>
@@ -98,7 +98,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                @forelse($user->videos as $video)
+                                @forelse($videos as $video)
                                     <tr>
                                         <td class="align-middle d-flex gap-3 align-items-center">
                                             <a href="{{$video->route}}">
@@ -183,7 +183,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($user->subscribers_count || request()->all())
+                    @if($subscribers_count || $has_filter)
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -194,22 +194,22 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @forelse($user->subscribers as $subscriber)
+                            @forelse($subscriptions as $subscription)
                                 <tr>
                                     <td class="align-middle">
-                                        <a href="{{$subscriber->route}}" class="d-flex align-items-center gap-2 text-decoration-none">
-                                            <img class="rounded-circle" src="{{$subscriber->avatar_url}}" alt="{{$subscriber->username}} avatar" style="width: 45px;">
-                                            <span>{{$subscriber->username}}</span>
+                                        <a href="{{$subscription->subscriber->route}}" class="d-flex align-items-center gap-2 text-decoration-none">
+                                            <img class="rounded-circle" src="{{$subscription->subscriber->avatar_url}}" alt="{{$subscription->subscriber->username}} avatar" style="width: 45px;">
+                                            <span>{{$subscription->subscriber->username}}</span>
                                         </a>
                                     </td>
                                     <td class="align-middle">
-                                        <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscriber->pivot->subscribe_at->format('d F Y - H:i')}}">
-                                            {{$subscriber->pivot->subscribe_at->diffForHumans()}}
+                                        <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscription->subscribe_at->format('d F Y - H:i')}}">
+                                            {{$subscription->subscribe_at->diffForHumans()}}
                                         </div>
                                     </td>
                                     <td class="align-middle">
                                         <div class="text-sm">
-                                            {{trans_choice('subscribers', $subscriber->subscribers_count)}}
+                                            {{trans_choice('subscribers', $subscription->subscriber->subscribers_count)}}
                                         </div>
                                     </td>
                                 </tr>
@@ -252,7 +252,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($user->videos_comments_count || request()->all())
+                    @if($videos_comments_count || $has_filter)
                         <div class="table-responsive">
                             <table class="table">
                                 <thead>
@@ -263,7 +263,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @forelse($user->videos_comments as $comment)
+                                @forelse($comments as $comment)
                                     <tr>
                                         <td class="align-start">
                                             <div class="d-flex gap-3 align-items-center">
@@ -337,7 +337,7 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    @if($user->videos_interactions_count || request()->all())
+                    @if(($videos_likes_count + $videos_dislikes_count) > 0  || $has_filter)
                         <div class="table-responsive">
                             <table class="table">
                             <thead>
@@ -348,7 +348,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                                @forelse($user->videos_interactions as $interaction)
+                                @forelse($interactions as $interaction)
                                 <tr>
                                     <td class="align-middle">
                                         <a href="{{$interaction->likeable->route}}">

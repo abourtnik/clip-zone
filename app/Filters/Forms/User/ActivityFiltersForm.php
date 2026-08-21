@@ -2,6 +2,7 @@
 
 namespace App\Filters\Forms\User;
 
+use App\Filters\Forms\Fields\DateRange;
 use App\Filters\Forms\FilterForm;
 use Kris\LaravelFormBuilder\Field;
 
@@ -13,19 +14,14 @@ class ActivityFiltersForm extends FilterForm
             ->add('type', Field::SELECT, [
                 'label' => __('Type'),
                 'choices' => $this->getTypes(),
-                'wrapper' => ['class' => 'col-12 col-lg'],
+                'wrapper' => ['class' => 'col-12 col-md'],
                 'empty_value' => __('All'),
                 'selected' => $this->request->string('type'),
             ])
-            ->add('date_start', Field::DATETIME_LOCAL, [
-                'label' => __('Date start'),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
-                'value' => $this->request->date('date_start')
-            ])
-            ->add('date_end', Field::DATETIME_LOCAL, [
-                'label' => __('Date end'),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
-                'value' => $this->request->date('date_end')
+            ->add('date', DateRange::NAME, [
+                'label' => __('Date'),
+                'wrapper' => ['class' => 'col-12 col-md'],
+                'selected' => $this->request->input('date')
             ]);
     }
 

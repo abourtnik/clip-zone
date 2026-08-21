@@ -2,6 +2,7 @@
 
 namespace App\Filters\Forms\Admin;
 
+use App\Filters\Forms\Fields\DateRange;
 use App\Filters\Forms\FilterForm;
 use Kris\LaravelFormBuilder\Field;
 
@@ -12,28 +13,23 @@ class UserFiltersForm extends FilterForm
         $this
             ->add('search', Field::SEARCH, [
                 'label' => $this->getName(),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl col-xxl-3'],
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
                 'attr' => [
                     'placeholder' => 'Search'
                 ],
                 'value' => $this->request->string('search')
             ])
-            ->add('date_start', Field::DATETIME_LOCAL, [
-                'label' => 'Registration date start',
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl'],
-                'value' => $this->request->date('date_start')
-            ])
-            ->add('date_end', Field::DATETIME_LOCAL, [
-                'label' => 'Registration date end',
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl'],
-                'value' => $this->request->date('date_end')
-            ])
             ->add('status', Field::SELECT, [
                 'label' => 'Status',
                 'choices' => $this->getStatus(),
-                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-6 col-xl'],
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
                 'empty_value' => 'All',
                 'selected' => $this->request->string('status'),
+            ])
+            ->add('date', DateRange::NAME, [
+                'label' => __('Date'),
+                'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
+                'selected' => $this->request->input('date')
             ]);
     }
 
