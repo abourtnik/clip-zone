@@ -7,18 +7,18 @@
     "require": {
         "php": "^8.3",
         "barryvdh/laravel-dompdf": "^3.0",
-        "diglactic/laravel-breadcrumbs": "^10.0",
+        "diglactic/laravel-breadcrumbs": "^10.1.0",
         "fakerphp/faker": "^1.9.1",
-        "icehouse-ventures/laravel-chartjs": "^4.1",
+        "icehouse-ventures/laravel-chartjs": "^5.0.0",
         "kris/laravel-form-builder": "^1.52",
         "lab404/laravel-impersonate": "^1.7",
         "laravel/cashier": "^15.0",
-        "laravel/framework": "^12.0",
+        "laravel/framework": "^13.0",
         "laravel/horizon": "^5.21",
         "laravel/sanctum": "^4.0",
         "laravel/scout": "^10.8",
         "laravel/socialite": "^5.8",
-        "laravel/tinker": "^2.7",
+        "laravel/tinker": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.0",
         "maatwebsite/excel": "^3.1",
         "meilisearch/meilisearch-php": "^1.6",
@@ -27,7 +27,7 @@
         "predis/predis": "^2.2",
         "propaganistas/laravel-phone": "^6.0",
         "pusher/pusher-php-server": "^7.2",
-        "spatie/eloquent-sortable": "^4.0",
+        "spatie/eloquent-sortable": "^5.0.1",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "staudenmeir/laravel-cte": "^1.11",
         "symfony/intl": "^6.1"
@@ -39,7 +39,7 @@
         "laravel/pint": "^1.0",
         "mockery/mockery": "^1.5",
         "nunomaduro/collision": "^8.1",
-        "phpunit/phpunit": "^11.5.3"
+        "phpunit/phpunit": "^12.0"
     },
     "autoload": {
         "psr-4": {
