@@ -98,6 +98,8 @@ class RouteServiceProvider extends ServiceProvider
             ], 429, $headers);
         }
 
-        return back()->with('error', __('throttle.general'));
+        return back()
+            ->with('error', __('throttle.general'))
+            ->withInput();
     }
 }
