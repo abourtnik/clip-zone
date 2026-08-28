@@ -7,7 +7,7 @@ export async function getNotifications(cursor: string | null): Promise<CursorPag
 }
 
 export async function handleNotification(id: number, type: 'read' | 'unread'): Promise<void> {
-    return jsonFetch(API_URL + `/notifications/${id}/${type}`);
+    return jsonFetch(API_URL + `/notifications/${id}/${type}`, 'POST');
 }
 
 export async function deleteNotification(id: number): Promise<void> {
@@ -15,5 +15,5 @@ export async function deleteNotification(id: number): Promise<void> {
 }
 
 export async function readAllNotifications(): Promise<void> {
-    return jsonFetch(API_URL + `/notifications/read-all`);
+    return jsonFetch(API_URL + `/notifications/read-all`, 'POST');
 }

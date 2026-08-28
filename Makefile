@@ -17,7 +17,7 @@ reset: ## Reset database and run seeders
 start: ## Start dev server
 	docker compose -p clipzone up -d
 	@echo "\nDevelopment servers launched !\n"
-	@echo "🌏  Web: http://$(DOMAIN):8080"
+	@echo "🌏 Web: http://$(DOMAIN):8080"
 	@echo "✉️  Mails: http://$(DOMAIN):1080"
 	@echo "🛢️  Database: http://$(DOMAIN):8091"
 	@echo "🗄️  Minio: http://$(DOMAIN):8900"
@@ -60,7 +60,7 @@ install: ## Install application
 
 install-production: ## Install Production application
 	@echo "Using domain: $(DOMAIN)"
-	cp .env.prod .env
+	cp .env.prod.example .env
 	@sed -i "s|^APP_URL=.*|APP_URL=http://$(DOMAIN):8080|" .env
 	@sed -i "s|^SESSION_DOMAIN=.*|SESSION_DOMAIN=$(DOMAIN)|" .env
 	@sed -i "s|^PUSHER_WEBSOCKETS_HOST=.*|PUSHER_WEBSOCKETS_HOST=$(DOMAIN)|" .env

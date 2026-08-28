@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource('App\Models\Comment,video', ['comment,video']);
+    }
+
     public function index() : View {
 
         return view('users.comments.index', [

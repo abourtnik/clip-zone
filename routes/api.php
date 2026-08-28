@@ -90,18 +90,18 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::controller(NotificationController::class)->prefix('notifications')->name('notifications.')->group(function () {
             Route::get('/', 'index')
                 ->name('index');
-            Route::get('/{notification}/read', 'read')
+            Route::post('/{notification}/read', 'read')
                 ->name('read')
                 ->missing(fn() => abort(404, 'Notification not found'))
                 ->can('read', 'notification');
-            Route::get('/{notification}/unread', 'unread')->name('unread')
+            Route::post('/{notification}/unread', 'unread')->name('unread')
                 ->missing(fn() => abort(404, 'Notification not found'))
                 ->can('unread', 'notification');
             Route::delete('/{notification}/delete', 'delete')
                 ->name('remove')
                 ->missing(fn() => abort(404, 'Notification not found'))
                 ->can('delete', 'notification');
-            Route::get('/read-all', 'readAll')->name('read-all');
+            Route::post('/read-all', 'readAll')->name('read-all');
         });
 
         // SEARCH
