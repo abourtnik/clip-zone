@@ -38,20 +38,23 @@
                             </a>
                         </td>
                         <td class="align-middle">
-                            @if(!$video->is_draft)
-                                @if($video->category)
-                                    <div class="badge bg-primary my-3">
-                                        {{$video->category->title}}
-                                    </div>
-                                @else
-                                    <div class="badge bg-secondary my-3">
-                                        No category
-                                    </div>
+                            <div class="d-flex gap-2 align-items-center my-3">
+                                @if(!$video->is_draft)
+                                    @if($video->category)
+                                        <div class="badge tw:bg-black">
+                                            {{$video->category->title}}
+                                        </div>
+                                    @else
+                                        <div class="badge bg-secondary">
+                                            No category
+                                        </div>
+                                    @endif
                                 @endif
-                            @endif
+                                <div class="badge tw:bg-black">{{$video->duration}} - @size($video->size)</div>
+                            </div>
                             <div class="d-flex gap-3">
-                                <a class="d-block " href="{{$video->route}}">
-                                    @if($video->is_draft)
+                                <a class="d-block text-decoration-none" href="{{$video->route}}">
+                                    @if($video->is_draft || $video->is_failed)
                                         <div class="bg-secondary text-white d-flex justify-content-center align-items-center" style="width: 120px;height: 68px">
                                             <i class="fa-solid fa-image fa-2x"></i>
                                         </div>
@@ -80,7 +83,7 @@
                         <td class="align-middle">
                             @if(!$video->is_draft)
                                 @if($video->views)
-                                    <span class="badge bg-secondary">{{$video->views}} views</span>
+                                    <span class="badge tw:bg-black">{{$video->views}} views</span>
                                 @else
                                     <span class="badge bg-secondary">No views</span>
                                 @endif
@@ -89,8 +92,8 @@
                         <td class="align-middle">
                             @if(!$video->is_draft)
                                 @if($video->comments_count)
-                                    <a href="{{route('admin.comments.index') .'?video='.$video->id}}" class="badge bg-info text-decoration-none">
-                                        {{trans_choice('comments', $video->comments_count)}}
+                                    <a href="{{route('admin.comments.index') .'?video='.$video->id}}" class="text-decoration-none">
+                                        <span class="badge tw:bg-black">{{trans_choice('comments', $video->comments_count)}}</span>
                                     </a>
                                 @else
                                     <div class="badge bg-secondary">

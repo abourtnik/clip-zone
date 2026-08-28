@@ -64,7 +64,7 @@
                             </div>
                         </td>
                         <td class="align-middle">
-                            <div class="badge bg-secondary">
+                            <div class="badge tw:bg-black">
                                 {{trans_choice('videos', $playlist->videos_count)}}
                             </div>
                         </td>

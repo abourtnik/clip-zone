@@ -112,8 +112,8 @@
                                         <td class="align-middle">{{$video->views}}</td>
                                         <td class="align-middle">
                                             @if($video->comments_count)
-                                                <a href="{{route('user.comments.index') .'?video='.$video->id}}" class="badge bg-info text-decoration-none">
-                                                    {{trans_choice('comments', $video->comments_count)}}
+                                                <a href="{{route('user.comments.index') .'?video='.$video->id}}" class="text-decoration-none">
+                                                    <span class="badge tw:bg-black">{{trans_choice('comments', $video->comments_count)}}</span>
                                                 </a>
                                             @else
                                                 <div class="badge bg-secondary">

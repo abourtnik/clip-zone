@@ -70,14 +70,16 @@
                                 <label class="form-check-label" for="video-{{$video->id}}"></label>
                             </div>
                         </td>
-                        <td class="d-flex gap-3">
-                            <a href="{{$video->route}}">
-                                @include('users.videos.partials.thumbnail')
-                            </a>
-                            <div class="d-flex flex-column align-items-start gap-2">
-                                <a class="text-black text-decoration-none" href="{{$video->route}}">{{Str::limit($video->title, 100), '...'}}</a>
-                                <div class="text-muted text-sm">{{Str::limit($video->description, 75), '...'}}</div>
-                                <div class="badge bg-primary w-auto">{{$video->duration}} - @size($video->size)</div>
+                        <td class="align-middle">
+                            <div class="badge tw:bg-black mb-3">{{$video->duration}} - @size($video->size)</div>
+                            <div class="d-flex gap-3">
+                                <a href="{{$video->route}}">
+                                    @include('users.videos.partials.thumbnail')
+                                </a>
+                                <div class="d-flex flex-column align-items-start gap-2">
+                                    <a class="text-black text-decoration-none" href="{{$video->route}}">{{Str::limit($video->title, 100), '...'}}</a>
+                                    <div class="text-muted text-sm">{{Str::limit($video->description, 75), '...'}}</div>
+                                </div>
                             </div>
                         </td>
                         <td class="align-middle">
@@ -98,8 +100,8 @@
                         <td class="align-middle">
                             @if($video->is_created)
                                 @if($video->views)
-                                    <a href="{{route('user.videos.show', $video)}}" class="badge bg-info text-decoration-none">
-                                        {{trans_choice('views', $video->views)}}
+                                    <a href="{{route('user.videos.show', $video)}}" class="text-decoration-none">
+                                        <span class="badge tw:bg-black">{{trans_choice('views', $video->views)}}</span>
                                     </a>
                                 @else
                                     <div class="badge bg-secondary">
@@ -111,7 +113,7 @@
                         <td class="align-middle">
                             @if($video->is_created)
                                 @if($video->category)
-                                    <div class="badge bg-primary">
+                                    <div class="badge tw:bg-black">
                                         {{__($video->category->title)}}
                                     </div>
                                 @else
@@ -124,8 +126,8 @@
                         <td class="align-middle">
                             @if($video->is_created)
                                 @if($video->comments_count)
-                                    <a href="{{route('user.comments.index') .'?video='.$video->id}}" class="badge bg-info text-decoration-none">
-                                        {{trans_choice('comments', $video->comments_count)}}
+                                    <a href="{{route('user.comments.index') .'?video='.$video->id}}" class="text-decoration-none">
+                                        <span class="badge tw:bg-black">{{trans_choice('comments', $video->comments_count)}}</span>
                                     </a>
                                 @else
                                     <div class="badge bg-secondary">

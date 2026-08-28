@@ -43,7 +43,7 @@
                         </td>
                         <td class="align-middle">
                             <div class="badge bg-danger">
-                                {{$report->reason->value}}
+                                {{$report->reason->name()}}
                             </div>
                             <div class="mt-2">
                                 <x-expand-item>
