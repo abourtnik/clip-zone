@@ -13,7 +13,11 @@ class CommentController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource('App\Models\Comment,video', ['comment,video']);
+        $this->authorizeResource(
+            'App\Models\Comment,video',
+            ['comment,video'],
+            ['except' => ['index']]
+        );
     }
 
     public function index() : View {
