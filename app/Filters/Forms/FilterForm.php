@@ -15,4 +15,12 @@ class FilterForm extends Form
         ],
         'template' => 'forms.filter_form',
     ];
+
+    /** @param class-string<\BackedEnum> $enumClass */
+    protected function enumFromRequest(string $key, string $enumClass): int|string|null
+    {
+        $value = $this->request->input($key);
+
+        return is_numeric($value) ? $enumClass::tryFrom((int) $value)?->value : null;
+    }
 }

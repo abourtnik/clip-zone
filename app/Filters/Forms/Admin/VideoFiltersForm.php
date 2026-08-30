@@ -26,7 +26,7 @@ class VideoFiltersForm extends FilterForm
                 'choices' => VideoStatus::getAll(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
                 'empty_value' => 'All',
-                'selected' => $this->request->enum('status', VideoStatus::class)?->value,
+                'selected' => $this->enumFromRequest('status', VideoStatus::class),
             ])
             ->add('category', Field::ENTITY, [
                 'class' => Category::class,

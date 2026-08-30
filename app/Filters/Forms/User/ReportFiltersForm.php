@@ -33,14 +33,14 @@ class ReportFiltersForm extends FilterForm
                 'choices' => ReportReason::get(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
                 'empty_value' => __('All'),
-                'selected' => $this->request->enum('reason', ReportReason::class)?->value,
+                'selected' => $this->enumFromRequest('reason', ReportReason::class),
             ])
             ->add('status', Field::SELECT, [
                 'label' => 'Status',
                 'choices' => ReportStatus::get(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
                 'empty_value' => __('All'),
-                'selected' => $this->request->enum('status', ReportStatus::class)?->value,
+                'selected' => $this->enumFromRequest('status', ReportStatus::class),
             ])
             ->add('date', DateRange::NAME, [
                 'label' => __('Date'),
