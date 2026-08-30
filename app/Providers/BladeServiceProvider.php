@@ -25,7 +25,8 @@ class BladeServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Blade::directive('size', function ($expression) {
-            return "<?php echo is_null($expression) ? '' : Number::fileSize($expression) ?>";
+            $sizeVar = trim(explode(',', $expression)[0]);
+            return "<?php echo is_null({$sizeVar}) ? '' : Number::fileSize({$expression}) ?>";
         });
 
         Blade::directive('money', function ($centimes) {

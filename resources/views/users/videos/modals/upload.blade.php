@@ -16,8 +16,8 @@
                     <h5 class="alert-heading text-center fw-bold">{{ __('Your upload limits') }}</h5>
                     <hr>
                     @if(!Auth::user()->is_premium)
-                        <span @class(['text-danger' => $available_uploads <= 0])>{{ __('Available uploads') }} :
-                            <strong> {{ ($available_uploads > 0) ? $available_uploads : 0  }}</strong>
+                        <span @class(['text-danger' => $available_uploads == 0])>{{ __('Available uploads') }} :
+                            <strong>{{ $available_uploads }}</strong>
                         </span> •
                     @else
                         <span>{{ __('Available uploads') }} : <strong>{{ __('Unlimited') }}</strong></span> •
@@ -27,7 +27,7 @@
                     </span> •
                     @if(!Auth::user()->is_premium)
                         <span>{{ __('Available space')}} :
-                            <strong>@size(($available_space > 0) ? $available_space : 0)</strong>
+                            <strong>@size($available_space, 1)</strong>
                         </span>
                     @else
                         <span>{{ __('Available space')}} : <strong>{{ __('Unlimited')}}</strong></span>

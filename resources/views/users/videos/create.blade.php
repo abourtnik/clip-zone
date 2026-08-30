@@ -183,7 +183,7 @@
                             </div>
                             <div>
                                 <small class="text-muted fw-bold mb-2">{{ __('File size') }}</small>
-                                <div class="text-sm">@size($video->size)</div>
+                                <div class="text-sm">@size($video->size, 1)</div>
                             </div>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>

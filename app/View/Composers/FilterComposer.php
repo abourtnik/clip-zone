@@ -7,7 +7,7 @@ use Illuminate\View\View;
 
 class FilterComposer
 {
-    private const FILTERS = ['user', 'video'];
+    private const array FILTERS = ['user', 'video'];
 
     /**
      * Bind data to the view.
@@ -19,6 +19,7 @@ class FilterComposer
     {
         foreach (self::FILTERS as $filter) {
             if (request()->has($filter)){
+                /** @var class-string $class */
                 $class = 'App\Models\\' .Str::ucfirst($filter);
                 $model = $class::query()->find(request()->get($filter));
                 if ($model) {

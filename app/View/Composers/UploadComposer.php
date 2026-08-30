@@ -16,8 +16,18 @@ class UploadComposer
     public function compose(View $view): void
     {
         $view->with([
-            'available_uploads' => config('plans.free.max_uploads') - Auth::user()->uploaded_videos,
-            'available_space' => config('plans.'.Auth::user()->plan.'.max_videos_storage') - Auth::user()->uploaded_videos_size,
+            'available_uploads' => $this->getAvailableUploads(),
+            'available_space' =>$this->getAvailableSpace(),
         ]);
+    }
+
+    private function getAvailableUploads(): int
+    {
+        return max(0, config('plans.free.max_uploads') - Auth::user()->uploaded_videos);
+    }
+
+    private function getAvailableSpace(): int
+    {
+        return max(0, config('plans.'.Auth::user()->plan.'.max_videos_storage') - Auth::user()->uploaded_videos_size);
     }
 }
