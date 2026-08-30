@@ -6,6 +6,7 @@ use App\Enums\VideoStatus;
 use App\Events\Video\VideoError;
 use App\Events\Video\VideoUploaded;
 use App\Helpers\VideoMetadata;
+use App\Models\Thumbnail;
 use App\Models\Video;
 use App\Services\FileMerger;
 use Illuminate\Bus\Queueable;
@@ -85,6 +86,7 @@ class ProcessVideo implements ShouldQueue
         $thumbnailJobs = [];
 
         foreach ($timecodes as $index => $time) {
+            /** @var Thumbnail $thumbnail */
             $thumbnail = $thumbnails->get($index);
             $thumbnailJobs[] = new GenerateThumbnail($thumbnail, $time);
         }
