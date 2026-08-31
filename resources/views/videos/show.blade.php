@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-lg-8 col-xl-8 col-xxl-8 offset-xxl-1 px-0 px-lg-3">
+        <div class="col-lg-8 col-xl-8 col-xxl-9 px-0 px-lg-3">
             <div class="ratio ratio-16x9">
                 @if($video->is_failed)
                     <div class="tw:bg-gray-300 tw:dark:bg-dark-300 border border-light d-flex justify-content-center align-items-center">

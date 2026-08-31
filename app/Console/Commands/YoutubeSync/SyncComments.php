@@ -34,7 +34,7 @@ class SyncComments extends Command
      *
      * @var string
      */
-    protected $description = 'Synchronize comments from Youtube';
+    protected $description = 'Synchronize comments from YouTube';
 
     /**
      * Execute the console command.
