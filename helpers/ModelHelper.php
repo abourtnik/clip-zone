@@ -105,8 +105,8 @@ namespace App\Models{
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Report> $reports
  * @property-read int|null $reports_count
  * @property-read mixed $short_content
- * @property-read \App\Models\User $user
- * @property-read \App\Models\Video $video
+ * @property-read \App\Models\User|null $user
+ * @property-read \App\Models\Video|null $video
  * @method static \Database\Factories\CommentFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Comment newModelQuery()
@@ -201,7 +201,7 @@ namespace App\Models{
  * @property bool $status
  * @property \Illuminate\Support\Carbon $perform_at
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $likeable
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\InteractionFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Interaction newModelQuery()
@@ -365,7 +365,7 @@ namespace App\Models{
  * @property-read mixed $is_active
  * @property-read mixed $route
  * @property-read mixed $type
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @property-read \App\Models\Pivots\PlaylistVideo|\App\Models\Pivots\FavoritePlaylist|null $pivot
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
  * @property-read int|null $users_count
@@ -412,7 +412,7 @@ namespace App\Models{
  * @property-read mixed $is_pending
  * @property-read \Illuminate\Database\Eloquent\Model|\Eloquent $reportable
  * @property-read mixed $type
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @method static \Database\Factories\ReportFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Report filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Report newModelQuery()
@@ -518,7 +518,7 @@ namespace App\Models{
  * @property-read mixed $file_url
  * @property-read mixed $is_public
  * @property-read mixed $language_name
- * @property-read \App\Models\Video $video
+ * @property-read \App\Models\Video|null $video
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle public()
@@ -548,7 +548,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $url
- * @property-read \App\Models\Video $video
+ * @property-read \App\Models\Video|null $video
  * @method static \Database\Factories\ThumbnailFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Thumbnail newQuery()
@@ -837,7 +837,7 @@ namespace App\Models{
  * @property-read int|null $thumbnails_count
  * @property-read mixed $type
  * @property-read \App\Models\Thumbnail|null $uploadedThumbnail
- * @property-read \App\Models\User $user
+ * @property-read \App\Models\User|null $user
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\View> $viewsHistory
  * @property-read int|null $views_history_count
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video active()
@@ -899,7 +899,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon $view_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read \App\Models\User|null $user
- * @property-read \App\Models\Video $video
+ * @property-read \App\Models\Video|null $video
  * @method static \Database\Factories\ViewFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View filter(array $filters = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|View newModelQuery()
