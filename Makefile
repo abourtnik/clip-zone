@@ -31,6 +31,7 @@ optimize: ## Clear application cache
 update: ## Update application
 	composer install --optimize-autoloader --no-dev
 	php artisan migrate --force
+	php artisan patch --force
 	php artisan queue:restart
 	php artisan scout:sync-index-settings
 	php artisan optimize
