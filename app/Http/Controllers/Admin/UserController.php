@@ -11,6 +11,7 @@ use App\Services\ExportService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController
 {
@@ -24,7 +25,8 @@ class UserController
                     'comments',
                     'interactions'
                 ])
-                ->orderBy('created_at', 'desc')
+                ->latest('created_at')
+                ->withTrashed()
                 ->paginate(15)
                 ->withQueryString()
         ]);
@@ -59,6 +61,13 @@ class UserController
         $user->markEmailAsVerified();
 
         return redirect(url()->previous());
+    }
+
+    public function impersonate(User $user): RedirectResponse
+    {
+        Auth::user()->impersonate($user);
+
+        return redirect()->route('user.index');
     }
 
     public function delete (User $user) : RedirectResponse {

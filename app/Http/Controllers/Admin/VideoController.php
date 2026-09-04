@@ -15,7 +15,7 @@ class VideoController
             'videos' => Video::filter()
                 ->with([
                     'category:id,title',
-                    'user' => fn($q) => $q->withCount(['videos', 'subscribers'])
+                    'user' => fn($q) => $q->withCount(['videos', 'subscribers'])->withTrashed(),
                 ])
                 ->withCount(['likes', 'dislikes', 'interactions', 'comments'])
                 ->latest('created_at')

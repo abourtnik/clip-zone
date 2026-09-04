@@ -22,7 +22,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can view other user.
+     * Determine whether the user can view another user.
      *
      * @param User|null $user
      * @param User $model
@@ -36,7 +36,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can subscribe other user.
+     * Determine whether the user can subscribe to another user.
      *
      * @param User $user
      * @param User $model
@@ -50,7 +50,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can report other user.
+     * Determine whether the user can report another user.
      *
      * @param User $user
      * @param User $model
@@ -64,7 +64,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether admin can ban user.
+     * Determine whether admin can ban a user.
      *
      * @param User $user
      * @param User $model
@@ -72,11 +72,23 @@ class UserPolicy
      */
     public function ban (User $user, User $model): Response|bool
     {
-        return !$model->is_premium && !$model->is_admin && !$model->is_banned;
+        return !$model->is_premium && !$model->is_admin && !$model->is_banned && !$model->trashed();
     }
 
     /**
-     * Determine whether the user can subscribe to premium plan.
+     * Determine whether an admin can impersonate another user.
+     *
+     * @param User $user
+     * @param User $model
+     * @return Response|bool
+     */
+    public function impersonate (User $user, User $model): Response|bool
+    {
+        return $user->canImpersonate() && $model->canBeImpersonated();
+    }
+
+    /**
+     * Determine whether the user can subscribe to a premium plan.
      *
      * @param User $user
      * @return Response|bool
@@ -97,11 +109,11 @@ class UserPolicy
      */
     public function delete (User $user, User $model): Response|bool
     {
-        return !$model->is_premium && !$model->is_admin;
+        return !$model->is_premium && !$model->is_admin && !$model->trashed();
     }
 
     /**
-     * Determine whether user can view other user avatar.
+     * Determine whether a user can view another user avatar.
      *
      * @param User|null $user
      * @param User $model
@@ -113,7 +125,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether user can view other user banner.
+     * Determine whether a user can view another user banner.
      *
      * @param User|null $user
      * @param User $model

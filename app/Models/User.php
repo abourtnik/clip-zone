@@ -230,7 +230,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     protected function isActive(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->hasVerifiedEmail() && !$this->is_banned
+            get: fn () => $this->hasVerifiedEmail() && !$this->is_banned && !$this->trashed()
         );
     }
 
@@ -370,7 +370,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
      */
     public function canBeImpersonated(): bool
     {
-        return !$this->is_admin;
+        return !$this->is_admin && !$this->trashed();
     }
 
     /**

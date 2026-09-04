@@ -34,6 +34,11 @@
                                 <div class="d-flex flex-column">
                                     <span>{{$video->user->username}}</span>
                                     <span class="text-muted text-sm"> {{$video->user->subscribers_count}} subscribers • {{$video->user->videos_count}} videos</span>
+                                    @if($video->user->trashed())
+                                        <span class="text-danger text-sm fw-bold mt-1">
+                                            {{ __('Deleted') }} {{$video->user->deleted_at->diffForHumans()}}
+                                        </span>
+                                    @endif
                                 </div>
                             </a>
                         </td>
@@ -129,7 +134,7 @@
                                 <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="Video statistics">
                                     <i class="fa-solid fa-chart-simple"></i>
                                 </a>
-                                @if(!$video->is_banned)
+                                @can('ban', $video)
                                     <button
                                         type="button"
                                         title="Ban video"
@@ -144,7 +149,7 @@
                                     >
                                         <i class="fa-solid fa-ban"></i>
                                     </button>
-                                @endif
+                                @endcan
                                 @can('download', $video)
                                     <a download="{{$video->title}}" href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="Download video">
                                         <i class="fa-solid fa-download"></i>

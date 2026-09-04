@@ -188,6 +188,11 @@ class VideoPolicy
             : Response::denyWithStatus(403, 'You are not authorized to report this video');
     }
 
+    public function ban (User $user, Video $video): Response|bool
+    {
+        return !$video->is_banned && !$video->trashed();
+    }
+
     /**
      * Determine whether the user can upload video.
      *
@@ -197,6 +202,12 @@ class VideoPolicy
     public function upload(User $user) : Response|bool
     {
         if ($user->is_premium) {
+            return Response::allow();
+        }
+
+        $manager = app('impersonate');
+
+        if($manager->isImpersonating()) {
             return Response::allow();
         }
 

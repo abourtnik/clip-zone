@@ -92,7 +92,11 @@
                         </td>
                         <td class="align-middle">
                             <div class="d-flex gap-1 align-items-center">
-                                @if($user->is_active)
+                                @if($user->trashed())
+                                    <div class="badge bg-danger">
+                                        Trashed
+                                    </div>
+                                @elseif($user->is_active)
                                     <div class="badge bg-success">
                                         Active
                                     </div>
@@ -115,11 +119,14 @@
                         </td>
                         <td class="align-middle">
                             <div class="d-flex gap-1 align-items-center">
-                                @if(!$user->is_admin)
-                                    <a target="_blank" class="btn btn-sm btn-primary" href="{{route('admin.impersonate', $user)}}" title="Impersonate user">
-                                        <i class="fa-solid fa-user-ninja"></i>
-                                    </a>
-                                @endif
+                                @can('impersonate', $user)
+                                    <form method="POST" action="{{route('admin.users.impersonate', $user)}}" title="Impersonate user">
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="fa-solid fa-user-ninja"></i>
+                                        </button>
+                                    </form>
+                                @endcan
                                 @if(!$user->hasVerifiedEmail())
                                     <form method="POST" action="{{route('admin.users.confirm', $user)}}" title="Verify user">
                                         @csrf

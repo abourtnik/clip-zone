@@ -15,7 +15,7 @@ class CommentController extends Controller
             'comments' => Comment::filter()
                     ->with([
                         'video' => fn(BelongsTo $query) => $query->withTrashed()->with('user'),
-                        'user'
+                        'user' => fn(BelongsTo $query) => $query->withTrashed(),
                     ])
                     ->whereNull('parent_id')
                     ->withCount(['likes', 'dislikes', 'interactions', 'replies'])

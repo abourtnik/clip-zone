@@ -26,13 +26,18 @@ Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function ()
         Route::delete('/{user}/delete', 'delete')
             ->name('delete')
             ->can('delete', 'user');
+        Route::post('/{user}/impersonate', 'impersonate')
+            ->name('impersonate')
+            ->can('impersonate', 'user');
         Route::get('/export', 'export')->name('export');
     });
 
     // Videos
     Route::controller(VideoController::class)->prefix('videos')->name('videos.')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::post('/{video}/ban', 'ban')->name('ban');
+        Route::post('/{video}/ban', 'ban')
+            ->name('ban')
+            ->can('ban', 'video');
     });
 
     // Comments

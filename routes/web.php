@@ -114,9 +114,11 @@ Route::controller(UserController::class)->name('user.')->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('{user}/avatar', 'avatar')
             ->name('avatar')
+            ->withTrashed()
             ->can('avatar', 'user');
         Route::get('{user}/banner', 'banner')
             ->name('banner')
+            ->withTrashed()
             ->can('banner', 'user');
     });
 });

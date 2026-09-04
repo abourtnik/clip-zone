@@ -145,7 +145,8 @@ class Video extends Model implements Likeable, Reportable
                 (
                     $this->status === VideoStatus::PUBLIC ||
                     ($this->status === VideoStatus::PLANNED && $this->scheduled_at->lte(now()))
-                )
+                ) &&
+                !$this->trashed()
 
         );
     }
@@ -159,7 +160,8 @@ class Video extends Model implements Likeable, Reportable
                     $this->status === VideoStatus::PUBLIC ||
                     ($this->status === VideoStatus::PLANNED && $this->scheduled_at->lte(now())) ||
                     $this->status === VideoStatus::UNLISTED
-                )
+                ) &&
+                !$this->trashed()
 
         );
     }
