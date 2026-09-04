@@ -521,5 +521,13 @@
     "Update subtitles": "Mettre à jour les sous-titres",
     "Upload subtitles": "Selectionner un fichier",
     "Download subtitles": "Télécharger les sous-titres",
-    "Links are not authorized in message": "Les liens ne sont pas autorisés dans le message"
+    "Links are not authorized in message": "Les liens ne sont pas autorisés dans le message",
+    "All time": "Toute période",
+    "Last 24 hours": "Dernières 24 heures",
+    "Last 7 days": "7 derniers jours",
+    "Last 30 days": "30 derniers jours",
+    "Last 90 days": "90 derniers jours",
+    "Last 6 months": "6 derniers mois",
+    "Last 12 months": "12 derniers mois",
+    "Unverified": "Non vérifié"
 }

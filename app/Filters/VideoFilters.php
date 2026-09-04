@@ -38,9 +38,18 @@ class VideoFilters extends MySQLFilter
 
     public function status(string $status): Builder
     {
-        return $this->builder->when($status == VideoStatus::PUBLIC->value, fn(Builder $query) => $query->scopes('active'))
+        return $this->builder
+            ->when($status == VideoStatus::PUBLIC->value, fn(Builder $query) => $query->scopes('active'))
             ->when($status == VideoStatus::PLANNED->value, fn($query) => $query->where('status', VideoStatus::PLANNED->value)->where('scheduled_at', '>', now()))
-            ->when(in_array($status, [VideoStatus::PRIVATE->value, VideoStatus::UNLISTED->value, VideoStatus::BANNED->value, VideoStatus::DRAFT->value, VideoStatus::FAILED->value]), fn($query) => $query->where('status', $status));
+            ->when(in_array($status, [
+                VideoStatus::PRIVATE->value,
+                VideoStatus::UNLISTED->value,
+                VideoStatus::BANNED->value,
+                VideoStatus::DRAFT->value,
+                VideoStatus::FAILED->value,
+            ]), fn($query) => $query->where('status', $status))
+            ->when($status != 'deleted', fn(Builder $query) => $query->withoutTrashed())
+            ->when($status == 'deleted', fn(Builder $query) => $query->onlyTrashed());
     }
 
     public function category(string $category): Builder

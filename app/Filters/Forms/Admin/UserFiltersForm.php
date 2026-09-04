@@ -12,18 +12,18 @@ class UserFiltersForm extends FilterForm
     {
         $this
             ->add('search', Field::SEARCH, [
-                'label' => $this->getName(),
+                'label' => __('Search'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
                 'attr' => [
-                    'placeholder' => 'Search'
+                    'placeholder' => __('Search')
                 ],
                 'value' => $this->request->string('search')
             ])
             ->add('status', Field::SELECT, [
-                'label' => 'Status',
+                'label' => __('Status'),
                 'choices' => $this->getStatus(),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg col-xl'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->string('status'),
             ])
             ->add('date', DateRange::NAME, [
@@ -36,9 +36,10 @@ class UserFiltersForm extends FilterForm
     private function getStatus (): array
     {
         return [
-            'banned' => 'Banned',
-            'unverified' => 'Unverified',
-            'premium' => 'Premium'
+            'banned' => __('Banned'),
+            'unverified' => __('Unverified'),
+            'premium' => __('Premium'),
+            'deleted' => __('Deleted')
         ];
     }
 }
