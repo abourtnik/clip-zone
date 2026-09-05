@@ -59,8 +59,8 @@
                 </div>
             </div>
         </div>
-        @includeIf(Auth::check(), 'users.videos.modals.upload')
-        @includeIf(Auth::check(), 'layouts.menus.account')
+        @includeWhen(Auth::check(), 'users.videos.modals.upload')
+        @includeWhen(Auth::check(), 'layouts.menus.account')
     </main>
     <script type="text/javascript">
         window.USER = {!! Auth::check() ? Auth::user()->json  : 'null' !!}
