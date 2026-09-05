@@ -26,8 +26,12 @@
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @if ($attributes->get('statistics', false) && config('app.statistics_enabled') && !auth()->user()?->is_admin && !in_array(request()->ip(), config('app.ignore_ips')))
-    <script defer src="https://cloud.umami.is/script.js" data-website-id="ac30e175-0d0d-40bb-b6bb-cb20c56b856a"></script>
+    @if ($showStatistics)
+        <script defer src="https://cloud.umami.is/script.js" data-website-id="ac30e175-0d0d-40bb-b6bb-cb20c56b856a"></script>
+    @endif
+
+    @if ($showAds)
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3386885268137177" crossorigin="anonymous"></script>
     @endif
 
     @vite(['resources/js/app.ts'])
@@ -36,7 +40,7 @@
     <main class="h-100 overflow-auto position-relative">
         @include('layouts.menus.header')
         <div class="d-flex">
-            @include('layouts.menus.sidebars.'.$sidebar, ['type' => $type ?? null])
+            @include('layouts.menus.sidebars.'.$sidebar, ['type' => $type])
             <div id="main-container" class="container-fluid my-3 @yield('class')" style="@yield('style')">
                 {{$slot}}
                 @yield('content')
@@ -55,10 +59,8 @@
                 </div>
             </div>
         </div>
-        @if (Auth::check())
-            @include('users.videos.modals.upload')
-            @include('layouts.menus.account')
-        @endif
+        @includeIf(Auth::check(), 'users.videos.modals.upload')
+        @includeIf(Auth::check(), 'layouts.menus.account')
     </main>
     <script type="text/javascript">
         window.USER = {!! Auth::check() ? Auth::user()->json  : 'null' !!}

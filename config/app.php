@@ -147,6 +147,7 @@ return [
     'ignore_ips' => array_filter(
         explode(',', env('IGNORE_IPS', ''))
     ),
+    'ads_enabled' => env('ADS_ENABLED', false),
 
     /*
     |--------------------------------------------------------------------------

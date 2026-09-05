@@ -375,6 +375,7 @@
                     <hr>
                 @endif
                 <div class="px-0 pt-3 pt-sm-0">
+                    <x-ad/>
                     @each('videos.card-secondary',  $videos, 'video')
                 </div>
             </div>

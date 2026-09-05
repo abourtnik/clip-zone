@@ -59,11 +59,7 @@ class SyncVideosInteractions extends Command
             return Command::SUCCESS;
         }
 
-        if ($likeCount > 1000) {
-            $count = 1000;
-        } else {
-            $count = $likeCount;
-        }
+        $count = min($likeCount, 1000);
 
         $this->info($count. ' likes for : '. $video->title);
 

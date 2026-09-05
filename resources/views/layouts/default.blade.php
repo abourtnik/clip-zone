@@ -1,1 +1,1 @@
-<x-layout sidebar="front" statistics></x-layout>
+<x-layout sidebar="front" statistics ads></x-layout>
