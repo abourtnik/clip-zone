@@ -3,7 +3,7 @@
         <div class="tw:bg-gray-300 tw:border tw:border-gray-500 tw:min-h-25 tw:max-h-75 tw:overflow-hidden tw:flex tw:items-center tw:justify-center">
             @if(app()->isProduction())
                 <ins class="adsbygoogle"
-                     style="display:block; text-align:center;"
+                     style="display:block; width:100%; height: 100%"
                      data-ad-layout="in-article"
                      data-ad-format="fluid"
                      data-ad-client="ca-pub-3386885268137177"
