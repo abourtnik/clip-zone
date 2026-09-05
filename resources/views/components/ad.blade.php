@@ -1,6 +1,6 @@
 @if(config('app.ads_enabled'))
-    <div class="mb-3">
-        <div class="tw:bg-gray-300 tw:border tw:border-gray-500 tw:min-h-25 tw:max-h-75 tw:overflow-hidden tw:flex tw:items-center tw:justify-center">
+    <div class="mb-3 tw:w-full">
+        <div class="tw:w-full tw:bg-gray-300 tw:border tw:border-gray-500 tw:min-h-25 tw:max-h-75 tw:overflow-hidden">
             @if(app()->isProduction())
                 <ins class="adsbygoogle"
                      style="display:block; width:100%; height: 100%"
