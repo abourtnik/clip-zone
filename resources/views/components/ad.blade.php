@@ -1,9 +1,9 @@
 @if(config('app.ads_enabled'))
     <div class="mb-3 tw:w-full">
         <div class="flex justify-between mb-1">
-            <span class="text-black text-sm tw:ml-1 tw:sm:ml-0">{{__('Ad')}}</span>
+            <span class="text-black text-sm tw:ml-1 tw:sm:ml-0 fw-bold">{{__('Ad')}}</span>
         </div>
-        <div class="tw:flex tw:items-center tw:justify-center tw:bg-gray-300 tw:border tw:border-gray-500 tw:!h-[94px] tw:overflow-hidden">
+        <div class="tw:flex tw:items-center tw:justify-center tw:bg-gray-300 tw:border tw:border-gray-500 tw:!min-h-[94px] tw:overflow-hidden">
             @if(app()->isProduction())
                 <ins class="adsbygoogle"
                      style="display:block; width:100%; height: 100%"
