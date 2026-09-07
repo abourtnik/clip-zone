@@ -23,6 +23,7 @@
     <link rel="icon" href="{{asset('/icons/favicon.ico')}}" sizes="any">
     <link rel="apple-touch-icon" href="{{asset('/icons/apple-touch-icon.png')}}">
     <link rel="manifest" href="/manifest.json" />
+    <meta name="6a97888e-site-verification" content="68466a6358199969628f81803ad837e4">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
