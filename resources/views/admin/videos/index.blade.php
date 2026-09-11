@@ -151,7 +151,7 @@
                                     </button>
                                 @endcan
                                 @can('download', $video)
-                                    <a download="{{$video->title}}" href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="Download video">
+                                    <a download="{{$video->slug}}" href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="Download video">
                                         <i class="fa-solid fa-download"></i>
                                     </a>
                                 @endcan

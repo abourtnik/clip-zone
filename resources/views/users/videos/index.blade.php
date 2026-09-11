@@ -178,6 +178,7 @@
                                     data-bs-toggle="modal"
                                     data-bs-target="#delete_video"
                                     data-title="{{$video->title}}"
+                                    data-slug="{{$video->slug}}"
                                     data-infos="{{trans_choice('views', $video->views)}} • {{$video->created_at->translatedFormat('d F Y')}}"
                                     data-poster="{{$video->thumbnail_url}}"
                                     data-route="{{route('user.videos.destroy', $video)}}"
@@ -211,7 +212,7 @@
                                     </form>
                                 @endcan
                                 @can('download', $video)
-                                    <a download="{{$video->title}}" href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="{{ __('Download video') }}">
+                                    <a download="{{$video->slug}}" href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="{{ __('Download video') }}">
                                         <i class="fa-solid fa-download"></i>
                                     </a>
                                 @endcan
