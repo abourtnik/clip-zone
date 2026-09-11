@@ -25,7 +25,7 @@
                 <li class="nav-item align-items-center">
                     <site-notifications count="{{$unread_notifications}}" />
                 </li>
-                <li class="nav-item">
+                <li class="nav-item d-flex align-items-center">
                     <button class="bg-transparent px-0" role="button" data-bs-toggle="offcanvas" data-bs-target="#account">
                         <img width="40" height="40" class="rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
                     </button>
