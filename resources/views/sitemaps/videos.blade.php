@@ -1,5 +1,5 @@
 {!! '<?xml version="1.0" encoding="UTF-8"?>' !!}
-<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="https://www.google.com/schemas/sitemap-video/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
     @foreach ($videos as $video)
         <url>
             <loc>{{ $video->route }}</loc>
