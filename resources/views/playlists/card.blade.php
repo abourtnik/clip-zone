@@ -1,4 +1,4 @@
-<article class="col-md-6 col-lg-4 col-xl-3" x-data="{hover:false}">
+<article class="col-lg-6 col-xl-6 col-xxl-4" x-data="{hover:false}">
     <div class="position-relative" @mouseover="hover=true" @mouseleave="hover=false">
         <a href="{{$playlist->first_video->routeWithParams(['list' => $playlist->uuid])}}">
             <div class="position-relative">

@@ -6,6 +6,7 @@ use App\Actions\Video\StoreVideoAction;
 use App\Actions\Video\UpdateVideoAction;
 use App\Charts\VideoStatsChart;
 use App\Enums\VideoStatus;
+use App\Filters\VideoFilters;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Video\StoreVideoRequest;
 use App\Http\Requests\Video\UpdateVideoRequest;
@@ -33,7 +34,7 @@ class VideoController extends Controller
                     'user:id,pinned_video_id',
                 ])
                 ->withCount(['likes', 'dislikes', 'interactions', 'comments'])
-                ->latest('updated_at')
+                ->orderByDesc((new VideoFilters())->getDateField())
                 ->latest('id')
                 ->paginate(15)
                 ->withQueryString(),

@@ -14,7 +14,7 @@ class VideoFilters extends MySQLFilter
 {
     use DateFilter, UserFilter;
 
-    protected function getDateField(): string|Expression
+    public function getDateField(): string|Expression
     {
         $private  = VideoStatus::PRIVATE->value;
         $unlisted = VideoStatus::UNLISTED->value;

@@ -2,27 +2,29 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light" class="h-100 w-100">
 <head>
     <meta charset="utf-8">
-    <title>@yield('title') | {{config('app.name')}}</title>
+    <title>@yield('title') | {{ config('app.name') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="@yield('description')"/>
     <meta name="language" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
-    <meta name="copyright" content="{{config('app.url')}}" />
+    <meta name="copyright" content="{{ config('app.url') }}" />
     <meta name="author" content="Anton Bourtnik" />
 
     <meta name="theme-color" content="#FFFFFF" />
     <meta name="msapplication-navbutton-color" content="#FFFFFF" />
     <meta name="apple-mobile-web-app-status-bar-style" content="#FFFFFF" />
 
-    <meta property="og:site_name" content="{{config('app.name')}}" />
-    <meta property="og:url" content="{{url()->full()}}" />
+    <meta property="og:site_name" content="{{ config('app.name') }}" />
+    <meta property="og:url" content="{{ url()->full() }}" />
     <meta property="og:title" content="@yield('title') - {{config('app.name')}}" />
     <meta property="og:description" content="@yield('description')" />
     <meta property="og:image" content="@yield('image', asset('images/logo.png'))" />
     <meta property="og:language" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
 
-    <link rel="icon" href="{{asset('/icons/favicon.ico')}}" sizes="any">
-    <link rel="apple-touch-icon" href="{{asset('/icons/apple-touch-icon.png')}}">
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" href="{{ asset('/icons/favicon.ico') }}" sizes="any">
+    <link rel="apple-touch-icon" href="{{ asset('/icons/apple-touch-icon.png') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}" />
+    <link rel="canonical" href="{{ url()->current() }}">
+
     <meta name="6a97888e-site-verification" content="68466a6358199969628f81803ad837e4">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
