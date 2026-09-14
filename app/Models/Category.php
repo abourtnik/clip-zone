@@ -18,6 +18,10 @@ class Category extends Model implements Sortable
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'videos_max_published_at' => 'datetime',
+    ];
+
     public const string IMAGE_FOLDER = 'categories';
 
     public function videos () : HasMany {

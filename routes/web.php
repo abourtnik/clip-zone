@@ -12,6 +12,7 @@ use App\Http\Controllers\PremiumController;
 
 use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\LangController;
+use App\Http\Controllers\SitemapController;
 
 use App\Enums\CustomPlaylistType;
 
@@ -139,6 +140,16 @@ Route::controller(SubscriptionController::class)->name('subscription.')->group(f
 Route::controller(ContactController::class)->name('contact.')->group(function () {
     Route::get('/contact', 'show')->name('show');
     Route::post('/contact', 'contact')->name('contact')->middleware('throttle:contact');
+});
+
+// SITEMAPS
+Route::controller(SitemapController::class)
+    ->name('sitemap.')
+    ->prefix('sitemaps')
+    ->group(function () {
+        Route::get('/categories.xml', 'categories')->name('categories');
+        Route::get('/videos.xml', 'videos')->name('videos');
+        Route::get('/users.xml', 'users')->name('users');
 });
 
 require __DIR__.'/auth.php';

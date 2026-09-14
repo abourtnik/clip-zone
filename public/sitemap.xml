@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+    <sitemap>
+        <loc>https://www.clip-zone.com/sitemaps/pages.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.clip-zone.com/sitemaps/categories.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.clip-zone.com/sitemaps/videos.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>https://www.clip-zone.com/sitemaps/users.xml</loc>
+    </sitemap>
+</sitemapindex>

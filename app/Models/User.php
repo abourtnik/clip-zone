@@ -55,7 +55,8 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         'banned_at' => 'datetime',
         'last_login_at' => 'datetime',
         'phone' => E164PhoneNumberCast::class,
-        'phone_verified_at' => 'datetime'
+        'phone_verified_at' => 'datetime',
+        'videos_max_published_at' => 'datetime'
     ];
 
     public const string AVATAR_FOLDER = 'avatars';
@@ -324,7 +325,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
      */
     public function scopeActive(Builder $query): void
     {
-        $query->whereNotNull(['email_verified_at'])->whereNull(['banned_at']);
+        $query->whereNotNull('email_verified_at')->whereNull('banned_at');
     }
 
     /**
