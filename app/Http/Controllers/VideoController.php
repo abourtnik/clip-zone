@@ -28,9 +28,15 @@ class VideoController extends Controller
         return redirect()->route('video.file', $video);
     }
 
-    public function file (Video $video) : Response
+    public function file (Video $video) : RedirectResponse
     {
-        return response()->noContent(200);
+        $path = Video::VIDEO_FOLDER . '/' . $video->file;
+
+        $expiration = now()->addSeconds($video->getRawOriginal('duration') + 300);
+
+        $url = Storage::temporaryUrl($path, $expiration);
+
+        return redirect()->away($url);
     }
 
     public function thumbnail (Video $video): Response

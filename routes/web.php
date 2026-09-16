@@ -62,7 +62,7 @@ Route::controller(VideoController::class)->name('video.')->prefix('video')->grou
         ->name('show')
         ->can('show', 'video')
         ->where('slug', '[a-z0-9A-Z\-]+');
-    Route::get('file/{video:file}', 'file')
+    Route::get('{video:uuid}/file', 'file')
         ->name('file')
         ->can('file', 'video')
         ->withTrashed();

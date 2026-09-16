@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e565f27abcbe139689d67ea4c848530",
+    "content-hash": "ee6eacfc298b30a5306417caecdc9b2d",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -2030,6 +2030,71 @@
                 }
             ],
             "time": "2026-08-24T17:13:02+00:00"
+        },
+        {
+            "name": "hosni/laravel-temporary-urls-minio",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hosni/laravel-temporary-urls-minio.git",
+                "reference": "e458f85291e6fd387254eb3ab5e51374072dcc8f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hosni/laravel-temporary-urls-minio/zipball/e458f85291e6fd387254eb3ab5e51374072dcc8f",
+                "reference": "e458f85291e6fd387254eb3ab5e51374072dcc8f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/filesystem": "^9.0|^10.0|^11.0|^12.0|^13",
+                "illuminate/support": "^9.0|^10.0|^11.0|^12.0|^13"
+            },
+            "require-dev": {
+                "league/flysystem-aws-s3-v3": "^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Hosni\\TemporaryUrlsMinioServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hosni\\": "src/Hosni",
+                    "Illuminate\\": "src/Illuminate"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hossein Hosni",
+                    "email": "hosni.hossein@gmail.com"
+                }
+            ],
+            "description": "Fix temporary url generation when using MinIO as S3 backend",
+            "homepage": "https://github.com/hosni/laravel-temporary-urls-minio",
+            "keywords": [
+                "Garage",
+                "RustFS",
+                "SeaweedFS",
+                "aws",
+                "deuxfleurs",
+                "garagehq",
+                "laravel",
+                "minio",
+                "s3",
+                "temporary-urls"
+            ],
+            "support": {
+                "issues": "https://github.com/hosni/laravel-temporary-urls-minio/issues",
+                "source": "https://github.com/hosni/laravel-temporary-urls-minio"
+            },
+            "time": "2026-06-06T09:04:45+00:00"
         },
         {
             "name": "icehouse-ventures/laravel-chartjs",

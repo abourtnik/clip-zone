@@ -67,6 +67,7 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => true,
             'report' => false,
+            'temporary_url' => env('MINIO_PUBLIC_URL')
         ],
     ],
 

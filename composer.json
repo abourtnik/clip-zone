@@ -15,6 +15,7 @@
         "barryvdh/laravel-dompdf": "^3.0",
         "diglactic/laravel-breadcrumbs": "^10.1.0",
         "fakerphp/faker": "^1.9.1",
+        "hosni/laravel-temporary-urls-minio": "^1.1",
         "icehouse-ventures/laravel-chartjs": "^5.0.0",
         "kris/laravel-form-builder": "^1.52",
         "lab404/laravel-impersonate": "^1.7",
@@ -33,11 +34,11 @@
         "predis/predis": "^2.2",
         "propaganistas/laravel-phone": "^6.0",
         "pusher/pusher-php-server": "^7.2",
+        "rappasoft/laravel-patches": "dev-l13-compatibility",
         "spatie/eloquent-sortable": "^5.0.1",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "staudenmeir/laravel-cte": "^1.11",
-        "symfony/intl": "^6.1",
-        "rappasoft/laravel-patches": "dev-l13-compatibility"
+        "symfony/intl": "^6.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^v3.5.4",
