@@ -27,8 +27,18 @@ class VideoPlayerResource extends JsonResource
         return [
             'thumbnail' => $this->thumbnail_url,
             'file' => $this->file_url,
-            'show_ad' => $this->show_ad && !Auth::user()?->is_premium && $this->status === VideoStatus::PUBLIC,
+            'show_ad' => $this->showAd(),
             'subtitles' => SubtitleResource::collection($this->subtitles),
         ];
+    }
+
+    private function showAd(): bool
+    {
+        $user = Auth::user();
+
+        return $this->show_ad
+            && !$user?->is_premium
+            && !$user?->is_admin
+            && $this->status === VideoStatus::PUBLIC;
     }
 }

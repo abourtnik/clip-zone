@@ -819,6 +819,7 @@ namespace App\Models{
  * @property-read int|null $likes_count
  * @property-read mixed $likes_ratio
  * @property-read mixed $parsed_description
+ * @property-read mixed $path
  * @property-read \App\Models\Comment|null $pinned_comment
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Playlist> $playlists
  * @property-read int|null $playlists_count

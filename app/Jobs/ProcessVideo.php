@@ -91,13 +91,13 @@ class ProcessVideo implements ShouldQueue
             $thumbnailJobs[] = new GenerateThumbnail($thumbnail, $time);
         }
 
-        $videoFile = $this->video->file;
+        $videoPath = $this->video->path;
 
         Bus::batch($thumbnailJobs)
             ->name("GenerateThumbnails for video : {$this->video->id}")
-            ->then(function (Batch $batch) use ($videoFile) {
+            ->then(function (Batch $batch) use ($videoPath) {
                 // Delete video
-                Storage::disk('local')->delete(Video::VIDEO_FOLDER . DIRECTORY_SEPARATOR . $videoFile);
+                Storage::disk('local')->delete($videoPath);
             })
             ->dispatch();
 

@@ -23,18 +23,24 @@ class VideoController extends Controller
         return view('videos.show', $showVideoAction->data($video));
     }
 
-    public function download (Video $video): RedirectResponse
+    public function download(Video $video): RedirectResponse
     {
-        return redirect()->route('video.file', $video);
+        $url = Storage::temporaryUrl(
+            $video->path,
+            now()->addMinutes(5),
+            [
+                'ResponseContentDisposition' => 'attachment; filename="' . $video->slug . '.mp4"',
+            ]
+        );
+
+        return redirect()->away($url);
     }
 
     public function file (Video $video) : RedirectResponse
     {
-        $path = Video::VIDEO_FOLDER . '/' . $video->file;
-
         $expiration = now()->addSeconds($video->getRawOriginal('duration') + 300);
 
-        $url = Storage::temporaryUrl($path, $expiration);
+        $url = Storage::temporaryUrl($video->path, $expiration);
 
         return redirect()->away($url);
     }

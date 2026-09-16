@@ -130,6 +130,13 @@ class Video extends Model implements Likeable, Reportable
         );
     }
 
+    protected function path(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => self::VIDEO_FOLDER.DIRECTORY_SEPARATOR.$this->file
+        );
+    }
+
     protected function thumbnailUrl(): Attribute
     {
         return Attribute::make(

@@ -48,7 +48,7 @@ class GenerateThumbnail implements ShouldQueue
      */
     public function handle() : void
     {
-        $videoPath = Storage::disk('local')->path(Video::VIDEO_FOLDER . DIRECTORY_SEPARATOR . $this->thumbnail->video->file);
+        $videoPath = Storage::disk('local')->path($this->thumbnail->video->path);
 
         $fileName = VideoMetadata::extractImage($videoPath, $this->time);
 
