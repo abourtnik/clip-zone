@@ -442,7 +442,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
             'description' => htmlspecialchars($this->description, ENT_QUOTES, 'UTF-8'),
             'website' => htmlspecialchars($this->website, ENT_QUOTES, 'UTF-8'),
             'url' => $this->route,
-            'subscribers' => $this->subscribers_count,
+            'subscribers' => $this->show_subscribers ? $this->subscribers_count : null,
             'videos' => $this->videos_count,
             'created_at' => $this->created_at->timestamp
         ];
@@ -471,6 +471,6 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
 
     public function searchIndexShouldBeUpdated(): bool
     {
-        return $this->wasChanged(['username', 'slug', 'avatar', 'description', 'website', 'subscribers_count', 'videos_count']);
+        return $this->wasChanged(['username', 'slug', 'avatar', 'description', 'website', 'subscribers_count', 'videos_count', 'show_subscribers']);
     }
 }

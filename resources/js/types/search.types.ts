@@ -19,7 +19,7 @@ export type SearchUserType = {
     username: string,
     avatar: string
     url: string,
-    subscribers: number,
+    subscribers: number | null,
     _formatted: {
         username: string,
     }

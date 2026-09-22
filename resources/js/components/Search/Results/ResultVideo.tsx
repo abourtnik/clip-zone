@@ -11,7 +11,7 @@ export function ResultVideo ({result} : ResultItemUserProps) {
         <>
             <ImageLoaded
                 source={result.thumbnail}
-                class={clsx('img-fluid d-block tw:w-[100px] object-fit-cover')}
+                class={clsx('img-fluid d-block tw:w-[100px] tw:shrink-0')}
                 alt="video thumbnail"
             />
             <div className={'text-sm text-break'}>
