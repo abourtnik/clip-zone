@@ -1,5 +1,7 @@
-@import "tailwindcss" prefix(tw);
+@import "tailwindcss" prefix(tw) source(none);
+
 @source "../views";
+@source "../js";
 
 @custom-variant dark (&:where([data-bs-theme=dark], [data-bs-theme=dark] *));
 

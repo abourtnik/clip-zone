@@ -2,7 +2,7 @@ import { useState, useRef } from 'preact/hooks';
 import Resumable from 'resumablejs'
 import {formatSizeUnits} from "@/functions/size";
 import { useTranslation } from "react-i18next";
-import {ChangeEvent} from "react";
+import type { TargetedEvent } from "preact"
 
 type Props = {
     endpoint: string,
@@ -24,7 +24,7 @@ export function VideoUpload ({endpoint, maxsize} : Props) {
 
     const input = useRef<HTMLInputElement>(null)
 
-    const change = async (event: ChangeEvent<HTMLInputElement>) => {
+    const change = async (event: TargetedEvent<HTMLInputElement>) => {
 
         setError('');
 

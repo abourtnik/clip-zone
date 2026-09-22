@@ -6,7 +6,7 @@ import {getInteractions} from "@/api/clipzone";
 import {Fragment} from "preact";
 import {InteractionSkeleton} from "@/components/Skeletons/InteractionSkeleton";
 import {InteractionType, InteractionsFilters} from "@/types";
-import {ChangeEvent} from "react";
+import type { TargetedEvent } from "preact"
 import {useDebounce} from "@/hooks/useDebounce";
 import moment from 'moment';
 import {useTranslation} from "react-i18next";
@@ -60,7 +60,7 @@ function Main ({target} : Props) {
             setFilter(type)
         }
     }
-    const searching = (e: ChangeEvent<HTMLInputElement>) => setSearch(e.currentTarget.value)
+    const searching = (e: TargetedEvent<HTMLInputElement>) => setSearch(e.currentTarget.value)
 
     const activeButton = (type: InteractionsFilters) => filter === type ? 'primary ' : 'outline-primary ';
 

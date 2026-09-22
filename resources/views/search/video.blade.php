@@ -9,13 +9,13 @@
         <span class="position-absolute tw:inset-0"></span>
     </a>
     <div class="p-3 col-12 col-sm-6 col-lg-7 col-xl-8">
-        <h6 class="mb-1">{{$video->title}}</h6>
+        <h6 class="mb-1">{!! $video->formatted_title !!}</h6>
         <small class="text-muted">{{trans_choice('views', $video->views)}} • {{$video->published_at->diffForHumans()}}</small>
         <a href="{{$video->user->route}}" class="d-flex align-items-center gap-2 text-muted text-sm position-relative text-decoration-none my-3">
             <img class="rounded-circle img-fluid tw:w-[35px]" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar">
-            <span>{{$video->user->username}}</span>
+            <span>{!! $video->formatted_user !!}</span>
         </a>
-        <small class="text-muted">{{Str::limit($video->description, 150)}}</small>
+        <small class="text-muted">{!! $video->formatted_description !!}</small>
     </div>
 </article>
 

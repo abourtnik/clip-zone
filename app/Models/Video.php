@@ -449,12 +449,12 @@ class Video extends Model implements Likeable, Reportable
     public function toSearchableArray() : array
     {
         return [
-            'id' => (int) $this->id,
+            'id' => $this->id,
             'uuid' => $this->uuid,
-            'title' => $this->title,
-            'description' => $this->description,
+            'title' => htmlspecialchars($this->title, ENT_QUOTES, 'UTF-8'),
+            'description' => htmlspecialchars($this->description, ENT_QUOTES, 'UTF-8'),
             'category' => $this->category?->title,
-            'user' => $this->user->username,
+            'user' => htmlspecialchars($this->user->username, ENT_QUOTES, 'UTF-8'),
             'views' => $this->views,
             'duration' => (int) $this->getRawOriginal('duration'),
             'formated_duration' => $this->duration,

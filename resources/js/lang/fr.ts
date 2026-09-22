@@ -134,5 +134,6 @@ export default {
     "Only Dislikes": "Seulement les Dislikes",
     "Something went wrong": "Une erreur s'est produite",
     "Unknown error": "Erreur inconnue",
-    "Try again": "Merci de reessayer"
+    "Try again": "Merci de reessayer",
+    "Subscribers": "{count, plural, =0 {0 abonnés} =1 {1 abonné} other {# abonnés}}",
 }

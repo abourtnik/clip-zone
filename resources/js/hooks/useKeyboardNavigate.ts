@@ -1,4 +1,5 @@
-import {useState, KeyboardEvent} from "react";
+import {useState} from "react";
+import type { TargetedKeyboardEvent } from "preact"
 
 type Options = {
     length: number | undefined,
@@ -17,7 +18,7 @@ export function useKeyboardNavigate (options: Options) {
 
     const resetIndex = () => setIndex(null);
 
-    const navigate = (e: KeyboardEvent<HTMLInputElement>) => {
+    const navigate = (e: TargetedKeyboardEvent<HTMLInputElement>) => {
 
         if (['ArrowDown', 'ArrowUp', 'Enter'].includes(e.key)) {
 
@@ -44,7 +45,6 @@ export function useKeyboardNavigate (options: Options) {
                     })
                     break;
                 case 'Enter':
-
                     if (index === null) {
                         onDefaultSelect();
                     } else {

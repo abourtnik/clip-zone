@@ -2,7 +2,7 @@ import {useState, useRef} from 'preact/hooks';
 import {useSearchQuery, useClickOutside, useKeyboardNavigate} from "@/hooks";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {searchModel} from "@/api/clipzone";
-import {ChangeEvent} from "react";
+import type { TargetedEvent } from "preact"
 import {useTranslation} from "react-i18next";
 import {Loader} from "@/components/Commons";
 import clsx from 'clsx';
@@ -46,7 +46,7 @@ function Main ({endpoint, name, label = null, value = null} : Props) {
         onSelect: select
     });
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: TargetedEvent<HTMLInputElement>) => {
         setShowResults(true)
         setQuery(e.currentTarget.value)
         resetIndex()

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Video;
+use App\Models\User;
 
 return [
 
@@ -150,6 +151,19 @@ return [
                     'user',
                     'category',
                     'description'
+                ]
+            ],
+            User::class => [
+                'sortableAttributes' => [
+                    'subscribers',
+                    'videos',
+                    'created_at'
+                ],
+                'searchableAttributes' => [
+                    'username',
+                    'slug',
+                    'description',
+                    'website'
                 ]
             ]
         ],

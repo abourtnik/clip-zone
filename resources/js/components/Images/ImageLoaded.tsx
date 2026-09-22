@@ -1,6 +1,6 @@
 import { useState} from 'preact/hooks';
 import {clsx} from "clsx";
-import {ImgHTMLAttributes} from "react";
+import {ImgHTMLAttributes} from "preact";
 
 type Props = {
     source: string,
@@ -24,7 +24,7 @@ export default function ImageLoaded ({source, title = '', hover = false, ...prop
                 loading &&
                 <img {...props} src={placeholder} alt={'default'}/>
             }
-            <div className={clsx(props.class,'image-box position-relative overflow-hidden', (hover && !loading) && 'hover')}>
+            <div className={clsx(props.class,'image-box position-relative overflow-hidden', (hover && !loading) && 'hover', loading && 'tw:w-0!')}>
                 <img {...props} className={clsx(props.class, loading && 'd-none', !loading && 'd-block')} src={source} alt={title} onLoad={imageLoad}/>
             </div>
         </>

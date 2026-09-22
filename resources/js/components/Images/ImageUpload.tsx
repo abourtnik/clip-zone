@@ -1,7 +1,7 @@
 import { useRef } from 'preact/hooks';
 import configuration from "@/config";
 import {show as showToast} from "@/functions/toast";
-import {ChangeEvent, InputHTMLAttributes} from "react";
+import type { TargetedEvent, InputHTMLAttributes } from "preact"
 import {useTranslation} from "react-i18next";
 
 const MB = 1048576;
@@ -20,7 +20,7 @@ export default function ImageUpload ({name, config, ...attributes} : Props) {
 
     const fileConfig = configuration[config];
 
-    const change = async (event: ChangeEvent<HTMLInputElement>) => {
+    const change = async (event: TargetedEvent<HTMLInputElement>) => {
 
         const file = event.currentTarget.files?.[0];
 

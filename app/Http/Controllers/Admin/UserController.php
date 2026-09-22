@@ -43,6 +43,8 @@ class UserController
                 'banned_at' => now(),
                 'status' => VideoStatus::BANNED
             ]);
+
+            $user->videos()->unsearchable();
         }
 
         if ($request->has('ban_comments')){

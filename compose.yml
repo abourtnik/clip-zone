@@ -62,7 +62,7 @@ services:
         volumes:
             - ./docker/data/redis:/data
     meilisearch:
-        image: getmeili/meilisearch:v1.6
+        image: getmeili/meilisearch:v1.53
         container_name: meilisearch_container
         environment:
             - MEILI_MASTER_KEY=${MEILISEARCH_KEY}

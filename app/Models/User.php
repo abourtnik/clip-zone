@@ -16,6 +16,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -29,6 +30,7 @@ use Illuminate\Support\Str;
 use Lab404\Impersonate\Models\Impersonate;
 use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Propaganistas\LaravelPhone\Casts\E164PhoneNumberCast;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
@@ -40,7 +42,19 @@ use Symfony\Component\Intl\Countries;
 
 class User extends Authenticatable implements MustVerifyEmail, Reportable
 {
-    use HasFactory, Notifiable, HasRelationships, HasReport, Impersonate, Billable, Filterable, HasApiTokens, MustVerifyUpdatedEmail, MustVerifyPhone, CanResetPassword, SoftDeletes;
+    use HasFactory,
+        Notifiable,
+        HasRelationships,
+        HasReport,
+        Impersonate,
+        Billable,
+        Filterable,
+        Searchable,
+        HasApiTokens,
+        MustVerifyUpdatedEmail,
+        MustVerifyPhone,
+        CanResetPassword,
+        SoftDeletes;
 
     protected $guarded = ['id', 'is_admin'];
 
@@ -404,5 +418,54 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         }
 
         return $slug;
+    }
+
+    /**
+     * -------------------- LARAVEL SCOUT --------------------
+     */
+
+    /**
+     * Get the name of the index associated with the model.
+     */
+    public function searchableAs(): string
+    {
+        return 'users';
+    }
+
+    public function toSearchableArray() : array
+    {
+        return [
+            'id' => $this->id,
+            'username' => htmlspecialchars($this->username, ENT_QUOTES, 'UTF-8'),
+            'slug' => htmlspecialchars($this->slug,ENT_QUOTES, 'UTF-8'),
+            'avatar' => $this->avatar_url,
+            'description' => htmlspecialchars($this->description, ENT_QUOTES, 'UTF-8'),
+            'website' => htmlspecialchars($this->website, ENT_QUOTES, 'UTF-8'),
+            'url' => $this->route,
+            'subscribers' => $this->subscribers_count,
+            'videos' => $this->subscribers_count,
+            'created_at' => $this->created_at->timestamp
+        ];
+    }
+
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query
+            ->active()
+            ->whereHas('videos', function (Builder $query) {
+                $query->active();
+            })
+            ->withCount(['subscribers', 'videos']);
+    }
+
+    public function makeSearchableUsing(Collection $models): Collection
+    {
+        return $models
+            ->loadCount(['subscribers', 'videos']);
+    }
+
+    public function shouldBeSearchable(): bool
+    {
+        return $this->is_active;
     }
 }

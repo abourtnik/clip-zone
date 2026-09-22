@@ -1,4 +1,5 @@
 export type SearchVideoType = {
+    type: 'video',
     title: string,
     user: string
     views: string,
@@ -10,16 +11,22 @@ export type SearchVideoType = {
     _formatted: {
         title: string,
         user: string,
-        views: string,
-        published_at: string,
-        thumbnail: string,
-        url: string,
-        uuid: string
+    }
+}
+
+export type SearchUserType = {
+    type: 'user',
+    username: string,
+    avatar: string
+    url: string,
+    subscribers: number,
+    _formatted: {
+        username: string,
     }
 }
 
 export type Search = {
-    items: SearchVideoType[],
+    items: Array<SearchVideoType | SearchUserType>,
     route: string,
     total: number,
 }

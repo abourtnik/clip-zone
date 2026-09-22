@@ -3,11 +3,10 @@
 namespace App\Filters\Drivers;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Arr;
 
 class MeilisearchFilter extends DriverFilter
 {
-    public function apply() : string
+    public function apply() : array
     {
         $filters = [];
 
@@ -20,6 +19,6 @@ class MeilisearchFilter extends DriverFilter
             }
         }
 
-        return Arr::join($filters, ' AND ');
+        return $filters;
     }
 }
