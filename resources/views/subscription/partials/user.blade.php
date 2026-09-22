@@ -2,7 +2,7 @@
     <div class="position-relative card">
         <a href="{{$user->route}}" class="text-decoration-none">
             <div class="card-body d-flex flex-column gap-1 align-items-center">
-                <img style="width: 80px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
+                <image-loaded source="{{$user->avatar_url}}" title="{{$user->username}} avatar" class="rounded-circle tw:size-20"></image-loaded>
                 <strong class="text-black">{{$user->username}}</strong>
                 <div class="text-muted">{{trans_choice('subscribers', $user->subscribers_count)}}</div>
             </div>
