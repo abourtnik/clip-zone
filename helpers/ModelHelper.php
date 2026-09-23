@@ -643,6 +643,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read mixed $active_videos_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Activity> $activity
  * @property-read int|null $activity_count
  * @property-read mixed $avatar_url

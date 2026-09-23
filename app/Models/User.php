@@ -207,6 +207,14 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
         );
     }
 
+    protected function activeVideosCount(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->attributes['active_videos_count']
+                ?? $this->loadCount(['videos as active_videos_count' => fn ($q) => $q->active()])->active_videos_count
+        );
+    }
+
     public function firstActiveVideo (): Attribute
     {
         return Attribute::make(
