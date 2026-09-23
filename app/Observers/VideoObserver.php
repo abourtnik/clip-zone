@@ -22,6 +22,13 @@ class VideoObserver
         }
     }
 
+    public function updated(Video $video) : void
+    {
+        if ($video->wasChanged('status')) {
+            $this->reindex($video);
+        }
+    }
+
     /**
      * Handle the Video "deleting" event.
      *
@@ -42,5 +49,12 @@ class VideoObserver
 
             $video->forceDelete();
         }
+
+        $this->reindex($video);
+    }
+
+    private function reindex(Video $video): void
+    {
+        $video->user->reindex();
     }
 }

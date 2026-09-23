@@ -443,7 +443,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
             'website' => htmlspecialchars($this->website, ENT_QUOTES, 'UTF-8'),
             'url' => $this->route,
             'subscribers' => $this->show_subscribers ? $this->subscribers_count : null,
-            'videos' => $this->videos_count,
+            'videos' => $this->active_videos_count,
             'created_at' => $this->created_at->timestamp
         ];
     }
@@ -455,22 +455,56 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
             ->whereHas('videos', function (Builder $query) {
                 $query->active();
             })
-            ->withCount(['subscribers', 'videos']);
+            ->withCount([
+                'subscribers',
+                'videos',
+                'videos as active_videos_count' => fn (Builder $query) => $query->active(),
+            ]);
     }
 
     public function makeSearchableUsing(Collection $models): Collection
     {
-        return $models
-            ->loadCount(['subscribers', 'videos']);
+        return $models->loadCount([
+            'subscribers',
+            'videos',
+            'videos as active_videos_count' => fn (Builder $query) => $query->active(),
+        ]);
     }
 
     public function shouldBeSearchable(): bool
     {
-        return $this->is_active;
+        return $this->is_active && $this->active_videos_count > 0;
     }
 
     public function searchIndexShouldBeUpdated(): bool
     {
-        return $this->wasChanged(['username', 'slug', 'avatar', 'description', 'website', 'subscribers_count', 'videos_count', 'show_subscribers']);
+        return $this->wasChanged([
+            'username',
+            'slug',
+            'avatar',
+            'description',
+            'website',
+            'show_subscribers',
+            'email_verified_at',
+            'banned_at',
+            'deleted_at',
+        ]);
+    }
+
+    public function reIndex(): bool
+    {
+        $this->loadCount([
+            'subscribers',
+            'videos',
+            'videos as active_videos_count' => fn (Builder $query) => $query->active(),
+        ]);
+
+        if ($this->shouldBeSearchable()) {
+            $this->searchable();
+            return true;
+        }
+
+        $this->unsearchable();
+        return false;
     }
 }

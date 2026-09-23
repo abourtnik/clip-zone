@@ -22,7 +22,7 @@ export function ResultUser ({result} : ResultItemUserProps) {
             <div className={'text-sm text-break d-flex flex-column gap-1 align-items-start'}>
                 <div className={'text-black'} dangerouslySetInnerHTML={{__html: result._formatted.username}}></div>
                 {
-                    result.subscribers &&
+                    result.subscribers !== null &&
                     <div className={'text-muted'}>{t( 'Subscribers', { count: result.subscribers, formatted: numeral(result.subscribers).format('0.[0]a') } )}</div>
                 }
             </div>

@@ -11,6 +11,7 @@ class SubscribeController
 {
     public function subscribe (Request $request, User $user) : Response {
         $subscription = $request->user()->subscriptions()->toggle($user);
+        $user->reIndex();
         UserSubscribed::dispatchIf($subscription['attached'], $user, $request->user());
         return response()->noContent();
     }

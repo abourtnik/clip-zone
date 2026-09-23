@@ -471,6 +471,16 @@ class Video extends Model implements Likeable, Reportable
 
     public function searchIndexShouldBeUpdated(): bool
     {
-        return $this->wasChanged(['title', 'description', 'category_id', 'views', 'thumbnail', 'published_at', 'status']);
+        return $this->wasChanged([
+            'title',
+            'description',
+            'category_id',
+            'views',
+            'thumbnail',
+            'published_at',
+            'status',
+            'banned_at',
+            'deleted_at',
+        ]);
     }
 }
