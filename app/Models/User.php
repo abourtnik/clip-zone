@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Lab404\Impersonate\Models\Impersonate;
@@ -210,8 +211,13 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     protected function activeVideosCount(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->attributes['active_videos_count']
-                ?? $this->loadCount(['videos as active_videos_count' => fn ($q) => $q->active()])->active_videos_count
+            get: function () {
+                if (array_key_exists('active_videos_count', $this->attributes)) {
+                    return (int) $this->attributes['active_videos_count'];
+                }
+
+                return (int) $this->videos()->active()->count();
+            }
         );
     }
 
