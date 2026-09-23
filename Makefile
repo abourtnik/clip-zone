@@ -32,10 +32,9 @@ update: ## Update application
 	composer install --optimize-autoloader --no-dev
 	php artisan migrate --force
 	php artisan patch --force
-	php artisan queue:restart
+	php artisan horizon:terminate
 	php artisan scout:sync-index-settings
 	php artisan optimize
-	php artisan cache:clear
 
 install: ## Install application
 	cp .env.example .env

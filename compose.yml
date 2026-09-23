@@ -104,9 +104,9 @@ services:
             - application
     queues:
         container_name: queues_container
-        image: abourtnik/laravel
+        image: abourtnik/horizon
         working_dir: /var/www/html
-        command: php artisan horizon
+        command: php artisan horizon:listen --poll
         volumes:
             - ./:/var/www/html
         networks:

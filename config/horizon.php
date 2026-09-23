@@ -210,4 +210,9 @@ return [
             ],
         ],
     ],
+
+    'watch' => [
+        'app/Jobs',
+        'app/Exports',
+    ],
 ];
