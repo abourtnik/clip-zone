@@ -7,9 +7,12 @@ use App\Channels\SmsMessage;
 use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Bus\Queueable;
 
-class VerifyPhone extends Notification
+class VerifyPhone extends Notification implements ShouldQueue
 {
+    use Queueable;
     /**
      * Get the notification's channels.
      *

@@ -6,9 +6,14 @@ use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Bus\Queueable;
 
-class BanAccount extends Notification
+
+class BanAccount extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * Get the notification's channels.
      *

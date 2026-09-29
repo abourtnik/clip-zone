@@ -16,8 +16,10 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Excel as BaseExcel;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Queue\Attributes\Tries;
 use Throwable;
 
+#[Tries(1)]
 class Export implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -42,6 +44,8 @@ class Export implements ShouldQueue
      */
     public function __construct(User $user, string $exportType, ExportModel $export, array $filters)
     {
+        $this->onQueue('heavy');
+
         $this->user = $user;
         $this->exportType = $exportType;
         $this->export = $export;

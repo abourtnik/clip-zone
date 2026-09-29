@@ -13,7 +13,17 @@ class VideoPolicy
 {
     use HandlesAuthorization;
 
-    public const array ADMIN_ABILITIES = ['view', 'show', 'file', 'update', 'thumbnail', 'thumbnails', 'download', 'interactions'];
+    public const array ADMIN_ABILITIES = [
+        'view',
+        'show',
+        'file',
+        'update',
+        'thumbnail',
+        'thumbnails',
+        'download',
+        'interactions',
+        'upload'
+    ];
 
     public function before(?User $user, string $ability): bool|null
     {

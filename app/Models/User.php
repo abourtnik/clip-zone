@@ -12,6 +12,7 @@ use App\Models\Traits\Filterable;
 use App\Models\Traits\HasReport;
 use App\Models\Traits\MustVerifyPhone;
 use App\Models\Traits\MustVerifyUpdatedEmail;
+use App\Notifications\Account\VerifyEmailQueued;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Builder;
@@ -25,7 +26,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Lab404\Impersonate\Models\Impersonate;
@@ -520,5 +520,10 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
 
         $this->unsearchable();
         return false;
+    }
+
+    public function sendEmailVerificationNotification(): void
+    {
+        $this->notify(new VerifyEmailQueued());
     }
 }

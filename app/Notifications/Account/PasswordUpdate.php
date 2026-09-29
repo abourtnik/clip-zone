@@ -6,9 +6,12 @@ use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Bus\Queueable;
 
-class PasswordUpdate extends Notification
+class PasswordUpdate extends Notification implements ShouldQueue
 {
+    use Queueable;
     /**
      * Get the notification's channels.
      *

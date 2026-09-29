@@ -12,11 +12,13 @@ use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\Attributes\Tries;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 
+#[Tries(1)]
 class GenerateThumbnail implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Batchable;
@@ -36,6 +38,8 @@ class GenerateThumbnail implements ShouldQueue
      */
     public function __construct(Thumbnail $thumbnail, int $time)
     {
+        $this->onQueue('heavy');
+
         $this->thumbnail = $thumbnail;
         $this->time = $time;
     }

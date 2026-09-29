@@ -6,14 +6,17 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Notifications\AnonymousNotifiable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Bus\Queueable;
 
 
-class Contact extends Notification
+class Contact extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     public string $name;
     public string $email;
     public string $message;
-
 
     /**
      * Create a notification instance.

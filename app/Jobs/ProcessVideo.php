@@ -12,6 +12,7 @@ use App\Services\FileMerger;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\Attributes\Tries;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Bus;
@@ -19,6 +20,7 @@ use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 
+#[Tries(1)]
 class ProcessVideo implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -36,6 +38,8 @@ class ProcessVideo implements ShouldQueue
      */
     public function __construct(string $folder, Video $video, string $extension)
     {
+        $this->onQueue('heavy');
+
         $this->folder = $folder;
         $this->video = $video;
         $this->extension = $extension;

@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Auth\Notifications\VerifyEmail;
+use App\Notifications\Account\VerifyEmailQueued;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
@@ -43,6 +43,6 @@ class RegisterTest extends TestCase
             'email' =>'test@test.fr',
         ]);
 
-        Notification::assertSentTimes(VerifyEmail::class, 1);
+        Notification::assertSentTimes(VerifyEmailQueued::class, 1);
     }
 }

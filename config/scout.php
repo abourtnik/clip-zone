@@ -161,9 +161,9 @@ return [
                 ],
                 'searchableAttributes' => [
                     'username',
-                    'slug',
                     'description',
-                    'website'
+                    'website',
+                    'slug',
                 ]
             ]
         ],

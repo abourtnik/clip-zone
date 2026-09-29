@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Notifications\Contact;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 use Tests\TestCase;
 
 
@@ -26,11 +28,15 @@ class ContactTest extends TestCase
 
     public function test_send_email_success() :void
     {
+        Notification::fake();
+
         $response = $this->post(route('contact.contact', [
             'name' => 'Anton',
             'email' => 'test@test.fr',
             'message' => 'aaaaaaaaaa'
         ]));
+
+        Notification::assertSentTimes(Contact::class, 1);
 
         $response
             ->assertRedirectToRoute('contact.show')

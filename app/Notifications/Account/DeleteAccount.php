@@ -6,9 +6,13 @@ use App\Models\User;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Bus\Queueable;
 
-class DeleteAccount extends Notification
+class DeleteAccount extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * Get the notification's channels.
      *

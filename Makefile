@@ -29,7 +29,7 @@ optimize: ## Clear application cache
 	docker exec -it php_container php artisan optimize
 
 update: ## Update application
-	composer install --optimize-autoloader --no-dev
+	composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 	php artisan migrate --force
 	php artisan patch --force
 	php artisan horizon:terminate

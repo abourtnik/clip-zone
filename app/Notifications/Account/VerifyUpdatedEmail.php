@@ -8,9 +8,12 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Bus\Queueable;
 
-class VerifyUpdatedEmail extends Notification
+class VerifyUpdatedEmail extends Notification implements ShouldQueue
 {
+    use Queueable;
     /**
      * Get the notification's channels.
      *

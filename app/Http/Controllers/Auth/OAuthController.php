@@ -112,7 +112,7 @@ class OAuthController
             ]);
         }
 
-        Auth::login($user);
+        Auth::login($user, true);
 
         return redirect()->intended(route('user.index'));
     }
