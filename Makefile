@@ -32,7 +32,7 @@ update: ## Update application
 	composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
 	php artisan migrate --force
 	php artisan patch --force
-	php artisan horizon:terminate
+	sudo -u www-data php artisan horizon:terminate
 	php artisan scout:sync-index-settings
 	php artisan optimize
 
