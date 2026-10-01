@@ -3,18 +3,26 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 
 class Language
 {
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
-        if (session()->has('app_locale') && array_key_exists(session()->get('app_locale'), config('languages'))) {
-            App::setLocale(session()->get('app_locale'));
-            return $next($request);
+        $languages = array_keys(config('languages'));
+
+        $locale = Auth::user()?->language
+            ?? $request->cookie('app_locale')
+            ?? $request->getPreferredLanguage($languages);
+
+        if (!in_array($locale, $languages, true)) {
+            $locale = config('app.fallback_locale');
         }
 
-        App::setLocale(config('app.fallback_locale'));
+        App::setLocale($locale);
+
         return $next($request);
     }
 }

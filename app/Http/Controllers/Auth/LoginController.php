@@ -28,9 +28,9 @@ class LoginController
 
             Auth::login($user, $remember);
 
-            session()->put('app_locale', $user->language);
-
-            return redirect()->intended(route('user.index'));
+            return redirect()
+                ->intended(route('user.index'))
+                ->withCookie(cookie('app_locale', $user->language, 60 * 24 * 365));
         }
 
         return back()->with('error', __('auth.failed'))->onlyInput('username');

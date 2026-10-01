@@ -155,3 +155,7 @@ Route::controller(SitemapController::class)
 require __DIR__.'/auth.php';
 require __DIR__.'/user.php';
 require __DIR__.'/admin.php';
+
+Route::fallback(function () {
+    abort(404);
+});

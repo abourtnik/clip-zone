@@ -23,6 +23,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // GLOBAL
+        $middleware->encryptCookies(except: ['app_locale']);
+
         // WEB
         $middleware->web(append: [
             IsBanned::class,
@@ -39,8 +42,8 @@ return Application::configure(basePath: dirname(__DIR__))
         // API
         $middleware->statefulApi();
         $middleware->api(append: [
-            Language::class,
             OptionalAuthSanctum::class,
+            Language::class,
         ]);
 
         //ALIAS

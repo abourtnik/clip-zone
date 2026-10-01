@@ -11,7 +11,7 @@
                         <div class="text-muted my-4">
                             @yield('text')
                         </div>
-                        <a class="btn btn-primary rounded-5 text-uppercase" href="{{route('pages.home')}}">Go home</a>
+                        <a class="btn btn-primary rounded-5 text-uppercase" href="{{route('pages.home')}}">{{ __('Go home') }}</a>
                     </div>
                 </div>
             </div>
