@@ -5,7 +5,6 @@ namespace App\Listeners;
 use App\Events\Account\EmailUpdated;
 use App\Events\Account\PasswordUpdated;
 use App\Notifications\Account\PasswordUpdate;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Str;
 
 class AccountEventSubscriber
@@ -13,7 +12,7 @@ class AccountEventSubscriber
     /**
      * Handle user password updated events.
      */
-    public function sendUserPasswordUpdatedNotification(PasswordUpdated $event): void
+    public function handleUserPasswordUpdated(PasswordUpdated $event): void
     {
         $user = auth()->user();
 
@@ -29,25 +28,12 @@ class AccountEventSubscriber
     /**
      * Handle user email update events.
      */
-    public function sendUserEmailUpdatedNotification(EmailUpdated $event): void
+    public function handleUserEmailUpdated(EmailUpdated $event): void
     {
         $user = auth()->user();
 
         $user->update(['temporary_email' => $event->email]);
 
         $user->sendUpdatedEmailVerificationNotification();
-    }
-
-    /**
-     * Register the listeners for the subscriber.
-     *
-     * @return array<string, string>
-     */
-    public function subscribe(Dispatcher $events): array
-    {
-        return [
-            PasswordUpdated::class => 'sendUserPasswordUpdatedNotification',
-            EmailUpdated::class => 'sendUserEmailUpdatedNotification',
-        ];
     }
 }

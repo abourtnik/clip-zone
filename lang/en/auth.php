@@ -17,4 +17,5 @@ return [
     'failed_api' => "Invalid login credentials. Please try again or reset your password.",
     'email_not_verified' => 'Your email is not verified. Please check your mailbox',
     'password' => 'The provided password is incorrect.',
+    'session_expired' => 'Your Session has expired. Please login again to continue',
 ];

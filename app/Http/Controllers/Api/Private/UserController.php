@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Private;
 
-use App\Events\UserSubscribed;
+use App\Events\User\UserSubscribed;
 use App\Http\Resources\AccountResource;
 use App\Http\Resources\Playlist\PlaylistListResource;
 use App\Http\Resources\User\UserListResource;

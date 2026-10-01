@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\Private;
 
-use App\Events\UserSubscribed;
+use App\Events\User\UserSubscribed;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

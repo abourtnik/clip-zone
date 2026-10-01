@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Enums\VideoStatus;
-use App\Events\UserBanned;
+use App\Events\User\UserBanned;
 use App\Exports\UsersExport;
 use App\Models\User;
 use App\Notifications\Account\DeleteAccount;

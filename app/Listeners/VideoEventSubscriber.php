@@ -13,14 +13,13 @@ use App\Notifications\Video\VideoBanned as VideoBannedNotification;
 use App\Notifications\Video\VideoUploaded as VideoUploadedNotification;
 use App\Notifications\Video\VideoError as VideoErrorNotification;
 use App\Playlists\PlaylistManager;
-use Illuminate\Events\Dispatcher;
 
 class VideoEventSubscriber
 {
     /**
      * Handle video published events.
      */
-    public function sendVideoPublishedNotification(VideoPublished $event): void
+    public function handleVideoPublished(VideoPublished $event): void
     {
         foreach ($event->video->user->subscribers as $subscriber) {
             $subscriber->notify(new NewVideo($event->video));
@@ -30,7 +29,7 @@ class VideoEventSubscriber
     /**
      * Handle video banned events.
      */
-    public function sendVideoBannedNotification(VideoBanned $event): void
+    public function handleVideoBanned(VideoBanned $event): void
     {
         $event->video->user->notify(new VideoBannedNotification($event->video));
     }
@@ -38,7 +37,7 @@ class VideoEventSubscriber
     /**
      * Handle video uploaded events.
      */
-    public function sendVideoUploadedNotification(VideoUploaded $event): void
+    public function handleVideoUploaded(VideoUploaded $event): void
     {
         $event->video->user->notify(new VideoUploadedNotification($event->video));
     }
@@ -46,7 +45,7 @@ class VideoEventSubscriber
     /**
      * Handle video error events.
      */
-    public function sendVideoErrorNotification(VideoError $event): void
+    public function handleVideoError(VideoError $event): void
     {
         $event->video->user->notify(new VideoErrorNotification($event->video));
     }
@@ -61,21 +60,5 @@ class VideoEventSubscriber
                 ->getPlaylist()
                 ->touch();
         }
-    }
-
-    /**
-     * Register the listeners for the subscriber.
-     *
-     * @return array<string, string>
-     */
-    public function subscribe(Dispatcher $events): array
-    {
-        return [
-            VideoPublished::class => 'sendVideoPublishedNotification',
-            VideoBanned::class => 'sendVideoBannedNotification',
-            VideoUploaded::class => 'sendVideoUploadedNotification',
-            VideoError::class => 'sendVideoErrorNotification',
-            VideoInteracted::class => 'handleVideoInteracted',
-        ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\BrevoService;
 use App\Services\YoutubeService;
+use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
 
@@ -36,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
         Cashier::calculateTaxes();
 
         if ($this->app->isLocal()) {
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+            $this->app->register(IdeHelperServiceProvider::class);
         }
     }
 }

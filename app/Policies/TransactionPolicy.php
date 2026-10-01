@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Auth\Access\Response;
 
-class InvoicePolicy
+class TransactionPolicy
 {
     use HandlesAuthorization;
 
@@ -27,7 +27,7 @@ class InvoicePolicy
 
 
     /**
-     * Determine whether the user can view invoice.
+     * Determine whether the user can view the transaction.
      *
      * @param  User $user
      * @param  Transaction $transaction

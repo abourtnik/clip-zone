@@ -28,10 +28,14 @@ use Illuminate\Support\Str;
 use Laravel\Scout\Searchable;
 use Symfony\Component\Intl\Languages;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use App\Observers\VideoObserver;
 
 /**
  * @mixin IdeHelperVideo
  */
+
+#[ObservedBy([VideoObserver::class])]
 class Video extends Model implements Likeable, Reportable
 {
     use HasFactory, HasLike, HasReport, Filterable, Searchable, SoftDeletes;

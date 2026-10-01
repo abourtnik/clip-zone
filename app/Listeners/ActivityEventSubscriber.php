@@ -6,15 +6,14 @@ use App\Events\Activity\ActivityCreated;
 use App\Events\Activity\ActivityDeleted;
 use App\Events\Activity\ActivityUpdated;
 use App\Models\Activity;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\Auth;
 
 class ActivityEventSubscriber
 {
     /**
-     * Handle user have new activity event.
+     * Handle user has a new activity event.
      */
-    public function saveActivity(ActivityCreated $event): void {
+    public function handleActivityCreated(ActivityCreated $event): void {
       Auth::user()->activity()->create([
           'subject_type' => get_class($event->model),
           'subject_id' => $event->model->id,
@@ -23,9 +22,9 @@ class ActivityEventSubscriber
     }
 
     /**
-     * Handle user have updated activity event.
+     * Handle user has updated activity event.
      */
-    public function updateActivity(ActivityUpdated $event): void {
+    public function handleActivityUpdated(ActivityUpdated $event): void {
         Auth::user()->activity()->where([
             'subject_type' => get_class($event->model),
             'subject_id' => $event->model->id,
@@ -37,23 +36,9 @@ class ActivityEventSubscriber
     /**
      * Handle user delete activity event.
      */
-    public function deleteActivity(ActivityDeleted $event): void {
+    public function handleActivityDeleted(ActivityDeleted $event): void {
         Activity::query()
             ->where('subject_id', $event->model->id)
             ->delete();
-    }
-
-    /**
-     * Register the listeners for the subscriber.
-     *
-     * @return array<string, string>
-     */
-    public function subscribe(Dispatcher $events): array
-    {
-        return [
-            ActivityCreated::class => 'saveActivity',
-            ActivityUpdated::class => 'updateActivity',
-            ActivityDeleted::class => 'deleteActivity',
-        ];
     }
 }

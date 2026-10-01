@@ -8,10 +8,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
 use Spatie\EloquentSortable\Sortable;
 use Spatie\EloquentSortable\SortableTrait;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use App\Observers\CategoryObserver;
 
 /**
  * @mixin IdeHelperCategory
  */
+
+#[ObservedBy([CategoryObserver::class])]
 class Category extends Model implements Sortable
 {
     use SortableTrait;

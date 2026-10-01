@@ -58,7 +58,9 @@ Route::middleware('auth:sanctum')->group(function () {
                 ->name('upload')
                 ->middleware('throttle:upload')
                 ->can('upload', Video::class);
-            Route::delete('/{video:uuid}', 'delete')->name('delete')->can('delete', 'video');
+            Route::delete('/{video:uuid}', 'delete')
+                ->name('delete')
+                ->can('delete', 'video');
     });
 
     Route::middleware('throttle:api')->group(function () {

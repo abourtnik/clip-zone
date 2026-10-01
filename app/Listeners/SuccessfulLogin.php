@@ -13,7 +13,7 @@ class SuccessfulLogin
      * @param Login $event
      * @return void
      */
-    public function handle(Login $event): void
+    public function handleLogin(Login $event): void
     {
         $event->user->update([
             'last_login_at' => now(),

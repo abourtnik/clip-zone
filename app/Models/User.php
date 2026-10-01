@@ -36,11 +36,14 @@ use Propaganistas\LaravelPhone\Casts\E164PhoneNumberCast;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Symfony\Component\Intl\Countries;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use App\Observers\UserObserver;
 
 /**
  * @mixin IdeHelperUser
  */
 
+#[ObservedBy([UserObserver::class])]
 class User extends Authenticatable implements MustVerifyEmail, Reportable
 {
     use HasFactory,

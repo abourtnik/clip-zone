@@ -56,8 +56,6 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'asset_url' => env('ASSET_URL'),
-
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -77,53 +75,37 @@ return [
     |--------------------------------------------------------------------------
     |
     | The application locale determines the default locale that will be used
-    | by the translation service provider. You are free to set this value
-    | to any of the locales which will be supported by the application.
+    | by Laravel's translation / localization methods. This option can be
+    | set to any locale for which you plan to have translation strings.
     |
     */
 
-    'locale' => 'en',
+    'locale' => env('APP_LOCALE', 'en'),
 
-    /*
-    |--------------------------------------------------------------------------
-    | Application Fallback Locale
-    |--------------------------------------------------------------------------
-    |
-    | The fallback locale determines the locale to use when the current one
-    | is not available. You may change the value to correspond to any of
-    | the language folders that are provided through your application.
-    |
-    */
+    'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
-    'fallback_locale' => 'en',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Faker Locale
-    |--------------------------------------------------------------------------
-    |
-    | This locale will be used by the Faker PHP library when generating fake
-    | data for your database seeds. For example, this will be used to get
-    | localized telephone numbers, street address information and more.
-    |
-    */
-
-    'faker_locale' => 'en_US',
+    'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
     /*
     |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |
-    | This key is used by the Illuminate encrypter service and should be set
-    | to a random, 32 character string, otherwise these encrypted strings
-    | will not be safe. Please do this before deploying an application!
+    | This key is utilized by Laravel's encryption services and should be set
+    | to a random, 32 character string to ensure that all encrypted values
+    | are secure. You should do this prior to deploying the application.
     |
     */
 
+    'cipher' => 'AES-256-CBC',
+
     'key' => env('APP_KEY'),
 
-    'cipher' => 'AES-256-CBC',
+    'previous_keys' => [
+        ...array_filter(
+            explode(',', (string) env('APP_PREVIOUS_KEYS', ''))
+        ),
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -134,94 +116,25 @@ return [
     | manage Laravel's "maintenance mode" status. The "cache" driver will
     | allow maintenance mode to be controlled across multiple machines.
     |
-    | Supported drivers: "file", "cache"
+    | Supported drivers: "file", "cache", "array"
     |
     */
 
     'maintenance' => [
-        'driver' => 'file',
-        // 'store'  => 'redis',
+        'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
+        'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+
+
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Configuration
+    |--------------------------------------------------------------------------
+    */
 
     'statistics_enabled' => env('STATISTICS_ENABLED', false),
     'ignore_ips' => array_filter(
         explode(',', env('IGNORE_IPS', ''))
     ),
     'ads_enabled' => env('ADS_ENABLED', false),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Autoloaded Service Providers
-    |--------------------------------------------------------------------------
-    |
-    | The service providers listed here will be automatically loaded on the
-    | request to your application. Feel free to add your own services to
-    | this array to grant expanded functionality to your applications.
-    |
-    */
-
-    'providers' => [
-
-        /*
-         * Laravel Framework Service Providers...
-         */
-        Illuminate\Auth\AuthServiceProvider::class,
-        Illuminate\Broadcasting\BroadcastServiceProvider::class,
-        Illuminate\Bus\BusServiceProvider::class,
-        Illuminate\Cache\CacheServiceProvider::class,
-        Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
-        Illuminate\Cookie\CookieServiceProvider::class,
-        Illuminate\Database\DatabaseServiceProvider::class,
-        Illuminate\Encryption\EncryptionServiceProvider::class,
-        Illuminate\Filesystem\FilesystemServiceProvider::class,
-        Illuminate\Foundation\Providers\FoundationServiceProvider::class,
-        Illuminate\Hashing\HashServiceProvider::class,
-        Illuminate\Mail\MailServiceProvider::class,
-        Illuminate\Notifications\NotificationServiceProvider::class,
-        Illuminate\Pagination\PaginationServiceProvider::class,
-        Illuminate\Pipeline\PipelineServiceProvider::class,
-        Illuminate\Queue\QueueServiceProvider::class,
-        Illuminate\Redis\RedisServiceProvider::class,
-        Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
-        Illuminate\Session\SessionServiceProvider::class,
-        Illuminate\Translation\TranslationServiceProvider::class,
-        Illuminate\Validation\ValidationServiceProvider::class,
-        Illuminate\View\ViewServiceProvider::class,
-
-        /*
-         * Package Service Providers...
-         */
-        Spatie\EloquentSortable\EloquentSortableServiceProvider::class,
-        Lab404\Impersonate\ImpersonateServiceProvider::class,
-
-        /*
-         * Application Service Providers...
-         */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\HorizonServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
-        App\Providers\BroadcastServiceProvider::class,
-        App\Providers\ViewServiceProvider::class,
-        App\Providers\BladeServiceProvider::class,
-        App\Providers\LogServiceProvider::class,
-
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Class Aliases
-    |--------------------------------------------------------------------------
-    |
-    | This array of class aliases will be registered when this application
-    | is started. However, feel free to register as many as you wish as
-    | the aliases are "lazy" loaded so they don't hinder performance.
-    |
-    */
-
-    'aliases' => Facade::defaultAliases()->merge([
-        // 'ExampleClass' => App\Example\ExampleClass::class,
-    ])->toArray(),
-
 ];

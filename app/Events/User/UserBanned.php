@@ -1,27 +1,25 @@
 <?php
 
-namespace App\Events;
+namespace App\Events\User;
 
 use App\Models\User;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserSubscribed
+class UserBanned
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public User $user;
-    public User $subscriber;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(User $user, User $subscriber)
+    public function __construct(User $user)
     {
         $this->user = $user;
-        $this->subscriber = $subscriber;
     }
 }

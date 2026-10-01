@@ -23,10 +23,14 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use App\Observers\CommentObserver;
 
 /**
  * @mixin IdeHelperComment
  */
+
+#[ObservedBy([CommentObserver::class])]
 class Comment extends Model implements Likeable, Reportable
 {
     use HasLike, HasReport, Filterable, HasFactory, HasActivity, SoftDeletes;
