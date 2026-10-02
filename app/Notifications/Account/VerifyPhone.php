@@ -33,8 +33,12 @@ class VerifyPhone extends Notification implements ShouldQueue
     public function toMail(User $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->greeting('Hello ' . $notifiable->username . '!')
-            ->line('Enter this code: ' . $notifiable->getPhoneCodeVerification() . ' to validate your phone number ' .$notifiable->getPhone());
+            ->subject(__('Phone number verification'))
+            ->greeting(__('Hello :name !', ['name' => $notifiable->username]))
+            ->line(__('Enter this code :code to validate your phone number :phone.', [
+                'code' => $notifiable->getPhoneCodeVerification(),
+                'phone' => $notifiable->getPhone(),
+            ]));
     }
 
     /**
@@ -43,6 +47,8 @@ class VerifyPhone extends Notification implements ShouldQueue
     public function toSms(User $notifiable): SmsMessage
     {
         return (new SmsMessage)
-            ->line('Enter this code: ' . $notifiable->getPhoneCodeVerification() . ' to validate your phone number');
+            ->line(__('Enter this code :code to validate your phone number.', [
+                'code' => $notifiable->getPhoneCodeVerification(),
+            ]));
     }
 }

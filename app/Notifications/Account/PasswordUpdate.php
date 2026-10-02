@@ -43,7 +43,7 @@ class PasswordUpdate extends Notification implements ShouldQueue
     protected function buildMailMessage(User $notifiable) : MailMessage
     {
         return (new MailMessage)
-            ->subject(Lang::get('Password Update'))
+            ->subject(Lang::get('Your password has been updated'))
             ->markdown('mails.account.password', compact('notifiable'));
     }
 }

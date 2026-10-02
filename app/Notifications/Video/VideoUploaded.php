@@ -41,7 +41,9 @@ class VideoUploaded extends Notification
     public function toArray(User $notifiable) : array
     {
         return [
-            'message' => 'Your video : ' .$this->video->title. ' was successfully processed.',
+            'message' => __('Your video :title was successfully processed.', [
+                'title' => $this->video->title,
+            ]),
             'url' => $this->video->is_draft ? route('user.videos.create', $this->video) : route('user.videos.edit', $this->video),
             'created_at' => now(),
             'is_read' => false

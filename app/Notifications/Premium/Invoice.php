@@ -61,7 +61,9 @@ class Invoice extends Notification
     protected function buildMailMessage(User $notifiable) : MailMessage
     {
         return (new MailMessage)
-            ->subject(Lang::get('Your ' .config('app.name'). ' invoice '))
+            ->subject(__('Your :app invoice', [
+                'app' => config('app.name'),
+            ]))
             ->markdown('mails.premium.invoice', [
                 'notifiable' => $notifiable,
                 'transaction' => $this->transaction
@@ -81,7 +83,9 @@ class Invoice extends Notification
     public function toArray(User $notifiable) : array
     {
         return [
-            'message' => 'Your ' .config('app.name'). ' invoice is available',
+            'message' => __('Your :app invoice is available.', [
+                'app' => config('app.name'),
+            ]),
             'url' => route('user.invoices.show', $this->transaction),
             'created_at' => now(),
             'read_at' => false

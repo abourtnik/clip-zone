@@ -38,13 +38,14 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 use Symfony\Component\Intl\Countries;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use App\Observers\UserObserver;
+use Illuminate\Contracts\Translation\HasLocalePreference;
 
 /**
  * @mixin IdeHelperUser
  */
 
 #[ObservedBy([UserObserver::class])]
-class User extends Authenticatable implements MustVerifyEmail, Reportable
+class User extends Authenticatable implements MustVerifyEmail, Reportable, HasLocalePreference
 {
     use HasFactory,
         Notifiable,
@@ -528,5 +529,10 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable
     public function sendEmailVerificationNotification(): void
     {
         $this->notify(new VerifyEmailQueued());
+    }
+
+    public function preferredLocale(): string
+    {
+        return $this->language ?? config('app.locale');
     }
 }

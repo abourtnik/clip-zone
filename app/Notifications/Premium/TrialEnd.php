@@ -40,7 +40,9 @@ class TrialEnd extends Notification
     protected function buildMailMessage(User $notifiable) : MailMessage
     {
         return (new MailMessage)
-            ->subject(Lang::get('Your ' .config('app.name'). ' Premium free trial ends soon.'))
+            ->subject(__('Your :app Premium free trial ends soon.', [
+                'app' => config('app.name'),
+            ]))
             ->markdown('mails.premium.trial_end', [
                 'notifiable' => $notifiable
             ]);

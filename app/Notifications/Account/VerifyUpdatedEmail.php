@@ -48,7 +48,7 @@ class VerifyUpdatedEmail extends Notification implements ShouldQueue
     protected function buildMailMessage(string $url, User $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Updating your email address')
+            ->subject(__('Updating your email address'))
             ->markdown('mails.account.email-update', compact('url', 'notifiable'));
     }
 

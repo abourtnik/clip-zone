@@ -24,7 +24,13 @@
                     </div>
                     <div class="w-100">
                         <label for="delete_current_password" class="form-label">{{ __('Enter your password for confirm account deletion') }}</label>
-                        <input type="password" class="form-control" id="delete_current_password" name="current_password" required>
+                        <div class="input-group mb-3" x-data="{show:false}">
+                            <input :type="show ? 'text' : 'password'"  class="form-control" id="delete_current_password" name="current_password" required>
+                            <button type="button" class="btn btn-outline-secondary border" @click="show=!show">
+                                <i x-show="!show" class="fa-solid fa-eye"></i>
+                                <i x-show="show" class="fa-solid fa-eye-slash"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-between">

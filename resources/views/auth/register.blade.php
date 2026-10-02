@@ -60,9 +60,9 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group form-floating mb-3">
+                            <div class="form-group form-floating mb-3" x-data="{show:false}">
                                 <input
-                                    type="password"
+                                    :type="show ? 'text' : 'password'"
                                     @class(['form-control', 'is-invalid' => $errors->has('password')])
                                     id="password"
                                     name="password"
@@ -70,6 +70,10 @@
                                     minlength="{{config('validation.user.password.min')}}"
                                     required
                                 >
+                                <button type="button" class="bg-transparent position-absolute top-50 start-100 translate-middle pe-5" @click="show=!show">
+                                    <i x-show="!show" class="fa-solid fa-eye"></i>
+                                    <i x-show="show" class="fa-solid fa-eye-slash"></i>
+                                </button>
                                 <label for="password">{{__('Password')}}</label>
                                 @error('password')
                                 <div class="invalid-feedback">
@@ -77,9 +81,9 @@
                                 </div>
                                 @enderror
                             </div>
-                            <div class="form-group form-floating mb-3">
+                            <div class="form-group form-floating mb-3" x-data="{show:false}">
                                 <input
-                                    type="password"
+                                    :type="show ? 'text' : 'password'"
                                     @class(['form-control', 'is-invalid' => $errors->has('password_confirmation')])
                                     id="password_confirmation"
                                     name="password_confirmation"
@@ -87,6 +91,10 @@
                                     minlength="{{config('validation.user.password.min')}}"
                                     required
                                 >
+                                <button type="button" class="bg-transparent position-absolute top-50 start-100 translate-middle pe-5" @click="show=!show">
+                                    <i x-show="!show" class="fa-solid fa-eye"></i>
+                                    <i x-show="show" class="fa-solid fa-eye-slash"></i>
+                                </button>
                                 <label for="password_confirmation">{{__('Confirm password')}}</label>
                                 @error('password_confirmation')
                                 <div class="invalid-feedback">

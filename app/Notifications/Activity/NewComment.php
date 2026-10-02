@@ -5,6 +5,7 @@ namespace App\Notifications\Activity;
 use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Lang;
 
 class NewComment extends Notification
 {
@@ -41,7 +42,7 @@ class NewComment extends Notification
     public function toArray(User $notifiable) : array
     {
         return [
-            'message' => 'You have new comment on your video !',
+            'message' => Lang::get('You have new comment on your video !'),
             'url' =>  $this->comment->video->route,
             'created_at' => now(),
             'is_read' => false

@@ -31,8 +31,8 @@ Schedule::command(SendTrialsEnd::class)
     ->appendOutputTo($LOG_PATH);
 
 Schedule::command(SendCardExpiration::class)
-    ->twiceMonthly(1, 16, '09:30')
-    ->lastDayOfMonth('09:30')
+    ->cron('30 9 1,16,28-31 * *')
+    ->when(fn () => in_array(now()->day, [1, 16]) || now()->isLastOfMonth())
     ->appendOutputTo($LOG_PATH);
 
 // VIDEOS

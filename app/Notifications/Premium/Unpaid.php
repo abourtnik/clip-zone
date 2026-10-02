@@ -59,7 +59,10 @@ class Unpaid extends Notification
     protected function buildMailMessage(User $notifiable) : MailMessage
     {
         return (new MailMessage)
-            ->subject(Lang::get('Your last payment of '.null. ' to ' .config('app.name'). ' was unsuccessful '))
+            ->subject(__('Your last payment of :amount to :app was unsuccessful.', [
+                'amount' => $this->amount,
+                'app' => config('app.name'),
+            ]))
             ->markdown('mails.premium.unpaid', [
                 'notifiable' => $notifiable,
                 'url' => $notifiable->billingPortalUrl(route('user.edit')),

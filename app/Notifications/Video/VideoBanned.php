@@ -64,7 +64,9 @@ class VideoBanned extends Notification
     public function toArray(User $notifiable) : array
     {
         return [
-            'message' => 'You video ' .$this->video->title. ' was banned',
+            'message' => __('Your video :title was banned.', [
+                'title' => $this->video->title,
+            ]),
             'url' => route('user.videos.index'),
             'created_at' => now(),
             'is_read' => false

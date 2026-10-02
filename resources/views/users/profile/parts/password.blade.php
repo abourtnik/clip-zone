@@ -11,17 +11,35 @@
                     <div class="row">
                         <div class="col-12 col-sm-6 mb-3">
                             <label for="current_password" class="form-label">{{ __('Current Password') }}</label>
-                            <input type="password" class="form-control" id="current_password" name="current_password" required>
+                            <div class="input-group mb-3" x-data="{show:false}">
+                                <input :type="show ? 'text' : 'password'" class="form-control" id="current_password" name="current_password" required>
+                                <button type="button" class="btn btn-outline-secondary border" @click="show=!show">
+                                    <i x-show="!show" class="fa-solid fa-eye"></i>
+                                    <i x-show="show" class="fa-solid fa-eye-slash"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12 col-sm-6 mb-3">
                             <label for="new_password" class="form-label">{{ __('Password') }}</label>
-                            <input type="password" class="form-control" id="new_password" name="new_password" required>
+                            <div class="input-group mb-3" x-data="{show:false}">
+                                <input :type="show ? 'text' : 'password'" class="form-control" id="new_password" name="new_password" required>
+                                <button type="button" class="btn btn-outline-secondary border" @click="show=!show">
+                                    <i x-show="!show" class="fa-solid fa-eye"></i>
+                                    <i x-show="show" class="fa-solid fa-eye-slash"></i>
+                                </button>
+                            </div>
                         </div>
                         <div class="col-12 col-sm-6 mb-3">
                             <label for="new_password_confirmation" class="form-label">{{ __('Confirm Password') }}</label>
-                            <input type="password" class="form-control" id="new_password_confirmation" name="new_password_confirmation" required>
+                            <div class="input-group mb-3" x-data="{show:false}">
+                                <input :type="show ? 'text' : 'password'" class="form-control" id="new_password_confirmation" name="new_password_confirmation" required>
+                                <button type="button" class="btn btn-outline-secondary border" @click="show=!show">
+                                    <i x-show="!show" class="fa-solid fa-eye"></i>
+                                    <i x-show="show" class="fa-solid fa-eye-slash"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>

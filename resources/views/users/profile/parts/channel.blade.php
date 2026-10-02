@@ -91,7 +91,6 @@
                 </div>
                 <div class="card-footer d-flex flex-column flex-sm-row gap-2 justify-content-between">
                     <a class="btn btn-success d-flex align-items-center gap-2" href="{{$user->route}}">
-                        <i class="fa-solid fa-eye"></i>
                         <span>{{ __('Show my channel') }}</span>
                     </a>
                     <button type="submit" class="btn btn-primary d-flex align-items-center gap-2">

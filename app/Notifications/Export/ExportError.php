@@ -41,7 +41,7 @@ class ExportError extends Notification
     public function toArray(User $notifiable) : array
     {
         return [
-            'message' => 'Your export was failed !',
+            'message' => __('Your export was failed !'),
             'url' => route('admin.exports.index'),
             'created_at' => now(),
             'is_read' => false

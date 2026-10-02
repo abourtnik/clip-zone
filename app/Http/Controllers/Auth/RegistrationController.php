@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\Locale;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
 use App\Services\UserService;
@@ -21,7 +22,8 @@ class RegistrationController
             ->safe()
             ->merge([
                 'slug' => User::generateSlug($request->string('username')),
-                'is_admin' => null
+                'is_admin' => null,
+                'language' => Locale::resolve($request)
             ])
             ->except('cgu');
 

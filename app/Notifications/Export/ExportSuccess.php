@@ -41,7 +41,9 @@ class ExportSuccess extends Notification
     public function toArray(User $notifiable) : array
     {
         return [
-            'message' => 'Your '. $this->export->file .' export is ready !',
+            'message' => __('Your :file export is ready!', [
+                'file' => $this->export->file,
+            ]),
             'url' => route('admin.exports.download', $this->export),
             'created_at' => now(),
             'is_read' => false

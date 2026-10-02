@@ -40,7 +40,9 @@ class NewSubscriber extends Notification
     public function toArray(User $notifiable) : array
     {
         return [
-            'message' => $this->subscriber->username. ' has subscribed to your channel !',
+            'message' => __(':name has subscribed to your channel!', [
+                'name' => $this->subscriber->username,
+            ]),
             'url' => route('user.show', $this->subscriber),
             'is_read' => false,
             'created_at' => now(),

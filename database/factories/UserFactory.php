@@ -38,6 +38,7 @@ class UserFactory extends Factory
             'country' => fake()->countryCode(),
             'website' => fake()->domainName(),
             'show_subscribers' => fake()->boolean(90),
+            'language' => config('app.fallback_locale'),
             'created_at' => $date,
             'updated_at' => $date
         ];

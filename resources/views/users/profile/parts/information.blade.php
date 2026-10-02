@@ -172,7 +172,7 @@
                             <input type="email" class="form-control" id="email" name="email" required value="{{old('email', $user->email)}}" @disabled($user->getTemporaryEmailForVerification())>
                             @if($user->getTemporaryEmailForVerification())
                                 <p class="form-text text-danger text-sm mb-1">
-                                    {{ __('Please confirm your new email')}} : <strong>{{$user->getTemporaryEmailForVerification()}}</strong> by clicking the link in the confirmation email sent to you.
+                                    {!! __('Please confirm your new email :email by clicking the link in the confirmation email sent to you.', ['email' => '<strong>'.e($user->getTemporaryEmailForVerification()).'</strong>',]) !!}
                                 </p>
                                 <div class="d-flex align-items-center gap-1 justify-content-start">
                                     <button

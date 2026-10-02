@@ -41,7 +41,9 @@ class VideoError extends Notification
     public function toArray(User $notifiable) : array
     {
         return [
-            'message' => 'The processing of your video : ' .$this->video->title. ' failed !',
+            'message' => __('The processing of your video :title failed!', [
+                'title' => $this->video->title,
+            ]),
             'url' => route('user.videos.index'),
             'created_at' => now(),
             'is_read' => false

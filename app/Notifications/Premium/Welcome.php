@@ -40,7 +40,9 @@ class Welcome extends Notification
     protected function buildMailMessage(User $notifiable) : MailMessage
     {
         return (new MailMessage)
-            ->subject(Lang::get('Welcome to ' .config('app.name'). ' Premium !'))
+            ->subject(__('Welcome to :app Premium!', [
+                'app' => config('app.name'),
+            ]))
             ->markdown('mails.premium.welcome', [
                 'notifiable' => $notifiable,
             ]);

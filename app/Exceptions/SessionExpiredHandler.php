@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\Locale;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -27,7 +28,7 @@ class SessionExpiredHandler
     {
         if ($request->expectsJson()) {
             return response()->json([
-                'message' => __('auth.session_expired'),
+                'message' => __('auth.session_expired', [], Locale::resolve($request)),
             ], $status);
         }
 

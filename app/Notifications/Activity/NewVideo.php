@@ -41,7 +41,9 @@ class NewVideo extends Notification
     public function toArray(User $notifiable) : array
     {
         return [
-            'message' => $this->video->user->username. ' has published new video !',
+            'message' => __(':name has published a new video!', [
+                'name' => $this->video->user->username,
+            ]),
             'url' => $this->video->route,
             'created_at' => now(),
             'is_read' => false

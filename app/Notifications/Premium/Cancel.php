@@ -40,7 +40,9 @@ class Cancel extends Notification
     protected function buildMailMessage(User $notifiable) : MailMessage
     {
         return (new MailMessage)
-            ->subject(Lang::get('Your ' .config('app.name'). ' Premium subscription has been canceled'))
+            ->subject(__('Your :app Premium subscription has been canceled.', [
+                'app' => config('app.name'),
+            ]))
             ->markdown('mails.premium.cancel', [
                 'notifiable' => $notifiable,
             ]);
