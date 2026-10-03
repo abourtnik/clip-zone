@@ -15,17 +15,18 @@ Route::controller(LoginController::class)->group(function () {
 });
 
 // OAUTH
-Route::controller(OAuthController::class)->name('oauth.')->prefix('oauth')->group(function () {
-    Route::get('/connect/{service}', 'connect')
-        ->name('connect')
-        ->whereIn('service', array_keys(config('services')));
-    Route::get('/callback/{service}', 'callback')
-        ->name('callback')
-        ->whereIn('service', array_keys(config('services')));
-    Route::get('/unlink/{service}', 'unlink')
-        ->name('unlink')
-        ->middleware('auth')
-        ->whereIn('service', array_keys(config('services')));
+Route::controller(OAuthController::class)
+    ->name('oauth.')
+    ->prefix('oauth')
+    ->whereIn('service', config('services.oauth_services'))
+    ->group(function () {
+        Route::get('/connect/{service}', 'connect')
+            ->name('connect');
+        Route::get('/callback/{service}', 'callback')
+            ->name('callback');
+        Route::delete('/unlink/{service}', 'unlink')
+            ->name('unlink')
+            ->middleware('auth');
 });
 
 // REGISTER

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Helpers\Locale;
+use App\Actions\User\StoreUserAction;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Models\User;
-use App\Services\UserService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class RegistrationController
 {
@@ -16,18 +15,11 @@ class RegistrationController
         return view('auth.register');
     }
 
-    public function register(RegisterRequest $request, UserService $userService): RedirectResponse
+    public function register(RegisterRequest $request, StoreUserAction $storeUserAction): RedirectResponse
     {
-        $validated = $request
-            ->safe()
-            ->merge([
-                'slug' => User::generateSlug($request->string('username')),
-                'is_admin' => null,
-                'language' => Locale::resolve($request)
-            ])
-            ->except('cgu');
+        $user = $storeUserAction->execute($request->safe()->except('cgu'));
 
-        $userService->register($validated);
+        Auth::login($user, true);
 
         return redirect()->route('user.edit');
     }

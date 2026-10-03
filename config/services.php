@@ -29,5 +29,6 @@ return [
     ],
     'brevo' => [
         'api_key' => env('BREVO_API_KEY', ''),
-    ]
+    ],
+    'oauth_services' => ['google', 'facebook'],
 ];
