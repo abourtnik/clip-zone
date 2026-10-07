@@ -1,13 +1,19 @@
 @component('mail::message')
 
-# Dear {{$notifiable->username}} !
+# {{ __('Dear :name', ['name' => $notifiable->username]) }}
 
-Please see attached invoice for your Premium subscription on {{config('app.name')}} for **{{$transaction->date->format('d F Y')}} to {{$transaction->subscription->next_payment->format('d F Y')}}**
+{{ __('Please see attached invoice for your Premium subscription on :app account for **:from to :to**.', [
+    'app'  => config('app.name'),
+    'from' => $transaction->date->translatedFormat('d F Y'),
+    'to'   => $transaction->subscription->next_payment->translatedFormat('d F Y'),
+]) }}
 
 @component('mail::panel')
-    Your next debit will be on {{$transaction->subscription->next_payment->format('d F Y')}}
+    {{ __('Your next debit will be on :date', [
+        'date' => $transaction->subscription->next_payment->translatedFormat('d F Y'),
+    ]) }}
 @endcomponent
 
-Regards, {{ config('app.name') }}
+{{ __('Regards,') }} {{ config('app.name') }}
 
 @endcomponent

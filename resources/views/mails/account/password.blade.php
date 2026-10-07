@@ -1,15 +1,15 @@
 @component('mail::message')
 
-# Hello {{$notifiable->username}} !
+# {{ __('Hello :name !', ['name' => $notifiable->username]) }}
 
-You are receiving this email because your password has been updated.
+{{ __('You are receiving this email because your password has been updated.') }}
 
-If you did not request a password update, please **immediately** contact our support.
+{{ __('If you did not request a password update, please **immediately** contact our support.') }}
 
 @component('mail::button', ['url' => route('contact.show')])
-Contact Support
+{{ __('Contact Support') }}
 @endcomponent
 
-Regards, {{ config('app.name') }}
+{{ __('Regards,') }} {{ config('app.name') }}
 
 @endcomponent

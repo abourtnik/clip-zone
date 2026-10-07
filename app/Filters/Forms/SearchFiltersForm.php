@@ -19,7 +19,7 @@ class SearchFiltersForm extends FilterForm
                     'user' => __('User'),
                 ],
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->string('type'),
             ])
             ->add('date', Field::SELECT, [
@@ -32,7 +32,7 @@ class SearchFiltersForm extends FilterForm
                     'year' => __('This year')
                 ],
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->string('date'),
             ])
             ->add('duration', Field::SELECT, [
@@ -43,7 +43,7 @@ class SearchFiltersForm extends FilterForm
                     '20' => __('Over 20 minutes')
                 ],
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-lg'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->string('duration'),
             ]);
     }
