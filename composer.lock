@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2567268f5fa2663be846bf2c0fb53026",
+    "content-hash": "d74dd550f6620af277e9242886be57cb",
     "packages": [
         {
             "name": "aws/aws-crt-php",
@@ -6635,16 +6635,16 @@
         },
         {
             "name": "rappasoft/laravel-patches",
-            "version": "dev-l13-compatibility",
+            "version": "v4.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/laravel-shift/laravel-patches.git",
-                "reference": "a31af90de94caee6518cf0135adb4f2c832aaf61"
+                "url": "https://github.com/rappasoft/laravel-patches.git",
+                "reference": "0b132301484bdc72b3e00e0177f4cba8b6c35334"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel-shift/laravel-patches/zipball/a31af90de94caee6518cf0135adb4f2c832aaf61",
-                "reference": "a31af90de94caee6518cf0135adb4f2c832aaf61",
+                "url": "https://api.github.com/repos/rappasoft/laravel-patches/zipball/0b132301484bdc72b3e00e0177f4cba8b6c35334",
+                "reference": "0b132301484bdc72b3e00e0177f4cba8b6c35334",
                 "shasum": ""
             },
             "require": {
@@ -6655,9 +6655,9 @@
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.64",
                 "orchestra/testbench": "^9.0|^10.0|^11.0",
-                "pestphp/pest": "^2.0|^3.0|^4.4",
-                "pestphp/pest-plugin-laravel": "^3.0|^4.1",
-                "phpunit/phpunit": "^10.5|^11.5|^12.5.12",
+                "pestphp/pest": "^3.0|^4.0|^5.0",
+                "pestphp/pest-plugin-laravel": "^3.0|^4.0|^5.0",
+                "phpunit/phpunit": "^11.5|^12.0|^13.0",
                 "spatie/laravel-ray": "^1.37"
             },
             "type": "library",
@@ -6673,22 +6673,7 @@
                     "Rappasoft\\LaravelPatches\\": "src"
                 }
             },
-            "autoload-dev": {
-                "psr-4": {
-                    "Rappasoft\\LaravelPatches\\Tests\\": "tests"
-                }
-            },
-            "scripts": {
-                "format": [
-                    "vendor/bin/php-cs-fixer fix --allow-risky=yes"
-                ],
-                "test": [
-                    "vendor/bin/pest --colors=always"
-                ],
-                "test-coverage": [
-                    "vendor/bin/pest --coverage --coverage-html coverage"
-                ]
-            },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -6706,15 +6691,16 @@
                 "rappasoft"
             ],
             "support": {
-                "source": "https://github.com/laravel-shift/laravel-patches/tree/l13-compatibility"
+                "issues": "https://github.com/rappasoft/laravel-patches/issues",
+                "source": "https://github.com/rappasoft/laravel-patches/tree/v4.1.0"
             },
             "funding": [
                 {
-                    "type": "github",
-                    "url": "https://github.com/rappasoft"
+                    "url": "https://github.com/rappasoft",
+                    "type": "github"
                 }
             ],
-            "time": "2026-03-05T19:02:17+00:00"
+            "time": "2026-10-09T19:15:14+00:00"
         },
         {
             "name": "rdx/laravelcollective-html",
@@ -13591,9 +13577,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "rappasoft/laravel-patches": 20
-    },
+    "stability-flags": {},
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
