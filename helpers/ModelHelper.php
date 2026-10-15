@@ -623,7 +623,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $email_verified_at
  * @property \Illuminate\Support\Carbon|null $last_login_at
  * @property string|null $last_login_ip
- * @property int|null $is_admin
+ * @property bool $is_admin
  * @property string|null $remember_token
  * @property string|null $avatar
  * @property string|null $banner
