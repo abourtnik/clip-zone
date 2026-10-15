@@ -218,7 +218,7 @@
                                         </li>
                                     @endif
                                     <li class="list-group-item ps-0">
-                                        {{ config('app.url') . '/@' . $user->username }}
+                                        {{ route('user.show', $user) }}
                                     </li>
                                     <li class="list-group-item ps-0">
                                         @auth
