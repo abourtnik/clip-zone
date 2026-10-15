@@ -14,11 +14,12 @@ class RateLimit
     /**
      * Handle an incoming request.
      *
-     * @param Request  $request
-     * @param  \Closure(Request): (Response|RedirectResponse)  $next
-     * @return RedirectResponse
+     * @param Request $request
+     * @param Closure(Request): (Response|RedirectResponse) $next
+     * @param int $maxAttempts
+     * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next, int $maxAttempts = 60): RedirectResponse
+    public function handle(Request $request, Closure $next, int $maxAttempts = 60): Response|RedirectResponse
     {
         $userId = $request->user()?->id ? '|'. $request->user()->id : '';
 

@@ -23,7 +23,7 @@
     .form-control, .form-select {
         background-color: #181933 !important;
     }
-    .list-group-item {
+    .list-group-item:not(.list-group-item-warning, .list-group-item-danger) {
         background-color: #22254D !important;
     }
     .hover-grey:hover {

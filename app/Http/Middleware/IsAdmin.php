@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
@@ -13,15 +14,15 @@ class IsAdmin
      * Handle an incoming request.
      *
      * @param Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @return \never
+     * @param Closure(Request): (Response) $next
+     * @return Response
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check() && (Auth::user()->is_admin || Session::has('impersonated_by'))) {
             return $next($request);
         }
 
-        return abort(404);
+        abort(404);
     }
 }

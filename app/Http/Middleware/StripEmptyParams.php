@@ -17,10 +17,10 @@ class StripEmptyParams
      * Handle an incoming request.
      *
      * @param Request $request
-     * @param \Closure(Request): (Response|RedirectResponse)  $next
+     * @param Closure(Request): (Response|RedirectResponse) $next
      * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
         $query = $request->query();
 
@@ -46,7 +46,7 @@ class StripEmptyParams
      * @param Request $request
      * @return bool
      */
-    protected function inExceptArray(Request $request): bool
+    private function inExceptArray(Request $request): bool
     {
         foreach ($this->except as $except) {
             if ($except !== '/') {

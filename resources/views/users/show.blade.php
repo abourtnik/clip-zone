@@ -17,19 +17,19 @@
         @endif
         @if(Auth::user()?->is($user))
             <a href="{{route('user.edit')}}"
-                x-show.important="upload"
-                x-transition.duration.500ms
-                class="position-absolute top-0 right-0 me-2 mt-2 p-2 text-white bg-dark bg-opacity-25 text-decoration-none fw-bold rounded-5"
+               x-show.important="upload"
+               x-transition.duration.500ms
+               class="position-absolute top-0 right-0 me-2 mt-2 dot text-white bg-primary rounded-circle border border-1 border-info bg-opacity-75 text-decoration-none fw-bold d-flex align-items-center justify-content-center"
             >
-                <i class="fa-solid fa-2x fa-camera"></i>
+                <i class="fa-solid fa-camera"></i>
             </a>
         @endif
     </div>
     <div class="w-100">
         <div class="col-12 col-sm-10 offset-sm-1">
             <div>
-                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center py-4">
-                    <div class="d-flex align-items-center mb-4 mb-sm-0">
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center py-4">
+                    <div class="d-flex align-items-center mb-4 mb-lg-0">
                         <div class="d-flex align-items-center gap-4" x-data="{ upload: false }">
                             <div @mouseover="upload=true" @mouseleave="upload=false"  class="rounded-circle position-relative overflow-hidden" style="width: 110px">
                                 <img style="width: 100px;height: 100px" class="rounded-circle" src="{{$user->avatar_url}}" alt="{{$user->username}} avatar">
@@ -77,8 +77,8 @@
                         </button>
                     @else
                         <div class="d-flex flex-wrap gap-2 justify-content-center ">
-                            <a href="{{route('user.edit')}}" class="btn btn-primary">{{ __('Customize channel') }}</a>
-                            <a href="{{route('user.videos.index')}}" class="btn btn-primary">{{ __('Manage videos') }}</a>
+                            <a href="{{route('user.edit')}}" class="btn btn-primary btn-sm">{{ __('Customize channel') }}</a>
+                            <a href="{{route('user.videos.index')}}" class="btn btn-primary btn-sm">{{ __('Manage videos') }}</a>
                         </div>
                     @endif
                 </div>
@@ -194,7 +194,7 @@
                 </div>
                 <div class="tab-pane" id="about" role="tabpanel" aria-labelledby="about-tab">
                     <div class="row mt-4">
-                        <div class="col-lg-9 order-2 order-lg-1">
+                        <div class="col-xl-8 mb-4 mb-xl-0">
                             <div class="card card-body">
                                 <h6 class="card-title text-primary">{{ __('Description') }}</h6>
                                 <hr>
@@ -203,11 +203,11 @@
                                 </x-expand-item>
                             </div>
                         </div>
-                        <div class="col-lg-3 order-1 order-lg-2 mb-4 mb-lg-0">
+                        <div class="col-xl-4">
                             <div class="card card-body">
                                 <h6 class="card-title text-primary mb-4">{{ __('Informations') }}</h6>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item ps-0">{{ __('Joined') }} {{$user->created_at->translatedFormat('d F Y')}}</li>
+                                <ul class="list-group list-group-flush text-sm">
+                                    <li class="list-group-item ps-0">{{ __('Joined :date', ['date' => $user->created_at->translatedFormat('d F Y')]) }}</li>
                                     <li class="list-group-item ps-0">{{trans_choice('views', $user->videos_views_count)}}</li>
                                     @if($user->country)
                                         <li class="list-group-item ps-0">{{ __('Country')}} : {{$user->country_name}}</li>

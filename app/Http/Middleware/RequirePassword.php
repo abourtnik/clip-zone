@@ -13,11 +13,11 @@ class RequirePassword
     /**
      * Handle an incoming request.
      *
-     * @param Request  $request
-     * @param  \Closure(Request): (Response|RedirectResponse)  $next
-     * @return RedirectResponse
+     * @param Request $request
+     * @param Closure(Request): (Response|RedirectResponse) $next
+     * @return Response|RedirectResponse
      */
-    public function handle(Request $request, Closure $next): RedirectResponse
+    public function handle(Request $request, Closure $next):  Response|RedirectResponse
     {
         if(!Hash::check($request->string('current_password'), auth()->user()->password)){
             return back()->with("error", __("Current Password doesn't match !"));

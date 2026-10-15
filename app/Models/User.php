@@ -73,6 +73,7 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable, HasLo
         'show_subscribers' => 'boolean',
         'banned_at' => 'datetime',
         'last_login_at' => 'datetime',
+        'is_admin' => 'boolean',
         'phone' => E164PhoneNumberCast::class,
         'phone_verified_at' => 'datetime',
         'videos_max_published_at' => 'datetime'
@@ -285,13 +286,6 @@ class User extends Authenticatable implements MustVerifyEmail, Reportable, HasLo
     {
         return Attribute::make(
             get: fn () => Str::limit($this->description, '300', '...')
-        );
-    }
-
-    protected function isAdmin(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => !is_null($value)
         );
     }
 
