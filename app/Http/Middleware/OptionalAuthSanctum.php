@@ -10,11 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class OptionalAuthSanctum
 {
     /**
-     * Handle an incoming request.
-     *
-     * @param Request  $request
-     * @param Closure(Request): (\Illuminate\Http\Response) $next
-     * @return Response
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
     {
