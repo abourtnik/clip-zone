@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\RedirectResponse;
 
 class StripEmptyParams
@@ -14,11 +14,7 @@ class StripEmptyParams
     ];
 
     /**
-     * Handle an incoming request.
-     *
-     * @param Request $request
-     * @param Closure(Request): (Response|RedirectResponse) $next
-     * @return Response|RedirectResponse
+     * @param  Closure(Request): (Response)  $next
      */
     public function handle(Request $request, Closure $next): Response|RedirectResponse
     {

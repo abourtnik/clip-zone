@@ -53,7 +53,7 @@ export const Video = memo(({video, actions} : Props) => {
                             <img className="rounded-circle tw:w-9" src={video.user.avatar} alt={video.user.username + ' avatar'} />
                         </a>
                         <div className="ml-2">
-                            <a href={video.route} className="fw-bolder text-decoration-none text-black d-block position-relative text-break" title={video.title}>{video.short_title}</a>
+                            <a href={video.route} className="fw-bolder text-decoration-none text-black position-relative text-break tw:line-clamp-2" title={video.title}>{video.short_title}</a>
                             <a href={video.user.route} className="position-relative text-decoration-none">
                                 <small>{video.user.username}</small>
                             </a>
