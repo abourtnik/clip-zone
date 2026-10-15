@@ -51,7 +51,7 @@
                                 @if($user->show_subscribers)
                                     {{trans_choice('subscribers', $user->subscribers_count)}} •
                                 @endif
-                                {{trans_choice('videos', $user->videos->count())}}
+                                {{trans_choice('videos', $user->videos_count)}}
                             </div>
                         </div>
                     </div>

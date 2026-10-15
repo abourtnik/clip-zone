@@ -49,6 +49,7 @@ class ShowUserAction
             'pinned_video',
             'reportByAuthUser'
         ])->loadCount([
+            'videos' => fn($q) => $q->active(),
             'subscribers',
             'videos_views',
         ]);
