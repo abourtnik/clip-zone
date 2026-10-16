@@ -11,7 +11,7 @@
     <hr>
     {!! form(FormBuilder::create(ActivityFiltersForm::class)) !!}
     <div class="row">
-        <div class="col-xl-9 order-last order-xl-first">
+        <div class="col-xxl-9 col-xl-8 order-last order-xl-first">
             @if($activities->total() || request()->all())
                 @forelse($activities as $activity)
                     @include('users.activity.types.'. $activity->type)
@@ -42,7 +42,7 @@
                 </div>
             @endif
         </div>
-        <div class="col-xl-3 order-first order-xl-last mb-3 mb-xl-0">
+        <div class="col-xxl-3 col-xl-4 order-first order-xl-last mb-3 mb-xl-0">
             <div class="card card-body">
                 <h5 class="text-primary">{{ __('Statistics') }}</h5>
                 <ul class="list-group list-group-flush">

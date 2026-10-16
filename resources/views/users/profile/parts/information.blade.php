@@ -68,6 +68,10 @@
                                     </div>
                                 @else
                                     <div class="badge bg-secondary">{{ __('Standard account')}}</div>
+                                    <a class="btn btn-warning btn-sm text-white fw-bold d-flex align-items-center gap-2" href="{{route('pages.premium')}}">
+                                        <i class="fa-solid fa-star"></i>
+                                        <span>{{ __('Become premium') }}</span>
+                                    </a>
                                 @endif
                             </div>
                         </div>
@@ -113,13 +117,6 @@
                                     </a>
                                 @endif
                             </div>
-                        @else
-                            <hr class="w-100 d-block d-lg-none">
-                            <a class="btn btn-warning text-white fw-bold d-flex align-items-center gap-2" href="{{route('pages.premium')}}">
-                                <i class="fa-solid fa-star"></i>
-                                <span>{{ __('Become premium') }}</span>
-                            </a>
-                            <div></div>
                         @endif
                     </div>
                     <hr>

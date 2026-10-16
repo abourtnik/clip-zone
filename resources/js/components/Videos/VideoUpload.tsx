@@ -3,6 +3,7 @@ import Resumable from 'resumablejs'
 import {formatSizeUnits} from "@/functions/size";
 import { useTranslation } from "react-i18next";
 import type { TargetedEvent } from "preact"
+import {clsx} from "clsx";
 
 type Props = {
     endpoint: string,
@@ -119,8 +120,8 @@ export function VideoUpload ({endpoint, maxsize} : Props) {
                         onDrop={() => setDrag(false)}
 
                     />
-                    <div style={'border-style: dashed !important;'} className={"text-center align-items-center d-flex flex-column w-100 mx-auto py-3" + (isDrag ? ' bg-light border border-2' : '') }>
-                        <img src="/images/upload.jpg" className={'mb-4'} alt=""/>
+                    <div className={clsx('text-center align-items-center d-flex flex-column w-100 mx-auto py-3', isDrag && 'bg-light border border-2 tw:border-dashed!')}>
+                        <img src="/images/upload.png" className={'mb-4'} alt="Upload Video"/>
                         <strong className="mb-1">{t('Drag and drop video file to upload')}</strong>
                         <div className="text-muted">{t('Your video will be private until you publish them')}</div>
                         <button className="btn btn-primary mt-4 text-uppercase">

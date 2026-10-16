@@ -86,7 +86,7 @@ const Main = ({count} : Props) => {
                 }
             </button>
             <Offcanvas show={open} onHide={() => setOpen(false)} placement="end" style={{width: '350px'}}>
-                <div className="offcanvas-header bg-light border d-flex justify-content-between align-items-center py-2">
+                <div className="offcanvas-header bg-light border d-flex justify-content-between align-items-center py-2 px-2">
                     <h6 className="offcanvas-title">
                         {t('Notifications')} {unread > 0 && <span>({unread})</span>}
                     </h6>
@@ -97,7 +97,7 @@ const Main = ({count} : Props) => {
                                 <small>{t('Mark all as read')}</small>
                             </Button>
                         }
-                            <button type="button" className="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" onClick={() => setOpen(false)}></button>
+                            <button type="button" className="btn-close tw:text-xs!" data-bs-dismiss="offcanvas" aria-label="Close" onClick={() => setOpen(false)}></button>
                     </div>
                 </div>
                 <div className="offcanvas-body p-0">

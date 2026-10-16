@@ -1,5 +1,5 @@
 <div class="offcanvas offcanvas-end" tabindex="-1" id="account" aria-labelledby="account" style="width: 350px">
-    <div class="offcanvas-header bg-light border d-flex justify-content-between align-items-start py-2">
+    <div class="offcanvas-header bg-light border position-relative py-2">
         <div class="d-flex gap-3 align-items-start">
             <img width="45" height="45" class="rounded-circle border" src="{{auth()->user()->avatar_url}}" alt="{{auth()->user()->username}} avatar">
             <div>
@@ -15,7 +15,7 @@
                 <a class="d-block text-decoration-none mt-2" href="{{auth()->user()->route}}">{{ __('View your channel')}}</a>
             </div>
         </div>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button" class="btn-close tw:text-xs! position-absolute top-0 right-0 me-2 mt-2" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body px-0 pt-0">
         <div class="list-group list-group-flush overflow-auto">
