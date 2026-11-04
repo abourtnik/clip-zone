@@ -11,14 +11,14 @@
 
     <meta name="theme-color" content="#FFFFFF" />
     <meta name="msapplication-navbutton-color" content="#FFFFFF" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="#FFFFFF" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 
     <meta property="og:site_name" content="{{ config('app.name') }}" />
     <meta property="og:url" content="{{ url()->full() }}" />
     <meta property="og:title" content="@yield('title') - {{config('app.name')}}" />
     <meta property="og:description" content="@yield('description')" />
     <meta property="og:image" content="@yield('image', asset('images/logo.png'))" />
-    <meta property="og:language" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
+    <meta property="og:locale" content="{{ str_replace('_', '-', app()->getLocale()) }}" />
 
     <link rel="icon" href="{{ asset('/icons/favicon.ico') }}" sizes="any">
     <link rel="apple-touch-icon" href="{{ asset('/icons/apple-touch-icon.png') }}">

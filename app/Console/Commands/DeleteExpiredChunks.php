@@ -56,7 +56,7 @@ class DeleteExpiredChunks extends Command
 
         $this->info(now()->format('Y-m-d H:i:s',).' - Delete ' .$count. ' chunks path');
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }
 

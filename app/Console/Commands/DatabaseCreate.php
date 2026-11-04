@@ -36,6 +36,6 @@ class DatabaseCreate extends Command
 
         config(["database.connections.mysql.database" => $name]);
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }

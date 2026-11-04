@@ -41,6 +41,6 @@ class SendTrialsEnd extends Command
             $this->info(now()->format('Y-m-d H:i:s').' - Notify ' .$subscription->user->username. '('.$subscription->user->id.') trials end.');
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }

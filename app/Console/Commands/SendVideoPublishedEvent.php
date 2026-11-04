@@ -40,6 +40,6 @@ class SendVideoPublishedEvent extends Command
             $this->info(now()->format('Y-m-d H:i:s',).' - Video : ' .$video->title. ' ('.$video->id.') published.');
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }

@@ -40,6 +40,6 @@ class CreateUser extends Command
             'website' => null
         ]);
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }

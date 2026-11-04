@@ -36,6 +36,6 @@ class DeleteUnconfirmedUsers extends Command
 
         $this->info(now()->format('Y-m-d H:i:s').' - Delete ' .$count. ' unconfirmed users');
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }

@@ -41,6 +41,6 @@ class SendCardExpiration extends Command
             $this->info(now()->format('Y-m-d H:i:s',).' - Notify ' .$subscription->user->username. '('.$subscription->user->id.') card expiration.');
         }
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 }
