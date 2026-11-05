@@ -137,4 +137,7 @@ export default {
     "Unknown error": "Erreur inconnue",
     "Try again": "Merci de reessayer",
     "Subscribers": "{count, plural, =0 {0 abonnés} =1 {1 abonné} other {# abonnés}}",
+    "This video is private": "Cette vidéo est privée",
+    "The author update video status to private": "L'auteur a passé la vidéo en mode privé",
+    "No results. Try different keywords": "Aucun résultat. Essayez d’autres mots-clés"
 }

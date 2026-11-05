@@ -634,5 +634,6 @@
     "Verify user": "Vérifier l’utilisateur",
     "With replies": "Avec des réponses",
     "Without replies": "Sans réponses",
-    "Amount": "Montant"
+    "Amount": "Montant",
+    "No matching users": "Aucun utilisateur correspondant"
 }

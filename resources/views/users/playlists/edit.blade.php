@@ -68,8 +68,8 @@
                         </div>
                         <h5 class="text-primary">{{ __('Settings') }}</h5>
                         <hr>
-                        <div class="row">
-                            <div class="col-12 col-sm-6 mt-3">
+                        <div class="row gy-3">
+                            <div class="col-12 col-sm-6 col-xxl-12">
                                 <label for="status" class="form-label">{{ __('Visibility') }}</label>
                                 <select class="form-control" name="status" id="status" required>
                                     @foreach($status as $id => $name)
@@ -77,7 +77,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-12 col-sm-6 mt-3">
+                            <div class="col-12 col-sm-6 col-xxl-12">
                                 <label for="sort" class="form-label">{{ __('Default videos order') }}</label>
                                 <select class="form-control" name="sort" id="sort" required>
                                     @foreach($sorts as $id => $name)

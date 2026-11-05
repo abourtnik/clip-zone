@@ -40,7 +40,7 @@
                                         <img class="rounded" src="{{$comment->user->avatar_url}}" alt="{{$comment->user->username}} avatar" style="width: 50px;">
                                     </a>
                                     <div class="d-flex flex-column gap-1">
-                                        <div class="d-flex align-items-center gap-1">
+                                        <div class="d-flex align-items-center gap-1 flex-wrap">
                                             <a @class(['text-sm text-decoration-none', 'badge rounded-pill text-bg-secondary' => $comment->user->is($comment->video->user)]) href="{{$comment->user->route}}">{{$comment->user->username}}</a>
                                             <span class="text-muted text-sm">•</span>
                                             <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->translatedFormat('d F Y - H:i')}}">

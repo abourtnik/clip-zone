@@ -58,48 +58,46 @@ export function Main({uuid} : Props) {
     return(
         <PlaylistContext.Provider value={{uuid: uuid}}>
             <div className="card shadow-soft pb-0 h-100">
-                <div className="card-body px-0 pb-0">
-                    <h5 className="text-primary px-3">{t('Manage videos')}</h5>
+                <div className="card-body px-0 pb-0 tw:flex tw:flex-col">
+                    <h5 className="text-primary px-3 mb-0">{t('Manage videos')}</h5>
                     <hr className={'mb-0'}/>
-                    <div className={'d-flex'} style={{height: '733px'}}>
-                        <div className="w-50 border-end">
-                            <div className={'text-center border-bottom d-flex align-items-center justify-content-center'} style={{height: '71px'}}>
+                    <div className={'d-flex tw:h-full'}>
+                        <div className="w-50 border-end d-flex flex-column tw:h-full">
+                            <div className={'text-center border-bottom d-flex align-items-center justify-content-center p-4 tw:h-[71px]'}>
                                 <h6 className={'mb-0'}>{t('Playlist videos')}</h6>
                             </div>
-                            <div style="height:662px">
-                                <div className={'overflow-auto'} style="height:620px">
-                                    {
-                                        isLoading &&
-                                        <div className={'d-flex justify-content-center align-items-center h-100'}>
-                                            <Loader/>
-                                        </div>
-                                    }
-                                    {
-                                        isError &&
-                                        <div className={'d-flex justify-content-center align-items-center h-100'}>
-                                            <ApiError refetch={refetch} error={error}/>
-                                        </div>
-                                    }
-                                    <div className={'h-100'}>
-                                        {videos && <SelectedVideos videos={videos}/>}
-                                        {
-                                            isFetchingNextPage &&
-                                            <div className={'d-flex justify-content-center align-items-center py-3'}>
-                                                <div class="spinner-border text-primary spinner-border-sm" role="status">
-                                                    <span class="visually-hidden">{t('Loading...')}</span>
-                                                </div>
-                                            </div>
-                                        }
-                                        {hasNextPage && <span ref={ref}></span>}
-                                    </div>
-                                </div>
+                            <div className={'overflow-auto tw:h-[715px]'}>
                                 {
-                                    videos &&
-                                    <div className={'text-center py-2 bg-primary-subtle border'}>
-                                        {videos.pages.flatMap((page => page.data)).length} videos
+                                    isLoading &&
+                                    <div className={'d-flex justify-content-center align-items-center h-100'}>
+                                        <Loader/>
                                     </div>
                                 }
+                                {
+                                    isError &&
+                                    <div className={'d-flex justify-content-center align-items-center h-100'}>
+                                        <ApiError refetch={refetch} error={error}/>
+                                    </div>
+                                }
+                                <div className={'h-100'}>
+                                    {videos && <SelectedVideos videos={videos}/>}
+                                    {
+                                        isFetchingNextPage &&
+                                        <div className={'d-flex justify-content-center align-items-center py-3'}>
+                                            <div class="spinner-border text-primary spinner-border-sm" role="status">
+                                                <span class="visually-hidden">{t('Loading...')}</span>
+                                            </div>
+                                        </div>
+                                    }
+                                    {hasNextPage && <span ref={ref}></span>}
+                                </div>
                             </div>
+                            {
+                                videos &&
+                                <div className={'text-center py-2 bg-primary-subtle border'}>
+                                    {videos.pages.flatMap((page => page.data)).length} videos
+                                </div>
+                            }
                         </div>
                         <Search/>
                     </div>
@@ -187,7 +185,7 @@ function SelectedVideos({videos}: SelectedVideosProps) {
                                                             </small>
                                                         </div>
                                                         <div>
-                                                            <div className={'text-black fw-bold text-sm mb-1 text-break'}>{video.title}</div>
+                                                            <div className={'text-black fw-bold text-sm mb-1 text-break tw:line-clamp-2'}>{video.title}</div>
                                                             <div className={'text-muted text-sm'}>{video.user.username}</div>
                                                             <div className={'text-muted text-sm'}>{t( 'Views', { count: video.views, formatted: numeral(video.views).format('0.[0]a') } )} • {moment(video.published_at).fromNow()}</div>
                                                         </div>
@@ -274,7 +272,7 @@ function SearchResult ({video, index, results} : SearchResultProps) {
                     </small>
                 </div>
                 <div>
-                    <div className={'text-black fw-bold text-sm mb-1 text-break'}>
+                    <div className={'text-black fw-bold text-sm mb-1 text-break tw:line-clamp-2'}>
                         {video.title}
                     </div>
                     <div className={'text-muted text-sm'}>
@@ -303,9 +301,9 @@ function Search() {
 
 
     return (
-        <div className="w-50 pt-3 px-0">
-            <div className={'position-relative pb-3 border-bottom'}>
-                <form className="d-flex w-100 position-relative px-3">
+        <div className="w-50 px-0 d-flex flex-column">
+            <div className={'position-relative border-bottom d-flex align-items-center justify-content-center p-3'}>
+                <form className="d-flex w-100 position-relative">
                     <input
                         //onMouseDown={(e) => false}
                         onChange={(e) => setQuery(e.currentTarget.value)}
@@ -326,7 +324,7 @@ function Search() {
                     }
                 </form>
             </div>
-            <div className={'overflow-auto'} style="max-height:662px">
+            <div className={'overflow-auto tw:h-[755px]'}>
                 {
                     results && results.data.length > 0 && (
                         <ul className={'list-group list-group-flush mb-0'}>
@@ -341,7 +339,7 @@ function Search() {
                 {
                     results && results.data.length === 0 && (
                         <div className={'d-flex justify-content-center align-items-center px-3 h-100 w-100'}>
-                            <p className={'text-muted text-sm text-center'}>{t('No results. Please try again')}</p>
+                            <p className={'text-muted text-sm text-center'}>{t('No results. Try different keywords')}</p>
                         </div>
                     )
                 }

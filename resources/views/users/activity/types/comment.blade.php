@@ -21,7 +21,7 @@
                             {{ __('Banned :date', ['date' => $activity->subject->banned_at->diffForHumans()]) }}
                         </span>
                     </div>
-                @elseif($activity->subject->is_banned->trashed())
+                @elseif($activity->subject->trashed())
                     <div class="d-flex align-items-center gap-1">
                         <span class="text-muted">•</span>
                         <span class="text-danger fw-semibold">
