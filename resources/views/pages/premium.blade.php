@@ -23,7 +23,7 @@
                 <span>{{config('plans.trial_period.period')}} {{ __('days trial') }} • {{ __('Then') }}</span>
                 @endif
                 @foreach($plans as $plan)
-                    <span x-show="plan === {{$plan->id}}">{{$plan->price}} / {{ __($plan->period)}} </span>
+                    <span x-show="plan === {{$plan->id}}">{{$plan->price}} / {{ $plan->period }} </span>
                 @endforeach
                 <span>• {{ __('Cancel anytime') }}</span>
             </h3>
@@ -52,7 +52,7 @@
                     @foreach($plans as $plan)
                         <div class="card shadow" x-show="plan === {{$plan->id}}">
                             <div class="card-body">
-                                <h5 class="card-title fs-1 text-primary text-center">{{$plan->price}} / {{ __($plan->period) }}</h5>
+                                <h5 class="card-title fs-1 text-primary text-center">{{$plan->price}} / {{ $plan->period }}</h5>
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex align-items-center gap-4 py-3">
@@ -85,14 +85,14 @@
                                 @elseif(Auth::user()?->premium_subscription)
                                     <a href="{{route('premium.subscribe', $plan)}}" class="btn btn-primary fs-5 w-100">{{ __('premium.get', ['app_name' => config('app.name')])}}</a>
                                     <div class="text-sm text-muted mt-3">
-                                        <p class="fw-bold">{{ __('premium.billing_without_trial', ['date' => now()->translatedFormat('j F Y'), 'period' => __($plan->period)]) }}</p>
+                                        <p class="fw-bold">{{ __('premium.billing_without_trial', ['date' => now()->translatedFormat('j F Y'), 'period' => $plan->period]) }}</p>
                                         {{ __('You will be charged automatically at the end of each period.') }}
                                         {{ __('Payments won\'t be refunded for partial billing periods. Cancel anytime from your account.') }}
                                     </div>
                                 @else
                                     <a href="{{route('premium.subscribe', $plan)}}" class="btn btn-primary fs-5 w-100">{{ __('Start Trial')}}</a>
                                     <div class="text-sm text-muted mt-3">
-                                        <p class="fw-bold">{{ __('premium.billing', ['date' => now()->add('days', config('plans.trial_period.period'))->translatedFormat('j F Y'), 'period' => __($plan->period)]) }}</p>
+                                        <p class="fw-bold">{{ __('premium.billing', ['date' => now()->add('days', config('plans.trial_period.period'))->translatedFormat('j F Y'), 'period' => $plan->period]) }}</p>
                                         {{ __('You will be charged automatically at the end of each period.') }}
                                         {{ __('Payments won\'t be refunded for partial billing periods. Cancel anytime from your account.') }}
                                     </div>

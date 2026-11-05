@@ -79,7 +79,7 @@
                             <hr class="w-100">
                             <div class="alert alert-info w-100">
                                 <div class="d-flex justify-content-between flex-column flex-sm-row gap-2">
-                                    <div class="fw-bold">{{ __('My subscription') }} : {{$user->premium_subscription->plan->price}}  / {{ __($user->premium_subscription->plan->period) }}</div>
+                                    <div class="fw-bold">{{ __('My subscription') }} : {{$user->premium_subscription->plan->price}} / {{ $user->premium_subscription->plan->period }}</div>
                                     <div>
                                         <span>{{ __('Status') }} :</span>
                                         <strong @class(['text-danger' => !$user->premium_subscription->is_active, 'text-success' => $user->premium_subscription->is_active ])>

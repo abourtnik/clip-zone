@@ -218,6 +218,7 @@
     "Activities": "Activités",
     "Reports": "Signalements",
     "Invoices": "Factures",
+    "Invoice": "Facture",
     "Publication date start": "Date de publication de début",
     "Publication date end": "Date de publication de fin",
     "Views": "Vues",
@@ -635,5 +636,16 @@
     "With replies": "Avec des réponses",
     "Without replies": "Sans réponses",
     "Amount": "Montant",
-    "No matching users": "Aucun utilisateur correspondant"
+    "No matching users": "Aucun utilisateur correspondant",
+    "Invoice No :id": "Facture numéro :id",
+    "Invoice No": "Facture numéro",
+    "Amount Excluding taxes": "Montant exclu des taxes",
+    "Premium account - :plan plan - From :start_date to :end_date": "Compte Premium - plan :plan - Du :start_date au :end_date",
+    "Excluding taxes": "Exclu des taxes",
+    "VAT": "TVA",
+    "Total": "Total",
+    "Invoices To": "Facturé à",
+    "Pay To": "Payer à",
+    "monthly": "mensuel",
+    "annually": "annuelle"
 }

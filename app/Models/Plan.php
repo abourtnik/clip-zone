@@ -22,7 +22,13 @@ class Plan extends Model
 
     public function period() : Attribute {
         return Attribute::make(
-            get: fn () => $this->duration === 1 ? 'month' : 'year'
+            get: fn () => $this->duration === 1 ? __('month') : __('year')
+        );
+    }
+
+    public function name() : Attribute {
+        return Attribute::make(
+            get: fn ($value) => __($value)
         );
     }
 }
