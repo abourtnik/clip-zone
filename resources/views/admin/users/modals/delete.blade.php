@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirm delete user ? </h5>
+                <h5 class="modal-title">{{ __('Confirm delete user ?') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="POST" :action="user.route">
@@ -16,10 +16,10 @@
                     <hr>
                 </div>
                 <div class="modal-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                     <button type="submit" class="btn btn-danger">
                         <i class="fa-solid fa-trash"></i> &nbsp;
-                        Delete user
+                        {{ __('Delete user') }}
                     </button>
                 </div>
             </form>

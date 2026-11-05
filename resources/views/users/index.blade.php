@@ -203,7 +203,7 @@
                                         </a>
                                     </td>
                                     <td class="align-middle">
-                                        <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscription->subscribe_at->format('d F Y - H:i')}}">
+                                        <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscription->subscribe_at->translatedFormat('d F Y - H:i')}}">
                                             {{$subscription->subscribe_at->diffForHumans()}}
                                         </div>
                                     </td>
@@ -280,7 +280,7 @@
                                                 <div>
                                                     <div class="d-flex align-items-center">
                                                         <a href="{{$comment->user->route}}" class="text-decoration-none text-sm">{{$comment->user->username}}</a>
-                                                        <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
+                                                        <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->translatedFormat('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
                                                     </div>
                                                     <x-expand-item max="180" class="d-block">
                                                         {{$comment->content}}
@@ -360,7 +360,7 @@
                                             <img class="rounded-circle" src="{{$interaction->user->avatar_url}}" alt="{{$interaction->user->username}} avatar" style="width: 45px;">
                                             <div class="d-flex flex-column text-sm">
                                                 <span>{{$interaction->user->username}}</span>
-                                                <span class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$interaction->perform_at->format('d F Y - H:i')}}">{{$interaction->perform_at->diffForHumans()}}</span>
+                                                <span class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$interaction->perform_at->translatedFormat('d F Y - H:i')}}">{{$interaction->perform_at->diffForHumans()}}</span>
                                             </div>
                                         </a>
                                     </td>

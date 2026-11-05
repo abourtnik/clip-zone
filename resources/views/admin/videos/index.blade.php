@@ -2,12 +2,12 @@
 
 @extends('layouts.admin')
 
-@section('title', 'Videos')
+@section('title', __('Videos'))
 
 @section('content')
     <div x-data="{video: {}}">
         <div class="d-flex justify-content-between align-items-center my-3">
-            <h2>Videos</h2>
+            <h2>{{ __('Videos') }}</h2>
         </div>
         <hr>
         {!! form(FormBuilder::create(VideoFiltersForm::class)) !!}
@@ -15,14 +15,14 @@
             <table class="table table-bordered table-striped">
                 <thead>
                 <tr style="border-top: 3px solid #0D6EFD;">
-                    <th style="min-width: 300px" scope="col">User</th>
-                    <th scope="col" style="min-width: 400px">Video</th>
-                    <th scope="col">Status</th>
-                    <th scope="col" style="min-width: 210px">Date</th>
-                    <th scope="col">Views</th>
-                    <th scope="col">Comments</th>
-                    <th scope="col" style="min-width: 140px">Interactions</th>
-                    <th scope="col">Actions</th>
+                    <th style="min-width: 300px" scope="col">{{ __('User') }}</th>
+                    <th scope="col" style="min-width: 400px">{{ __('Video') }}</th>
+                    <th scope="col">{{ __('Status') }}</th>
+                    <th scope="col" style="min-width: 210px">{{ __('Date') }}</th>
+                    <th scope="col">{{ __('Views') }}</th>
+                    <th scope="col">{{ __('Comments') }}</th>
+                    <th scope="col" style="min-width: 140px">{{ __('Interactions') }}</th>
+                    <th scope="col">{{ __('Actions') }}</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -33,7 +33,11 @@
                                 <img class="rounded" src="{{$video->user->avatar_url}}" alt="{{$video->user->username}} avatar" style="width: 50px;">
                                 <div class="d-flex flex-column">
                                     <span>{{$video->user->username}}</span>
-                                    <span class="text-muted text-sm"> {{$video->user->subscribers_count}} subscribers • {{$video->user->videos_count}} videos</span>
+                                    <div class="d-flex gap-1 text-muted text-sm">
+                                        <span>{{trans_choice('subscribers', $video->user->subscribers_count)}}</span>
+                                        <span>•</span>
+                                        <span>{{trans_choice('videos', $video->user->videos_count)}}</span>
+                                    </div>
                                     @if($video->user->trashed())
                                         <span class="text-danger text-sm fw-bold mt-1">
                                             {{ __('Deleted') }} {{$video->user->deleted_at->diffForHumans()}}
@@ -51,7 +55,7 @@
                                         </div>
                                     @else
                                         <div class="badge bg-secondary">
-                                            No category
+                                            {{ __('No category') }}
                                         </div>
                                     @endif
                                 @endif
@@ -75,22 +79,24 @@
                         </td>
                         <td class="align-middle">
                             @if($video->is_private || $video->is_unlisted || $video->is_draft || $video->is_failed)
-                                {{$video->created_at->format('d F Y H:i')}}
-                                <div class="text-sm text-muted">Uploaded</div>
+                                {{$video->created_at->translatedFormat('d F Y H:i')}}
+                                <div class="text-sm text-muted">{{ __('Uploaded') }}</div>
                             @elseif($video->is_planned)
-                                {{$video->scheduled_at->format('d F Y H:i')}}
-                                <div class="text-sm text-muted">Scheduled</div>
+                                {{$video->scheduled_at->translatedFormat('d F Y H:i')}}
+                                <div class="text-sm text-muted">{{ __('Scheduled') }}</div>
                             @else
-                                {{$video->published_at->format('d F Y H:i')}}
-                                <div class="text-sm text-muted">Published</div>
+                                {{$video->published_at->translatedFormat('d F Y H:i')}}
+                                <div class="text-sm text-muted">{{ __('Published') }}</div>
                             @endif
                         </td>
                         <td class="align-middle">
                             @if(!$video->is_draft)
                                 @if($video->views)
-                                    <span class="badge tw:bg-black">{{$video->views}} views</span>
+                                    <span class="badge tw:bg-black">
+                                        {{trans_choice('views', $video->views)}}
+                                    </span>
                                 @else
-                                    <span class="badge bg-secondary">No views</span>
+                                    <span class="badge bg-secondary">{{ __('No views') }}</span>
                                 @endif
                             @endif
                         </td>
@@ -102,12 +108,12 @@
                                     </a>
                                 @else
                                     <div class="badge bg-secondary">
-                                        No comments
+                                        {{ __('No comments') }}
                                     </div>
                                 @endif
                                 @if(!$video->allow_comments)
                                     <div class="badge bg-danger">
-                                        Disabled
+                                        {{ __('Disabled') }}
                                     </div>
                                 @endif
                             @endif
@@ -118,12 +124,12 @@
                                 <div class="d-flex align-items-center gap-1">
                                     @if($video->interactions_count)
                                         <div class="badge bg-primary mt-2" data-bs-toggle="modal" data-bs-target="#video_likes" style="cursor: pointer;" data-id="{{$video->id}}">
-                                            Details
+                                            {{ __('Details') }}
                                         </div>
                                     @endif
                                     @if(!$video->show_likes)
                                         <div class="badge bg-danger mt-2">
-                                            Disabled
+                                            {{ __('Disabled') }}
                                         </div>
                                     @endif
                                 </div>
@@ -131,19 +137,19 @@
                         </td>
                         <td class="align-middle">
                             <div class="d-flex gap-1">
-                                <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="Video statistics">
+                                <a href="{{route('user.videos.show', $video)}}" class="btn btn-success btn-sm" title="{{ __('Video statistics') }}">
                                     <i class="fa-solid fa-chart-simple"></i>
                                 </a>
                                 @can('ban', $video)
                                     <button
                                         type="button"
-                                        title="Ban video"
+                                        title="{{ __('Ban video') }}"
                                         class="btn btn-danger btn-sm"
                                         data-bs-toggle="modal"
                                         data-bs-target="#ban_video"
                                         @click="video = $el.dataset"
                                         data-title="{{$video->title}}"
-                                        data-infos="{{trans_choice('views', $video->views)}} • {{$video->created_at->format('d F Y')}}"
+                                        data-infos="{{trans_choice('views', $video->views)}} • {{$video->created_at->translatedFormat('d F Y')}}"
                                         data-poster="{{$video->thumbnail_url}}"
                                         data-route="{{route('admin.videos.ban', $video)}}"
                                     >
@@ -151,7 +157,7 @@
                                     </button>
                                 @endcan
                                 @can('download', $video)
-                                    <a download="{{$video->slug}}" href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="Download video">
+                                    <a download="{{$video->slug}}" href="{{route('video.download', $video)}}" class="btn btn-dark btn-sm" title="{{ __('Download video') }}">
                                         <i class="fa-solid fa-download"></i>
                                     </a>
                                 @endcan
@@ -162,7 +168,7 @@
                     <tr>
                         <td colspan="8" class="text-center">
                             <i class="fa-solid fa-database fa-2x my-3"></i>
-                            <p class="fw-bold">No matching videos</p>
+                            <p class="fw-bold">{{ __('No matching videos') }}</p>
                         </td>
                     </tr>
                 @endforelse

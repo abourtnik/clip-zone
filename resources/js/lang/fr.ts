@@ -118,6 +118,7 @@ export default {
     "Captions issue": "Problème de sous-titres",
     "Search user": "Rechercher un utilisateur",
     "User": "Utilisateur",
+    "Video": "Vidéo",
     "comment": "un commentaire",
     "video": "une vidéo",
     "Auto-generating ...": "Génération en cours ...",

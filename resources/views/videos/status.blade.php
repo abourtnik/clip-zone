@@ -15,7 +15,7 @@
 @elseif($video->trashed())
     <span class="badge bg-danger">
         <i class="fa-solid fa-trash"></i>&nbsp;
-        {{ __('Deleted') }} {{$video->deleted_at->diffForHumans()}}
+        {{ __('Deleted :date', ['date' => $video->deleted_at->diffForHumans()]) }}
     </span>
 @elseif($video->is_uploading)
     <span class="badge bg-secondary">
@@ -25,7 +25,7 @@
 @elseif($video->is_banned)
     <span class="badge bg-danger">
         <i class="fa-solid fa-ban"></i>&nbsp;
-        {{ __('Banned') }} {{$video->banned_at->diffForHumans()}}
+        {{ __('Banned :date', ['date' => $video->banned_at->diffForHumans()]) }}
     </span>
 @elseif($video->is_unlisted)
     <span class="badge bg-info">

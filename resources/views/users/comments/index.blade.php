@@ -42,7 +42,7 @@
                                     <div>
                                         <div class="d-flex align-items-center">
                                             <a class="text-sm text-decoration-none" href="{{$comment->user->route}}">{{$comment->user->username}}</a>
-                                            <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->format('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
+                                            <small class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$comment->created_at->translatedFormat('d F Y - H:i')}}">&nbsp;• {{$comment->created_at->diffForHumans()}}</small>
                                             @if($comment->is_updated)
                                                 <small class="text-muted text-muted fw-semibold">&nbsp;• {{ __('Modified')}}</small>
                                             @endif

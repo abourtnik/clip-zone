@@ -54,12 +54,12 @@
                             </span>
                         </td>
                         <td class="align-middle">
-                            <div class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$playlist->created_at->format('d F Y - H:i')}}">
+                            <div class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$playlist->created_at->translatedFormat('d F Y - H:i')}}">
                                 {{$playlist->created_at->diffForHumans()}}
                             </div>
                         </td>
                         <td class="align-middle">
-                            <div class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$playlist->updated_at->format('d F Y - H:i')}}">
+                            <div class="text-muted" data-bs-toggle="tooltip" data-bs-title="{{$playlist->updated_at->translatedFormat('d F Y - H:i')}}">
                                 {{$playlist->updated_at->diffForHumans()}}
                             </div>
                         </td>

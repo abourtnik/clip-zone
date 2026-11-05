@@ -12,10 +12,10 @@ class CommentFiltersForm extends FilterForm
     {
         $this
             ->add('search', Field::SEARCH, [
-                'label' => $this->getName(),
+                'label' => __('Search'),
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
                 'attr' => [
-                    'placeholder' => 'Search'
+                    'placeholder' => __('Search')
                 ],
                 'value' => $this->request->string('search')
             ])
@@ -28,23 +28,23 @@ class CommentFiltersForm extends FilterForm
                 'endpoint' => route('admin.search.users')
             ])
             ->add('replies', Field::SELECT, [
-                'label' => 'Replies',
+                'label' => __('Replies'),
                 'choices' => [
-                    'with' => 'With replies',
-                    'without' => 'Without replies',
+                    'with' => __('With replies'),
+                    'without' => __('Without replies')
                 ],
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->string('replies'),
             ])
             ->add('ban', Field::SELECT, [
-                'label' => 'Banned',
+                'label' => __('Banned'),
                 'choices' => [
-                    'banned' => 'Banned',
-                    'not_banned' => 'Not banned',
+                    'banned' => __('Banned'),
+                    'not_banned' => __('Not banned'),
                 ],
                 'wrapper' => ['class' => 'col-12 col-sm-6 col-md-6 col-lg-4 col-xl'],
-                'empty_value' => 'All',
+                'empty_value' => __('All'),
                 'selected' => $this->request->string('ban'),
             ])
             ->add('date', DateRange::NAME, [

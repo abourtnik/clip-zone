@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirm ban user ? </h5>
+                <h5 class="modal-title">{{ __('Confirm ban user ?') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form method="POST" :action="user.route">
@@ -13,24 +13,24 @@
                         <span x-text="user.username"></span>
                     </div>
                     <hr>
-                    <div class="form-check mb-3">
+                    <div class="form-check mb-3" x-show="user.videos > 0">
                         <input class="form-check-input" type="checkbox" name="ban_videos">
                         <label class="form-check-label" for="ban_videos">
-                            Ban user videos (<span x-text="user.videos"></span>)
+                            {{ __('Ban user videos') }} (<span x-text="user.videos"></span>)
                         </label>
                     </div>
-                    <div class="form-check mb-3">
+                    <div class="form-check mb-3" x-show="user.comments > 0">
                         <input class="form-check-input" type="checkbox" name="ban_comments">
                         <label class="form-check-label" for="ban_comments">
-                            Ban user comments (<span x-text="user.comments"></span>)
+                            {{ __('Ban user comments') }} (<span x-text="user.comments"></span>)
                         </label>
                     </div>
                 </div>
                 <div class="modal-footer d-flex justify-content-between">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                     <button type="submit" class="btn btn-danger">
                         <i class="fa-solid fa-ban"></i> &nbsp
-                        Ban user
+                        {{ __('Ban user') }}
                     </button>
                 </div>
             </form>

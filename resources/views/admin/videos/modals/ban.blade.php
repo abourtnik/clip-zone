@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirm ban video ? </h5>
+                <h5 class="modal-title">{{ __('Confirm ban video ?') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -11,18 +11,18 @@
                         <img style="width: 120px;height: 68px" :src="video.poster" :alt="`${video.title} poster`">
                         <div>
                             <small  x-text="video.title"></small>
-                            <div  class="text-muted video_infos text-sm mt-1" x-text="video.infos"></div>
+                            <div class="text-muted video_infos text-sm mt-1" x-text="video.infos"></div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                 <form method="POST" :action="video.route">
                     @csrf
                     <button type="submit" class="btn btn-danger">
                         <i class="fa-solid fa-ban"></i> &nbsp;
-                        Ban video
+                        {{ __('Ban video') }}
                     </button>
                 </form>
             </div>

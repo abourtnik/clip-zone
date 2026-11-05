@@ -12,7 +12,24 @@
                 @endif
                 <a href="{{$activity->subject->video->route}}" class="text-decoration-none text-sm">{{$activity->subject->video->title}}</a>
             </div>
-            <small class="text-muted">{{$activity->perform_at->translatedFormat('d F Y - H:i')}}</small>
+            <div class="d-flex gap-2 align-items-center tw:text-xs">
+                <span class="text-muted">{{$activity->perform_at->translatedFormat('d F Y - H:i')}}</span>
+                @if($activity->subject->is_banned)
+                    <div class="d-flex align-items-center gap-1">
+                        <span class="text-muted">•</span>
+                        <span class="text-danger fw-semibold">
+                            {{ __('Banned :date', ['date' => $activity->subject->banned_at->diffForHumans()]) }}
+                        </span>
+                    </div>
+                @elseif($activity->subject->is_banned->trashed())
+                    <div class="d-flex align-items-center gap-1">
+                        <span class="text-muted">•</span>
+                        <span class="text-danger fw-semibold">
+                            {{ __('Deleted :date', ['date' => $activity->subject->deleted_at->diffForHumans()]) }}
+                        </span>
+                    </div>
+                @endif
+            </div>
         </div>
         <a href="{{$activity->subject->video->route}}" class="text-decoration-none">
             @include('users.videos.partials.thumbnail', ['video' => $activity->subject->video])

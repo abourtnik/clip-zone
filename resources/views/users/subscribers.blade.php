@@ -32,7 +32,7 @@
                             </a>
                         </td>
                         <td class="align-middle">
-                            <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscription->subscribe_at->format('d F Y - H:i')}}">
+                            <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscription->subscribe_at->translatedFormat('d F Y - H:i')}}">
                                 {{$subscription->subscribe_at->diffForHumans()}}
                             </div>
                         </td>
@@ -42,7 +42,7 @@
                             </span>
                         </td>
                         <td class="align-middle">
-                            <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscription->subscriber->created_at->format('d F Y - H:i')}}">
+                            <div class="text-sm" data-bs-toggle="tooltip" data-bs-title="{{$subscription->subscriber->created_at->translatedFormat('d F Y - H:i')}}">
                                 {{$subscription->subscriber->created_at->diffForHumans()}}
                             </div>
                         </td>

@@ -13,8 +13,7 @@
                 <thead>
                     <tr style="border-top: 3px solid #0D6EFD;">
                         <th scope="col" style="min-width: 300px;">{{ __('Date') }}</th>
-                        <th scope="col" style="min-width: 300px;">{{ __('Description') }}</th>
-                        <th scope="col" style="min-width: 120px;">{{ __('Price') }}</th>
+                        <th scope="col" style="min-width: 120px;">{{ __('Amount') }}</th>
                         <th scope="col">{{ __('Actions') }}</th>
                     </tr>
                 </thead>
@@ -23,9 +22,6 @@
                     <tr>
                         <td class="align-middle">
                             {{$invoice->date->translatedFormat('d F Y')}}
-                        </td>
-                        <td class="align-middle">
-                            {{ __('Premium account')}} {{$invoice->date->translatedFormat('d F Y')}}
                         </td>
                         <td class="align-middle">
                             {{ $invoice->amount }}

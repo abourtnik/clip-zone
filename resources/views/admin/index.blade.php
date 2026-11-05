@@ -10,7 +10,7 @@
             <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-xl-0">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center text-primary">Videos</h5>
+                        <h5 class="card-title text-center text-primary">{{ __('Videos') }}</h5>
                         <hr>
                         <div class="d-flex align-items-center justify-content-center gap-4">
                             <i class="fa-solid fa-video fa-2x"></i>
@@ -22,7 +22,7 @@
             <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-xl-0">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center text-primary">Users</h5>
+                        <h5 class="card-title text-center text-primary">{{ __('Users') }}</h5>
                         <hr>
                         <div class="d-flex align-items-center justify-content-center gap-4">
                             <i class="fa-solid fa-user fa-2x"></i>
@@ -34,7 +34,7 @@
             <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-sm-0">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center text-primary">Comments</h5>
+                        <h5 class="card-title text-center text-primary">{{ __('Comments') }}</h5>
                         <hr>
                         <div class="d-flex align-items-center justify-content-center gap-4">
                             <i class="fa-solid fa-comment fa-2x"></i>
@@ -46,7 +46,7 @@
             <div class="col-12 col-sm-6 col-md-6 col-xl mb-4 mb-sm-0">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title text-center text-primary">Reports</h5>
+                        <h5 class="card-title text-center text-primary">{{ __('Reports') }}</h5>
                         <hr>
                         <div class="d-flex align-items-center justify-content-center gap-4">
                             <i class="fa-solid fa-flag fa-2x"></i>
@@ -58,7 +58,7 @@
         </div>
         <div class="card h-100 mb-4">
             <div class="card-body">
-                <h4 class="card-title text-center text-primary mb-3">Premium Gains</h4>
+                <h4 class="card-title text-center text-primary mb-3">{{ __('Premium Gains') }}</h4>
                 <div class="d-block" style="height: 547px">
                     <x-chartjs-component :chart="$chart" />
                 </div>
@@ -70,7 +70,7 @@
                     <div class="card-header d-flex align-items-center gap-3 p-3">
                         <i class="fa-solid fa-flag"></i>
                         <h5 class="card-title mb-0">
-                            Most Reported contents
+                            {{ __('Most Reported contents') }}
                         </h5>
                     </div>
                     <div class="card-body">
@@ -79,11 +79,11 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Type</th>
-                                        <th scope="col" class="w-50" style="min-width: 400px">Content</th>
-                                        <th scope="col" style="min-width: 150px">First Report</th>
-                                        <th scope="col">Count</th>
-                                        <th scope="col" style="min-width: 305px">Actions</th>
+                                        <th scope="col">{{ __('Type') }}</th>
+                                        <th scope="col" class="w-50" style="min-width: 400px">{{ __('Content') }}</th>
+                                        <th scope="col" style="min-width: 150px">{{ __('First Report') }}</th>
+                                        <th scope="col">{{ __('Count') }}</th>
+                                        <th scope="col" style="min-width: 305px">{{ __('Actions') }}</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -142,7 +142,7 @@
                                                         data-bs-target="#reports"
                                                     >
                                                         <i class="fa-solid fa-flag"></i>&nbsp;
-                                                        See reports
+                                                        {{ __('See reports') }}
                                                     </button>
                                                     <button
                                                         type="button"
@@ -155,7 +155,7 @@
                                                         @click="reportable = $el.dataset;"
                                                     >
                                                         <i class="fa-solid fa-ban"></i>&nbsp;
-                                                        Block
+                                                        {{ __('Block') }}
                                                     </button>
                                                     <button
                                                         type="button"
@@ -168,7 +168,7 @@
                                                         @click="reportable = $el.dataset;"
                                                     >
                                                         <i class="fa-solid fa-xmark"></i>&nbsp;
-                                                        Cancel
+                                                        {{ __('Cancel') }}
                                                     </button>
                                                 </div>
                                             </td>
@@ -177,7 +177,7 @@
                                         <tr class="bg-light">
                                             <td colspan="7" class="text-center">
                                                 <i class="fa-solid fa-bell-slash fa-2x my-3"></i>
-                                                <p class="fw-bold">No matching reports for this period</p>
+                                                <p class="fw-bold">{{ __('No matching reports for this period') }}</p>
                                             </td>
                                         </tr>
                                     @endforelse
@@ -187,7 +187,7 @@
                         @else
                             <div class="text-center my-3">
                                 <i class="fa-solid fa-eye-slash fa-2x"></i>
-                                <h5 class="my-3">No reports yet</h5>
+                                <h5 class="my-3">{{ __('No reports yet') }}</h5>
                             </div>
                         @endif
                     </div>
@@ -195,7 +195,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <a href="{{route('admin.reports.index')}}" class="btn btn-primary btn-sm">
                                 <i class="fa-solid fa-eye"></i>&nbsp;
-                                See all reports
+                                {{ __('See all reports') }}
                             </a>
                         </div>
                     </div>

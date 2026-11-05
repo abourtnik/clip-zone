@@ -2,30 +2,30 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirm ban comment ? </h5>
+                <h5 class="modal-title">{{ __('Confirm ban comment ?') }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex gap-2 alert alert-secondary align-items-start">
-                    <img id="avatar" class="rounded" src="" alt="avatar" style="width: 50px;">
-                    <div>
+                <div class="d-flex gap-3 alert alert-secondary align-items-start">
+                    <img class="rounded" :src="comment.userAvatar" :alt="`${comment.userUsername} avatar`" style="width: 50px;">
+                    <div class="d-flex flex-column gap-2">
                         <div class="d-flex align-items-center gap-1">
-                            <div id="username" class="text-sm text-decoration-none"></div>
+                            <div class="text-sm text-decoration-none" x-text="comment.userUsername"></div>
                             <span>•</span>
-                            <small id="date" class="text-muted"></small>
+                            <small class="text-muted" x-text="comment.date"></small>
                         </div>
-                        <div class="text-muted text-sm" id="content"></div>
+                        <div class="text-muted text-sm" x-text="comment.content"></div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-between">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('Cancel') }}</button>
                 <div class="d-flex gap-1">
-                    <form id="form-ban" method="POST" action="">
+                    <form method="POST" :action="comment.route">
                         @csrf
                         <button type="submit" class="btn btn-danger">
                             <i class="fa-solid fa-ban"></i> &nbsp;
-                            Ban comment
+                            {{ __('Ban comment') }}
                         </button>
                     </form>
                 </div>
@@ -33,21 +33,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.getElementById('ban_comment').addEventListener('show.bs.modal', event => {
-        const button = event.relatedTarget
-
-        const route = button.dataset.route;
-        const username = button.dataset.username;
-        const avatar = button.dataset.avatar;
-        const date = button.dataset.date;
-        const content = button.dataset.content;
-
-        document.getElementById('form-ban').setAttribute('action', route);
-        document.getElementById('username').innerText = username;
-        document.getElementById('avatar').setAttribute('src', avatar);
-        document.getElementById('date').innerText = date;
-        document.getElementById('content').innerText = content;
-    })
-</script>
