@@ -6,7 +6,7 @@ use App\Actions\User\ShowUserAction;
 use App\Enums\ImageType;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
@@ -16,26 +16,37 @@ class UserController
         return view('users.show', $showUserAction->data($user));
     }
 
-    public function avatar (User $user): Response|BinaryFileResponse
+    public function avatar (User $user): RedirectResponse|BinaryFileResponse
     {
         if ($user->avatar) {
-            $path = User::AVATAR_FOLDER.'/'.$user->avatar;
-            $file = Storage::get($path);
-            return response($file)->header('Content-Type', Storage::mimeType($path));
+            $url = Storage::temporaryUrl(
+                User::AVATAR_FOLDER.'/'.$user->avatar,
+                now()->addMinutes(5),
+                ['ResponseCacheControl' => 'private, max-age=300'],
+            );
+            return redirect($url)->header('Cache-Control', 'private, max-age=240');
         }
 
-        return response()->file(public_path(User::DEFAULT_AVATAR), ['Content-Type' => ImageType::PNG->value]);
+        return response()->file(public_path(User::DEFAULT_AVATAR), [
+            'Content-Type' => ImageType::PNG->value,
+            'Cache-Control' => 'public, max-age=86400',
+        ]);
     }
 
-    public function banner (User $user): Response|BinaryFileResponse
+    public function banner (User $user): RedirectResponse|BinaryFileResponse
     {
         if ($user->banner) {
-            $path = User::BANNER_FOLDER.'/'.$user->banner;
-            $file = Storage::get($path);
-            return response($file)->header('Content-Type', Storage::mimeType($path));
+            $url = Storage::temporaryUrl(
+                User::BANNER_FOLDER.'/'.$user->banner,
+                now()->addMinutes(5),
+                ['ResponseCacheControl' => 'private, max-age=300'],
+            );
+            return redirect($url)->header('Cache-Control', 'private, max-age=240');
         }
 
-        return response()->file(public_path(User::DEFAULT_BANNER), ['Content-Type' => ImageType::JPG->value]);
+        return response()->file(public_path(User::DEFAULT_BANNER), [
+            'Content-Type' => ImageType::JPG->value,
+            'Cache-Control' => 'public, max-age=86400',
+        ]);
     }
-
 }

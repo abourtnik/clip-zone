@@ -14,7 +14,7 @@
                             <span>•</span>
                             <small class="text-muted" x-text="comment.date"></small>
                         </div>
-                        <div class="text-muted text-sm" x-text="comment.content"></div>
+                        <div class="text-muted text-sm text-break" x-text="comment.content"></div>
                     </div>
                 </div>
             </div>
