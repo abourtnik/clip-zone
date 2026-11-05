@@ -43,7 +43,9 @@ Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function ()
     // Comments
     Route::controller(CommentController::class)->prefix('comments')->name('comments.')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::post('/{comment}/ban', 'ban')->name('ban');
+        Route::post('/{comment}/ban', 'ban')
+            ->name('ban')
+            ->can('ban', 'comment');
     });
 
     // Reports

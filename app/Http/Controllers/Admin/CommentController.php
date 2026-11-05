@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use Illuminate\Contracts\View\View;
+use App\Events\Comment\CommentBanned;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Http\RedirectResponse;
 
@@ -31,6 +32,8 @@ class CommentController extends Controller
         $comment->update([
             'banned_at' => now()
         ]);
+
+        CommentBanned::dispatch($comment);
 
         return redirect()->route('admin.comments.index');
     }

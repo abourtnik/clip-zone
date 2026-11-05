@@ -117,6 +117,11 @@ class CommentPolicy
             : Response::denyWithStatus(403, 'You are not authorized to report this comment');
     }
 
+    public function ban (User $user, Comment $comment): bool
+    {
+        return !$comment->is_banned && !$comment->trashed();
+    }
+
     /**
      * Determine whether the user can like/dislike the comment.
      *
