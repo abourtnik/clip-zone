@@ -24,6 +24,7 @@ class UserController
                 now()->addMinutes(5),
                 ['ResponseCacheControl' => 'private, max-age=300'],
             );
+
             return redirect($url)->header('Cache-Control', 'private, max-age=240');
         }
 

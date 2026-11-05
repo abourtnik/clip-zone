@@ -6,10 +6,10 @@ use App\Actions\Video\ShowVideoAction;
 use App\Enums\VideoStatus;
 use App\Models\Subtitle;
 use App\Models\Thumbnail;
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 class VideoController extends Controller
@@ -45,28 +45,37 @@ class VideoController extends Controller
         return redirect()->away($url);
     }
 
-    public function thumbnail (Video $video): Response
+    public function thumbnail (Video $video): RedirectResponse
     {
-        $path = Video::THUMBNAIL_FOLDER.'/'.$video->thumbnail->file;
-        $file = Storage::get($path);
+        $url = Storage::temporaryUrl(
+            Video::THUMBNAIL_FOLDER.'/'.$video->thumbnail->file,
+            now()->addMinutes(5),
+            ['ResponseCacheControl' => 'private, max-age=300'],
+        );
 
-        return response($file)->header('Content-Type', Storage::mimeType($path));
+        return redirect($url)->header('Cache-Control', 'private, max-age=240');
     }
 
-    public function thumbnails (Video $video, Thumbnail $thumbnail): Response
+    public function thumbnails (Video $video, Thumbnail $thumbnail): RedirectResponse
     {
-        $path = Video::THUMBNAIL_FOLDER.'/'.$thumbnail->file;
-        $file = Storage::get($path);
+        $url = Storage::temporaryUrl(
+            Video::THUMBNAIL_FOLDER.'/'.$thumbnail->file,
+            now()->addMinutes(5),
+            ['ResponseCacheControl' => 'private, max-age=300'],
+        );
 
-        return response($file)->header('Content-Type', Storage::mimeType($path));
+        return redirect($url)->header('Cache-Control', 'private, max-age=240');
     }
 
-    public function subtitles (Video $video, Subtitle $subtitle): Response
+    public function subtitles (Video $video, Subtitle $subtitle): RedirectResponse
     {
-        $path = Subtitle::FILE_FOLDER.'/'.$subtitle->file;
-        $file = Storage::get($path);
+        $url = Storage::temporaryUrl(
+            Subtitle::FILE_FOLDER.'/'.$subtitle->file,
+            now()->addMinutes(5),
+            ['ResponseCacheControl' => 'private, max-age=300'],
+        );
 
-        return response($file)->header('Content-Type', Storage::mimeType($path));
+        return redirect($url)->header('Cache-Control', 'private, max-age=240');
     }
 
     public function embed (Video $video): View

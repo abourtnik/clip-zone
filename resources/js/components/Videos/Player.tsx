@@ -143,6 +143,7 @@ export function Main ({video_uuid, next_video} : Props) {
                                 playsInline
                                 autoPlay={autoplayVideo}
                                 muted={volume.muted}
+                                crossOrigin="anonymous"
                             >
                                 <source src={video.file} type="video/mp4"/>
                                 {

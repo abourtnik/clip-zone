@@ -24,7 +24,7 @@ class StoreVideoAction
 
         $this->syncPlaylists($video, $request->array('playlists'));
 
-        $this->saveSubtitles($video, $request->array('subtitles'));
+        $this->saveSubtitles($video, $request->array('subtitles'), $request->file('subtitles'));
 
         ThumbnailService::save($request);
     }
@@ -52,12 +52,12 @@ class StoreVideoAction
         }
     }
 
-    private function saveSubtitles(Video $video, ?array $subtitles): void
+    private function saveSubtitles(Video $video, ?array $subtitles, ?array $subtitleFiles): void
     {
-        foreach ($subtitles as $subtitle) {
+        foreach ($subtitles as $index => $subtitle) {
 
             $data = array_merge($subtitle, [
-                'file' => File::storeAndDelete($subtitle['file'], Subtitle::FILE_FOLDER),
+                'file' => File::storeAndDelete($subtitleFiles[$index]['file'], Subtitle::FILE_FOLDER),
             ]);
 
             $video->subtitles()->create($data);
