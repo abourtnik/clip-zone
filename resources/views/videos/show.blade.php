@@ -118,7 +118,7 @@
                                 @if($video->reportByAuthUser)
                                     <div class="rounded-4 d-flex align-items-center alert alert-secondary px-3 py-1 gap-2 mb-0 text-sm flex-shrink-0">
                                         <i class="fa-regular fa-flag"></i>
-                                        <span>{{__('Reported')}} {{$video->reportByAuthUser->created_at->diffForHumans()}}</span>
+                                        <span>{{ __('Reported :date', ['date' => $video->reportByAuthUser->created_at->diffForHumans()]) }}</span>
                                     </div>
                                 @endif
                             @endcan

@@ -16,7 +16,7 @@ export enum ReportReason {
 export const ReportDataSchema = z.object({
     id: z.coerce.number(),
     type: z.enum(['App\\Models\\Video', 'App\\Models\\Comment', 'App\\Models\\User']),
-    reason: z.coerce.number().pipe(z.nativeEnum(ReportReason)),
+    reason: z.coerce.number().pipe(z.enum(ReportReason)),
     comment: z.string().max(5000).optional(),
 });
 

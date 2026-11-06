@@ -66,10 +66,10 @@ export function Main ({buttonClass, reportedClass, type, id} : Props)  {
                 <Modal.Body className="ms-3 mt-2">
                     {
                         reported &&
-                        <div className={'text-center'}>
-                            <img className="img-fluid" src="/images/reports/ok.jpg" alt="Report success"/>
-                            <h3 className="my-4">{t('Thanks for reporting')}</h3>
-                            <p className="text-muted mt-4">
+                        <div className={'d-flex flex-column justify-content-center align-items-center gap-4'}>
+                            <img className="img-fluid w-50" src="/images/reports/ok.jpg" alt="Report success"/>
+                            <h3>{t('Thanks for reporting')}</h3>
+                            <p className="text-muted">
                                 {t('If we find this content to be in violation of our Community Guidelines, we will remove it.')}
                             </p>
                         </div>

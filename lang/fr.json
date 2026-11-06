@@ -651,5 +651,6 @@
     "annually": "annuelle",
     "Your export has been queued. you will receive a notification when it is completed.": "Votre export a été placée dans la file d’attente. Vous recevrez une notification lorsqu’il sera terminée.",
     "Your profile information has been updated successfully !": "Les informations de votre profil ont été mises à jour avec succès !",
-    "Your password has been updated successfully !": "Votre mot de passe a été mis à jour avec succès !"
+    "Your password has been updated successfully !": "Votre mot de passe a été mis à jour avec succès !",
+    "Reported :date": "Signalé :date"
 }

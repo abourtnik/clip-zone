@@ -19,7 +19,7 @@ export enum PlaylistStatus {
 
 export const PlaylistCreateDataSchema = z.object({
     title: z.string().min(1).max(150),
-    status: z.coerce.number().pipe(z.nativeEnum(PlaylistStatus)),
+    status: z.coerce.number().pipe(z.enum(PlaylistStatus)),
 });
 
 export const PlaylistSaveDataSchema = z.object({
