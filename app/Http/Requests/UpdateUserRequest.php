@@ -24,9 +24,9 @@ class UpdateUserRequest extends FormRequest
 
     public function prepareForValidation(): void
     {
-        if (null !== $this->get('phone')) {
+        if ($this->string('phone')->isNotEmpty()) {
             $this->merge([
-                'phone' => $this->get('prefix') . $this->get('phone')
+                'phone' => $this->string('prefix') . $this->string('phone')
             ]);
         }
     }

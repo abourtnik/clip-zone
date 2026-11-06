@@ -87,6 +87,6 @@ class UserController
 
         return redirect()
             ->route('admin.users.index', $request->query())
-            ->withSuccess('Your export has been queued. you will receive a notification when it is completed.');
+            ->withSuccess(__('Your export has been queued. you will receive a notification when it is completed.'));
     }
 }

@@ -21,7 +21,7 @@ class ProfileController
         return view('users.profile.edit', [
             'user' => Auth::user()->load('premium_subscription'),
             'billing_profile_url' => Auth::user()->stripe_id ? Auth::user()->billingPortalUrl(route('user.edit')) : null,
-            'countries' => Countries::getNames()
+            'countries' => Countries::getNames(Auth::user()->preferredLocale())
         ]);
     }
 
@@ -44,7 +44,11 @@ class ProfileController
             $request->user()->sendPhoneVerificationNotification();
         }
 
-        return redirect()->route('user.edit')->with(['status' => 'Your profile information has been updated successfully !']);
+        return redirect()
+            ->route('user.edit')
+            ->with([
+                'status' => __('Your profile information has been updated successfully !')
+            ]);
     }
 
     public function updatePassword(Request $request): RedirectResponse {
@@ -55,7 +59,11 @@ class ProfileController
 
         PasswordUpdated::dispatch($request->string('new_password'));
 
-        return redirect()->route('user.edit')->with(['status' => 'Your password has been updated successfully !']);
+        return redirect()
+            ->route('user.edit')
+            ->with([
+                'status' => __('Your password has been updated successfully !')
+            ]);
     }
 
     public function delete(): RedirectResponse {

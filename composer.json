@@ -22,7 +22,7 @@
         "laravel/socialite": "^5.8",
         "laravel/tinker": "^3.0",
         "league/flysystem-aws-s3-v3": "^3.0",
-        "maatwebsite/excel": "^3.1",
+        "maatwebsite/excel": "^4.0",
         "meilisearch/meilisearch-php": "^1.6",
         "opcodesio/log-viewer": "^3.1",
         "php-ffmpeg/php-ffmpeg": "^1.1",
@@ -33,7 +33,7 @@
         "spatie/eloquent-sortable": "^5.0.1",
         "staudenmeir/eloquent-has-many-deep": "^1.7",
         "staudenmeir/laravel-cte": "^1.11",
-        "symfony/intl": "^6.1"
+        "symfony/intl": "^7.4"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^v3.5.4",
