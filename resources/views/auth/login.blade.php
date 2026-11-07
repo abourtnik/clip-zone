@@ -5,7 +5,7 @@
 @section('content')
     <div class="h-full">
         <div class="row align-items-center h-75 mt-5">
-            <div class="col-10 offset-1 col-xxl-8 offset-xxl-2 border border-1 bg-light">
+            <div class="col-10 offset-1 border border-1 bg-light">
                 <div class="row">
                     <div class="col-6 d-none d-xl-flex px-0 border-end border-gray-200 d-flex justify-content-center align-items-center bg-white">
                         <img class="img-fluid" src="{{asset('images/pages/login.png')}}" alt="Login">

@@ -5,6 +5,7 @@ namespace App\Http\Requests\Contact;
 use App\Rules\HasLinks;
 use App\Rules\SpamWords;
 use App\Rules\SpamEmails;
+use App\Rules\Turnstile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -40,6 +41,7 @@ class ContactRequest extends FormRequest
                  new SpamEmails
             ],
             'message' => [
+                'bail',
                 'required',
                 'string',
                 'min:'.config('validation.contact.message.min'),
@@ -47,7 +49,18 @@ class ContactRequest extends FormRequest
                 new SpamWords,
                 new HasLinks
             ],
-            'website' => Rule::in([null])
+            'website' => Rule::in([null]),
+            'cf-turnstile-response' => [
+                config('services.turnstile.enabled') ? 'required' : 'nullable',
+                new Turnstile
+            ]
+        ];
+    }
+
+    public function messages() : array
+    {
+        return [
+            'cf-turnstile-response.required' => 'Merci de valider la vérification anti-robot.',
         ];
     }
 }

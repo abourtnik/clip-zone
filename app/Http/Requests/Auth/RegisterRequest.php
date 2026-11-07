@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\Turnstile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\RateLimiter;
@@ -46,7 +47,11 @@ class RegisterRequest extends FormRequest
                 'confirmed',
                 Password::min(config('validation.user.password.min'))
             ],
-            'cgu' => ['accepted']
+            'cgu' => ['accepted'],
+            'cf-turnstile-response' => [
+                config('services.turnstile.enabled') ? 'required' : 'nullable',
+                new Turnstile
+            ]
         ];
     }
 
@@ -69,5 +74,12 @@ class RegisterRequest extends FormRequest
     protected function throttleKey(): string
     {
         return 'register' . '|' . $this->ip();
+    }
+
+    public function messages() : array
+    {
+        return [
+            'cf-turnstile-response.required' => 'Merci de valider la vérification anti-robot.',
+        ];
     }
 }

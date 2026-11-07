@@ -19,6 +19,12 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         @endif
+                        @if ($errors->has('cf-turnstile-response') && $errors->count() === 1)
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>{{ $errors->first('cf-turnstile-response') }}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
                         @if (session('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <strong>{!! session('success') !!}</strong>
@@ -66,6 +72,7 @@
                                     rows="15"
                                     name="message"
                                     maxlength="{{config('validation.contact.message.max')}}"
+                                    minlength="{{config('validation.contact.message.min')}}"
                                     x-ref="message"
                                     @keyup="count = $refs.message.value.length"
                                 >{{old('message')}}</textarea>
@@ -80,6 +87,7 @@
                                     @enderror
                                 </div>
                             </div>
+                            <x-turnstile />
                             <button class="w-100 btn btn btn-primary" type="submit">{{ __('Send') }}</button>
                         </form>
                     </div>

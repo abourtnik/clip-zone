@@ -30,5 +30,10 @@ return [
     'brevo' => [
         'api_key' => env('BREVO_API_KEY', ''),
     ],
+    'turnstile' => [
+        'site_key'   => env('TURNSTILE_SITE_KEY'),
+        'secret_key' => env('TURNSTILE_SECRET_KEY'),
+        'enabled'    => env('TURNSTILE_ENABLED', true),
+    ],
     'oauth_services' => ['google', 'facebook'],
 ];

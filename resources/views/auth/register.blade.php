@@ -5,7 +5,7 @@
 @section('content')
     <div class="h-full">
         <div class="row align-items-center h-100 mt-5">
-            <div class="col-10 offset-1 col-xxl-8 offset-xxl-2 border border-1 bg-light">
+            <div class="col-10 offset-1 border border-1 bg-light">
                 <div class="row">
                     <div class="col-6 d-none d-xl-flex px-0 border-end border-gray-200 d-flex justify-content-center align-items-center bg-white">
                         <img class="img-fluid" src="{{asset('images/pages/register.png')}}" alt="Register">
@@ -21,6 +21,11 @@
                             {!! $value !!}
                         </div>
                         @endsession
+                        @if ($errors->has('cf-turnstile-response') && $errors->count() === 1)
+                            <div class="alert alert-danger">
+                                {{ $errors->first('cf-turnstile-response') }}
+                            </div>
+                        @endif
                         <h1 class="h3 mb-5 fw-normal text-center">{{__('Create your Account !')}}</h1>
                         <form method="POST" action="{{route('registration.perform')}}">
                             @csrf
@@ -113,6 +118,7 @@
                                 </div>
                                 @enderror
                             </div>
+                            <x-turnstile />
                             <button class="w-100 btn btn-lg btn-primary" type="submit">{{ __('Register') }}</button>
                             <div class="mt-4 mb-3 text-muted text-center d-flex justify-content-center flex-wrap mb-3 gap-1 gap-sm-0">
                                 <span class="mr-2 text-body">{{ __('Already have an account ?') }}</span>

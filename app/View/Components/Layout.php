@@ -25,10 +25,10 @@ class Layout extends Component
     public function shouldShowStatistics(): bool
     {
         return $this->statistics
-            && config('app.statistics_enabled')
+            && config('tracking.statistics_enabled')
             && app()->isProduction()
             && !auth()->user()?->is_admin
-            && !in_array(request()->ip(), config('app.ignore_ips'));
+            && !in_array(request()->ip(), config('tracking.ignore_ips'));
     }
 
     public function shouldShowAds(): bool
