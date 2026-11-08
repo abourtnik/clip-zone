@@ -6,5 +6,4 @@
     {!! nl2br(e($message)) !!}
 @endcomponent
 
-Sender IP : {{$ip}}
 @endcomponent

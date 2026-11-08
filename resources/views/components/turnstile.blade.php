@@ -1,20 +1,24 @@
+@props(['action'])
+
 @if (config('services.turnstile.enabled'))
+    @pushOnce('scripts')
+        <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileLoad" async defer></script>
+    @endPushOnce
 
-    @once
-        @push('scripts')
-            <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-        @endpush
-    @endonce
+    <div id="turnstile-container" class="my-3"></div>
 
-    <div {{ $attributes->merge(['class' => 'turnstile-wrapper']) }}>
-        <div
-            class="cf-turnstile"
-            data-sitekey="{{ config('services.turnstile.site_key') }}"
-            data-theme="auto"
-            data-size="flexible"
-            data-language="auto"
-            data-appearance="interaction-only"
-        >
-        </div>
-    </div>
+    @pushOnce('scripts')
+        <script>
+            function onTurnstileLoad() {
+                turnstile.render("#turnstile-container", {
+                    sitekey: "{{ config('services.turnstile.site_key') }}",
+                    size: 'flexible',
+                    appearance: 'interaction-only',
+                    theme: localStorage.getItem('theme') || 'light',
+                    language: '{{ app()->getLocale() }}',
+                    action: "{{ $action }}",
+                });
+            }
+        </script>
+    @endPushOnce
 @endif

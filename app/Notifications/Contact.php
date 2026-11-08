@@ -69,7 +69,6 @@ class Contact extends Notification implements ShouldQueue
             ->markdown('mails.contact', [
                 'name' => $this->name,
                 'message' => $this->message,
-                'ip' => request()->ip()
             ]);
     }
 }

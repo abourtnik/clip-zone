@@ -118,7 +118,7 @@
                                 </div>
                                 @enderror
                             </div>
-                            <x-turnstile />
+                            <x-turnstile action="registration" />
                             <button class="w-100 btn btn-lg btn-primary" type="submit">{{ __('Register') }}</button>
                             <div class="mt-4 mb-3 text-muted text-center d-flex justify-content-center flex-wrap mb-3 gap-1 gap-sm-0">
                                 <span class="mr-2 text-body">{{ __('Already have an account ?') }}</span>

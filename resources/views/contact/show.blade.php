@@ -87,7 +87,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <x-turnstile />
+                            <x-turnstile action="contact" />
                             <button class="w-100 btn btn btn-primary" type="submit">{{ __('Send') }}</button>
                         </form>
                     </div>
