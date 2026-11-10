@@ -94,7 +94,7 @@ class StripeWebhookController extends Controller
 
         $plan = Plan::where('stripe_id', $data['plan']['id'])->firstOrFail();
 
-        $card = $this->stripeService->getUserCard($data['customer']);
+        $card = $this->stripeService->getCustomerCard($data['customer']);
 
         // User Cancel Subscription and Renew
         if ($user->premium_subscription) {
@@ -105,7 +105,7 @@ class StripeWebhookController extends Controller
                 'stripe_id' => $data['id'],
                 'ends_at' => null,
                 'card_last4' => $card->last4,
-                'card_expired_at' => Carbon::createFromDate($card->expYear, $card->expMonth)->endOfMonth()
+                'card_expired_at' => Carbon::createFromDate($card->expYear, $card->expMonth, 1)->endOfMonth()
             ]);
         }
 
@@ -118,7 +118,7 @@ class StripeWebhookController extends Controller
                 'stripe_id' => $data['id'],
                 'trial_ends_at' => Carbon::createFromTimestamp($data['trial_end'], config('app.timezone')),
                 'card_last4' => $card->last4,
-                'card_expired_at' => Carbon::createFromDate($card->expYear, $card->expMonth)->endOfMonth()
+                'card_expired_at' => Carbon::createFromDate($card->expYear, $card->expMonth,1)->endOfMonth()
             ]);
         }
 
@@ -167,7 +167,7 @@ class StripeWebhookController extends Controller
 
         if ($subscription && $data['invoice_settings']['default_payment_method']) {
 
-            $card = $this->stripeService->getUserCard($data['customer']);
+            $card = $this->stripeService->getCustomerCard($data['customer']);
 
             $subscription->update([
                 'card_last4' => $card->last4,

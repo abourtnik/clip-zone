@@ -41,7 +41,7 @@ class StripeWebhookTest extends TestCase
 
         $this->mock(StripeService::class, function (MockInterface $mock) {
             $mock
-                ->shouldReceive('getUserCard')
+                ->shouldReceive('getCustomerCard')
                 ->with($this->user->stripe_id)
                 ->andReturn(new StripeCard('visa', '4242', 12, 2027));
             $mock
