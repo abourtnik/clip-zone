@@ -654,5 +654,6 @@
     "Your password has been updated successfully !": "Votre mot de passe a été mis à jour avec succès !",
     "Reported :date": "Signalé :date",
     "Please complete the anti-bot verification": "Merci de valider la vérification anti-robot",
-    "Anti-bot verification failed; please try again" : "La vérification anti-robot a échoué, merci de réessayer"
+    "Anti-bot verification failed; please try again" : "La vérification anti-robot a échoué, merci de réessayer",
+    "AI-generated video": "Vidéo générée par IA"
 }

@@ -10,7 +10,7 @@
 </div>
 <div x-data="{subtitles: {{$subtitles}}}">
     <template x-for="(subtitle, index) in subtitles" :key="index">
-        <div class="my-3 tw:bg-gray-50 border border-1 px-2 py-3">
+        <div class="my-3 tw:bg-gray-50 tw:dark:bg-gray-800 border border-1 px-2 py-3">
             <div x-data="{language: '' }" class="row align-items-start row-gap-3 gx-2 row-gap-xxl-0">
                 <template x-if="subtitle.id">
                     <input type="hidden" :name="'subtitles[' + index + '][id]'" required :value="subtitle.id">

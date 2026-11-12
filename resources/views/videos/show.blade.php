@@ -251,8 +251,13 @@
                         </div>
                     </div>
                 @endif
-                @if($video->category || $video->language)
+                @if($video->is_ia || $video->category || $video->language)
                     <div class="d-flex gap-2 align-items-center">
+                        @if($video->is_ia)
+                            <div class="d-flex alert alert-warning px-2 py-1 align-items-center gap-2 mb-0">
+                                <strong>{{__('AI-generated video')}}</strong>
+                            </div>
+                        @endif
                         @if($video->category)
                             <a href="{{$video->category->route}}" class="d-flex alert alert-info px-2 py-1 align-items-center gap-2 mb-0 text-decoration-none">
                                 <i class="fa-solid fa-{{$video->category->icon}}"></i>
