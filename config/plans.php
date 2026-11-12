@@ -2,13 +2,13 @@
 
 return [
     'free' => [
-        'max_uploads' => 10,
-        'max_file_size' => 524_288_000, // 500 MB
-        'max_videos_storage' => 5_368_709_120 // 5 GB
+        'max_uploads' => 20,
+        'max_file_size' => 1_073_741_824, // 1 GB
+        'max_videos_storage' => 10_737_418_240, // 10 GB
     ],
     'premium' => [
         'max_uploads' => null,
-        'max_file_size' => 2_147_483_648, // 2 GB
+        'max_file_size' => 3_221_225_472, // 3 GB
         'max_videos_storage' => null
     ],
     'trial_period' => [
