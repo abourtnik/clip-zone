@@ -38,7 +38,7 @@ class ContactRequest extends FormRequest
                 'bail',
                 'required',
                 'email',
-                 new SpamEmails
+                 //new SpamEmails
             ],
             'message' => [
                 'bail',
@@ -46,8 +46,8 @@ class ContactRequest extends FormRequest
                 'string',
                 'min:'.config('validation.contact.message.min'),
                 'max:'.config('validation.contact.message.max'),
-                new SpamWords,
-                new HasLinks
+                //new SpamWords,
+                //new HasLinks
             ],
             'website' => Rule::in([null]),
             'cf-turnstile-response' => [
@@ -60,7 +60,7 @@ class ContactRequest extends FormRequest
     public function messages() : array
     {
         return [
-            'cf-turnstile-response.required' => 'Merci de valider la vérification anti-robot.',
+            'cf-turnstile-response.required' => __('Please complete the anti-bot verification'),
         ];
     }
 }

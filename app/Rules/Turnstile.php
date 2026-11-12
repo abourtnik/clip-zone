@@ -24,7 +24,7 @@ class Turnstile implements ValidationRule
         );
 
         if (!$response->successful() || !$response->json('success')) {
-            $fail('La vérification anti-robot a échoué, merci de réessayer.');
+            $fail(__('Anti-bot verification failed; please try again'));
         }
     }
 }
