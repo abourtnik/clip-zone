@@ -66,6 +66,7 @@ class Video extends Model implements Likeable, Reportable
     public const string THUMBNAIL_FOLDER = 'thumbnails';
     public const string VIDEO_FOLDER = 'videos';
     public const string CHUNK_FOLDER = 'chunks';
+    public const string AUDIO_FOLDER = 'audios';
     public const string MIMETYPE = 'video/mp4';
     public const array AVAILABLE_LANGUAGES = ['ar', 'en', 'fr', 'zh', 'nl', 'de', 'hi', 'it', 'ko', 'es', 'pt', 'ru'];
 
@@ -148,6 +149,13 @@ class Video extends Model implements Likeable, Reportable
     {
         return Attribute::make(
             get: fn () => $this->thumbnail ? route('video.thumbnail', $this) : null
+        );
+    }
+
+    protected function audioPath(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => self::AUDIO_FOLDER.DIRECTORY_SEPARATOR.$this->audio
         );
     }
 

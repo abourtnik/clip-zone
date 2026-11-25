@@ -38,4 +38,9 @@ enum VideoStatus : int {
             self::UNLISTED->value,
         ];
     }
+
+    public static function publishable(): array
+    {
+        return [self::PUBLIC->value, self::UNLISTED->value, self::DRAFT->value];
+    }
 }

@@ -15,7 +15,7 @@ Breadcrumbs::for('videos', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::for('create_video', function (BreadcrumbTrail $trail, Video $video) {
     $trail->parent('videos');
-    $trail->push(__('Create new video'), route('user.videos.create', $video));
+    $trail->push($video->title, route('user.videos.create', $video));
 });
 
 Breadcrumbs::for('edit_video', function (BreadcrumbTrail $trail, Video $video) {

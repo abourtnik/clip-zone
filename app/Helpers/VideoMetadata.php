@@ -8,6 +8,7 @@ use FFMpeg\Coordinate\TimeCode;
 use FFMpeg\FFProbe;
 use FFMpeg\FFMpeg;
 use FFMpeg\Format\Video\X264;
+use FFMpeg\Format\Audio\Mp3;
 use Illuminate\Support\Facades\Storage;
 
 class VideoMetadata
@@ -97,5 +98,22 @@ class VideoMetadata
         }
 
         return $newVideoPath ?? $relativePath;
+    }
+
+    public static function extractAudio(string $path): string {
+
+        $video = self::getFFMpeg()->open($path);
+
+        $format = new Mp3();
+        $format->setAudioKiloBitrate(64);
+        $format->setAudioChannels(1);
+
+        $filename = Number::unique() . '.mp3';
+
+        $filePath = Storage::disk('local')->path(Video::AUDIO_FOLDER.DIRECTORY_SEPARATOR.$filename);
+
+        $video->save($format, $filePath);
+
+        return $filename;
     }
 }

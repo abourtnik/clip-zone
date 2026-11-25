@@ -655,5 +655,12 @@
     "Reported :date": "Signalé :date",
     "Please complete the anti-bot verification": "Merci de valider la vérification anti-robot",
     "Anti-bot verification failed; please try again" : "La vérification anti-robot a échoué, merci de réessayer",
-    "AI-generated video": "Vidéo générée par IA"
+    "AI-generated video": "Vidéo générée par IA",
+    "Publish Video": "Publier la vidéo",
+    "Save Video": "Sauvegarder la vidéo",
+    "Schedule Video": "Planifier la vidéo",
+    ":language (auto-generated)": ":language (généré automatiquement)",
+    "Auto-generated": "Généré automatiquement",
+    "Unknown": "Inconnu",
+    "This language is already used for another active subtitle": "Cette langue est déjà utilisée pour un autre sous-titre actif."
 }
