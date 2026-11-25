@@ -1,4 +1,4 @@
-import {SubtitleType, UserType} from "@/types";
+import {SubtitleShowType, UserType} from "@/types";
 
 export type VideoType = {
     id: number,
@@ -18,7 +18,7 @@ export type VideoPlayerType = {
     thumbnail: string,
     file: string,
     show_ad: boolean,
-    subtitles: SubtitleType[],
+    subtitles: SubtitleShowType[],
 }
 
 export type VideosSort = 'latest' | 'popular' | 'oldest';

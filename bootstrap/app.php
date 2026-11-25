@@ -36,7 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->redirectGuestsTo('/login');
         $middleware->redirectUsersTo('/profile');
         $middleware->preventRequestForgery(except: [
-            'stripe-webhook',
+            'webhook/*'
         ]);
 
         // API

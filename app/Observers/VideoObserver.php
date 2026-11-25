@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Enums\VideoStatus;
 use App\Events\Video\VideoPublished;
 use App\Helpers\File;
+use App\Models\Subtitle;
 use App\Models\Video;
 
 class VideoObserver
@@ -45,6 +46,15 @@ class VideoObserver
             foreach ($video->thumbnails as $thumbnail) {
                 $thumbnail->delete();
                 File::deleteIfExist($thumbnail->file, Video::THUMBNAIL_FOLDER);
+            }
+
+            // Remove audio file
+            File::deleteIfExist($video->audio, Video::AUDIO_FOLDER);
+
+            // Remove subtitles
+            foreach ($video->subtitles as $subtitle) {
+                $subtitle->delete();
+                File::deleteIfExist($subtitle->file, Subtitle::FILE_FOLDER);
             }
 
             $video->forceDelete();

@@ -5,8 +5,10 @@ namespace App\Models;
 use App\Enums\SubtitleStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Symfony\Component\Intl\Languages;
 
 /**
@@ -14,10 +16,13 @@ use Symfony\Component\Intl\Languages;
  */
 class Subtitle extends Model
 {
+    use SoftDeletes, HasFactory;
+
     protected $guarded = ['id'];
 
     protected $casts = [
         'status' => SubtitleStatus::class,
+        'is_enabled' => 'boolean',
     ];
 
     public const string FILE_FOLDER = 'subtitles';
@@ -38,21 +43,63 @@ class Subtitle extends Model
     protected function fileUrl(): Attribute
     {
         return Attribute::make(
-            get: fn () => route('video.subtitles', ['video' => $this->video, 'subtitle' => $this])
+            get: fn () => route('video.subtitles', [
+                'video' => $this->video,
+                'subtitle' => $this,
+            ])
         );
     }
 
-    protected function languageName(): Attribute
+    protected function downloadUrl(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => ucfirst(Languages::getName($this->language, app()->getLocale())),
+            get: fn () => route('video.subtitles', [
+                'video' => $this->video,
+                'subtitle' => $this,
+                'download' => true,
+            ])
         );
+    }
+
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: function($value) {
+
+                if ($this->is_uploaded) {
+                    return $value;
+                }
+
+                if ($this->language) {
+                    return __(
+                        ':language (auto-generated)',
+                        ['language' => ucfirst(Languages::getName($this->language, $this->video->user->preferredLocale()))],
+                        $this->video->user->preferredLocale()
+                    );
+                }
+
+                return __('Auto-generated', locale: $this->video->user->preferredLocale());
+            });
     }
 
     protected function isPublic(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => $this->status === SubtitleStatus::PUBLIC
+            get: fn () => $this->is_enabled && in_array($this->status, [SubtitleStatus::GENERATED, SubtitleStatus::UPLOADED])
+        );
+    }
+
+    protected function isAvailable(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => in_array($this->status, [SubtitleStatus::GENERATED, SubtitleStatus::UPLOADED])
+        );
+    }
+
+    protected function isUploaded(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->status === SubtitleStatus::UPLOADED
         );
     }
 
@@ -64,6 +111,8 @@ class Subtitle extends Model
      */
     public function scopePublic(Builder $query): Builder
     {
-        return $query->where('status', SubtitleStatus::PUBLIC);
+        return $query
+            ->where('is_enabled', true)
+            ->whereIn('status', [SubtitleStatus::GENERATED, SubtitleStatus::UPLOADED]);
     }
 }

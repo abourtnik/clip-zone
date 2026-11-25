@@ -509,29 +509,39 @@ namespace App\Models{
  * @property int $id
  * @property int $video_id
  * @property string $name
- * @property string $language
- * @property string $file
+ * @property string|null $language
+ * @property string|null $file
  * @property \App\Enums\SubtitleStatus $status
+ * @property bool $is_enabled
+ * @property string|null $provider_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read mixed $download_url
  * @property-read mixed $file_url
+ * @property-read mixed $is_available
  * @property-read mixed $is_public
- * @property-read mixed $language_name
+ * @property-read mixed $is_uploaded
  * @property-read \App\Models\Video|null $video
+ * @method static \Database\Factories\SubtitleFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle onlyTrashed()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle public()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereFile($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereIsEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereLanguage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereProviderId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereVideoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle withTrashed(bool $withTrashed = true)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle withoutTrashed()
  * @mixin \Eloquent
  */
 	#[\AllowDynamicProperties]
@@ -783,13 +793,16 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $banned_at
  * @property \Illuminate\Support\Carbon|null $uploaded_at
  * @property string|null $youtube_id Youtube ID
- * @property int $is_live
- * @property int $is_short
+ * @property bool $is_live
+ * @property bool $is_short
+ * @property bool $is_ia
  * @property int $views
  * @property bool $show_ad
+ * @property string|null $audio
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read mixed $audio_path
  * @property-read \App\Models\Category|null $category
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Interaction> $comment_interactions
  * @property-read int|null $comment_interactions_count
@@ -853,6 +866,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video query()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video valid()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereAllowComments($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereAudio($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereBannedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereCreatedAt($value)
@@ -862,6 +876,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereDuration($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereFile($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereIsIa($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereIsLive($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereIsShort($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Video whereLanguage($value)

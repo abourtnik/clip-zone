@@ -2,61 +2,21 @@
 
 namespace App\Http\Controllers\Api\Private;
 
-use App\Enums\ThumbnailStatus;
-use App\Enums\VideoStatus;
-use App\Helpers\Number;
+use App\Actions\Video\UploadVideoAction;
 use App\Http\Requests\Video\FileRequest;
-use App\Jobs\ProcessVideo;
 use App\Models\Video;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\Http\Response;
 
 class VideoController
 {
-    public function upload (FileRequest $request): JsonResponse {
+    public function upload (FileRequest $request, UploadVideoAction $action): JsonResponse
+    {
+        $result = $action->execute($request);
 
-        $folder = sprintf('%d/%s', Auth::id(), $request->string('resumableIdentifier'));
-
-        $chunk = $request->file('file');
-
-        $name = $request->integer('resumableChunkNumber'). ".part";
-
-        $chunk->storeAs(Video::CHUNK_FOLDER.'/'.$folder, $name, 'local');
-
-        if ($request->integer('resumableTotalChunks') === $request->integer('resumableChunkNumber')) {
-
-            $title = Str::replace('.'.$chunk->getClientOriginalExtension(), '', $chunk->getClientOriginalName());
-
-            $video = Video::create([
-                'uuid' => Number::unique(),
-                'title' => $title,
-                'slug' => Str::slug($title),
-                'original_file_name' => $chunk->getClientOriginalName(),
-                'size' => $request->integer('resumableTotalSize'),
-                'status' => VideoStatus::DRAFT,
-                'user_id' => Auth::user()->id
-            ]);
-
-            for ($i = 0; $i < Video::GENERATED_THUMBNAILS; $i++) {
-                $video->thumbnails()->create([
-                    'status' => ThumbnailStatus::PENDING
-                ]);
-            }
-
-            ProcessVideo::dispatch($folder, $video, $chunk->getClientOriginalExtension());
-
-            return response()->json([
-                'route' => route('user.videos.create', $video)
-            ]);
-        }
-
-        $percentage = ceil($request->integer('resumableChunkNumber') / $request->integer('resumableTotalChunks') * 100);
-
-        return response()->json([
-            "done" => $percentage
-        ]);
+        return $result->completed
+            ? response()->json(['route' => route('user.videos.create', $result->video)])
+            : response()->json(['done' => $result->progress]);
     }
 
     public function delete(Video $video): Response

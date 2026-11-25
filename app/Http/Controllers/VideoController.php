@@ -6,11 +6,12 @@ use App\Actions\Video\ShowVideoAction;
 use App\Enums\VideoStatus;
 use App\Models\Subtitle;
 use App\Models\Thumbnail;
-use App\Models\User;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use App\Models\Video;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 class VideoController extends Controller
 {
@@ -67,15 +68,22 @@ class VideoController extends Controller
         return redirect($url)->header('Cache-Control', 'private, max-age=240');
     }
 
-    public function subtitles (Video $video, Subtitle $subtitle): RedirectResponse
+    public function subtitles (Request $request, Video $video, Subtitle $subtitle): StreamedResponse
     {
-        $url = Storage::temporaryUrl(
-            Subtitle::FILE_FOLDER.'/'.$subtitle->file,
-            now()->addMinutes(5),
-            ['ResponseCacheControl' => 'private, max-age=300'],
-        );
+        $path = Subtitle::FILE_FOLDER . '/' . $subtitle->file;
 
-        return redirect($url)->header('Cache-Control', 'private, max-age=240');
+        abort_unless(Storage::exists($path), 404);
+
+        $headers = [
+            'Content-Type'  => 'text/vtt; charset=utf-8',
+            'Cache-Control' => 'private, max-age=240',
+        ];
+
+        $filename = $subtitle->name . '.vtt';
+
+        return $request->boolean('download')
+            ? Storage::download($path, $filename, $headers)
+            : Storage::response($path, $filename, $headers);
     }
 
     public function embed (Video $video): View

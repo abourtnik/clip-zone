@@ -1,11 +1,11 @@
 import {useEffect, useRef, useState} from "preact/hooks";
-import {SubtitleType} from "@/types";
+import {SubtitleShowType} from "@/types";
 import {AUTOPLAY_NEXT_VIDEO_KEY, AUTOPLAY_VIDEO_KEY} from "@/components/Switchs";
 import {viewVideo, player} from "@/api/clipzone";
 import {QueryClient, QueryClientProvider, useMutation, useQuery} from "@tanstack/react-query";
 import {Ad} from "@/components/Videos/Ad";
 import {Loader, ApiError} from "@/components/Commons";
-import {TargetedEvent} from "react";
+import type { TargetedEvent } from "preact"
 import {clsx} from "clsx";
 
 type Props = {
@@ -146,7 +146,7 @@ export function Main ({video_uuid, next_video} : Props) {
                             >
                                 <source src={video.file} type="video/mp4"/>
                                 {
-                                    video.subtitles.map((subtitle: SubtitleType) => (
+                                    video.subtitles.map((subtitle: SubtitleShowType) => (
                                         <track
                                             key={subtitle.id}
                                             label={subtitle.name}

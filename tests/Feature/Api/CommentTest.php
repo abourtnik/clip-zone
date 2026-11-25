@@ -4,29 +4,40 @@ namespace Tests\Feature\Api;
 
 use App\Enums\VideoStatus;
 use App\Models\Comment;
+use App\Models\User;
 use App\Models\Video;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
+use PHPUnit\Framework\Attributes\Test;
 
 class CommentTest extends TestCase
 {
     use RefreshDatabase;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_comments_list(): void
+    private Video $video;
+    private User $user;
+
+    protected function setUp(): void
     {
-        $video = Video::factory()->withStatus(VideoStatus::PUBLIC)->forUser()->create([
-            'allow_comments' => true
-        ]);
+        parent::setUp();
 
-        Comment::factory()->forUser()->for($video)->count(3)->createQuietly();
+        $this->user = User::factory()->create();
 
-        $response = $this->get(route('comments.index', $video->uuid));
+        $this->video = Video::factory()
+            ->withStatus(VideoStatus::PUBLIC)
+            ->for($this->user)
+            ->create([
+                'allow_comments' => true
+            ]);
+    }
+
+    #[Test]
+    public function comments_list(): void
+    {
+        Comment::factory()->forUser()->for($this->video)->count(3)->createQuietly();
+
+        $response = $this->get(route('comments.index', $this->video));
 
         $response
             ->assertStatus(200)
@@ -64,5 +75,52 @@ class CommentTest extends TestCase
                     ->has('meta')
                     ->has('count')
             );
+    }
+
+    #[Test]
+    public function comment_store(): void
+    {
+        $this
+            ->actingAs($this->user)
+            ->postJson(
+                route('comments.store', $this->video),
+                [
+                    'content' => 'Test content',
+                ]
+            )
+            ->assertStatus(201);
+
+        $this->assertDatabaseCount('comments', 1);
+    }
+
+    #[Test]
+    public function comment_update(): void
+    {
+        $comment = Comment::factory()->for($this->video)->for($this->user)->createQuietly();
+
+        $this
+            ->actingAs($this->user)
+            ->putJson(
+                route('comments.update', ['comment' => $comment, 'video' => $this->video]),
+                [
+                    'content' => 'New content',
+                ]
+            )
+            ->assertStatus(200);
+
+        $this->assertEquals('New content', $comment->fresh()->content);
+    }
+
+    #[Test]
+    public function comment_delete(): void
+    {
+        $comment = Comment::factory()->for($this->video)->for($this->user)->createQuietly();
+
+        $this
+            ->actingAs($this->user)
+            ->delete(route('comments.destroy', ['comment' => $comment, 'video' => $this->video]))
+            ->assertStatus(204);
+
+        $this->isSoftDeletableModel($comment);
     }
 }

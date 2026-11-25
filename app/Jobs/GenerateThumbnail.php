@@ -89,14 +89,9 @@ class GenerateThumbnail implements ShouldQueue
         ThumbnailGeneratedError::dispatch($this->thumbnail);
     }
 
-    private function uploadToS3 (Thumbnail $thumbnail) : void {
-
+    private function uploadToS3 (Thumbnail $thumbnail) : void
+    {
         $path = Video::THUMBNAIL_FOLDER . DIRECTORY_SEPARATOR . $thumbnail->file;
-
-        $stream = Storage::disk('local')->readStream($path);
-
-        Storage::disk('s3')->writeStream($path, $stream);
-
-        Storage::disk('local')->delete($path);
+        Storage::disk('local')->moveToDisk('s3' ,$path, $path);
     }
 }

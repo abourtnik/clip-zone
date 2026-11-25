@@ -8,24 +8,8 @@ enum SubtitleStatus : int {
 
     use Listable;
 
-    case PUBLIC = 0;
-    case DRAFT = 1;
-
-    public function color(): string
-    {
-        return match($this)
-        {
-            self::PUBLIC => 'success',
-            self::DRAFT => 'secondary',
-        };
-    }
-
-    public function icon(): string
-    {
-        return match($this)
-        {
-            self::PUBLIC => 'earth-europe',
-            self::DRAFT => 'file',
-        };
-    }
+    case PENDING = 0;
+    case GENERATED = 1;
+    case ERROR = 2;
+    case UPLOADED = 3;
 }

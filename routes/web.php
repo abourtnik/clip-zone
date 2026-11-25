@@ -10,13 +10,10 @@ use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PremiumController;
 
-use App\Http\Controllers\StripeWebhookController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\SitemapController;
 
 use App\Enums\CustomPlaylistType;
-
-use Laravel\Cashier\Http\Middleware\VerifyWebhookSignature;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -42,10 +39,6 @@ Route::middleware('auth')->name('custom-playlist.')->controller(CustomPlaylistCo
 });
 
 // PREMIUM
-Route::post('stripe-webhook', [StripeWebhookController::class, 'index'])
-    ->middleware(VerifyWebhookSignature::class)
-    ->name('stripe_webhook');
-
 Route::name('premium.')
     ->middleware(['auth', 'can:premiumSubscribe,App\Models\User', 'verified'])
     ->controller(PremiumController::class)->group(function () {
@@ -155,6 +148,7 @@ Route::controller(SitemapController::class)
 require __DIR__.'/auth.php';
 require __DIR__.'/user.php';
 require __DIR__.'/admin.php';
+require __DIR__.'/webhook.php';
 
 Route::fallback(function () {
     abort(404);

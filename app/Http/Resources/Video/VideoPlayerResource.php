@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Video;
 
 use App\Enums\VideoStatus;
-use App\Http\Resources\SubtitleResource;
+use App\Http\Resources\Subtitle\SubtitleShowResource;
 use App\Models\Video;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -28,7 +28,7 @@ class VideoPlayerResource extends JsonResource
             'thumbnail' => $this->thumbnail_url,
             'file' => $this->file_url,
             'show_ad' => $this->showAd(),
-            'subtitles' => SubtitleResource::collection($this->subtitles),
+            'subtitles' => SubtitleShowResource::collection($this->subtitles),
         ];
     }
 

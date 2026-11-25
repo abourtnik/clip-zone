@@ -2,10 +2,12 @@
 
 namespace App\Jobs;
 
+use App\Enums\SubtitleStatus;
 use App\Enums\VideoStatus;
 use App\Events\Video\VideoError;
 use App\Events\Video\VideoUploaded;
 use App\Helpers\VideoMetadata;
+use App\Models\Subtitle;
 use App\Models\Thumbnail;
 use App\Models\Video;
 use App\Services\FileMerger;
@@ -77,7 +79,7 @@ class ProcessVideo implements ShouldQueue
         $path = VideoMetadata::convert($path);
 
         if (config('filesystems.default') === 's3') {
-            $this->uploadToS3($path);
+            Storage::disk('local')->copyToDisk('s3', $path, $path,);
         }
 
         $this->video->update(['uploaded_at' => now()]);
@@ -97,13 +99,22 @@ class ProcessVideo implements ShouldQueue
 
         $videoPath = $this->video->path;
 
-        Bus::batch($thumbnailJobs)
-            ->name("GenerateThumbnails for video : {$this->video->id}")
-            ->then(function (Batch $batch) use ($videoPath) {
-                // Delete video
-                Storage::disk('local')->delete($videoPath);
-            })
-            ->dispatch();
+        /** @var Subtitle|null $generatedSubtitle */
+        $generatedSubtitle = $this->video->subtitles()
+            ->where('status', SubtitleStatus::PENDING)
+            ->whereNull('provider_id')
+            ->first();
+
+        Bus::batch([
+            ...$thumbnailJobs,
+            [new GenerateSubtitle($this->video, $generatedSubtitle)]
+        ])
+        ->name("ProcessVideo : {$this->video->id}")
+        ->allowFailures()
+        ->then(function (Batch $batch) use ($videoPath) {
+            Storage::disk('local')->delete($videoPath);
+        })
+        ->dispatch();
 
         VideoUploaded::dispatch($this->video);
 
@@ -130,20 +141,6 @@ class ProcessVideo implements ShouldQueue
         ]);
 
         return $duration;
-    }
-
-    /**
-     * Upload file from local to S3.
-     *
-     * @param string $path
-     *
-     * @return void
-     */
-    private function uploadToS3 (string $path) : void {
-
-        $stream = Storage::disk('local')->readStream($path);
-
-        Storage::disk('s3')->writeStream($path, $stream);
     }
 
     /**

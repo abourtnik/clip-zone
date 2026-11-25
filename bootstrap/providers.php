@@ -6,6 +6,7 @@ use App\Providers\HorizonServiceProvider;
 use App\Providers\LogServiceProvider;
 use App\Providers\ViewServiceProvider;
 use App\Providers\RouteServiceProvider;
+use App\Providers\TranscriptionServiceProvider;
 
 return [
     AppServiceProvider::class,
@@ -14,4 +15,5 @@ return [
     BladeServiceProvider::class,
     LogServiceProvider::class,
     RouteServiceProvider::class,
+    TranscriptionServiceProvider::class,
 ];

@@ -15,6 +15,7 @@ import ImageUpload from "./Images/ImageUpload";
 import ImageLoaded from "./Images/ImageLoaded";
 
 import {Thumbnails} from "./Videos/Thumbnails";
+import {SubtitlesList} from "./Subtitles";
 
 import {Subscribe, Report} from "./Actions";
 import {VideoAutoplaySwitcher, ThemeSwitcher, AutoplayNextVideoSwitcher} from "./Switchs";
@@ -29,12 +30,13 @@ register(UserReplies, 'user-replies', [], { shadow: false });
 register(UserVideos, 'user-videos', [], { shadow: false });
 register(Playlist, 'playlist-videos', [], { shadow: false });
 register(NotificationsList, 'site-notifications', [], { shadow: false });
-register(ImageUpload, 'image-upload', ['source'], { shadow: false });
+register(ImageUpload, 'image-upload', ['src'], { shadow: false });
 register(VideoUpload, 'video-upload', [], { shadow: false });
 register(ImageLoaded, 'image-loaded', ['hover'], { shadow: false });
 register(Save, 'save-video', [], { shadow: false });
 register(SearchModel, 'search-model', [], { shadow: false });
 register(Thumbnails, 'thumbnails-select', [], { shadow: false });
+register(SubtitlesList, 'subtitles-table', [], { shadow: false });
 register(Report, 'report-button', [], { shadow: false });
 register(VideoAutoplaySwitcher, 'video-autoplay-switch', [], { shadow: false });
 register(AutoplayNextVideoSwitcher, 'autoplay-switch', [], { shadow: false });

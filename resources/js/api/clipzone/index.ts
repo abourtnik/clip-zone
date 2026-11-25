@@ -8,3 +8,4 @@ export * from './comments';
 export * from './report';
 export * from './search';
 export * from './commons';
+export * from './subtitles';

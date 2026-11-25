@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Private\NotificationController;
 use App\Http\Controllers\Api\Private\PlaylistController;
 use App\Http\Controllers\Api\Private\ReportController;
 use App\Http\Controllers\Api\Private\SearchController;
+use App\Http\Controllers\Api\Private\SubtitlesController;
 use App\Http\Controllers\Api\Private\ThumbnailController;
 use App\Http\Controllers\Api\Private\UserController;
 use App\Http\Controllers\Api\Private\VideoController;
@@ -149,6 +150,19 @@ Route::middleware('auth:sanctum')->group(function () {
                 Route::get('/videos/{video:id}/thumbnails', 'index')
                     ->name('list')
                     ->can('thumbnails', 'video');
+        });
+
+        // SUBTITLES
+        Route::prefix('videos/{video:uuid}/subtitles')
+            ->name('subtitles.')
+            ->scopeBindings()
+            ->controller(SubtitlesController::class)
+            ->group(function () {
+                Route::get('/', 'index')->name('index');
+                Route::post('/', 'store')->name('store')->middleware('verified');
+                Route::put('/{subtitle}', 'update')->name('update');
+                Route::patch('/{subtitle}/toggle', 'toggle')->name('toggle')->can('toggle', 'subtitle');
+                Route::delete('/{subtitle}', 'destroy')->name('destroy');
             });
     });
 });
@@ -206,7 +220,9 @@ Route::middleware('throttle:api')->group(function () {
 
 
 // COMMENTS
-Route::prefix('videos/{video:uuid}/comments')->name('comments.')
+Route::prefix('videos/{video:uuid}/comments')
+    ->name('comments.')
+    ->scopeBindings()
     ->controller(CommentController::class)
     ->middleware('throttle:api')
     ->group(function () {
