@@ -15,7 +15,7 @@
                 <div class="fw-bold text-center alert alert-info mb-0 px-0 tw:rounded-none!">
                     <h5 class="alert-heading text-center fw-bold">{{ __('Your upload limits') }}</h5>
                     <hr>
-                    <div class="flex flex-column flex-md-row justify-content-center gap-1 align-content-center px-2">
+                    <div class="flex flex-column flex-md-row justify-content-center gap-1 align-content-center px-2 flex-wrap">
                         <div @class(['d-flex align-content-center gap-1 justify-content-center', 'text-danger' => !Auth::user()->is_premium && $available_uploads == 0])>
                             <span>{{ __('Available uploads') }} :</span>
                             @if(Auth::user()->is_premium)
