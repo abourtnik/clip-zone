@@ -14,7 +14,7 @@ export function ApiError ({refetch, error}: Props) {
             <i className="fa-solid fa-triangle-exclamation fa-3x"></i>
             <h3 className="h5 my-3 fw-normal">{t('Something went wrong')}</h3>
             <p className="text-muted">{error.message ?? t('Unknown error')}</p>
-            <button className="btn btn-primary rounded-5 text-uppercase btn-sm" onClick={() => refetch()}>
+            <button type={'button'} className="btn btn-primary rounded-5 text-uppercase btn-sm" onClick={() => refetch()}>
                 {t('Try again')}
             </button>
         </div>
