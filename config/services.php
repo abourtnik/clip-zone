@@ -35,5 +35,6 @@ return [
         'secret_key' => env('TURNSTILE_SECRET_KEY'),
         'enabled'    => env('TURNSTILE_ENABLED', true),
     ],
+    'webhook_base_url' => env('WEBHOOK_BASE_URL'),
     'oauth_services' => ['google', 'facebook'],
 ];

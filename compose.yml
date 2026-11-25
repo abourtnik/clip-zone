@@ -126,6 +126,21 @@ services:
             - '9601:9601'
         networks:
             - application
+    ngrok:
+      image: ngrok/ngrok
+      container_name: ngrok_container
+      command: http nginx:80 --url ${WEBHOOK_BASE_URL} --traffic-policy-file=/etc/ngrok/policy.yml
+      environment:
+        NGROK_AUTHTOKEN: ${NGROK_AUTHTOKEN}
+      volumes:
+        - ./docker/ngrok/policy.yml:/etc/ngrok/policy.yml:ro
+      ports:
+        - "4040:4040"
+      networks:
+        - application
+      depends_on:
+        - nginx
+      restart: unless-stopped
 networks:
     application:
         driver: bridge
