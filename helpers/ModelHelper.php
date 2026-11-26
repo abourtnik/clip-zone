@@ -514,10 +514,12 @@ namespace App\Models{
  * @property \App\Enums\SubtitleStatus $status
  * @property bool $is_enabled
  * @property string|null $provider_id
+ * @property bool $is_empty
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Support\Carbon|null $deleted_at
  * @property-read mixed $download_url
+ * @property-read mixed $file_name
  * @property-read mixed $file_url
  * @property-read mixed $is_available
  * @property-read mixed $is_public
@@ -533,6 +535,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereDeletedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereFile($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereIsEmpty($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereIsEnabled($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereLanguage($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Subtitle whereName($value)

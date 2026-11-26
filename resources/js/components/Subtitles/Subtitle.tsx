@@ -65,19 +65,26 @@ export const Subtitle = memo(({subtitle} : {subtitle: SubtitleType}) => {
             </td>
             <td>
                 <span class={'fw-bold'}>{subtitle.name}</span>
-                <div class={'d-flex gap-1 text-sm text-secondary mt-1'}>
-                    <span>
+                <div class={'d-flex gap-2 gap-xxl-1 text-secondary mt-2 align-items-center flex-wrap'}>
+                    <span class={'text-sm'}>
                         {subtitle.is_generated && t('Generated')}
                         {subtitle.is_uploaded && t('Imported')}
                     </span>
-                    <span>{moment(subtitle.created_at).fromNow()}</span>
+                    <span class={'text-sm'}>{moment(subtitle.created_at).fromNow()}</span>
+                    {
+                        subtitle.is_empty &&
+                        <div class={'d-flex align-items-center gap-1'}>
+                            <span class={'text-sm d-none d-xxl-block'}>•</span>
+                            <span class={'badge bg-warning'}>{t('Empty Subtitles')}</span>
+                        </div>
+                    }
                 </div>
             </td>
             <td>
                 {
-                    (subtitle.is_uploaded || subtitle.is_generated && subtitle.status === SubtitleStatus.GENERATED) &&
+                    subtitle.file_url &&
                     <a
-                        download={subtitle.name} href={subtitle.file_url ?? ''}
+                        download={subtitle.name} href={subtitle.file_url}
                         class="badge bg-secondary text-white d-inline-flex align-items-center gap-2 p-2 text-decoration-none"
                         title={t('Download subtitle')}
                     >
@@ -114,7 +121,7 @@ export const Subtitle = memo(({subtitle} : {subtitle: SubtitleType}) => {
             </td>
             <td>
                 {
-                    (subtitle.is_uploaded) &&
+                    subtitle.is_uploaded &&
                     <div class={'d-flex align-items-center gap-1'}>
                         <DeleteSubtitle subtitle={subtitle}/>
                         <button type={'button'} class="btn btn-primary btn-sm" title="Edit subtitle" onClick={() => setIsEditing(true)}>

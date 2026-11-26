@@ -6,12 +6,13 @@ export type SubtitleType = {
     video_id : string,
     name : string,
     language : string | null,
+    file_url : string | null,
+    file_name : string | null,
     status : number,
     is_generated : boolean,
     is_uploaded : boolean,
     is_enabled : boolean,
-    file_url : string | null,
-    file : string | null,
+    is_empty : boolean,
     created_at : Date,
 }
 

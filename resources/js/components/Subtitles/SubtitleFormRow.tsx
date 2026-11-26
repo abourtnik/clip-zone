@@ -20,7 +20,7 @@ export const SubtitleFormRow = ({draft, onCancel} : Props) => {
     const { t } = useTranslation();
 
     const [isDrag, setDrag] = useState<boolean>(false);
-    const [fileName, setFileName] = useState<string|null>(draft?.file ?? null);
+    const [fileName, setFileName] = useState<string|null>(draft?.file_name ?? null);
     const [error, setError] = useState<string|null>(null);
 
     const isEdit = 'id' in draft;

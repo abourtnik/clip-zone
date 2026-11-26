@@ -23,6 +23,7 @@ class Subtitle extends Model
     protected $casts = [
         'status' => SubtitleStatus::class,
         'is_enabled' => 'boolean',
+        'is_empty' => 'boolean',
     ];
 
     public const string FILE_FOLDER = 'subtitles';
@@ -42,22 +43,17 @@ class Subtitle extends Model
 
     protected function fileUrl(): Attribute
     {
-        return Attribute::make(
-            get: fn () => route('video.subtitles', [
-                'video' => $this->video,
-                'subtitle' => $this,
-            ])
+        return Attribute::get(fn () => !is_null($this->file)
+            ? route('video.subtitles', ['video' => $this->video, 'subtitle' => $this])
+            : null
         );
     }
 
     protected function downloadUrl(): Attribute
     {
-        return Attribute::make(
-            get: fn () => route('video.subtitles', [
-                'video' => $this->video,
-                'subtitle' => $this,
-                'download' => true,
-            ])
+        return Attribute::get(fn () => !is_null($this->file)
+            ? route('video.subtitles', ['video' => $this->video, 'subtitle' => $this, 'download' => true])
+            : null
         );
     }
 
@@ -80,6 +76,14 @@ class Subtitle extends Model
 
                 return __('Auto-generated', locale: $this->video->user->preferredLocale());
             });
+    }
+
+    protected function fileName(): Attribute
+    {
+        return Attribute::get(fn () => !is_null($this->file)
+            ? $this->name.'.vtt'
+            : null
+        );
     }
 
     protected function isPublic(): Attribute

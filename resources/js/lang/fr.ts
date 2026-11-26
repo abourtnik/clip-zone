@@ -164,4 +164,5 @@ export default {
     "Invalid language": 'Langue invalide',
     "Detecting ...": 'Détection en cours...',
     "Unknown": "Inconnu",
+    "Empty Subtitles": "Sous-titres vides",
 }

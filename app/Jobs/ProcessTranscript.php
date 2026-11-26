@@ -50,7 +50,8 @@ class ProcessTranscript implements ShouldQueue
             'status' => SubtitleStatus::GENERATED,
             'language' => $language,
             'file' => $subtitleFilename,
-            'is_enabled' => !$isEmpty
+            'is_enabled' => !$isEmpty,
+            'is_empty' => $isEmpty,
         ]);
 
         SubtitleGenerated::dispatch($subtitle);

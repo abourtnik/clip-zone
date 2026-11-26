@@ -135,37 +135,37 @@
                 </div>
                 <div class="col-xl-5 col-xxl-4 order-first order-xl-last mb-4 mb-xl-0">
                     <div class="card shadow-soft h-100">
+                        <div
+                            class="ratio ratio-16x9 card-img-top border-bottom"
+                            x-data="{loading: false, video: @js($video->is_uploading ? false : ['url' => $video->file_url])}"
+                            @uploaded.window="loading=true"
+                            @terminate.window="loading= false; video = $event.detail"
+                        >
+                            <template x-if="!video">
+                                <div class="bg-light-dark d-flex justify-content-center align-items-center">
+                                    <div class="text-center px-2">
+                                        <div class="mb-2">{{ __('Your video is processing ...') }}</div>
+                                        <div class="text-muted text-sm">{{ __('You will receive a notification once the processing is complete') }}</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="loading">
+                                <div class="bg-light-dark d-flex justify-content-center align-items-center">
+                                    <div class="text-center">
+                                        <div class="mb-4 fw-bold text-danger">{{ __('Your video is almost ready ...') }}</div>
+                                        <div class="spinner-border text-danger" role="status">
+                                            <span class="visually-hidden">{{ __('Loading...') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template x-if="video">
+                                <video controls class="w-100 tw:rounded-t-md" controlsList="nodownload" onloadstart="this.volume=0.5">
+                                    <source x-bind:src="video.url" type="{{Video::MIMETYPE}}">
+                                </video>
+                            </template>
+                        </div>
                         <div class="card-body">
-                            <div
-                                class="ratio ratio-16x9"
-                                x-data="{loading: false, video: @js($video->is_uploading ? false : ['url' => $video->file_url])}"
-                                @uploaded.window="loading=true"
-                                @terminate.window="loading= false; video = $event.detail"
-                            >
-                                <template x-if="!video">
-                                    <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
-                                        <div class="text-center">
-                                            <div class="mb-2">{{ __('Your video is processing ...') }}</div>
-                                            <div class="text-muted text-sm">{{ __('You will receive a notification once the processing is complete') }}</div>
-                                        </div>
-                                    </div>
-                                </template>
-                                <template x-if="loading">
-                                    <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
-                                        <div class="text-center">
-                                            <div class="mb-4 fw-bold text-danger">{{ __('Your video is almost ready ...') }}</div>
-                                            <div class="spinner-border text-danger" role="status">
-                                                <span class="visually-hidden">{{ __('Loading...') }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </template>
-                                <template x-if="video">
-                                    <video controls class="w-100 border" controlsList="nodownload" onloadstart="this.volume=0.5">
-                                        <source x-bind:src="video.url" type="{{Video::MIMETYPE}}">
-                                    </video>
-                                </template>
-                            </div>
                             <div class="bg-light border mt-2 px-3 py-2 d-flex flex-column gap-3">
                                 <div>
                                     <div class="d-flex justify-content-between align-items-center">

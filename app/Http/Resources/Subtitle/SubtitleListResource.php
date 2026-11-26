@@ -25,12 +25,13 @@ class SubtitleListResource extends JsonResource
             'video_id' => $this->video->uuid,
             'name' => $this->name,
             'language' => $this->language,
-            'file' => $this->name.'.vtt',
+            'file_name' => $this->file_name,
             'file_url' => $this->download_url,
             'status' => $this->status,
             'is_generated' => !$this->is_uploaded,
             'is_uploaded' => $this->is_uploaded,
             'is_enabled' => $this->is_enabled,
+            'is_empty' => $this->is_empty,
             'created_at' => $this->created_at,
         ];
     }

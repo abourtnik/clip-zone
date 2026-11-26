@@ -106,7 +106,7 @@ function Main ({video} : Props) {
                                            </OverlayTrigger>
                                        </div>
                                    </th>
-                                   <th scope="col" className={'tw:min-w-[200px]'}>{t('Source')}</th>
+                                   <th scope="col" className={'tw:min-w-[260px]'}>{t('Source')}</th>
                                    <th scope="col" className={'w-12'}>{t('Status')}</th>
                                    <th scope="col" className={'tw:min-w-[200px]'}>{t('Actions')}</th>
                                </tr>

@@ -123,21 +123,21 @@
                 </div>
                 <div class="col-xl-5 col-xxl-4 order-first order-xl-last mb-4 mb-xl-0">
                     <div class="card shadow-soft">
-                        <div class="card-body">
-                            <div class="ratio ratio-16x9">
-                                @if($video->is_uploading)
-                                    <div class="bg-light-dark border border-light d-flex justify-content-center align-items-center">
-                                        <div class="text-center">
-                                            <div class="mb-2">{{ __('Your video is processing ...') }}</div>
-                                            <div class="text-muted text-sm">{{ __('You will receive a notification once the processing is complete') }}</div>
-                                        </div>
+                        <div class="ratio ratio-16x9 card-img-top border-bottom">
+                            @if($video->is_uploading)
+                                <div class="bg-light-dark d-flex justify-content-center align-items-center px-1">
+                                    <div class="text-center">
+                                        <div class="mb-2">{{ __('Your video is processing ...') }}</div>
+                                        <div class="text-muted text-sm">{{ __('You will receive a notification once the processing is complete') }}</div>
                                     </div>
-                                @else
-                                    <video controls class="w-100 border" controlsList="nodownload" poster="{{$video->thumbnail_url}}" onloadstart="this.volume=0.5">
-                                        <source src="{{$video->file_url}}" type="{{Video::MIMETYPE}}">
-                                    </video>
-                                @endif
-                            </div>
+                                </div>
+                            @else
+                                <video controls class="w-100 tw:rounded-t-md" controlsList="nodownload" poster="{{$video->thumbnail_url}}" onloadstart="this.volume=0.5">
+                                    <source src="{{$video->file_url}}" type="{{Video::MIMETYPE}}">
+                                </video>
+                            @endif
+                        </div>
+                        <div class="card-body">
                             <div class="bg-light border mt-2 px-3 py-2 d-flex flex-column gap-3">
                                 <div>
                                     <div class="d-flex justify-content-between align-items-center">
