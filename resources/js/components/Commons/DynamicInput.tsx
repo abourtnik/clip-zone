@@ -2,7 +2,7 @@ import {useState} from "preact/hooks";
 import {QueryClient, QueryClientProvider, useMutation} from "@tanstack/react-query";
 import {input} from "@/api/clipzone";
 import {clsx} from "clsx";
-import {InputHTMLAttributes, FormEvent} from "react";
+import type { TargetedEvent, InputHTMLAttributes } from "preact"
 
 type Props = {
     value: string,
@@ -26,7 +26,7 @@ function Main ({value, name, url, ...props} : Props) {
         }
     });
 
-    const handleSubmit = async (event: FormEvent) => {
+    const handleSubmit = async (event: TargetedEvent) => {
 
         event.preventDefault();
 

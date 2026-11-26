@@ -2,12 +2,11 @@
 
 namespace App\Providers;
 
-use App\Services\BrevoService;
-use App\Services\YoutubeService;
+use App\Integrations\BrevoClient;
+use App\Integrations\YoutubeClient;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
-
+use Illuminate\Support\ServiceProvider;
 use Laravel\Cashier\Cashier;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,8 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register() : void
     {
-        $this->app->singleton(YoutubeService::class, fn() => new YoutubeService(config('services.youtube.api_key')));
-        $this->app->singleton(BrevoService::class, fn() => new BrevoService(config('services.brevo.api_key')));
+        $this->initIntegrationClient();
     }
 
     /**
@@ -39,5 +37,11 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->isLocal()) {
             $this->app->register(IdeHelperServiceProvider::class);
         }
+    }
+
+    private function initIntegrationClient(): void
+    {
+        $this->app->singleton(YoutubeClient::class, fn() => new YoutubeClient(config('services.youtube.api_key')));
+        $this->app->singleton(BrevoClient::class, fn() => new BrevoClient(config('services.brevo.api_key')));
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services;
+namespace App\Integrations;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
-class BrevoService
+class BrevoClient
 {
     const string API_ENDPOINT = 'https://api.brevo.com/v3';
 

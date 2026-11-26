@@ -57,17 +57,17 @@ export const SubtitleFormRow = ({draft, onCancel} : Props) => {
         setError(null);
         e.preventDefault();
 
-        const result = SubtitleDataSchema.safeParse(
+        const validation = SubtitleDataSchema.safeParse(
             Object.fromEntries(new FormData(e.currentTarget))
         );
 
-        if (!result.success) {
-            setError(result.error.issues[0].message);
+        if (!validation.success) {
+            setError(validation.error.issues[0].message);
             return;
         }
 
         setError(null);
-        mutate(result.data);
+        mutate(validation.data);
     }
 
     const formId = `form-${'tempId' in draft ? draft.tempId : draft.id}`;

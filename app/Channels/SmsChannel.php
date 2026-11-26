@@ -2,8 +2,8 @@
 
 namespace App\Channels;
 
+use App\Integrations\BrevoClient;
 use App\Models\User;
-use App\Services\BrevoService;
 use Illuminate\Notifications\Notification;
 
 class SmsChannel
@@ -18,8 +18,8 @@ class SmsChannel
          */
         $sms = $notification->toSms($notifiable);
 
-        $brevoService = app(BrevoService::class);
+        $brevoClient = app(BrevoClient::class);
 
-        $brevoService->sendTransactionalSMS($notifiable->getPhone(), $sms->getLines());
+        $brevoClient->sendTransactionalSMS($notifiable->getPhone(), $sms->getLines());
     }
 }

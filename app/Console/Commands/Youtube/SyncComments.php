@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Console\Commands\YoutubeSync;
+namespace App\Console\Commands\Youtube;
 
+use App\Integrations\YoutubeClient;
 use App\Models\Comment;
 use App\Models\User;
 use App\Models\Video;
-use App\Services\YoutubeService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
@@ -14,12 +14,12 @@ use Illuminate\Support\Str;
 
 class SyncComments extends Command
 {
-    private YoutubeService $youtubeService;
+    private YoutubeClient $youtubeClient;
 
-    public function __construct(YoutubeService $youtubeService)
+    public function __construct(YoutubeClient $youtubeClient)
     {
         parent::__construct();
-        $this->youtubeService = $youtubeService;
+        $this->youtubeClient = $youtubeClient;
     }
 
     /**
@@ -27,7 +27,7 @@ class SyncComments extends Command
      *
      * @var string
      */
-    protected $signature = 'comments:sync {video}';
+    protected $signature = 'youtube:comments-sync {video}';
 
     /**
      * The console command description.
@@ -55,11 +55,11 @@ class SyncComments extends Command
 
         $video->comments->each->delete();
 
-        $data = $this->youtubeService->getComments($video->youtube_id);
+        $data = $this->youtubeClient->getComments($video->youtube_id);
 
         $this->saveComments($data['items'], $video, null);
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 
     private function saveComments (array $items, Video $video, ?Comment $parent) :void {
@@ -146,7 +146,7 @@ class SyncComments extends Command
 
         $this->info($youtubeChannelId);
 
-        $data = $this->youtubeService->getChannelInfo($youtubeChannelId);
+        $data = $this->youtubeClient->getChannelInfo($youtubeChannelId);
 
         $channel = $data['items'][0]['snippet'];
 

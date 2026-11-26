@@ -1,5 +1,7 @@
 import {z} from "zod";
 import i18n from 'i18next';
+import {MB} from "@/functions/size";
+import {mimeToLabel} from "@/functions/string";
 
 export type SubtitleType = {
     id : number,
@@ -36,6 +38,13 @@ export const SubtitleStatus = {
 
 export const SubtitleLanguages = ['ar', 'en', 'fr', 'zh', 'nl', 'de', 'hi', 'it', 'ko', 'es', 'pt', 'ru'];
 
+const acceptedFormats = {
+    "text/vtt": "WebVTT",
+    "text/plain": "TXT",
+} as Record<string, string>;
+
+const MAX_SIZE: number = 2;
+
 export const SubtitleDataSchema = z.object({
     name: z.string().min(1).max(150),
     language: z.enum(SubtitleLanguages, {error: i18n.t('Invalid language')}),
@@ -43,27 +52,31 @@ export const SubtitleDataSchema = z.object({
             (f) => (f instanceof File && f.size === 0 ? undefined : f),
             z.file()
                 .max(
-                    2 * 1024 * 1024,
+                    MAX_SIZE * MB,
                     {
                         error: (iss) => {
                             return i18n.t(
                                 "Your file is too large ({size} MB) The uploading file should not exceed {maxSize} MB",
                                 {
-                                    size: iss?.input?.size ?? 'unknown',
-                                    maxSize: 2,
+                                    size: iss.input instanceof File
+                                        ? (iss.input.size / MB).toFixed(2)
+                                        : "unknown",
+                                    maxSize: MAX_SIZE,
                                 }
                             )
                         }
                     })
                 .mime(
-                    ['text/vtt','text/plain'],
+                    Object.keys(acceptedFormats),
                     {
                         error: (iss) => {
                             return i18n.t(
-                                "Your file type is invalid ({type}). Allowed types are {allowedTypes}",
+                                "Unsupported format ({type}). Accepted formats: {allowedTypes}",
                                 {
-                                    type: iss?.input ?? "unknown",
-                                    allowedTypes: ["text/vtt", "text/plain"].join(", "),
+                                    type: typeof iss.input === "string" ? mimeToLabel(iss.input) : "unknown",
+                                    allowedTypes: new Intl.ListFormat(i18n.language, { style: "long", type: "conjunction" }).format(
+                                        Object.values(acceptedFormats)
+                                    )
                                 }
                             )
                         }

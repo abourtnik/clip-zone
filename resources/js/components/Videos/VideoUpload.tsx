@@ -1,9 +1,9 @@
 import { useState, useRef } from 'preact/hooks';
 import Resumable from 'resumablejs'
-import {formatSizeUnits} from "@/functions/size";
 import { useTranslation } from "react-i18next";
 import type { TargetedEvent } from "preact"
 import {clsx} from "clsx";
+import {createVideoSchema} from "@/types";
 
 type Props = {
     endpoint: string,
@@ -37,13 +37,10 @@ export function VideoUpload ({endpoint, maxsize} : Props) {
             return;
         }
 
-        if(file.size > maxsize) {
-            setError(
-                t('Your file is too large ({size} MB) The uploading file should not exceed {maxSize} MB', {
-                    size: formatSizeUnits(file.size),
-                    maxSize: formatSizeUnits(maxsize)
-                })
-            )
+        const validation = createVideoSchema(maxsize).safeParse(file);
+
+        if (!validation.success) {
+            setError(validation.error.issues[0].message)
             return;
         }
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Integrations;
 
 use Illuminate\Support\Facades\Http;
 
-class YoutubeService
+class YoutubeClient
 {
     const string API_ENDPOINT = 'https://www.googleapis.com/youtube/v3';
 

@@ -1,7 +1,6 @@
 export default {
-    accepted_format : ['image/jpeg', 'image/png', 'image/webp', 'image/jpeg'],
     avatar: {
-        maxSize: 4,
+        maxSize: 1,
         minWidth: 98,
         minHeight: 98,
         width: 176,

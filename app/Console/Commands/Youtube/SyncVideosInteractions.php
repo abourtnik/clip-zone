@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Console\Commands\YoutubeSync;
+namespace App\Console\Commands\Youtube;
 
+use App\Integrations\YoutubeClient;
 use App\Models\User;
 use App\Models\Video;
-use App\Services\YoutubeService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
 class SyncVideosInteractions extends Command
 {
-    private YoutubeService $youtubeService;
+    private YoutubeClient $youtubeClient;
 
-    public function __construct(YoutubeService $youtubeService)
+    public function __construct(YoutubeClient $youtubeClient)
     {
         parent::__construct();
-        $this->youtubeService = $youtubeService;
+        $this->youtubeClient = $youtubeClient;
     }
 
     /**
@@ -24,14 +24,14 @@ class SyncVideosInteractions extends Command
      *
      * @var string
      */
-    protected $signature = 'interactions:sync {video}';
+    protected $signature = 'youtube:interactions-sync {video}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Synchronize likes from Youtube';
+    protected $description = 'Synchronize interactions from Youtube';
 
     /**
      * Execute the console command.
@@ -50,13 +50,13 @@ class SyncVideosInteractions extends Command
         $this->info('Sync interactions for video : ' .$video->title. ' ...');
         $video->interactions->each->delete();
 
-        $data = $this->youtubeService->getVideo($video->youtube_id);
+        $data = $this->youtubeClient->getVideo($video->youtube_id);
 
         $likeCount =  $data['items'][0]['statistics']['likeCount'] ?? null;
 
         if (is_null($likeCount)) {
             $this->info('Likes are not public : ' .$video->title);
-            return Command::SUCCESS;
+            return self::SUCCESS;
         }
 
         $count = min($likeCount, 1000);
@@ -65,7 +65,7 @@ class SyncVideosInteractions extends Command
 
         $this->generateInteraction($video, $count);
 
-        return Command::SUCCESS;
+        return self::SUCCESS;
     }
 
     private function getUsers (Carbon $createdBefore): Collection {
